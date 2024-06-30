@@ -1,4 +1,5 @@
 import SpotifyPlayer from "@/components/SpotifyPlayer";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata = {
   title: "v1cferr - spotify (title)",
@@ -10,9 +11,13 @@ const accessToken: string | undefined =
 
 export default function Home() {
   return (
-    <div>
-      <h1>WIP - Work in Progress</h1>
-      <SpotifyPlayer accessToken={accessToken!} />
+    <div className="flex min-h-screen flex-col items-center justify-center p-24 gap-3">
+      <div className="flex flex-col gap-5">
+        <ThemeToggle />
+        <h1 className="text-3xl font-semibold">🛠️ Work in Progress 🚧</h1>
+        <div className="divider"></div>
+      </div>
+      <SpotifyPlayer />
     </div>
   );
 }

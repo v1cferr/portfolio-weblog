@@ -4,15 +4,13 @@ import redisClient from "@/utils/redisClient";
 
 const client_id: string | undefined = process.env.SPOTIFY_CLIENT_ID;
 const client_secret: string | undefined = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri: string | undefined = process.env.SPOTIFY_REDIRECT_URI;
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const code = searchParams.get("code");
+  const refresh_token = await redisClient.get("spotify_refresh_token");
 
-  if (!code) {
+  if (!refresh_token) {
     return NextResponse.json(
-      { error: "Nenhum código fornecido" },
+      { error: "Nenhum refresh token disponível" },
       { status: 400 }
     );
   }
@@ -22,9 +20,8 @@ export async function GET(req: NextRequest) {
       method: "post",
       url: "https://accounts.spotify.com/api/token",
       data: new URLSearchParams({
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: redirect_uri!,
+        grant_type: "refresh_token",
+        refresh_token: refresh_token!,
       }),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -34,15 +31,15 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const { access_token, refresh_token } = response.data;
-    await redisClient.set("spotify_access_token", access_token, { EX: 3600 });
-    await redisClient.set("spotify_refresh_token", refresh_token);
+    const { access_token } = response.data;
 
-    return NextResponse.json({ access_token, refresh_token });
+    await redisClient.set("spotify_access_token", access_token, { EX: 3600 });
+
+    return NextResponse.json({ access_token });
   } catch (error) {
-    console.error("Erro ao obter tokens:", error);
+    console.error("Erro ao renovar o token de acesso:", error);
     return NextResponse.json(
-      { error: "Falha ao obter tokens" },
+      { error: "Falha ao renovar o token de acesso" },
       { status: 500 }
     );
   }
