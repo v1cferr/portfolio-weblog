@@ -9,9 +9,6 @@ export const metadata = {
 };
 
 const NotFoundPage = () => {
-  const accessToken: string | undefined =
-    process.env.NEXT_PUBLIC_SPOTIFY_ACCESS_TOKEN; // Substitua pelo token de acesso que você obteve
-
   return (
     <>
       <div>

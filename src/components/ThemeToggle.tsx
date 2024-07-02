@@ -13,7 +13,7 @@ export default function ThemeToggle() {
     }
   };
 
-  // TODO: estado dos icones não está salvando no localstorage ao dar refresh
+  // [ ] TODO: estado dos icones não está salvando no localstorage ao dar refresh
 
   return (
     <>

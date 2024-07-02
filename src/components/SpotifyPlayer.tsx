@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaSpotify } from "react-icons/fa";
+import { IoMdRefresh } from "react-icons/io";
+import Loading from "@/app/loading";
 import axios from "axios";
 import Image from "next/image";
-import { FaSpotify } from "react-icons/fa";
-// import { IoMdRefresh } from "react-icons/io";
 
 interface CurrentlyPlaying {
   device: {
@@ -77,11 +78,17 @@ const SpotifyPlayer = () => {
     }
   }, [currentTrack]);
 
-  // TODO: make a better loading indicator when no track is playing
-  if (!currentTrack) {
+  if (currentTrack === null) {
+    return <Loading />;
+  }
+
+  if (!currentTrack?.is_playing) {
     return (
       <>
-        <span className="loading loading-infinity loading-lg"></span>
+        <div className="flex items-center gap-1.5">
+          <FaSpotify size={30} />
+          <p className="text-lg font-semibold">No track playing</p>
+        </div>
       </>
     );
   }
@@ -92,21 +99,25 @@ const SpotifyPlayer = () => {
 
   return (
     <>
-      <div className="artboard artboard-horizontal bg-base-300 rounded-box w-auto max-w-2xl p-7 flex flex-col items-center gap-7">
-        <div className="flex items-center gap-2.5">
-          <FaSpotify size={30} />
-          <h1 className="text-xl">What I am listening to now</h1>
-
-          {/* TODO: refresh button logic - refresh the component on click + update the style */}
-          {/* <IoMdRefresh size={20} /> */}
+      <div className="artboard artboard-horizontal bg-base-300 rounded-md w-auto max-w-2xl flex flex-col items-center px-8 py-4">
+        <div className="flex items-center justify-between w-full mb-5 gap-10">
+          <div className="flex items-center gap-2">
+            <FaSpotify size={30} />
+            <h1 className="text-xl font-semibold">What am I listening to?</h1>
+          </div>
+          <IoMdRefresh
+            className="cursor-pointer text-gray-500 hover:text-gray-700"
+            size={20}
+            onClick={() => window.location.reload()}
+          />
         </div>
-        <div className="flex gap-5">
+        <div className="artboard artboard-vertical bg-base-200 rounded-sm w-full flex gap-5 p-5">
           <Image
             className="rounded-md drop-shadow-lg"
             src={currentTrack.item.album.images[0].url}
             alt="Album Cover"
-            width={225}
-            height={225}
+            width={100}
+            height={100}
             priority
           />
           <div className="flex flex-col gap-2.5">
@@ -120,21 +131,6 @@ const SpotifyPlayer = () => {
                   .join(", ")}
               </h2>
               <p className="text-gray-500">{currentTrack.item.album.name}</p>
-            </div>
-
-            {/* TODO: progress bar logic - when it finishes playing, update the status */}
-            <div className="w-full mt-4">
-              <div className="flex items-center justify-between text-gray-400 text-sm">
-                <span>{formatTime(trackProgress)}</span>
-                <span>{formatTime(currentTrack.item.duration_ms)}</span>
-              </div>
-              <input
-                type="range"
-                value={progressPercentage}
-                max="100"
-                readOnly
-                className="w-full mt-2 h-1 bg-gray-700 rounded-full appearance-none"
-              />
             </div>
           </div>
         </div>

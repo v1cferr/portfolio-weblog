@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
-          {/* TODO: make a sidebar */}
+          {/* [ ] TODO: make a sidebar */}
           {/* <Sidebar /> */}
           {children}
         </ThemeProvider>
