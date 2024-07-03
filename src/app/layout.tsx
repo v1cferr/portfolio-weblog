@@ -12,7 +12,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "v1cferr - title",
+  title: {
+    template: "%s | v1cferr",
+    default: "v1cferr",
+  },
   description: "v1cferr - description",
   keywords: ["v1cferr", "spotify", "nextjs", "tailwindcss"],
   authors: [{ name: "v1cferr", url: "https://github.com/v1cferr" }],

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import Loading from "@/app/loading";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import ThemeToggle from "@/components/ThemeToggle";
 
-export const metadata = {
-  title: "v1cferr - spotify (title)",
-  description: "v1cferr - spotify (description)",
+export const metadata: Metadata = {
+  title: "Work In Progress | v1cferr",
 };
 
 export default function Home() {
