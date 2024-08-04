@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import redisClient from "@/utils/redisClient";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/utils/firebaseClient";
 
 const client_id: string | undefined = process.env.SPOTIFY_CLIENT_ID;
 const client_secret: string | undefined = process.env.SPOTIFY_CLIENT_SECRET;
@@ -35,8 +36,12 @@ export async function GET(req: NextRequest) {
     });
 
     const { access_token, refresh_token } = response.data;
-    await redisClient.set("spotify_access_token", access_token, { EX: 3600 });
-    await redisClient.set("spotify_refresh_token", refresh_token);
+    await setDoc(doc(db, "spotify", "tokens"), {
+      access_token,
+      refresh_token,
+      expires_in: 3600,
+      timestamp: new Date(),
+    });
 
     return NextResponse.json({ access_token, refresh_token });
   } catch (error) {
