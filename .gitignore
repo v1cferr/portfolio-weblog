@@ -41,3 +41,6 @@ next-env.d.ts
 # markdown
 DETAILS.md
 FIREBASE.md
+
+# Refresh token script
+refresh-token.sh
