@@ -1,18 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaSpotify } from "react-icons/fa";
 import { IoMdRefresh } from "react-icons/io";
-import axios from "axios";
 import Image from "next/image";
 import Loading from "@/app/loading";
 
 interface CurrentlyPlaying {
-  device: {
-    is_active: boolean;
-    type: string;
-    volume_percent: number;
-  };
   item: {
     album: {
       name: string;
@@ -21,9 +15,7 @@ interface CurrentlyPlaying {
     artists: [{ name: string }];
     external_urls: { spotify: string };
     name: string;
-    duration_ms: number;
   };
-  progress_ms: number;
   is_playing: boolean;
 }
 
@@ -34,39 +26,52 @@ const SpotifyPlayer = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchCurrentTrack = async () => {
-    setIsLoading(true);
+  const fetchCurrentTrack = useCallback(async () => {
     try {
-      const { data } = await axios.get("/api/refresh");
-      const accessToken = data.access_token;
+      setIsLoading(true);
+      const response = await fetch("/api/spotify");
+      const data = await response.json();
 
-      const trackResponse = await axios.get(
-        "https://api.spotify.com/v1/me/player/currently-playing",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      if (data.error) {
+        console.error("Error from API:", data.error);
+        setError(data.error);
+        return;
+      }
 
-      setCurrentTrack(trackResponse.data);
+      if (!data.is_playing || !data.item) {
+        setCurrentTrack(null);
+        return;
+      }
+
+      setCurrentTrack(data);
       setError(null);
     } catch (error) {
       console.error("Error fetching current track:", error);
-      setError("Error fetching current track.");
+      setError(
+        error instanceof Error ? error.message : "Error fetching current track."
+      );
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchCurrentTrack();
-    const interval = setInterval(() => {
-      fetchCurrentTrack();
-    }, 90000);
+    let mounted = true;
 
-    return () => clearInterval(interval);
-  }, []);
+    const fetchData = async () => {
+      if (mounted) {
+        await fetchCurrentTrack();
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 15000);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, [fetchCurrentTrack]);
 
   if (isLoading) {
     return <Loading />;
@@ -76,16 +81,19 @@ const SpotifyPlayer = () => {
     return (
       <div className="flex items-center gap-1.5">
         <FaSpotify size={30} />
-        <p className="text-lg font-semibold">{error}</p>
+        <p className="text-lg font-semibold">Error: {error}</p>
+        <button onClick={fetchCurrentTrack} className="ml-2 p-1 rounded">
+          <IoMdRefresh size={20} />
+        </button>
       </div>
     );
   }
 
-  if (currentTrack === null || !currentTrack?.is_playing) {
+  if (!currentTrack || !currentTrack.is_playing) {
     return (
       <div className="flex items-center gap-1.5">
         <FaSpotify size={30} />
-        <p className="text-lg font-semibold">No track currently playing.</p>
+        <p className="text-lg font-semibold">No track currently playing</p>
       </div>
     );
   }
@@ -97,16 +105,14 @@ const SpotifyPlayer = () => {
           <FaSpotify size={30} />
           <h1 className="text-xl font-semibold">What am I listening to?</h1>
         </div>
-        <IoMdRefresh
-          className="cursor-pointer text-gray-500 hover:text-gray-700"
-          size={20}
-          onClick={() => fetchCurrentTrack()}
-        />
+        <button onClick={fetchCurrentTrack} className="p-1 rounded">
+          <IoMdRefresh size={20} />
+        </button>
       </div>
       <div className="artboard artboard-vertical bg-base-200 rounded-sm w-full flex gap-5 p-5">
         <Image
           className="rounded-md drop-shadow-lg"
-          src={currentTrack?.item?.album?.images[0]?.url}
+          src={currentTrack.item.album.images[0].url}
           alt="Album Cover"
           width={100}
           height={100}
@@ -114,15 +120,13 @@ const SpotifyPlayer = () => {
         />
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-2xl font-semibold">
-              {currentTrack?.item?.name}
-            </h1>
+            <h1 className="text-2xl font-semibold">{currentTrack.item.name}</h1>
             <h2 className="text-gray-500">
-              {currentTrack?.item?.artists
+              {currentTrack.item.artists
                 .map((artist) => artist.name)
                 .join(", ")}
             </h2>
-            <p className="text-gray-500">{currentTrack?.item?.album?.name}</p>
+            <p className="text-gray-500">{currentTrack.item.album.name}</p>
           </div>
         </div>
       </div>
