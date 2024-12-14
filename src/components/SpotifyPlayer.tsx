@@ -110,14 +110,15 @@ const SpotifyPlayer = () => {
         </button>
       </div>
       <div className="artboard artboard-vertical bg-base-200 rounded-sm w-full flex gap-5 p-5">
-        <Image
-          className="rounded-md drop-shadow-lg"
+        {/* <Image
+          className="rounded-md drop-shadow-lg w-auto h-auto"
           src={currentTrack.item.album.images[0].url}
           alt="Album Cover"
           width={100}
           height={100}
+          style={{ width: "100px", height: "100px", objectFit: "cover" }}
           priority
-        />
+        /> */}
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1.5">
             <h1 className="text-2xl font-semibold">{currentTrack.item.name}</h1>
