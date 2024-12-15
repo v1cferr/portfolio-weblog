@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FaSpotify } from "react-icons/fa";
 import { IoMdRefresh } from "react-icons/io";
 import Image from "next/image";
-import Loading from "@/app/loading";
+import Loading from "@/components/loading";
 
 interface CurrentlyPlaying {
   item: {

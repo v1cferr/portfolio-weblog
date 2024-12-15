@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
-import Loading from "@/app/loading";
+import Loading from "@/components/loading";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import ThemeToggle from "@/components/ThemeToggle";
 
