@@ -1,4 +1,9 @@
 {
-  "welcome": "欢迎",
-  "description": "这是一个描述。"
+  "home": {
+    "title": "🛠️ 施工中 🚧"
+  },
+  "about": {
+    "title": "关于我们",
+    "description": "这是一个关于我们页面。"
+  }
 }

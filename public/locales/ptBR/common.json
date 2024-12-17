@@ -1,4 +1,9 @@
 {
-  "welcome": "Bem-vindo",
-  "description": "Esta é uma descrição."
+  "home": {
+    "title": "🛠️ Em construção 🚧"
+  },
+  "about": {
+    "title": "Sobre",
+    "description": "Este é um exemplo de aplicação React com i18n."
+  }
 }
