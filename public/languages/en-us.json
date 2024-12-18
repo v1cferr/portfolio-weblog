@@ -1,4 +1,13 @@
 {
+  "LocaleSwitcher": {
+    "label": "Select Language",
+    "locale": {
+      "en-us": "English",
+      "pt-br": "Portuguese",
+      "zh-cn": "Chinese"
+    }
+  },
+
   "Home": {
     "title": "🛠️ Work in Progress 🚧"
   },
