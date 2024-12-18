@@ -5,6 +5,7 @@ import { FaSpotify } from "react-icons/fa";
 import { IoMdRefresh } from "react-icons/io";
 import Image from "next/image";
 import Loading from "@/components/Loading";
+
 interface CurrentlyPlaying {
   item: {
     album: {
