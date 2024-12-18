@@ -1,9 +1,11 @@
-import { Suspense } from "react";
+// Imports desativados temporiariamente enquanto não houver i18n
+
+// import { Suspense } from "react";
 import { Metadata } from "next";
-import Loading from "@/components/Loading";
-// import SpotifyPlayer from "@/components/SpotifyPlayer";
-import ThemeToggle from "@/components/ThemeToggle";
 import { useTranslations } from "next-intl";
+// import SpotifyPlayer from "@/components/SpotifyPlayer";
+// import Loading from "@/components/Loading";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Work In Progress | v1cferr",
