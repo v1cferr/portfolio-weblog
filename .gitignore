@@ -44,3 +44,6 @@ FIREBASE.md
 
 # Refresh token script
 refresh-token.sh
+
+# is a cache folder which can be ignored
+.pnpm-store 
