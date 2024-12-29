@@ -1,17 +1,32 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (!theme) {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      setTheme(systemTheme);
+    }
+  }, [theme, setTheme]);
 
   const toggleTheme = () => {
-    if (theme === "dark") {
+    if (resolvedTheme === "dark") {
       setTheme("light");
     } else {
       setTheme("dark");
     }
   };
+
+  if (!mounted) return null;
 
   return (
     <>
@@ -20,8 +35,8 @@ export default function ThemeToggle() {
         <input
           type="checkbox"
           className="theme-controller"
-          value={theme}
-          onClick={toggleTheme}
+          checked={resolvedTheme === "dark"}
+          onChange={toggleTheme}
         />
 
         {/* sun icon */}
