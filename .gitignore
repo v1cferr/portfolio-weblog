@@ -47,3 +47,6 @@ refresh-token.sh
 
 # is a cache folder which can be ignored
 .pnpm-store 
+
+# Extensions from VSCode
+extensions.txt
