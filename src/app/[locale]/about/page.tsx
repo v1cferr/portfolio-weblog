@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import LanguageSelector from "@/components/LanguageSelector";
+import LanguageSelector from "@/components/i18n/LanguageSelector";
 
 const About = () => {
   const t = useTranslations("About");
