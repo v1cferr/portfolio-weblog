@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { FaSpotify } from "react-icons/fa";
 import { IoMdRefresh } from "react-icons/io";
 import Image from "next/image";
@@ -27,24 +27,32 @@ const SpotifyPlayer = () => {
   );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const lastTrackRef = useRef<CurrentlyPlaying | null>(null);
 
   const fetchCurrentTrack = useCallback(async () => {
     try {
-      setIsLoading(true);
       const response = await fetch("/[locale]/api/spotify");
       const data = await response.json();
 
-      if (data.error) {
-        console.error("Error from API:", data.error);
-        setError(data.error);
+      // Caso a música seja a mesma
+      // Não atualiza o estado de loading
+      if (
+        lastTrackRef.current &&
+        lastTrackRef.current.item.name === data.item.name
+      ) {
+        setIsLoading(false);
         return;
       }
 
+      // Caso não esteja tocando nada
+      // Adiciona como null e retorna
       if (!data.is_playing || !data.item) {
         setCurrentTrack(null);
         return;
       }
 
+      lastTrackRef.current = data;
+      console.log("Data from lastTrackRef:", lastTrackRef.current);
       setCurrentTrack(data);
       setError(null);
     } catch (error) {
