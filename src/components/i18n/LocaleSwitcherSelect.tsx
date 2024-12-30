@@ -3,7 +3,6 @@
 import { ChangeEvent, ReactNode, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { usePathname, useRouter } from "@/i18n/routing";
-import clsx from "clsx";
 
 type Locale = string;
 
@@ -37,20 +36,15 @@ export default function LocaleSwitcherSelect({
   }
 
   return (
-    <label
-      className={clsx(
-        "relative text-gray-400",
-        isPending && "transition-opacity [&:disabled]:opacity-30"
-      )}>
+    <label className={"relative text-gray-400"}>
       <p className="sr-only">{label}</p>
       <select
-        // className="inline-flex appearance-none bg-transparent py-3 pl-2 pr-6"
+        className="inline-flex bg-transparent outline-none"
         defaultValue={defaultValue}
         disabled={isPending}
         onChange={onSelectChange}>
         {children}
       </select>
-      {/* <span className="pointer-events-none absolute right-2 top-[8px]">⌄</span> */}
     </label>
   );
 }
