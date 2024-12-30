@@ -14,5 +14,12 @@
   "About": {
     "title": "Sobre",
     "description": "Essa é uma página sobre."
+  },
+
+  "SpotifyPlayer": {
+    "error": "Erro ao carregar o player do Spotify.",
+    "no-track": "Nenhuma faixa para reproduzir.",
+    "listening-to": "Ouvindo",
+    "album-cover": "Capa do Álbum"
   }
 }
