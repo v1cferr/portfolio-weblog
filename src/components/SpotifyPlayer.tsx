@@ -31,6 +31,8 @@ const SpotifyPlayer = () => {
 
   const fetchCurrentTrack = useCallback(async () => {
     try {
+      // setIsLoading(true);
+
       const response = await fetch("/[locale]/api/spotify");
       const data = await response.json();
 
@@ -111,39 +113,42 @@ const SpotifyPlayer = () => {
   }
 
   return (
-    <div className="artboard artboard-horizontal bg-base-300 rounded-lg w-auto max-w-2xl flex flex-col items-center px-8 py-4">
-      <div className="flex items-center justify-between w-full mb-5 gap-10">
+    <section className="flex flex-col items-center p-3">
+      <header className="flex items-center justify-between w-full px-2 mb-2">
         <div className="flex items-center gap-2">
-          <FaSpotify size={30} />
-          <h1 className="text-xl font-semibold">{t("listening-to")}</h1>
+          <FaSpotify size={25} />
+          <h1 className="text-lg font-semibold">{t("listening-to")}</h1>
         </div>
-        <button onClick={fetchCurrentTrack} className="p-1 rounded">
+        <button onClick={fetchCurrentTrack} disabled={isLoading}>
           <IoMdRefresh size={20} />
         </button>
-      </div>
-      <div className="artboard artboard-vertical bg-base-200 rounded-sm w-full flex gap-5 p-5">
+      </header>
+      <main className="flex gap-5 items-center p-2">
         <Image
-          className="rounded-md drop-shadow-lg w-auto h-auto"
+          className="rounded-md w-auto h-auto"
           src={currentTrack.item.album.images[0].url}
           alt={t("album-cover")}
-          width={100}
-          height={100}
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+          width={75}
+          height={75}
           priority
         />
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-2xl font-semibold">{currentTrack.item.name}</h1>
-            <h2 className="text-gray-500">
+            <h1 className="text-base font-semibold">
+              {currentTrack.item.name}
+            </h1>
+            <h2 className="text-gray-500 text-sm">
               {currentTrack.item.artists
                 .map((artist) => artist.name)
                 .join(", ")}
             </h2>
-            <p className="text-gray-500">{currentTrack.item.album.name}</p>
+            <p className="text-gray-500 text-sm">
+              {currentTrack.item.album.name}
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+      </main>
+    </section>
   );
 };
 

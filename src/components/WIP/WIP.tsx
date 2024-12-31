@@ -9,15 +9,15 @@ function WIP() {
   const t = useTranslations("WIP");
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex h-auto flex-col items-center justify-center shadow-md p-5 rounded-md">
       <Suspense fallback={<Loading />}>
         <SpotifyPlayer />
       </Suspense>
 
       <div className="divider" />
-      <h1 className="text-3xl font-semibold">{t("title")}</h1>
+      <h1 className="text-lg font-semibold">{t("title")}</h1>
 
-      <div className="flex gap-x-5 items-center">
+      <div className="flex gap-x-5 items-center mt-1">
         <ThemeToggle />
         <LanguageSelector />
       </div>

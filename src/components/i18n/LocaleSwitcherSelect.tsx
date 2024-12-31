@@ -36,7 +36,7 @@ export default function LocaleSwitcherSelect({
   }
 
   return (
-    <label className={"relative text-gray-400"}>
+    <label>
       <p className="sr-only">{label}</p>
       <select
         className="inline-flex bg-transparent outline-none"
