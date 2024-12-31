@@ -47,7 +47,7 @@ export default async function HomeLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"

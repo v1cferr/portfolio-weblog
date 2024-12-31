@@ -7,15 +7,13 @@
       "zh-cn": "Chinês"
     }
   },
-
-  "Home": {
+  "WIP": {
     "title": "🛠️ Em construção 🚧"
   },
   "About": {
     "title": "Sobre",
     "description": "Essa é uma página sobre."
   },
-
   "SpotifyPlayer": {
     "error": "Erro ao carregar o player do Spotify.",
     "no-track": "Nenhuma faixa para reproduzir.",
