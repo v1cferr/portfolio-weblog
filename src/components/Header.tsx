@@ -42,8 +42,8 @@ function Header() {
       <nav
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } w-full lg:flex lg:items-center lg:justify-between`}>
-        <ul className="flex flex-col items-center lg:flex-row lg:space-x-4">
+        } w-full md:flex md:items-center md:justify-between`}>
+        <ul className="flex flex-col items-center md:flex-row md:space-x-4">
           <li>
             <a href="#about" className="block py-2">
               Sobre
