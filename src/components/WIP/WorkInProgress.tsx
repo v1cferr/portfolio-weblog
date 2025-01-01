@@ -69,7 +69,7 @@ function WorkInProgress() {
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-600">
-            <Icon size={30} />
+            <Icon size={25} />
           </a>
         ))}
       </div>
