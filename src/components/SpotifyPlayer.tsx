@@ -96,9 +96,9 @@ const SpotifyPlayer = () => {
         <p className="text-lg font-semibold">
           {t("error")} {error}
         </p>
-        <button onClick={fetchCurrentTrack} className="ml-2 p-1 rounded">
+        {/* <button onClick={fetchCurrentTrack} className="ml-2 p-1 rounded">
           <IoMdRefresh size={20} />
-        </button>
+        </button> */}
       </div>
     );
   }
@@ -119,9 +119,9 @@ const SpotifyPlayer = () => {
           <FaSpotify size={25} />
           <h1 className="text-lg font-semibold">{t("listening-to")}</h1>
         </div>
-        <button onClick={fetchCurrentTrack} disabled={isLoading}>
+        {/* <button onClick={fetchCurrentTrack} disabled={isLoading}>
           <IoMdRefresh size={20} />
-        </button>
+        </button> */}
       </header>
       <main className="flex gap-5 items-center p-2">
         <Image
