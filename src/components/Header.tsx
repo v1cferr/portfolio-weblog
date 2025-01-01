@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Logo from "../../public/v1cferr-logo.svg";
 
 function Header() {
   // Estado para controlar se o menu está aberto ou fechado
@@ -19,12 +19,7 @@ function Header() {
         {/* Logotipo */}
         <div className="text-lg font-bold">
           <Link href="/">
-            <Image
-              src="/v1cferr-logo.png"
-              width={40}
-              height={40}
-              alt="v1cferr Logo"
-            />
+            <Logo className="w-10 h-10" />
           </Link>
         </div>
 
@@ -45,18 +40,19 @@ function Header() {
         } w-full md:flex md:items-center md:justify-between`}>
         <ul className="flex flex-col items-center md:flex-row md:space-x-4">
           <li>
-            <a href="#about" className="block py-2">
-              Sobre
+            {/* TODO: usar o Link do Next para os anchor elements */}
+            <a href="#" className="block py-2">
+              Test 0
             </a>
           </li>
           <li>
-            <a href="#projects" className="block py-2">
-              Projetos
+            <a href="#" className="block py-2">
+              Test 1
             </a>
           </li>
           <li>
-            <a href="#contact" className="block py-2">
-              Contato
+            <a href="#" className="block py-2">
+              Test 2
             </a>
           </li>
         </ul>

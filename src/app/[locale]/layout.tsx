@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// import Header from "@/components/Header";
+import Header from "@/components/Header";
 import "@/styles/tailwind.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -57,7 +57,7 @@ export default async function HomeLayout({
           enableSystem={true}
           disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
-            {/* <Header /> */}
+            <Header />
             {children}
             <Analytics />
             <SpeedInsights />
