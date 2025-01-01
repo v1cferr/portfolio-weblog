@@ -8,7 +8,8 @@
     }
   },
   "WorkInProgress": {
-    "title": "🛠️ Work in Progress 🚧"
+    "title": "🛠️ Work in Progress 🚧",
+    "email": "Email"
   },
   "About": {
     "title": "About",
@@ -16,7 +17,7 @@
   },
   "SpotifyPlayer": {
     "error": "Error loading Spotify player.",
-    "no-track": "No track to play.",
+    "no-track": "No track playing at the moment.",
     "listening-to": "Listening to",
     "album-cover": "Album Cover"
   }

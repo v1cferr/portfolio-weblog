@@ -7,33 +7,40 @@ import SpotifyPlayer from "@/components/SpotifyPlayer";
 import Loading from "@/components/Loading";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/i18n/LanguageSelector";
-import { title } from "process";
-
-const socialLinks = [
-  {
-    href: "mailto:dev.victorferreira@gmail.com",
-    icon: SiMinutemailer,
-    title: "Email",
-  },
-  { href: "https://github.com/v1cferr", icon: FaGithub, title: "GitHub" },
-  {
-    href: "https://www.linkedin.com/in/v1cferr/",
-    icon: FaLinkedin,
-    title: "LinkedIn",
-  },
-  { href: "https://twitter.com/v1cferr", icon: FaXTwitter, title: "X/Twitter" },
-  { href: "https://wa.me/5511980805097", icon: FaWhatsapp, title: "WhatsApp" },
-  {
-    href: "https://monkeytype.com/profile/v1cferr",
-    icon: SiMonkeytype,
-    title: "MonkeyType",
-  },
-  // { href: "https://hackmd.io/@v1cferr", icon: SiHackmd, title: "HackMD" },
-  // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
-];
 
 function WorkInProgress() {
   const t = useTranslations("WorkInProgress");
+
+  const socialLinks = [
+    {
+      href: "mailto:dev.victorferreira@gmail.com",
+      icon: SiMinutemailer,
+      title: t("email"),
+    },
+    { href: "https://github.com/v1cferr", icon: FaGithub, title: "GitHub" },
+    {
+      href: "https://www.linkedin.com/in/v1cferr/",
+      icon: FaLinkedin,
+      title: "LinkedIn",
+    },
+    {
+      href: "https://twitter.com/v1cferr",
+      icon: FaXTwitter,
+      title: "X/Twitter",
+    },
+    {
+      href: "https://wa.me/5511980805097",
+      icon: FaWhatsapp,
+      title: "WhatsApp",
+    },
+    {
+      href: "https://monkeytype.com/profile/v1cferr",
+      icon: SiMonkeytype,
+      title: "MonkeyType",
+    },
+    // { href: "https://hackmd.io/@v1cferr", icon: SiHackmd, title: "HackMD" },
+    // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
+  ];
 
   return (
     <main className="flex flex-col items-center justify-center shadow-md p-5 rounded-md">

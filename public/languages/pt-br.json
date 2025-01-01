@@ -8,7 +8,8 @@
     }
   },
   "WorkInProgress": {
-    "title": "🛠️ Em construção 🚧"
+    "title": "🛠️ Em construção 🚧",
+    "email": "Email"
   },
   "About": {
     "title": "Sobre",
@@ -16,7 +17,7 @@
   },
   "SpotifyPlayer": {
     "error": "Erro ao carregar o player do Spotify.",
-    "no-track": "Nenhuma faixa para reproduzir.",
+    "no-track": "Nada tocando no momento.",
     "listening-to": "Ouvindo",
     "album-cover": "Capa do Álbum"
   }
