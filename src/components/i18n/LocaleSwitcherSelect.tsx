@@ -39,7 +39,7 @@ export default function LocaleSwitcherSelect({
     <label>
       <p className="sr-only">{label}</p>
       <select
-        className="bg-transparent outline-none"
+        className="select w-full max-w-xs bg-transparent outline-none "
         defaultValue={defaultValue}
         disabled={isPending}
         onChange={onSelectChange}>
