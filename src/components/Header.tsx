@@ -30,7 +30,7 @@ function Header() {
 
         {/* Menu Hamburger */}
         <button
-          className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 lg:hidden"
+          className="p-2 rounded-md outline-none"
           aria-label="Open Menu"
           onClick={toggleMenu} // Função para abrir/fechar menu
         >
@@ -42,26 +42,20 @@ function Header() {
       <nav
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } bg-white w-full lg:flex lg:items-center lg:justify-between`}>
+        } w-full lg:flex lg:items-center lg:justify-between`}>
         <ul className="flex flex-col items-center lg:flex-row lg:space-x-4">
           <li>
-            <a
-              href="#about"
-              className="block py-2 text-gray-700 hover:text-gray-900">
+            <a href="#about" className="block py-2">
               Sobre
             </a>
           </li>
           <li>
-            <a
-              href="#projects"
-              className="block py-2 text-gray-700 hover:text-gray-900">
+            <a href="#projects" className="block py-2">
               Projetos
             </a>
           </li>
           <li>
-            <a
-              href="#contact"
-              className="block py-2 text-gray-700 hover:text-gray-900">
+            <a href="#contact" className="block py-2">
               Contato
             </a>
           </li>
