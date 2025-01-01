@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function Header() {
   // Estado para controlar se o menu está aberto ou fechado
@@ -17,7 +18,14 @@ function Header() {
       <div className="flex items-center justify-between px-4 py-3">
         {/* Logotipo */}
         <div className="text-lg font-bold">
-          <Link href="/">V1CFERR</Link>
+          <Link href="/">
+            <Image
+              src="/v1cferr-logo.png"
+              width={40}
+              height={40}
+              alt="v1cferr Logo"
+            />
+          </Link>
         </div>
 
         {/* Menu Hamburger */}
