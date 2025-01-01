@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/styles/tailwind.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -57,6 +58,7 @@ export default async function HomeLayout({
           <NextIntlClientProvider messages={messages}>
             {children}
             <Analytics />
+            <SpeedInsights />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
