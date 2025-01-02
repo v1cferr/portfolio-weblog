@@ -43,37 +43,43 @@ function WorkInProgress() {
   ];
 
   return (
-    <main className="flex flex-col items-center justify-center shadow-md p-5 rounded-md">
-      <div className="flex justify-between w-full items-center px-2 mb-10">
-        <LanguageSelector />
-        <ThemeToggle />
-      </div>
+    <>
+      {/* Filtro para deixar tudo que tiver atrás desfocado */}
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"></div>
 
-      <div>
-        <h1 className="text-lg font-semibold">{t("title")}</h1>
+      {/* Modal para sinalizar WIP */}
+      <main className="flex flex-col items-center justify-center shadow-xl p-5 rounded-md bg-base-100 text-base-content z-50">
+        <div className="flex justify-between w-full items-center px-2 mb-10">
+          <LanguageSelector />
+          <ThemeToggle />
+        </div>
+
+        <div>
+          <h1 className="text-lg font-semibold">{t("title")}</h1>
+          <div className="divider" />
+        </div>
+
+        <Suspense fallback={<Loading />}>
+          <SpotifyPlayer />
+        </Suspense>
+
         <div className="divider" />
-      </div>
 
-      <Suspense fallback={<Loading />}>
-        <SpotifyPlayer />
-      </Suspense>
-
-      <div className="divider" />
-
-      <div className="flex gap-5">
-        {socialLinks.map(({ href, icon: Icon, title }, index) => (
-          <a
-            key={index}
-            href={href}
-            title={title}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-600">
-            <Icon size={25} />
-          </a>
-        ))}
-      </div>
-    </main>
+        <div className="flex gap-5">
+          {socialLinks.map(({ href, icon: Icon, title }, index) => (
+            <a
+              key={index}
+              href={href}
+              title={title}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-600">
+              <Icon size={25} />
+            </a>
+          ))}
+        </div>
+      </main>
+    </>
   );
 }
 
