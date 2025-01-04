@@ -7,12 +7,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    // Descomentar para ativar o modal de WIP
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
-      <WorkInProgress />
-    </div>
-
-    // Apenas uma div para a Homepage ser válida
-    // <div></div>
+    <>
+      <div>oi</div>
+    </>
   );
 }

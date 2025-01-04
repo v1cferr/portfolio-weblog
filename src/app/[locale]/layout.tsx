@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import WorkInProgress from "@/components/WIP/WorkInProgress";
 import Header from "@/components/Header";
 import "@/styles/tailwind.css";
 
@@ -50,7 +51,7 @@ export default async function HomeLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} h-screen overflow-hidden`}>
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"
@@ -58,7 +59,11 @@ export default async function HomeLayout({
           disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
             <Header />
-            {children}
+            <main>{children}</main>
+            {/* Descomentar para ativar o modal de WIP */}
+            <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
+              <WorkInProgress />
+            </div>
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>

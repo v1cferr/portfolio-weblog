@@ -1,22 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Logo from "../../public/v1cferr-logo.svg";
 import LanguageSelector from "./i18n/LanguageSelector";
 import ThemeToggle from "./ThemeToggle";
 
 function Header() {
-  // Estado para controlar se o menu está aberto ou fechado
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Função para abrir/fechar menu
-  function toggleMenu() {
-    setIsMenuOpen(!isMenuOpen);
-  }
-
   return (
-    <header className="navbar">
+    <header className="navbar sticky backdrop-blur">
       {/* Navbar extrema-esquerda */}
       <div className="navbar-start gap-x-0.5">
         {/* Logo e/ou nome no canto superior esquerdo */}
@@ -52,7 +43,7 @@ function Header() {
             </li>
             <li>
               <a>Parent</a>
-              <ul className="p-2">
+              <ul className="p-1">
                 <li>
                   <a>Submenu 1</a>
                 </li>
@@ -70,14 +61,24 @@ function Header() {
 
       {/* Navbar central (do meio) */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal gap-x-2.5">
           {/* Seção para tópicos profissionais */}
           <li>
             <details>
               <summary>Profissional</summary>
-              <ul className="p-2">
+              <ul className="p-1">
                 <li>
-                  <a>Projetos</a>
+                  <details>
+                    <summary>Projetos</summary>
+                    <ul className="p-1">
+                      <li>
+                        <a>Portfolio</a>
+                      </li>
+                      <li>
+                        <a>Linha do Tempo</a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
                 <li>
                   <a>Carreira</a>
@@ -89,15 +90,49 @@ function Header() {
             </details>
           </li>
 
+          {/* Seção para tópico de conhecimentos */}
+          <li>
+            <details>
+              <summary>Conhecimento</summary>
+              <ul className="p-1">
+                <li>
+                  <details>
+                    <summary>Organização</summary>
+                    <ul className="p-1">
+                      <li>
+                        <a>Obsidian</a>
+                      </li>
+                      <li>
+                        <a>Linha do Tempo</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+                <li>
+                  <a>Graduação</a>
+                </li>
+                <li>
+                  <a>Treinamentos</a>
+                </li>
+                <li>
+                  <a>Publicações</a>
+                </li>
+                <li>
+                  <a>Idiomas</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
           {/* Seção para tópicos pessoais */}
           <li>
             <details>
               <summary>Pessoal</summary>
-              <ul className="p-2">
+              <ul className="p-1">
                 <li>
                   <details>
                     <summary>Jogos</summary>
-                    <ul className="p-2">
+                    <ul className="p-1">
                       <li>
                         <a>World of Warcraft</a>
                       </li>
@@ -106,27 +141,12 @@ function Header() {
                       </li>
                     </ul>
                   </details>
-                </li>{" "}
+                </li>
                 <li>
                   <a>Experiências</a>
                 </li>
-              </ul>
-            </details>
-          </li>
-
-          {/* Seção para tópicos acadêmicos */}
-          <li>
-            <details>
-              <summary>Acadêmico</summary>
-              <ul className="p-2">
                 <li>
-                  <a>Graduação</a>
-                </li>
-                <li>
-                  <a>Pós-Graduação</a>
-                </li>
-                <li>
-                  <a>Publicações</a>
+                  <a>Meu Setup</a>
                 </li>
               </ul>
             </details>

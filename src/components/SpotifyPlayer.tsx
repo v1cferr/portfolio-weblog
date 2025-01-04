@@ -54,7 +54,6 @@ const SpotifyPlayer = () => {
       }
 
       lastTrackRef.current = data;
-      console.log("Data from lastTrackRef:", lastTrackRef.current);
       setCurrentTrack(data);
       setError(null);
     } catch (error) {
