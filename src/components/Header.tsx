@@ -68,7 +68,7 @@ function Header() {
       <div className="navbar-start gap-x-0.5">
         {/* Logo e/ou nome no canto superior esquerdo */}
         <Link href="/">
-          <Logo className="btn-ghost btn-sm rounded-md w-16 h-auto" />
+          <Logo className="btn-ghost btn-sm rounded-md w-14 h-auto px-1" />
         </Link>
 
         {/* Dropdown para navegação em dispositivos com telas menores */}
@@ -141,7 +141,7 @@ function Header() {
       </div>
 
       {/* Navbar extrema-direita */}
-      <div className="navbar-end gap-x-2.5">
+      <div className="navbar-end gap-x-5 mr-2.5">
         <LanguageSelector />
         <ThemeToggle />
         {/* <a className="btn">Button</a> */}
