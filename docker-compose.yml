@@ -1,20 +1,22 @@
 services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: . # Define o diretório atual como o contexto de build
+      dockerfile: Dockerfile # Especifica o Dockerfile a ser usado para construir a imagem
+      cache_from:
+        - app:latest # Utiliza a imagem 'app:latest' como cache para acelerar o build
     volumes:
-      - .:/app
-      - node_modules:/app/node_modules
-      - ~/.vscode-server:/root/.vscode-server # VS Code server
+      - .:/app # Monta o diretório atual no container em /app
+      - node_modules:/app/node_modules # Monta o volume node_modules para persistir dependências
+      - ~/.vscode-server:/root/.vscode-server # Monta o servidor do VS Code no container para desenvolvimento remoto
     ports:
-      - "3000:3000"
+      - "3000:3000" # Mapeia a porta 3000 do host para a porta 3000 do container
     command: pnpm run dev # Comando principal para iniciar o desenvolvimento
     environment:
-      - CHOKIDAR_USEPOLLING=true # Para melhor compatibilidade em ambientes com volumes
-    container_name: portfolio-weblog
-    stdin_open: true
-    tty: true
+      - CHOKIDAR_USEPOLLING=true # Configuração para melhor compatibilidade com volumes
+    container_name: portfolio-weblog # Nome do container
+    stdin_open: true # Mantém stdin aberto para interação
+    tty: true # Aloca um terminal pseudo-TTY
 
 volumes:
-  node_modules:
+  node_modules: # Define um volume para persistir a pasta node_modules
