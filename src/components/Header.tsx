@@ -16,54 +16,7 @@ function Header() {
   }
 
   return (
-    // <header className="shadow-md fixed w-full top-0 z-50">
-    //   <div className="flex items-center justify-between px-4 py-3">
-    //     {/* Logotipo */}
-    //     <div className="text-lg font-bold">
-    //       <Link href="/">
-    //         <Logo className="w-10 h-10" />
-    //       </Link>
-    //     </div>
-
-    //     {/* Menu Hamburger */}
-    //     <button
-    //       className="p-2 rounded-md outline-none"
-    //       aria-label="Open Menu"
-    //       onClick={toggleMenu} // Função para abrir/fechar menu
-    //     >
-    //       ☰
-    //     </button>
-    //   </div>
-
-    //   {/* Menu Expandido */}
-    //   <nav
-    //     className={`${
-    //       isMenuOpen ? "block" : "hidden"
-    //     } w-full md:flex md:items-center md:justify-between`}>
-    //     <ul className="flex flex-col items-center md:flex-row md:space-x-4">
-    //       <li>
-    //         {/* TODO: usar o Link do Next para os anchor elements */}
-    //         <a href="#" className="block py-2">
-    //           Test 0
-    //         </a>
-    //       </li>
-    //       <li>
-    //         <a href="#" className="block py-2">
-    //           Test 1
-    //         </a>
-    //       </li>
-    //       <li>
-    //         <a href="#" className="block py-2">
-    //           Test 2
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   </nav>
-    // </header>
-
-    // TODO: Header + Navbar com DaisyUI - Seguir com o template
-    // https://daisyui.com/components/navbar/
-    <header className="navbar fixed bg-base-100 shadow-md">
+    <header className="navbar">
       {/* Navbar extrema-esquerda */}
       <div className="navbar-start gap-x-0.5">
         {/* Logo e/ou nome no canto superior esquerdo */}
@@ -118,24 +71,65 @@ function Header() {
       {/* Navbar central (do meio) */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <a>Item 1</a>
-          </li>
+          {/* Seção para tópicos profissionais */}
           <li>
             <details>
-              <summary>Parent</summary>
+              <summary>Profissional</summary>
               <ul className="p-2">
                 <li>
-                  <a>Submenu 1</a>
+                  <a>Projetos</a>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <a>Carreira</a>
+                </li>
+                <li>
+                  <a>Linha do Tempo</a>
                 </li>
               </ul>
             </details>
           </li>
+
+          {/* Seção para tópicos pessoais */}
           <li>
-            <a>Item 3</a>
+            <details>
+              <summary>Pessoal</summary>
+              <ul className="p-2">
+                <li>
+                  <details>
+                    <summary>Jogos</summary>
+                    <ul className="p-2">
+                      <li>
+                        <a>World of Warcraft</a>
+                      </li>
+                      <li>
+                        <a>League of Legends</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>{" "}
+                <li>
+                  <a>Experiências</a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
+          {/* Seção para tópicos acadêmicos */}
+          <li>
+            <details>
+              <summary>Acadêmico</summary>
+              <ul className="p-2">
+                <li>
+                  <a>Graduação</a>
+                </li>
+                <li>
+                  <a>Pós-Graduação</a>
+                </li>
+                <li>
+                  <a>Publicações</a>
+                </li>
+              </ul>
+            </details>
           </li>
         </ul>
       </div>
