@@ -1,24 +1,8 @@
-"use client";
+import { useTranslations } from "next-intl";
 
-import Link from "next/link";
-import SpotifyPlayer from "@/components/SpotifyPlayer";
-import Head from "next/head";
+export default function NotFoundPage() {
+  // const t = useTranslations('NotFoundPage');
+  // return <h1>{t('title')}</h1>;
 
-const NotFoundPage = () => {
-  return (
-    <>
-      <Head>
-        <title>404 error | v1cferr</title>
-        <meta name="description" content="404 error | v1cferr" />
-      </Head>
-      <div>
-        <h1>404 - Página Não Encontrada</h1>
-        <p>Desculpe, a página que você está procurando não existe.</p>
-        <Link href="/">Voltar para a página inicial</Link>
-        <SpotifyPlayer />
-      </div>
-    </>
-  );
-};
-
-export default NotFoundPage;
+  return <h1>testandooooooooooooooooooo not-found</h1>;
+}
