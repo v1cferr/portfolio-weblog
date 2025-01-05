@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/routing";
+import NavigationLink from "@/components/i18n/NavigationLink";
 
 interface DropdownMenuProps {
   title: string;
@@ -22,13 +22,17 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({ title, items }) => (
                 <ul className="p-1">
                   {item.subItems.map((subItem, subIndex) => (
                     <li key={subIndex}>
-                      <Link href={subItem.href || "#"}>{subItem.label}</Link>
+                      <NavigationLink href={subItem.href || "#"}>
+                        {subItem.label}
+                      </NavigationLink>
                     </li>
                   ))}
                 </ul>
               </details>
             ) : (
-              <a href={item.href}>{item.label}</a>
+              <NavigationLink href={item.href || "#"}>
+                {item.label}
+              </NavigationLink>
             )}
           </li>
         ))}
