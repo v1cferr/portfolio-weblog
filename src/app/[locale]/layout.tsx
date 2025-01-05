@@ -9,7 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import WorkInProgress from "@/components/WIP/WorkInProgress";
 import Header from "@/components/Header";
-import "@/styles/tailwind.css";
+import "@/styles/global.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
