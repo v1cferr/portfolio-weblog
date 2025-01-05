@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## TODOs
+
+- [ ] Plan the hero section
+- [ ] View Transition - <https://github.com/shuding/next-view-transitions>
+- [ ] Uses `.mdx` files for blog posts - [Markdown and MDX](hhttps://nextjs.org/docs/app/building-your-application/configuring/mdx) **or:**
+- [ ] Add a CMS - [Strapi](https://strapi.io/integrations/nextjs-cms)
+- [ ] Customize the `404` page for `[locate]` and non-existent intl routes
+
+### SEO
+
+- [ ] Add a `robots.txt` file
+- [ ] Add a `sitemap.xml` file
+- [ ] Add a `humans.txt` file
+- [ ] Add a `manifest.json` file
