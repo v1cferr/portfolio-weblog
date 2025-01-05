@@ -1,14 +1,63 @@
 "use client";
 
-import Link from "next/link";
 import Logo from "../../public/v1cferr-logo.svg";
-import LanguageSelector from "./i18n/LanguageSelector";
-import ThemeToggle from "./ThemeToggle";
+import LanguageSelector from "@/components/i18n/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
+import { DropdownMenu } from "@/components/Header/DropdownMenu";
+import { Link } from "@/i18n/routing";
 
 function Header() {
+  const menus = [
+    {
+      title: "Profissional",
+      items: [
+        { label: "Sobre", href: "/about" },
+        {
+          label: "Projetos",
+          subItems: [
+            { label: "Portfolio", href: "/portfolio" },
+            { label: "Linha do Tempo", href: "/timeline" },
+          ],
+        },
+        { label: "Carreira", href: "/career" },
+        { label: "Linha do Tempo", href: "/timeline" },
+      ],
+    },
+    {
+      title: "Conhecimento",
+      items: [
+        {
+          label: "Organização",
+          subItems: [
+            { label: "Obsidian", href: "/obsidian" },
+            { label: "AI & LLMs", href: "/ai-llms" },
+          ],
+        },
+        { label: "Graduação", href: "/graduation" },
+        { label: "Treinamentos", href: "/trainings" },
+        { label: "Publicações", href: "/publications" },
+        { label: "Idiomas", href: "/languages" },
+      ],
+    },
+    {
+      title: "Pessoal",
+      items: [
+        {
+          label: "Jogos",
+          subItems: [
+            { label: "World of Warcraft", href: "/wow" },
+            { label: "League of Legends", href: "/lol" },
+          ],
+        },
+        { label: "Experiências", href: "/experiences" },
+        { label: "Meu Setup", href: "/setup" },
+      ],
+    },
+  ];
+
   return (
     <header className="navbar sticky backdrop-blur">
-      {/* Navbar extrema-esquerda */}
+      {/* Navbar da esquerda */}
       <div className="navbar-start gap-x-0.5">
         {/* Logo e/ou nome no canto superior esquerdo */}
         <Link href="/">
@@ -38,127 +87,26 @@ function Header() {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-1">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            {menus.map((menu, index) => (
+              <DropdownMenu key={index} title={menu.title} items={menu.items} />
+            ))}
           </ul>
         </div>
       </div>
 
-      {/* Navbar central (do meio) */}
+      {/* Navbar central */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-x-2.5">
-          {/* Seção para tópicos profissionais */}
-          <li>
-            <details>
-              <summary>Profissional</summary>
-              <ul className="p-1">
-                <li>
-                  <details>
-                    <summary>Projetos</summary>
-                    <ul className="p-1">
-                      <li>
-                        <a>Portfolio</a>
-                      </li>
-                      <li>
-                        <a>Linha do Tempo</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-                <li>
-                  <a>Carreira</a>
-                </li>
-                <li>
-                  <a>Linha do Tempo</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-
-          {/* Seção para tópico de conhecimentos */}
-          <li>
-            <details>
-              <summary>Conhecimento</summary>
-              <ul className="p-1">
-                <li>
-                  <details>
-                    <summary>Organização</summary>
-                    <ul className="p-1">
-                      <li>
-                        <a>Obsidian</a>
-                      </li>
-                      <li>
-                        <a>Linha do Tempo</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-                <li>
-                  <a>Graduação</a>
-                </li>
-                <li>
-                  <a>Treinamentos</a>
-                </li>
-                <li>
-                  <a>Publicações</a>
-                </li>
-                <li>
-                  <a>Idiomas</a>
-                </li>
-              </ul>
-            </details>
-          </li>
-
-          {/* Seção para tópicos pessoais */}
-          <li>
-            <details>
-              <summary>Pessoal</summary>
-              <ul className="p-1">
-                <li>
-                  <details>
-                    <summary>Jogos</summary>
-                    <ul className="p-1">
-                      <li>
-                        <a>World of Warcraft</a>
-                      </li>
-                      <li>
-                        <a>League of Legends</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-                <li>
-                  <a>Experiências</a>
-                </li>
-                <li>
-                  <a>Meu Setup</a>
-                </li>
-              </ul>
-            </details>
-          </li>
+          {menus.map((menu, index) => (
+            <DropdownMenu key={index} title={menu.title} items={menu.items} />
+          ))}
         </ul>
       </div>
 
-      {/* Navbar extrema-direita */}
+      {/* Navbar da direita */}
       <div className="navbar-end gap-x-5 mr-2.5">
         <LanguageSelector />
         <ThemeToggle />
-        {/* <a className="btn">Button</a> */}
       </div>
     </header>
   );
