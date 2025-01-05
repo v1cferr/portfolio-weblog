@@ -42,7 +42,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Uses `.mdx` files for blog posts - [Markdown and MDX](hhttps://nextjs.org/docs/app/building-your-application/configuring/mdx) **or:**
 - [ ] Add a CMS - [Strapi](https://strapi.io/integrations/nextjs-cms)
 - [ ] Customize the `404` page for `[locate]` and non-existent intl routes
-- [ ] A ~~another~~ little badge for WIP things
+- [ ] A ~~another~~ little badge for WIP things (like pages that are not ready yet)
+- [ ] Add copyright and license (I made it but with so many resources)
+- [ ] Add two buttons: to report a bug and/or suggest a feature
+- [ ] Add a button to fast contact (work with me), someway to contact and/or download the resume-CV
+- [ ] Weblog? (Posts, guides, tutorials, etc)
 
 ### SEO
 
