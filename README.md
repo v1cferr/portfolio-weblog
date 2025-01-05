@@ -42,6 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Uses `.mdx` files for blog posts - [Markdown and MDX](hhttps://nextjs.org/docs/app/building-your-application/configuring/mdx) **or:**
 - [ ] Add a CMS - [Strapi](https://strapi.io/integrations/nextjs-cms)
 - [ ] Customize the `404` page for `[locate]` and non-existent intl routes
+- [ ] A ~~another~~ little badge for WIP things
 
 ### SEO
 
