@@ -16,7 +16,7 @@ export default function NavigationLink({
     <Link
       aria-current={isActive ? "page" : undefined}
       href={href}
-      style={{ fontWeight: isActive ? "bold" : "normal" }}
+      className={isActive ? "font-semibold" : "font-normal"}
       {...rest}
     />
   );

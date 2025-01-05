@@ -20,5 +20,9 @@
     "no-track": "Nada tocando no momento.",
     "listening-to": "Ouvindo",
     "album-cover": "Capa do Álbum"
+  },
+  "WorldOfWarcraft": {
+    "title": "World of Warcraft",
+    "description": "Essa é uma página sobre World of Warcraft."
   }
 }
