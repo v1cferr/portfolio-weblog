@@ -59,11 +59,11 @@ export default async function HomeLayout({
           disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
             <Header />
-            <main>{children}</main>
+            <main className="h-full overflow-auto pt-16">{children}</main>
             {/* Descomentar para ativar o modal de WIP */}
-            <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
+            {/* <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
               <WorkInProgress />
-            </div>
+            </div> */}
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>

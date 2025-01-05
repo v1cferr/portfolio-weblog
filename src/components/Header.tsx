@@ -58,12 +58,13 @@ function Header() {
           ],
         },
         { label: "Experiências", href: "/experiences" }, // Experiências pessoais
+        { label: "Agradecimentos", href: "/thanks" }, // Agradecimentos e menções honrosas
       ],
     },
   ];
 
   return (
-    <header className="navbar sticky backdrop-blur">
+    <header className="navbar fixed top-0 left-0 right-0 backdrop-blur z-50">
       {/* Navbar da esquerda */}
       <div className="navbar-start gap-x-0.5">
         <Link href="/">
