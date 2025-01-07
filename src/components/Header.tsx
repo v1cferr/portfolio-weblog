@@ -18,33 +18,48 @@ function Header() {
           <Logo className="btn-ghost btn-sm rounded-md w-14 h-auto px-1" />
         </Link>
 
-        {/* Dropdown para navegação em telas menores */}
-        <div className="dropdown">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-sm btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+        {/* Drawer para navegação em telas menores */}
+        <div className="drawer">
+          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            {/* Botão para abrir o drawer */}
+            <label
+              htmlFor="my-drawer"
+              className="btn btn-sm btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </label>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            {menus.map((menu, index) => (
-              <DropdownMenu key={index} title={menu.title} items={menu.items} />
-            ))}
-          </ul>
+
+          {/* Container do drawer quando está ativo */}
+          <div className="drawer-side">
+            {/* TODO: Adicionar o SpotifyPlayer posteriormente no canto inferior */}
+            <label
+              htmlFor="my-drawer"
+              aria-label="close sidebar"
+              className="drawer-overlay"
+            />
+            <ul className="menu bg-base-200 min-h-full w-auto p-4 rounded-r-box">
+              {menus.map((menu, index) => (
+                <DropdownMenu
+                  key={index}
+                  title={menu.title}
+                  items={menu.items}
+                />
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
