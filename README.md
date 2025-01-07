@@ -48,6 +48,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Add a button to fast contact (work with me), someway to contact and/or download the resume-CV
 - [ ] Weblog? (Posts, guides, tutorials, etc)
 - [ ] Add the `SpotifyPlayer` only for large screens? (Or use [Drawer](https://daisyui.com/components/drawer/#drawer) and put it in the bottom)
+- [ ] Add a SVG logo without background/transparent for the **favicon**
+  - [ ] Add a **favicon** for dark and light mode
 
 ### SEO
 
