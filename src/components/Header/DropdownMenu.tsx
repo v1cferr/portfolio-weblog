@@ -15,13 +15,13 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({ title, items }) => (
       <summary>{title}</summary>
       <ul>
         {items.map((item, index) => (
-          <li key={index}>
+          <li key={index} className="mb-[0.15rem]">
             {item.subItems ? (
               <details>
-                <summary>{item.label}</summary>
+                <summary className="mb-[0.25rem]">{item.label}</summary>
                 <ul>
                   {item.subItems.map((subItem, subIndex) => (
-                    <li key={subIndex}>
+                    <li key={subIndex} className="mb-[0.15rem]">
                       <NavigationLink href={subItem.href || "/"}>
                         {subItem.label}
                       </NavigationLink>
