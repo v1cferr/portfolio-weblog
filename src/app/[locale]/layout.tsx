@@ -27,7 +27,20 @@ export const metadata: Metadata = {
   keywords: ["v1cferr", "spotify", "nextjs", "tailwindcss"],
   authors: [{ name: "v1cferr", url: "https://github.com/v1cferr" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      {
+        media: "(prefers-color-scheme:light)",
+        href: "/favicon/dark-mode.svg",
+        url: "/favicon/dark-mode.svg",
+        sizes: "16x16 32x32 48x48 64x64 128x128 256x256 512x512",
+      },
+      {
+        media: "(prefers-color-scheme:dark)",
+        href: "/favicon/light-mode.svg",
+        url: "/favicon/light-mode.svg",
+        sizes: "16x16 32x32 48x48 64x64 128x128 256x256 512x512",
+      },
+    ],
   },
 };
 
@@ -61,9 +74,9 @@ export default async function HomeLayout({
             <Header />
             <main className="h-full overflow-auto pt-16">{children}</main>
             {/* Descomentar para ativar o modal de WIP */}
-            <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
+            {/* <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
               <WorkInProgress />
-            </div>
+            </div> */}
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>
