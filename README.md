@@ -47,7 +47,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Add two buttons: to report a bug and/or suggest a feature
 - [ ] Add a button to fast contact (work with me), someway to contact and/or download the resume-CV
 - [ ] Weblog? (Posts, guides, tutorials, etc)
-- [ ] Add the `SpotifyPlayer` only for large screens? (Or use [Drawer](https://daisyui.com/components/drawer/#drawer) and put it in the bottom)
+- [ ] Add the [roadmap.sh](https://roadmap.sh) in the "conhecimento" page
 
 ### SEO
 
@@ -58,6 +58,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Already Done
 
+- [x] Add the `SpotifyPlayer` on the button of [Drawer](https://daisyui.com/components/drawer/#drawer) {2025-1-7}
 - [x] Add a SVG logo without background/transparent for the **favicon** {2025-1-7}
   - [x] Add a **favicon** for dark and light mode
 - [x] Social media and contact icons (LinkedIn, GitHub, WhatsApp, etc.) {2025-1-1}

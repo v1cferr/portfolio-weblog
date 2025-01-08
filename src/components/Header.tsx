@@ -3,6 +3,7 @@
 import Logo from "../../public/v1cferr-logo.svg";
 import LanguageSelector from "@/components/i18n/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
+import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { DropdownMenu } from "@/components/Header/DropdownMenu";
 import { Link } from "@/i18n/routing";
 import { menuData } from "@/components/Header/MenuData";
@@ -44,21 +45,27 @@ function Header() {
 
           {/* Container do drawer quando está ativo */}
           <div className="drawer-side">
-            {/* TODO: Adicionar o SpotifyPlayer posteriormente no canto inferior */}
             <label
               htmlFor="my-drawer"
               aria-label="close sidebar"
               className="drawer-overlay"
             />
-            <ul className="menu bg-base-200 min-h-full w-auto p-4 rounded-r-box">
-              {menus.map((menu, index) => (
-                <DropdownMenu
-                  key={index}
-                  title={menu.title}
-                  items={menu.items}
-                />
-              ))}
-            </ul>
+            <div className="flex flex-col min-h-full bg-base-200 p-4 rounded-r-box">
+              <ul className="menu flex-grow w-auto">
+                {menus.map((menu, index) => (
+                  <DropdownMenu
+                    key={index}
+                    title={menu.title}
+                    items={menu.items}
+                  />
+                ))}
+              </ul>
+
+              {/* SpotityPlayer na parte inferior */}
+              <div className="flex-none">
+                <SpotifyPlayer />
+              </div>
+            </div>
           </div>
         </div>
       </div>
