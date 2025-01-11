@@ -50,7 +50,7 @@ function Header() {
               aria-label="close sidebar"
               className="drawer-overlay"
             />
-            <div className="flex flex-col min-h-full bg-base-200 p-4 rounded-r-box">
+            <div className="flex flex-col min-h-full w-auto max-w-xs bg-base-200 p-4 rounded-r-box">
               <ul className="menu flex-grow w-auto">
                 {menus.map((menu, index) => (
                   <DropdownMenu
