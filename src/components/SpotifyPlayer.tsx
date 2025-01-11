@@ -33,7 +33,7 @@ const SpotifyPlayer = () => {
     try {
       // setIsLoading(true);
 
-      const response = await fetch("/[locale]/api/spotify");
+      const response = await fetch("/api/spotify");
       const data = await response.json();
 
       // Caso a música seja a mesma

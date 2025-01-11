@@ -55,7 +55,7 @@ export async function GET() {
     const song = await response.json();
     return NextResponse.json(song);
   } catch (error) {
-    console.error("Error in [locale]/api/spotify:", error);
+    console.error("Error in /api/spotify:", error);
     return NextResponse.json(
       {
         error:
