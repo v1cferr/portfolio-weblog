@@ -43,7 +43,8 @@ export async function GET(request: NextRequest) {
     if (data.error) {
       return NextResponse.json(
         {
-          error: data.error,
+          error: "Erro ao obter token.",
+          data: data.error,
         },
         {
           status: response.status,
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: "OAuth realizado com sucesso!",
+        message: "OAuth realizado com sucesso! Token obtido.",
         data: data,
       },
       {
