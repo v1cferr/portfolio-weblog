@@ -48,6 +48,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Add a button to fast contact (work with me), someway to contact and/or download the resume-CV
 - [ ] Weblog? (Posts, guides, tutorials, etc)
 - [ ] Add the [roadmap.sh](https://roadmap.sh) in the "conhecimento" page
+- [ ] Add a vertical reverse chronological timeline (resume-CV) using DaisyUI
 
 ### SEO
 
