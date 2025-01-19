@@ -24,7 +24,7 @@ export async function GET() {
     // Authorization: Bearer <TOKEN>
     // content-type: application/json;charset=UTF-8
 
-    // Request para buscar os dados da minha conta do wowzinho
+    // Request para buscar os dados da minha conta do wowzin
     const response = await axios.get(
       "https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US",
       {
@@ -36,7 +36,19 @@ export async function GET() {
     );
 
     const data = await response.data;
-    return NextResponse.json(data);
+
+    return NextResponse.json(
+      {
+        message: "Dados da conta (do wowzin) obtidos com sucesso!",
+        data: data,
+      },
+      {
+        status: response.status,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   } catch (error) {
     return NextResponse.json(
       {
