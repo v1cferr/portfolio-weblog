@@ -53,7 +53,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(data);
+    const redirectUrl = new URL("/api/blizzard/profile", request.nextUrl);
+    redirectUrl.searchParams.set("access_token", data.access_token);
+
+    return NextResponse.redirect(redirectUrl.toString());
   } catch (error) {
     return NextResponse.json(
       {

@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
-export async function GET() {
-  const token = `não sei ainda - preciso bolar um jeito de pegar o token 
-    (seja armazenando em bd ou cache/algo semelhante)`;
+export async function GET(request: NextRequest) {
+  const token = request.nextUrl.searchParams.get("access_token");
 
   if (!token) {
     return NextResponse.json(
@@ -12,54 +11,47 @@ export async function GET() {
       },
       {
         status: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
   }
 
   try {
-    // https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US
-    // Authorization: Bearer <TOKEN>
-    // content-type: application/json;charset=UTF-8
-
-    // Request para buscar os dados da minha conta do wowzin
     const response = await axios.get(
-      "https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US",
+      "https://us.api.blizzard.com/profile/user/wow",
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "content-type": "application/json;charset=UTF-8",
+        },
+        params: {
+          namespace: "profile-us",
+          locale: "en_US",
         },
       }
     );
 
     const data = await response.data;
 
-    return NextResponse.json(
-      {
-        message: "Dados da conta (do wowzin) obtidos com sucesso!",
-        data: data,
-      },
-      {
-        status: response.status,
-        headers: {
-          "Content-Type": "application/json",
+    if (data.error) {
+      return NextResponse.json(
+        {
+          error: "Erro ao obter dados do perfil.",
+          data: data.error,
         },
-      }
-    );
+        {
+          status: response.status,
+        }
+      );
+    }
+
+    return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
       {
-        error: "Erro ao descriptografar o token.",
+        error: "Falha ao obter os dados do perfil.",
         data: error,
       },
       {
         status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
   }
