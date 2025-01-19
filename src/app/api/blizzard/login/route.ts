@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const scope = process.env.BATTLENET_SCOPE!;
-  const state = process.env.BATTLENET_STATE!;
-  const redirectUri = process.env.BATTLENET_REDIRECT_URI!;
-  const clientId = process.env.BATTLENET_CLIENT_ID!;
+  const RESPONSE_TYPE = "code";
+  const SCOPE = "openid wow.profile";
+  const STATE = process.env.BATTLENET_STATE!;
+  const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
+  const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
 
   //   https://oauth.battle.net/authorize
   //             ?response_type=code
@@ -14,11 +15,11 @@ export async function GET() {
   //             &client_id=<CLIENT ID>
 
   const params = new URLSearchParams({
-    response_type: "code",
-    scope: scope,
-    state: state,
-    redirect_uri: redirectUri,
-    client_id: clientId,
+    response_type: RESPONSE_TYPE,
+    scope: SCOPE,
+    state: STATE,
+    redirect_uri: REDIRECT_URI,
+    client_id: CLIENT_ID,
   });
 
   const authUrl = `https://us.battle.net/oauth/authorize?${params.toString()}`;
