@@ -53,15 +53,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(
-      {
-        message: "OAuth realizado com sucesso! Token obtido.",
-        data: data,
-      },
-      {
-        status: response.status,
-      }
-    );
+    return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
       {
