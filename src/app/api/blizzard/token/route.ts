@@ -2,19 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
+  const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
+  const CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET!;
+  const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
+
   const url = request.nextUrl;
   const code = url.searchParams.get("code");
 
   if (!code) {
     return NextResponse.json(
       {
-        error: "Código OAuth não fornecido.",
+        error: "Código não encontrado.",
       },
       {
         status: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
   }
@@ -25,12 +26,12 @@ export async function GET(request: NextRequest) {
       {
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: process.env.BATTLENET_REDIRECT_URI,
+        redirect_uri: REDIRECT_URI,
       },
       {
         auth: {
-          username: process.env.BATTLENET_CLIENT_ID!,
-          password: process.env.BATTLENET_CLIENT_SECRET!,
+          username: CLIENT_ID,
+          password: CLIENT_SECRET,
         },
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -48,9 +49,6 @@ export async function GET(request: NextRequest) {
         },
         {
           status: response.status,
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
     }
@@ -62,9 +60,6 @@ export async function GET(request: NextRequest) {
       },
       {
         status: response.status,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
   } catch (error) {
@@ -75,9 +70,6 @@ export async function GET(request: NextRequest) {
       },
       {
         status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
   }
