@@ -11,9 +11,9 @@
     "title": "🛠️ Em construção 🚧",
     "email": "Email"
   },
-  "About": {
-    "title": "Sobre",
-    "description": "Essa é uma página sobre."
+  "Test": {
+    "title": "Teste",
+    "description": "Essa é uma página para testes."
   },
   "SpotifyPlayer": {
     "error": "Erro ao carregar o player do Spotify.",

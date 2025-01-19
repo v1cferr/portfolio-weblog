@@ -6,7 +6,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { DropdownMenu } from "@/components/Header/DropdownMenu";
 import { Link } from "@/i18n/routing";
-import { menuData } from "@/components/Header/MenuData";
+import { menuData } from "@/utils/menuData";
 
 function Header() {
   const menus = menuData;

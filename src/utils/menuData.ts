@@ -2,7 +2,7 @@ export const menuData = [
   {
     title: "Profissional", // Documentação da minha vida profissional
     items: [
-      { label: "Sobre", href: "/about" }, // Apenas para testes de navegação/routing
+      { label: "DevTests", href: "/test" }, // Apenas para testes de navegação/routing e outros
       {
         label: "Projetos",
         subItems: [

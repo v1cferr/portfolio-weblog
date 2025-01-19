@@ -11,9 +11,9 @@
     "title": "🛠️ 施工中 🚧",
     "email": "电子邮件"
   },
-  "About": {
-    "title": "关于我们",
-    "description": "这是一个关于我们页面。"
+  "Test": {
+    "title": "测试",
+    "description": "这是一个测试页面。"
   },
   "SpotifyPlayer": {
     "error": "加载 Spotify 播放器时出错。",
