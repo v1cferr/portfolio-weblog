@@ -11,21 +11,36 @@ const Test = () => {
   const t = useTranslations("Test");
   const [profileData, setProfileData] = useState(null);
 
+  // useEffect(() => {
+  //   const data = localStorage.getItem("profileData");
+  //   if (data) {
+  //     setProfileData(JSON.parse(data));
+  //     localStorage.removeItem("profileData");
+  //   }
+  // }, []);
+
+  // const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // useEffect(() => {
+  //   if (!profileData && buttonRef.current) {
+  //     buttonRef.current.click();
+  //   }
+  // }, [profileData]);
+
   useEffect(() => {
-    const data = localStorage.getItem("profileData");
-    if (data) {
-      setProfileData(JSON.parse(data));
-      localStorage.removeItem("profileData");
-    }
+    const fetchProfile = async () => {
+      const response = await fetch("/api/blizzard/profile");
+
+      if (response.ok) {
+        const data = await response.json();
+        setProfileData(data);
+      } else {
+        console.error("Erro ao buscar dados do perfil.");
+      }
+    };
+
+    fetchProfile();
   }, []);
-
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!profileData && buttonRef.current) {
-      buttonRef.current.click();
-    }
-  }, [profileData]);
 
   return (
     <>
@@ -48,7 +63,9 @@ const Test = () => {
       {profileData && <pre>{JSON.stringify(profileData, null, 2)}</pre>}
 
       <Link href="/api/blizzard/login">
-        <button ref={buttonRef} className="btn">
+        <button
+          // ref={buttonRef}
+          className="btn">
           Log In
         </button>
       </Link>

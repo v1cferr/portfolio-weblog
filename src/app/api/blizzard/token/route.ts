@@ -38,24 +38,31 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    const data = await response.data;
+    // const data = await response.data;
+    const { access_token, expires_in } = await response.data;
 
-    if (data.error) {
-      return NextResponse.json(
-        {
-          error: "Erro ao obter token.",
-          data: data.error,
-        },
-        {
-          status: response.status,
-        }
-      );
-    }
+    // if (data.error) {
+    //   return NextResponse.json(
+    //     {
+    //       error: "Erro ao obter token.",
+    //       data: data.error,
+    //     },
+    //     {
+    //       status: response.status,
+    //     }
+    //   );
+    // }
 
-    const redirectUrl = new URL("/api/blizzard/profile", request.nextUrl);
-    redirectUrl.searchParams.set("access_token", data.access_token);
+    // const redirectUrl = new URL("/api/blizzard/profile", request.nextUrl);
+    // redirectUrl.searchParams.set("access_token", data.access_token);
 
-    return NextResponse.redirect(redirectUrl.toString());
+    // return NextResponse.redirect(redirectUrl.toString());
+
+    return new NextResponse("Token armazenado.", {
+      headers: {
+        "Set-Cookie": `access_token=${access_token}; Max-Age=${expires_in}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       {
