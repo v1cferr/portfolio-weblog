@@ -6,13 +6,12 @@ export async function GET(request: NextRequest) {
   const CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET!;
   const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
 
-  const url = request.nextUrl;
-  const code = url.searchParams.get("code");
+  const code = request.nextUrl.searchParams.get("code");
 
   if (!code) {
     return NextResponse.json(
       {
-        error: "Código não encontrado.",
+        error: "Código de autorização não encontrado.",
       },
       {
         status: 400,
@@ -61,7 +60,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Erro ao realizar OAuth.",
-        data: error,
+        details: error,
       },
       {
         status: 500,

@@ -7,10 +7,10 @@ export async function GET(request: NextRequest) {
   if (!token) {
     return NextResponse.json(
       {
-        error: "Token não fornecido.",
+        error: "Token de acesso não encontrado.",
       },
       {
-        status: 400,
+        status: 401,
       }
     );
   }
