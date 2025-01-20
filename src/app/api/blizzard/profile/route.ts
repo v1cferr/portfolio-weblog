@@ -43,7 +43,20 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(data);
+    const script = `
+      <script>
+        localStorage.setItem('profileData', JSON.stringify(${JSON.stringify(
+          data
+        )}));
+        window.location.href = '/en-us/test';
+      </script>
+    `;
+
+    return new NextResponse(script, {
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       {

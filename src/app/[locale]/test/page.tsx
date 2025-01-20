@@ -1,8 +1,31 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
+// TODO: Resolver o bug do loop infinito sempre que a
+// página é recarregada e o componente montado
+
 const Test = () => {
   const t = useTranslations("Test");
+  const [profileData, setProfileData] = useState(null);
+
+  useEffect(() => {
+    const data = localStorage.getItem("profileData");
+    if (data) {
+      setProfileData(JSON.parse(data));
+      localStorage.removeItem("profileData");
+    }
+  }, []);
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!profileData && buttonRef.current) {
+      buttonRef.current.click();
+    }
+  }, [profileData]);
 
   return (
     <>
@@ -22,8 +45,12 @@ const Test = () => {
         
         Tudo isso utilizando Serverless Functions e sem expor dados sensíveis no front.
       */}
+      {profileData && <pre>{JSON.stringify(profileData, null, 2)}</pre>}
+
       <Link href="/api/blizzard/login">
-        <button className="btn">Log In</button>
+        <button ref={buttonRef} className="btn">
+          Log In
+        </button>
       </Link>
     </>
   );
