@@ -13,6 +13,14 @@ const nextConfig = {
         port: "",
         pathname: "/image/**",
       },
+      // Imagens aleatórias apenas para testes
+      // https://random.imagecdn.app/500/150
+      {
+        protocol: "https",
+        hostname: "random.imagecdn.app",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config) {

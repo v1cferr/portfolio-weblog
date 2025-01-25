@@ -1,32 +1,96 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 // import { useTranslations } from "next-intl";
 
-// TODO: Usar uma API para buscar meus chars e addons
-// Chars: https://develop.battle.net/documentation/world-of-warcraft/profile-apis
-// API Client & Keys: https://develop.battle.net/access/clients/
+// TODO: Utilizar APIs para buscar as informações dos chars e addons:
 
-// Addons: https://docs.google.com/spreadsheets/d/1Dm8ZmQyewUwQweOuZKMyZPj92LV-PQf2DqdWI3Ft5wE/edit
-// API Spreadsheet: https://developers.google.com/sheets/api/guides/values
+// - [x] Chars: https://develop.battle.net/documentation/world-of-warcraft/profile-apis
+// - [x] API Client & Keys: https://develop.battle.net/access/clients/
+// - [ ] Achievements: https://develop.battle.net/documentation/world-of-warcraft/guides/achievements
+// - [ ] Render: https://develop.battle.net/documentation/world-of-warcraft/guides/character-renders
+// -- https://us.api.blizzard.com/profile/wow/character/
+// -- ${realmSlug}/
+// -- ${characterName}/appearance
+// -- ?namespace=profile-us&locale=en_US
 
-// Apenas um mock temporário
+// - [ ] Addons: https://docs.google.com/spreadsheets/d/1Dm8ZmQyewUwQweOuZKMyZPj92LV-PQf2DqdWI3Ft5wE/edit
+// - [ ] API Spreadsheet: https://developers.google.com/sheets/api/guides/values
+
+interface Character {
+  character: {
+    href: string;
+  };
+  protected_character: {
+    href: string;
+  };
+  name: string;
+  id: number;
+  realm: {
+    key: {
+      href: string;
+    };
+    name: string;
+    id: number;
+    slug: string;
+  };
+  playable_class: {
+    key: {
+      href: string;
+    };
+    name: string;
+    id: number;
+  };
+  playable_race: {
+    key: {
+      href: string;
+    };
+    name: string;
+    id: number;
+  };
+  gender: {
+    type: string;
+    name: string;
+  };
+  faction: {
+    type: string;
+    name: string;
+  };
+  level: number;
+}
+
 export default function WorldOfWarcraft() {
-  // Dados estáticos para teste
-  const characters = [
-    {
-      name: "Monk",
-      race: "Pandaren",
-      class: "Monk",
-      level: 80,
-      img: "/images/monk.jpg",
-    },
-    {
-      name: "Paladin",
-      race: "Lightforged Draenei",
-      class: "Paladin",
-      level: 70,
-      img: "/images/paladin.jpg",
-    },
-  ];
+  const [stormrageCharacters, setStormrageCharacters] = useState<
+    Character[] | null
+  >(null);
+
+  const fetchProfile = async () => {
+    try {
+      const profileDataResponse = await fetch("/api/blizzard/profile");
+
+      if (!profileDataResponse.ok) {
+        const errorData = await profileDataResponse.json();
+        console.error("Erro ao buscar dados do perfil:", errorData);
+        return;
+      }
+
+      const data = await profileDataResponse.json();
+      const StormrageChars = data.wow_accounts[1].characters.filter(
+        (char: Character) => char.realm.name === "Stormrage" && char.level >= 70
+      );
+
+      console.log("Personagens do Stormrage:", StormrageChars);
+
+      setStormrageCharacters(StormrageChars);
+    } catch (error) {
+      console.error("Erro ao buscar dados do perfil:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   const addons = [
     { name: "Deadly Boss Mods", description: "Ajuda em raides e masmorras." },
@@ -49,21 +113,23 @@ export default function WorldOfWarcraft() {
       <section id="characters">
         <h2 className="text-2xl font-semibold mb-4">Personagens</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {characters.map((char) => (
+          {stormrageCharacters?.map((char: Character) => (
             <div
               key={char.name}
               className="card shadow-lg p-4 bg-neutral text-neutral-content rounded-lg">
               <Image
-                src={char.img}
+                src="https://random.imagecdn.app/500/150"
                 alt={char.name}
                 className="rounded-t-lg h-40 w-full object-cover"
                 width={400}
                 height={300}
+                priority={true}
               />
               <div className="mt-4">
                 <h3 className="text-xl font-bold">{char.name}</h3>
                 <p>
-                  {char.race} {char.class} - Level {char.level}
+                  {char.playable_race.name} {char.playable_class.name} - Level{" "}
+                  {char.level}
                 </p>
               </div>
             </div>
@@ -97,12 +163,13 @@ export default function WorldOfWarcraft() {
       </section>
 
       {/* Galeria */}
-      <section id="gallery">
+      {/* <section id="gallery">
         <h2 className="text-2xl font-semibold mb-4">Galeria</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <iframe
             src="https://worldofwarcraft.com/character/eu/victorthebrave"
-            className="w-full h-64 border rounded-lg"></iframe>
+            className="w-full h-64 border rounded-lg"
+          />
           <Image
             src="/images/raid-moment.jpg"
             alt="Raid moment"
@@ -111,7 +178,7 @@ export default function WorldOfWarcraft() {
             height={300}
           />
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
