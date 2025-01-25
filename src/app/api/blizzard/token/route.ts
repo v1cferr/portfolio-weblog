@@ -38,25 +38,8 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // const data = await response.data;
-    const { access_token, expires_in } = await response.data;
-
-    // if (data.error) {
-    //   return NextResponse.json(
-    //     {
-    //       error: "Erro ao obter token.",
-    //       data: data.error,
-    //     },
-    //     {
-    //       status: response.status,
-    //     }
-    //   );
-    // }
-
-    // const redirectUrl = new URL("/api/blizzard/profile", request.nextUrl);
-    // redirectUrl.searchParams.set("access_token", data.access_token);
-
-    // return NextResponse.redirect(redirectUrl.toString());
+    // TODO: Criptografar token de acesso antes de armazenar no cookie
+    const { access_token, expires_in } = response.data;
 
     return new NextResponse("Token armazenado.", {
       headers: {
@@ -64,10 +47,12 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    const err = error as any;
+
     return NextResponse.json(
       {
         error: "Erro ao realizar OAuth.",
-        details: error,
+        details: err.message,
       },
       {
         status: 500,

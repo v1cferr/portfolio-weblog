@@ -7,13 +7,6 @@ export async function GET() {
   const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
   const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
 
-  //   https://oauth.battle.net/authorize
-  //             ?response_type=code
-  //             &scope=openid
-  //             &state=AbCdEfG
-  //             &redirect_uri=https://localhost
-  //             &client_id=<CLIENT ID>
-
   const params = new URLSearchParams({
     response_type: RESPONSE_TYPE,
     scope: SCOPE,
