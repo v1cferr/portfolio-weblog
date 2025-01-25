@@ -6,58 +6,31 @@ import Image from "next/image";
 
 // TODO: Utilizar APIs para buscar as informações dos chars e addons:
 
-// - [x] Chars: https://develop.battle.net/documentation/world-of-warcraft/profile-apis
 // - [x] API Client & Keys: https://develop.battle.net/access/clients/
+// - [x] Chars: https://develop.battle.net/documentation/world-of-warcraft/profile-apis
+// -- [x] Render: https://develop.battle.net/documentation/world-of-warcraft/guides/character-renders
+
 // - [ ] Achievements: https://develop.battle.net/documentation/world-of-warcraft/guides/achievements
-// - [ ] Render: https://develop.battle.net/documentation/world-of-warcraft/guides/character-renders
-// -- https://us.api.blizzard.com/profile/wow/character/
-// -- ${realmSlug}/
-// -- ${characterName}/appearance
-// -- ?namespace=profile-us&locale=en_US
+// - [ ] PvP Stats: https://develop.battle.net/documentation/world-of-warcraft/guides/pvp
+// -- https://us.api.blizzard.com/profile/wow/character/stormrage/fearvy/pvp-summary?namespace=profile-us&locale=en_US
 
 // - [ ] Addons: https://docs.google.com/spreadsheets/d/1Dm8ZmQyewUwQweOuZKMyZPj92LV-PQf2DqdWI3Ft5wE/edit
 // - [ ] API Spreadsheet: https://developers.google.com/sheets/api/guides/values
 
 interface Character {
-  character: {
-    href: string;
-  };
-  protected_character: {
-    href: string;
-  };
   name: string;
-  id: number;
+  render: string;
+  level: number;
   realm: {
-    key: {
-      href: string;
-    };
     name: string;
-    id: number;
     slug: string;
   };
   playable_class: {
-    key: {
-      href: string;
-    };
     name: string;
-    id: number;
   };
   playable_race: {
-    key: {
-      href: string;
-    };
-    name: string;
-    id: number;
-  };
-  gender: {
-    type: string;
     name: string;
   };
-  faction: {
-    type: string;
-    name: string;
-  };
-  level: number;
 }
 
 export default function WorldOfWarcraft() {
@@ -65,7 +38,7 @@ export default function WorldOfWarcraft() {
     Character[] | null
   >(null);
 
-  const fetchProfile = async () => {
+  const fetchProfileAndRender = async () => {
     try {
       const profileDataResponse = await fetch("/api/blizzard/profile");
 
@@ -80,19 +53,35 @@ export default function WorldOfWarcraft() {
         (char: Character) => char.realm.name === "Stormrage" && char.level >= 70
       );
 
-      console.log("Personagens do Stormrage:", StormrageChars);
+      const updatedChars = await Promise.all(
+        StormrageChars.map(async (char: Character) => {
+          const renderDataResponse = await fetch(
+            `/api/blizzard/render?realmSlug=${
+              char.realm.slug
+            }&characterName=${char.name.toLowerCase()}`
+          );
 
-      setStormrageCharacters(StormrageChars);
+          if (renderDataResponse.ok) {
+            const renderData = await renderDataResponse.json();
+            const render = renderData.assets[1]?.value;
+            return { ...char, render };
+          }
+
+          return char;
+        })
+      );
+
+      setStormrageCharacters(updatedChars);
     } catch (error) {
       console.error("Erro ao buscar dados do perfil:", error);
     }
   };
 
   useEffect(() => {
-    fetchProfile();
+    fetchProfileAndRender();
   }, []);
 
-  const addons = [
+  const mockAddons = [
     { name: "Deadly Boss Mods", description: "Ajuda em raides e masmorras." },
     { name: "Details!", description: "Medidor de dano e cura." },
     { name: "WeakAuras", description: "Personalização de alertas visuais." },
@@ -116,15 +105,23 @@ export default function WorldOfWarcraft() {
           {stormrageCharacters?.map((char: Character) => (
             <div
               key={char.name}
-              className="card shadow-lg p-4 bg-neutral text-neutral-content rounded-lg">
-              <Image
-                src="https://random.imagecdn.app/500/150"
-                alt={char.name}
-                className="rounded-t-lg h-40 w-full object-cover"
-                width={400}
-                height={300}
-                priority={true}
-              />
+              className="card shadow-lg p-4 bg-base-content text-primary-content rounded-lg">
+              {char.render ? (
+                <Image
+                  src={char.render}
+                  alt={char.name}
+                  className="rounded-t-lg h-40 w-full object-cover"
+                  width={400}
+                  height={300}
+                  priority={true}
+                />
+              ) : (
+                <div className="rounded-t-lg h-40 w-full object-cover bg-gray-200 flex items-center justify-center">
+                  <span className="text-base-content">
+                    Imagem não disponível
+                  </span>
+                </div>
+              )}
               <div className="mt-4">
                 <h3 className="text-xl font-bold">{char.name}</h3>
                 <p>
@@ -148,7 +145,7 @@ export default function WorldOfWarcraft() {
             </tr>
           </thead>
           <tbody>
-            {addons.map((addon) => (
+            {mockAddons.map((addon) => (
               <tr key={addon.name}>
                 <td className="border border-gray-300 px-4 py-2">
                   {addon.name}

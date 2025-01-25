@@ -60,6 +60,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Already Done
 
 - [x] {2025-1-25} Configure the Blizzard API to get characters/profile info from World of Warcraft
+  - [x] Add the `/api/blizzard/render` route to get the data render/images to each character
 - [x] {2025-1-7} Add the `SpotifyPlayer` on the button of [Drawer](https://daisyui.com/components/drawer/#drawer)
 - [x] {2025-1-7} Add a SVG logo without background/transparent for the **favicon**
   - [x] Add a **favicon** for dark and light mode

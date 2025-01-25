@@ -21,6 +21,14 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      // Imagens dos chars do WoW
+      // https://render.worldofwarcraft.com/us/character/stormrage/200/246938824-inset.jpg
+      {
+        protocol: "https",
+        hostname: "render.worldofwarcraft.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config) {
