@@ -49,9 +49,12 @@ export default function WorldOfWarcraft() {
       }
 
       const data = await profileDataResponse.json();
-      const StormrageChars = data.wow_accounts[1].characters.filter(
-        (char: Character) => char.realm.name === "Stormrage" && char.level >= 70
-      );
+      const StormrageChars = data.wow_accounts[1].characters
+        .filter(
+          (char: Character) =>
+            char.realm.name === "Stormrage" && char.level >= 70
+        )
+        .sort((a: Character, b: Character) => b.level - a.level);
 
       const updatedChars = await Promise.all(
         StormrageChars.map(async (char: Character) => {
@@ -63,7 +66,7 @@ export default function WorldOfWarcraft() {
 
           if (renderDataResponse.ok) {
             const renderData = await renderDataResponse.json();
-            const render = renderData.assets[1]?.value;
+            const render = renderData.assets[2]?.value;
             return { ...char, render };
           }
 
@@ -101,28 +104,26 @@ export default function WorldOfWarcraft() {
       {/* Personagens */}
       <section id="characters">
         <h2 className="text-2xl font-semibold mb-4">Personagens</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {stormrageCharacters?.map((char: Character) => (
-            <div
-              key={char.name}
-              className="card shadow-lg p-4 bg-base-content text-primary-content rounded-lg">
+            <div key={char.name} className="mb-8">
               {char.render ? (
                 <Image
                   src={char.render}
                   alt={char.name}
-                  className="rounded-t-lg h-40 w-full object-cover"
+                  className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
                   width={400}
                   height={300}
                   priority={true}
                 />
               ) : (
-                <div className="rounded-t-lg h-40 w-full object-cover bg-gray-200 flex items-center justify-center">
+                <div className="rounded-t-lg h-20 object-cover flex items-center justify-center shadow-lg">
                   <span className="text-base-content">
                     Imagem não disponível
                   </span>
                 </div>
               )}
-              <div className="mt-4">
+              <div className="bg-base-content text-primary-content p-4 rounded-b-lg">
                 <h3 className="text-xl font-bold">{char.name}</h3>
                 <p>
                   {char.playable_race.name} {char.playable_class.name} - Level{" "}
