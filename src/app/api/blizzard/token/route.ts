@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
   const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
   const CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET!;
   const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
       {
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: `${BASE_URL}/${REDIRECT_URI}`,
       },
       {
         auth: {
@@ -38,12 +39,28 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // TODO: Criptografar token de acesso antes de armazenar no cookie
+    // TODO: Criptografar o valor dos atributos e/ou armazenar no https://supabase.com
     const { access_token, expires_in } = response.data;
+    const currentTime = Math.floor(Date.now() / 1000);
 
-    return new NextResponse("Token armazenado.", {
+    const createCookie = (name: string, value: string, maxAge: number) => {
+      return `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Strict; Domain=${request.nextUrl.hostname};`;
+    };
+
+    const cookieOptions = [
+      createCookie("access_token", access_token, expires_in),
+      createCookie("expires_in", expires_in.toString(), expires_in),
+      createCookie("token_set_time", currentTime.toString(), expires_in),
+    ];
+
+    const localeCookie = request.cookies.get("NEXT_LOCALE");
+    const locale = localeCookie ? localeCookie.value : "en-us";
+
+    const redirectUrl = `${BASE_URL}/${locale}/wow`;
+
+    return NextResponse.redirect(redirectUrl, {
       headers: {
-        "Set-Cookie": `access_token=${access_token}; Max-Age=${expires_in}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+        "Set-Cookie": cookieOptions.join(", "),
       },
     });
   } catch (error) {
@@ -55,7 +72,7 @@ export async function GET(request: NextRequest) {
         details: err.message,
       },
       {
-        status: 500,
+        status: err.response.status,
       }
     );
   }

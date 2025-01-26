@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
   const RESPONSE_TYPE = "code";
   const SCOPE = "openid wow.profile";
   const STATE = process.env.BATTLENET_STATE!;
@@ -11,7 +12,7 @@ export async function GET() {
     response_type: RESPONSE_TYPE,
     scope: SCOPE,
     state: STATE,
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: `${BASE_URL}/${REDIRECT_URI}`,
     client_id: CLIENT_ID,
   });
 
