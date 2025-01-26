@@ -85,3 +85,15 @@ export default async function HomeLayout({
     </html>
   );
 }
+
+// https://oauth.battle.net/oauth/authorize
+// ?response_type=code
+// &scope=openid%20wow.profile
+// &state=MmY2YjM0NTE3ZTNhNDQ3M2JhNGQ3MDk2ZDkyZGU5MTg6dTdEUDV6RkxmdTFRem5uVHB4VFVIcGZ0eERaWHRlTjg%3D
+// &redirect_uri=https%3A%2F%2Fv1cferr.dev%2Fapi%2Fblizzard%2Ftoken
+// &client_id=b76eab86ac314f9480dfb7af5d19012a
+
+// https://develop.battle.net/access/clients/b76eab86ac314f9480dfb7af5d19012a
+// Changes made here may take up to 10 minutes to take effect.
+
+// Esqueci de colocar https e não http...
