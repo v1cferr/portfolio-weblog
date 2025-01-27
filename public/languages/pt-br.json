@@ -23,6 +23,7 @@
   },
   "WorldOfWarcraft": {
     "title": "World of Warcraft",
-    "description": "Essa é uma página sobre World of Warcraft."
+    "subtitle": "Meus personagens, conquistas e addons que utilizo no wowzinho",
+    "char-title": "Personagens"
   }
 }

@@ -23,6 +23,7 @@
   },
   "WorldOfWarcraft": {
     "title": "World of Warcraft",
-    "description": "This is a World of Warcraft page."
+    "subtitle": "My characters, achievements, and addons I use in WoW",
+    "char-title": "Characters"
   }
 }

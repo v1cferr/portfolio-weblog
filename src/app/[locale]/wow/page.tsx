@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-// import { useTranslations } from "next-intl";
 
 // TODO: Utilizar APIs para buscar as informações dos chars e addons:
 
@@ -34,6 +35,10 @@ interface Character {
 }
 
 export default function WorldOfWarcraft() {
+  const t = useTranslations("WorldOfWarcraft");
+  const locale = useLocale();
+  const armoryUrl = `https://worldofwarcraft.blizzard.com/${locale}/character/us`;
+
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
@@ -94,28 +99,32 @@ export default function WorldOfWarcraft() {
     <div className="container mx-auto p-6 space-y-12">
       {/* Título */}
       <section>
-        <h1 className="text-4xl font-bold">World of Warcraft</h1>
-        <p className="text-lg">
-          Meus personagens, addons e outros sobre minha jornada no
-          &apos;wowzinho&apos;
-        </p>
+        <h1 className="text-4xl font-bold">{t("title")}</h1>
+        <p className="text-lg">{t("subtitle")}</p>
       </section>
 
       {/* Personagens */}
       <section id="characters">
-        <h2 className="text-2xl font-semibold mb-4">Personagens</h2>
+        <h2 className="text-2xl font-semibold mb-4">{t("char-title")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {stormrageCharacters?.map((char: Character) => (
-            <div key={char.name} className="mb-8">
+            <div key={char.name} className="mb-8 hover:shadow-xl transition">
               {char.render ? (
-                <Image
-                  src={char.render}
-                  alt={char.name}
-                  className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
-                  width={400}
-                  height={300}
-                  priority={true}
-                />
+                <a
+                  href={`${armoryUrl}/${
+                    char.realm.slug
+                  }/${char.name.toLowerCase()}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <Image
+                    src={char.render}
+                    alt={char.name}
+                    className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
+                    width={400}
+                    height={300}
+                    priority={true}
+                  />
+                </a>
               ) : (
                 <div className="rounded-t-lg h-20 object-cover flex items-center justify-center shadow-lg">
                   <span className="text-base-content">
@@ -124,10 +133,19 @@ export default function WorldOfWarcraft() {
                 </div>
               )}
               <div className="bg-base-content text-primary-content p-4 rounded-b-lg">
-                <h3 className="text-xl font-bold">{char.name}</h3>
-                <p>
-                  {char.playable_race.name} {char.playable_class.name} - Level{" "}
-                  {char.level}
+                <h3 className="text-2xl font-bold">{char.name}</h3>
+                <p className="text-lg">
+                  <span className="font-semibold">
+                    {char.playable_race.name}
+                  </span>{" "}
+                  {/* TODO: Anchor element para cada tipo de classe (underscore + dicionário) */}
+                  {/* https://worldofwarcraft.blizzard.com/${locale}/game/classes/${class.name} */}
+                  <span className="font-semibold">
+                    {char.playable_class.name}
+                  </span>
+                </p>
+                <p className="text-sm text-primary-content">
+                  Level <span className="font-semibold">{char.level}</span>
                 </p>
               </div>
             </div>
@@ -135,23 +153,28 @@ export default function WorldOfWarcraft() {
         </div>
       </section>
 
+      {/* TODO: Adicionar seção das conquistas */}
+      {/* Conquistas */}
+
       {/* Addons */}
       <section id="addons">
         <h2 className="text-2xl font-semibold mb-4">Addons</h2>
-        <table className="table w-full border-collapse border border-gray-300">
+        <table className="table w-full border-collapse border border-base-content">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 px-4 py-2">Nome</th>
-              <th className="border border-gray-300 px-4 py-2">Descrição</th>
+            <tr className="bg-base-content text-primary-content">
+              <th className="border border-base-content px-4 py-2">Nome</th>
+              <th className="border border-base-content px-4 py-2">
+                Descrição
+              </th>
             </tr>
           </thead>
           <tbody>
             {mockAddons.map((addon) => (
               <tr key={addon.name}>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-base-content px-4 py-2">
                   {addon.name}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-base-content px-4 py-2">
                   {addon.description}
                 </td>
               </tr>

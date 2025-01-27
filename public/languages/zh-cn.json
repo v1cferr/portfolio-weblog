@@ -23,6 +23,7 @@
   },
   "WorldOfWarcraft": {
     "title": "魔兽世界",
-    "description": "这是一个关于魔兽世界的页面。"
+    "subtitle": "我的角色、成就和我在魔兽世界中使用的插件",
+    "char-title": "角色"
   }
 }
