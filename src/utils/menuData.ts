@@ -1,3 +1,4 @@
+// TODO: Adicionar um atributo "wip: boolean" para cada item do menuData + icon e/ou modal de WIP
 export const menuData = [
   {
     title: "Profissional", // Documentação da minha vida profissional
