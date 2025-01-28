@@ -2,7 +2,7 @@ export const menuData = [
   {
     title: "Profissional", // Documentação da minha vida profissional
     items: [
-      { label: "DevTests", href: "/test" }, // Apenas para testes de navegação/routing e outros
+      { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
       {
         label: "Projetos",
         subItems: [
@@ -10,7 +10,7 @@ export const menuData = [
           { label: "Linha do Tempo", href: "/timeline" }, // Linha do tempo de projetos (ordem cronológica inversa)
         ],
       },
-      { label: "Carreira", href: "/career" }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - quase um CV praticamente
+      { label: "Carreira", href: "/career" }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo" }, // Concepção e significado do logotipo
     ],
   },
@@ -51,6 +51,7 @@ export const menuData = [
       },
       { label: "Experiências", href: "/experiences" }, // Experiências pessoais
       { label: "Opiniões", href: "/opinions" }, // Opiniões, críticas e pontos de vista
+      { label: "Ideologia", href: "/ideologies" }, // Ideologias (políticas), crenças e valores
       { label: "Agradecimentos", href: "/thanks" }, // Agradecimentos e menções honrosas
     ],
   },
