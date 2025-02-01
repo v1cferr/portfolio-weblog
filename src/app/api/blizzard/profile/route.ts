@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
-  // TODO: Descriptograr valor dos atributos e/ou buscar no https://supabase.com
-  const tokenCookie = request.cookies.get("access_token");
-  const expiresCookie = request.cookies.get("expires_in");
-  const tokenSetTimeCookie = request.cookies.get("token_set_time");
+  const SUPABASE = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!
+  );
 
-  if (!tokenCookie || !expiresCookie || !tokenSetTimeCookie) {
+  const { data, error } = await SUPABASE.from("blizzard_tokens")
+    .select("*")
+    .order("expires_at", { ascending: false })
+    .limit(1);
+
+  if (error || !data || data.length === 0) {
     return NextResponse.json(
       {
         error: "Token de acesso ou informação de expiração não encontrado.",
@@ -18,18 +24,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const token = tokenCookie.value;
-  const expiresIn = parseInt(expiresCookie.value, 10); // Tempo de expiração em segundos
-  const tokenSetTime = parseInt(tokenSetTimeCookie.value, 10); // Tempo em que o token foi definido, em segundos
-  const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
-
-  const tokenExpirationTime = tokenSetTime + expiresIn; // Tempo de expiração do token
-
-  // Verifica se o token está prestes a expirar (menos de 5 minutos restantes)
-  if (currentTime >= tokenExpirationTime - 300) {
-    const loginUrl = "/api/blizzard/login";
-    return NextResponse.redirect(loginUrl); // Redireciona para a URL de login
-  }
+  const token = data[0].access_token;
 
   try {
     const response = await axios.get(

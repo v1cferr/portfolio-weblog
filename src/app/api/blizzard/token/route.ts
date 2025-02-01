@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
@@ -6,6 +7,10 @@ export async function GET(request: NextRequest) {
   const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
   const CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET!;
   const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
+  const SUPABASE = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!
+  );
 
   const code = request.nextUrl.searchParams.get("code");
 
@@ -41,28 +46,23 @@ export async function GET(request: NextRequest) {
 
     // TODO: Criptografar o valor dos atributos e/ou armazenar no https://supabase.com
     const { access_token, expires_in } = response.data;
-    const currentTime = Math.floor(Date.now() / 1000);
 
-    const createCookie = (name: string, value: string, maxAge: number) => {
-      return `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Strict; Domain=${request.nextUrl.hostname};`;
-    };
-
-    const cookieOptions = [
-      createCookie("access_token", access_token, expires_in),
-      createCookie("expires_in", expires_in.toString(), expires_in),
-      createCookie("token_set_time", currentTime.toString(), expires_in),
-    ];
+    const expirestAt = new Date(Date.now() + expires_in * 1000);
 
     const localeCookie = request.cookies.get("NEXT_LOCALE");
     const locale = localeCookie ? localeCookie.value : "en-us";
 
+    await SUPABASE.from("blizzard_tokens").insert([
+      {
+        access_token: access_token,
+        expires_at: expirestAt,
+        next_locale: locale,
+      },
+    ]);
+
     const redirectUrl = `${BASE_URL}/${locale}/wow`;
 
-    return NextResponse.redirect(redirectUrl, {
-      headers: {
-        "Set-Cookie": cookieOptions.join(", "),
-      },
-    });
+    return NextResponse.redirect(redirectUrl);
   } catch (error) {
     const err = error as any;
 

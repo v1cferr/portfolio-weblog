@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
-  const tokenCookie = request.cookies.get("access_token");
+  const SUPABASE = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!
+  );
 
-  if (!tokenCookie) {
+  const { data, error } = await SUPABASE.from("blizzard_tokens")
+    .select("*")
+    .order("expires_at", { ascending: false })
+    .limit(1);
+
+  if (error || !data || data.length === 0) {
     return NextResponse.json(
       {
-        error: "Token de acesso não encontrado.",
+        error: "Token de acesso ou informação de expiração não encontrado.",
       },
       {
         status: 401,
@@ -15,7 +24,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const token = tokenCookie.value;
+  const token = data[0].access_token;
   const realmSlug = request.nextUrl.searchParams.get("realmSlug");
   const characterName = request.nextUrl.searchParams.get("characterName");
 
@@ -31,11 +40,6 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // https://us.api.blizzard.com
-    // /profile/wow/character
-    // /${realmSlug}/${characterName}/character-media
-    // ?namespace=profile-us
-    // &locale=en_US
     const response = await axios.get(
       `https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}/character-media`,
       {
