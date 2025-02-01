@@ -79,5 +79,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - Speed Insights
 - Supabase - <https://supabase.com/>
   - Database
-  - Edge Functions
+  - Edge Functions - <https://supabase.com/docs/guides/functions/quickstart>
   - CLI (use: `pnpm supabase`)
