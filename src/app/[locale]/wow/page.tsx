@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import CharacterCard from "@/components/WoW/CharacterCard";
 
+// TODO: Futuramente se for víavel, adicionar DeepL para traduzir dados enviados das APIs para suas respectivas línguas.
 // TODO: Utilizar APIs para buscar as informações dos chars, achievs e addons (PvP Stats talvez?):
 
 // - [x] API Client & Keys: https://develop.battle.net/access/clients/
