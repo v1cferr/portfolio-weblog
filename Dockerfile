@@ -6,6 +6,8 @@ COPY package*.json .
 
 RUN npm install -g pnpm
 
+RUN apt-get update && apt-get install -y sudo
+
 COPY . .
 
 RUN pnpm install
