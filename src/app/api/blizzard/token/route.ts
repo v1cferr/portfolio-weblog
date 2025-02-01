@@ -44,7 +44,6 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // TODO: Criptografar o valor dos atributos e/ou armazenar no https://supabase.com
     const { access_token, expires_in } = response.data;
 
     const expirestAt = new Date(Date.now() + expires_in * 1000);

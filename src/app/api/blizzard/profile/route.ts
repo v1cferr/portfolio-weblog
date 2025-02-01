@@ -13,6 +13,11 @@ export async function GET(request: NextRequest) {
     .order("expires_at", { ascending: false })
     .limit(1);
 
+  // TODO: Se o token não estiver válido ou expirado, utilizar o Edge Functions do Supbase
+  // Para buscar um novo token de acesso.
+  // Edge Functions: <https://supabase.com/docs/guides/functions>
+  // Developing Edge Functions locally: <https://supabase.com/docs/guides/functions/quickstart>
+
   if (error || !data || data.length === 0) {
     return NextResponse.json(
       {
