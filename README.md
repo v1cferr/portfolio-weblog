@@ -74,9 +74,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - Development
 - Vercel - <https://vercel.com/>
   - Hosting
+  - Deployments
   - Analytics
-  - Functions (não utilizado por enquanto)
+  - Speed Insights
 - Supabase - <https://supabase.com/>
   - Database
   - Edge Functions
-  - Storage (images, caching, etc)
+  - CLI (use: `pnpm supabase`)
