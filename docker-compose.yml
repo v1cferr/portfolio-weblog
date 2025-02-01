@@ -9,6 +9,7 @@ services:
       - .:/app # Monta o diretório atual no container em /app
       - node_modules:/app/node_modules # Monta o volume node_modules para persistir dependências
       - ~/.vscode-server:/root/.vscode-server # Monta o servidor do VS Code no container para desenvolvimento remoto
+      - var/run/docker.sock:/var/run/docker.sock # Monta o socket do Docker para permitir execução de comandos Docker no container
     ports:
       - "3000:3000" # Mapeia a porta 3000 do host para a porta 3000 do container
     command: pnpm run dev # Comando principal para iniciar o desenvolvimento
