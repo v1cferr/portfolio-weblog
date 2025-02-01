@@ -66,3 +66,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - [x] Add a **favicon** for dark and light mode
 - [x] {2025-1-1} Social media and contact icons (LinkedIn, GitHub, WhatsApp, etc.)
 - [x] {2024-12-??} Add a custom `loading.tsx` component
+
+## Recursos utilizados
+
+- Docker - <https://www.docker.com/>
+  - Containerization
+  - Development
+- Vercel - <https://vercel.com/>
+  - Hosting
+  - Analytics
+  - Functions (não utilizado por enquanto)
+- Supabase - <https://supabase.com/>
+  - Database
+  - Edge Functions
+  - Storage (images, caching, etc)
