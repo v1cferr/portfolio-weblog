@@ -1,40 +1,60 @@
 {
+  // Configurações do compilador TypeScript
   "compilerOptions": {
+    // Define a versão alvo do ECMAScript para a qual o código será compilado
     "target": "es2017",
+    // Especifica as bibliotecas padrão a serem incluídas no projeto
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "dom", // Inclui definições de tipos para o DOM
+      "dom.iterable", // Inclui definições de tipos para objetos iteráveis do DOM
+      "esnext" // Inclui definições de tipos para recursos mais recentes do ECMAScript
     ],
+    // Permite a inclusão de arquivos JavaScript no projeto
     "allowJs": true,
+    // Ignora a verificação de tipos em arquivos de definição de biblioteca
     "skipLibCheck": true,
+    // Habilita verificações de tipo estritas
     "strict": true,
+    // Impede a emissão de arquivos de saída
     "noEmit": true,
+    // Habilita a interoperabilidade com módulos ES
     "esModuleInterop": true,
+    // Define o sistema de módulos a ser usado
     "module": "esnext",
+    // Define a estratégia de resolução de módulos
     "moduleResolution": "bundler",
+    // Permite a importação de arquivos JSON como módulos
     "resolveJsonModule": true,
+    // Garante que cada arquivo seja tratado como um módulo isolado
     "isolatedModules": true,
+    // Define como o JSX deve ser tratado
     "jsx": "preserve",
+    // Habilita a compilação incremental para melhorar o desempenho
     "incremental": true,
+    // Plugins adicionais para o compilador TypeScript
     "plugins": [
       {
+        // Plugin específico para o framework Next.js
         "name": "next"
       }
     ],
+    // Mapeia caminhos de importação para diretórios específicos
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/*" // Mapeia o alias "@" para o diretório "src"
       ]
     }
   },
+  // Arquivos a serem incluídos no projeto
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
+    "next-env.d.ts", // Arquivo de definição de tipos para o Next.js
+    "**/*.ts", // Inclui todos os arquivos TypeScript
+    "**/*.tsx", // Inclui todos os arquivos TypeScript com JSX
+    ".next/types/**/*.ts" // Inclui arquivos de tipos gerados pelo Next.js
   ],
+  // Arquivos e diretórios a serem excluídos do projeto
   "exclude": [
-    "node_modules"
+    "node_modules", // Exclui a pasta de dependências do Node.js
+    "supabase" // Exclui a pasta "supabase"
   ]
 }
