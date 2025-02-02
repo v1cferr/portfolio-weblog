@@ -55,6 +55,7 @@
   // Arquivos e diretórios a serem excluídos do projeto
   "exclude": [
     "node_modules", // Exclui a pasta de dependências do Node.js
-    "supabase" // Exclui a pasta "supabase"
+    "supabase", // Exclui a pasta "supabase"
+    "supabase/functions" // Exclui a pasta "functions" dentro de "supabase"
   ]
 }
