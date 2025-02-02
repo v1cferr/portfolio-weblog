@@ -80,4 +80,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Supabase - <https://supabase.com/>
   - Database
   - Edge Functions - <https://supabase.com/docs/guides/functions/quickstart>
+    - Managing Environment Variables - <https://supabase.com/docs/guides/functions/secrets>
   - CLI (use: `pnpm supabase`)
