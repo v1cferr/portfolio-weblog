@@ -3,19 +3,24 @@
 // This enables autocomplete, go to definition, etc.
 
 // Setup type definitions for built-in Supabase Runtime APIs
-import "jsr:@supabase/functions-js/edge-runtime.d.ts"
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-console.log("Hello from Functions!")
+// Console/Log no servidor
+console.log("Hello from Functions!");
 
 Deno.serve(async (req) => {
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
-  }
+  // const { name } = await req.json();
+  // const data = {
+  //   message: `Hello ${name}!`,
+  // };
 
-  return new Response(JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } })
-})
+  const data = { message: `Testando a partir do browser! :D` };
 
+  // Enviando para o cliente (Browser nesse caso)
+  return new Response(JSON.stringify(data), {
+    headers: { "Content-Type": "application/json" },
+  });
+});
 
 /* To invoke locally:
 
