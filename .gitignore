@@ -42,11 +42,11 @@ next-env.d.ts
 DETAILS.md
 FIREBASE.md
 
-# Refresh token script
-refresh-token.sh
-
 # is a cache folder which can be ignored
 .pnpm-store 
 
 # Extensions from VSCode
 extensions.txt
+
+# shell scripts
+*.sh
