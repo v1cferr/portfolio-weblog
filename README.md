@@ -81,4 +81,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - Database
   - Edge Functions - <https://supabase.com/docs/guides/functions/quickstart>
     - Managing Environment Variables - <https://supabase.com/docs/guides/functions/secrets>
+    - Deno - <https://deno.com/> (Consegui configurar o ambiente para rodar o Deno com os types)
   - CLI (use: `pnpm supabase`)
