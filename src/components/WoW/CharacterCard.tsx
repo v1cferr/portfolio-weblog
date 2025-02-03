@@ -24,6 +24,7 @@ export default function CharacterCard() {
   const locale = useLocale();
   const armoryUrl = `https://worldofwarcraft.blizzard.com/${locale}/character/us`;
 
+  // TODO: Adicionar um loading enquanto os dados são carregados
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
@@ -73,6 +74,7 @@ export default function CharacterCard() {
   };
 
   useEffect(() => {
+    // TODO: Adicionar sistema de cache para não precisar buscar os dados a cada renderização
     fetchProfileAndRender();
   }, []);
 
