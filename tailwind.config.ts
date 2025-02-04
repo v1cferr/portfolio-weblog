@@ -9,6 +9,7 @@ const config: Config = {
   theme: {},
   plugins: [require("tailwind-scrollbar"), require("daisyui")],
   daisyui: {
+    // https://daisyui.com/docs/themes/
     themes: ["light", "dark"],
   },
 };
