@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import Loading from "../Loading";
 import Image from "next/image";
 
 interface Character {
@@ -24,7 +25,7 @@ export default function CharacterCard() {
   const locale = useLocale();
   const armoryUrl = `https://worldofwarcraft.blizzard.com/${locale}/character/us`;
 
-  // TODO: Adicionar um loading enquanto os dados são carregados
+  const [loading, setLoading] = useState(true);
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
@@ -70,6 +71,8 @@ export default function CharacterCard() {
       setStormrageCharacters(updatedChars);
     } catch (error) {
       console.error("Erro ao buscar dados do perfil:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,6 +80,14 @@ export default function CharacterCard() {
     // TODO: Adicionar sistema de cache para não precisar buscar os dados a cada renderização
     fetchProfileAndRender();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>
