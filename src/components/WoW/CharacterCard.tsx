@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaExclamationTriangle } from "react-icons/fa";
 import { useLocale } from "next-intl";
 import Loading from "../Loading";
 import Image from "next/image";
@@ -28,6 +29,7 @@ export default function CharacterCard() {
   const classUrl = `${wowUrl}/${locale}/game/classes`;
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(true);
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
@@ -43,6 +45,7 @@ export default function CharacterCard() {
       if (!profileDataResponse.ok) {
         const errorData = await profileDataResponse.json();
         console.error("Erro ao buscar dados do perfil:", errorData);
+        setError(true);
         return;
       }
 
@@ -81,6 +84,7 @@ export default function CharacterCard() {
       setStormrageCharacters(updatedChars);
     } catch (error) {
       console.error("Erro ao buscar dados do perfil:", error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -108,6 +112,17 @@ export default function CharacterCard() {
     return (
       <div className="flex items-center justify-center h-96">
         <Loading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-96 flex-col">
+        <FaExclamationTriangle className="text-6xl text-yellow-400 mb-4" />
+        <span className="text-base-content break-words text-center">
+          Erro ao carregar dados dos personagens.
+        </span>
       </div>
     );
   }
