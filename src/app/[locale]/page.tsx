@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import WorkInProgress from "@/components/WIP/WorkInProgress";
+import Hero from "@/components/Homepage/Hero";
 
 export const metadata: Metadata = {
   title: "Work In Progress | v1cferr",
@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <div>oi</div>
+      {/* <div>oi</div> */}
+      <Hero />
     </>
   );
 }
