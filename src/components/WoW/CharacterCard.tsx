@@ -68,6 +68,12 @@ export default function CharacterCard() {
         })
       );
 
+      const cacheData = {
+        timestamp: new Date().getTime(),
+        characters: updatedChars,
+      };
+
+      localStorage.setItem("stormrageCharacters", JSON.stringify(cacheData));
       setStormrageCharacters(updatedChars);
     } catch (error) {
       console.error("Erro ao buscar dados do perfil:", error);
@@ -77,7 +83,20 @@ export default function CharacterCard() {
   };
 
   useEffect(() => {
-    // TODO: Adicionar sistema de cache para não precisar buscar os dados a cada renderização
+    const cachedData = localStorage.getItem("stormrageCharacters");
+
+    if (cachedData) {
+      const { timestamp, characters } = JSON.parse(cachedData);
+      const now = new Date().getTime();
+      const oneDay = 24 * 60 * 60 * 1000;
+
+      if (now - timestamp < oneDay) {
+        setStormrageCharacters(characters);
+        setLoading(false);
+        return;
+      }
+    }
+
     fetchProfileAndRender();
   }, []);
 
@@ -120,7 +139,7 @@ export default function CharacterCard() {
               <span className="font-semibold">{char.playable_race.name}</span>{" "}
               {/* TODO: Anchor element para cada tipo de classe (underscore + dicionário) */}
               {/* https://worldofwarcraft.blizzard.com/${locale}/game/classes/${class.name} */}
-              <span className="font-semibold">{char.playable_class.name}</span>
+              <span className="font-semibold">{char.playable_class.name}</span>{" "}
             </p>
             <p className="text-sm text-primary-content">
               Level <span className="font-semibold">{char.level}</span>
