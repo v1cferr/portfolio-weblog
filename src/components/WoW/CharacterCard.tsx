@@ -30,8 +30,6 @@ export default function CharacterCard() {
     Character[] | null
   >(null);
 
-  // TODO: Verificar como posso renderizar (os personagens do wow) em outras máquinas (usando Supabase)
-  // Sem precisar logar no Auth a cada 1 dia ^^
   const fetchProfileAndRender = async () => {
     try {
       const profileDataResponse = await fetch("/api/blizzard/profile");
