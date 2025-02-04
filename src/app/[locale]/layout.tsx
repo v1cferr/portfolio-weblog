@@ -71,6 +71,7 @@ export default async function HomeLayout({
           enableSystem={true}
           disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
+            {/* TODO: Melhorar o scrollbar e também ficar "em cima" do Header com `tailwind-scrollbar` */}
             <Header />
             <main className="h-full overflow-auto pt-16">{children}</main>
             {/* Descomentar para ativar o modal de WIP */}
