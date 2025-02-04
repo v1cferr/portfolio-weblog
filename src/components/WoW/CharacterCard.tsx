@@ -23,12 +23,18 @@ interface Character {
 
 export default function CharacterCard() {
   const locale = useLocale();
-  const armoryUrl = `https://worldofwarcraft.blizzard.com/${locale}/character/us`;
+  const wowUrl = "https://worldofwarcraft.blizzard.com";
+  const armoryUrl = `${wowUrl}/${locale}/character/us`;
+  const classUrl = `${wowUrl}/${locale}/game/classes`;
 
   const [loading, setLoading] = useState(true);
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
+
+  const formatClassName = (className: string) => {
+    return className.toLowerCase().replace(/\s+/g, "-");
+  };
 
   const fetchProfileAndRender = async () => {
     try {
@@ -135,9 +141,16 @@ export default function CharacterCard() {
             <h3 className="text-2xl font-bold">{char.name}</h3>
             <p className="text-lg">
               <span className="font-semibold">{char.playable_race.name}</span>{" "}
-              {/* TODO: Anchor element para cada tipo de classe (underscore + dicionário) */}
-              {/* https://worldofwarcraft.blizzard.com/${locale}/game/classes/${class.name} */}
-              <span className="font-semibold">{char.playable_class.name}</span>{" "}
+              <a
+                href={`${classUrl}/${formatClassName(
+                  char.playable_class.name
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer">
+                <span className="font-semibold hover:underline">
+                  {char.playable_class.name}
+                </span>
+              </a>{" "}
             </p>
             <p className="text-sm text-primary-content">
               Level <span className="font-semibold">{char.level}</span>
