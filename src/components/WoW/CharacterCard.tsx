@@ -29,7 +29,7 @@ export default function CharacterCard() {
   const classUrl = `${wowUrl}/${locale}/game/classes`;
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [stormrageCharacters, setStormrageCharacters] = useState<
     Character[] | null
   >(null);
