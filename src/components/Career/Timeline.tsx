@@ -53,27 +53,40 @@ const TimelineIcon: React.FC = () => {
   );
 };
 
-// TODO: "Timeline with icon snapped to the start" do DaisyUI
-// <https://daisyui.com/components/timeline/>
+const TimelineItemComponent: React.FC<{
+  item: TimelineItem;
+  index: number;
+  isLast: boolean;
+}> = ({ item, index, isLast }) => {
+  return (
+    <li>
+      {index !== 0 && <hr />}
+      <div className="timeline-middle">
+        <TimelineIcon />
+      </div>
+      <div
+        className={`timeline-${index % 2 === 0 ? "start" : "end"} mb-10 ${
+          index % 2 === 0 ? "md:text-end" : "md:mb-10"
+        }`}>
+        <time className="font-mono italic">{item.year}</time>
+        <div className="text-lg font-black">{item.title}</div>
+        {item.description}
+      </div>
+      {!isLast && <hr />}
+    </li>
+  );
+};
+
 const Timeline: React.FC = () => {
   return (
     <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
       {timelineData.map((item, index) => (
-        <li key={index}>
-          {index !== 0 && <hr />}
-          <div className="timeline-middle">
-            <TimelineIcon />
-          </div>
-          <div
-            className={`timeline-${index % 2 === 0 ? "start" : "end"} mb-10 ${
-              index % 2 === 0 ? "md:text-end" : "md:mb-10"
-            }`}>
-            <time className="font-mono italic">{item.year}</time>
-            <div className="text-lg font-black">{item.title}</div>
-            {item.description}
-          </div>
-          {index !== timelineData.length - 1 && <hr />}
-        </li>
+        <TimelineItemComponent
+          key={index}
+          item={item}
+          index={index}
+          isLast={index === timelineData.length - 1}
+        />
       ))}
     </ul>
   );
