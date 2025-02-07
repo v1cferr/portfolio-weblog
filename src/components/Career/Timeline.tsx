@@ -1,9 +1,12 @@
+// Based on: <https://daisyui.com/components/timeline/>
+
 interface TimelineItem {
   year: string;
   title: string;
   description: string;
 }
 
+// TODO: Tabela no Supabase para armazenar os dados da Timeline (add minhas exps)
 const timelineData: TimelineItem[] = [
   {
     year: "2015",
