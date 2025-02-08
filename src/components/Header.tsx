@@ -12,7 +12,7 @@ function Header() {
   const menus = menuData;
 
   return (
-    <header className="navbar fixed top-0 left-0 right-0 backdrop-blur-lg z-50">
+    <header className="navbar fixed top-0 left-0 right-0 backdrop-blur z-50">
       {/* Navbar da esquerda */}
       <div className="navbar-start gap-x-0.5">
         <Link href="/">
