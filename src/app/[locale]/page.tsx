@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-// import Link from "next/link";
 import Hero from "@/components/Homepage/Hero";
 import {
   FaReact,
@@ -28,20 +27,25 @@ export const metadata: Metadata = {
 };
 
 interface IconGroupProps {
-  icons: IconType[];
+  icons: { icon: IconType; title: string }[];
 }
 
 const IconGroup: React.FC<IconGroupProps> = ({ icons }) => (
   <div className="flex gap-3">
-    {icons.map((Icon, index) => (
-      <Icon key={index} size={30} />
+    {icons.map(({ icon: Icon, title }, index) => (
+      <Icon
+        key={index}
+        size={30}
+        title={title}
+        className="hover:text-primary"
+      />
     ))}
   </div>
 );
 
 interface IconContainerProps {
   title: string;
-  icons: IconType[];
+  icons: { icon: IconType; title: string }[];
 }
 
 const IconContainer: React.FC<IconContainerProps> = ({ title, icons }) => (
@@ -58,24 +62,28 @@ export default function Home() {
       <Hero />
 
       {/* Icon Section */}
-      <section className="flex flex-col items-center gap-14 mt-6">
+      <section className="flex flex-col items-center gap-14 p-6">
         {/* Linguagens de Programação */}
         <IconContainer
           title="Linguagens"
-          icons={[SiJavascript, SiTypescript, SiPython]}
+          icons={[
+            { icon: SiJavascript, title: "JavaScript" },
+            { icon: SiTypescript, title: "TypeScript" },
+            { icon: SiPython, title: "Python" },
+          ]}
         />
 
         {/* Tecnologias */}
         <IconContainer
           title="Tecnologias"
           icons={[
-            FaReact,
-            SiNextdotjs,
-            FaNodeJs,
-            SiTailwindcss,
-            SiAstro,
-            SiFastapi,
-            SiVite,
+            { icon: FaReact, title: "React" },
+            { icon: SiNextdotjs, title: "Next.js" },
+            { icon: FaNodeJs, title: "Node.js" },
+            { icon: SiTailwindcss, title: "Tailwind CSS" },
+            { icon: SiAstro, title: "Astro" },
+            { icon: SiFastapi, title: "FastAPI" },
+            { icon: SiVite, title: "Vite" },
           ]}
         />
 
@@ -83,13 +91,13 @@ export default function Home() {
         <IconContainer
           title="Ferramentas"
           icons={[
-            FaGitAlt,
-            FaGithub,
-            SiFigma,
-            VscVscode,
-            VscTerminalBash,
-            FaDocker,
-            SiSwagger,
+            { icon: FaGitAlt, title: "Git" },
+            { icon: FaGithub, title: "GitHub" },
+            { icon: SiFigma, title: "Figma" },
+            { icon: VscVscode, title: "VS Code" },
+            { icon: VscTerminalBash, title: "Terminal" },
+            { icon: FaDocker, title: "Docker" },
+            { icon: SiSwagger, title: "Swagger" },
           ]}
         />
       </section>
