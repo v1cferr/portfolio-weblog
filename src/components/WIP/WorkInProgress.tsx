@@ -3,6 +3,7 @@ import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { SiMonkeytype, SiMinutemailer } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import Loading from "@/components/Loading";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -67,7 +68,7 @@ function WorkInProgress() {
 
         <div className="flex gap-5">
           {socialLinks.map(({ href, icon: Icon, title }, index) => (
-            <a
+            <Link
               key={index}
               href={href}
               title={title}
@@ -75,7 +76,7 @@ function WorkInProgress() {
               rel="noopener noreferrer"
               className="hover:text-gray-600">
               <Icon size={25} />
-            </a>
+            </Link>
           ))}
         </div>
       </main>
