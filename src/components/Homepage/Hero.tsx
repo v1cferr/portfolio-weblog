@@ -7,6 +7,10 @@ import {
   FaLinkedin,
   FaFileDownload,
   FaWhatsapp,
+  // FaBriefcase,
+  // FaDownload,
+  // FaEnvelope,
+  // FaBlog,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { SiMinutemailer } from "react-icons/si";
@@ -44,11 +48,6 @@ const socialLinks = [
     title: "WhatsApp",
   },
   {
-    href: "https://docs.google.com",
-    Icon: FaFileDownload,
-    title: "Download CV",
-  },
-  {
     href: "mailto:dev.victorferreira@gmail.com",
     Icon: SiMinutemailer,
     title: "Email",
@@ -77,14 +76,13 @@ export default function Hero() {
         <p className="text-xl md:text-2xl font-semibold text-primary">
           Software-AI Engineer in Progress
         </p>
-
         <p className="mt-2 text-sm md:text-base max-w-md text-base-content">
           Desenvolvendo tecnologia com IA e segurança, sempre buscando
           eficiência, escalabilidade e aprimoramento contínuo.
         </p>
-
         {/* Ícones de redes sociais */}
         <div className="mt-4 flex space-x-4">
+          {/* TODO: Adicionar os icones das redes sociais em baixo do avatar de perfil em telas maiores */}
           {socialLinks.map((link, index) => (
             <SocialLink
               key={index}
@@ -95,7 +93,36 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* TODO: Adicionar os buttons Call-to-Action */}
+        {/* Buttons Call-to-Action */}
+        <div className="mt-4 flex flex-col items-center gap-4">
+          <Link
+            // TODO: Atualizar link do CV
+            href="https://docs.google.com"
+            className="btn btn-outline flex items-center gap-2 px-6"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Baixar CV">
+            <FaFileDownload className="text-lg" /> Baixar CV
+          </Link>
+
+          {/* <Link
+            href="/portfolio"
+            className="btn btn-primary flex items-center gap-2 px-6">
+            <FaBriefcase className="text-lg" /> Ver Meu Portfólio
+          </Link> */}
+
+          {/* <Link
+            href="https://wa.me/5511980805097"
+            className="btn btn-secondary flex items-center gap-2 px-6">
+            <FaEnvelope className="text-lg" /> Entre em Contato
+          </Link>
+
+          <Link
+            href="/blog"
+            className="btn btn-accent flex items-center gap-2 px-6">
+            <FaBlog className="text-lg" /> Últimos Artigos
+          </Link> */}
+        </div>
 
         {/* Quotes */}
         <div className="flex flex-col mt-4 space-y-2 max-w-xs md:max-w-3xl gap-2">
