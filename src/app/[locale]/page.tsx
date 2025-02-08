@@ -65,6 +65,7 @@ export default function Home() {
       <Hero />
 
       {/* Icon Section */}
+      {/* TODO: Componentizar esses icones de tecnologia/conhecimentos (adicionar em outro modulo) */}
       <section className="flex flex-col items-center gap-14 p-6">
         {/* Linguagens de Programação */}
         <IconContainer
@@ -160,6 +161,38 @@ export default function Home() {
             },
           ]}
         />
+      </section>
+
+      {/* Focos Atuais */}
+      <section className="flex flex-col items-center text-center p-6 bg-base-200 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-primary">Foco Atual</h2>
+        <p className="mt-2 text-base-content/80 max-w-md">
+          Estou aprimorando minhas habilidades para me tornar um{" "}
+          <strong>Engenheiro de IA</strong>, combinando desenvolvimento de
+          software, aprendizado de máquina e segurança.
+        </p>
+
+        {/* Lista de objetivos */}
+        <ul className="mt-4 space-y-2 text-base-content/90">
+          <li className="flex items-center gap-2">
+            ✅ Dominar frameworks de IA e aprendizado profundo
+          </li>
+          <li className="flex items-center gap-2">
+            ✅ Aprofundar conhecimentos em segurança e escalabilidade
+          </li>
+          <li className="flex items-center gap-2">
+            ✅ Criar projetos aplicando IA no desenvolvimento de software
+          </li>
+        </ul>
+
+        {/* Botão para Roadmap */}
+        <Link
+          href="https://roadmap.sh/ai-engineer"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 btn btn-primary flex items-center gap-2 px-6">
+          🔗 Explorar Roadmap de AI Engineer
+        </Link>
       </section>
     </>
   );
