@@ -5,6 +5,7 @@ import { FaExclamationTriangle } from "react-icons/fa";
 import { useLocale } from "next-intl";
 import Loading from "../Loading";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Character {
   name: string;
@@ -132,7 +133,7 @@ export default function CharacterCard() {
       {stormrageCharacters?.map((char: Character) => (
         <div key={char.name} className="mb-8 hover:shadow-xl transition">
           {char.render ? (
-            <a
+            <Link
               href={`${armoryUrl}/${
                 char.realm.slug
               }/${char.name.toLowerCase()}`}
@@ -146,7 +147,7 @@ export default function CharacterCard() {
                 height={300}
                 priority={true}
               />
-            </a>
+            </Link>
           ) : (
             <div className="rounded-t-lg h-20 object-cover flex items-center justify-center shadow-lg">
               <span className="text-base-content">Imagem não disponível</span>
@@ -156,7 +157,7 @@ export default function CharacterCard() {
             <h3 className="text-2xl font-bold">{char.name}</h3>
             <p className="text-lg">
               <span className="font-semibold">{char.playable_race.name}</span>{" "}
-              <a
+              <Link
                 href={`${classUrl}/${formatClassName(
                   char.playable_class.name
                 )}`}
@@ -165,7 +166,7 @@ export default function CharacterCard() {
                 <span className="font-semibold hover:underline">
                   {char.playable_class.name}
                 </span>
-              </a>{" "}
+              </Link>{" "}
             </p>
             <p className="text-sm text-primary-content">
               Level <span className="font-semibold">{char.level}</span>
