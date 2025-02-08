@@ -27,6 +27,7 @@ const socialLinks = [
   { href: "https://twitter.com/yourusername", Icon: FaXTwitter },
   { href: "mailto:dev.victorferreira@gmail.com", Icon: FaEnvelope },
   { href: "https://docs.google.com/your-cv-link", Icon: FaFileDownload },
+  // WhatsApp, Telegram, Instagram, Facebook, YouTube, Twitch, Discord, etc.
 ];
 
 export default function Hero() {
@@ -59,18 +60,25 @@ export default function Hero() {
         </div>
 
         {/* Quotes */}
-        {/* TODO: Estilizar como os quotes do HackMD */}
-
-        {/* https://kultivi.com/blog/idiomas/dez-proverbios-chineses-e-seus-significados */}
-        <blockquote className="mt-4 text-sm italic text-base-content/70 max-w-sm">
-          &quot;Não tenha medo de crescer lentamente, tenha medo de ficar
-          parado.&quot;
-        </blockquote>
-
-        {/* https://en.m.wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step */}
-        <blockquote className="mt-2 text-sm italic text-base-content/70 max-w-sm">
-          &quot;Uma jornada de mil milhas começa com um único passo.&quot;
-        </blockquote>
+        <div className="flex flex-col mt-4 space-y-2 max-w-xs md:max-w-3xl gap-2">
+          <Link
+            href="https://kultivi.com/blog/idiomas/dez-proverbios-chineses-e-seus-significados"
+            target="_blank"
+            rel="noopener noreferrer">
+            <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
+              &quot;Não tenha medo de crescer lentamente, tenha medo de ficar
+              parado.&quot;
+            </blockquote>
+          </Link>
+          <Link
+            href="https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step"
+            target="_blank"
+            rel="noopener noreferrer">
+            <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
+              &quot;Uma jornada de mil milhas começa com um único passo.&quot;
+            </blockquote>
+          </Link>
+        </div>
       </div>
     </section>
   );
