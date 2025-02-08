@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+// import Image from "next/image";
 import {
   FaGithub,
   FaLinkedin,
@@ -15,6 +16,7 @@ interface SocialLinkProps {
   Icon: React.ComponentType<{ className?: string; title?: string }>;
   title: string;
 }
+
 const SocialLink: React.FC<SocialLinkProps> = ({ href, Icon, title }) => (
   <Link href={href} target="_blank" rel="noopener noreferrer">
     <Icon
@@ -58,7 +60,13 @@ export default function Hero() {
     <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
       {/* Moldura para imagem futura */}
       <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-primary flex items-center justify-center mb-4 md:mb-0 md:mr-8">
-        {/* Substituir pelo <Image src="imagem.jpg" className="rounded-full w-full h-full" /> no futuro */}
+        {/* <Image
+          src="/photo-of-me.jpg"
+          alt="Photo"
+          className="rounded-full w-full h-full"
+          width={100}
+          height={100}
+        /> */}
       </div>
 
       {/* Conteúdo centralizado */}
