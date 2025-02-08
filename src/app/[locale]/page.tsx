@@ -21,9 +21,12 @@ import {
   SiJavascript,
   SiCss3,
   SiHtml5,
+  SiSupabase,
 } from "react-icons/si";
 import { VscVscode, VscTerminalBash } from "react-icons/vsc";
 import { IconType } from "react-icons";
+import { PiFileSql } from "react-icons/pi";
+import { GrMysql } from "react-icons/gr";
 
 export const metadata: Metadata = {
   title: "Work In Progress | v1cferr",
@@ -92,6 +95,11 @@ export default function Home() {
               title: "CSS",
               href: "https://developer.mozilla.org/docs/Web/CSS",
             },
+            {
+              icon: PiFileSql,
+              title: "SQL",
+              href: "https://www.w3schools.com/sql/",
+            },
           ]}
         />
 
@@ -118,6 +126,7 @@ export default function Home() {
               href: "https://fastapi.tiangolo.com/",
             },
             { icon: SiVite, title: "Vite", href: "https://vitejs.dev/" },
+            { icon: GrMysql, title: "MySQL", href: "https://www.mysql.com/" },
           ]}
         />
 
@@ -144,6 +153,11 @@ export default function Home() {
               href: "https://www.docker.com/",
             },
             { icon: SiSwagger, title: "Swagger", href: "https://swagger.io/" },
+            {
+              icon: SiSupabase,
+              title: "Supabase",
+              href: "https://supabase.io/",
+            },
           ]}
         />
       </section>
