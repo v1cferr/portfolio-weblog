@@ -34,7 +34,7 @@ export default function Hero() {
     <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200 text-base-content">
       {/* Nome e título */}
       <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
-        Olá, sou o Victor.
+        Oi, sou o Victor.
       </h1>
       <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary">
         Software-AI Engineer in Progress
@@ -42,8 +42,8 @@ export default function Hero() {
 
       {/* Descrição */}
       <p className="mt-2 text-sm md:text-base max-w-md text-base-content">
-        Explorando tecnologias modernas para construir soluções eficientes e
-        acessíveis de alta qualidade.
+        Desenvolvedor e entusiasta de IA e cibersegurança. Focado em criar
+        soluções performáticas, seguras e escaláveis.
       </p>
 
       {/* Ícones de redes sociais */}
@@ -55,3 +55,15 @@ export default function Hero() {
     </section>
   );
 }
+
+// ### 1️⃣ **Tech Stack & Skills**
+// - Ícones das tecnologias que domino (Next.js, TypeScript, Python, etc.).
+// - Um breve texto como *"Construindo soluções com essas tecnologias:"*.
+
+// ### 2️⃣ **Experiência & Projetos**
+// - Um pequeno destaque para principais projetos (com links).
+// - Algo como *"Alguns dos projetos que desenvolvi e contribuí:"*.
+
+// ### 3️⃣ **Resumo do Blog / Últimos Posts**
+// - Um preview dos últimos artigos/postagens sobre tecnologia e IA.
+// - Título tipo *"Últimos artigos no blog"*.
