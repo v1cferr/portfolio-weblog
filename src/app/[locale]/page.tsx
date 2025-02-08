@@ -21,10 +21,35 @@ import {
   SiJavascript,
 } from "react-icons/si";
 import { VscVscode, VscTerminalBash } from "react-icons/vsc";
+import { IconType } from "react-icons";
 
 export const metadata: Metadata = {
   title: "Work In Progress | v1cferr",
 };
+
+interface IconGroupProps {
+  icons: IconType[];
+}
+
+const IconGroup: React.FC<IconGroupProps> = ({ icons }) => (
+  <div className="flex gap-3">
+    {icons.map((Icon, index) => (
+      <Icon key={index} size={30} />
+    ))}
+  </div>
+);
+
+interface IconContainerProps {
+  title: string;
+  icons: IconType[];
+}
+
+const IconContainer: React.FC<IconContainerProps> = ({ title, icons }) => (
+  <div className="flex flex-col items-center gap-3">
+    <h2 className="text-2xl font-semibold">{title}</h2>
+    <IconGroup icons={icons} />
+  </div>
+);
 
 export default function Home() {
   return (
@@ -32,44 +57,41 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* Linguagens de Programação */}
-      <section className="flex flex-col items-center gap-6 mt-6">
-        <div className="flex flex-col items-center gap-3">
-          <h2 className="text-2xl font-semibold">Linguagens</h2>
-          <div className="flex gap-3">
-            <SiJavascript size={30} />
-            <SiTypescript size={30} />
-            <SiPython size={30} />
-          </div>
-        </div>
-      </section>
+      {/* Icon Section */}
+      <section className="flex flex-col items-center gap-14 mt-6">
+        {/* Linguagens de Programação */}
+        <IconContainer
+          title="Linguagens"
+          icons={[SiJavascript, SiTypescript, SiPython]}
+        />
 
-      {/* Tecnologias e Ferramentas */}
-      <section className="flex flex-col items-center gap-6 mt-6">
-        <div className="flex flex-col items-center gap-3">
-          <h2 className="text-2xl font-semibold">Tecnologias</h2>
-          <div className="flex gap-3">
-            <FaReact size={30} />
-            <SiNextdotjs size={30} />
-            <FaNodeJs size={30} />
-            <SiTailwindcss size={30} />
-            <SiAstro size={30} />
-            <SiFastapi size={30} />
-            <SiVite size={30} />
-          </div>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <h2 className="text-2xl font-semibold">Ferramentas</h2>
-          <div className="flex gap-3">
-            <FaGitAlt size={30} />
-            <FaGithub size={30} />
-            <SiFigma size={30} />
-            <VscVscode size={30} />
-            <VscTerminalBash size={30} />
-            <FaDocker size={30} />
-            <SiSwagger size={30} />
-          </div>
-        </div>
+        {/* Tecnologias */}
+        <IconContainer
+          title="Tecnologias"
+          icons={[
+            FaReact,
+            SiNextdotjs,
+            FaNodeJs,
+            SiTailwindcss,
+            SiAstro,
+            SiFastapi,
+            SiVite,
+          ]}
+        />
+
+        {/* Ferramentas */}
+        <IconContainer
+          title="Ferramentas"
+          icons={[
+            FaGitAlt,
+            FaGithub,
+            SiFigma,
+            VscVscode,
+            VscTerminalBash,
+            FaDocker,
+            SiSwagger,
+          ]}
+        />
       </section>
     </>
   );
