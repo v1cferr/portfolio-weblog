@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import Hero from "@/components/Homepage/Hero";
 import {
   FaReact,
@@ -18,6 +19,8 @@ import {
   SiVite,
   SiSwagger,
   SiJavascript,
+  SiCss3,
+  SiHtml5,
 } from "react-icons/si";
 import { VscVscode, VscTerminalBash } from "react-icons/vsc";
 import { IconType } from "react-icons";
@@ -27,25 +30,22 @@ export const metadata: Metadata = {
 };
 
 interface IconGroupProps {
-  icons: { icon: IconType; title: string }[];
+  icons: { icon: IconType; title: string; href: string }[];
 }
 
 const IconGroup: React.FC<IconGroupProps> = ({ icons }) => (
   <div className="flex gap-3">
-    {icons.map(({ icon: Icon, title }, index) => (
-      <Icon
-        key={index}
-        size={30}
-        title={title}
-        className="hover:text-primary"
-      />
+    {icons.map(({ icon: Icon, title, href }, index) => (
+      <Link key={index} href={href} target="_blank" rel="noopener noreferrer">
+        <Icon size={30} title={title} className="hover:text-primary" />
+      </Link>
     ))}
   </div>
 );
 
 interface IconContainerProps {
   title: string;
-  icons: { icon: IconType; title: string }[];
+  icons: { icon: IconType; title: string; href: string }[];
 }
 
 const IconContainer: React.FC<IconContainerProps> = ({ title, icons }) => (
@@ -67,9 +67,31 @@ export default function Home() {
         <IconContainer
           title="Linguagens"
           icons={[
-            { icon: SiJavascript, title: "JavaScript" },
-            { icon: SiTypescript, title: "TypeScript" },
-            { icon: SiPython, title: "Python" },
+            {
+              icon: SiJavascript,
+              title: "JavaScript",
+              href: "https://developer.mozilla.org/docs/Web/JavaScript",
+            },
+            {
+              icon: SiTypescript,
+              title: "TypeScript",
+              href: "https://www.typescriptlang.org/",
+            },
+            {
+              icon: SiPython,
+              title: "Python",
+              href: "https://www.python.org/",
+            },
+            {
+              icon: SiHtml5,
+              title: "HTML",
+              href: "https://developer.mozilla.org/docs/Web/HTML",
+            },
+            {
+              icon: SiCss3,
+              title: "CSS",
+              href: "https://developer.mozilla.org/docs/Web/CSS",
+            },
           ]}
         />
 
@@ -77,13 +99,25 @@ export default function Home() {
         <IconContainer
           title="Tecnologias"
           icons={[
-            { icon: FaReact, title: "React" },
-            { icon: SiNextdotjs, title: "Next.js" },
-            { icon: FaNodeJs, title: "Node.js" },
-            { icon: SiTailwindcss, title: "Tailwind CSS" },
-            { icon: SiAstro, title: "Astro" },
-            { icon: SiFastapi, title: "FastAPI" },
-            { icon: SiVite, title: "Vite" },
+            { icon: FaReact, title: "React", href: "https://reactjs.org/" },
+            {
+              icon: SiNextdotjs,
+              title: "Next.js",
+              href: "https://nextjs.org/",
+            },
+            { icon: FaNodeJs, title: "Node.js", href: "https://nodejs.org/" },
+            {
+              icon: SiTailwindcss,
+              title: "Tailwind CSS",
+              href: "https://tailwindcss.com/",
+            },
+            { icon: SiAstro, title: "Astro", href: "https://astro.build/" },
+            {
+              icon: SiFastapi,
+              title: "FastAPI",
+              href: "https://fastapi.tiangolo.com/",
+            },
+            { icon: SiVite, title: "Vite", href: "https://vitejs.dev/" },
           ]}
         />
 
@@ -91,13 +125,25 @@ export default function Home() {
         <IconContainer
           title="Ferramentas"
           icons={[
-            { icon: FaGitAlt, title: "Git" },
-            { icon: FaGithub, title: "GitHub" },
-            { icon: SiFigma, title: "Figma" },
-            { icon: VscVscode, title: "VS Code" },
-            { icon: VscTerminalBash, title: "Terminal" },
-            { icon: FaDocker, title: "Docker" },
-            { icon: SiSwagger, title: "Swagger" },
+            { icon: FaGitAlt, title: "Git", href: "https://git-scm.com/" },
+            { icon: FaGithub, title: "GitHub", href: "https://github.com/" },
+            { icon: SiFigma, title: "Figma", href: "https://www.figma.com/" },
+            {
+              icon: VscVscode,
+              title: "VS Code",
+              href: "https://code.visualstudio.com/",
+            },
+            {
+              icon: VscTerminalBash,
+              title: "Terminal",
+              href: "https://www.gnu.org/software/bash/",
+            },
+            {
+              icon: FaDocker,
+              title: "Docker",
+              href: "https://www.docker.com/",
+            },
+            { icon: SiSwagger, title: "Swagger", href: "https://swagger.io/" },
           ]}
         />
       </section>
