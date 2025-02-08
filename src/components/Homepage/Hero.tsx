@@ -4,10 +4,10 @@ import Link from "next/link";
 import {
   FaGithub,
   FaLinkedin,
-  FaTwitter,
   FaEnvelope,
   FaFileDownload,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 interface SocialLinkProps {
   href: string;
@@ -24,41 +24,49 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, Icon }) => (
 const socialLinks = [
   { href: "https://github.com/yourusername", Icon: FaGithub },
   { href: "https://linkedin.com/in/yourusername", Icon: FaLinkedin },
-  { href: "https://twitter.com/yourusername", Icon: FaTwitter },
+  { href: "https://twitter.com/yourusername", Icon: FaXTwitter },
   { href: "mailto:dev.victorferreira@gmail.com", Icon: FaEnvelope },
   { href: "https://docs.google.com/your-cv-link", Icon: FaFileDownload },
 ];
 
 export default function Hero() {
   return (
-    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200 text-base-content">
-      {/* Nome e título */}
-      <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
-        Oi, sou o Victor.
-      </h1>
-      <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary">
-        Software-AI Engineer in Progress
-      </p>
+    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200 text-base-content md:flex-row md:justify-center md:gap-8">
+      {/* Moldura para imagem futura */}
+      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-primary flex items-center justify-center mb-4 md:mb-0">
+        {/* Substituir pelo <Image src="imagem.jpg" className="rounded-full w-full h-full" /> no futuro */}
+      </div>
 
-      {/* Descrição */}
-      <p className="mt-2 text-sm md:text-base max-w-md text-base-content">
-        Desenvolvedor e entusiasta de IA e cibersegurança. Focado em criar
-        soluções performáticas, seguras e escaláveis.
-      </p>
+      {/* Conteúdo centralizado */}
+      <div className="flex flex-col items-center text-center">
+        <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
+          Oi, sou o Victor.
+        </h1>
+        <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary">
+          Software-AI Engineer in Progress
+        </p>
 
-      {/* Ícones de redes sociais */}
-      <div className="mt-4 flex space-x-4">
-        {socialLinks.map((link, index) => (
-          <SocialLink key={index} href={link.href} Icon={link.Icon} />
-        ))}
+        <p className="mt-2 text-sm md:text-base max-w-md text-base-content">
+          Desenvolvendo tecnologia com IA e segurança, sempre buscando
+          eficiência, escalabilidade e aprimoramento contínuo.
+        </p>
+
+        {/* Ícones de redes sociais */}
+        <div className="mt-4 flex space-x-4">
+          {socialLinks.map((link, index) => (
+            <SocialLink key={index} href={link.href} Icon={link.Icon} />
+          ))}
+        </div>
+
+        {/* Quote */}
+        <blockquote className="mt-4 text-sm italic text-base-content/70 max-w-sm">
+          &quot;Não tenha medo de crescer lentamente, tenha medo de ficar
+          parado.&quot;
+        </blockquote>
       </div>
     </section>
   );
 }
-
-// ### 1️⃣ **Tech Stack & Skills**
-// - Ícones das tecnologias que domino (Next.js, TypeScript, Python, etc.).
-// - Um breve texto como *"Construindo soluções com essas tecnologias:"*.
 
 // ### 2️⃣ **Experiência & Projetos**
 // - Um pequeno destaque para principais projetos (com links).
