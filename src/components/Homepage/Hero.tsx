@@ -4,30 +4,53 @@ import Link from "next/link";
 import {
   FaGithub,
   FaLinkedin,
-  FaEnvelope,
   FaFileDownload,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { SiMinutemailer } from "react-icons/si";
 
 interface SocialLinkProps {
   href: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: React.ComponentType<{ className?: string; title?: string }>;
+  title: string;
 }
-
-const SocialLink: React.FC<SocialLinkProps> = ({ href, Icon }) => (
+const SocialLink: React.FC<SocialLinkProps> = ({ href, Icon, title }) => (
   <Link href={href} target="_blank" rel="noopener noreferrer">
-    <Icon className="text-2xl text-base-content hover:text-primary" />
+    <Icon
+      className="text-2xl text-base-content hover:text-primary"
+      title={title}
+    />
   </Link>
 );
 
-// TODO: Adicionar o title para acessibilidade
 const socialLinks = [
-  { href: "https://github.com/yourusername", Icon: FaGithub },
-  { href: "https://linkedin.com/in/yourusername", Icon: FaLinkedin },
-  { href: "https://twitter.com/yourusername", Icon: FaXTwitter },
-  { href: "mailto:dev.victorferreira@gmail.com", Icon: FaEnvelope },
-  { href: "https://docs.google.com/your-cv-link", Icon: FaFileDownload },
-  // WhatsApp, Telegram, Instagram, Facebook, YouTube, Twitch, Discord, etc.
+  { href: "https://github.com/v1cferr", Icon: FaGithub, title: "GitHub" },
+  {
+    href: "https://linkedin.com/in/v1cferr",
+    Icon: FaLinkedin,
+    title: "LinkedIn",
+  },
+  {
+    href: "https://twitter.com/v1cferr",
+    Icon: FaXTwitter,
+    title: "X/Twitter",
+  },
+  {
+    href: "https://wa.me/5511980805097",
+    Icon: FaWhatsapp,
+    title: "WhatsApp",
+  },
+  {
+    href: "https://docs.google.com",
+    Icon: FaFileDownload,
+    title: "Download CV",
+  },
+  {
+    href: "mailto:dev.victorferreira@gmail.com",
+    Icon: SiMinutemailer,
+    title: "Email",
+  },
 ];
 
 export default function Hero() {
@@ -55,7 +78,12 @@ export default function Hero() {
         {/* Ícones de redes sociais */}
         <div className="mt-4 flex space-x-4">
           {socialLinks.map((link, index) => (
-            <SocialLink key={index} href={link.href} Icon={link.Icon} />
+            <SocialLink
+              key={index}
+              href={link.href}
+              Icon={link.Icon}
+              title={link.title}
+            />
           ))}
         </div>
 
