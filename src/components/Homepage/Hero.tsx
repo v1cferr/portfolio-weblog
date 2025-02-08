@@ -95,6 +95,8 @@ export default function Hero() {
           ))}
         </div>
 
+        {/* TODO: Adicionar os buttons Call-to-Action */}
+
         {/* Quotes */}
         <div className="flex flex-col mt-4 space-y-2 max-w-xs md:max-w-3xl gap-2">
           <Link
