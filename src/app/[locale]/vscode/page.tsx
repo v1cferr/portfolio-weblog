@@ -41,35 +41,37 @@ export default function VSCode() {
   ];
 
   return (
-    <>
+    <div className="p-12">
       <h1>{t("title")}</h1>
       <p>{t("subtitle")}</p>
 
-      <div className="overflow-x-auto p-12">
-        <table className="table w-full border-primary">
-          <thead className="text-lg font-semibold text-primary bg-base-200/50">
-            <tr>
-              {headers.map((header: string, index: number) => (
-                <th key={index}>{header}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sheetData.slice(1).map((row: string[], rowIndex: number) => (
-              <tr key={rowIndex} className="break-words hover:bg-base-200/20">
-                {row
-                  .filter(
-                    (_, colIndex: number) =>
-                      colIndex < 3 || descriptionIndexes.includes(colIndex)
-                  )
-                  .map((cell: string, colIndex: number) => (
-                    <td key={colIndex}>{cell}</td>
-                  ))}
-              </tr>
+      <table className="table w-full border-primary rounded-lg">
+        <thead className="text-lg font-semibold text-primary bg-base-200/50 rounded-t-lg">
+          <tr>
+            {headers.map((header: string, index: number) => (
+              <th key={index} className="rounded-t-lg">
+                {header}
+              </th>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+          </tr>
+        </thead>
+        <tbody className="rounded-b-lg">
+          {sheetData.slice(1).map((row: string[], rowIndex: number) => (
+            <tr key={rowIndex} className="break-words hover:bg-base-200/20">
+              {row
+                .filter(
+                  (_, colIndex: number) =>
+                    colIndex < 3 || descriptionIndexes.includes(colIndex)
+                )
+                .map((cell: string, colIndex: number) => (
+                  <td key={colIndex} className="rounded-b-lg">
+                    {cell}
+                  </td>
+                ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
