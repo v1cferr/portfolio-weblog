@@ -4,6 +4,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 
+// Link da planilha com as extensões do VSCode:
+// docs.google.com/spreadsheets/d/1CT7apH_TdLH-tlwjsT9B9-8cCPYKYkkV7GbyFVLfE0g/edit?gid=906698806#gid=906698806
+
 export default function VSCode() {
   const t = useTranslations("VSCode");
   const locale = useLocale();
