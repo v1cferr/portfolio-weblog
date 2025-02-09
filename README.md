@@ -37,7 +37,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## TODOs
 
-- [ ] Plan the hero section
 - [ ] View Transition - <https://github.com/shuding/next-view-transitions>
 - [ ] Uses `.mdx` files for blog posts - [Markdown and MDX](hhttps://nextjs.org/docs/app/building-your-application/configuring/mdx) **or:**
 - [ ] Add a CMS - [Strapi](https://strapi.io/integrations/nextjs-cms)
@@ -49,6 +48,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Weblog? (Posts, guides, tutorials, etc)
 - [ ] Add the [roadmap.sh](https://roadmap.sh) in the "conhecimento" page
 - [ ] Add a vertical reverse chronological timeline (resume-CV) using DaisyUI
+- [ ] Add a "Projects" page with the projects I've worked on (Frontendmentor, XGuardian, etc)
+- [ ] Add the data API requests to Google Spreadsheets (VSCode Extensions, WoW Addons, etc)
 
 ### SEO
 
@@ -59,6 +60,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Already Done
 
+- [x] {2025-2-9} Plan the hero section with the main information and put on Home page
 - [x] {2025-1-25} Configure the Blizzard API to get characters/profile info from World of Warcraft
   - [x] Add the `/api/blizzard/render` route to get the data render/images to each character
 - [x] {2025-1-7} Add the `SpotifyPlayer` on the button of [Drawer](https://daisyui.com/components/drawer/#drawer)

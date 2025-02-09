@@ -3,7 +3,7 @@ export const menuData = [
   {
     title: "Profissional", // Documentação da minha vida profissional
     items: [
-      { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
+      // { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
       {
         label: "Projetos",
         subItems: [
@@ -23,6 +23,7 @@ export const menuData = [
         subItems: [
           { label: "Obsidian", href: "/obsidian" }, // Como organizei meu vault
           { label: "AI & LLMs", href: "/ai-llms" }, // Como utilizo os modelos
+          { label: "VS Code", href: "/vscode" }, // Extensões, temas e configurações
         ],
       },
       { label: "Graduação", href: "/graduation" }, // Detalhes da graduação em GTI
