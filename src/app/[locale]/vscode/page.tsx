@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 
 export default function VSCode() {
   const t = useTranslations("VSCode");
@@ -34,9 +35,9 @@ export default function VSCode() {
   }, [fetchData]);
 
   const headers = [
-    t("table.id"),
+    "ID & Link", // table.idLink
     t("table.name"),
-    t("table.url"),
+    // t("table.url"),
     t(`table.description`),
   ];
 
@@ -54,12 +55,22 @@ export default function VSCode() {
             {row
               .filter(
                 (_, colIndex: number) =>
-                  colIndex < 3 || descriptionIndexes.includes(colIndex)
+                  colIndex < 2 || descriptionIndexes.includes(colIndex)
               )
               .map((cell: string, colIndex: number) => (
                 <div key={colIndex} className="mb-2">
                   <span className="font-semibold">{headers[colIndex]}: </span>
-                  {cell}
+                  {colIndex === 0 ? (
+                    <Link
+                      href={`https://marketplace.visualstudio.com/items?itemName=${cell}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-primary/80">
+                      {cell}
+                    </Link>
+                  ) : (
+                    cell
+                  )}
                 </div>
               ))}
           </div>
@@ -92,11 +103,21 @@ export default function VSCode() {
                 {row
                   .filter(
                     (_, colIndex: number) =>
-                      colIndex < 3 || descriptionIndexes.includes(colIndex)
+                      colIndex < 2 || descriptionIndexes.includes(colIndex)
                   )
                   .map((cell: string, colIndex: number) => (
                     <td key={colIndex} className="rounded-b-lg">
-                      {cell}
+                      {colIndex === 0 ? (
+                        <Link
+                          href={`https://marketplace.visualstudio.com/items?itemName=${cell}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:text-primary/80">
+                          {cell}
+                        </Link>
+                      ) : (
+                        cell
+                      )}
                     </td>
                   ))}
               </tr>
