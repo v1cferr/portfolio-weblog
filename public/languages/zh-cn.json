@@ -25,5 +25,15 @@
     "title": "魔兽世界",
     "subtitle": "我的角色、成就和我在魔兽世界中使用的插件",
     "char-title": "角色"
+  },
+  "VSCode": {
+    "title": "Visual Studio Code",
+    "subtitle": "我在这个漂亮的编辑器中使用的扩展、主题和设置",
+    "table": {
+      "id": "ID",
+      "name": "名称",
+      "description": "描述",
+      "url": "URL"
+    }
   }
 }

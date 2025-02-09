@@ -25,5 +25,15 @@
     "title": "World of Warcraft",
     "subtitle": "Meus personagens, conquistas e addons que utilizo no wowzinho",
     "char-title": "Personagens"
+  },
+  "VSCode": {
+    "title": "Visual Studio Code",
+    "subtitle": "Extensões, temas e configurações que eu uso neste belo editor",
+    "table": {
+      "id": "ID",
+      "name": "Nome",
+      "description": "Descrição",
+      "url": "URL"
+    }
   }
 }
