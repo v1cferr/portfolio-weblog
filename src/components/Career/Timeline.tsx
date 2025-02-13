@@ -72,7 +72,7 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
   return (
     <li>
       {index !== 0 && <hr />}
-      <div className="timeline-middle mx-1">
+      <div className="timeline-middle mx-2">
         <TimelineIcon />
       </div>
 
