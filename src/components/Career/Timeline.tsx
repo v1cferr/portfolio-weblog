@@ -9,6 +9,7 @@ interface TimelineItem {
 
 // TODO: Tabela no Supabase para armazenar os dados da Timeline (add minhas exps)
 const timelineData: TimelineItem[] = [
+  // TODO: Adicionar o icone/logo de cada empresa e também o link para o site
   {
     title: "Desenvolvedor de Software Júnior",
     company: "Xmart Solutions",
