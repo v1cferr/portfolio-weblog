@@ -13,31 +13,31 @@ const timelineData: TimelineItem[] = [
     title: "Desenvolvedor de Software Júnior",
     company: "Xmart Solutions",
     date: "Set 2024 - Atual",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: `Automatizei scans SAST/SCA via GitHub Actions, reduzindo configuração manual em 50%. Otimizei requisições no frontend, melhorando desempenho em 30%. Corrigi 50+ bugs e implementei novas funcionalidades. Planejamento ágil com Scrumban e JIRA.`,
   },
   {
     title: "Estagiário de Desenvolvimento",
     company: "Xmart Solutions",
     date: "Jun 2024 - Set 2024",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: `Implementei automação de processos com GitHub Actions, reduzindo tempo de deploy. Resolvi falhas críticas no frontend e backend. Participei do planejamento ágil com Scrumban e JIRA.`,
   },
   {
     title: "Suporte Técnico N2",
     company: "VIP Telecom (Giga+)",
     date: "Jul 2023 - Dez 2023",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: `Atendi clientes externos, solucionando falhas de rede, roteadores e controle de tráfego. Detectei problemas críticos e implementei planos de contingência. Monitorei e otimizei a performance da rede.`,
   },
   {
     title: "Técnico de Suporte T.I.",
     company: "Cultura Inglesa",
     date: "Set 2022 - Abr 2023",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: `Resolvi 40+ chamados/semana com 98% de satisfação. Reduzi falhas recorrentes em 20% via manutenção preventiva. Configurei 60+ máquinas para novos colaboradores. Gerenciei tickets e priorizei incidentes críticos via JIRA.`,
   },
   {
     title: "Auxiliar Administrativo",
     company: "Amcor",
     date: "Mar 2021 - Ago 2022",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: `Atualizei relatórios industriais com até 98% de precisão. Gerenciei 1.000+ arquivos, reduzindo tempo de acesso em 30%. Controlei estoque de 200+ itens, otimizando custos e garantindo disponibilidade.`,
   },
 ];
 
