@@ -1,3 +1,6 @@
+// TODO: Componentizar a parte dos icones de tecnologia/conhecimentos
+// (isso aqui tá uma bagunça)
+
 import { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/components/Homepage/Hero";
