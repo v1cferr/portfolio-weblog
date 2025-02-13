@@ -1,42 +1,43 @@
 // Based on: <https://daisyui.com/components/timeline/>
 
 interface TimelineItem {
-  year: string;
   title: string;
+  company: string;
+  date: string;
   description: string;
 }
 
 // TODO: Tabela no Supabase para armazenar os dados da Timeline (add minhas exps)
 const timelineData: TimelineItem[] = [
   {
-    year: "2015",
-    title: "Apple Watch",
-    description:
-      "The Apple Watch is a line of smartwatches produced by Apple Inc. It incorporates fitness tracking, health-oriented capabilities, and wireless telecommunication, and integrates with iOS and other Apple products and services.",
+    title: "Desenvolvedor de Software Júnior",
+    company: "Xmart Solutions",
+    date: "Set 2024 - Atual",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
-    year: "2007",
-    title: "iPhone",
-    description:
-      "iPhone is a line of smartphones produced by Apple Inc. that use Apple's own iOS mobile operating system. The first-generation iPhone was announced by then-Apple CEO Steve Jobs on January 9, 2007. Since then, Apple has annually released new iPhone models and iOS updates. As of November 1, 2018, more than 2.2 billion iPhones had been sold. As of 2022, the iPhone accounts for 15.6% of global smartphone market share.",
+    title: "Estagiário de Desenvolvimento",
+    company: "Xmart Solutions",
+    date: "Jun 2024 - Set 2024",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
-    year: "2001",
-    title: "iPod",
-    description:
-      "The iPod is a discontinued series of portable media players and multi-purpose mobile devices designed and marketed by Apple Inc. The first version was released on October 23, 2001, about 8+1⁄2 months after the Macintosh version of iTunes was released. Apple sold an estimated 450 million iPod products as of 2022. Apple discontinued the iPod product line on May 10, 2022. At over 20 years, the iPod brand is the oldest to be discontinued by Apple.",
+    title: "Suporte Técnico N2",
+    company: "VIP Telecom (Giga+)",
+    date: "Jul 2023 - Dez 2023",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
-    year: "1998",
-    title: "iMac",
-    description:
-      "iMac is a family of all-in-one Mac desktop computers designed and built by Apple Inc. It has been the primary part of Apple's consumer desktop offerings since its debut in August 1998, and has evolved through seven distinct forms.",
+    title: "Técnico de Suporte T.I.",
+    company: "Cultura Inglesa",
+    date: "Set 2022 - Abr 2023",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
   {
-    year: "1984",
-    title: "First Macintosh computer",
-    description:
-      "The Apple Macintosh—later rebranded as the Macintosh 128K—is the original Apple Macintosh personal computer. It played a pivotal role in establishing desktop publishing as a general office function. The motherboard, a 9 in (23 cm) CRT monitor, and a floppy drive were housed in a beige case with integrated carrying handle; it came with a keyboard and single-button mouse.",
+    title: "Auxiliar Administrativo",
+    company: "Amcor",
+    date: "Mar 2021 - Ago 2022",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
 ];
 
@@ -64,18 +65,20 @@ const TimelineItemComponent: React.FC<{
   return (
     <li>
       {index !== 0 && <hr />}
-      <div className="timeline-middle">
+      <div className="timeline-middle mx-1">
         <TimelineIcon />
       </div>
+
       <div
         className={`timeline-${index % 2 === 0 ? "start" : "end"} mb-10 ${
           index % 2 === 0 ? "md:text-end" : "md:mb-10"
         }`}>
-        <time className="font-mono italic">{item.year}</time>
-        <div className="text-lg font-black">{item.title}</div>
-        {item.description}
+        <div className="text-xl font-semibold text-primary">{item.title}</div>
+        <div className="text-lg font-medium">{item.company}</div>
+        <time className="text-sm italic">{item.date}</time>
+        <p className="mt-3 whitespace-pre-line">{item.description}</p>
       </div>
-      {!isLast && <hr />}
+      {!isLast && <hr className="border-gray-300 my-4" />}
     </li>
   );
 };
