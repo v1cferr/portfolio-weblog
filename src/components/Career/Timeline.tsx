@@ -1,5 +1,7 @@
 // Based on: <https://daisyui.com/components/timeline/>
 
+import { differenceInMonths, parse } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -79,6 +81,30 @@ interface TimelineItemComponentProps {
   isLast: boolean;
 }
 
+const calculateDuration = (dateRange: string): string => {
+  const [start, end] = dateRange.split(" - ");
+  const startDate = parse(start, "MMM yyyy", new Date(), { locale: ptBR });
+  const endDate =
+    end === "Atual"
+      ? new Date()
+      : parse(end, "MMM yyyy", new Date(), { locale: ptBR });
+
+  const months = differenceInMonths(endDate, startDate);
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+  const yearString = years > 0 ? `${years} ano${years > 1 ? "s" : ""}` : "";
+  const monthString =
+    remainingMonths > 0
+      ? `${remainingMonths} ${remainingMonths > 1 ? "meses" : "mês"}`
+      : "";
+
+  if (yearString && monthString) {
+    return `${yearString} e ${monthString}`;
+  }
+
+  return yearString || monthString || "menos de um mês";
+};
+
 const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
   item,
   index,
@@ -95,7 +121,9 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
         className={`timeline-${index % 2 === 0 ? "start" : "end"} mb-10 ${
           index % 2 === 0 ? "md:text-end" : "md:mb-10"
         }`}>
-        <h1 className="text-xl font-semibold text-primary">{item.title}</h1>
+        <h1 className="text-xl font-semibold text-primary mb-1.5">
+          {item.title}
+        </h1>
         <div
           className={`flex items-center ${
             index % 2 === 0 ? "md:justify-end" : ""
@@ -104,7 +132,9 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
             href={item.link}
             className="flex items-center cursor-pointer"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+            title={item.company}
+            aria-label={item.company}>
             <Image
               src={item.logo}
               alt={`${item.company} logo`}
@@ -117,8 +147,12 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
             </h2>
           </Link>
         </div>
-        <time className="text-sm italic">{item.date}</time>
-        <p className="mt-3 whitespace-pre-line">{item.description}</p>
+        <time className="text-sm italic">
+          {item.date} <span>({calculateDuration(item.date)})</span>
+        </time>
+        <p className="mt-1.5 whitespace-pre-line max-w-md">
+          {item.description}
+        </p>
       </div>
       {!isLast && <hr className="border-gray-300 my-4" />}
     </li>
