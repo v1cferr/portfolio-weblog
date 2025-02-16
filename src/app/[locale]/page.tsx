@@ -200,11 +200,11 @@ export default function Home() {
 
       {/* Computers are REALLY fast */}
       {/* https://youtu.be/cmshJmQ6o90 */}
-      <section className="flex flex-col items-center text-center p-6 bg-base-200 rounded-lg shadow-md mt-6">
+      <section className="flex flex-col items-center text-center p-6 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold text-primary mb-4">
           Computers are REALLY fast
         </h2>
-        <blockquote className="text-sm italic text-base-content/80 max-w-2xl mb-6 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
+        <blockquote className="text-sm italic text-base-content/80 max-w-2xl mb-6 border-l-4 border-primary pl-4 bg-base-200 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
           &quot;An updated version of the Fibonacci program I&apos;d written and
           shown in an earlier video; this time with changes by very clever folks
           on GitHub (Francesco146 and LizzyFleckenstein03) to take advantage of
