@@ -35,13 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# vscode
-.vscode
-
-# markdown
-DETAILS.md
-FIREBASE.md
-
 # is a cache folder which can be ignored
 .pnpm-store 
 
