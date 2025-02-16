@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import CharacterCard from "@/components/WoW/CharacterCard";
+/* eslint-disable @next/next/no-img-element */
+// import Image from "next/image";
 
 // TODO: Futuramente se for víavel, adicionar DeepL para traduzir dados enviados das APIs para suas respectivas línguas.
 // TODO: Utilizar APIs para buscar as informações dos chars, achievs e addons (PvP Stats talvez?):
@@ -89,6 +91,40 @@ export default function WorldOfWarcraft() {
           />
         </div>
       </section> */}
+
+      {/* Montarias */}
+      <section id="mounts">
+        <h2 className="text-2xl font-semibold mb-4">
+          Montarias que quero pegar
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="border rounded-lg p-4">
+            <a
+              href="https://www.wowhead.com/pt/item=210061/r%C3%A9deas-de-anurelos-guia-das-chamas"
+              target="_blank"
+              rel="noopener noreferrer">
+              <img
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_dreamowl_firemount.jpg"
+                alt="Ícone da Rédeas de Anurelos, Guia das Chamas"
+                className="w-16 h-16 mb-2"
+                width={64}
+                height={64}
+              />
+              <h3 className="text-xl font-bold">
+                Rédeas de Anurelos, Guia das Chamas
+              </h3>
+              <p className="text-lg">Montaria flamejante dos sonhos.</p>
+              <img
+                src="https://wow.zamimg.com/uploads/screenshots/normal/1150707-r%C3%A9deas-de-anurelos-guia-das-chamas.jpg"
+                alt="Imagem em alta definição da montaria Rédeas de Anurelos, Guia das Chamas"
+                className="w-full h-auto rounded-lg mt-2"
+                width={800}
+                height={450}
+              />
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
