@@ -1,41 +1,45 @@
-# This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+# Início
 
-## Getting Started
+- **Nome do projeto**: portfolio-weblog
+- **URL/Domínio**: <https://v1cferr.dev>
+  - **Registro**: Hostinger
+- **Tecnologias**:
+  - Next.js 15 (App Router + TypeScript)
+  - Tailwind CSS
+  - DaisyUI
+- **Hospedagem (PaaS)**: Vercel
+- **BaaS (Backend as a service)**: Supabase
 
-First, run the development server:
+## Estrutura do Projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```plaintext
+.
+├── .devcontainer/
+├── .github/
+├── .vscode/
+├── public/
+│   ├── languages/
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── i18n/
+│   ├── styles/
+│   ├── utils/
+│   └── middleware.ts
+├── supabase/
+├── ...
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🌐 Suporte a múltiplos idiomas
+- 🎨 Temas claros e escuros
+- 📱 Design responsivo
+- 🚀 Desempenho otimizado
+- 📊 Integração com APIs externas (Blizzard, Spotify)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## TODOs
+## Roadmap (melhorias)
 
 - [ ] View Transition - <https://github.com/shuding/next-view-transitions>
 - [ ] Uses `.mdx` files for blog posts - [Markdown and MDX](hhttps://nextjs.org/docs/app/building-your-application/configuring/mdx) **or:**
@@ -51,14 +55,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Add a "Projects" page with the projects I've worked on (Frontendmentor, XGuardian, etc)
 - [ ] Add the data API requests to Google Spreadsheets (VSCode Extensions, WoW Addons, etc)
 
-### SEO
+### SEO (rankeamento nos motores de busca)
 
 - [ ] Add a `robots.txt` file
 - [ ] Add a `sitemap.xml` file
 - [ ] Add a `humans.txt` file
 - [ ] Add a `manifest.json` file
 
-## Already Done
+## Finalizado(s)
 
 - [x] {2025-2-9} Plan the hero section with the main information and put on Home page
 - [x] {2025-1-25} Configure the Blizzard API to get characters/profile info from World of Warcraft
@@ -85,3 +89,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     - Managing Environment Variables - <https://supabase.com/docs/guides/functions/secrets>
     - Deno - <https://deno.com/> (Consegui configurar o ambiente para rodar o Deno com os types)
   - CLI (use: `pnpm supabase`)
+
+## Contato
+
+- **Email**: [dev.victorferreira@gmail.com](mailto:dev.victorferreira@gmail.com)
+- **LinkedIn**: [linkedin.com/in/victorferreira](https://www.linkedin.com/in/victorferreira)
+- **Twitter**: [twitter.com/v1cferr](https://twitter.com/v1cferr)
+
+## Licença
+
+Este projeto está licenciado sob a Licença PHL. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
