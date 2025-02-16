@@ -1,42 +1,56 @@
 // Based on: <https://daisyui.com/components/timeline/>
 
+import Image from "next/image";
+import Link from "next/link";
+
 interface TimelineItem {
   title: string;
   company: string;
   date: string;
   description: string;
+  logo: string;
+  link: string;
 }
 
-// TODO: Tabela no Supabase para armazenar os dados da Timeline (add minhas exps)
+// TODO: Tabela no Supabase para armazenar os dados da Timeline (exps)
 const timelineData: TimelineItem[] = [
-  // TODO: Adicionar o icone/logo de cada empresa e também o link para o site
   {
     title: "Desenvolvedor de Software Júnior",
     company: "Xmart Solutions",
+    logo: "/company-logos/xmart-solutions.svg",
+    link: "https://www.xmartsolutions.com.br/",
     date: "Set 2024 - Atual",
     description: `Automatizei scans SAST/SCA via GitHub Actions, reduzindo configuração manual em 50%. Otimizei requisições no frontend, melhorando desempenho em 30%. Corrigi 50+ bugs e implementei novas funcionalidades. Planejamento ágil com Scrumban e JIRA.`,
   },
   {
     title: "Estagiário de Desenvolvimento",
     company: "Xmart Solutions",
+    logo: "/company-logos/xmart-solutions.svg",
+    link: "https://www.xmartsolutions.com.br/",
     date: "Jun 2024 - Set 2024",
     description: `Implementei automação de processos com GitHub Actions, reduzindo tempo de deploy. Resolvi falhas críticas no frontend e backend. Participei do planejamento ágil com Scrumban e JIRA.`,
   },
   {
     title: "Suporte Técnico N2",
     company: "VIP Telecom (Giga+)",
+    logo: "/company-logos/vip-telecom.jpeg",
+    link: "https://www.viptelecominternet.com.br/",
     date: "Jul 2023 - Dez 2023",
     description: `Atendi clientes externos, solucionando falhas de rede, roteadores e controle de tráfego. Detectei problemas críticos e implementei planos de contingência. Monitorei e otimizei a performance da rede.`,
   },
   {
     title: "Técnico de Suporte T.I.",
     company: "Cultura Inglesa",
+    logo: "/company-logos/cultura-inglesa.webp",
+    link: "https://www.culturainglesa.com.br/",
     date: "Set 2022 - Abr 2023",
     description: `Resolvi 40+ chamados/semana com 98% de satisfação. Reduzi falhas recorrentes em 20% via manutenção preventiva. Configurei 60+ máquinas para novos colaboradores. Gerenciei tickets e priorizei incidentes críticos via JIRA.`,
   },
   {
     title: "Auxiliar Administrativo",
     company: "Amcor",
+    logo: "/company-logos/amcor.jpg",
+    link: "https://www.amcor.com/",
     date: "Mar 2021 - Ago 2022",
     description: `Atualizei relatórios industriais com até 98% de precisão. Gerenciei 1.000+ arquivos, reduzindo tempo de acesso em 30%. Controlei estoque de 200+ itens, otimizando custos e garantindo disponibilidade.`,
   },
@@ -81,8 +95,28 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
         className={`timeline-${index % 2 === 0 ? "start" : "end"} mb-10 ${
           index % 2 === 0 ? "md:text-end" : "md:mb-10"
         }`}>
-        <div className="text-xl font-semibold text-primary">{item.title}</div>
-        <div className="text-lg font-medium">{item.company}</div>
+        <h1 className="text-xl font-semibold text-primary">{item.title}</h1>
+        <div
+          className={`flex items-center ${
+            index % 2 === 0 ? "md:justify-end" : ""
+          }`}>
+          <Link
+            href={item.link}
+            className="flex items-center cursor-pointer"
+            target="_blank"
+            rel="noopener noreferrer">
+            <Image
+              src={item.logo}
+              alt={`${item.company} logo`}
+              width={100}
+              height={100}
+              className="h-6 w-6 mr-2 rounded-md"
+            />
+            <h2 className="text-lg font-medium hover:underline">
+              {item.company}
+            </h2>
+          </Link>
+        </div>
         <time className="text-sm italic">{item.date}</time>
         <p className="mt-3 whitespace-pre-line">{item.description}</p>
       </div>
