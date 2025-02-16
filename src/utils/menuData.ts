@@ -14,6 +14,7 @@ export const menuData = [
       { label: "Carreira", href: "/career" }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo" }, // Conceito e significado do logotipo
       { label: "Metas", href: "/goals" }, // Metas e objetivos profissionais (curto, médio e longo prazo)
+      { label: "Inspirações", href: "/inspirations" }, // Inspirações e referências profissionais (e.g.: pessoas, empresas, projetos, etc.)
     ],
   },
   {
