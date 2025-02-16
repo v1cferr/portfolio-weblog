@@ -7,12 +7,15 @@ export default function Goals() {
       <h1 className="text-3xl font-bold mb-6">Metas</h1>
       <h2>2025 até 2030</h2>
 
-      <Image
-        src="/profissoes-2025-2030.png"
-        alt="Metas de 2025 até 2030"
-        width={1920}
-        height={1080}
-      />
+      <div className="w-full lg:w-1/2">
+        <Image
+          src="/profissoes-2025-2030.png"
+          alt="Metas de 2025 até 2030"
+          width={1920}
+          height={1080}
+          priority={true}
+        />
+      </div>
       <p>
         Fonte:{" "}
         <Link
