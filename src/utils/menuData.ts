@@ -12,7 +12,7 @@ export const menuData = [
         ],
       },
       { label: "Carreira", href: "/career" }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
-      { label: "Logotipo", href: "/logo" }, // Concepção e significado do logotipo
+      { label: "Logotipo", href: "/logo" }, // Conceito e significado do logotipo
       { label: "Metas", href: "/goals" }, // Metas e objetivos profissionais (curto, médio e longo prazo)
     ],
   },
@@ -38,11 +38,11 @@ export const menuData = [
     title: "Pessoal", // Documentação da minha vida pessoal
     items: [
       {
-        label: "Tecnologia",
+        label: "Hardware",
         subItems: [
           // Adicionar sobre o Arch Linux e meus dotfiles? (Atualmente dualboot: Windows 11 + Arch Linux [Hyprland & Docker])
           // No setup, colocar os upgrades que pretendo fazer (e.g.: RTX 3080, Ryzen 9 5900X, 64GB RAM, etc.)
-          { label: "Meu Setup", href: "/setup" }, // Meu workstation; lugarzin do coração <3
+          { label: "Setup", href: "/setup" }, // Meu workstation; lugarzin do coração <3
           { label: "Servidor", href: "/server" }, // Ainda pretendo montar um servidor pessoal (soberania dos dados?)
         ],
       },
