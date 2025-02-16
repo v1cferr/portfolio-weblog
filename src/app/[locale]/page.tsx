@@ -197,6 +197,32 @@ export default function Home() {
           🔗 Explorar Roadmap de AI Engineer
         </Link>
       </section>
+
+      {/* Computers are REALLY fast */}
+      {/* https://youtu.be/cmshJmQ6o90 */}
+      <section className="flex flex-col items-center text-center p-6 bg-base-200 rounded-lg shadow-md mt-6">
+        <h2 className="text-3xl font-bold text-primary mb-4">
+          Computers are REALLY fast
+        </h2>
+        <blockquote className="text-sm italic text-base-content/80 max-w-2xl mb-6 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
+          &quot;An updated version of the Fibonacci program I&apos;d written and
+          shown in an earlier video; this time with changes by very clever folks
+          on GitHub (Francesco146 and LizzyFleckenstein03) to take advantage of
+          binary exponentiation. The result is absurdly fast, as we can very
+          rapidly calculate the 100 millionth Fibonacci number: a number that
+          contains roughly 20 million digits, and if printed to a file results
+          in a twenty megabyte text file.&quot;
+        </blockquote>
+        <div className="relative w-full max-w-4xl overflow-hidden rounded-lg shadow-lg">
+          <iframe
+            className="w-full h-64 md:h-96"
+            src="https://www.youtube.com/embed/cmshJmQ6o90"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </section>
     </>
   );
 }
