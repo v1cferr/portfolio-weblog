@@ -73,6 +73,7 @@ export default async function HomeLayout({
           <NextIntlClientProvider messages={messages}>
             {/* TODO: Melhorar o scrollbar e também ficar "em cima" do Header com `tailwind-scrollbar` */}
             <Header />
+            {/* TODO: Loading between routes: https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming */}
             <main className="h-full overflow-auto pt-16">{children}</main>
             {/* Descomentar para ativar o modal de WIP */}
             <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
