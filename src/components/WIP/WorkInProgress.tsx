@@ -43,6 +43,7 @@ function WorkInProgress() {
     // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
   ];
 
+  // TODO: Adicionar a opção do usuário fechar o modal clicando fora dele ou em um botão de fechar
   return (
     <>
       {/* Filtro para deixar tudo que tiver atrás desfocado */}
