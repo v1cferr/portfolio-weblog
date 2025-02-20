@@ -145,10 +145,17 @@ const components = [
       {
         name: "Fone de Ouvido",
         description: "Razer Hammerhead",
+        url: "https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x",
       },
       {
         name: "Gabinete",
         description: "Sharkoon VG6",
+        url: "https://pt.sharkoon.com/product/VG6W",
+      },
+      {
+        name: "Mouse",
+        description: "Redragon Cobra M711",
+        url: "https://www.redragon.com.br/cobra",
       },
     ],
   },
