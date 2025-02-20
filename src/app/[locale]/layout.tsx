@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import Loading from "@/components/Loading";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -74,7 +76,9 @@ export default async function HomeLayout({
             {/* TODO: Melhorar o scrollbar e também ficar "em cima" do Header com `tailwind-scrollbar` */}
             <Header />
             {/* TODO: Loading between routes: https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming */}
-            <main className="h-full overflow-auto pt-16">{children}</main>
+            <Suspense fallback={<Loading />}>
+              <main className="h-full overflow-auto pt-16">{children}</main>
+            </Suspense>
             {/* Descomentar para ativar o modal de WIP */}
             <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
               <WorkInProgress />
