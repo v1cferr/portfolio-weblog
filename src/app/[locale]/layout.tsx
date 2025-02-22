@@ -1,23 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import { NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import WorkInProgress from "@/components/WIP/WorkInProgress";
-import Header from "@/components/Header";
+import ClientLayout from "@/components/Homepage/ClientLayout";
 import "@/styles/global.css";
 
+// Configuração da fonte Inter do Google Fonts
 const inter = Inter({ subsets: ["latin"] });
 
+// Configuração do viewport
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
 
+// Metadados da página
 export const metadata: Metadata = {
   title: {
     template: "%s | v1cferr",
@@ -44,6 +42,22 @@ export const metadata: Metadata = {
   },
 };
 
+// Função para buscar dados de localização
+async function fetchLocaleData(params: Promise<{ locale: string }>) {
+  const { locale } = await params;
+
+  // Verifica se o locale está incluído nas rotas permitidas
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
+  // Busca as mensagens de localização
+  const messages = await getMessages();
+
+  return { locale, messages };
+}
+
+// Componente principal do layout da página
 export default async function HomeLayout({
   children,
   params,
@@ -51,51 +65,9 @@ export default async function HomeLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  // Busca os dados de localização
+  const localeData = await fetchLocaleData(params);
 
-  // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
-    notFound();
-  }
-
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages();
-
-  return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.className} h-screen overflow-hidden`}>
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange>
-          <NextIntlClientProvider messages={messages}>
-            {/* TODO: Melhorar o scrollbar e também ficar "em cima" do Header com `tailwind-scrollbar` */}
-            <Header />
-            {/* TODO: Loading between routes: https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming */}
-            <main className="h-full overflow-auto pt-16">{children}</main>
-            {/* Descomentar para ativar o modal de WIP */}
-            <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
-              <WorkInProgress />
-            </div>
-            <Analytics />
-            <SpeedInsights />
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+  // Renderiza o layout do cliente com os dados de localização
+  return <ClientLayout localeData={localeData}>{children}</ClientLayout>;
 }
-
-// https://oauth.battle.net/oauth/authorize
-// ?response_type=code
-// &scope=openid%20wow.profile
-// &state=MmY2YjM0NTE3ZTNhNDQ3M2JhNGQ3MDk2ZDkyZGU5MTg6dTdEUDV6RkxmdTFRem5uVHB4VFVIcGZ0eERaWHRlTjg%3D
-// &redirect_uri=https%3A%2F%2Fv1cferr.dev%2Fapi%2Fblizzard%2Ftoken
-// &client_id=b76eab86ac314f9480dfb7af5d19012a
-
-// https://develop.battle.net/access/clients/b76eab86ac314f9480dfb7af5d19012a
-// Changes made here may take up to 10 minutes to take effect.
-
-// Esqueci de colocar https e não http...
