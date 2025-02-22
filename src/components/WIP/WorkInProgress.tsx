@@ -60,7 +60,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
           <button
             onClick={onClose}
             className="text-xl font-bold hover:text-red-500 transition-colors duration-300">
-            <FaTimes size={23} />
+            <FaTimes size={25} />
           </button>
         </div>
 
