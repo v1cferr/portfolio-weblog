@@ -9,41 +9,41 @@ import Loading from "@/components/Loading";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSelector from "@/components/i18n/LanguageSelector";
 
-function WorkInProgress() {
+const socialLinks = [
+  {
+    href: "mailto:dev.victorferreira@gmail.com",
+    icon: SiMinutemailer,
+    title: "E-mail",
+  },
+  { href: "https://github.com/v1cferr", icon: FaGithub, title: "GitHub" },
+  {
+    href: "https://www.linkedin.com/in/v1cferr/",
+    icon: FaLinkedin,
+    title: "LinkedIn",
+  },
+  {
+    href: "https://twitter.com/v1cferr",
+    icon: FaXTwitter,
+    title: "X/Twitter",
+  },
+  {
+    href: "https://wa.me/5511980805097",
+    icon: FaWhatsapp,
+    title: "WhatsApp",
+  },
+  {
+    href: "https://monkeytype.com/profile/v1cferr",
+    icon: SiMonkeytype,
+    title: "MonkeyType",
+  },
+  // { href: "https://hackmd.io/@v1cferr", icon: SiHackmd, title: "HackMD" },
+  // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
+];
+
+// TODO: Adicionar a opção do usuário fechar o modal clicando fora dele ou em um botão de fechar
+function WorkInProgress({ onClose }: { onClose: () => void }) {
   const t = useTranslations("WorkInProgress");
 
-  const socialLinks = [
-    {
-      href: "mailto:dev.victorferreira@gmail.com",
-      icon: SiMinutemailer,
-      title: t("email"),
-    },
-    { href: "https://github.com/v1cferr", icon: FaGithub, title: "GitHub" },
-    {
-      href: "https://www.linkedin.com/in/v1cferr/",
-      icon: FaLinkedin,
-      title: "LinkedIn",
-    },
-    {
-      href: "https://twitter.com/v1cferr",
-      icon: FaXTwitter,
-      title: "X/Twitter",
-    },
-    {
-      href: "https://wa.me/5511980805097",
-      icon: FaWhatsapp,
-      title: "WhatsApp",
-    },
-    {
-      href: "https://monkeytype.com/profile/v1cferr",
-      icon: SiMonkeytype,
-      title: "MonkeyType",
-    },
-    // { href: "https://hackmd.io/@v1cferr", icon: SiHackmd, title: "HackMD" },
-    // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
-  ];
-
-  // TODO: Adicionar a opção do usuário fechar o modal clicando fora dele ou em um botão de fechar
   return (
     <>
       {/* Filtro para deixar tudo que tiver atrás desfocado */}
