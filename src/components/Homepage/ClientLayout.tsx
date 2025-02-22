@@ -32,7 +32,8 @@ const ClientLayout = ({
           {/* Provedor de internacionalização para gerenciar mensagens de localização */}
           <NextIntlClientProvider
             locale={localeData.locale}
-            messages={localeData.messages}>
+            messages={localeData.messages}
+            timeZone="UTC">
             {/* Componente de cabeçalho */}
             <Header />
             {/* Conteúdo principal */}
