@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { SiMonkeytype, SiMinutemailer } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
+import { FaTimes } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
@@ -52,12 +53,19 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
       {/* Modal para sinalizar WIP */}
       <main className="flex flex-col items-center justify-center shadow-xl p-5 rounded-md bg-base-100 text-base-content z-50">
         <div className="flex justify-between w-full items-center px-2 mb-10">
-          <LanguageSelector />
-          <ThemeToggle />
+          <div className="flex items-center gap-4">
+            <LanguageSelector />
+            <ThemeToggle />
+          </div>
+          <button
+            onClick={onClose}
+            className="text-xl font-bold hover:text-red-500 transition-colors duration-300">
+            <FaTimes size={23} />
+          </button>
         </div>
 
         <div>
-          <h1 className="text-lg font-semibold">{t("title")}</h1>
+          <h1 className="text-xl font-semibold">{t("title")}</h1>
           <div className="divider" />
         </div>
 
