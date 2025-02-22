@@ -95,15 +95,19 @@ export default function Hero() {
 
         {/* Buttons Call-to-Action */}
         <div className="mt-4 flex flex-col items-center gap-4">
-          <Link
+          {/* <Link
             // TODO: Atualizar link do CV
             href="https://docs.google.com"
             className="btn btn-outline flex items-center gap-2 px-6"
             target="_blank"
             rel="noopener noreferrer"
-            title="Baixar CV">
-            <FaFileDownload className="text-lg" /> Baixar CV
-          </Link>
+            title="Baixar CV"> */}
+          <button
+            className="btn btn-outline flex items-center gap-2 px-6"
+            onClick={() => window.alert("Work in progress!")}>
+            <FaFileDownload size={20} /> Baixar CV
+          </button>
+          {/* </Link> */}
 
           {/* <Link
             href="/portfolio"
