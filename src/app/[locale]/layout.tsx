@@ -1,13 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import ClientLayout from "@/components/Homepage/ClientLayout";
 import "@/styles/global.css";
-
-// Configuração da fonte Inter do Google Fonts
-const inter = Inter({ subsets: ["latin"] });
 
 // Configuração do viewport
 export const viewport: Viewport = {
