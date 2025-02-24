@@ -89,9 +89,10 @@ const components = [
         description: "Webcam Redragon Streaming Fobos, 720p | KaBuM!",
       },
       {
-        name: "Headset over-ear",
-        description: "Redragon Zeus 7.1 H510",
-        url: "https://www.redragon.com.br/zeus",
+        name: "Wireless Headset over-ear",
+        description:
+          "Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable RGB",
+        url: "https://pt.aliexpress.com/item/1005005875379717.html",
       },
       {
         name: "Fone in-ear",
@@ -113,12 +114,6 @@ const components = [
   {
     category: "Possíveis Upgrades",
     items: [
-      {
-        name: "Wireless Headset over-ear",
-        description:
-          "Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable RGB",
-        url: "https://pt.aliexpress.com/item/1005005875379717.html",
-      },
       {
         name: "Nobreak Senoidal",
         description: "ATTIV SENO 700 VA BI",
@@ -156,6 +151,13 @@ const components = [
         name: "Mouse",
         description: "Redragon Cobra M711",
         url: "https://www.redragon.com.br/cobra",
+        // date: "2021-06-01",
+        // time: "3 meses", (TODO: Fazer uma lógica para calcular o tempo)
+      },
+      {
+        name: "Headset over-ear",
+        description: "Redragon Zeus 7.1 H510",
+        url: "https://www.redragon.com.br/zeus",
       },
     ],
   },
@@ -240,6 +242,8 @@ export default function Setup() {
         </div>
       ))}
       <Stores />
+
+      {/* TODO: Adicionar fotos do setup (galeria); por data, para acompanhar a evolução */}
     </div>
   );
 }
