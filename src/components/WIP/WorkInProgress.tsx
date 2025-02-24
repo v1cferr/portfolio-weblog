@@ -41,7 +41,6 @@ const socialLinks = [
   // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
 ];
 
-// TODO: Adicionar a opção do usuário fechar o modal clicando fora dele ou em um botão de fechar
 function WorkInProgress({ onClose }: { onClose: () => void }) {
   const t = useTranslations("WorkInProgress");
 
