@@ -182,3 +182,16 @@ export const stores = [
     url: "https://www.pichau.com.br",
   },
 ];
+
+export const photos = [
+  {
+    src: "/pictures/setup/20250127.jpg",
+    alt: "Setup em 27 de Janeiro de 2025",
+    date: "Janeiro 2025",
+  },
+  {
+    src: "/pictures/setup/20230928.jpg",
+    alt: "Setup em 28 de Setembro de 2023",
+    date: "Setembro 2023",
+  },
+];

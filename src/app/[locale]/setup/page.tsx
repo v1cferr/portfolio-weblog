@@ -1,4 +1,5 @@
-import { components, stores } from "@/utils/setupData";
+import Image from "next/image";
+import { components, stores, photos } from "@/utils/setupData";
 
 function Stores() {
   return (
@@ -21,10 +22,35 @@ function Stores() {
   );
 }
 
-// TODO: Adicionar o mês-ano de aquisição (+quanto tempo até atualmente)
+function PhotoGallery() {
+  return (
+    <div className="mt-8">
+      <h2 className="text-2xl font-bold mb-4">Evolução do Setup</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {photos.map((photo, index) => (
+          <div key={index} className="relative">
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              className="rounded-lg shadow-lg"
+              width={400}
+              height={300}
+            />
+            <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2 rounded-b-lg w-full text-center">
+              {photo.date}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Setup() {
   return (
+    // TODO: Adicionar o mês-ano de aquisição (+quanto tempo até atualmente)
     <div className="container mx-auto p-4">
+      {/* Componentes */}
       {components.map((component) => (
         <div key={component.category} className="mb-8">
           <h2 className="text-2xl font-bold mb-4">{component.category}</h2>
@@ -48,9 +74,12 @@ export default function Setup() {
           </div>
         </div>
       ))}
+
+      {/* Peças compradas dessas lojas */}
       <Stores />
 
-      {/* TODO: Adicionar fotos do setup (galeria); por data, para acompanhar a evolução */}
+      {/* Evolução do Setup */}
+      <PhotoGallery />
     </div>
   );
 }
