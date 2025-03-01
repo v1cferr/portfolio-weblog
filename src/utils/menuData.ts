@@ -1,4 +1,3 @@
-// TODO: Adicionar um atributo "wip: boolean" para cada item do menuData + icon e/ou modal de WIP
 export const menuData = [
   {
     title: "Profissional", // Documentação da minha vida profissional
@@ -51,7 +50,7 @@ export const menuData = [
         label: "Jogos",
         subItems: [
           { label: "World of Warcraft", href: "/wow", wip: false }, // Addons do wowzin + outros
-          { label: "League of Legends", href: "/lol", wip: true }, // Conta e histórico (legado)
+          { label: "League of Legends", href: "/league", wip: true }, // Conta e histórico (legado)
         ],
       },
       { label: "Experiências", href: "/experiences", wip: true }, // Experiências pessoais
