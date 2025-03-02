@@ -1,3 +1,90 @@
+import { format, parse } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+interface Photo {
+  src: string;
+  alt: string;
+  date: string;
+  observation: string;
+}
+
+const rawPhotos: Omit<Photo, "alt" | "date">[] = [
+  {
+    src: "/pictures/setup/20250127.jpg",
+    observation:
+      "Troquei o Mousepad pelo da Alliance Azul bonitão (Redragon) e o gabinete pelo Sharkoon VS9 RGB Branco mesmo.",
+  },
+  {
+    src: "/pictures/setup/20240530.jpg",
+    observation:
+      "Apenas mostrando o teclado com apoio de pulso e o Wallpaper do álbum 'AM' do Arctic Monkeys. Nenhuma outra peça.",
+  },
+  {
+    src: "/pictures/setup/20231105.png",
+    observation:
+      "Tirei o gabinete e coloquei os dois monitores na mesa. Deixei o PC em cima de um apoio.",
+  },
+  {
+    src: "/pictures/setup/20230928.jpg",
+    observation:
+      "Monitor: 'LG UltraGear 27 144Hz 1ms', Teclado: 'Redragon Magic Wand Pro' e Mouse: 'Razer DeathAdder V2'. Todos novos.",
+  },
+  {
+    src: "/pictures/setup/20230417.jpg",
+    observation:
+      "Já estava com o PC montado graças a ajuda do meu pai <3 (inicio de 2022 até meio de 2023). E Comprei a cadeira 'Mymax MX5'.",
+  },
+  {
+    src: "/pictures/setup/20220308.jpg",
+    observation:
+      "Apenas a Soundbar 'Redragon Adiemus 6W RMS RGB USB 150Hz/20KHz Botão Touch' em baixo do monitor. O resto é o mesmo.",
+  },
+  {
+    src: "/pictures/setup/20211102.jpg",
+    observation:
+      "Peguei o Headset 'Redragon Zeus 7.1 H510', Monitor 'AOC 21.5\" 22B1H' e um Mousepad descente: 'Havit HV-MP830'.",
+  },
+  {
+    src: "/pictures/setup/20191209.jpeg",
+    observation:
+      "Minha irmã jogando wowzinho na época. Mesmo notebook, mesmo teclado, mesmo mouse e mesmo pad.",
+  },
+  {
+    src: "/pictures/setup/20191117.jpeg",
+    observation:
+      "Eu estudando no notebook 'Acer Aspire 3 (A315-53-32U4)' . Teclado 'Redragon Kumara K552', Mouse 'Redragon Cobra M711' e um pad genérico.",
+  },
+];
+
+function formatPhotoData(photo: Omit<Photo, "alt" | "date">): Photo {
+  const datePattern = /(\d{4})(\d{2})(\d{2})/;
+  const match = photo.src.match(datePattern);
+
+  if (!match) {
+    const errMsg = `Data não encontrada no nome do arquivo: ${photo.src}`;
+
+    console.error(errMsg);
+    return {
+      ...photo,
+      date: errMsg,
+      alt: errMsg,
+    };
+  }
+
+  const [_, year, month, day] = match;
+  const date = parse(`${year}-${month}-${day}`, "yyyy-MM-dd", new Date());
+  const formattedDate = format(date, "dd MMM yyyy", { locale: ptBR });
+  const formattedAlt = `Setup em ${format(date, "dd 'de' MMMM 'de' yyyy", {
+    locale: ptBR,
+  })}`;
+
+  return {
+    ...photo,
+    date: formattedDate,
+    alt: formattedAlt,
+  };
+}
+
 export const components = [
   {
     category: "Componentes",
@@ -63,12 +150,17 @@ export const components = [
       },
       {
         name: "Cadeira",
-        description: "Cadeira Gamer Mymax Mx5, Giratória, Preto/Vermelho",
+        description: "Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho",
       },
       {
         name: "Mouse",
         description:
           "Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis",
+      },
+      {
+        name: "Mousepad",
+        description: "Redragon World of Warcraft Aliança 300x800x3mm Azul",
+        // url: "https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul",
       },
       {
         name: "Controle Joystick",
@@ -86,7 +178,7 @@ export const components = [
         description: "Webcam Redragon Streaming Fobos, 720p | KaBuM!",
       },
       {
-        name: "Wireless Headset over-ear",
+        name: "Headset over-ear",
         description:
           "Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable RGB",
         url: "https://pt.aliexpress.com/item/1005005875379717.html",
@@ -152,6 +244,13 @@ export const components = [
         // time: "3 meses", (TODO: Fazer uma lógica para calcular o tempo)
       },
       {
+        name: "Mousepad",
+        description: "Havit HV-MP830",
+        url: "https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261",
+        // date: "2021-06-01",
+        // time: "3 meses", (TODO: Fazer uma lógica para calcular o tempo)
+      },
+      {
         name: "Headset over-ear",
         description: "Redragon Zeus 7.1 H510",
         url: "https://www.redragon.com.br/zeus",
@@ -183,19 +282,4 @@ export const stores = [
   },
 ];
 
-export const photos = [
-  {
-    src: "/pictures/setup/20250127.jpg",
-    alt: "Setup em 27 de Janeiro de 2025",
-    date: "27 Jan 2025",
-    observation:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    src: "/pictures/setup/20230928.jpg",
-    alt: "Setup em 28 de Setembro de 2023",
-    date: "28 Set 2023",
-    observation:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
+export const photos: Photo[] = rawPhotos.map(formatPhotoData);

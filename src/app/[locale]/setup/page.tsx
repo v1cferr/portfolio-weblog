@@ -26,7 +26,7 @@ function PhotoGallery() {
   return (
     <section className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Evolução do Setup</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {photos.map((photo, index) => (
           <article key={index} className="shadow-lg rounded-lg overflow-hidden">
             <div className="relative">
@@ -41,7 +41,7 @@ function PhotoGallery() {
                 {photo.date}
               </p>
             </div>
-            <div className="p-4 text-base-content">
+            <div className="p-4 text-base-content break-words">
               <p>{photo.observation}</p>
             </div>
           </article>
