@@ -12,7 +12,7 @@ function Header() {
   const menus = menuData;
 
   return (
-    <header className="navbar fixed top-0 left-0 right-0 backdrop-blur z-50">
+    <header className="navbar fixed top-0 left-0 right-0 backdrop-blur z-50 text-base-content">
       {/* Navbar da esquerda */}
       <div className="navbar-start gap-x-0.5">
         <Link href="/">
@@ -72,7 +72,7 @@ function Header() {
 
       {/* Navbar central */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal gap-x-2.5">
+        <ul className="menu menu-horizontal gap-x-7">
           {menus.map((menu, index) => (
             <DropdownMenu key={index} title={menu.title} items={menu.items} />
           ))}

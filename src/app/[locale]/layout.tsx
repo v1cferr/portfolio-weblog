@@ -3,7 +3,6 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import ClientLayout from "@/components/Homepage/ClientLayout";
-import "@/styles/global.css";
 
 // Configuração do viewport
 export const viewport: Viewport = {

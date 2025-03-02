@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import WorkInProgress from "@/components/WIP/WorkInProgress";
 import Header from "@/components/Header";
+import "@/styles/global.css";
 
 // Configuração da fonte Inter do Google Fonts
 const inter = Inter({ subsets: ["latin"] });
@@ -26,13 +27,13 @@ const ClientLayout = ({
 
   return (
     <html lang={localeData.locale} suppressHydrationWarning>
-      <body className={`${inter.className} h-screen overflow-hidden`}>
+      <body
+        className={`${inter.className} h-screen overflow-hidden theme-transition`}>
         {/* Provedor de tema para gerenciar temas claros e escuros */}
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange>
+          enableSystem={true}>
           {/* Provedor de internacionalização para gerenciar mensagens de localização */}
           <NextIntlClientProvider
             locale={localeData.locale}
