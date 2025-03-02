@@ -42,7 +42,9 @@ const ClientLayout = ({
             {/* Componente de cabeçalho */}
             <Header />
             {/* Conteúdo principal */}
-            <main className="h-full overflow-auto pt-16">{children}</main>
+            <main className="h-full overflow-y-auto pt-16 scrollbar-thin">
+              {children}
+            </main>
             {/* Componente de aviso de trabalho em progresso */}
             {isWipVisible && (
               <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
