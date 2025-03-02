@@ -28,7 +28,7 @@ const ClientLayout = ({
   return (
     <html lang={localeData.locale} suppressHydrationWarning>
       <body
-        className={`${inter.className} h-screen overflow-hidden theme-transition`}>
+        className={`${inter.className} h-screen overflow-y-auto theme-transition`}>
         {/* Provedor de tema para gerenciar temas claros e escuros */}
         <ThemeProvider
           attribute="data-theme"
@@ -41,16 +41,16 @@ const ClientLayout = ({
             timeZone="UTC">
             {/* Componente de cabeçalho */}
             <Header />
-            {/* Conteúdo principal */}
-            <main className="h-full overflow-y-auto pt-16 scrollbar-thin">
-              {children}
-            </main>
-            {/* Componente de aviso de trabalho em progresso */}
-            {isWipVisible && (
-              <div className="absolute inset-0 flex min-h-screen flex-col items-center justify-center px-4">
-                <WorkInProgress onClose={() => setIsWipVisible(false)} />
-              </div>
-            )}
+            <div className="relative">
+              {/* Conteúdo principal */}
+              <main className="h-full pt-16 scrollbar-thin">{children}</main>
+              {/* Componente de aviso de trabalho em progresso */}
+              {isWipVisible && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                  <WorkInProgress onClose={() => setIsWipVisible(false)} />
+                </div>
+              )}
+            </div>
             {/* Análises e insights de velocidade */}
             <Analytics />
             <SpeedInsights />

@@ -46,46 +46,48 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      {/* Filtro para deixar tudo que tiver atrás desfocado */}
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"></div>
+      {/* Filtro para deixar tudo que tiver atrás desfocado e impedir cliques */}
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 pointer-events-none"></div>
 
       {/* Modal para sinalizar WIP */}
-      <main className="flex flex-col items-center justify-center shadow-xl p-5 rounded-md bg-base-100 text-base-content z-50">
-        <div className="flex justify-between w-full items-center px-2 mb-10">
-          <div className="flex items-center gap-4">
-            <LanguageSelector />
-            <ThemeToggle />
+      <main className="fixed inset-0 flex items-center justify-center z-50 pointer-events-auto">
+        <div className="flex flex-col items-center justify-center shadow-xl p-5 rounded-md bg-base-100 text-base-content">
+          <div className="flex justify-between w-full items-center px-2 mb-10">
+            <div className="flex items-center gap-4">
+              <LanguageSelector />
+              <ThemeToggle />
+            </div>
+            <button
+              onClick={onClose}
+              className="text-xl font-bold hover:text-red-500 transition-colors duration-300">
+              <FaTimes size={25} />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-xl font-bold hover:text-red-500 transition-colors duration-300">
-            <FaTimes size={25} />
-          </button>
-        </div>
 
-        <div>
-          <h1 className="text-xl font-semibold">{t("title")}</h1>
+          <div>
+            <h1 className="text-xl font-semibold">{t("title")}</h1>
+            <div className="divider" />
+          </div>
+
+          <Suspense fallback={<Loading />}>
+            <SpotifyPlayer />
+          </Suspense>
+
           <div className="divider" />
-        </div>
 
-        <Suspense fallback={<Loading />}>
-          <SpotifyPlayer />
-        </Suspense>
-
-        <div className="divider" />
-
-        <div className="flex gap-5">
-          {socialLinks.map(({ href, icon: Icon, title }, index) => (
-            <Link
-              key={index}
-              href={href}
-              title={title}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-gray-600">
-              <Icon size={25} />
-            </Link>
-          ))}
+          <div className="flex gap-5">
+            {socialLinks.map(({ href, icon: Icon, title }, index) => (
+              <Link
+                key={index}
+                href={href}
+                title={title}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-600">
+                <Icon size={25} />
+              </Link>
+            ))}
+          </div>
         </div>
       </main>
     </>
