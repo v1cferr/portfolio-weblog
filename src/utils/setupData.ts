@@ -187,11 +187,15 @@ export const photos = [
   {
     src: "/pictures/setup/20250127.jpg",
     alt: "Setup em 27 de Janeiro de 2025",
-    date: "Janeiro 2025",
+    date: "27 Jan 2025",
+    observation:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     src: "/pictures/setup/20230928.jpg",
     alt: "Setup em 28 de Setembro de 2023",
-    date: "Setembro 2023",
+    date: "28 Set 2023",
+    observation:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
 ];

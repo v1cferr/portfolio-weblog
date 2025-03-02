@@ -24,25 +24,30 @@ function Stores() {
 
 function PhotoGallery() {
   return (
-    <div className="mt-8">
+    <section className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Evolução do Setup</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {photos.map((photo, index) => (
-          <div key={index} className="relative">
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              className="rounded-lg shadow-lg"
-              width={400}
-              height={300}
-            />
-            <div className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2 rounded-b-lg w-full text-center">
-              {photo.date}
+          <article key={index} className="shadow-lg rounded-lg overflow-hidden">
+            <div className="relative">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                className="rounded-t-lg w-full h-auto"
+                width={700}
+                height={700}
+              />
+              <p className="absolute bottom-0 left-0 bg-black bg-opacity-50 text-white/90 p-2 w-full text-center">
+                {photo.date}
+              </p>
             </div>
-          </div>
+            <div className="p-4 text-base-content">
+              <p>{photo.observation}</p>
+            </div>
+          </article>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -76,7 +81,7 @@ export default function Setup() {
       ))}
 
       {/* Peças compradas dessas lojas */}
-      <Stores />
+      {/* <Stores /> */}
 
       {/* Evolução do Setup */}
       <PhotoGallery />
