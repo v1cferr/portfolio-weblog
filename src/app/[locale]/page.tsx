@@ -17,7 +17,7 @@ export default function Home() {
       <TechIcons />
 
       {/* Focos Atuais */}
-      <section className="flex flex-col items-center text-center p-6 bg-base-200 rounded-lg shadow-md">
+      <section className="flex flex-col items-center text-center p-6 bg-base-200/40 rounded-lg">
         <h2 className="text-3xl font-bold text-primary">Foco Atual</h2>
         <p className="mt-2 text-base-content/80 max-w-md">
           Estou aprimorando minhas habilidades para me tornar um{" "}
@@ -50,7 +50,7 @@ export default function Home() {
 
       {/* Computers are REALLY fast */}
       {/* https://youtu.be/cmshJmQ6o90 */}
-      <section className="flex flex-col items-center text-center p-6 rounded-lg shadow-md gap-y-6">
+      <section className="flex flex-col items-center text-center p-6 rounded-lg gap-y-6">
         <h2 className="text-3xl font-bold text-primary">
           Computers are REALLY fast
         </h2>

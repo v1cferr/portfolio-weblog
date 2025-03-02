@@ -56,7 +56,7 @@ const socialLinks = [
 
 export default function Hero() {
   return (
-    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
+    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200/40 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
       {/* Moldura para imagem futura */}
       <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-primary flex items-center justify-center mb-4 md:mb-0 md:mr-8">
         {/* <Image
