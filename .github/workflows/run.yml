@@ -1,4 +1,4 @@
-# v0.0.1
+# v0.0.2
 name: XGuardian Security Scan
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
           api_email: ${{ secrets.API_EMAIL }}
           api_password: ${{ secrets.API_PASSWORD }}
           app_name: ${{ github.event.repository.name }}
+          is_development: "true"
+          team_id: "[1115]"
           sast: "true"
           get_scan_id: "true"
-          is_development: "true"
