@@ -1,0 +1,21 @@
+name: XGuardian Security Scan
+on:
+  push:
+    branches: [main]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Executar scan de segurança
+        uses: xmart-xguardian/xguardian-actions@main
+        with:
+          api_email: ${{ secrets.API_EMAIL }}
+          api_password: ${{ secrets.API_PASSWORD }}
+          app_name: ${{ github.event.repository.name }}
+          sast: "true"
+          get_scan_id: "true"
+          is_development: "true"
