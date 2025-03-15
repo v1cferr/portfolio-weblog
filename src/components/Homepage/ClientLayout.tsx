@@ -1,14 +1,16 @@
 "use client";
 
-// Importações necessárias
-import { useState } from "react";
-import { ThemeProvider } from "next-themes";
-import { Inter } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import WorkInProgress from "@/components/WIP/WorkInProgress";
+import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { ThemeProvider } from "next-themes";
+import React, { useState } from "react";
+
 import Header from "@/components/Header";
+import WorkInProgress from "@/components/WIP/WorkInProgress";
+
+import type { AbstractIntlMessages } from "next-intl";
 import "@/styles/global.css";
 
 // Configuração da fonte Inter do Google Fonts
@@ -20,13 +22,13 @@ const ClientLayout = ({
   localeData,
 }: {
   children: React.ReactNode;
-  localeData: { locale: string; messages: any };
+  localeData: { locale: string; messages: AbstractIntlMessages };
 }) => {
   // Estado para controlar a visibilidade do componente WorkInProgress
   const [isWipVisible, setIsWipVisible] = useState(true);
 
   return (
-    <html lang={localeData.locale} suppressHydrationWarning>
+    <html suppressHydrationWarning lang={localeData.locale}>
       <body
         className={`${inter.className} h-screen overflow-y-auto theme-transition`}>
         {/* Provedor de tema para gerenciar temas claros e escuros */}
@@ -51,7 +53,6 @@ const ClientLayout = ({
                 </div>
               )}
             </div>
-            {/* Análises e insights de velocidade */}
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>
