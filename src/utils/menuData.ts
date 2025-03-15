@@ -47,16 +47,23 @@ export const menuData = [
         ],
       },
       {
-        label: "Jogos",
+        label: "Games",
         subItems: [
           { label: "World of Warcraft", href: "/wow", wip: false }, // Addons do wowzin + outros
           { label: "League of Legends", href: "/league", wip: true }, // Conta e histórico (legado)
         ],
       },
-      { label: "Experiências", href: "/experiences", wip: true }, // Experiências pessoais
-      { label: "Opiniões", href: "/opinions", wip: true }, // Opiniões, críticas e pontos de vista
-      { label: "Ideologia", href: "/ideologies", wip: true }, // Ideologias (políticas), crenças e valores
-      { label: "Agradecimentos", href: "/thanks", wip: false }, // Agradecimentos e menções honrosas
+      { label: "Contexto", href: "/context", wip: false }, // Meu contexto socioeconômico e histórico
+      {
+        label: "Outros",
+        subItems: [
+          { label: "Experiências", href: "/experiences", wip: true }, // Experiências pessoais
+          { label: "Músicas", href: "/music", wip: true }, // Meu gosto musical, playlists, spotify player, etc.
+          { label: "Ideologia", href: "/ideologies", wip: true }, // Ideologias (políticas), crenças e valores
+          { label: "Opiniões", href: "/opinions", wip: true }, // Opiniões, críticas e pontos de vista
+          { label: "Agradecimentos", href: "/thanks", wip: false }, // Agradecimentos e menções honrosas
+        ],
+      },
     ],
   },
 ];
