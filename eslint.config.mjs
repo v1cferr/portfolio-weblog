@@ -1,5 +1,5 @@
 // NOTA: É necessário instalar os seguintes pacotes:
-// pnpm add -D @eslint/js @eslint/eslintrc eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser
+// pnpm add -D @eslint/js @eslint/eslintrc eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsx-a11y eslint-plugin-jsdoc
 
 // Importação de módulos necessários para a configuração do ESLint
 import { FlatCompat } from "@eslint/eslintrc";
@@ -7,6 +7,8 @@ import js from "@eslint/js";
 import reactHooks from "eslint-plugin-react-hooks";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import jsdoc from "eslint-plugin-jsdoc";
 
 // Compatibilidade para configurações antigas do ESLint
 // Permite usar extensões como 'next' e 'prettier' no formato flat config
@@ -57,6 +59,10 @@ const eslintConfig = [
   {
     // Define os tipos de arquivos aos quais aplicar estas regras
     files: ["**/*.{js,jsx,ts,tsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11y,
+      jsdoc: jsdoc,
+    },
     rules: {
       // =================================================
       // REGRAS DE TRATAMENTO DE ERROS
@@ -123,6 +129,87 @@ const eslintConfig = [
       // Força componentes sem filhos a serem auto-fechados
       // Ex: <div /> em vez de <div></div> quando não há conteúdo
       "react/self-closing-comp": "warn",
+
+      // =================================================
+      // REGRAS DE ACESSIBILIDADE
+      // =================================================
+
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/anchor-has-content": "warn",
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/aria-props": "warn",
+      "jsx-a11y/aria-role": "warn",
+      "jsx-a11y/role-has-required-aria-props": "warn",
+
+      // =================================================
+      // REGRAS ESPECÍFICAS PARA NEXT.JS
+      // =================================================
+
+      "@next/next/no-img-element": "warn",
+      "@next/next/no-html-link-for-pages": "error",
+
+      // =================================================
+      // REGRAS DE COMENTÁRIOS
+      // =================================================
+
+      "jsdoc/require-jsdoc": [
+        "warn",
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: false,
+            ClassDeclaration: true,
+            ArrowFunctionExpression: false,
+          },
+        },
+      ],
+
+      // =================================================
+      // REGRAS DE CONVENÇÕES DE NOMES
+      // =================================================
+
+      "@typescript-eslint/naming-convention": [
+        "warn",
+        {
+          selector: "interface",
+          format: ["PascalCase"],
+          prefix: ["I"],
+        },
+        {
+          selector: "typeAlias",
+          format: ["PascalCase"],
+        },
+        {
+          selector: "enum",
+          format: ["PascalCase"],
+        },
+      ],
+
+      // =================================================
+      // REGRAS DE ALIAS DE IMPORTAÇÃO
+      // =================================================
+
+      "import/no-relative-parent-imports": "warn",
+      "import/no-unresolved": "off",
+
+      // =================================================
+      // REGRAS DE PERFORMANCE
+      // =================================================
+
+      "react/no-array-index-key": "warn",
+      "react/jsx-no-useless-fragment": "warn",
+
+      // =================================================
+      // REGRAS DE DETECÇÃO DE ARQUIVOS NÃO UTILIZADOS
+      // =================================================
+
+      "import/no-unused-modules": [
+        "warn",
+        {
+          unusedExports: true,
+        },
+      ],
     },
   },
 
