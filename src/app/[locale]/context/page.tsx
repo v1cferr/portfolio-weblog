@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const BIRTH_DATE = {
@@ -149,10 +150,18 @@ export default function Context() {
       <p className="my-5 md:my-6 border-l-4 border-primary rounded-md p-3 md:p-4 italic shadow-md bg-base-200/50">
         No fim das contas, minha trajetória e visão de mundo não são apenas
         fruto de escolhas pessoais, mas também das circunstâncias sociais e
-        históricas nas quais estou inserido. Minha busca por conhecimento e
-        independência financeira está diretamente ligada a essa compreensão, e
-        acredito que o futuro depende da nossa capacidade de enxergar além do
-        imediato e construir soluções reais para os problemas que nos cercam.
+        históricas nas quais estou inserido. Minha busca por conhecimento e{" "}
+        <Link
+          aria-label="Artigo sobre independência financeira (abre em nova janela)"
+          className="text-primary/75 hover:text-primary underline underline-offset-2"
+          href="https://www.gov.br/investidor/pt-br/em-busca-da-independencia-financeira-estrategias-e-beneficios-rumo-a-liberdade-economica"
+          rel="noopener noreferrer"
+          target="_blank">
+          independência financeira
+        </Link>{" "}
+        está diretamente ligada a essa compreensão, e acredito que o futuro
+        depende da nossa capacidade de enxergar além do imediato e construir
+        soluções reais para os problemas que nos cercam.
       </p>
     </article>
   );
