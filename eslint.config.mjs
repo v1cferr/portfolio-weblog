@@ -209,12 +209,13 @@ const eslintConfig = [
       // REGRAS DE DETECÇÃO DE ARQUIVOS NÃO UTILIZADOS
       // =================================================
 
-      "import/no-unused-modules": [
-        "warn",
-        {
-          unusedExports: true,
-        },
-      ],
+      // Não faz sentido por conta do App Router do Next.js
+      // "import/no-unused-modules": [
+      //   "warn",
+      //   {
+      //     unusedExports: true,
+      //   },
+      // ],
     },
   },
 
