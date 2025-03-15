@@ -15,14 +15,14 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { SiMinutemailer } from "react-icons/si";
 
-interface SocialLinkProps {
+interface ISocialLinkProps {
   href: string;
   Icon: React.ComponentType<{ className?: string; title?: string }>;
   title: string;
 }
 
-const SocialLink: React.FC<SocialLinkProps> = ({ href, Icon, title }) => (
-  <Link href={href} target="_blank" rel="noopener noreferrer">
+const SocialLink: React.FC<ISocialLinkProps> = ({ href, Icon, title }) => (
+  <Link href={href} rel="noopener noreferrer" target="_blank">
     <Icon
       className="text-2xl text-base-content hover:text-primary"
       title={title}
@@ -54,6 +54,9 @@ const socialLinks = [
   },
 ];
 
+/**
+ *
+ */
 export default function Hero() {
   return (
     <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200/40 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
@@ -83,11 +86,11 @@ export default function Hero() {
         {/* Ícones de redes sociais */}
         <div className="mt-4 flex space-x-4">
           {/* TODO: Adicionar os icones das redes sociais em baixo do avatar de perfil em telas maiores */}
-          {socialLinks.map((link, index) => (
+          {socialLinks.map((link) => (
             <SocialLink
-              key={index}
-              href={link.href}
               Icon={link.Icon}
+              href={link.href}
+              key={link.title}
               title={link.title}
             />
           ))}
@@ -132,8 +135,8 @@ export default function Hero() {
         <div className="flex flex-col mt-4 space-y-2 max-w-xs md:max-w-3xl gap-2">
           <Link
             href="https://kultivi.com/blog/idiomas/dez-proverbios-chineses-e-seus-significados"
-            target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+            target="_blank">
             <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
               &quot;Não tenha medo de crescer lentamente, tenha medo de ficar
               parado.&quot;
@@ -141,8 +144,8 @@ export default function Hero() {
           </Link>
           <Link
             href="https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step"
-            target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+            target="_blank">
             <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
               &quot;Uma jornada de mil milhas começa com um único passo.&quot;
             </blockquote>
