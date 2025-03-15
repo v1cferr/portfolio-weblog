@@ -46,7 +46,7 @@ const ClientLayout = ({
               <main className="h-full pt-16 scrollbar-thin">{children}</main>
               {/* Componente de aviso de trabalho em progresso */}
               {isWipVisible && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="fixed inset-0 flex items-center justify-center z-50 m-5">
                   <WorkInProgress onClose={() => setIsWipVisible(false)} />
                 </div>
               )}
