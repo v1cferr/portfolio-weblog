@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { FaSpotify } from "react-icons/fa";
-import { IoMdRefresh } from "react-icons/io";
-import Image from "next/image";
+
 import Loading from "@/components/Loading";
-import { useTranslations } from "next-intl";
 
 interface CurrentlyPlaying {
   item: {
@@ -124,12 +124,12 @@ const SpotifyPlayer = () => {
       </header>
       <main className="flex gap-5 items-center p-2">
         <Image
-          className="rounded-md w-auto h-auto"
-          src={currentTrack.item.album.images[0].url}
-          alt={t("album-cover")}
-          width={75}
-          height={75}
           priority
+          alt={t("album-cover")}
+          className="rounded-md w-auto h-auto"
+          height={75}
+          src={currentTrack.item.album.images[0].url}
+          width={75}
         />
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1.5">
