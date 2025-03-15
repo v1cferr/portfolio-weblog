@@ -7,7 +7,11 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {},
-  plugins: [require("tailwind-scrollbar"), require("daisyui")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("tailwind-scrollbar"),
+    require("daisyui"),
+  ],
   daisyui: {
     // https://daisyui.com/docs/themes/
     themes: ["light", "dark"],
