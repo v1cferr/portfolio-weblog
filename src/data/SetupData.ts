@@ -1,14 +1,14 @@
 import { format, parse } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
-interface Photo {
+interface IPhoto {
   src: string;
   alt: string;
   date: string;
   observation: string;
 }
 
-const rawPhotos: Omit<Photo, "alt" | "date">[] = [
+const rawPhotos: Omit<IPhoto, "alt" | "date">[] = [
   {
     src: "/pictures/setup/20250127.jpg",
     observation:
