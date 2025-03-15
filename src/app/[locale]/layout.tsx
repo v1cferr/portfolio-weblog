@@ -1,8 +1,10 @@
-import type { Metadata, Viewport } from "next";
-import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
+
 import ClientLayout from "@/components/Homepage/ClientLayout";
+import { routing } from "@/i18n/routing";
+
+import type { Metadata, Viewport } from "next";
 
 // Configuração do viewport
 export const viewport: Viewport = {
@@ -42,6 +44,9 @@ async function fetchLocaleData(params: Promise<{ locale: string }>) {
   const { locale } = await params;
 
   // Verifica se o locale está incluído nas rotas permitidas
+
+  // Temporiariamente desabilitado
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
@@ -53,6 +58,9 @@ async function fetchLocaleData(params: Promise<{ locale: string }>) {
 }
 
 // Componente principal do layout da página
+/**
+ *
+ */
 export default async function HomeLayout({
   children,
   params,
