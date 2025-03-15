@@ -117,7 +117,7 @@ const eslintConfig = [
       "react/prop-types": "off",
 
       // Não é mais necessário importar React desde o React 17
-      "react/react-in-jsx-scope": "off",
+      // "react/react-in-jsx-scope": "off", // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
 
       // Ordena as props do JSX para melhor legibilidade
       // Ex: primeiro props curtos, depois callbacks no final
@@ -190,7 +190,7 @@ const eslintConfig = [
       // REGRAS DE ALIAS DE IMPORTAÇÃO
       // =================================================
 
-      // "import/no-relative-parent-imports": "warn",
+      // "import/no-relative-parent-imports": "warn", // Imagino que não seja necessário injeção de dependência
       "import/no-unresolved": "off",
 
       // =================================================
