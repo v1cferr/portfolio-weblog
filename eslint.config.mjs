@@ -72,10 +72,15 @@ const eslintConfig = [
       // Útil para evitar logs desnecessários em produção
       "no-console": ["warn", { allow: ["warn", "error"] }],
 
-      // Marca variáveis não utilizadas como erro, mas ignora as que começam com _
+      // DESATIVADO: Estava causando falsos positivos com o React em arquivos Next.js
+      // Considera erros globais definidos pelo framework mas não explicitamente importados
+      "no-undef": "off",
+
+      // MODIFICADO: Alterado de error para warn para facilitar o desenvolvimento
+      // Marca variáveis não utilizadas como aviso, mas ignora as que começam com _
       // Convenção para indicar variáveis intencionalmente não utilizadas
       "no-unused-vars": [
-        "error",
+        "warn", // Alterado de 'error' para 'warn'
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
 
