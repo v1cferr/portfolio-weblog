@@ -1,11 +1,25 @@
-const calculateAge = (): number => {
+"use client";
+
+import { useState, useEffect } from "react";
+
+const BIRTH_DATE = {
+  year: 2002,
+  month: 9,
+  day: 6,
+};
+
+const calculateAge = (birthDate = BIRTH_DATE): number => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
+  const currentDay = today.getDate();
 
-  let age = currentYear - 2002;
+  let age = currentYear - birthDate.year;
 
-  if (currentMonth < 9) {
+  if (
+    currentMonth < birthDate.month ||
+    (currentMonth === birthDate.month && currentDay < birthDate.day)
+  ) {
     age--;
   }
 
@@ -13,6 +27,22 @@ const calculateAge = (): number => {
 };
 
 export default function Context() {
+  const [age, setAge] = useState<number>(calculateAge());
+
+  useEffect(() => {
+    setAge(calculateAge());
+
+    const intervalId = setInterval(() => {
+      const now = new Date();
+
+      if (now.getHours() === 0 && now.getMinutes() === 0) {
+        setAge(calculateAge());
+      }
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <article className="prose prose-invert max-w-none dark:prose-invert p-6 sm:p-8 md:p-12 lg:p-14">
       <h1 className="text-2xl md:text-3xl lg:text-4xl mb-4 md:mb-6">
@@ -20,14 +50,14 @@ export default function Context() {
       </h1>
 
       <p className="my-3 md:my-4">
-        Meu nome é Victor, atualmente possuo {calculateAge()} anos e sou
-        desenvolvedor, além de estudar tecnologia, inteligência artificial e
-        geopolítica. Cresci e moro na periferia da capital paulista, em um
-        Brasil que historicamente se estruturou como um país colonial,
-        extrativista e entreguista. Nesse sistema, as riquezas naturais e
-        produtivas do país são exploradas por potências estrangeiras e elites
-        internas, enquanto a maior parte da população lida com desigualdade,
-        precarização do trabalho e instabilidade econômica.
+        Meu nome é Victor, atualmente possuo {age} anos e sou desenvolvedor,
+        além de estudar tecnologia, inteligência artificial e geopolítica.
+        Cresci e moro na periferia da capital paulista, em um Brasil que
+        historicamente se estruturou como um país colonial, extrativista e
+        entreguista. Nesse sistema, as riquezas naturais e produtivas do país
+        são exploradas por potências estrangeiras e elites internas, enquanto a
+        maior parte da população lida com desigualdade, precarização do trabalho
+        e instabilidade econômica.
       </p>
 
       <p className="my-3 md:my-4">
@@ -56,14 +86,14 @@ export default function Context() {
       </h2>
 
       <p className="my-3 md:my-4">
-        A verdade é que dificilmente alguém começa do "zero". Quem diz isso
-        geralmente já tem uma base familiar e/ou patrimonial estruturada. Já
-        possui uma família que forneceu o pilar para seu desenvolvimento, seja
-        um carro, uma casa, um computador ou um celular bom. Para quem cresce na
-        periferia, a realidade é diferente. No máximo, se tem um celular
-        intermediário para baixo e poucas chances reais de estudo. Ter um
-        celular não significa ter acesso a uma educação de qualidade. O ensino
-        público muitas vezes não prepara para o mercado de trabalho, e as
+        A verdade é que dificilmente alguém começa do &quot;zero&quot;. Quem diz
+        isso geralmente já tem uma base familiar e/ou patrimonial estruturada.
+        Já possui uma família que forneceu o pilar para seu desenvolvimento,
+        seja um carro, uma casa, um computador ou um celular bom. Para quem
+        cresce na periferia, a realidade é diferente. No máximo, se tem um
+        celular intermediário para baixo e poucas chances reais de estudo. Ter
+        um celular não significa ter acesso a uma educação de qualidade. O
+        ensino público muitas vezes não prepara para o mercado de trabalho, e as
         barreiras vão além do acesso à internet. É como jogar no modo Hard,
         enquanto quem tem uma base familiar sólida joga no Easy — cada um com
         seus obstáculos, mas partindo de contextos completamente distintos.
