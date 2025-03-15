@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-// import Image from "next/image";
 import {
   FaGithub,
   FaLinkedin,
@@ -60,15 +60,15 @@ const socialLinks = [
 export default function Hero() {
   return (
     <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200/40 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
-      {/* Moldura para imagem futura */}
       <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-primary flex items-center justify-center mb-4 md:mb-0 md:mr-8">
-        {/* <Image
-          src="/photo-of-me.jpg"
-          alt="Photo"
+        <Image
+          priority
+          alt="v1cferr photo"
           className="rounded-full w-full h-full"
-          width={100}
-          height={100}
-        /> */}
+          height={2312}
+          src="/pictures/20240926085333.jpg"
+          width={2312}
+        />
       </div>
 
       {/* Conteúdo centralizado */}
