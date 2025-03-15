@@ -56,7 +56,7 @@ const rawPhotos: Omit<IPhoto, "alt" | "date">[] = [
   },
 ];
 
-function formatPhotoData(photo: Omit<Photo, "alt" | "date">): Photo {
+function formatPhotoData(photo: Omit<IPhoto, "alt" | "date">): IPhoto {
   const datePattern = /(\d{4})(\d{2})(\d{2})/;
   const match = photo.src.match(datePattern);
 
@@ -282,4 +282,4 @@ export const stores = [
   },
 ];
 
-export const photos: Photo[] = rawPhotos.map(formatPhotoData);
+export const photos: IPhoto[] = rawPhotos.map(formatPhotoData);
