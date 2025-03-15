@@ -43,6 +43,7 @@ const ClientLayout = ({
             timeZone="UTC">
             {/* Componente de cabeçalho */}
             <Header />
+            {/* TODO: Tirar essa div com relative daqui (acaba com o SEO) */}
             <div className="relative">
               {/* Conteúdo principal */}
               <main className="h-full pt-16 scrollbar-thin">{children}</main>
