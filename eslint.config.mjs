@@ -202,7 +202,7 @@ const eslintConfig = [
       // REGRAS DE PERFORMANCE
       // =================================================
 
-      "react/no-array-index-key": "warn",
+      // "react/no-array-index-key": "warn", // Pesquisar porquê não usar índices como chaves (?)
       "react/jsx-no-useless-fragment": "warn",
 
       // =================================================
