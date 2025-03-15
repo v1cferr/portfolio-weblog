@@ -2,90 +2,77 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaFileDownload,
-  FaWhatsapp,
-  // FaBriefcase,
-  // FaDownload,
-  // FaEnvelope,
-  // FaBlog,
-} from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { SiMinutemailer } from "react-icons/si";
+import { FaBriefcase, FaLaptopCode } from "react-icons/fa";
 
-interface ISocialLinkProps {
-  href: string;
-  Icon: React.ComponentType<{ className?: string; title?: string }>;
-  title: string;
-}
+import { socialLinks, quotes } from "@/data/HeroData";
+
+import type { ISocialLinkProps, IQuoteCardProps } from "@/data/HeroData";
 
 const SocialLink: React.FC<ISocialLinkProps> = ({ href, Icon, title }) => (
-  <Link href={href} rel="noopener noreferrer" target="_blank">
-    <Icon
-      className="text-2xl text-base-content hover:text-primary"
-      title={title}
-    />
+  <Link
+    aria-label={title}
+    className="text-base-content/70 hover:text-primary p-2 rounded-full hover:bg-base-200 transition-all duration-300"
+    href={href}
+    rel="noopener noreferrer"
+    target="_blank">
+    <Icon className="text-2xl" title={title} />
   </Link>
 );
 
-const socialLinks = [
-  { href: "https://github.com/v1cferr", Icon: FaGithub, title: "GitHub" },
-  {
-    href: "https://linkedin.com/in/v1cferr",
-    Icon: FaLinkedin,
-    title: "LinkedIn",
-  },
-  {
-    href: "https://twitter.com/v1cferr",
-    Icon: FaXTwitter,
-    title: "X/Twitter",
-  },
-  {
-    href: "https://wa.me/5511980805097",
-    Icon: FaWhatsapp,
-    title: "WhatsApp",
-  },
-  {
-    href: "mailto:dev.victorferreira@gmail.com",
-    Icon: SiMinutemailer,
-    title: "Email",
-  },
-];
+const QuoteCard: React.FC<IQuoteCardProps> = ({ quote, source, href }) => (
+  <Link className="group" href={href} rel="noopener noreferrer" target="_blank">
+    <div className="relative overflow-hidden rounded-lg border border-base-300 hover:border-primary transition-colors duration-300">
+      <div className="absolute top-0 left-0 w-1 h-0 bg-gradient-to-b from-primary to-secondary group-hover:h-full transition-all duration-500" />
+      <blockquote className="text-sm italic text-base-content/80 p-4 bg-base-100/50 hover:bg-base-100 transition-colors">
+        &quot;{quote}&quot;
+        <footer className="text-primary text-xs mt-2 flex items-center">
+          <div className="w-4 h-0.5 bg-primary mr-2" />
+          {source}
+        </footer>
+      </blockquote>
+    </div>
+  </Link>
+);
 
 /**
  *
  */
 export default function Hero() {
   return (
-    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200/40 text-base-content md:flex-row md:justify-center md:items-start md:gap-8">
-      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-primary flex items-center justify-center mb-4 md:mb-0 md:mr-8">
-        <Image
-          priority
-          alt="v1cferr photo"
-          className="rounded-full w-full h-full"
-          height={2312}
-          src="/pictures/20240926085333.jpg"
-          width={2312}
-        />
+    <section className="flex flex-col items-center text-center px-6 py-16 bg-base-200/40 text-base-content md:flex-row md:justify-center md:items-start md:gap-12 max-w-7xl mx-auto">
+      {/* Profile Picture with glow effect */}
+      <div className="relative group">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full opacity-60 blur-sm group-hover:opacity-100 transition duration-1000" />
+        <div className="w-28 h-28 md:w-36 md:h-36 relative rounded-full overflow-hidden border-2 border-base-300 flex-shrink-0 z-10 group-hover:scale-105 transition-transform duration-500">
+          <Image
+            fill
+            priority
+            alt="v1cferr photo"
+            className="rounded-full object-cover"
+            sizes="(max-width: 768px) 100vw, (min-width: 768px) 50vw"
+            src="/pictures/20240926085333.jpg"
+          />
+        </div>
       </div>
 
       {/* Conteúdo centralizado */}
-      <div className="flex flex-col items-center text-center md:items-start md:text-left gap-y-2">
-        <h1 className="text-3xl font-bold sm:text-3xl md:text-4xl">
-          Oi, sou o Victor.
-        </h1>
-        <p className="text-xl md:text-2xl font-semibold text-primary">
-          Software-AI Engineer in Progress
-        </p>
-        <p className="mt-2 text-sm md:text-base max-w-md text-base-content">
+      <div className="flex flex-col items-center text-center md:items-start md:text-left gap-y-4 flex-1 mt-6 md:mt-0">
+        <div>
+          <h1 className="text-3xl font-bold sm:text-3xl md:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-base-content to-base-content/80">
+            Oi, sou o Victor.
+          </h1>
+          <p className="text-xl md:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-focus mt-1">
+            Software-AI Engineer in Progress
+          </p>
+        </div>
+
+        <p className="text-sm md:text-base max-w-md text-base-content/80 leading-relaxed">
           Desenvolvendo tecnologia com IA e segurança, sempre buscando
           eficiência, escalabilidade e aprimoramento contínuo.
         </p>
+
         {/* Ícones de redes sociais */}
-        <div className="mt-4 flex space-x-4">
-          {/* TODO: Adicionar os icones das redes sociais em baixo do avatar de perfil em telas maiores */}
+        <div className="mt-2 flex space-x-2 justify-center md:justify-start">
           {socialLinks.map((link) => (
             <SocialLink
               Icon={link.Icon}
@@ -97,69 +84,32 @@ export default function Hero() {
         </div>
 
         {/* Buttons Call-to-Action */}
-        <div className="mt-4 flex flex-col items-center gap-4">
-          {/* <Link
-            // TODO: Atualizar link do CV
-            href="https://docs.google.com"
-            className="btn btn-outline flex items-center gap-2 px-6"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Baixar CV"> */}
-          <button
-            className="btn btn-outline flex items-center gap-2 px-6"
-            onClick={() => window.alert("Work in progress!")}>
-            <FaFileDownload size={20} /> Baixar CV
-          </button>
-          {/* </Link> */}
-
-          {/* <Link
-            href="/portfolio"
-            className="btn btn-primary flex items-center gap-2 px-6">
-            <FaBriefcase className="text-lg" /> Ver Meu Portfólio
-          </Link> */}
-
-          {/* <Link
-            href="https://wa.me/5511980805097"
-            className="btn btn-secondary flex items-center gap-2 px-6">
-            <FaEnvelope className="text-lg" /> Entre em Contato
+        <div className="mt-4 flex flex-wrap gap-4 justify-center md:justify-start">
+          <Link
+            className="btn btn-primary flex items-center gap-2 px-6 shadow-md hover:shadow-lg transition-shadow"
+            href="/portfolio">
+            <FaBriefcase className="text-lg" /> Ver Projetos
           </Link>
 
           <Link
-            href="/blog"
-            className="btn btn-accent flex items-center gap-2 px-6">
-            <FaBlog className="text-lg" /> Últimos Artigos
-          </Link> */}
+            className="btn btn-outline border-primary/70 hover:border-primary flex items-center gap-2 px-6"
+            href="/tech-stack">
+            <FaLaptopCode className="text-lg" /> Tecnologias
+          </Link>
         </div>
 
-        {/* Quotes */}
-        <div className="flex flex-col mt-4 space-y-2 max-w-xs md:max-w-3xl gap-2">
-          <Link
-            href="https://kultivi.com/blog/idiomas/dez-proverbios-chineses-e-seus-significados"
-            rel="noopener noreferrer"
-            target="_blank">
-            <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
-              &quot;Não tenha medo de crescer lentamente, tenha medo de ficar
-              parado.&quot;
-            </blockquote>
-          </Link>
-          <Link
-            href="https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step"
-            rel="noopener noreferrer"
-            target="_blank">
-            <blockquote className="text-sm italic text-base-content/70 border-l-4 border-primary pl-4 bg-base-100 p-4 rounded-md shadow-md hover:underline hover:cursor-pointer text-left">
-              &quot;Uma jornada de mil milhas começa com um único passo.&quot;
-            </blockquote>
-          </Link>
+        {/* Quotes com design melhorado e componentizado */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 w-full">
+          {quotes.map((quote) => (
+            <QuoteCard
+              href={quote.href}
+              key={quote.id}
+              quote={quote.quote}
+              source={quote.source}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-// ### 2️⃣ **Experiência & Projetos**
-// - Um pequeno destaque para principais projetos (com links).
-// - Algo como *"Alguns dos projetos que desenvolvi e contribuí:"*.
-
-// ### 3️⃣ **Resumo do Blog / Últimos Posts**
-// - Um preview dos últimos artigos/postagens sobre tecnologia e IA.
-// - Título tipo *"Últimos artigos no blog"*.
