@@ -20,18 +20,23 @@ const SocialLink: React.FC<ISocialLinkProps> = ({ href, Icon, title }) => (
 );
 
 const QuoteCard: React.FC<IQuoteCardProps> = ({ quote, source, href }) => (
-  <Link className="group" href={href} rel="noopener noreferrer" target="_blank">
-    <div className="relative overflow-hidden rounded-lg border border-base-300 hover:border-primary transition-colors duration-300">
-      <div className="absolute top-0 left-0 w-1 h-0 bg-gradient-to-b from-primary to-secondary group-hover:h-full transition-all duration-500" />
-      <blockquote className="text-sm italic text-base-content/80 p-4 bg-base-100/50 hover:bg-base-100 transition-colors">
-        &quot;{quote}&quot;
-        <footer className="text-primary text-xs mt-2 flex items-center">
-          <div className="w-4 h-0.5 bg-primary mr-2" />
+  <div className="group relative overflow-hidden rounded-lg border border-base-300 hover:border-primary transition-colors duration-300">
+    <div className="absolute top-0 left-0 w-1 h-0 bg-gradient-to-b from-primary to-secondary group-hover:h-full transition-all duration-500" />
+    <blockquote className="text-sm italic text-base-content/80 p-4 bg-base-100/50 hover:bg-base-100 transition-colors">
+      &quot;{quote}&quot;
+      <footer className="text-primary text-xs mt-2 flex items-center">
+        <div className="w-4 h-0.5 bg-primary mr-2" />
+        <Link
+          className="group/link relative inline-block hover:text-primary transition-colors duration-300 pr-0.5"
+          href={href}
+          rel="noopener noreferrer"
+          target="_blank">
           {source}
-        </footer>
-      </blockquote>
-    </div>
-  </Link>
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover/link:w-full transition-all duration-300 ease-out" />
+        </Link>
+      </footer>
+    </blockquote>
+  </div>
 );
 
 /**
@@ -92,7 +97,7 @@ export default function Hero() {
           </Link>
 
           <Link
-            className="btn btn-outline border-primary/70 hover:border-primary flex items-center gap-2 px-6"
+            className="btn btn-outline border-primary/70 flex items-center gap-2 px-6"
             href="/tech-stack">
             <FaLaptopCode className="text-lg" /> Tecnologias
           </Link>
