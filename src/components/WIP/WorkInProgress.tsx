@@ -1,14 +1,14 @@
-import { Suspense } from "react";
-import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { SiMonkeytype, SiMinutemailer } from "react-icons/si";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaTimes } from "react-icons/fa";
-import { useTranslations } from "next-intl";
 import Link from "next/link";
-import SpotifyPlayer from "@/components/SpotifyPlayer";
-import Loading from "@/components/Loading";
-import ThemeToggle from "@/components/ThemeToggle";
+import { useTranslations } from "next-intl";
+import { Suspense } from "react";
+import { FaGithub, FaLinkedin, FaWhatsapp, FaTimes } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { SiMonkeytype, SiMinutemailer } from "react-icons/si";
+
 import LanguageSelector from "@/components/i18n/LanguageSelector";
+import Loading from "@/components/Loading";
+import SpotifyPlayer from "@/components/SpotifyPlayer";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const socialLinks = [
   {
@@ -41,13 +41,16 @@ const socialLinks = [
   // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
 ];
 
+/**
+ *
+ */
 function WorkInProgress({ onClose }: { onClose: () => void }) {
   const t = useTranslations("WorkInProgress");
 
   return (
     <>
       {/* Filtro para deixar tudo que tiver atrás desfocado e impedir cliques */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 pointer-events-none"></div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 pointer-events-none" />
 
       {/* Modal para sinalizar WIP */}
       <main className="fixed inset-0 flex items-center justify-center z-50 pointer-events-auto">
@@ -58,8 +61,8 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               <ThemeToggle />
             </div>
             <button
-              onClick={onClose}
-              className="text-xl font-bold hover:text-red-500 transition-colors duration-300">
+              className="text-xl font-bold hover:text-red-500 transition-colors duration-300"
+              onClick={onClose}>
               <FaTimes size={25} />
             </button>
           </div>
@@ -76,14 +79,14 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
           <div className="divider" />
 
           <div className="flex gap-5">
-            {socialLinks.map(({ href, icon: Icon, title }, index) => (
+            {socialLinks.map(({ href, icon: Icon, title }) => (
               <Link
-                key={index}
+                className="hover:text-gray-600"
                 href={href}
-                title={title}
-                target="_blank"
+                key={title}
                 rel="noopener noreferrer"
-                className="hover:text-gray-600">
+                target="_blank"
+                title={title}>
                 <Icon size={25} />
               </Link>
             ))}

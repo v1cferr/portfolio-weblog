@@ -190,7 +190,7 @@ const eslintConfig = [
       // REGRAS DE ALIAS DE IMPORTAÇÃO
       // =================================================
 
-      "import/no-relative-parent-imports": "warn",
+      // "import/no-relative-parent-imports": "warn",
       "import/no-unresolved": "off",
 
       // =================================================
