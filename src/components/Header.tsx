@@ -1,13 +1,17 @@
 "use client";
 
-import Logo from "../../public/v1cferr-logo.svg";
-import LanguageSelector from "@/components/i18n/LanguageSelector";
-import ThemeToggle from "@/components/ThemeToggle";
-import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { DropdownMenu } from "@/components/Header/DropdownMenu";
+import LanguageSelector from "@/components/i18n/LanguageSelector";
+import SpotifyPlayer from "@/components/SpotifyPlayer";
+import ThemeToggle from "@/components/ThemeToggle";
+import { menuData } from "@/data/MenuData";
 import { Link } from "@/i18n/routing";
-import { menuData } from "@/utils/menuData";
 
+import Logo from "../../public/v1cferr-logo.svg";
+
+/**
+ *
+ */
 function Header() {
   const menus = menuData;
 
@@ -21,23 +25,23 @@ function Header() {
 
         {/* Drawer para navegação em telas menores */}
         <div className="drawer">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+          <input className="drawer-toggle" id="my-drawer" type="checkbox" />
           <div className="drawer-content">
             {/* Botão para abrir o drawer */}
             <label
-              htmlFor="my-drawer"
-              className="btn btn-sm btn-ghost lg:hidden">
+              className="btn btn-sm btn-ghost lg:hidden"
+              htmlFor="my-drawer">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
                 fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                xmlns="http://www.w3.org/2000/svg">
                 <path
+                  d="M4 6h16M4 12h8m-8 6h16"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
             </label>
@@ -46,17 +50,17 @@ function Header() {
           {/* Container do drawer quando está ativo */}
           <div className="drawer-side">
             <label
-              htmlFor="my-drawer"
               aria-label="close sidebar"
               className="drawer-overlay"
+              htmlFor="my-drawer"
             />
             <div className="flex flex-col min-h-full w-auto max-w-xs bg-base-200 p-4 rounded-r-box">
               <ul className="menu flex-grow w-auto">
                 {menus.map((menu, index) => (
                   <DropdownMenu
+                    items={menu.items}
                     key={index}
                     title={menu.title}
-                    items={menu.items}
                   />
                 ))}
               </ul>
@@ -74,7 +78,7 @@ function Header() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-x-7">
           {menus.map((menu, index) => (
-            <DropdownMenu key={index} title={menu.title} items={menu.items} />
+            <DropdownMenu items={menu.items} key={index} title={menu.title} />
           ))}
         </ul>
       </div>
