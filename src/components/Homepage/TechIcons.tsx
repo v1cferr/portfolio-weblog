@@ -1,8 +1,4 @@
 import Link from "next/link";
-import { VscVscode, VscTerminalBash } from "react-icons/vsc";
-import { PiFileSql } from "react-icons/pi";
-import { GrMysql } from "react-icons/gr";
-import { IconType } from "react-icons";
 import {
   FaReact,
   FaNodeJs,
@@ -10,6 +6,8 @@ import {
   FaGithub,
   FaDocker,
 } from "react-icons/fa";
+import { GrMysql } from "react-icons/gr";
+import { PiFileSql } from "react-icons/pi";
 import {
   SiTypescript,
   SiNextdotjs,
@@ -25,39 +23,44 @@ import {
   SiHtml5,
   SiSupabase,
 } from "react-icons/si";
+import { VscVscode, VscTerminalBash } from "react-icons/vsc";
 
-interface IconGroupProps {
+import type { IconType } from "react-icons";
+
+interface IIconGroupProps {
   icons: { icon: IconType; title: string; href: string }[];
 }
 
-const IconGroup: React.FC<IconGroupProps> = ({ icons }) => (
+const IconGroup: React.FC<IIconGroupProps> = ({ icons }) => (
   <div className="flex gap-3">
     {icons.map(({ icon: Icon, title, href }, index) => (
-      <Link key={index} href={href} target="_blank" rel="noopener noreferrer">
-        <Icon size={30} title={title} className="hover:text-primary" />
+      <Link href={href} key={index} rel="noopener noreferrer" target="_blank">
+        <Icon className="hover:text-primary" size={30} title={title} />
       </Link>
     ))}
   </div>
 );
 
-interface IconContainerProps {
+interface IIconContainerProps {
   title: string;
   icons: { icon: IconType; title: string; href: string }[];
 }
 
-const IconContainer: React.FC<IconContainerProps> = ({ title, icons }) => (
+const IconContainer: React.FC<IIconContainerProps> = ({ title, icons }) => (
   <div className="flex flex-col items-center gap-4">
     <h2 className="text-2xl font-semibold">{title}</h2>
     <IconGroup icons={icons} />
   </div>
 );
 
+/**
+ *
+ */
 export default function TechIcons() {
   return (
     <section className="flex flex-col items-center gap-14 p-6">
       {/* Linguagens de Programação */}
       <IconContainer
-        title="Linguagens"
         icons={[
           {
             icon: SiJavascript,
@@ -90,11 +93,11 @@ export default function TechIcons() {
             href: "https://www.w3schools.com/sql/",
           },
         ]}
+        title="Linguagens"
       />
 
       {/* Tecnologias */}
       <IconContainer
-        title="Tecnologias"
         icons={[
           { icon: FaReact, title: "React", href: "https://reactjs.org/" },
           {
@@ -117,11 +120,11 @@ export default function TechIcons() {
           { icon: SiVite, title: "Vite", href: "https://vitejs.dev/" },
           { icon: GrMysql, title: "MySQL", href: "https://www.mysql.com/" },
         ]}
+        title="Tecnologias"
       />
 
       {/* Ferramentas */}
       <IconContainer
-        title="Ferramentas"
         icons={[
           { icon: FaGitAlt, title: "Git", href: "https://git-scm.com/" },
           { icon: FaGithub, title: "GitHub", href: "https://github.com/" },
@@ -148,6 +151,7 @@ export default function TechIcons() {
             href: "https://supabase.io/",
           },
         ]}
+        title="Ferramentas"
       />
     </section>
   );
