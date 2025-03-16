@@ -44,8 +44,9 @@ interface ICategoryData {
 
 export const categories: ICategoryData[] = [
   {
-    title: "Linguagens",
-    description: "Linguagens que utilizo no desenvolvimento e documentação",
+    title: "Linguagens & Etcetera",
+    description:
+      "Conjunto de linguagens de programação, marcação e notação que utilizo para desenvolvimento e documentação",
     items: [
       {
         icon: SiJavascript,
@@ -98,8 +99,9 @@ export const categories: ICategoryData[] = [
     ],
   },
   {
-    title: "Tecnologias",
-    description: "Frameworks e bibliotecas que uso para criar aplicações",
+    title: "Frameworks & Tecnologias",
+    description:
+      "Stack principal de frameworks, bibliotecas e bancos de dados que utilizo para construir aplicações modernas",
     items: [
       {
         icon: FaReact,
@@ -158,8 +160,9 @@ export const categories: ICategoryData[] = [
     ],
   },
   {
-    title: "Ferramentas",
-    description: "Ferramentas que utilizo no meu fluxo de trabalho",
+    title: "Ferramentas & DevOps",
+    description:
+      "Conjunto de ferramentas essenciais para aumentar produtividade, colaboração e manter a qualidade do código",
     items: [
       {
         icon: FaGitAlt,
