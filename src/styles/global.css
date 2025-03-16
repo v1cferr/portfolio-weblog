@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 .theme-transition {
   transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+[id] {
+  scroll-margin-top: 5rem;
 }

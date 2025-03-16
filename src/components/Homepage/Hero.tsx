@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 import { FaBriefcase, FaLaptopCode } from "react-icons/fa";
 
 import { socialLinks, quotes } from "@/data/HeroData";
@@ -49,6 +50,8 @@ const QuoteCard: React.FC<IQuoteCardProps> = ({ quote, source, href }) => (
  * Hero component for the homepage
  */
 export default function Hero() {
+  const locale = useLocale();
+
   return (
     <section
       aria-label="About Victor"
@@ -108,14 +111,14 @@ export default function Hero() {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 className="btn btn-primary flex items-center gap-2 px-6 shadow-md hover:shadow-lg transition-shadow"
-                href="/portfolio">
+                href={`${locale}/projects`}>
                 <FaBriefcase aria-hidden="true" className="text-lg" />
                 <span>Ver Projetos</span>
               </Link>
 
               <Link
                 className="btn btn-outline border-primary/70 flex items-center gap-2 px-6"
-                href="/tech-stack">
+                href={`${locale}/#tech-stack`}>
                 <FaLaptopCode aria-hidden="true" className="text-lg" />
                 <span>Tecnologias</span>
               </Link>

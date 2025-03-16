@@ -3,13 +3,8 @@ export const menuData = [
     title: "Profissional", // Documentação da minha vida profissional
     items: [
       // { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
-      {
-        label: "Projetos",
-        subItems: [
-          { label: "Portfolio", href: "/portfolio", wip: true }, // O porquê e a construção do portfolio-weblog
-          { label: "Linha do Tempo", href: "/timeline", wip: true }, // Linha do tempo de projetos (ordem cronológica inversa)
-        ],
-      },
+      // Incluir minha contribuição no XGuardian apesar de não ser um projeto open-source?
+      { label: "Projetos", href: "/projects", wip: true }, // Projetos pessoais e profissionais (ordem cronológica inversa)
       { label: "Carreira", href: "/career", wip: false }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo", wip: true }, // Conceito e significado do logotipo
       { label: "Metas", href: "/goals", wip: false }, // Metas e objetivos profissionais (curto, médio e longo prazo)
@@ -43,7 +38,7 @@ export const menuData = [
           // Adicionar sobre o Arch Linux e meus dotfiles? (Atualmente dualboot: Windows 11 + Arch Linux [Hyprland & Docker])
           // No setup, colocar os upgrades que pretendo fazer (e.g.: RTX 3080, Ryzen 9 5900X, 64GB RAM, etc.)
           { label: "Setup", href: "/setup", wip: false }, // PWL-11 | Meu workstation; lugarzin do coração <3
-          { label: "Servidor", href: "/server", wip: true }, // Ainda pretendo montar um servidor pessoal (soberania dos dados?)
+          { label: "Servidor", href: "/server", wip: true }, // PWL-40 | Ainda pretendo montar um servidor privado pela soberania dos dados
         ],
       },
       {
