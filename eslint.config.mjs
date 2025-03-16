@@ -117,9 +117,6 @@ const eslintConfig = [
         },
       ],
 
-      // Proíbe estilos inline no JSX
-      "react/jsx-no-style": "error",
-
       // =================================================
       // REGRAS DE ORGANIZAÇÃO DE CÓDIGO
       // =================================================
