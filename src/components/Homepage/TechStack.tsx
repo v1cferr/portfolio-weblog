@@ -5,7 +5,20 @@ import Link from "next/link";
 import { categories } from "@/data/TechStackData";
 
 /**
- * Componente que exibe a stack de tecnologias utilizada
+ * Componente TechStack exibe uma grade responsiva mostrando a stack de tecnologias do desenvolvedor (eu || v1cferr)
+ *
+ * O componente organiza as tecnologias em categorias, cada uma apresentada como um card contendo:
+ * - Um título e descrição da categoria
+ * - Uma grade de itens tecnológicos com ícones e links para recursos relevantes
+ *
+ * Cada item de tecnologia apresenta:
+ * - Um ícone com coloração customizada opcional
+ * - Um link clicável que abre em uma nova aba
+ * - Efeitos de hover para melhorar a interação do usuário
+ *
+ * O layout é responsivo e se ajusta de uma única coluna em dispositivos móveis para três colunas em telas maiores.
+ *
+ * @returns Um elemento section contendo a apresentação da stack de tecnologias
  */
 export default function TechStack() {
   return (
