@@ -1,8 +1,10 @@
-# v0.0.2
+# v0.0.3
 name: XGuardian Security Scan
-on:
-  push:
-    branches: [main]
+on: {} # Desativando temporariamente o acionador de push
+
+# on:
+#   push:
+#     branches: [main]
 
 jobs:
   security-scan:
