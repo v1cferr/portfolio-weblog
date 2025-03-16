@@ -7,7 +7,7 @@ import { FaSpotify } from "react-icons/fa";
 
 import Loading from "@/components/Loading";
 
-interface CurrentlyPlaying {
+interface ICurrentlyPlaying {
   item: {
     album: {
       name: string;
@@ -22,12 +22,12 @@ interface CurrentlyPlaying {
 
 const SpotifyPlayer = () => {
   const t = useTranslations("SpotifyPlayer");
-  const [currentTrack, setCurrentTrack] = useState<CurrentlyPlaying | null>(
+  const [currentTrack, setCurrentTrack] = useState<ICurrentlyPlaying | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const lastTrackRef = useRef<CurrentlyPlaying | null>(null);
+  const lastTrackRef = useRef<ICurrentlyPlaying | null>(null);
 
   const fetchCurrentTrack = useCallback(async () => {
     try {
@@ -102,7 +102,7 @@ const SpotifyPlayer = () => {
     );
   }
 
-  if (!currentTrack || !currentTrack.is_playing) {
+  if (!currentTrack?.is_playing) {
     return (
       <div className="flex items-center gap-x-2">
         <FaSpotify size={30} />
