@@ -18,6 +18,7 @@ const cn = (...classes: (string | boolean | undefined)[]) => {
 export default function TechStack() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
+  // TODO: Deixar os elementos mais semânticos (SEO)
   return (
     <section className="py-12" id="tech-stack">
       <div className="container mx-auto px-4">
@@ -44,7 +45,8 @@ export default function TechStack() {
                   {category.description}
                 </p>
 
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                {/* Grid de itens */}
+                <div className="grid grid-cols-3 gap-4">
                   {category.items.map((item, index) => (
                     <Link
                       className="group flex flex-col items-center gap-2 transition-transform hover:scale-110"
