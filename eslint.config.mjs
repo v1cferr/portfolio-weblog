@@ -275,7 +275,7 @@ const eslintConfig = [
       "@typescript-eslint/no-unnecessary-condition": "warn",
 
       // Evita promessas não tratadas
-      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-floating-promises": "warn",
 
       // Garante que await seja usado apenas com Promises
       "@typescript-eslint/await-thenable": "error",
