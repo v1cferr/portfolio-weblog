@@ -1,5 +1,5 @@
 // NOTA: É necessário instalar os seguintes pacotes:
-// pnpm add -D @eslint/js @eslint/eslintrc eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsx-a11y eslint-plugin-jsdoc
+// pnpm add -D @eslint/js @eslint/eslintrc eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsx-a11y eslint-plugin-jsdoc eslint-plugin-react
 
 // Importação de módulos necessários para a configuração do ESLint
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,6 +9,7 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import jsdoc from "eslint-plugin-jsdoc";
+import react from "eslint-plugin-react";
 
 // Compatibilidade para configurações antigas do ESLint
 // Permite usar extensões como 'next' e 'prettier' no formato flat config
@@ -47,12 +48,12 @@ const eslintConfig = [
   // Adiciona as regras recomendadas para React Hooks em formato flat config
   {
     plugins: {
-      // Nome do plugin como chave, plugin importado como valor
       "react-hooks": reactHooks,
+      react: react,
     },
     rules: {
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/exhaustive-deps": "error",
     },
   },
 
@@ -62,6 +63,7 @@ const eslintConfig = [
     plugins: {
       "jsx-a11y": jsxA11y,
       jsdoc: jsdoc,
+      react: react,
     },
     rules: {
       // =================================================
@@ -80,8 +82,36 @@ const eslintConfig = [
       // Marca variáveis não utilizadas como aviso, mas ignora as que começam com _
       // Convenção para indicar variáveis intencionalmente não utilizadas
       "no-unused-vars": [
-        "warn", // Alterado de 'error' para 'warn'
+        "warn",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+
+      // =================================================
+      // REGRAS DE ESTILO E CSS
+      // =================================================
+
+      // Proíbe o uso de estilos inline para manter a separação de preocupações
+      "react/forbid-component-props": [
+        "error",
+        {
+          forbid: [
+            {
+              propName: "style",
+              message: "Use CSS classes instead of inline styles",
+            },
+          ],
+        },
+      ],
+      "react/forbid-dom-props": [
+        "error",
+        {
+          forbid: [
+            {
+              propName: "style",
+              message: "Use CSS classes instead of inline styles",
+            },
+          ],
+        },
       ],
 
       // =================================================
@@ -121,9 +151,6 @@ const eslintConfig = [
       // Desativa a verificação de PropTypes (usamos TypeScript)
       "react/prop-types": "off",
 
-      // Não é mais necessário importar React desde o React 17
-      // "react/react-in-jsx-scope": "off", // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
-
       // Ordena as props do JSX para melhor legibilidade
       // Ex: primeiro props curtos, depois callbacks no final
       "react/jsx-sort-props": [
@@ -135,6 +162,12 @@ const eslintConfig = [
       // Ex: <div /> em vez de <div></div> quando não há conteúdo
       "react/self-closing-comp": "warn",
 
+      // Proíbe o uso de dangerouslySetInnerHTML para segurança
+      "react/no-danger": "error",
+
+      // Avisa sobre o uso de índices como chaves (causa problemas de performance e bugs)
+      "react/no-array-index-key": "warn",
+
       // =================================================
       // REGRAS DE ACESSIBILIDADE
       // =================================================
@@ -145,6 +178,9 @@ const eslintConfig = [
       "jsx-a11y/aria-props": "warn",
       "jsx-a11y/aria-role": "warn",
       "jsx-a11y/role-has-required-aria-props": "warn",
+      "jsx-a11y/click-events-have-key-events": "warn",
+      "jsx-a11y/no-noninteractive-element-interactions": "warn",
+      "jsx-a11y/media-has-caption": "warn",
 
       // =================================================
       // REGRAS ESPECÍFICAS PARA NEXT.JS
@@ -152,6 +188,9 @@ const eslintConfig = [
 
       "@next/next/no-img-element": "warn",
       "@next/next/no-html-link-for-pages": "error",
+      "@next/next/no-sync-scripts": "error",
+      "@next/next/no-title-in-document-head": "warn",
+      "@next/next/no-unwanted-polyfills": "warn",
 
       // =================================================
       // REGRAS DE COMENTÁRIOS
@@ -195,27 +234,13 @@ const eslintConfig = [
       // REGRAS DE ALIAS DE IMPORTAÇÃO
       // =================================================
 
-      // "import/no-relative-parent-imports": "warn", // Imagino que não seja necessário injeção de dependência
       "import/no-unresolved": "off",
 
       // =================================================
       // REGRAS DE PERFORMANCE
       // =================================================
 
-      // "react/no-array-index-key": "warn", // Pesquisar porquê não usar índices como chaves (?)
       "react/jsx-no-useless-fragment": "warn",
-
-      // =================================================
-      // REGRAS DE DETECÇÃO DE ARQUIVOS NÃO UTILIZADOS
-      // =================================================
-
-      // Não faz sentido por conta do App Router do Next.js
-      // "import/no-unused-modules": [
-      //   "warn",
-      //   {
-      //     unusedExports: true,
-      //   },
-      // ],
     },
   },
 
@@ -240,6 +265,27 @@ const eslintConfig = [
       // Incentiva o uso de imports de tipos consistentes
       // Ex: import type { MyType } from './types'
       "@typescript-eslint/consistent-type-imports": "warn",
+
+      // Evita afirmações não nulas (!) que podem causar erros em runtime
+      "@typescript-eslint/no-non-null-assertion": "warn",
+
+      // Evita condições desnecessárias que TypeScript já pode verificar
+      "@typescript-eslint/no-unnecessary-condition": "warn",
+
+      // Evita promessas não tratadas
+      "@typescript-eslint/no-floating-promises": "error",
+
+      // Garante que await seja usado apenas com Promises
+      "@typescript-eslint/await-thenable": "error",
+
+      // Evita uso incorreto de Promises
+      "@typescript-eslint/no-misused-promises": "error",
+
+      // Preferir o operador de coalescência nula (??) em vez de OR (||)
+      "@typescript-eslint/prefer-nullish-coalescing": "warn",
+
+      // Preferir o operador de encadeamento opcional (?.)
+      "@typescript-eslint/prefer-optional-chain": "warn",
     },
   },
 ];
