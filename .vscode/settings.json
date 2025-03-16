@@ -25,4 +25,9 @@
     "net"
   ],
   "deno.enable": false,
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "./daisyui.md"
+    },
+  ]
 }
