@@ -41,6 +41,9 @@ const eslintConfig = [
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: { jsx: true },
+        project: "./tsconfig.json", // Adiciona a configuração do TypeScript para habilitar regras que precisam de type-checking
+        projectService: true, // Habilita o serviço de projeto do TypeScript
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },
@@ -113,6 +116,9 @@ const eslintConfig = [
           ],
         },
       ],
+
+      // Proíbe estilos inline no JSX
+      "react/jsx-no-style": "error",
 
       // =================================================
       // REGRAS DE ORGANIZAÇÃO DE CÓDIGO
@@ -190,7 +196,6 @@ const eslintConfig = [
       "@next/next/no-html-link-for-pages": "error",
       "@next/next/no-sync-scripts": "error",
       "@next/next/no-title-in-document-head": "warn",
-      "@next/next/no-unwanted-polyfills": "warn",
 
       // =================================================
       // REGRAS DE COMENTÁRIOS
