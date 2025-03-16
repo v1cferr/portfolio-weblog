@@ -118,7 +118,7 @@ export default function Hero() {
 
               <Link
                 className="btn btn-outline border-primary/70 flex items-center gap-2 px-6"
-                href={`${locale}/#tech-stack`}>
+                href={`${locale}#tech-stack`}>
                 <FaLaptopCode aria-hidden="true" className="text-lg" />
                 <span>Tecnologias</span>
               </Link>
