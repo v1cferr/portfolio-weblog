@@ -47,11 +47,11 @@ export default function TechStack() {
 
                 {/* Grid de itens */}
                 <div className="grid grid-cols-3 gap-4">
-                  {category.items.map((item, index) => (
+                  {category.items.map((item) => (
                     <Link
                       className="group flex flex-col items-center gap-2 transition-transform hover:scale-110"
                       href={item.href}
-                      key={index}
+                      key={item.title}
                       rel="noopener noreferrer"
                       target="_blank">
                       <div
