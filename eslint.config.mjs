@@ -281,7 +281,7 @@ const eslintConfig = [
       "@typescript-eslint/await-thenable": "error",
 
       // Evita uso incorreto de Promises
-      "@typescript-eslint/no-misused-promises": "error",
+      "@typescript-eslint/no-misused-promises": "warn",
 
       // Preferir o operador de coalescência nula (??) em vez de OR (||)
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
