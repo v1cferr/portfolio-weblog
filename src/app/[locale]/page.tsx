@@ -1,12 +1,17 @@
-import { Metadata } from "next";
 import Link from "next/link";
+
 import Hero from "@/components/Homepage/Hero";
-import TechIcons from "@/components/Homepage/TechIcons";
+import TechStack from "@/components/Homepage/TechStack";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Work In Progress | v1cferr",
 };
 
+/**
+ *
+ */
 export default function Home() {
   return (
     <>
@@ -14,7 +19,7 @@ export default function Home() {
       <Hero />
 
       {/* Icon Section */}
-      <TechIcons />
+      <TechStack />
 
       {/* Focos Atuais */}
       <section className="flex flex-col items-center text-center p-6 bg-base-200/40 rounded-lg">
@@ -40,10 +45,10 @@ export default function Home() {
 
         {/* Botão para Roadmap */}
         <Link
+          className="mt-6 btn btn-primary flex items-center gap-2 px-6"
           href="https://roadmap.sh/ai-engineer"
-          target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 btn btn-primary flex items-center gap-2 px-6">
+          target="_blank">
           🔗 Explorar Roadmap de AI Engineer
         </Link>
       </section>
@@ -56,11 +61,11 @@ export default function Home() {
         </h2>
         <div className="relative w-full max-w-4xl overflow-hidden rounded-lg shadow-lg">
           <iframe
+            allowFullScreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             className="w-full h-64 md:h-96"
             src="https://www.youtube.com/embed/cmshJmQ6o90"
             title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
           />
         </div>
         <blockquote className="text-sm italic text-base-content/80 max-w-2xl border-l-4 border-primary pl-4 bg-base-200 p-4 rounded-md shadow-md text-left">

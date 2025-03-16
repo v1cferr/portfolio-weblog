@@ -56,9 +56,9 @@ const IconContainer: React.FC<IIconContainerProps> = ({ title, icons }) => (
 /**
  *
  */
-export default function TechIcons() {
+export default function TechStack() {
   return (
-    <section className="flex flex-col items-center gap-14 p-6">
+    <section className="flex flex-col items-center gap-14 p-6" id="tech-stack">
       {/* Linguagens de Programação */}
       <IconContainer
         icons={[
