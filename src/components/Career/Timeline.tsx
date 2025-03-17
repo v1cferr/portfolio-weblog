@@ -5,7 +5,7 @@ import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
 
-interface TimelineItem {
+interface ITimelineItem {
   title: string;
   company: string;
   date: string;
@@ -15,7 +15,7 @@ interface TimelineItem {
 }
 
 // TODO: Tabela no Supabase para armazenar os dados da Timeline (exps)
-const timelineData: TimelineItem[] = [
+const timelineData: ITimelineItem[] = [
   {
     title: "Desenvolvedor de Software Júnior",
     company: "Xmart Solutions",
@@ -61,22 +61,22 @@ const timelineData: TimelineItem[] = [
 const TimelineIcon: React.FC = () => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
+      aria-hidden="true"
       className="h-5 w-5"
-      aria-hidden="true">
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg">
       <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
         clipRule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+        fillRule="evenodd"
       />
     </svg>
   );
 };
 
-interface TimelineItemComponentProps {
-  item: TimelineItem;
+interface ITimelineItemComponentProps {
+  item: ITimelineItem;
   index: number;
   isLast: boolean;
 }
@@ -105,7 +105,7 @@ const calculateDuration = (dateRange: string): string => {
   return yearString || monthString || "menos de um mês";
 };
 
-const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
+const TimelineItemComponent: React.FC<ITimelineItemComponentProps> = ({
   item,
   index,
   isLast,
@@ -129,18 +129,18 @@ const TimelineItemComponent: React.FC<TimelineItemComponentProps> = ({
             index % 2 === 0 ? "md:justify-end" : ""
           }`}>
           <Link
-            href={item.link}
+            aria-label={item.company}
             className="flex items-center cursor-pointer"
-            target="_blank"
+            href={item.link}
             rel="noopener noreferrer"
-            title={item.company}
-            aria-label={item.company}>
+            target="_blank"
+            title={item.company}>
             <Image
-              src={item.logo}
               alt={`${item.company} logo`}
-              width={100}
-              height={100}
               className="h-6 w-6 mr-2 rounded-md"
+              height={100}
+              src={item.logo}
+              width={100}
             />
             <h2 className="text-lg font-medium hover:underline">
               {item.company}
@@ -164,10 +164,10 @@ const Timeline: React.FC = () => {
     <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
       {timelineData.map((item, index) => (
         <TimelineItemComponent
-          key={index}
-          item={item}
           index={index}
           isLast={index === timelineData.length - 1}
+          item={item}
+          key={item.company}
         />
       ))}
     </ul>
