@@ -27,6 +27,9 @@ const calculateAge = (birthDate = BIRTH_DATE): number => {
   return age;
 };
 
+/**
+ *
+ */
 export default function Context() {
   const [age, setAge] = useState<number>(calculateAge());
 
@@ -130,6 +133,13 @@ export default function Context() {
         fontes diversas para construir minha própria visão de mundo, sem
         depender de narrativas enviesadas.
       </p>
+
+      {/* TODO: Adicionar essa nota de contexto/detalhe */}
+      {/* (Um dos motivos que me fez querer
+        aprender Chinês! Além de eles serem a segunda maior economia do mundo.
+        Inglês é o básico por conta da dominação do Reino Unido no globo durante séculos
+        e logo em seguida os EUA como superpotência mundial em um mundo unipolar
+        pós-segunda guerra mundial) */}
 
       <h2 className="text-xl md:text-2xl mt-6 md:mt-8 mb-3 md:mb-4">
         Minha Abordagem
