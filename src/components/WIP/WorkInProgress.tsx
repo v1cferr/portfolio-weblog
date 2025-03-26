@@ -4,44 +4,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { FaGithub, FaLinkedin, FaWhatsapp, FaTimes } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { SiMonkeytype, SiMinutemailer } from "react-icons/si";
+import { FaTimes } from "react-icons/fa";
 
 import LanguageSelector from "@/components/i18n/LanguageSelector";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import ThemeToggle from "@/components/ThemeToggle";
-
-const socialLinks = [
-  {
-    href: "mailto:dev.victorferreira@gmail.com",
-    icon: SiMinutemailer,
-    title: "E-mail",
-  },
-  { href: "https://github.com/v1cferr", icon: FaGithub, title: "GitHub" },
-  {
-    href: "https://www.linkedin.com/in/v1cferr/",
-    icon: FaLinkedin,
-    title: "LinkedIn",
-  },
-  {
-    href: "https://twitter.com/v1cferr",
-    icon: FaXTwitter,
-    title: "X/Twitter",
-  },
-  {
-    href: "https://wa.me/5511980805097",
-    icon: FaWhatsapp,
-    title: "WhatsApp",
-  },
-  {
-    href: "https://monkeytype.com/profile/v1cferr",
-    icon: SiMonkeytype,
-    title: "MonkeyType",
-  },
-  // { href: "https://hackmd.io/@v1cferr", icon: SiHackmd, title: "HackMD" },
-  // { href: "https://cursos.alura.com.br/user/v1cferr", icon: SiAlura, title: "Alura" },
-];
+import { socialLinks } from "@/data/SocialLinksData";
 
 /**
  * Componente Modal de Trabalho em Progresso

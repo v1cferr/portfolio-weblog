@@ -1,36 +1,8 @@
-import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { SiMinutemailer } from "react-icons/si";
-
 export interface ISocialLinkProps {
   href: string;
   Icon: React.ComponentType<{ className?: string; title?: string }>;
   title: string;
 }
-
-export const socialLinks = [
-  { href: "https://github.com/v1cferr", Icon: FaGithub, title: "GitHub" },
-  {
-    href: "https://linkedin.com/in/v1cferr",
-    Icon: FaLinkedin,
-    title: "LinkedIn",
-  },
-  {
-    href: "https://twitter.com/v1cferr",
-    Icon: FaXTwitter,
-    title: "X/Twitter",
-  },
-  {
-    href: "https://wa.me/5511980805097",
-    Icon: FaWhatsapp,
-    title: "WhatsApp",
-  },
-  {
-    href: "mailto:dev.victorferreira@gmail.com",
-    Icon: SiMinutemailer,
-    title: "Email",
-  },
-];
 
 export interface IQuoteCardProps {
   quote: string;

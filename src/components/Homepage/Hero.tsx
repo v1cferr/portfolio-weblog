@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import { FaBriefcase, FaLaptopCode } from "react-icons/fa";
 
-import { socialLinks, quotes } from "@/data/HeroData";
+import { quotes } from "@/data/HeroData";
+import { socialLinks } from "@/data/SocialLinksData";
 
 import type { ISocialLinkProps, IQuoteCardProps } from "@/data/HeroData";
 
@@ -99,7 +100,7 @@ export default function Hero() {
               className="flex justify-center space-x-2 mb-6">
               {socialLinks.map((link) => (
                 <SocialLink
-                  Icon={link.Icon}
+                  Icon={link.icon}
                   href={link.href}
                   key={link.title}
                   title={link.title}

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { BiErrorCircle, BiRefresh } from "react-icons/bi";
-import { FaSpotify, FaPlay } from "react-icons/fa";
+import { FaSpotify } from "react-icons/fa";
 
 // Tipos
 interface ISpotifyTrack {
