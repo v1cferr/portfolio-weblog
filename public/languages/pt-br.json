@@ -15,13 +15,12 @@
     "description": "Essa é uma página para testes."
   },
   "SpotifyPlayer": {
-    "loading": "Carregando música...",
+    "listening-title": "O que estou ouvindo?",
+    "loading": "Carregando...",
     "try-again": "Tentar novamente",
     "now-playing": "Tocando agora",
     "no-track": "Nenhuma faixa sendo reproduzida",
-    "error": "Erro ao carregar informações",
-    "album-cover": "Capa do álbum",
-    "listening-to": "Ouvindo agora"
+    "album-cover": "Capa do álbum"
   },
   "WorldOfWarcraft": {
     "title": "World of Warcraft",

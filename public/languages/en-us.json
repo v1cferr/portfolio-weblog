@@ -15,10 +15,12 @@
     "description": "This is a test page."
   },
   "SpotifyPlayer": {
-    "error": "Error loading Spotify player.",
-    "no-track": "No track playing at the moment.",
-    "listening-to": "Listening to",
-    "album-cover": "Album Cover"
+    "listening-title": "What am I listening to?",
+    "loading": "Loading...",
+    "try-again": "Try again",
+    "now-playing": "Now playing",
+    "no-track": "No track being played",
+    "album-cover": "Album cover"
   },
   "WorldOfWarcraft": {
     "title": "World of Warcraft",
