@@ -78,7 +78,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               initial={{ y: -20, opacity: 0 }}
               transition={{ delay: 0.1 }}>
               <div className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-2">
-                🚧 Under Construction
+                {t("badge")}
               </div>
               <h1
                 className="text-center text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
@@ -86,12 +86,9 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
                 {t("title")}
               </h1>
               <p className="text-base-content/70 text-sm max-w-xs mx-auto">
-                Estou construindo meu personal hub (portfólio e weblog). Algumas
-                páginas podem não estar disponíveis ou finalizadas.
+                {t("description")}
               </p>
-              <p className="text-xs text-base-content/50 mt-2">
-                Você pode fechar esse modal e explorar as áreas disponíveis.
-              </p>
+              <p className="text-xs text-base-content/50 mt-2">{t("cta")}</p>
             </motion.section>
 
             {/* Spotify Player */}
@@ -109,8 +106,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               <h2
                 className="text-sm font-medium text-center"
                 id="connect-with-me">
-                {/* TODO: Alterar para i18n posteriormente */}
-                Conecte-se comigo
+                {t("connect")}
               </h2>
               <nav
                 aria-label="Social links"

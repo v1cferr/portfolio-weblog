@@ -8,7 +8,11 @@
     }
   },
   "WorkInProgress": {
-    "title": "Em construção"
+    "title": "Trabalhando nisso",
+    "badge": "🚧 Em desenvolvimento",
+    "description": "Este é o meu hub pessoal (portfólio e weblog) em desenvolvimento. Algumas seções podem estar incompletas ou indisponíveis no momento.",
+    "cta": "Você pode fechar este modal para explorar as áreas já disponíveis.",
+    "connect": "Conecte-se comigo"
   },
   "Test": {
     "title": "Teste",
