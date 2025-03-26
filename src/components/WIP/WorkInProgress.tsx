@@ -16,16 +16,15 @@ import { socialLinks } from "@/data/SocialLinksData";
  * Componente de Backdrop com Blur
  *
  * Exibe um fundo escuro com efeito de desfoque para o modal
- * com animação de fade in/out.
+ * com animação de fade in/out. Não fecha o modal ao clicar.
  */
-const ModalBackdrop = memo(({ onClose }: { onClose: () => void }) => (
+const ModalBackdrop = memo(() => (
   <motion.div
     animate={{ opacity: 1 }}
     className="absolute inset-0 bg-black/50 backdrop-blur-sm"
     exit={{ opacity: 0 }}
     initial={{ opacity: 0 }}
     transition={{ duration: 0.3 }}
-    onClick={onClose}
   />
 ));
 ModalBackdrop.displayName = "ModalBackdrop";
@@ -34,6 +33,7 @@ ModalBackdrop.displayName = "ModalBackdrop";
  * Componente de Cabeçalho do Modal
  *
  * Exibe os controles superiores do modal (idioma, tema e botão de fechar)
+ * O botão X é a única forma visual de fechar o modal.
  */
 const ModalHeader = memo(({ onClose }: { onClose: () => void }) => (
   <header className="flex flex-row items-center justify-between p-4 border-b-base-200 bg-base-200/60">
@@ -144,6 +144,8 @@ SocialLinks.displayName = "SocialLinks";
  * implementa práticas de acessibilidade como trap focus e
  * tratamento de tecla Escape.
  *
+ * O modal só pode ser fechado pelo botão X ou pela tecla Escape.
+ *
  * @param {Function} onClose - Função chamada quando o modal é fechado
  */
 function WorkInProgress({ onClose }: { onClose: () => void }) {
@@ -197,8 +199,8 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
         className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-0"
         ref={modalRef}
         role="dialog">
-        {/* Backdrop com blur */}
-        <ModalBackdrop onClose={onClose} />
+        {/* Backdrop com blur (sem onClick para fechar) */}
+        <ModalBackdrop />
 
         {/* Conteúdo do Modal */}
         <motion.div
