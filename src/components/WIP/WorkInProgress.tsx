@@ -29,7 +29,11 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div
+      aria-labelledby="work-in-progress-title"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-0"
+      role="dialog">
       {/* Backdrop with blur */}
       <motion.div
         animate={{ opacity: 1 }}
@@ -47,15 +51,16 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
         exit={{ scale: 0.9, opacity: 0 }}
         initial={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}>
-        <div className="card overflow-hidden rounded-xl shadow-2xl border-0 bg-gradient-to-b from-base-100 to-base-100/80 backdrop-blur-sm">
+        <article className="card overflow-hidden rounded-xl shadow-2xl border-0 bg-gradient-to-b from-base-100 to-base-100/80 backdrop-blur-sm">
           {/* Card Header */}
-          <div className="flex flex-row items-center justify-between p-4 border-b-base-200 bg-base-200/60">
+          <header className="flex flex-row items-center justify-between p-4 border-b-base-200 bg-base-200/60">
             <div className="flex items-center gap-3">
               <LanguageSelector />
               <div className="h-6 w-px bg-base-content/20" />
               <ThemeToggle />
             </div>
             <motion.button
+              aria-label="Close modal"
               className="btn btn-ghost btn-sm btn-circle hover:bg-error/10 hover:text-error transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -63,11 +68,11 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               <FaTimes size={16} />
               <span className="sr-only">Close</span>
             </motion.button>
-          </div>
+          </header>
 
           {/* Card Content */}
-          <div className="p-8 space-y-8">
-            <motion.div
+          <main className="p-6 md:p-8 space-y-6 md:space-y-8">
+            <motion.section
               animate={{ y: 0, opacity: 1 }}
               className="space-y-2 text-center"
               initial={{ y: -20, opacity: 0 }}
@@ -75,9 +80,11 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               <div className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-2">
                 🚧 Under Construction
               </div>
-              <h2 className="text-center text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <h1
+                className="text-center text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+                id="work-in-progress-title">
                 {t("title")}
-              </h2>
+              </h1>
               <p className="text-base-content/70 text-sm max-w-xs mx-auto">
                 Estou construindo meu personal hub (portfólio e weblog). Algumas
                 páginas podem não estar disponíveis ou finalizadas.
@@ -85,22 +92,29 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
               <p className="text-xs text-base-content/50 mt-2">
                 Você pode fechar esse modal e explorar as áreas disponíveis.
               </p>
-            </motion.div>
+            </motion.section>
 
             {/* Spotify Player */}
-            <SpotifyPlayer />
+            <section aria-label="Spotify Player">
+              <SpotifyPlayer />
+            </section>
 
             {/* Social Links */}
-            <motion.div
+            <motion.section
               animate={{ y: 0, opacity: 1 }}
+              aria-labelledby="connect-with-me"
               className="space-y-4"
               initial={{ y: 20, opacity: 0 }}
               transition={{ delay: 0.3 }}>
-              <h3 className="text-sm font-medium text-center">
+              <h2
+                className="text-sm font-medium text-center"
+                id="connect-with-me">
                 {/* TODO: Alterar para i18n posteriormente */}
                 Conecte-se comigo
-              </h3>
-              <div className="flex justify-center space-x-3">
+              </h2>
+              <nav
+                aria-label="Social links"
+                className="flex justify-center space-x-3">
                 {socialLinks.map(({ href, icon: Icon, title }) => (
                   <motion.div
                     animate={{ opacity: 1, scale: 1 }}
@@ -110,6 +124,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
                     whileHover={{ y: -2.5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}>
                     <Link
+                      aria-label={title}
                       className="flex items-center justify-center p-3 rounded-full bg-base-content/5 hover:shadow-md transition-all duration-200"
                       href={href}
                       rel="noopener noreferrer"
@@ -123,10 +138,10 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
                     </Link>
                   </motion.div>
                 ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
+              </nav>
+            </motion.section>
+          </main>
+        </article>
       </motion.div>
     </div>
   );
