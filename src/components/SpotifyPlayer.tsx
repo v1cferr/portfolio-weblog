@@ -152,18 +152,16 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
       initial={{ opacity: 0 }}
       className="flex items-center gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300 relative">
       {/* Capa do álbum à esquerda */}
-      <div className="relative group h-16 w-16 flex-shrink-0">
+      <div className="h-16 w-16 flex-shrink-0">
         <Image
           priority
           alt={t("album-cover")}
-          className="rounded-lg object-cover shadow-sm group-hover:shadow-md transition-all duration-300"
+          className="rounded-lg object-cover shadow-sm transition-all duration-300"
           height={64}
           width={64}
           src={track.album.images[0].url}
+          quality={100}
         />
-        <div className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
-          <FaPlay className="h-4 w-4 text-white" />
-        </div>
       </div>
 
       {/* Informações da faixa à direita */}
