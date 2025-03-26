@@ -15,10 +15,13 @@
     "description": "Essa é uma página para testes."
   },
   "SpotifyPlayer": {
-    "error": "Erro ao carregar o player do Spotify.",
-    "no-track": "Nada tocando no momento.",
-    "listening-to": "Ouvindo",
-    "album-cover": "Capa do Álbum"
+    "loading": "Carregando música...",
+    "try-again": "Tentar novamente",
+    "now-playing": "Tocando agora",
+    "no-track": "Nenhuma faixa sendo reproduzida",
+    "error": "Erro ao carregar informações",
+    "album-cover": "Capa do álbum",
+    "listening-to": "Ouvindo agora"
   },
   "WorldOfWarcraft": {
     "title": "World of Warcraft",
