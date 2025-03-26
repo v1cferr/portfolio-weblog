@@ -110,23 +110,17 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
                     whileHover={{ y: -2.5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}>
                     <Link
-                      className="flex items-center justify-center p-3 rounded-full bg-primary/10 hover:bg-primary/20 hover:shadow-md transition-all duration-200"
+                      className="flex items-center justify-center p-3 rounded-full bg-base-content/5 hover:shadow-md transition-all duration-200"
                       href={href}
                       rel="noopener noreferrer"
                       target="_blank"
                       title={title}>
                       <Icon
-                        className="text-base-content/80 group-hover:text-primary"
+                        className="text-base-content/85 group-hover:text-primary"
                         size={18}
                       />
                       <span className="sr-only">{title}</span>
                     </Link>
-                    <motion.span
-                      className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}>
-                      {title}
-                    </motion.span>
                   </motion.div>
                 ))}
               </div>
