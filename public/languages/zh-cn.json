@@ -23,8 +23,9 @@
     "loading": "加载中...",
     "try-again": "重试",
     "now-playing": "正在播放",
-    "no-track": "当前没有播放任何歌曲",
-    "album-cover": "专辑封面"
+    "no-track": "没有正在播放的曲目",
+    "album-cover": "专辑封面",
+    "listen-on-spotify": "在Spotify上收听"
   },
   "WorldOfWarcraft": {
     "title": "魔兽世界",

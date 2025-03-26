@@ -68,9 +68,9 @@ const useSpotifyTrack = () => {
     SPOTIFY_API_KEY,
     spotifyFetcher,
     {
-      refreshInterval: 30000, // 30 segundos - Aumentado para reduzir chamadas
+      refreshInterval: 60000, // 1 minuto - Aumentado para reduzir chamadas
       revalidateOnFocus: false, // Não revalidar quando janela ganha foco
-      dedupingInterval: 10000, // 10 segundos para evitar requests duplicados
+      dedupingInterval: 30000, // 30 segundos para evitar requests duplicados
     }
   );
 
@@ -101,12 +101,19 @@ const LoadingState = () => {
   const t = useTranslations("SpotifyPlayer");
 
   return (
-    <div className="flex items-center justify-center h-24 rounded-xl bg-base-200/30 border border-base-300">
+    <section
+      aria-busy="true"
+      aria-live="polite"
+      className="flex items-center justify-center h-24 rounded-xl bg-base-200/30 border border-base-300">
       <div className="flex flex-col items-center gap-3">
-        <span className="loading loading-spinner loading-md text-primary" />
+        <span
+          aria-label={t("loading")}
+          className="loading loading-spinner loading-md text-primary"
+          role="status"
+        />
         <span className="text-xs text-base-content/70">{t("loading")}</span>
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -124,23 +131,26 @@ const ErrorState = ({
   const t = useTranslations("SpotifyPlayer");
 
   return (
-    <motion.div
+    <motion.section
       animate={{ opacity: 1 }}
+      aria-live="assertive"
       className="text-center p-5 space-y-3 bg-error/10 rounded-xl border border-error/20"
-      initial={{ opacity: 0 }}>
+      initial={{ opacity: 0 }}
+      role="alert">
       <div className="flex justify-center mb-2">
         <div className="p-2 rounded-full bg-error/20">
-          <BiErrorCircle className="h-5 w-5 text-error" />
+          <BiErrorCircle aria-hidden="true" className="h-5 w-5 text-error" />
         </div>
       </div>
       <p className="text-error font-medium">{message}</p>
       <button
+        aria-label={t("try-again")}
         className="btn btn-outline btn-sm border-error/30 text-error hover:bg-error/10 hover:border-error flex items-center gap-2 mx-auto"
         onClick={onRetry}>
-        <BiRefresh className="h-3.5 w-3.5" />
+        <BiRefresh aria-hidden="true" className="h-3.5 w-3.5" />
         {t("try-again")}
       </button>
-    </motion.div>
+    </motion.section>
   );
 };
 
@@ -151,14 +161,19 @@ const NotPlayingState = () => {
   const t = useTranslations("SpotifyPlayer");
 
   return (
-    <div className="text-center p-6 bg-base-200/30 rounded-xl border border-base-300">
+    <section
+      aria-label={t("no-track")}
+      className="text-center p-6 bg-base-200/30 rounded-xl border border-base-300">
       <div className="flex justify-center mb-3">
         <div className="p-2.5 rounded-full bg-base-300">
-          <FaSpotify className="h-5 w-5 text-base-content/60" />
+          <FaSpotify
+            aria-hidden="true"
+            className="h-5 w-5 text-base-content/60"
+          />
         </div>
       </div>
       <p className="text-base-content/70 font-medium">{t("no-track")}</p>
-    </div>
+    </section>
   );
 };
 
@@ -169,47 +184,67 @@ const NotPlayingState = () => {
 const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
   const t = useTranslations("SpotifyPlayer");
 
+  // Formatando os nomes dos artistas usando a localização
+  const artistNames = track.artists.map((artist) => artist.name).join(", ");
+
   return (
-    <motion.div
+    <motion.article
+      itemScope
       animate={{ opacity: 1 }}
       className="flex items-center gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300 relative"
-      initial={{ opacity: 0 }}>
+      initial={{ opacity: 0 }}
+      itemType="https://schema.org/MusicRecording">
       {/* Capa do álbum à esquerda */}
-      <div className="h-16 w-16 flex-shrink-0">
+      <figure className="h-16 w-16 flex-shrink-0">
         <Image
           priority
-          alt={t("album-cover")}
+          alt={`${track.album.name} - ${t("album-cover")}`}
           className="rounded-lg object-cover shadow-sm transition-all duration-300"
           height={64}
+          itemProp="image"
           quality={100}
           src={track.album.images[0].url}
           width={64}
         />
-      </div>
+      </figure>
 
       {/* Informações da faixa à direita */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-medium truncate text-base">{track.name}</h3>
-        <p className="text-sm text-base-content/70 truncate">
-          {track.artists.map((artist) => artist.name).join(", ")}
+        <h3 className="font-medium truncate text-base" itemProp="name">
+          {track.name}
+        </h3>
+        <p
+          className="text-sm text-base-content/70 truncate"
+          itemProp="byArtist">
+          {artistNames}
         </p>
         <div className="mt-2 flex items-center">
           <div className="flex items-center gap-1.5 text-xs bg-green-500/10 text-green-500 px-2 py-0.5 rounded-full font-medium">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            {t("now-playing")}
+            <span
+              aria-hidden="true"
+              className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"
+            />
+            <span itemProp="playStatus">{t("now-playing")}</span>
           </div>
         </div>
+        <meta content={track.album.name} itemProp="inAlbum" />
       </div>
 
-      {/* Ícone do Spotify no canto superior direito */}
+      {/* Ícone do Spotify no canto superior direito - Link para faixa */}
       <Link
+        aria-label={`${t("listen-on-spotify")}: ${track.name}`}
         className="absolute top-2 right-2 hover:opacity-100 transition-opacity"
         href={track.external_urls.spotify}
+        itemProp="url"
         rel="noopener noreferrer"
-        target="_blank">
-        <FaSpotify className="h-4 w-4 text-green-500 opacity-60 hover:opacity-100" />
+        target="_blank"
+        title={`${t("listen-on-spotify")}: ${track.name}`}>
+        <FaSpotify
+          aria-hidden="true"
+          className="h-4 w-4 text-green-500 opacity-60 hover:opacity-100"
+        />
       </Link>
-    </motion.div>
+    </motion.article>
   );
 };
 
@@ -228,24 +263,27 @@ const SpotifyPlayer = () => {
   // Renderização condicional baseada no estado atual
   const renderContent = () => {
     if (isLoading) return <LoadingState />;
-
     if (error)
       return <ErrorState message={error} onRetry={() => void refetch()} />;
-
     if (!currentTrack?.is_playing || !currentTrack.item)
       return <NotPlayingState />;
-
     return <TrackInfo track={currentTrack.item} />;
   };
 
   return (
-    <div className="w-full space-y-3">
-      <h3 className="text-sm font-medium flex items-center gap-2">
-        <span>🎵</span>
+    <section
+      aria-labelledby="spotify-player-heading"
+      className="w-full space-y-3">
+      <h2
+        className="text-sm font-medium flex items-center gap-2"
+        id="spotify-player-heading">
+        <span aria-hidden="true" role="img">
+          🎵
+        </span>
         <span>{t("listening-title")}</span>
-      </h3>
+      </h2>
       {renderContent()}
-    </div>
+    </section>
   );
 };
 
