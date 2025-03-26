@@ -1,14 +1,21 @@
-/* eslint-disable react/jsx-sort-props */
 "use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { BiErrorCircle, BiRefresh } from "react-icons/bi";
 import { FaSpotify } from "react-icons/fa";
+import useSWR from "swr";
 
-// Tipos
+// ============================================================
+// Interfaces e Tipos
+// ============================================================
+
+/**
+ * Interface para a faixa do Spotify
+ */
 interface ISpotifyTrack {
   album: {
     name: string;
@@ -19,69 +26,77 @@ interface ISpotifyTrack {
   name: string;
 }
 
+/**
+ * Interface para a resposta da API do Spotify
+ */
 interface ICurrentlyPlaying {
   item?: ISpotifyTrack;
   is_playing: boolean;
 }
 
-// Hook personalizado para dados do Spotify
-const useSpotifyTrack = () => {
-  const [currentTrack, setCurrentTrack] = useState<ICurrentlyPlaying | null>(
-    null
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [lastTrackName, setLastTrackName] = useState<string | null>(null);
+// ============================================================
+// Configuração do SWR e API
+// ============================================================
 
-  // Função para buscar a faixa atual do Spotify
-  const fetchCurrentTrack = useCallback(async () => {
-    try {
-      const response = await fetch("/api/spotify");
-      const data: ICurrentlyPlaying = await response.json();
+/**
+ * Chave para cache do SWR
+ * Usando uma constante para evitar strings mágicas no código
+ */
+const SPOTIFY_API_KEY = "/api/spotify";
 
-      // Ignora atualização se for a mesma faixa
-      if (data.item && lastTrackName === data.item.name) {
-        return;
-      }
-
-      // Atualiza o nome da última faixa
-      setLastTrackName(data.item?.name ?? null);
-
-      // Define os dados da faixa atual
-      if (!data.is_playing || !data.item) {
-        setCurrentTrack(null);
-      } else {
-        setCurrentTrack(data);
-      }
-
-      setError(null);
-    } catch (error) {
-      console.error("Erro ao buscar faixa do Spotify:", error);
-      setError(
-        error instanceof Error ? error.message : "Ocorreu um erro desconhecido"
-      );
-      setCurrentTrack(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [lastTrackName]);
-
-  useEffect(() => {
-    // Busca inicial
-    void fetchCurrentTrack();
-
-    // Intervalo de atualização (a cada 15 segundos)
-    const interval = setInterval(() => {
-      void fetchCurrentTrack();
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, [fetchCurrentTrack]);
-
-  return { currentTrack, error, isLoading, refetch: fetchCurrentTrack };
+/**
+ * Função para buscar dados do Spotify
+ * @returns {Promise<ICurrentlyPlaying>} Dados da faixa atual
+ */
+const spotifyFetcher = async (): Promise<ICurrentlyPlaying> => {
+  const res = await fetch(SPOTIFY_API_KEY);
+  if (!res.ok) throw new Error("Falha ao buscar dados do Spotify");
+  return res.json();
 };
 
-// Componente de estado de carregamento
+// ============================================================
+// Hook personalizado
+// ============================================================
+
+/**
+ * Hook que gerencia o estado e as requisições à API do Spotify
+ * Utiliza SWR para cache e revalidação inteligente
+ */
+const useSpotifyTrack = () => {
+  // Configuração do SWR com otimizações para reduzir chamadas desnecessárias
+  const { data, error, isLoading, mutate } = useSWR<ICurrentlyPlaying>(
+    SPOTIFY_API_KEY,
+    spotifyFetcher,
+    {
+      refreshInterval: 30000, // 30 segundos - Aumentado para reduzir chamadas
+      revalidateOnFocus: false, // Não revalidar quando janela ganha foco
+      dedupingInterval: 10000, // 10 segundos para evitar requests duplicados
+    }
+  );
+
+  // Processamento memorizado dos dados para evitar recálculos desnecessários
+  const currentTrack = useMemo(() => {
+    return data && data.is_playing && data.item ? data : null;
+  }, [data]);
+
+  // Função de atualização manual dos dados
+  const refetch = useCallback(() => mutate(), [mutate]);
+
+  return {
+    currentTrack,
+    error: error?.message ?? null,
+    isLoading,
+    refetch,
+  };
+};
+
+// ============================================================
+// Componentes de UI
+// ============================================================
+
+/**
+ * Componente exibido durante o carregamento dos dados
+ */
 const LoadingState = () => {
   const t = useTranslations("SpotifyPlayer");
 
@@ -95,7 +110,10 @@ const LoadingState = () => {
   );
 };
 
-// Componente de estado de erro
+/**
+ * Componente exibido quando ocorre um erro na requisição
+ * @param {string} message - Mensagem de erro a ser exibida
+ */
 const ErrorState = ({
   message,
   onRetry,
@@ -108,8 +126,8 @@ const ErrorState = ({
   return (
     <motion.div
       animate={{ opacity: 1 }}
-      initial={{ opacity: 0 }}
-      className="text-center p-5 space-y-3 bg-error/10 rounded-xl border border-error/20">
+      className="text-center p-5 space-y-3 bg-error/10 rounded-xl border border-error/20"
+      initial={{ opacity: 0 }}>
       <div className="flex justify-center mb-2">
         <div className="p-2 rounded-full bg-error/20">
           <BiErrorCircle className="h-5 w-5 text-error" />
@@ -126,7 +144,9 @@ const ErrorState = ({
   );
 };
 
-// Componente de estado quando nenhuma faixa está tocando
+/**
+ * Componente exibido quando nenhuma música está tocando no Spotify
+ */
 const NotPlayingState = () => {
   const t = useTranslations("SpotifyPlayer");
 
@@ -142,15 +162,18 @@ const NotPlayingState = () => {
   );
 };
 
-// Componente de informações da faixa
+/**
+ * Componente para exibir informações de uma faixa em reprodução
+ * @param {ISpotifyTrack} track - Dados da faixa do Spotify
+ */
 const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
   const t = useTranslations("SpotifyPlayer");
 
   return (
     <motion.div
       animate={{ opacity: 1 }}
-      initial={{ opacity: 0 }}
-      className="flex items-center gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300 relative">
+      className="flex items-center gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300 relative"
+      initial={{ opacity: 0 }}>
       {/* Capa do álbum à esquerda */}
       <div className="h-16 w-16 flex-shrink-0">
         <Image
@@ -158,9 +181,9 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
           alt={t("album-cover")}
           className="rounded-lg object-cover shadow-sm transition-all duration-300"
           height={64}
-          width={64}
-          src={track.album.images[0].url}
           quality={100}
+          src={track.album.images[0].url}
+          width={64}
         />
       </div>
 
@@ -179,17 +202,41 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
       </div>
 
       {/* Ícone do Spotify no canto superior direito */}
-      <div className="absolute top-2 right-2">
-        <FaSpotify className="h-4 w-4 text-green-500 opacity-60" />
-      </div>
+      <Link
+        className="absolute top-2 right-2 hover:opacity-100 transition-opacity"
+        href={track.external_urls.spotify}
+        rel="noopener noreferrer"
+        target="_blank">
+        <FaSpotify className="h-4 w-4 text-green-500 opacity-60 hover:opacity-100" />
+      </Link>
     </motion.div>
   );
 };
 
-// Componente principal
+// ============================================================
+// Componente Principal
+// ============================================================
+
+/**
+ * Componente principal do player do Spotify
+ * Gerencia os diferentes estados e renderiza o componente apropriado
+ */
 const SpotifyPlayer = () => {
   const t = useTranslations("SpotifyPlayer");
   const { currentTrack, error, isLoading, refetch } = useSpotifyTrack();
+
+  // Renderização condicional baseada no estado atual
+  const renderContent = () => {
+    if (isLoading) return <LoadingState />;
+
+    if (error)
+      return <ErrorState message={error} onRetry={() => void refetch()} />;
+
+    if (!currentTrack?.is_playing || !currentTrack.item)
+      return <NotPlayingState />;
+
+    return <TrackInfo track={currentTrack.item} />;
+  };
 
   return (
     <div className="w-full space-y-3">
@@ -197,16 +244,7 @@ const SpotifyPlayer = () => {
         <span>🎵</span>
         <span>{t("listening-title")}</span>
       </h3>
-
-      {isLoading ? (
-        <LoadingState />
-      ) : error ? (
-        <ErrorState message={error} onRetry={() => void refetch()} />
-      ) : !currentTrack?.is_playing || !currentTrack.item ? (
-        <NotPlayingState />
-      ) : (
-        <TrackInfo track={currentTrack.item} />
-      )}
+      {renderContent()}
     </div>
   );
 };
