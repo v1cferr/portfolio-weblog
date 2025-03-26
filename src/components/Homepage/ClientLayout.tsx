@@ -43,17 +43,15 @@ const ClientLayout = ({
             timeZone="UTC">
             {/* Componente de cabeçalho */}
             <Header />
-            {/* TODO: Tirar essa div com relative daqui (acaba com o SEO) */}
-            <div className="relative">
-              {/* Conteúdo principal */}
-              <main className="h-full pt-16 scrollbar-thin">{children}</main>
-              {/* Componente de aviso de trabalho em progresso */}
-              {isWipVisible && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 m-5">
-                  <WorkInProgress onClose={() => setIsWipVisible(false)} />
-                </div>
-              )}
-            </div>
+            {/* Conteúdo principal */}
+            <main className="h-full pt-16 scrollbar-thin">{children}</main>
+            {/* Componente de aviso de trabalho em progresso */}
+            {/* Carregar o modal primeiro antes de qualquer coisa no site */}
+            {isWipVisible && (
+              <div className="fixed inset-0 flex items-center justify-center z-50 m-5">
+                <WorkInProgress onClose={() => setIsWipVisible(false)} />
+              </div>
+            )}
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>
