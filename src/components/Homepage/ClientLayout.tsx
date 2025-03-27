@@ -5,7 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "next-themes";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Header from "@/components/Header";
 import WorkInProgress from "@/components/WIP/WorkInProgress";
@@ -26,32 +26,47 @@ const ClientLayout = ({
 }) => {
   // Estado para controlar a visibilidade do componente WorkInProgress
   const [isWipVisible, setIsWipVisible] = useState(true);
+  const [contentVisible, setContentVisible] = useState(false);
+
+  // Exibe o conteúdo principal com um pequeno atraso para garantir que o modal seja renderizado primeiro
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setContentVisible(true);
+    }, 100); // Atraso de 100ms para priorizar o modal
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <html suppressHydrationWarning lang={localeData.locale}>
       <body
         className={`${inter.className} h-screen overflow-y-auto theme-transition`}>
-        {/* Provedor de tema para gerenciar temas claros e escuros */}
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="system"
           enableSystem={true}>
-          {/* Provedor de internacionalização para gerenciar mensagens de localização */}
           <NextIntlClientProvider
             locale={localeData.locale}
             messages={localeData.messages}
             timeZone="UTC">
-            {/* Componente de cabeçalho */}
-            <Header />
-            {/* Conteúdo principal */}
-            <main className="h-full pt-16 scrollbar-thin">{children}</main>
-            {/* Componente de aviso de trabalho em progresso */}
-            {/* Carregar o modal primeiro antes de qualquer coisa no site */}
+            {/* Modal WorkInProgress - Renderizado primeiro */}
             {isWipVisible && (
-              <div className="fixed inset-0 flex items-center justify-center z-50 m-5">
+              <div className="fixed inset-0 flex items-center justify-center z-[100] m-5">
                 <WorkInProgress onClose={() => setIsWipVisible(false)} />
               </div>
             )}
+
+            {/* Conteúdo principal controlado por visibilidade condicional */}
+            <div
+              className={
+                contentVisible
+                  ? "opacity-100 transition-opacity duration-300"
+                  : "opacity-0"
+              }>
+              <Header />
+              <main className="h-full pt-16 scrollbar-thin">{children}</main>
+            </div>
+
+            {/* Ferramentas de análise e insights */}
             <Analytics />
             <SpeedInsights />
           </NextIntlClientProvider>
@@ -61,5 +76,4 @@ const ClientLayout = ({
   );
 };
 
-// Exportação do componente ClientLayout
 export default ClientLayout;
