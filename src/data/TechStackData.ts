@@ -6,7 +6,9 @@ import {
   FaDocker,
 } from "react-icons/fa";
 import { GrMysql } from "react-icons/gr";
+import { MdSecurity } from "react-icons/md";
 import { PiFileSql } from "react-icons/pi";
+import { RiGeminiFill } from "react-icons/ri";
 import {
   SiTypescript,
   SiNextdotjs,
@@ -24,6 +26,10 @@ import {
   SiPostgresql,
   SiMarkdown,
   SiLatex,
+  SiSecurityscorecard,
+  SiOpenai,
+  SiHuggingface,
+  SiZap,
 } from "react-icons/si";
 import { VscVscode, VscTerminalBash } from "react-icons/vsc";
 
@@ -44,9 +50,9 @@ interface ICategoryData {
 
 export const categories: ICategoryData[] = [
   {
-    title: "Linguagens & Etcetera",
+    title: "Linguagens de Programação e Marcação",
     description:
-      "Conjunto de linguagens de programação, marcação e notação que utilizo para desenvolvimento e documentação",
+      "Linguagens essenciais que utilizo para desenvolvimento de software, web e documentação técnica.",
     items: [
       {
         icon: SiJavascript,
@@ -99,9 +105,9 @@ export const categories: ICategoryData[] = [
     ],
   },
   {
-    title: "Frameworks & Tecnologias",
+    title: "Frameworks e Bibliotecas",
     description:
-      "Stack principal de frameworks, bibliotecas e bancos de dados que utilizo para construir aplicações modernas",
+      "Principais frameworks, bibliotecas e bancos de dados que utilizo para construir aplicações web modernas e eficientes.",
     items: [
       {
         icon: FaReact,
@@ -160,9 +166,9 @@ export const categories: ICategoryData[] = [
     ],
   },
   {
-    title: "Ferramentas & DevOps",
+    title: "Ferramentas de Desenvolvimento e DevOps",
     description:
-      "Conjunto de ferramentas essenciais para aumentar produtividade, colaboração e manter a qualidade do código",
+      "Ferramentas essenciais para otimizar o fluxo de desenvolvimento, colaboração, versionamento e implantação.",
     items: [
       {
         icon: FaGitAlt,
@@ -173,25 +179,7 @@ export const categories: ICategoryData[] = [
       {
         icon: FaGithub,
         title: "GitHub",
-        href: "https://github.com/",
-        color: "text-base-content",
-      },
-      {
-        icon: SiFigma,
-        title: "Figma",
-        href: "https://www.figma.com/",
-        color: "text-purple-400",
-      },
-      {
-        icon: VscVscode,
-        title: "VS Code",
-        href: "https://code.visualstudio.com/",
-        color: "text-blue-500",
-      },
-      {
-        icon: VscTerminalBash,
-        title: "Terminal",
-        href: "https://www.gnu.org/software/bash/",
+        href: "https://github.com",
         color: "text-base-content",
       },
       {
@@ -201,16 +189,84 @@ export const categories: ICategoryData[] = [
         color: "text-blue-500",
       },
       {
+        icon: VscVscode,
+        title: "VS Code",
+        href: "https://code.visualstudio.com/",
+        color: "text-blue-400",
+      },
+      {
+        icon: SiFigma,
+        title: "Figma",
+        href: "https://www.figma.com/",
+        color: "text-purple-500",
+      },
+      {
         icon: SiSwagger,
         title: "Swagger",
         href: "https://swagger.io/",
         color: "text-green-500",
       },
       {
+        icon: VscTerminalBash,
+        title: "Terminal (Bash/Zsh)",
+        href: "https://www.gnu.org/software/bash/",
+        color: "text-base-content",
+      },
+      {
         icon: SiSupabase,
         title: "Supabase",
         href: "https://supabase.io/",
-        color: "text-emerald-500",
+        color: "text-green-600",
+      },
+    ],
+  },
+  {
+    title: "Segurança de Aplicações (AppSec)",
+    description:
+      "Ferramentas para análise estática (SAST), dinâmica (DAST), de composição de software (SCA) e de contêineres, integradas ao ciclo de DevSecOps.",
+    items: [
+      {
+        icon: MdSecurity,
+        title: "Fortify on Demand",
+        href: "https://www.microfocus.com/en-us/cyberres/application-security/fortify-on-demand",
+        color: "text-red-500",
+      },
+      {
+        icon: SiSecurityscorecard,
+        title: "Sonatype Nexus",
+        href: "https://www.sonatype.com/products/integrations",
+        color: "text-blue-600",
+      },
+      {
+        icon: SiZap,
+        title: "OWASP ZAP",
+        href: "https://www.zaproxy.org/",
+        color: "text-green-600",
+      },
+    ],
+  },
+  {
+    title: "Inteligência Artificial e LLMs",
+    description:
+      "Explorando a integração de modelos de linguagem e IA para criar soluções inovadoras e aprimorar a experiência do usuário.",
+    items: [
+      {
+        icon: SiOpenai,
+        title: "OpenAI API",
+        href: "https://openai.com/api/",
+        color: "text-base-content",
+      },
+      {
+        icon: SiHuggingface,
+        title: "Hugging Face",
+        href: "https://huggingface.co/",
+        color: "text-yellow-400",
+      },
+      {
+        icon: RiGeminiFill,
+        title: "Gemini API",
+        href: "https://ai.google.dev/",
+        color: "text-blue-500",
       },
     ],
   },
