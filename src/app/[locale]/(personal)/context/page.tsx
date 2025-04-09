@@ -77,12 +77,12 @@ export default function Context() {
         <div className="container mx-auto px-4 sm:px-6 py-8 bg-base-100/5 rounded-lg shadow-sm">
           <div className="max-w-3xl mx-auto">
             <header className="mb-8">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                 Meu Contexto de Vida e Ambiente
               </h1>
-              <p className="text-base-content/80 text-sm sm:text-base md:text-lg">
-                Uma reflexão sobre meu percurso pessoal e profissional, e como
-                meu ambiente moldou minha visão de mundo.
+              <p className="text-base-content/70 text-base md:text-lg italic">
+                Reflexões sobre desigualdade, tecnologia, geopolítica e como
+                tudo isso moldou minha trajetória.
               </p>
             </header>
 
@@ -109,8 +109,8 @@ export default function Context() {
                   transporte público superlotado, educação e saúde públicas
                   subfinanciadas e uma constante luta por melhores
                   oportunidades. Ao mesmo tempo, esse ambiente moldou minha
-                  resiliência e capacidade de adaptação. Diferente de muitos que
-                  nasceram em condições mais favoráveis, precisei entender desde
+                  resiliência e capacidade de adaptação. Ao contrário de quem
+                  nasceu em condições mais favoráveis, precisei entender desde
                   cedo como navegar por um cenário que nem sempre favorece quem
                   vem de baixo.
                 </p>
@@ -209,11 +209,14 @@ export default function Context() {
                 exigem mudanças políticas e sociais profundas — mas sim
                 facilitar o cotidiano das pessoas. Acredito que a automação é um
                 dos caminhos para tornar nossa vida mais produtiva e menos
-                burocrática. Meu foco é criar soluções que reduzam tarefas
-                repetitivas, permitindo que as pessoas tenham mais tempo para o
-                que realmente importa: seja para crescer em outras áreas, focar
-                em negócios, se dedicar a projetos pessoais ou simplesmente
-                aproveitar a vida sem estar sempre sobrecarregado.
+                burocrática. Por exemplo, automatizar o envio de relatórios,
+                organizar processos internos com bots ou facilitar o uso de
+                sistemas com assistentes inteligentes. Meu foco é criar soluções
+                que reduzam tarefas repetitivas, permitindo que as pessoas
+                tenham mais tempo para o que realmente importa: seja para
+                crescer em outras áreas, focar em negócios, se dedicar a
+                projetos pessoais ou simplesmente aproveitar a vida sem estar
+                sempre sobrecarregado.
               </p>
             </section>
 
