@@ -132,52 +132,44 @@ export default function CharacterCard() {
     );
   }
 
-  return (
-    <>
-      {stormrageCharacters?.map((char: ICharacter) => (
-        <div className="mb-8 hover:shadow-xl transition" key={char.name}>
-          {char.render ? (
-            <Link
-              href={`${armoryUrl}/${
-                char.realm.slug
-              }/${char.name.toLowerCase()}`}
-              rel="noopener noreferrer"
-              target="_blank">
-              <Image
-                alt={char.name}
-                className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
-                height={300}
-                priority={true}
-                src={char.render}
-                width={400}
-              />
-            </Link>
-          ) : (
-            <div className="rounded-t-lg h-20 object-cover flex items-center justify-center shadow-lg">
-              <span className="text-base-content">Imagem não disponível</span>
-            </div>
-          )}
-          <div className="bg-base-content text-primary-content p-4 rounded-b-lg">
-            <h3 className="text-2xl font-bold">{char.name}</h3>
-            <p className="text-lg">
-              <span className="font-semibold">{char.playable_race.name}</span>{" "}
-              <Link
-                href={`${classUrl}/${formatClassName(
-                  char.playable_class.name
-                )}`}
-                rel="noopener noreferrer"
-                target="_blank">
-                <span className="font-semibold hover:underline">
-                  {char.playable_class.name}
-                </span>
-              </Link>{" "}
-            </p>
-            <p className="text-sm text-primary-content">
-              Level <span className="font-semibold">{char.level}</span>
-            </p>
-          </div>
+  return stormrageCharacters?.map((char: ICharacter) => (
+    <div className="mb-8 hover:shadow-xl transition" key={char.name}>
+      {char.render ? (
+        <Link
+          href={`${armoryUrl}/${char.realm.slug}/${char.name.toLowerCase()}`}
+          rel="noopener noreferrer"
+          target="_blank">
+          <Image
+            alt={char.name}
+            className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
+            height={300}
+            priority={true}
+            src={char.render}
+            width={400}
+          />
+        </Link>
+      ) : (
+        <div className="rounded-t-lg h-20 object-cover flex items-center justify-center shadow-lg">
+          <span className="text-base-content">Imagem não disponível</span>
         </div>
-      ))}
-    </>
-  );
+      )}
+      <div className="bg-base-content text-primary-content p-4 rounded-b-lg">
+        <h3 className="text-2xl font-bold">{char.name}</h3>
+        <p className="text-lg">
+          <span className="font-semibold">{char.playable_race.name}</span>{" "}
+          <Link
+            href={`${classUrl}/${formatClassName(char.playable_class.name)}`}
+            rel="noopener noreferrer"
+            target="_blank">
+            <span className="font-semibold hover:underline">
+              {char.playable_class.name}
+            </span>
+          </Link>{" "}
+        </p>
+        <p className="text-sm text-primary-content">
+          Level <span className="font-semibold">{char.level}</span>
+        </p>
+      </div>
+    </div>
+  ));
 }
