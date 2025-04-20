@@ -1,11 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import CharacterCard from "@/components/WoW/CharacterCard";
+
+import CharacterCard from "@/components/Personal/Games/WoW/CharacterCard";
 /* eslint-disable @next/next/no-img-element */
 // import Image from "next/image";
 
-// TODO: Futuramente se for víavel, adicionar DeepL para traduzir dados enviados das APIs para suas respectivas línguas.
+// TODO: Futuramente se for víável, adicionar DeepL para traduzir dados enviados das APIs para suas respectivas línguas.
 // TODO: Utilizar APIs para buscar as informações dos chars, achievs e addons (PvP Stats talvez?):
 
 // - [x] API Client & Keys: https://develop.battle.net/access/clients/
@@ -19,6 +20,9 @@ import CharacterCard from "@/components/WoW/CharacterCard";
 // - [ ] Addons: https://docs.google.com/spreadsheets/d/1Dm8ZmQyewUwQweOuZKMyZPj92LV-PQf2DqdWI3Ft5wE/edit
 // - [ ] API Spreadsheet: https://developers.google.com/sheets/api/guides/values
 
+/**
+ *
+ */
 export default function WorldOfWarcraft() {
   const t = useTranslations("WorldOfWarcraft");
 
@@ -101,25 +105,25 @@ export default function WorldOfWarcraft() {
           <div className="border rounded-lg p-4">
             <a
               href="https://www.wowhead.com/pt/item=210061/r%C3%A9deas-de-anurelos-guia-das-chamas"
-              target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              target="_blank">
               <img
-                src="https://wow.zamimg.com/images/wow/icons/large/inv_dreamowl_firemount.jpg"
                 alt="Ícone da Rédeas de Anurelos, Guia das Chamas"
                 className="w-16 h-16 mb-2"
-                width={64}
                 height={64}
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_dreamowl_firemount.jpg"
+                width={64}
               />
               <h3 className="text-xl font-bold">
                 Rédeas de Anurelos, Guia das Chamas
               </h3>
               <p className="text-lg">Montaria flamejante dos sonhos.</p>
               <img
-                src="https://wow.zamimg.com/uploads/screenshots/normal/1150707-r%C3%A9deas-de-anurelos-guia-das-chamas.jpg"
                 alt="Imagem em alta definição da montaria Rédeas de Anurelos, Guia das Chamas"
                 className="w-full h-auto rounded-lg mt-2"
-                width={800}
                 height={450}
+                src="https://wow.zamimg.com/uploads/screenshots/normal/1150707-r%C3%A9deas-de-anurelos-guia-das-chamas.jpg"
+                width={800}
               />
             </a>
           </div>

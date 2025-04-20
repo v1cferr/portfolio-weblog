@@ -1,5 +1,8 @@
-import Timeline from "@/components/Career/Timeline";
+import Timeline from "@/components/Professional/Career/Timeline";
 
+/**
+ *
+ */
 export default function Career() {
   return (
     // TODO: Adicionar um bg gradient para deixar mais clean/stylish

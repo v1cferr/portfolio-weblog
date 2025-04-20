@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { useLocale } from "next-intl";
-import Loading from "../Loading";
 import Image from "next/image";
 import Link from "next/link";
+import { useLocale } from "next-intl";
+import { useEffect, useState } from "react";
+import { FaExclamationTriangle } from "react-icons/fa";
 
-interface Character {
+import Loading from "@/components/Loading";
+
+interface ICharacter {
   name: string;
   render: string;
   level: number;
@@ -23,6 +24,9 @@ interface Character {
   };
 }
 
+/**
+ *
+ */
 export default function CharacterCard() {
   const locale = useLocale();
   const wowUrl = "https://worldofwarcraft.blizzard.com";
@@ -32,7 +36,7 @@ export default function CharacterCard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [stormrageCharacters, setStormrageCharacters] = useState<
-    Character[] | null
+    ICharacter[] | null
   >(null);
 
   const formatClassName = (className: string) => {
@@ -53,13 +57,13 @@ export default function CharacterCard() {
       const data = await profileDataResponse.json();
       const StormrageChars = data.wow_accounts[1].characters
         .filter(
-          (char: Character) =>
+          (char: ICharacter) =>
             char.realm.name === "Stormrage" && char.level >= 70
         )
-        .sort((a: Character, b: Character) => b.level - a.level);
+        .sort((a: ICharacter, b: ICharacter) => b.level - a.level);
 
       const updatedChars = await Promise.all(
-        StormrageChars.map(async (char: Character) => {
+        StormrageChars.map(async (char: ICharacter) => {
           const renderDataResponse = await fetch(
             `/api/blizzard/render?realmSlug=${
               char.realm.slug
@@ -106,7 +110,7 @@ export default function CharacterCard() {
       }
     }
 
-    fetchProfileAndRender();
+    void fetchProfileAndRender();
   }, []);
 
   if (loading) {
@@ -130,22 +134,22 @@ export default function CharacterCard() {
 
   return (
     <>
-      {stormrageCharacters?.map((char: Character) => (
-        <div key={char.name} className="mb-8 hover:shadow-xl transition">
+      {stormrageCharacters?.map((char: ICharacter) => (
+        <div className="mb-8 hover:shadow-xl transition" key={char.name}>
           {char.render ? (
             <Link
               href={`${armoryUrl}/${
                 char.realm.slug
               }/${char.name.toLowerCase()}`}
-              target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+              target="_blank">
               <Image
-                src={char.render}
                 alt={char.name}
                 className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
-                width={400}
                 height={300}
                 priority={true}
+                src={char.render}
+                width={400}
               />
             </Link>
           ) : (
@@ -161,8 +165,8 @@ export default function CharacterCard() {
                 href={`${classUrl}/${formatClassName(
                   char.playable_class.name
                 )}`}
-                target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+                target="_blank">
                 <span className="font-semibold hover:underline">
                   {char.playable_class.name}
                 </span>
