@@ -14,10 +14,6 @@
     "cta": "您可以关闭此模态框以浏览已经可用的区域。",
     "connect": "与我联系"
   },
-  "Test": {
-    "title": "测试",
-    "description": "这是一个测试页面。"
-  },
   "SpotifyPlayer": {
     "listening-title": "我在听什么？",
     "loading": "加载中...",

@@ -3,8 +3,7 @@ export const menuData = [
     // Professional
     title: "Profissional", // Documentação da minha vida profissional
     items: [
-      // { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
-      // Incluir minha contribuição no XGuardian apesar de não ser um projeto open-source?
+      // Incluir minha contribuição no XGuardian apesar de não ser um projeto open-source na seção de projetos
       { label: "Projetos", href: "/projects", wip: false }, // Projetos pessoais e profissionais (ordem cronológica inversa)
       { label: "Carreira", href: "/career", wip: false }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo", wip: true }, // Conceito e significado do logotipo
