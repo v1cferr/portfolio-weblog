@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, type FC } from "react";
 import {
   FaExternalLinkAlt,
   FaGithub,
@@ -10,66 +11,56 @@ import {
   FaUsers,
   FaUser,
   FaCalendarAlt,
-  FaSortAmountDown,
-  FaSortAmountUp,
-  FaFilter,
 } from "react-icons/fa";
 
+import FilterControls from "@/components/Professional/Projects/Filter";
 import { projectsData } from "@/data/ProjectsData";
 
 import type { Project, FilterType, SortDirection } from "@/data/ProjectsData";
 
-function TimelineItem({
-  project,
-  isExpanded,
-  onToggleExpand,
-  isActive,
-}: {
+interface ITimelineItemProps {
   project: Project;
   isExpanded: boolean;
   onToggleExpand: () => void;
   isActive: boolean;
-}) {
-  const itemRef = useRef<HTMLDivElement>(null);
+}
 
-  // Format date
-  const formattedDate = new Date(project.date).toLocaleDateString("en-US", {
+const TimelineItem: FC<ITimelineItemProps> = ({
+  project,
+  isExpanded,
+  onToggleExpand,
+  isActive,
+}) => {
+  // Formata a data para pt-BR
+  const formattedDate = new Date(project.date).toLocaleDateString("pt-BR", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
 
-  // Animation on scroll (simple opacity transition)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            entry.target.classList.remove("opacity-0", "translate-y-4");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
-    const currentRef = itemRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+  const contentVariants = {
+    collapsed: { height: 0, opacity: 0, marginTop: 0, paddingTop: 0 },
+    expanded: {
+      height: "auto",
+      opacity: 1,
+      marginTop: "1rem",
+      paddingTop: "1rem",
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
+  };
 
   return (
-    <div
-      className="relative opacity-0 translate-y-4 transition-all duration-500"
-      ref={itemRef}>
+    <motion.div
+      className="relative"
+      initial="hidden"
+      variants={cardVariants}
+      viewport={{ once: true, amount: 0.1 }}
+      whileInView="visible">
       {/* Timeline dot */}
       <div
         className={`absolute left-4 top-6 w-3 h-3 rounded-full transform -translate-x-1.5 hidden md:block ${
@@ -77,9 +68,9 @@ function TimelineItem({
         }`}
       />
 
-      {/* Using DaisyUI Card */}
+      {/* Usando Card do DaisyUI */}
       <div
-        className={`card ml-0 md:ml-10 overflow-hidden transition-all bg-base-100 shadow-md hover:shadow-lg border ${
+        className={`card ml-0 md:ml-10 overflow-hidden bg-base-100 shadow-md hover:shadow-lg border ${
           isActive ? "border-success" : "border-base-300"
         }`}>
         <div className="card-body p-4 md:p-5">
@@ -87,8 +78,7 @@ function TimelineItem({
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="card-title text-lg">{project.title}</h3>
-
-                {/* Status Badge */}
+                {/* Badge de Status */}
                 <div
                   className={`badge ${
                     isActive ? "badge-success" : "badge-outline"
@@ -100,13 +90,13 @@ function TimelineItem({
               <p className="text-base-content/80 mt-2">{project.description}</p>
 
               <div className="flex flex-wrap gap-3 mt-3">
-                {/* Date */}
+                {/* Data */}
                 <div className="flex items-center text-sm text-base-content/70">
                   <FaCalendarAlt className="mr-1" size={16} />
                   {formattedDate}
                 </div>
 
-                {/* Collaborators */}
+                {/* Colaboradores */}
                 {project.collaborators && (
                   <div className="flex items-center text-sm text-base-content/70">
                     {project.collaborators.length === 1 &&
@@ -121,7 +111,7 @@ function TimelineItem({
               </div>
             </div>
 
-            {/* External Links & Toggle Button */}
+            {/* Links Externos & Botão de Expandir */}
             <div className="flex items-center gap-2 mt-3 md:mt-0">
               {project.links?.github && (
                 <a
@@ -129,7 +119,7 @@ function TimelineItem({
                   href={project.links.github}
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="GitHub Repository">
+                  title="Repositório GitHub">
                   <FaGithub size={18} />
                   <span className="sr-only">GitHub</span>
                 </a>
@@ -141,126 +131,137 @@ function TimelineItem({
                   href={project.links.demo}
                   rel="noopener noreferrer"
                   target="_blank"
-                  title="Live Demo">
+                  title="Demonstração">
                   <FaGlobe size={18} />
-                  <span className="sr-only">Live Demo</span>
+                  <span className="sr-only">Demonstração</span>
                 </a>
               )}
 
-              <button
+              <motion.button
                 className="btn btn-ghost btn-sm ml-2"
-                title={isExpanded ? "Show less" : "Show more"}
+                title={isExpanded ? "Mostrar menos" : "Mostrar mais"}
+                whileTap={{ scale: 0.95 }}
                 onClick={onToggleExpand}>
-                {isExpanded ? (
-                  <FaChevronUp size={18} />
-                ) : (
-                  <FaChevronDown size={18} />
-                )}
-              </button>
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.div
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: isExpanded ? -180 : 0, opacity: 0 }}
+                    initial={{ rotate: isExpanded ? 0 : 180, opacity: 0 }}
+                    key={isExpanded ? "up" : "down"}
+                    transition={{ duration: 0.2 }}>
+                    {isExpanded ? (
+                      <FaChevronUp size={18} />
+                    ) : (
+                      <FaChevronDown size={18} />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </motion.button>
             </div>
           </div>
 
-          {/* Expanded Content */}
-          {isExpanded && (
-            <div className="mt-4 pt-4 border-t border-base-200 animate-fade-in duration-300">
-              {" "}
-              {/* Basic fade-in */}
-              {/* Tech Stack */}
-              {project.techStack && project.techStack.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-base-content/90 mb-2">
-                    Technologies Used
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech) => (
-                      <div className="badge badge-neutral" key={tech}>
-                        {" "}
-                        {/* DaisyUI badge */}
-                        {tech}
-                      </div>
-                    ))}
+          {/* Conteúdo Expandido */}
+          <AnimatePresence initial={false}>
+            {isExpanded && (
+              <motion.div
+                animate="expanded"
+                className="overflow-hidden border-t border-base-200"
+                exit="collapsed"
+                initial="collapsed"
+                key="content"
+                variants={contentVariants}>
+                {/* Tecnologias Utilizadas */}
+                {project.techStack && project.techStack.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-base-content/90 mb-2">
+                      Tecnologias Utilizadas
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <div className="badge badge-neutral" key={tech}>
+                          {tech}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* Detailed Description */}
-              {project.details && (
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-base-content/90 mb-2">
-                    Details
-                  </h4>
-                  <p className="text-base-content/80 text-sm">
-                    {project.details}
-                  </p>
-                </div>
-              )}
-              {/* Challenges */}
-              {project.challenges && project.challenges.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-base-content/90 mb-2">
-                    Challenges
-                  </h4>
-                  <ul className="list-disc list-inside text-sm text-base-content/80 space-y-1">
-                    {project.challenges.map((challenge) => (
-                      <li key={challenge}>{challenge}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {/* Blog Posts */}
-              {project.blogPosts && project.blogPosts.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-base-content/90 mb-2">
-                    Related Articles
-                  </h4>
-                  <ul className="space-y-1">
-                    {project.blogPosts.map((post) => (
-                      <li key={post.url}>
+                )}
+                {/* Descrição Detalhada */}
+                {project.details && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-base-content/90 mb-2">
+                      Detalhes
+                    </h4>
+                    <p className="text-base-content/80 text-sm">
+                      {project.details}
+                    </p>
+                  </div>
+                )}
+                {/* Desafios */}
+                {project.challenges && project.challenges.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-base-content/90 mb-2">
+                      Desafios
+                    </h4>
+                    <ul className="list-disc list-inside text-sm text-base-content/80 space-y-1">
+                      {project.challenges.map((challenge) => (
+                        <li key={challenge}>{challenge}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {/* Posts de Blog */}
+                {project.blogPosts && project.blogPosts.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-base-content/90 mb-2">
+                      Artigos Relacionados
+                    </h4>
+                    <ul className="space-y-1">
+                      {project.blogPosts.map((post) => (
+                        <li key={post.url}>
+                          <a
+                            className="text-sm text-primary hover:text-primary-focus hover:underline flex items-center gap-1"
+                            href={post.url}
+                            rel="noopener noreferrer"
+                            target="_blank">
+                            {post.title}
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {/* Links Adicionais */}
+                {project.links?.other && project.links.other.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-base-content/90 mb-2">
+                      Recursos Adicionais
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.links.other.map((link) => (
                         <a
-                          className="text-sm text-primary hover:text-primary-focus hover:underline flex items-center"
-                          href={post.url}
+                          className="btn btn-xs btn-outline gap-1"
+                          href={link.url}
+                          key={link.url}
                           rel="noopener noreferrer"
                           target="_blank">
-                          {post.title}
-                          <FaExternalLinkAlt className="ml-1" size={14} />
+                          {link.label}
+                          <FaExternalLinkAlt size={14} />
                         </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {/* Additional Links */}
-              {project.links?.other && project.links.other.length > 0 && (
-                <div>
-                  <h4 className="text-sm font-semibold text-base-content/90 mb-2">
-                    Additional Resources
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {project.links.other.map((link) => (
-                      <a
-                        className="btn btn-xs btn-outline gap-1" // DaisyUI button for links
-                        href={link.url}
-                        key={link.url}
-                        rel="noopener noreferrer"
-                        target="_blank">
-                        {link.label}
-                        <FaExternalLinkAlt size={14} />
-                      </a>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
-}
+};
 
-/**
- *
- */
-export default function ProjectTimeline() {
+const ProjectTimeline: FC = () => {
   const [filter, setFilter] = useState<FilterType>("all");
   const [sortDirection, setSortDirection] = useState<SortDirection>("newest");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
@@ -268,22 +269,22 @@ export default function ProjectTimeline() {
     new Set()
   );
 
-  // Refs for scroll animations and anchor navigation
+  // Refs para navegação por âncora
   const projectsRef = useRef<HTMLDivElement>(null);
   const testsRef = useRef<HTMLDivElement>(null);
 
-  // Filter and sort projects
+  // Filtra e ordena os projetos
   useEffect(() => {
     let filtered = [...projectsData];
 
-    // Apply filter
+    // Aplica o filtro
     if (filter === "projects") {
       filtered = filtered.filter((project) => project.type === "project");
     } else if (filter === "tests") {
       filtered = filtered.filter((project) => project.type === "test");
     }
 
-    // Apply sort
+    // Aplica a ordenação
     filtered.sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
@@ -293,7 +294,7 @@ export default function ProjectTimeline() {
     setFilteredProjects(filtered);
   }, [filter, sortDirection]);
 
-  // Toggle project expansion
+  // Alterna a expansão do projeto
   const toggleExpand = (id: string) => {
     setExpandedProjects((prev) => {
       const newSet = new Set(prev);
@@ -306,87 +307,34 @@ export default function ProjectTimeline() {
     });
   };
 
-  // Scroll to section
+  // Rola para a seção
   const scrollToSection = (section: "projects" | "tests") => {
     const ref = section === "projects" ? projectsRef : testsRef;
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Get projects and tests
+  // Obtém projetos e testes
   const mainProjects = filteredProjects.filter((p) => p.type === "project");
   const technicalTests = filteredProjects.filter((p) => p.type === "test");
 
+  // Handler para mudança de ordenação
+  const handleSortChange = () => {
+    setSortDirection((prev) => (prev === "newest" ? "oldest" : "newest"));
+  };
+
   return (
     <div className="space-y-8 container mx-auto p-4">
-      {/* Controls */}
-      <div className="sticky top-0 z-10 bg-base-100/80 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-base-300 flex flex-col sm:flex-row justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Project Timeline</h2>
+      {/* Controles de Filtro e Ordenação */}
+      {/* TODO: Migrar tudo relacionado ao filtro para /Projects/Filter.tsx */}
+      <FilterControls
+        filter={filter}
+        sortDirection={sortDirection}
+        onFilterChange={setFilter}
+        onScrollToSection={scrollToSection}
+        onSortChange={handleSortChange}
+      />
 
-          {/* Filter Dropdown */}
-          <div className="dropdown dropdown-end">
-            <button className="btn btn-outline btn-sm gap-1" tabIndex={0}>
-              <FaFilter size={16} />
-              {filter === "all"
-                ? "All"
-                : filter === "projects"
-                ? "Main Projects"
-                : "Technical Tests"}
-            </button>
-            <ul
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]"
-              tabIndex={0}>
-              <li>
-                <button onClick={() => setFilter("all")}>All</button>
-              </li>
-              <li>
-                <button onClick={() => setFilter("projects")}>
-                  Main Projects
-                </button>
-              </li>
-              <li>
-                <button onClick={() => setFilter("tests")}>
-                  Technical Tests
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Sort Toggle */}
-          <button
-            className="btn btn-outline btn-sm gap-1"
-            onClick={() =>
-              setSortDirection((prev) =>
-                prev === "newest" ? "oldest" : "newest"
-              )
-            }>
-            {sortDirection === "newest" ? (
-              <FaSortAmountDown size={16} />
-            ) : (
-              <FaSortAmountUp size={16} />
-            )}
-            {sortDirection === "newest" ? "Newest First" : "Oldest First"}
-          </button>
-
-          {/* Quick Navigation */}
-          <div className="hidden sm:flex items-center gap-2">
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={() => scrollToSection("projects")}>
-              #projects
-            </button>
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={() => scrollToSection("tests")}>
-              #tests
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Projects Section */}
+      {/* Seção de Projetos Principais */}
       {(filter === "all" || filter === "projects") &&
         mainProjects.length > 0 && (
           <div className="relative" id="projects" ref={projectsRef}>
@@ -394,17 +342,17 @@ export default function ProjectTimeline() {
               <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
                 <FaUsers size={18} />
               </span>
-              Main Projects
+              Projetos Principais
             </h2>
 
             <div className="relative">
-              {/* Timeline vertical line */}
+              {/* Linha vertical da timeline */}
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
 
               <div className="space-y-6">
                 {mainProjects.map((project) => (
                   <TimelineItem
-                    isActive={project.status === "Current"}
+                    isActive={project.status === "Em Andamento"}
                     isExpanded={expandedProjects.has(project.id)}
                     key={project.id}
                     project={project}
@@ -416,7 +364,7 @@ export default function ProjectTimeline() {
           </div>
         )}
 
-      {/* Technical Tests Section */}
+      {/* Seção de Testes Técnicos */}
       {(filter === "all" || filter === "tests") &&
         technicalTests.length > 0 && (
           <div className="relative pt-4" id="tests" ref={testsRef}>
@@ -424,17 +372,17 @@ export default function ProjectTimeline() {
               <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
                 <FaUser size={18} />
               </span>
-              Technical Tests
+              Testes Técnicos
             </h2>
 
             <div className="relative">
-              {/* Timeline vertical line */}
+              {/* Linha vertical da timeline */}
               <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
 
               <div className="space-y-6">
                 {technicalTests.map((test) => (
                   <TimelineItem
-                    isActive={false} // Tests are never 'Current' in this context
+                    isActive={false}
                     isExpanded={expandedProjects.has(test.id)}
                     key={test.id}
                     project={test}
@@ -446,14 +394,16 @@ export default function ProjectTimeline() {
           </div>
         )}
 
-      {/* Empty state */}
+      {/* Estado Vazio */}
       {filteredProjects.length === 0 && (
         <div className="text-center py-12">
           <p className="text-base-content/70">
-            No projects found with the current filter.
+            Nenhum projeto encontrado com o filtro atual.
           </p>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default ProjectTimeline;

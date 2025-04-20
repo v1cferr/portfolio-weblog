@@ -1,17 +1,16 @@
 // TODO: Conectar com a API do GitHub para buscar os repositórios
-// Utilizar o Supabase para cachear os dados
+// TODO: Utilizar o Supabase para cachear os dados
 
 export type FilterType = "all" | "projects" | "tests";
 export type SortDirection = "newest" | "oldest";
 
 export type Project = {
-  // Export the type
   id: string;
   title: string;
   description: string;
   details?: string;
   date: string;
-  status: "Current" | "Completed" | "Archived" | "In Progress";
+  status: "Em Andamento" | "Completo" | "Arquivado";
   collaborators?: string[];
   links?: {
     github?: string;
@@ -27,49 +26,56 @@ export type Project = {
 export const projectsData: Project[] = [
   {
     id: "1",
-    title: "E-commerce Platform Redesign",
+    title: "SpendFlow (TCC & MVP)",
     description:
-      "Complete redesign of the customer-facing e-commerce platform with improved UX.",
+      "SpendFlow é o seu assistente financeiro automatizado – a ferramenta que transforma a gestão dos seus gastos em uma experiência simples, intuitiva e poderosa.",
     details:
-      "Led the redesign of a major e-commerce platform serving over 50,000 monthly users. Implemented a new design system, improved checkout flow, and optimized for mobile devices, resulting in a 23% increase in conversion rate.",
-    date: "2025-03-30",
-    status: "Current",
-    collaborators: ["Me", "César", "Maria"],
+      "SpendFlow integra automaticamente os seus extratos bancários e categoriza cada transação com inteligência, gerando dashboards dinâmicos e insights valiosos. O objetivo é dar controle total sobre os hábitos de consumo, economizando tempo e evitando anotações manuais. O nome SpendFlow representa a essência do nosso assistente financeiro, focado no controle dos gastos pessoais, enfatizando o monitoramento dos gastos do usuário e a fluidez do movimento financeiro.",
+    date: "2025-03-09",
+    status: "Em Andamento",
+    collaborators: ["Eu", "César"],
     links: {
-      github: "https://github.com/username/ecommerce-platform",
-      demo: "https://example.com/ecommerce",
+      github: "https://github.com/v1cferr/spendflow",
       other: [
-        { label: "Design System", url: "https://example.com/design-system" },
-        { label: "Case Study", url: "https://example.com/case-study" },
+        {
+          label: "Documentação HackMD",
+          url: "https://hackmd.io/@v1cferr/HJX-6Wos1l",
+        },
+        {
+          label: "Repositório GitHub (privado)",
+          url: "https://github.com/v1cferr/spendflow",
+        },
+        {
+          label: "Gemini (IA Gen)",
+          url: "https://ai.google.dev/gemini-api/docs/pricing?hl=pt-br",
+        },
       ],
     },
-    techStack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Stripe API"],
-    challenges: [
-      "Migrating from a legacy codebase without disrupting active users",
-      "Implementing a responsive design that works across all device sizes",
-      "Optimizing performance for users with slow internet connections",
+    techStack: [
+      "Docker",
+      "Dev Container",
+      "APIs Bancárias",
+      "Inteligência Artificial",
+      "Google Sheets API",
     ],
-    blogPosts: [
-      {
-        title: "How We Improved Checkout Conversion by 23%",
-        url: "https://example.com/blog/checkout-conversion",
-      },
-      {
-        title: "Building Accessible E-commerce Experiences",
-        url: "https://example.com/blog/accessibility",
-      },
+    challenges: [
+      "Integração de APIs bancárias para coleta automática de dados",
+      "Implementação de categorização inteligente usando IA",
+      "Criação de dashboards interativos para visualização de dados financeiros",
+      "Sistema de feedback para aprimoramento contínuo da categorização",
     ],
     type: "project",
   },
+
   {
     id: "2",
-    title: "Personal Portfolio Website",
+    title: "Personal Hub (Portfolio & Weblog)",
     description:
       "Built a responsive portfolio website to showcase my projects and skills.",
     details:
       "Designed and developed a personal portfolio website to showcase my work and skills. The site features a clean, minimalist design with a focus on performance and accessibility.",
     date: "2025-02-15",
-    status: "Completed",
+    status: "Em Andamento",
     collaborators: ["Solo"],
     links: {
       github: "https://github.com/username/portfolio",
@@ -90,7 +96,7 @@ export const projectsData: Project[] = [
     details:
       "Built a collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features. The application helps teams organize their work and track progress on projects.",
     date: "2024-12-10",
-    status: "Completed",
+    status: "Completo",
     collaborators: ["Me", "Alex", "Sarah"],
     links: {
       github: "https://github.com/username/task-manager",
@@ -118,7 +124,7 @@ export const projectsData: Project[] = [
     details:
       "Developed a weather dashboard that provides current conditions and forecasts for multiple locations. Users can save their favorite locations and view detailed weather information.",
     date: "2024-09-05",
-    status: "Archived",
+    status: "Arquivado",
     collaborators: ["Solo"],
     links: {
       github: "https://github.com/username/weather-app",
@@ -140,7 +146,7 @@ export const projectsData: Project[] = [
     details:
       "Completed a technical assessment for a frontend developer position. The task was to build a responsive product catalog with filtering, sorting, and search functionality using a provided API.",
     date: "2024-11-20",
-    status: "Completed",
+    status: "Completo",
     collaborators: ["Solo"],
     links: {
       github: "https://github.com/username/frontend-assessment",
@@ -162,7 +168,7 @@ export const projectsData: Project[] = [
     details:
       "Participated in a performance optimization challenge where the goal was to improve the performance of a slow React application. Implemented memoization, code splitting, and other optimization techniques.",
     date: "2024-08-15",
-    status: "Completed",
+    status: "Completo",
     collaborators: ["Solo"],
     links: {
       github: "https://github.com/username/react-performance",
