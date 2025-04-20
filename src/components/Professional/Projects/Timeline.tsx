@@ -13,234 +13,11 @@ import {
   FaSortAmountDown,
   FaSortAmountUp,
   FaFilter,
-} from "react-icons/fa"; // Using react-icons
+} from "react-icons/fa";
 
-import { projectsData } from "@/data/ProjectsData"; // Corrected import path
+import { projectsData } from "@/data/ProjectsData";
 
-// Define the Project type (assuming it's defined correctly in ProjectsData.ts or here)
-export type Project = {
-  // Export the type
-  id: string;
-  title: string;
-  description: string;
-  details?: string;
-  date: string;
-  status: "Current" | "Completed" | "Archived" | "In Progress";
-  collaborators?: string[];
-  links?: {
-    github?: string;
-    demo?: string;
-    other?: { label: string; url: string }[];
-  };
-  techStack?: string[];
-  challenges?: string[];
-  blogPosts?: { title: string; url: string }[];
-  type: "project" | "test";
-};
-
-type FilterType = "all" | "projects" | "tests";
-type SortDirection = "newest" | "oldest";
-
-/**
- *
- */
-export default function ProjectTimeline() {
-  const [filter, setFilter] = useState<FilterType>("all");
-  const [sortDirection, setSortDirection] = useState<SortDirection>("newest");
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
-  const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
-    new Set()
-  );
-
-  // Refs for scroll animations and anchor navigation
-  const projectsRef = useRef<HTMLDivElement>(null);
-  const testsRef = useRef<HTMLDivElement>(null);
-
-  // Filter and sort projects
-  useEffect(() => {
-    let filtered = [...projectsData];
-
-    // Apply filter
-    if (filter === "projects") {
-      filtered = filtered.filter((project) => project.type === "project");
-    } else if (filter === "tests") {
-      filtered = filtered.filter((project) => project.type === "test");
-    }
-
-    // Apply sort
-    filtered.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortDirection === "newest" ? dateB - dateA : dateA - dateB;
-    });
-
-    setFilteredProjects(filtered);
-  }, [filter, sortDirection]);
-
-  // Toggle project expansion
-  const toggleExpand = (id: string) => {
-    setExpandedProjects((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
-
-  // Scroll to section
-  const scrollToSection = (section: "projects" | "tests") => {
-    const ref = section === "projects" ? projectsRef : testsRef;
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Get projects and tests
-  const mainProjects = filteredProjects.filter((p) => p.type === "project");
-  const technicalTests = filteredProjects.filter((p) => p.type === "test");
-
-  return (
-    <div className="space-y-8 container mx-auto p-4">
-      {/* Controls */}
-      <div className="sticky top-0 z-10 bg-base-100/80 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-base-300 flex flex-col sm:flex-row justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Project Timeline</h2>
-
-          {/* Filter Dropdown */}
-          <div className="dropdown dropdown-end">
-            <button className="btn btn-outline btn-sm gap-1" tabIndex={0}>
-              <FaFilter size={16} />
-              {filter === "all"
-                ? "All"
-                : filter === "projects"
-                ? "Main Projects"
-                : "Technical Tests"}
-            </button>
-            <ul
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]"
-              tabIndex={0}>
-              <li>
-                <button onClick={() => setFilter("all")}>All</button>
-              </li>
-              <li>
-                <button onClick={() => setFilter("projects")}>
-                  Main Projects
-                </button>
-              </li>
-              <li>
-                <button onClick={() => setFilter("tests")}>
-                  Technical Tests
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Sort Toggle */}
-          <button
-            className="btn btn-outline btn-sm gap-1"
-            onClick={() =>
-              setSortDirection((prev) =>
-                prev === "newest" ? "oldest" : "newest"
-              )
-            }>
-            {sortDirection === "newest" ? (
-              <FaSortAmountDown size={16} />
-            ) : (
-              <FaSortAmountUp size={16} />
-            )}
-            {sortDirection === "newest" ? "Newest First" : "Oldest First"}
-          </button>
-
-          {/* Quick Navigation */}
-          <div className="hidden sm:flex items-center gap-2">
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={() => scrollToSection("projects")}>
-              #projects
-            </button>
-            <button
-              className="btn btn-ghost btn-sm"
-              onClick={() => scrollToSection("tests")}>
-              #tests
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Projects Section */}
-      {(filter === "all" || filter === "projects") &&
-        mainProjects.length > 0 && (
-          <div className="relative" id="projects" ref={projectsRef}>
-            <h2 className="text-xl font-semibold mb-6 text-base-content flex items-center gap-2">
-              <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
-                <FaUsers size={18} />
-              </span>
-              Main Projects
-            </h2>
-
-            <div className="relative">
-              {/* Timeline vertical line */}
-              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
-
-              <div className="space-y-6">
-                {mainProjects.map((project) => (
-                  <TimelineItem
-                    isActive={project.status === "Current"}
-                    isExpanded={expandedProjects.has(project.id)}
-                    key={project.id}
-                    project={project}
-                    onToggleExpand={() => toggleExpand(project.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-      {/* Technical Tests Section */}
-      {(filter === "all" || filter === "tests") &&
-        technicalTests.length > 0 && (
-          <div className="relative pt-4" id="tests" ref={testsRef}>
-            <h2 className="text-xl font-semibold mb-6 text-base-content flex items-center gap-2">
-              <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
-                <FaUser size={18} />
-              </span>
-              Technical Tests
-            </h2>
-
-            <div className="relative">
-              {/* Timeline vertical line */}
-              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
-
-              <div className="space-y-6">
-                {technicalTests.map((test) => (
-                  <TimelineItem
-                    isActive={false} // Tests are never 'Current' in this context
-                    isExpanded={expandedProjects.has(test.id)}
-                    key={test.id}
-                    project={test}
-                    onToggleExpand={() => toggleExpand(test.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-      {/* Empty state */}
-      {filteredProjects.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-base-content/70">
-            No projects found with the current filter.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
+import type { Project, FilterType, SortDirection } from "@/data/ProjectsData";
 
 function TimelineItem({
   project,
@@ -476,6 +253,207 @@ function TimelineItem({
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ *
+ */
+export default function ProjectTimeline() {
+  const [filter, setFilter] = useState<FilterType>("all");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("newest");
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
+    new Set()
+  );
+
+  // Refs for scroll animations and anchor navigation
+  const projectsRef = useRef<HTMLDivElement>(null);
+  const testsRef = useRef<HTMLDivElement>(null);
+
+  // Filter and sort projects
+  useEffect(() => {
+    let filtered = [...projectsData];
+
+    // Apply filter
+    if (filter === "projects") {
+      filtered = filtered.filter((project) => project.type === "project");
+    } else if (filter === "tests") {
+      filtered = filtered.filter((project) => project.type === "test");
+    }
+
+    // Apply sort
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortDirection === "newest" ? dateB - dateA : dateA - dateB;
+    });
+
+    setFilteredProjects(filtered);
+  }, [filter, sortDirection]);
+
+  // Toggle project expansion
+  const toggleExpand = (id: string) => {
+    setExpandedProjects((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  // Scroll to section
+  const scrollToSection = (section: "projects" | "tests") => {
+    const ref = section === "projects" ? projectsRef : testsRef;
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Get projects and tests
+  const mainProjects = filteredProjects.filter((p) => p.type === "project");
+  const technicalTests = filteredProjects.filter((p) => p.type === "test");
+
+  return (
+    <div className="space-y-8 container mx-auto p-4">
+      {/* Controls */}
+      <div className="sticky top-0 z-10 bg-base-100/80 backdrop-blur-sm p-4 rounded-lg shadow-sm border border-base-300 flex flex-col sm:flex-row justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-semibold">Project Timeline</h2>
+
+          {/* Filter Dropdown */}
+          <div className="dropdown dropdown-end">
+            <button className="btn btn-outline btn-sm gap-1" tabIndex={0}>
+              <FaFilter size={16} />
+              {filter === "all"
+                ? "All"
+                : filter === "projects"
+                ? "Main Projects"
+                : "Technical Tests"}
+            </button>
+            <ul
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-[1]"
+              tabIndex={0}>
+              <li>
+                <button onClick={() => setFilter("all")}>All</button>
+              </li>
+              <li>
+                <button onClick={() => setFilter("projects")}>
+                  Main Projects
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setFilter("tests")}>
+                  Technical Tests
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Sort Toggle */}
+          <button
+            className="btn btn-outline btn-sm gap-1"
+            onClick={() =>
+              setSortDirection((prev) =>
+                prev === "newest" ? "oldest" : "newest"
+              )
+            }>
+            {sortDirection === "newest" ? (
+              <FaSortAmountDown size={16} />
+            ) : (
+              <FaSortAmountUp size={16} />
+            )}
+            {sortDirection === "newest" ? "Newest First" : "Oldest First"}
+          </button>
+
+          {/* Quick Navigation */}
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => scrollToSection("projects")}>
+              #projects
+            </button>
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => scrollToSection("tests")}>
+              #tests
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Projects Section */}
+      {(filter === "all" || filter === "projects") &&
+        mainProjects.length > 0 && (
+          <div className="relative" id="projects" ref={projectsRef}>
+            <h2 className="text-xl font-semibold mb-6 text-base-content flex items-center gap-2">
+              <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
+                <FaUsers size={18} />
+              </span>
+              Main Projects
+            </h2>
+
+            <div className="relative">
+              {/* Timeline vertical line */}
+              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
+
+              <div className="space-y-6">
+                {mainProjects.map((project) => (
+                  <TimelineItem
+                    isActive={project.status === "Current"}
+                    isExpanded={expandedProjects.has(project.id)}
+                    key={project.id}
+                    project={project}
+                    onToggleExpand={() => toggleExpand(project.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+      {/* Technical Tests Section */}
+      {(filter === "all" || filter === "tests") &&
+        technicalTests.length > 0 && (
+          <div className="relative pt-4" id="tests" ref={testsRef}>
+            <h2 className="text-xl font-semibold mb-6 text-base-content flex items-center gap-2">
+              <span className="w-8 h-8 rounded-full bg-base-200 flex items-center justify-center">
+                <FaUser size={18} />
+              </span>
+              Technical Tests
+            </h2>
+
+            <div className="relative">
+              {/* Timeline vertical line */}
+              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-base-300 hidden md:block" />
+
+              <div className="space-y-6">
+                {technicalTests.map((test) => (
+                  <TimelineItem
+                    isActive={false} // Tests are never 'Current' in this context
+                    isExpanded={expandedProjects.has(test.id)}
+                    key={test.id}
+                    project={test}
+                    onToggleExpand={() => toggleExpand(test.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+      {/* Empty state */}
+      {filteredProjects.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-base-content/70">
+            No projects found with the current filter.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,30 @@
-import type { Project } from "@/components/Professional/Projects/Timeline"; // Import the type
+// TODO: Conectar com a API do GitHub para buscar os repositórios
+// Utilizar o Supabase para cachear os dados
+
+export type FilterType = "all" | "projects" | "tests";
+export type SortDirection = "newest" | "oldest";
+
+export type Project = {
+  // Export the type
+  id: string;
+  title: string;
+  description: string;
+  details?: string;
+  date: string;
+  status: "Current" | "Completed" | "Archived" | "In Progress";
+  collaborators?: string[];
+  links?: {
+    github?: string;
+    demo?: string;
+    other?: { label: string; url: string }[];
+  };
+  techStack?: string[];
+  challenges?: string[];
+  blogPosts?: { title: string; url: string }[];
+  type: "project" | "test";
+};
 
 export const projectsData: Project[] = [
-  // Add explicit type
   {
     id: "1",
     title: "E-commerce Platform Redesign",
