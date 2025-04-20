@@ -1,5 +1,6 @@
 export const menuData = [
   {
+    // Professional
     title: "Profissional", // Documentação da minha vida profissional
     items: [
       // { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
@@ -12,6 +13,7 @@ export const menuData = [
     ],
   },
   {
+    // Knowledge
     title: "Conhecimento", // Documentação do meu conhecimento
     items: [
       {
@@ -30,6 +32,7 @@ export const menuData = [
     ],
   },
   {
+    // Personal
     title: "Pessoal", // Documentação da minha vida pessoal
     items: [
       {
