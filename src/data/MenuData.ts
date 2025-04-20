@@ -4,7 +4,7 @@ export const menuData = [
     items: [
       // { label: "DevTests", href: "/test" }, // Apenas para testes de routing, template de novas pages e outros
       // Incluir minha contribuição no XGuardian apesar de não ser um projeto open-source?
-      { label: "Projetos", href: "/projects", wip: true }, // Projetos pessoais e profissionais (ordem cronológica inversa)
+      { label: "Projetos", href: "/projects", wip: false }, // Projetos pessoais e profissionais (ordem cronológica inversa)
       { label: "Carreira", href: "/career", wip: false }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo", wip: true }, // Conceito e significado do logotipo
       { label: "Metas", href: "/goals", wip: false }, // Metas e objetivos profissionais (curto, médio e longo prazo)
