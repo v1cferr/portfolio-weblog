@@ -91,6 +91,8 @@ export default function Context() {
                 <h2 className="sr-only" id="background">
                   Contexto Pessoal
                 </h2>
+                {/* TODO: Atualizar pois estou morando em São Carlos, SP */}
+                {/* TODO: Adicionar uma data da última atualização do contexto (updated: 12/05/2025) */}
                 <p className="my-3 text-sm sm:text-base md:text-lg">
                   Meu nome é Victor, atualmente possuo {age} anos e sou
                   desenvolvedor, além de estudar tecnologia, inteligência
