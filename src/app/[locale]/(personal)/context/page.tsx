@@ -1,67 +1,14 @@
-"use client";
-
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
-const BIRTH_DATE = {
-  year: 2002,
-  month: 9,
-  day: 6,
-};
-
-/**
- * Calcula a idade com base na data de nascimento
- * @param birthDate - Objeto contendo ano, mês e dia de nascimento
- * @returns Idade atual como um número
- */
-const calculateAge = (birthDate = BIRTH_DATE): number => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-  const currentDay = today.getDate();
-
-  let age = currentYear - birthDate.year;
-
-  if (
-    currentMonth < birthDate.month ||
-    (currentMonth === birthDate.month && currentDay < birthDate.day)
-  ) {
-    age--;
-  }
-
-  return age;
-};
+import { calculateAge } from "@/utils/calculateAge";
 
 /**
  * Componente da página de Contexto
  * Apresenta o histórico pessoal, perspectiva e abordagem em relação à tecnologia e sociedade
  */
 export default function Context() {
-  const [age, setAge] = useState<number>(calculateAge());
-
-  useEffect(() => {
-    setAge(calculateAge());
-
-    const checkAndUpdateAge = () => {
-      const now = new Date();
-      const nextMidnight = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1
-      );
-      const timeUntilMidnight = nextMidnight.getTime() - now.getTime();
-
-      return setTimeout(() => {
-        setAge(calculateAge());
-        const newTimeout = checkAndUpdateAge();
-        return () => clearTimeout(newTimeout);
-      }, timeUntilMidnight);
-    };
-
-    const timeout = checkAndUpdateAge();
-    return () => clearTimeout(timeout);
-  }, []);
+  const age = calculateAge();
 
   return (
     <>
