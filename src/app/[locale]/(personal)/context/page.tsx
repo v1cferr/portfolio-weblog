@@ -91,20 +91,35 @@ export default function Context() {
                 <h2 className="sr-only" id="background">
                   Contexto Pessoal
                 </h2>
-                {/* TODO: Atualizar pois estou morando em São Carlos, SP */}
-                {/* TODO: Adicionar uma data da última atualização do contexto (updated: 12/05/2025) */}
-                <p className="my-3 text-sm sm:text-base md:text-lg">
+                <p className="my-3 text-xs text-base-content/60">
+                  <strong>Última atualização:</strong> 12/05/2025
+                </p>
+                <p className="my-3 text-sm sm:text-base md:text-lg text-justify">
                   Meu nome é Victor, atualmente possuo {age} anos e sou
                   desenvolvedor, além de estudar tecnologia, inteligência
-                  artificial e geopolítica. Cresci e moro na periferia da
-                  capital paulista, em um Brasil que historicamente se
-                  estruturou como um país colonial, extrativista e entreguista.
-                  Nesse sistema, as riquezas naturais e produtivas do país são
+                  artificial e geopolítica. Atualmente moro em{" "}
+                  <strong>São Carlos, SP</strong>, interior do estado, após ter
+                  crescido na periferia da região metropolitana de São Paulo,
+                  mais especificamente no <strong>ABC Paulista</strong>, longe
+                  do centro da capital. O Brasil historicamente se estruturou
+                  como um país colonial, extrativista e entreguista. Nesse
+                  sistema, as riquezas naturais e produtivas do país são
                   exploradas por potências estrangeiras e elites internas,
                   enquanto a maior parte da população lida com desigualdade,
                   precarização do trabalho e instabilidade econômica.
                 </p>
-                <p className="my-3 text-sm sm:text-base md:text-lg">
+                <p className="my-3 text-sm sm:text-base md:text-lg text-justify">
+                  A mudança para São Carlos foi motivada pela busca por mais
+                  qualidade de vida, custos menores e um ambiente mais propício
+                  ao desenvolvimento pessoal e profissional. Aqui, consigo
+                  manter uma rotina mais saudável, com mais tempo e energia para
+                  estudar, trabalhar e focar em projetos + personal hub. O
+                  objetivo nessa nova fase é intensificar a produção de
+                  projetos, buscar oportunidades no mercado e manter a
+                  constância na rotina de estudos e trabalho, aproveitando a
+                  melhor estrutura e tranquilidade da cidade.
+                </p>
+                <p className="my-3 text-sm sm:text-base md:text-lg text-justify">
                   Meu cotidiano sempre foi marcado por essa realidade. Crescer
                   na periferia me proporcionou uma visão crítica sobre as
                   dificuldades enfrentadas pela maioria dos brasileiros:
