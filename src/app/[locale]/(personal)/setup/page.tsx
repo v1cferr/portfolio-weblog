@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { components, photos } from "@/data/SetupData";
+import { getUsageTime } from "@/utils/getTimeBetween";
 
 function PhotoGallery() {
   return (
@@ -50,6 +51,8 @@ export default function Setup() {
                 <tr>
                   <th>Nome</th>
                   <th>Descrição</th>
+                  {/* Só mostra "Tempo de uso" para Ex-Peças */}
+                  {component.category === "Ex-Peças" && <th>Tempo de uso</th>}
                 </tr>
               </thead>
               <tbody>
@@ -57,6 +60,17 @@ export default function Setup() {
                   <tr key={item.name}>
                     <td>{item.name}</td>
                     <td>{item.description}</td>
+                    {/* Só mostra tempo de uso para Ex-Peças */}
+                    {component.category === "Ex-Peças" && (
+                      <td>
+                        {"date" in item && item.date
+                          ? getUsageTime(
+                              item.date,
+                              "endDate" in item ? item.endDate : undefined
+                            )
+                          : "-"}
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

@@ -1,9 +1,9 @@
 // Based on: <https://daisyui.com/components/timeline/>
 
-import { differenceInMonths, parse } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import Link from "next/link";
+
+import { getTimelineDuration } from "@/utils/getTimeBetween";
 
 interface ITimelineItem {
   title: string;
@@ -81,30 +81,6 @@ interface ITimelineItemComponentProps {
   isLast: boolean;
 }
 
-const calculateDuration = (dateRange: string): string => {
-  const [start, end] = dateRange.split(" - ");
-  const startDate = parse(start, "MMM yyyy", new Date(), { locale: ptBR });
-  const endDate =
-    end === "Atual"
-      ? new Date()
-      : parse(end, "MMM yyyy", new Date(), { locale: ptBR });
-
-  const months = differenceInMonths(endDate, startDate);
-  const years = Math.floor(months / 12);
-  const remainingMonths = months % 12;
-  const yearString = years > 0 ? `${years} ano${years > 1 ? "s" : ""}` : "";
-  const monthString =
-    remainingMonths > 0
-      ? `${remainingMonths} ${remainingMonths > 1 ? "meses" : "mês"}`
-      : "";
-
-  if (yearString && monthString) {
-    return `${yearString} e ${monthString}`;
-  }
-
-  return yearString || monthString || "menos de um mês";
-};
-
 const TimelineItemComponent: React.FC<ITimelineItemComponentProps> = ({
   item,
   index,
@@ -148,7 +124,7 @@ const TimelineItemComponent: React.FC<ITimelineItemComponentProps> = ({
           </Link>
         </div>
         <time className="text-sm italic">
-          {item.date} <span>({calculateDuration(item.date)})</span>
+          {item.date} <span>({getTimelineDuration(item.date)})</span>
         </time>
         <p className="mt-1.5 whitespace-pre-line max-w-md">
           {item.description}

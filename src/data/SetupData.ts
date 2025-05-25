@@ -210,6 +210,7 @@ export const components = [
       {
         name: "Monitor secundário",
         description: 'Monitor AOC 21.5" 22B1H Led Full HD',
+        url: "https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ",
       },
     ],
   },
@@ -243,8 +244,8 @@ export const components = [
         url: "https://www.redragon.com.br/kumarargbabnt2blue",
         review:
           "Utilizei de 2018 até meados de 2024. Teclado bom demais, mas o switch azul é bem barulhento e depois de um tempo começou a dar double click. Troquei por um switch purple e continua funcionando até hoje. Está guardado como teclado reserva.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2018-06",
+        endDate: "2024-05",
       },
       {
         name: "Fone de Ouvido",
@@ -252,8 +253,8 @@ export const components = [
         url: "https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x",
         review:
           "Utilizei de 2022 até 2024. Earbuds com bom som, mas chama muito a atenção por conta do LED e não tem cancelamento de ruído. Troquei por um fone in-ear com cancelamento de ruído e sem LED.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2022-01",
+        endDate: "2024-04",
       },
       {
         name: "Gabinete",
@@ -261,8 +262,8 @@ export const components = [
         url: "https://pt.sharkoon.com/product/VG6W",
         review:
           "Utilizei de 2021 até 2024. Quebrou muito o galho, mas não tem suporte para fans superiores e ainda tinha espaço para leitor de CD/DVD. Troquei por um gabinete com airflow melhor e suporte para fans em cima.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2021-03",
+        endDate: "2024-01",
       },
       {
         name: "Mouse",
@@ -270,8 +271,8 @@ export const components = [
         url: "https://www.redragon.com.br/cobra",
         review:
           "Utilizei de 2018 até 2024. Mouse bom demais, depois de anos de uso intenso ele começou a dar double click. Mas pelo preço, compensa bastante, muito custo-beneficio. Troquei por um Razer DeathAdder V2.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2018-06",
+        endDate: "2024-03",
       },
       {
         name: "Mousepad",
@@ -279,8 +280,8 @@ export const components = [
         url: "https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261",
         review:
           "Utilizei de 2019 até 2024. Mousepad bom demais, costura muito boa, não rasgou até hoje e deixo como reserva. Troquei por um mousepad da Redragon com tema de WoW.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2019-11",
+        endDate: "2024-05",
       },
       {
         name: "Headset over-ear",
@@ -288,8 +289,8 @@ export const components = [
         url: "https://www.redragon.com.br/zeus",
         review:
           "Utilizei de 2020 até 2024. Melhor headset que já tive, som ótimo, drivers e configuração de software com 7.1 e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.",
-        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
-        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
+        date: "2020-08",
+        endDate: "2024-03",
       },
     ],
   },
