@@ -272,27 +272,4 @@ export const components = [
   },
 ];
 
-export const stores = [
-  {
-    name: "Kabum",
-    url: "https://www.kabum.com.br",
-  },
-  {
-    name: "AliExpress",
-    url: "https://pt.aliexpress.com",
-  },
-  {
-    name: "Redragon",
-    url: "https://www.redragon.com.br",
-  },
-  {
-    name: "TerabyteShop",
-    url: "https://www.terabyteshop.com.br",
-  },
-  {
-    name: "Pichau",
-    url: "https://www.pichau.com.br",
-  },
-];
-
 export const photos: IPhoto[] = rawPhotos.map(formatPhotoData);

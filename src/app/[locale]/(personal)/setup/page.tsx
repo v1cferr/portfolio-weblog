@@ -1,27 +1,6 @@
 import Image from "next/image";
 
-import { components, stores, photos } from "@/data/SetupData";
-
-function _Stores() {
-  return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Lojas</h2>
-      <ul className="list-disc pl-5">
-        {stores.map((store, index) => (
-          <li key={index}>
-            <a
-              className="text-blue-500 hover:underline"
-              href={store.url}
-              rel="noopener noreferrer"
-              target="_blank">
-              {store.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+import { components, photos } from "@/data/SetupData";
 
 function PhotoGallery() {
   return (
@@ -83,9 +62,6 @@ export default function Setup() {
           </div>
         </div>
       ))}
-
-      {/* Peças compradas dessas lojas */}
-      {/* <Stores /> */}
 
       {/* Evolução do Setup */}
       <PhotoGallery />
