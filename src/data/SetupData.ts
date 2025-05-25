@@ -93,25 +93,30 @@ export const components = [
         name: "Processador (CPU)",
         description:
           "Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200",
+        url: "https://www.intel.com.br/content/www/br/pt/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html",
       },
       {
         name: "Placa-mãe (MOBO)",
         description: "Asus EX-B560M-V5, Intel B560 LGA 1200, DDR4, ATX",
+        url: "https://www.asus.com/br/motherboards-components/motherboards/expedition/ex-b560m-v5/",
       },
       {
         name: "Placa de vídeo (GPU)",
         description:
           "Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing",
+        url: "https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD",
       },
       {
         name: "Memória (RAM)",
         description:
           "(2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA",
+        url: "https://www.pichau.com.br/memoria-team-group-t-force-vulcan-pichau-8gb-1x8-ddr4-3200mhz-c16-vermelha-tlprd48g3200hc16f01",
       },
       {
         name: "Armazenamento (M2 Gen 4)",
         description:
           "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s",
+        url: "https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive",
       },
       {
         name: "Armazenamento (M2 Gen 3)",
@@ -122,6 +127,7 @@ export const components = [
       {
         name: "Fonte de alimentação (PSU)",
         description: "Sharkoon WPM Gold Zero, 550W, 80 Plus Gold, Semi-Modular",
+        url: "https://pt.sharkoon.com/product/GoldZERO",
       },
       {
         name: "Gabinete (CASE)",
@@ -137,35 +143,41 @@ export const components = [
       {
         name: "Water Cooler",
         description: "Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB",
+        url: "https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb",
       },
       {
         name: "Adaptador de Rede",
         description:
           "Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182",
+        url: "https://www.kabum.com.br/produto/135247/adaptador-wifi-d-link-ac1200-dual-band-5ghz-802-11ac-usb-3-0-dwa-182",
       },
       {
         name: "Caixa de Som",
         description:
           "Soundbar Gamer Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560",
+        url: "https://www.redragon.com.br/adiemus",
       },
       {
         name: "Cadeira",
         description: "Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho",
+        url: "https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/",
       },
       {
         name: "Mouse",
         description:
           "Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis",
+        url: "https://www.razer.com/br-pt/gaming-mice/razer-deathadder-v2",
       },
       {
         name: "Mousepad",
         description: "Redragon World of Warcraft Aliança 300x800x3mm Azul",
-        // url: "https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul",
+        url: "https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul",
       },
       {
         name: "Controle Joystick",
         description:
           "Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS",
+        url: "https://pt.aliexpress.com/item/1005006251691728.html",
       },
       {
         name: "Teclado Mecânico",
@@ -176,6 +188,7 @@ export const components = [
       {
         name: "Webcam",
         description: "Webcam Redragon Streaming Fobos, 720p | KaBuM!",
+        url: "https://www.redragon.com.br/fobos",
       },
       {
         name: "Headset over-ear",
