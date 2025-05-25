@@ -227,46 +227,69 @@ export const components = [
           "Caixa de som com Subwoofer 30W RMS EDIFIER G1500 MAX - Preto",
         url: "https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html",
       },
+      {
+        name: "Placa de Vídeo (GPU)",
+        description: "Intel Arc B580",
+        url: "https://www.intel.com.br/content/www/br/pt/products/sku/241598/intel-arc-b580-graphics/specifications.html",
+      },
     ],
   },
   {
-    // TODO: Completar a seção de ex-peças (e.g.: Redragon Kumara, Razer Hammerhead, Sharkoon VG6, etc.)
-    // TODO: Posteriormente adicionar um review para cada ex-peça
     category: "Ex-Peças",
     items: [
       {
         name: "Teclado Mecânico",
         description: "Redragon Kumara Switch Blue ABNT2 K552",
         url: "https://www.redragon.com.br/kumarargbabnt2blue",
+        review:
+          "Utilizei de 2018 até meados de 2024. Teclado bom demais, mas o switch azul é bem barulhento e depois de um tempo começou a dar double click. Troquei por um switch purple e continua funcionando até hoje. Está guardado como teclado reserva.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
       {
         name: "Fone de Ouvido",
         description: "Razer Hammerhead",
         url: "https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x",
+        review:
+          "Utilizei de 2022 até 2024. Earbuds com bom som, mas chama muito a atenção por conta do LED e não tem cancelamento de ruído. Troquei por um fone in-ear com cancelamento de ruído e sem LED.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
       {
         name: "Gabinete",
         description: "Sharkoon VG6",
         url: "https://pt.sharkoon.com/product/VG6W",
+        review:
+          "Utilizei de 2021 até 2024. Quebrou muito o galho, mas não tem suporte para fans superiores e ainda tinha espaço para leitor de CD/DVD. Troquei por um gabinete com airflow melhor e suporte para fans em cima.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
       {
         name: "Mouse",
         description: "Redragon Cobra M711",
         url: "https://www.redragon.com.br/cobra",
-        // date: "2021-06-01",
-        // time: "3 meses", (TODO: Fazer uma lógica para calcular o tempo)
+        review:
+          "Utilizei de 2018 até 2024. Mouse bom demais, depois de anos de uso intenso ele começou a dar double click. Mas pelo preço, compensa bastante, muito custo-beneficio. Troquei por um Razer DeathAdder V2.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
       {
         name: "Mousepad",
         description: "Havit HV-MP830",
         url: "https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261",
-        // date: "2021-06-01",
-        // time: "3 meses", (TODO: Fazer uma lógica para calcular o tempo)
+        review:
+          "Utilizei de 2019 até 2024. Mousepad bom demais, costura muito boa, não rasgou até hoje e deixo como reserva. Troquei por um mousepad da Redragon com tema de WoW.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
       {
         name: "Headset over-ear",
         description: "Redragon Zeus 7.1 H510",
         url: "https://www.redragon.com.br/zeus",
+        review:
+          "Utilizei de 2020 até 2024. Melhor headset que já tive, som ótimo, drivers e configuração de software com 7.1 e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.",
+        // date: "20XX-XX-XX", (TODO: Aqui é a data da compra de cada produto, vou ter que padronizar)
+        // time: "XX meses", (TODO: Fazer uma função/lógica para calcular o tempo ^^)
       },
     ],
   },
