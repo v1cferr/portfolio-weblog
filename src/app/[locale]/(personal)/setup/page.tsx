@@ -7,8 +7,10 @@ function PhotoGallery() {
     <section className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Evolução do Setup</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {photos.map((photo, index) => (
-          <article className="shadow-lg rounded-lg overflow-hidden" key={index}>
+        {photos.map((photo) => (
+          <article
+            className="shadow-lg rounded-lg overflow-hidden"
+            key={photo.src}>
             <div className="relative">
               <Image
                 alt={photo.alt}
@@ -51,8 +53,8 @@ export default function Setup() {
                 </tr>
               </thead>
               <tbody>
-                {component.items.map((item, index) => (
-                  <tr key={index}>
+                {component.items.map((item) => (
+                  <tr key={item.name}>
                     <td>{item.name}</td>
                     <td>{item.description}</td>
                   </tr>
