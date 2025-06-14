@@ -41,6 +41,45 @@
 └── README.md                # Documentação do projeto
 ```
 
+## Motivo da escolha da tecnologia
+
+Escolhi Next.js por ser um **framework full‑stack** que unifica front‑end e back‑end em um único repositório monolito, aproveitando as seguintes vantagens:
+
+- **App Router e Layouts Aninhados**: convenção de pastas para rotas, layouts e módulos de idiomas, proporcionando organização e escalabilidade da estrutura de pastas.
+- **Renderização Híbrida (SSR, SSG, ISR)**:
+  - **SSG** (Static Site Generation) gera HTML pré-renderizado em build time, ideal para conteúdo estático (posts e páginas pessoais).
+  - **SSR** (Server Side Rendering) entrega páginas dinâmicas sob demanda, garantindo dados sempre atuais.
+  - **ISR** (Incremental Static Regeneration) permite atualizações pontuais de páginas estáticas sem rebuild completo.
+- **React Server Components**: possibilita executar lógica e busca de dados no servidor dentro de componentes, reduzindo o bundle enviado ao cliente e melhorando a performance.
+- **API Routes Integradas e Edge Functions**: criação de endpoints REST/GraphQL diretamente em `app/api`, com possibilidade de rodar como funções serverless ou em edge runtime para latência mínima.
+- **Otimizações Out‑of‑the‑box**:
+  - **Image Optimization** com o componente `<Image>` para carregamento responsivo e lazy loading automático.
+  - **Font Optimization** e split de código automático por rota.
+  - **Middleware** nativo para adicionar cabeçalhos, autenticação e redirecionamentos de forma centralizada.
+- **Experiência de Desenvolvimento e Productividade**:
+  - **TypeScript First**: tipagem nativa, autocompletar e refatoração segura em toda a base de código.
+  - **Hot Reload** e feedback instantâneo durante o desenvolvimento.
+  - **Preview Deploys** no Vercel: cada PR gera um ambiente isolado com URL única para revisão.
+- **SEO e Performance**:
+  - Páginas pré-renderizadas melhoram tempo de carregamento e ranking em motores de busca.
+  - Suporte a metadados dinâmicos e geração de sitemaps/robots sem configurações externas.
+- **Ecosistema Maduro**:
+  - Integrações oficiais (NextAuth, tRPC, Prisma, MDX, analytics, A/B testing).
+  - Comunidade ativa e ampla documentação, facilitando solução de problemas.
+- **Monorepo e Compartilhamento de Códigos**:
+  - Fácil separação de pacotes e compartilhamento de hooks, tipos e serviços entre front-end e API.
+  - Sinergia com ferramentas de CI/CD e Dev Containers, garantindo consistência entre ambientes de desenvolvimento.
+- **Escalabilidade e Manutenção**:
+  - Arquitetura modular que cresce com o projeto.
+  - Atualizações frequentes e compatibilidade retroativa garantida pela equipe do Vercel.
+
+Essa combinação de recursos faz do Next.js a escolha ideal para um personal hub (portfolio‑weblog) que precisa ser:
+
+1. **Rápido para desenvolver**: convenções e ferramentas integradas reduzem o tempo de configuração.
+2. **Ótimo para SEO**: SSR/SSG garantem indexação e performance.
+3. **Fácil de manter**: estrutura clara, tipagem e monorepo reduzem a dívida técnica.
+4. **Preparado para crescer**: pode adicionar APIs, autenticação, analytics e funções edge conforme a demanda.
+
 ## Features
 
 - 🌐 Suporte a múltiplos idiomas
