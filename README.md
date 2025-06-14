@@ -12,23 +12,33 @@
 
 ## Estrutura do Projeto
 
-```plaintext
+```bash
 .
-├── .devcontainer/
-├── .github/
-├── .vscode/
-├── public/
-│   ├── languages/
-├── src/
-│   ├── app/
-│   ├── components/
-│   ├── i18n/
-│   ├── styles/
-│   ├── utils/
-│   └── middleware.ts
-├── supabase/
+├── .devcontainer/           # Configuração do ambiente de desenvolvimento (VS Code, Docker)
+├── .github/                 # Workflows, templates e configs do GitHub
+├── .vscode/                 # Configurações específicas do VS Code
+├── public/                  # Arquivos públicos (imagens, favicon, etc.)
+│   └── languages/           # Arquivos de tradução/idiomas
+├── src/                     # Código-fonte principal
+│   ├── app/                 # Rotas e páginas do Next.js (App Router)
+│   │   ├── [api]/           # Rotas de API customizadas
+│   │   ├── [locale]/        # Rotas internacionalizadas
+│   │   │   ├── (professional)/  # Páginas profissionais
+│   │   │   ├── (knowledge)/     # Páginas de conhecimento
+│   │   │   ├── (personal)/      # Páginas pessoais
+│   │   │   ├── [...rest]/       # Catch-all para rotas não mapeadas
+│   │   │   ├── layout.tsx       # Layout principal das rotas de locale
+│   │   │   ├── not-found.tsx    # Página 404 customizada
+│   │   │   └── page.tsx         # Página principal do locale
+│   ├── components/          # Componentes reutilizáveis React
+│   ├── i18n/                # Configuração e arquivos de internacionalização
+│   ├── styles/              # Estilos globais e utilitários CSS/Tailwind
+│   ├── utils/               # Funções utilitárias/helpers
+│   ├── types/               # Tipos personalizados
+│   └── middleware.ts        # Middlewares do Next.js
+├── supabase/                # Configurações e schemas do Supabase
 ├── ...
-└── README.md
+└── README.md                # Documentação do projeto
 ```
 
 ## Features
