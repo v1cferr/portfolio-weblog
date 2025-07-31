@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import Loading from "@/components/Loading";
 import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
+import { useEffect, useState, useCallback } from "react";
+
+import Loading from "@/components/Loading";
 
 // Link da planilha com as extensões do VSCode:
 // docs.google.com/spreadsheets/d/1CT7apH_TdLH-tlwjsT9B9-8cCPYKYkkV7GbyFVLfE0g/edit?gid=906698806#gid=906698806
 
+/**
+ *
+ */
 export default function VSCode() {
   const t = useTranslations("VSCode");
   const locale = useLocale();
@@ -20,7 +24,7 @@ export default function VSCode() {
 
     if (response.ok) {
       const data = await response.json();
-      setSheetData(data.data || []);
+      setSheetData(data.data ?? []);
       const indexes = data.data[0]
         .map((header: string, index: number) =>
           header === `Description_${locale}` ? index : -1
@@ -38,7 +42,7 @@ export default function VSCode() {
   }, [locale]);
 
   useEffect(() => {
-    fetchData();
+    void fetchData();
   }, [fetchData]);
 
   const headers = [
@@ -63,24 +67,26 @@ export default function VSCode() {
           <div className="block md:hidden">
             {sheetData.slice(1).map((row: string[], rowIndex: number) => (
               <div
-                key={rowIndex}
-                className="card bg-base-200/50 mb-4 p-4 rounded-lg shadow-lg">
+                className="card bg-base-200/50 mb-4 p-4 rounded-lg shadow-lg"
+                key={row[0] || `row-${rowIndex}`}>
                 {row
                   .filter(
                     (_, colIndex: number) =>
                       colIndex < 2 || descriptionIndexes.includes(colIndex)
                   )
                   .map((cell: string, colIndex: number) => (
-                    <div key={colIndex} className="mb-2">
+                    <div
+                      className="mb-2"
+                      key={`${row[0]}-${headers[colIndex]}-${cell}`}>
                       <span className="font-semibold">
                         {headers[colIndex]}:{" "}
                       </span>
                       {colIndex === 0 ? (
                         <Link
+                          className="underline hover:text-primary/80"
                           href={`https://marketplace.visualstudio.com/items?itemName=${cell}`}
-                          target="_blank"
                           rel="noopener noreferrer"
-                          className="underline hover:text-primary/80">
+                          target="_blank">
                           {cell}
                         </Link>
                       ) : (
@@ -99,14 +105,14 @@ export default function VSCode() {
                 <tr className="rounded-lg">
                   {headers.map((header: string, index: number) => (
                     <th
-                      key={index}
                       className={`${
                         index === 0
                           ? "rounded-tl-lg"
                           : index === headers.length - 1
                           ? "rounded-tr-lg"
                           : ""
-                      }`}>
+                      }`}
+                      key={header}>
                       {header}
                     </th>
                   ))}
@@ -115,21 +121,23 @@ export default function VSCode() {
               <tbody className="rounded-b-lg">
                 {sheetData.slice(1).map((row: string[], rowIndex: number) => (
                   <tr
-                    key={rowIndex}
-                    className="break-words hover:bg-base-200/20">
+                    className="break-words hover:bg-base-200/20"
+                    key={row[0] || `row-${rowIndex}`}>
                     {row
                       .filter(
                         (_, colIndex: number) =>
                           colIndex < 2 || descriptionIndexes.includes(colIndex)
                       )
                       .map((cell: string, colIndex: number) => (
-                        <td key={colIndex} className="rounded-b-lg">
+                        <td
+                          className="rounded-b-lg"
+                          key={`${row[0]}-${headers[colIndex]}`}>
                           {colIndex === 0 ? (
                             <Link
+                              className="underline hover:text-primary/80"
                               href={`https://marketplace.visualstudio.com/items?itemName=${cell}`}
-                              target="_blank"
                               rel="noopener noreferrer"
-                              className="underline hover:text-primary/80">
+                              target="_blank">
                               {cell}
                             </Link>
                           ) : (
