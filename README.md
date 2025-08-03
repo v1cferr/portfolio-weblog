@@ -103,6 +103,7 @@ Essa combinação de recursos faz do Next.js a escolha ideal para um personal hu
 - [ ] Add a vertical reverse chronological timeline (resume-CV) using DaisyUI
 - [ ] Add a "Projects" page with the projects I've worked on (Frontendmentor, XGuardian, etc)
 - [ ] Add the data API requests to Google Spreadsheets (VSCode Extensions, WoW Addons, etc)
+- [ ] Add animations using [Framer Motion](https://motion.dev/) all over the personal hub
 
 ### SEO (rankeamento nos motores de busca)
 
