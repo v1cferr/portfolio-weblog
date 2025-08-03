@@ -24,7 +24,7 @@ export const menuData = [
         ],
       },
       { label: "Graduação", href: "/graduation", wip: true }, // Detalhes da graduação em GTI
-      { label: "Certificações", href: "/certifications", wip: true }, // PWL-20 | Alura, Udemy, Hackers do Bem, etc.
+      { label: "Certificações", href: "/certifications", wip: false }, // PWL-20 | Alura, Udemy, Hackers do Bem, etc.
       { label: "Treinamentos", href: "/trainings", wip: true }, // Treinamentos e bootcamps
       { label: "Publicações", href: "/publications", wip: true }, // Artigos, posts, etc. (ainda pensando se coloco o weblog a parte)
       { label: "Idiomas", href: "/languages", wip: true }, // PWL-54 | Níveis de proficiência, certificados e estudos (adicionar iframe do Duolingo)
