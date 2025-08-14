@@ -153,9 +153,8 @@ export const components = [
       },
       {
         name: "Caixa de Som",
-        description:
-          "Soundbar Gamer Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560",
-        url: "https://www.redragon.com.br/adiemus",
+        description: "Subwoofer 30W RMS EDIFIER G1500 MAX - Preto",
+        url: "https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html",
       },
       {
         name: "Cadeira",
@@ -187,7 +186,7 @@ export const components = [
       },
       {
         name: "Webcam",
-        description: "Webcam Redragon Streaming Fobos, 720p | KaBuM!",
+        description: "Webcam Redragon Streaming Fobos, 720p",
         url: "https://www.redragon.com.br/fobos",
       },
       {
@@ -221,12 +220,6 @@ export const components = [
         name: "Nobreak Senoidal",
         description: "ATTIV SENO 700 VA BI",
         url: "https://www.intelbras.com/pt-br/energia/nobreaks/senoidal",
-      },
-      {
-        name: "Soundbar com Subwoofer",
-        description:
-          "Caixa de som com Subwoofer 30W RMS EDIFIER G1500 MAX - Preto",
-        url: "https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html",
       },
       {
         name: "Placa de Vídeo (GPU)",
@@ -291,6 +284,16 @@ export const components = [
           "Utilizei de 2020 até 2024. Melhor headset que já tive, som ótimo, drivers e configuração de software com 7.1 e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.",
         date: "2020-08",
         endDate: "2024-03",
+      },
+      {
+        name: "Soundbar",
+        description:
+          "Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560",
+        url: "https://www.redragon.com.br/adiemus",
+        review:
+          "Utilizei de 2022 até 2025. Excelente custo-benefício para desktop, som claro para uso geral e iluminação discreta. Limitação principal foi a ausência de subwoofer e potência reduzida para músicas/filmes com grave mais encorpado. Substituída pela Edifier G1500 Max com subwoofer dedicado.",
+        date: "2022-03",
+        endDate: "2025-08",
       },
     ],
   },
