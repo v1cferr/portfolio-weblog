@@ -1,33 +1,96 @@
 {
+  // =================================================
+  // CONFIGURAÇÕES DE FORMATAÇÃO
+  // =================================================
+
+  // Define o Prettier como formatador padrão para todos os arquivos
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Formata automaticamente ao salvar
+  "editor.formatOnSave": true,
+
+  // Formata automaticamente ao colar código
+  "editor.formatOnPaste": true,
+
+  // Configurações específicas por linguagem
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "never"
+    }
   },
-  "clock.active": false,
-  "deno.path": "./node_modules/.bin/deno",
-  "deno.enablePaths": [
-    "supabase/functions",
-    "./supabase/functions",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "never"
+    }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  // =================================================
+  // CONFIGURAÇÕES DO ESLINT
+  // =================================================
+
+  // Executa ESLint ao salvar
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ],
-  "deno.lint": true,
-  "deno.unstable": [
-    "bare-node-builtins",
-    "byonm",
-    "sloppy-imports",
-    "unsafe-proto",
-    "webgpu",
-    "broadcast-channel",
-    "worker-options",
-    "cron",
-    "kv",
-    "ffi",
-    "fs",
-    // "http",
-    "net"
-  ],
-  "deno.enable": false,
-  "github.copilot.chat.codeGeneration.instructions": [
-    {
-      "file": "./daisyui.md"
-    },
-  ]
+
+  // =================================================
+  // CONFIGURAÇÕES DO PRETTIER
+  // =================================================
+
+  // Exibe mensagens de status do Prettier
+  "prettier.enable": true,
+
+  // Usa o arquivo de configuração do projeto
+  "prettier.requireConfig": true,
 }
