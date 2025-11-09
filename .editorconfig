@@ -1,0 +1,110 @@
+# EditorConfig é um projeto que ajuda a manter estilos de codificação consistentes
+# entre diferentes editores e IDEs.
+# @see https://editorconfig.org
+
+# Este arquivo indica que é o arquivo raiz de configuração
+# e a busca por arquivos .editorconfig deve parar aqui
+root = true
+
+# =================================================
+# CONFIGURAÇÕES PADRÃO PARA TODOS OS ARQUIVOS
+# =================================================
+
+[*]
+# Define o conjunto de caracteres como UTF-8
+charset = utf-8
+
+# Define o estilo de indentação (espaços)
+indent_style = space
+
+# Define o tamanho da indentação
+indent_size = 2
+
+# Define o tipo de quebra de linha
+# lf = Line Feed (\n) - padrão Unix/Linux/Mac
+end_of_line = lf
+
+# Insere uma nova linha no final do arquivo
+insert_final_newline = true
+
+# Remove espaços em branco no final das linhas
+# Nota: O Prettier pode ter comportamento diferente em template strings
+trim_trailing_whitespace = true
+
+# Define o comprimento máximo da linha
+max_line_length = 80
+
+# =================================================
+# CONFIGURAÇÕES ESPECÍFICAS POR TIPO DE ARQUIVO
+# =================================================
+
+# Arquivos Markdown - preserva espaços duplos no final (usados para quebra de linha)
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 80
+
+# Arquivos YAML e YML
+[*.{yml,yaml}]
+indent_size = 2
+
+# Arquivos JSON
+[*.json]
+indent_size = 2
+
+# Package.json especificamente (alguns projetos preferem 2 espaços)
+[package.json]
+indent_size = 2
+
+# Arquivos Python
+[*.py]
+indent_size = 4
+max_line_length = 88
+
+# Arquivos Makefile (DEVEM usar tabs)
+[Makefile]
+indent_style = tab
+
+# Arquivos Go (convenção da linguagem)
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Arquivos de configuração do Next.js e TypeScript
+[*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}]
+indent_size = 2
+max_line_length = 80
+
+# Arquivos de configuração
+[*.config.{js,mjs,ts,mts}]
+max_line_length = 100
+
+# Arquivos CSS, SCSS, LESS
+[*.{css,scss,sass,less}]
+indent_size = 2
+
+# Arquivos HTML
+[*.{html,htm}]
+indent_size = 2
+
+# Arquivos XML, SVG
+[*.{xml,svg}]
+indent_size = 2
+
+# Arquivos de configuração TOML
+[*.toml]
+indent_size = 2
+
+# Arquivos Shell Script
+[*.sh]
+indent_size = 2
+end_of_line = lf
+
+# Arquivos .env (variáveis de ambiente)
+[.env*]
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Arquivos de lock (não devem ser editados manualmente)
+[{package-lock.json,pnpm-lock.yaml,yarn.lock}]
+indent_size = 2
+insert_final_newline = true

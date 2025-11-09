@@ -14,7 +14,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:staged": "prettier --write --list-different"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
