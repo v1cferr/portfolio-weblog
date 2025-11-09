@@ -36,7 +36,6 @@ const TimelineItem: FC<ITimelineItemProps> = ({ project, isExpanded, onToggleExp
       opacity: 1,
       marginTop: "1rem",
       paddingTop: "1rem",
-      transition: { duration: 0.3, ease: "easeInOut" },
     },
   };
 
@@ -145,6 +144,7 @@ const TimelineItem: FC<ITimelineItemProps> = ({ project, isExpanded, onToggleExp
                 exit="collapsed"
                 initial="collapsed"
                 key="content"
+                transition={{ duration: 0.3, ease: "easeInOut" }}
                 variants={contentVariants}
               >
                 {/* Tecnologias Utilizadas */}
