@@ -28,40 +28,20 @@ function Header() {
           <input className="drawer-toggle" id="my-drawer" type="checkbox" />
           <div className="drawer-content">
             {/* Botão para abrir o drawer */}
-            <label
-              className="btn btn-sm btn-ghost lg:hidden"
-              htmlFor="my-drawer">
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M4 6h16M4 12h8m-8 6h16"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
+            <label className="btn btn-sm btn-ghost lg:hidden" htmlFor="my-drawer">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h8m-8 6h16" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
               </svg>
             </label>
           </div>
 
           {/* Container do drawer quando está ativo */}
           <div className="drawer-side">
-            <label
-              aria-label="close sidebar"
-              className="drawer-overlay"
-              htmlFor="my-drawer"
-            />
+            <label aria-label="close sidebar" className="drawer-overlay" htmlFor="my-drawer" />
             <div className="flex flex-col min-h-full w-auto max-w-xs bg-base-200 p-4 rounded-r-box">
               <ul className="menu flex-grow w-auto">
                 {menus.map((menu, index) => (
-                  <DropdownMenu
-                    items={menu.items}
-                    key={index}
-                    title={menu.title}
-                  />
+                  <DropdownMenu items={menu.items} key={index} title={menu.title} />
                 ))}
               </ul>
 

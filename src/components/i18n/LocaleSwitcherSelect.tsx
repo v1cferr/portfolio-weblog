@@ -12,11 +12,7 @@ type Props = {
   label: string;
 };
 
-export default function LocaleSwitcherSelect({
-  children,
-  defaultValue,
-  label,
-}: Props) {
+export default function LocaleSwitcherSelect({ children, defaultValue, label }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
@@ -42,7 +38,8 @@ export default function LocaleSwitcherSelect({
         className="select select-bordered select-sm w-full max-w-xs bg-transparent"
         defaultValue={defaultValue}
         disabled={isPending}
-        onChange={onSelectChange}>
+        onChange={onSelectChange}
+      >
         {children}
       </select>
     </label>

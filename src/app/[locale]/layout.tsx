@@ -61,13 +61,7 @@ async function fetchLocaleData(params: Promise<{ locale: string }>) {
 /**
  *
  */
-export default async function HomeLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+export default async function HomeLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   // Busca os dados de localização
   const localeData = await fetchLocaleData(params);
 

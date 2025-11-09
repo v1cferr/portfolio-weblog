@@ -16,7 +16,8 @@ const SocialLink: React.FC<ISocialLinkProps> = ({ href, Icon, title }) => (
     className="text-base-content/70 hover:text-primary p-2 rounded-full hover:bg-base-200 transition-all duration-300"
     href={href}
     rel="noopener noreferrer"
-    target="_blank">
+    target="_blank"
+  >
     <Icon className="text-2xl" title={title} />
     <span className="sr-only">{title}</span>
   </Link>
@@ -34,7 +35,8 @@ const QuoteCard: React.FC<IQuoteCardProps> = ({ quote, source, href }) => (
             className="group/link relative inline-block hover:text-primary transition-colors duration-300 pr-0.5"
             href={href}
             rel="noopener noreferrer"
-            target="_blank">
+            target="_blank"
+          >
             {source}
             <span
               aria-hidden="true"
@@ -54,10 +56,7 @@ export default function Hero() {
   const locale = useLocale();
 
   return (
-    <section
-      aria-label="About Victor"
-      className="w-full bg-base-200/40"
-      id="hero-section">
+    <section aria-label="About Victor" className="w-full bg-base-200/40" id="hero-section">
       <div className="container mx-auto px-4 py-16">
         <div className="flex flex-col items-center max-w-7xl mx-auto">
           {/* SECTION 1: Profile Picture with glow effect */}
@@ -90,21 +89,13 @@ export default function Hero() {
             </div>
 
             <p className="text-sm md:text-base max-w-md mx-auto text-base-content/80 leading-relaxed mb-4">
-              Desenvolvendo tecnologia com IA e segurança, sempre buscando
-              eficiência, escalabilidade e aprimoramento contínuo.
+              Desenvolvendo tecnologia com IA e segurança, sempre buscando eficiência, escalabilidade e aprimoramento contínuo.
             </p>
 
             {/* Social links */}
-            <nav
-              aria-label="Social Media Links"
-              className="flex justify-center space-x-2 mb-6">
+            <nav aria-label="Social Media Links" className="flex justify-center space-x-2 mb-6">
               {socialLinks.map((link) => (
-                <SocialLink
-                  Icon={link.icon}
-                  href={link.href}
-                  key={link.title}
-                  title={link.title}
-                />
+                <SocialLink Icon={link.icon} href={link.href} key={link.title} title={link.title} />
               ))}
             </nav>
 
@@ -112,14 +103,13 @@ export default function Hero() {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 className="btn btn-primary flex items-center gap-2 px-6 shadow-md hover:shadow-lg transition-shadow"
-                href={`${locale}/projects`}>
+                href={`${locale}/projects`}
+              >
                 <FaBriefcase aria-hidden="true" className="text-lg" />
                 <span>Ver Projetos</span>
               </Link>
 
-              <Link
-                className="btn btn-outline border-primary/70 flex items-center gap-2 px-6"
-                href={`${locale}#tech-stack`}>
+              <Link className="btn btn-outline border-primary/70 flex items-center gap-2 px-6" href={`${locale}#tech-stack`}>
                 <FaLaptopCode aria-hidden="true" className="text-lg" />
                 <span>Tecnologias</span>
               </Link>
@@ -133,12 +123,7 @@ export default function Hero() {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {quotes.map((quote) => (
-                <QuoteCard
-                  href={quote.href}
-                  key={quote.id}
-                  quote={quote.quote}
-                  source={quote.source}
-                />
+                <QuoteCard href={quote.href} key={quote.id} quote={quote.quote} source={quote.source} />
               ))}
             </div>
           </section>

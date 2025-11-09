@@ -17,9 +17,7 @@ export async function GET(request: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${Buffer.from(
-          `${clientId}:${clientSecret}`
-        ).toString("base64")}`,
+        Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
       },
       body: new URLSearchParams({
         grant_type: "authorization_code",
@@ -32,9 +30,6 @@ export async function GET(request: Request) {
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error:", error);
-    return NextResponse.json(
-      { error: "Failed to get tokens" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to get tokens" }, { status: 500 });
   }
 }

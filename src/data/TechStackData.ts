@@ -1,10 +1,4 @@
-import {
-  FaReact,
-  FaNodeJs,
-  FaGitAlt,
-  FaGithub,
-  FaDocker,
-} from "react-icons/fa";
+import { FaReact, FaNodeJs, FaGitAlt, FaGithub, FaDocker } from "react-icons/fa";
 import { GrMysql } from "react-icons/gr";
 import { MdSecurity } from "react-icons/md";
 import { PiFileSql } from "react-icons/pi";
@@ -51,8 +45,7 @@ interface ICategoryData {
 export const categories: ICategoryData[] = [
   {
     title: "Linguagens de Programação e Marcação",
-    description:
-      "Linguagens essenciais que utilizo para desenvolvimento de software, web e documentação técnica.",
+    description: "Linguagens essenciais que utilizo para desenvolvimento de software, web e documentação técnica.",
     items: [
       {
         icon: SiJavascript,
@@ -106,8 +99,7 @@ export const categories: ICategoryData[] = [
   },
   {
     title: "Frameworks e Bibliotecas",
-    description:
-      "Principais frameworks, bibliotecas e bancos de dados que utilizo para construir aplicações web modernas e eficientes.",
+    description: "Principais frameworks, bibliotecas e bancos de dados que utilizo para construir aplicações web modernas e eficientes.",
     items: [
       {
         icon: FaReact,
@@ -167,8 +159,7 @@ export const categories: ICategoryData[] = [
   },
   {
     title: "Ferramentas de Desenvolvimento e DevOps",
-    description:
-      "Ferramentas essenciais para otimizar o fluxo de desenvolvimento, colaboração, versionamento e implantação.",
+    description: "Ferramentas essenciais para otimizar o fluxo de desenvolvimento, colaboração, versionamento e implantação.",
     items: [
       {
         icon: FaGitAlt,

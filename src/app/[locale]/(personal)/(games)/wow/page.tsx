@@ -58,20 +58,14 @@ export default function WorldOfWarcraft() {
           <thead>
             <tr className="bg-base-content text-primary-content">
               <th className="border border-base-content px-4 py-2">Nome</th>
-              <th className="border border-base-content px-4 py-2">
-                Descrição
-              </th>
+              <th className="border border-base-content px-4 py-2">Descrição</th>
             </tr>
           </thead>
           <tbody>
             {mockAddons.map((addon) => (
               <tr key={addon.name}>
-                <td className="border border-base-content px-4 py-2">
-                  {addon.name}
-                </td>
-                <td className="border border-base-content px-4 py-2">
-                  {addon.description}
-                </td>
+                <td className="border border-base-content px-4 py-2">{addon.name}</td>
+                <td className="border border-base-content px-4 py-2">{addon.description}</td>
               </tr>
             ))}
           </tbody>
@@ -98,15 +92,14 @@ export default function WorldOfWarcraft() {
 
       {/* Montarias */}
       <section id="mounts">
-        <h2 className="text-2xl font-semibold mb-4">
-          Montarias que quero pegar
-        </h2>
+        <h2 className="text-2xl font-semibold mb-4">Montarias que quero pegar</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="border rounded-lg p-4">
             <a
               href="https://www.wowhead.com/pt/item=210061/r%C3%A9deas-de-anurelos-guia-das-chamas"
               rel="noopener noreferrer"
-              target="_blank">
+              target="_blank"
+            >
               <img
                 alt="Ícone da Rédeas de Anurelos, Guia das Chamas"
                 className="w-16 h-16 mb-2"
@@ -114,9 +107,7 @@ export default function WorldOfWarcraft() {
                 src="https://wow.zamimg.com/images/wow/icons/large/inv_dreamowl_firemount.jpg"
                 width={64}
               />
-              <h3 className="text-xl font-bold">
-                Rédeas de Anurelos, Guia das Chamas
-              </h3>
+              <h3 className="text-xl font-bold">Rédeas de Anurelos, Guia das Chamas</h3>
               <p className="text-lg">Montaria flamejante dos sonhos.</p>
               <img
                 alt="Imagem em alta definição da montaria Rédeas de Anurelos, Guia das Chamas"

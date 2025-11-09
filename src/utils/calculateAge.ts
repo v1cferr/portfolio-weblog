@@ -8,31 +8,21 @@ export const calculateAge = (birthDate = BIRTH_DATE): number => {
 
   let age = currentYear - birthDate.year;
 
-  if (
-    currentMonth < birthDate.month ||
-    (currentMonth === birthDate.month && currentDay < birthDate.day)
-  ) {
+  if (currentMonth < birthDate.month || (currentMonth === birthDate.month && currentDay < birthDate.day)) {
     age--;
   }
 
   return age;
 };
 
-export const setupAgeUpdate = (
-  setAge: React.Dispatch<React.SetStateAction<number>>,
-  birthDate = BIRTH_DATE
-) => {
+export const setupAgeUpdate = (setAge: React.Dispatch<React.SetStateAction<number>>, birthDate = BIRTH_DATE) => {
   const updateAge = () => {
     setAge(calculateAge(birthDate));
   };
 
   const checkAndUpdateAge = () => {
     const now = new Date();
-    const nextMidnight = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1
-    );
+    const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
     const timeUntilMidnight = nextMidnight.getTime() - now.getTime();
 
     return setTimeout(() => {

@@ -11,23 +11,19 @@ interface IPhoto {
 const rawPhotos: Omit<IPhoto, "alt" | "date">[] = [
   {
     src: "/pictures/setup/20250127.jpg",
-    observation:
-      "Troquei o Mousepad pelo da Alliance Azul bonitão (Redragon) e o gabinete pelo Sharkoon VS9 RGB Branco mesmo.",
+    observation: "Troquei o Mousepad pelo da Alliance Azul bonitão (Redragon) e o gabinete pelo Sharkoon VS9 RGB Branco mesmo.",
   },
   {
     src: "/pictures/setup/20240530.jpg",
-    observation:
-      "Apenas mostrando o teclado com apoio de pulso e o Wallpaper do álbum 'AM' do Arctic Monkeys. Nenhuma outra peça.",
+    observation: "Apenas mostrando o teclado com apoio de pulso e o Wallpaper do álbum 'AM' do Arctic Monkeys. Nenhuma outra peça.",
   },
   {
     src: "/pictures/setup/20231105.png",
-    observation:
-      "Tirei o gabinete e coloquei os dois monitores na mesa. Deixei o PC em cima de um apoio.",
+    observation: "Tirei o gabinete e coloquei os dois monitores na mesa. Deixei o PC em cima de um apoio.",
   },
   {
     src: "/pictures/setup/20230928.jpg",
-    observation:
-      "Monitor: 'LG UltraGear 27 144Hz 1ms', Teclado: 'Redragon Magic Wand Pro' e Mouse: 'Razer DeathAdder V2'. Todos novos.",
+    observation: "Monitor: 'LG UltraGear 27 144Hz 1ms', Teclado: 'Redragon Magic Wand Pro' e Mouse: 'Razer DeathAdder V2'. Todos novos.",
   },
   {
     src: "/pictures/setup/20230417.jpg",
@@ -36,18 +32,15 @@ const rawPhotos: Omit<IPhoto, "alt" | "date">[] = [
   },
   {
     src: "/pictures/setup/20220308.jpg",
-    observation:
-      "Apenas a Soundbar 'Redragon Adiemus 6W RMS RGB USB 150Hz/20KHz Botão Touch' em baixo do monitor. O resto é o mesmo.",
+    observation: "Apenas a Soundbar 'Redragon Adiemus 6W RMS RGB USB 150Hz/20KHz Botão Touch' em baixo do monitor. O resto é o mesmo.",
   },
   {
     src: "/pictures/setup/20211102.jpg",
-    observation:
-      "Peguei o Headset 'Redragon Zeus 7.1 H510', Monitor 'AOC 21.5\" 22B1H' e um Mousepad descente: 'Havit HV-MP830'.",
+    observation: "Peguei o Headset 'Redragon Zeus 7.1 H510', Monitor 'AOC 21.5\" 22B1H' e um Mousepad descente: 'Havit HV-MP830'.",
   },
   {
     src: "/pictures/setup/20191209.jpeg",
-    observation:
-      "Minha irmã jogando wowzinho na época. Mesmo notebook, mesmo teclado, mesmo mouse e mesmo pad.",
+    observation: "Minha irmã jogando wowzinho na época. Mesmo notebook, mesmo teclado, mesmo mouse e mesmo pad.",
   },
   {
     src: "/pictures/setup/20191117.jpeg",
@@ -91,8 +84,7 @@ export const components = [
     items: [
       {
         name: "Processador (CPU)",
-        description:
-          "Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200",
+        description: "Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200",
         url: "https://www.intel.com.br/content/www/br/pt/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html",
       },
       {
@@ -102,26 +94,22 @@ export const components = [
       },
       {
         name: "Placa de vídeo (GPU)",
-        description:
-          "Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing",
+        description: "Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing",
         url: "https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD",
       },
       {
         name: "Memória (RAM)",
-        description:
-          "(2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA",
+        description: "(2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA",
         url: "https://www.pichau.com.br/memoria-team-group-t-force-vulcan-pichau-8gb-1x8-ddr4-3200mhz-c16-vermelha-tlprd48g3200hc16f01",
       },
       {
         name: "Armazenamento (M2 Gen 4)",
-        description:
-          "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s",
+        description: "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s",
         url: "https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive",
       },
       {
         name: "Armazenamento (M2 Gen 3)",
-        description:
-          "KingSpec 1TB M.2 NMVe 2280 PCIe 3x4 Leitura: 2400Mbps, Escrita: 1800Mbps",
+        description: "KingSpec 1TB M.2 NMVe 2280 PCIe 3x4 Leitura: 2400Mbps, Escrita: 1800Mbps",
         url: "https://pt.aliexpress.com/item/32847169083.html",
       },
       {
@@ -131,8 +119,7 @@ export const components = [
       },
       {
         name: "Gabinete (CASE)",
-        description:
-          "Gabinete Gamer Sharkoon VS9 RGB, Mid Tower, ATX, Lateral em Vidro Temperado, 3x Cooler Fan, Branco - VS9 RGB",
+        description: "Gabinete Gamer Sharkoon VS9 RGB, Mid Tower, ATX, Lateral em Vidro Temperado, 3x Cooler Fan, Branco - VS9 RGB",
         url: "https://www.kabum.com.br/produto/508876/gabinete-gamer-sharkoon-vs9-rgb-mid-tower-atx-lateral-em-vidro-temperado-3x-cooler-fan-branco-vs9-rgb",
       },
     ],
@@ -141,14 +128,18 @@ export const components = [
     category: "Periféricos",
     items: [
       {
-        name: "Water Cooler",
-        description: "Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB",
-        url: "https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb",
+        name: "Air Cooler",
+        description: "DeepCool High Performance AK400, 120mm, Intel-AMD, R-AK400-BKNNMN-G-1",
+        url: "https://www.terabyteshop.com.br/produto/21648/cooler-para-processador-deepcool-ak400-120mm-intel-amd-r-ak400-bknnmn-g-1",
+      },
+      {
+        name: "Pasta Térmica",
+        description: "Snowdog Husky 1g 12.8w/mk - Alta Performance",
+        url: "https://www.mercadolivre.com.br/pasta-termica-snowdog-husky-1g-128wmk-alta-performance/p/MLB27050357",
       },
       {
         name: "Adaptador de Rede",
-        description:
-          "Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182",
+        description: "Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182",
         url: "https://www.kabum.com.br/produto/135247/adaptador-wifi-d-link-ac1200-dual-band-5ghz-802-11ac-usb-3-0-dwa-182",
       },
       {
@@ -163,8 +154,7 @@ export const components = [
       },
       {
         name: "Mouse",
-        description:
-          "Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis",
+        description: "Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis",
         url: "https://www.razer.com/br-pt/gaming-mice/razer-deathadder-v2",
       },
       {
@@ -174,14 +164,12 @@ export const components = [
       },
       {
         name: "Controle Joystick",
-        description:
-          "Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS",
+        description: "Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS",
         url: "https://pt.aliexpress.com/item/1005006251691728.html",
       },
       {
         name: "Teclado Mecânico",
-        description:
-          "Redragon TECLADO OPTICO GAMER MAGIC-WAND PRO RGB BRANCO SWITCH VERMELHO ABNT2",
+        description: "Redragon TECLADO OPTICO GAMER MAGIC-WAND PRO RGB BRANCO SWITCH VERMELHO ABNT2",
         url: "https://www.redragon.com.br/magicwandpro-lunarwhite",
       },
       {
@@ -231,6 +219,15 @@ export const components = [
   {
     category: "Ex-Peças",
     items: [
+      {
+        name: "Water Cooler",
+        description: "Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB",
+        url: "https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb",
+        review:
+          "Utilizei de 2022 até +/- final de 2025. Ele ainda funciona normalmente, mas a perfomance dele já não é mais a mesma que antes e por ser AIO é mais dificil de realizar manutenção.",
+        date: "2022-08",
+        endDate: "2025-11",
+      },
       {
         name: "Teclado Mecânico",
         description: "Redragon Kumara Switch Blue ABNT2 K552",
@@ -287,8 +284,7 @@ export const components = [
       },
       {
         name: "Soundbar",
-        description:
-          "Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560",
+        description: "Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560",
         url: "https://www.redragon.com.br/adiemus",
         review:
           "Utilizei de 2022 até 2025. Excelente custo-benefício para desktop, som claro para uso geral e iluminação discreta. Limitação principal foi a ausência de subwoofer e potência reduzida para músicas/filmes com grave mais encorpado. Substituída pela Edifier G1500 Max com subwoofer dedicado.",

@@ -12,8 +12,7 @@ export function getUsageTime(start: string, end?: string): string {
   const years = Math.floor(months / 12);
   const remMonths = months % 12;
   const yearStr = years > 0 ? `${years} ano${years > 1 ? "s" : ""}` : "";
-  const monthStr =
-    remMonths > 0 ? `${remMonths} ${remMonths > 1 ? "meses" : "mês"}` : "";
+  const monthStr = remMonths > 0 ? `${remMonths} ${remMonths > 1 ? "meses" : "mês"}` : "";
   if (yearStr && monthStr) return `${yearStr} e ${monthStr}`;
   return yearStr || monthStr || "menos de um mês";
 }
@@ -24,19 +23,13 @@ export function getUsageTime(start: string, end?: string): string {
 export function getTimelineDuration(dateRange: string): string {
   const [start, end] = dateRange.split(" - ");
   const startDate = parse(start, "MMM yyyy", new Date(), { locale: ptBR });
-  const endDate =
-    end === "Atual"
-      ? new Date()
-      : parse(end, "MMM yyyy", new Date(), { locale: ptBR });
+  const endDate = end === "Atual" ? new Date() : parse(end, "MMM yyyy", new Date(), { locale: ptBR });
 
   const months = differenceInMonths(endDate, startDate);
   const years = Math.floor(months / 12);
   const remainingMonths = months % 12;
   const yearString = years > 0 ? `${years} ano${years > 1 ? "s" : ""}` : "";
-  const monthString =
-    remainingMonths > 0
-      ? `${remainingMonths} ${remainingMonths > 1 ? "meses" : "mês"}`
-      : "";
+  const monthString = remainingMonths > 0 ? `${remainingMonths} ${remainingMonths > 1 ? "meses" : "mês"}` : "";
 
   if (yearString && monthString) {
     return `${yearString} e ${monthString}`;

@@ -84,10 +84,7 @@ const eslintConfig = [
       // MODIFICADO: Alterado de error para warn para facilitar o desenvolvimento
       // Marca variáveis não utilizadas como aviso, mas ignora as que começam com _
       // Convenção para indicar variáveis intencionalmente não utilizadas
-      "no-unused-vars": [
-        "warn",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
 
       // =================================================
       // REGRAS DE ESTILO E CSS
@@ -156,10 +153,7 @@ const eslintConfig = [
 
       // Ordena as props do JSX para melhor legibilidade
       // Ex: primeiro props curtos, depois callbacks no final
-      "react/jsx-sort-props": [
-        "warn",
-        { callbacksLast: true, shorthandFirst: true },
-      ],
+      "react/jsx-sort-props": ["warn", { callbacksLast: true, shorthandFirst: true }],
 
       // Força componentes sem filhos a serem auto-fechados
       // Ex: <div /> em vez de <div></div> quando não há conteúdo

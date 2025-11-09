@@ -13,8 +13,7 @@ export interface IQuoteCardProps {
 export const quotes = [
   {
     id: 1,
-    quote:
-      "Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.",
+    quote: "Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.",
     source: "Mateus 7:7",
     href: "https://www.bibliaonline.com.br/nvi/mt/7/7",
   },

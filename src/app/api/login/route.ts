@@ -4,8 +4,7 @@ import { stringify } from "querystring";
 // Função para gerar uma string aleatória para o parâmetro state
 function generateRandomString(tamanho: number): string {
   let texto = "";
-  const possivel =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const possivel = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < tamanho; i++) {
     texto += possivel.charAt(Math.floor(Math.random() * possivel.length));
   }

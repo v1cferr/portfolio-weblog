@@ -35,9 +35,7 @@ export default function CharacterCard() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [stormrageCharacters, setStormrageCharacters] = useState<
-    ICharacter[] | null
-  >(null);
+  const [stormrageCharacters, setStormrageCharacters] = useState<ICharacter[] | null>(null);
 
   const formatClassName = (className: string) => {
     return className.toLowerCase().replace(/\s+/g, "-");
@@ -56,18 +54,13 @@ export default function CharacterCard() {
 
       const data = await profileDataResponse.json();
       const StormrageChars = data.wow_accounts[1].characters
-        .filter(
-          (char: ICharacter) =>
-            char.realm.name === "Stormrage" && char.level >= 70
-        )
+        .filter((char: ICharacter) => char.realm.name === "Stormrage" && char.level >= 70)
         .sort((a: ICharacter, b: ICharacter) => b.level - a.level);
 
       const updatedChars = await Promise.all(
         StormrageChars.map(async (char: ICharacter) => {
           const renderDataResponse = await fetch(
-            `/api/blizzard/render?realmSlug=${
-              char.realm.slug
-            }&characterName=${char.name.toLowerCase()}`
+            `/api/blizzard/render?realmSlug=${char.realm.slug}&characterName=${char.name.toLowerCase()}`
           );
 
           if (renderDataResponse.ok) {
@@ -125,9 +118,7 @@ export default function CharacterCard() {
     return (
       <div className="flex items-center justify-center h-96 flex-col">
         <FaExclamationTriangle className="text-6xl text-yellow-400 mb-4" />
-        <span className="text-base-content break-words text-center">
-          Erro ao carregar dados dos personagens.
-        </span>
+        <span className="text-base-content break-words text-center">Erro ao carregar dados dos personagens.</span>
       </div>
     );
   }
@@ -135,10 +126,7 @@ export default function CharacterCard() {
   return stormrageCharacters?.map((char: ICharacter) => (
     <div className="mb-8 hover:shadow-xl transition" key={char.name}>
       {char.render ? (
-        <Link
-          href={`${armoryUrl}/${char.realm.slug}/${char.name.toLowerCase()}`}
-          rel="noopener noreferrer"
-          target="_blank">
+        <Link href={`${armoryUrl}/${char.realm.slug}/${char.name.toLowerCase()}`} rel="noopener noreferrer" target="_blank">
           <Image
             alt={char.name}
             className="rounded-t-lg shadow-lg object-cover w-auto h-auto"
@@ -157,13 +145,8 @@ export default function CharacterCard() {
         <h3 className="text-2xl font-bold">{char.name}</h3>
         <p className="text-lg">
           <span className="font-semibold">{char.playable_race.name}</span>{" "}
-          <Link
-            href={`${classUrl}/${formatClassName(char.playable_class.name)}`}
-            rel="noopener noreferrer"
-            target="_blank">
-            <span className="font-semibold hover:underline">
-              {char.playable_class.name}
-            </span>
+          <Link href={`${classUrl}/${formatClassName(char.playable_class.name)}`} rel="noopener noreferrer" target="_blank">
+            <span className="font-semibold hover:underline">{char.playable_class.name}</span>
           </Link>{" "}
         </p>
         <p className="text-sm text-primary-content">

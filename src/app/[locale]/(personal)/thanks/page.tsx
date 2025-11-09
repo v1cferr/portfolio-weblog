@@ -11,10 +11,7 @@ export default function Thanks() {
         {/* Título */}
         <section>
           <h1 className="text-4xl font-bold">Agradecimentos</h1>
-          <p className="text-lg">
-            Agradecimentos especiais para quem contribuiu e contribui na minha
-            vida
-          </p>
+          <p className="text-lg">Agradecimentos especiais para quem contribuiu e contribui na minha vida</p>
         </section>
 
         {/* Família */}
@@ -23,13 +20,7 @@ export default function Thanks() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Mãe */}
             <div className="card shadow-lg p-4 bg-neutral text-neutral-content rounded-lg">
-              <Image
-                src="/images/mother.jpg"
-                alt="Mãe"
-                className="rounded-t-lg h-40 w-full object-cover"
-                width={400}
-                height={300}
-              />
+              <Image src="/images/mother.jpg" alt="Mãe" className="rounded-t-lg h-40 w-full object-cover" width={400} height={300} />
               <div className="mt-4">
                 <h3 className="text-xl font-bold">Mãe</h3>
                 <p>A pessoa mais importante da minha vida</p>
@@ -38,13 +29,7 @@ export default function Thanks() {
 
             {/* Pai */}
             <div className="card shadow-lg p-4 bg-neutral text-neutral-content rounded-lg">
-              <Image
-                src="/images/father.jpg"
-                alt="Pai"
-                className="rounded-t-lg h-40 w-full object-cover"
-                width={400}
-                height={300}
-              />
+              <Image src="/images/father.jpg" alt="Pai" className="rounded-t-lg h-40 w-full object-cover" width={400} height={300} />
               <div className="mt-4">
                 <h3 className="text-xl font-bold">Pai</h3>
                 <p>Meu exemplo de vida</p>
@@ -53,13 +38,7 @@ export default function Thanks() {
 
             {/* Irmã */}
             <div className="card shadow-lg p-4 bg-neutral text-neutral-content rounded-lg">
-              <Image
-                src="/images/sister.jpg"
-                alt="Irmã"
-                className="rounded-t-lg h-40 w-full object-cover"
-                width={400}
-                height={300}
-              />
+              <Image src="/images/sister.jpg" alt="Irmã" className="rounded-t-lg h-40 w-full object-cover" width={400} height={300} />
               <div className="mt-4">
                 <h3 className="text-xl font-bold">Irmã</h3>
                 <p>Minha melhor amiga</p>

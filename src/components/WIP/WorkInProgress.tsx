@@ -47,7 +47,8 @@ const ModalHeader = memo(({ onClose }: { onClose: () => void }) => (
       className="btn btn-ghost btn-sm btn-circle hover:bg-error/10 hover:text-error transition-colors"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      onClick={onClose}>
+      onClick={onClose}
+    >
       <FaTimes size={16} />
       <span className="sr-only">Fechar</span>
     </motion.button>
@@ -68,18 +69,16 @@ const ModalContent = memo(() => {
       animate={{ y: 0, opacity: 1 }}
       className="space-y-2 text-center"
       initial={{ y: -20, opacity: 0 }}
-      transition={{ delay: 0.1 }}>
-      <div className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-2">
-        {t("badge")}
-      </div>
+      transition={{ delay: 0.1 }}
+    >
+      <div className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary mb-2">{t("badge")}</div>
       <h1
         className="text-center text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-        id="work-in-progress-title">
+        id="work-in-progress-title"
+      >
         {t("title")}
       </h1>
-      <p className="text-base-content/70 text-sm max-w-xs mx-auto">
-        {t("description")}
-      </p>
+      <p className="text-base-content/70 text-sm max-w-xs mx-auto">{t("description")}</p>
       <p className="text-xs text-base-content/50 mt-2">{t("cta")}</p>
     </motion.section>
   );
@@ -100,13 +99,12 @@ const SocialLinks = memo(() => {
       aria-labelledby="connect-with-me"
       className="space-y-4"
       initial={{ y: 20, opacity: 0 }}
-      transition={{ delay: 0.3 }}>
+      transition={{ delay: 0.3 }}
+    >
       <h2 className="text-sm font-medium text-center" id="connect-with-me">
         {t("connect")}
       </h2>
-      <nav
-        aria-label="Links para redes sociais"
-        className="flex justify-center space-x-3">
+      <nav aria-label="Links para redes sociais" className="flex justify-center space-x-3">
         {socialLinks.map(({ href, icon: Icon, title }) => (
           <motion.div
             animate={{ opacity: 1, scale: 1 }}
@@ -114,18 +112,17 @@ const SocialLinks = memo(() => {
             initial={{ opacity: 0, scale: 0.8 }}
             key={title}
             whileHover={{ y: -2.5, scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}>
+            whileTap={{ scale: 0.95 }}
+          >
             <Link
               aria-label={title}
               className="flex items-center justify-center p-3 rounded-full bg-base-content/5 hover:shadow-md transition-all duration-200"
               href={href}
               rel="noopener noreferrer"
               target="_blank"
-              title={title}>
-              <Icon
-                className="text-base-content/85 group-hover:text-primary"
-                size={18}
-              />
+              title={title}
+            >
+              <Icon className="text-base-content/85 group-hover:text-primary" size={18} />
               <span className="sr-only">{title}</span>
             </Link>
           </motion.div>
@@ -198,7 +195,8 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
         aria-modal="true"
         className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-0"
         ref={modalRef}
-        role="dialog">
+        role="dialog"
+      >
         {/* Backdrop com blur (sem onClick para fechar) */}
         <ModalBackdrop />
 
@@ -208,7 +206,8 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
           className="relative z-10 w-full max-w-md mx-auto"
           exit="exit"
           initial="hidden"
-          variants={modalContentVariants}>
+          variants={modalContentVariants}
+        >
           <article className="card overflow-hidden rounded-xl shadow-2xl border-0 bg-gradient-to-b from-base-100 to-base-100/80 backdrop-blur-sm">
             {/* Cabeçalho do Card */}
             <ModalHeader onClose={onClose} />

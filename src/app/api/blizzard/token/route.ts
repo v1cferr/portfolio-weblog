@@ -7,10 +7,7 @@ export async function GET(request: NextRequest) {
   const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;
   const CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET!;
   const REDIRECT_URI = process.env.BATTLENET_REDIRECT_URI!;
-  const SUPABASE = createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!
-  );
+  const SUPABASE = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
 
   const code = request.nextUrl.searchParams.get("code");
 

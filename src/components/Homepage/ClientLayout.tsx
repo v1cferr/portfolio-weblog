@@ -34,23 +34,12 @@ const WIPModal = memo(({ onClose }: { onClose: () => void }) => (
 WIPModal.displayName = "WIPModal";
 
 // Conteúdo principal do layout
-const PageContent = memo(
-  ({
-    children,
-    isVisible,
-  }: {
-    children: React.ReactNode;
-    isVisible: boolean;
-  }) => (
-    <div
-      className={
-        isVisible ? "opacity-100 transition-opacity duration-300" : "opacity-0"
-      }>
-      <Header />
-      <main className="h-full pt-16 scrollbar-thin">{children}</main>
-    </div>
-  )
-);
+const PageContent = memo(({ children, isVisible }: { children: React.ReactNode; isVisible: boolean }) => (
+  <div className={isVisible ? "opacity-100 transition-opacity duration-300" : "opacity-0"}>
+    <Header />
+    <main className="h-full pt-16 scrollbar-thin">{children}</main>
+  </div>
+));
 PageContent.displayName = "PageContent";
 
 // Componente principal do layout
@@ -74,16 +63,9 @@ const ClientLayout = ({ children, localeData }: ClientLayoutProps) => {
 
   return (
     <html suppressHydrationWarning lang={localeData.locale}>
-      <body
-        className={`${inter.className} h-screen overflow-y-auto theme-transition`}>
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem={true}>
-          <NextIntlClientProvider
-            locale={localeData.locale}
-            messages={localeData.messages}
-            timeZone="UTC">
+      <body className={`${inter.className} h-screen overflow-y-auto theme-transition`}>
+        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem={true}>
+          <NextIntlClientProvider locale={localeData.locale} messages={localeData.messages} timeZone="UTC">
             {/* Modal WIP renderizado condicionalmente */}
             {isWipVisible && <WIPModal onClose={handleWipClose} />}
 

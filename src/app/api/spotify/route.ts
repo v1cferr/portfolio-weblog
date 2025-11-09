@@ -32,16 +32,13 @@ export async function GET() {
   try {
     const { access_token } = await getAccessToken();
 
-    const response = await fetch(
-      "https://api.spotify.com/v1/me/player/currently-playing",
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-        cache: "no-store",
-        next: { revalidate: 0 },
-      }
-    );
+    const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
 
     if (response.status === 204) {
       return NextResponse.json({ isPlaying: false });
@@ -58,10 +55,7 @@ export async function GET() {
     console.error("Error in /api/spotify:", error);
     return NextResponse.json(
       {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Error fetching Spotify data",
+        error: error instanceof Error ? error.message : "Error fetching Spotify data",
       },
       { status: 500 }
     );

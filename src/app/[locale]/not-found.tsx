@@ -41,10 +41,7 @@ export default function NotFoundPage() {
   };
 
   return (
-    <main
-      aria-labelledby="error-title"
-      className="flex items-center justify-center bg-base-100 overflow-y-hidden"
-      role="main">
+    <main aria-labelledby="error-title" className="flex items-center justify-center bg-base-100 overflow-y-hidden" role="main">
       <section className="w-full max-w-3xl px-4 md:px-6 py-12 md:py-16">
         <header className="flex flex-col items-center text-center">
           {/* Exibição principal do erro - tamanhos de texto responsivos */}
@@ -52,24 +49,22 @@ export default function NotFoundPage() {
             <h1
               aria-label="Erro 404"
               className="text-[100px] md:text-[180px] font-black tracking-tighter text-base-content leading-none"
-              id="error-title">
+              id="error-title"
+            >
               404
             </h1>
             <div
               aria-live="polite"
-              className="absolute -top-4 md:-top-6 right-0 bg-neutral text-neutral-content px-3 py-1 rounded-full text-xs md:text-sm font-mono">
+              className="absolute -top-4 md:-top-6 right-0 bg-neutral text-neutral-content px-3 py-1 rounded-full text-xs md:text-sm font-mono"
+            >
               Tempo decorrido: {formatTime(timeElapsed)}
             </div>
           </div>
 
           {/* Mensagem de erro */}
-          <h2 className="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-base-content">
-            Página não encontrada
-          </h2>
+          <h2 className="mt-2 text-2xl md:text-3xl font-bold tracking-tight text-base-content">Página não encontrada</h2>
           <p className="mt-3 md:mt-4 text-sm md:text-base text-base-content/70 max-w-lg">
-            Desculpe, não conseguimos encontrar a página que você está
-            procurando. Ela pode ter sido movida, excluída ou nunca ter
-            existido.
+            Desculpe, não conseguimos encontrar a página que você está procurando. Ela pode ter sido movida, excluída ou nunca ter existido.
           </p>
         </header>
 
@@ -81,13 +76,12 @@ export default function NotFoundPage() {
         />
 
         {/* Botões de ação - empilhados no mobile, em linha no desktop */}
-        <nav
-          aria-label="Navegação da página de erro"
-          className="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto">
+        <nav aria-label="Navegação da página de erro" className="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto">
           <Link
             aria-label="Ir para a página inicial"
             className="btn btn-primary text-primary-content w-full sm:w-auto flex items-center gap-2"
-            href="/">
+            href="/"
+          >
             <FaHome aria-hidden="true" className="h-4 w-4" />
             Página inicial
           </Link>
@@ -98,14 +92,16 @@ export default function NotFoundPage() {
             onClick={(e) => {
               e.preventDefault();
               window.history.back();
-            }}>
+            }}
+          >
             <FaArrowLeft aria-hidden="true" className="h-4 w-4" />
             Voltar
           </Link>
           <button
             aria-label="Recarregar a página"
             className="btn btn-outline border-base-300 text-base-content hover:border-base-300 w-full sm:w-auto flex items-center gap-2"
-            onClick={() => window.location.reload()}>
+            onClick={() => window.location.reload()}
+          >
             <IoReload aria-hidden="true" className="h-4 w-4" />
             Recarregar
           </button>
@@ -113,9 +109,7 @@ export default function NotFoundPage() {
 
         {/* Rodapé */}
         <footer className="mt-12 md:mt-16 text-center text-base-content/60 text-xs md:text-sm">
-          <p>
-            Se você acredita que isso é um erro, por favor entre em contato.
-          </p>
+          <p>Se você acredita que isso é um erro, por favor entre em contato.</p>
           <p className="mt-2">© {new Date().getFullYear()} Victor Ferreira</p>
         </footer>
       </section>

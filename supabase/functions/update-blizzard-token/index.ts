@@ -29,10 +29,7 @@ Deno.serve(async () => {
 
   // Verifica se houve erro ao buscar o token
   if (error) {
-    return new Response(
-      JSON.stringify({ error: "Erro ao buscar o token", details: error }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: "Erro ao buscar o token", details: error }), { status: 500 });
   }
 
   // Verifica se o token está expirado
@@ -76,10 +73,7 @@ Deno.serve(async () => {
     }
 
     // Retorna a resposta com o novo token
-    return new Response(
-      JSON.stringify({ message: "Token atualizado", access_token }),
-      { status: 200 }
-    );
+    return new Response(JSON.stringify({ message: "Token atualizado", access_token }), { status: 200 });
   } catch (error) {
     // deno-lint-ignore no-explicit-any
     const err = error as any;

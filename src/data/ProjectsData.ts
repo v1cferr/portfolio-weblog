@@ -51,13 +51,7 @@ export const projectsData: Project[] = [
         },
       ],
     },
-    techStack: [
-      "Docker",
-      "Dev Container",
-      "APIs Bancárias",
-      "Inteligência Artificial",
-      "Google Sheets API",
-    ],
+    techStack: ["Docker", "Dev Container", "APIs Bancárias", "Inteligência Artificial", "Google Sheets API"],
     challenges: [
       "Integração de APIs bancárias para coleta automática de dados",
       "Implementação de categorização inteligente usando IA",
@@ -70,8 +64,7 @@ export const projectsData: Project[] = [
   {
     id: "2",
     title: "Personal Hub (Portfolio & Weblog)",
-    description:
-      "Built a responsive portfolio website to showcase my projects and skills.",
+    description: "Built a responsive portfolio website to showcase my projects and skills.",
     details:
       "Designed and developed a personal portfolio website to showcase my work and skills. The site features a clean, minimalist design with a focus on performance and accessibility.",
     date: "2025-02-15",
@@ -82,17 +75,13 @@ export const projectsData: Project[] = [
       demo: "https://example.com/portfolio",
     },
     techStack: ["React", "Next.js", "Framer Motion", "Tailwind CSS"],
-    challenges: [
-      "Creating engaging animations without sacrificing performance",
-      "Implementing a dark mode that respects user preferences",
-    ],
+    challenges: ["Creating engaging animations without sacrificing performance", "Implementing a dark mode that respects user preferences"],
     type: "project",
   },
   {
     id: "3",
     title: "Task Management Application",
-    description:
-      "Developed a task management application with drag-and-drop functionality.",
+    description: "Developed a task management application with drag-and-drop functionality.",
     details:
       "Built a collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features. The application helps teams organize their work and track progress on projects.",
     date: "2024-12-10",
@@ -119,8 +108,7 @@ export const projectsData: Project[] = [
   {
     id: "4",
     title: "Weather Dashboard",
-    description:
-      "Created a weather dashboard that displays current conditions and forecasts.",
+    description: "Created a weather dashboard that displays current conditions and forecasts.",
     details:
       "Developed a weather dashboard that provides current conditions and forecasts for multiple locations. Users can save their favorite locations and view detailed weather information.",
     date: "2024-09-05",
@@ -141,8 +129,7 @@ export const projectsData: Project[] = [
   {
     id: "5",
     title: "Frontend Technical Assessment",
-    description:
-      "Built a responsive product catalog with filtering and sorting capabilities.",
+    description: "Built a responsive product catalog with filtering and sorting capabilities.",
     details:
       "Completed a technical assessment for a frontend developer position. The task was to build a responsive product catalog with filtering, sorting, and search functionality using a provided API.",
     date: "2024-11-20",
@@ -163,8 +150,7 @@ export const projectsData: Project[] = [
   {
     id: "6",
     title: "React Performance Challenge",
-    description:
-      "Optimized a slow-performing React application by implementing memoization and code splitting.",
+    description: "Optimized a slow-performing React application by implementing memoization and code splitting.",
     details:
       "Participated in a performance optimization challenge where the goal was to improve the performance of a slow React application. Implemented memoization, code splitting, and other optimization techniques.",
     date: "2024-08-15",
@@ -174,13 +160,7 @@ export const projectsData: Project[] = [
       github: "https://github.com/username/react-performance",
       demo: "https://example.com/test2",
     },
-    techStack: [
-      "React",
-      "React.memo",
-      "React.lazy",
-      "Lighthouse",
-      "Web Vitals",
-    ],
+    techStack: ["React", "React.memo", "React.lazy", "Lighthouse", "Web Vitals"],
     challenges: [
       "Identifying performance bottlenecks in a complex application",
       "Reducing bundle size without removing functionality",

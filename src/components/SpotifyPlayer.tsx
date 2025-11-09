@@ -64,15 +64,11 @@ const spotifyFetcher = async (): Promise<ICurrentlyPlaying> => {
  */
 const useSpotifyTrack = () => {
   // Configuração do SWR com otimizações para reduzir chamadas desnecessárias
-  const { data, error, isLoading, mutate } = useSWR<ICurrentlyPlaying>(
-    SPOTIFY_API_KEY,
-    spotifyFetcher,
-    {
-      refreshInterval: 60000, // 1 minuto - Aumentado para reduzir chamadas
-      revalidateOnFocus: false, // Não revalidar quando janela ganha foco
-      dedupingInterval: 30000, // 30 segundos para evitar requests duplicados
-    }
-  );
+  const { data, error, isLoading, mutate } = useSWR<ICurrentlyPlaying>(SPOTIFY_API_KEY, spotifyFetcher, {
+    refreshInterval: 60000, // 1 minuto - Aumentado para reduzir chamadas
+    revalidateOnFocus: false, // Não revalidar quando janela ganha foco
+    dedupingInterval: 30000, // 30 segundos para evitar requests duplicados
+  });
 
   // Processamento memorizado dos dados para evitar recálculos desnecessários
   const currentTrack = useMemo(() => {
@@ -104,13 +100,10 @@ const LoadingState = () => {
     <section
       aria-busy="true"
       aria-live="polite"
-      className="flex items-center justify-center h-24 rounded-xl bg-base-200/30 border border-base-300">
+      className="flex items-center justify-center h-24 rounded-xl bg-base-200/30 border border-base-300"
+    >
       <div className="flex flex-col items-center gap-3">
-        <span
-          aria-label={t("loading")}
-          className="loading loading-spinner loading-md text-primary"
-          role="status"
-        />
+        <span aria-label={t("loading")} className="loading loading-spinner loading-md text-primary" role="status" />
         <span className="text-xs text-base-content/70">{t("loading")}</span>
       </div>
     </section>
@@ -121,13 +114,7 @@ const LoadingState = () => {
  * Componente exibido quando ocorre um erro na requisição
  * @param {string} message - Mensagem de erro a ser exibida
  */
-const ErrorState = ({
-  message,
-  onRetry,
-}: {
-  message: string;
-  onRetry: () => void;
-}) => {
+const ErrorState = ({ message, onRetry }: { message: string; onRetry: () => void }) => {
   const t = useTranslations("SpotifyPlayer");
 
   return (
@@ -136,7 +123,8 @@ const ErrorState = ({
       aria-live="assertive"
       className="text-center p-5 space-y-3 bg-error/10 rounded-xl border border-error/20"
       initial={{ opacity: 0 }}
-      role="alert">
+      role="alert"
+    >
       <div className="flex justify-center mb-2">
         <div className="p-2 rounded-full bg-error/20">
           <BiErrorCircle aria-hidden="true" className="h-5 w-5 text-error" />
@@ -146,7 +134,8 @@ const ErrorState = ({
       <button
         aria-label={t("try-again")}
         className="btn btn-outline btn-sm border-error/30 text-error hover:bg-error/10 hover:border-error flex items-center gap-2 mx-auto"
-        onClick={onRetry}>
+        onClick={onRetry}
+      >
         <BiRefresh aria-hidden="true" className="h-3.5 w-3.5" />
         {t("try-again")}
       </button>
@@ -161,15 +150,10 @@ const NotPlayingState = () => {
   const t = useTranslations("SpotifyPlayer");
 
   return (
-    <section
-      aria-label={t("no-track")}
-      className="text-center p-6 bg-base-200/30 rounded-xl border border-base-300">
+    <section aria-label={t("no-track")} className="text-center p-6 bg-base-200/30 rounded-xl border border-base-300">
       <div className="flex justify-center mb-3">
         <div className="p-2.5 rounded-full bg-base-300">
-          <FaSpotify
-            aria-hidden="true"
-            className="h-5 w-5 text-base-content/60"
-          />
+          <FaSpotify aria-hidden="true" className="h-5 w-5 text-base-content/60" />
         </div>
       </div>
       <p className="text-base-content/70 font-medium">{t("no-track")}</p>
@@ -193,7 +177,8 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
       animate={{ opacity: 1 }}
       className="flex items-center gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300 relative"
       initial={{ opacity: 0 }}
-      itemType="https://schema.org/MusicRecording">
+      itemType="https://schema.org/MusicRecording"
+    >
       {/* Capa do álbum à esquerda */}
       <figure className="h-16 w-16 flex-shrink-0">
         <Image
@@ -213,17 +198,12 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
         <h3 className="font-medium truncate text-base" itemProp="name">
           {track.name}
         </h3>
-        <p
-          className="text-sm text-base-content/70 truncate"
-          itemProp="byArtist">
+        <p className="text-sm text-base-content/70 truncate" itemProp="byArtist">
           {artistNames}
         </p>
         <div className="mt-2 flex items-center">
           <div className="flex items-center gap-1.5 text-xs bg-green-500/10 text-green-500 px-2 py-0.5 rounded-full font-medium">
-            <span
-              aria-hidden="true"
-              className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"
-            />
+            <span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             <span itemProp="playStatus">{t("now-playing")}</span>
           </div>
         </div>
@@ -238,11 +218,9 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
         itemProp="url"
         rel="noopener noreferrer"
         target="_blank"
-        title={`${t("listen-on-spotify")}: ${track.name}`}>
-        <FaSpotify
-          aria-hidden="true"
-          className="h-4 w-4 text-green-500 opacity-60 hover:opacity-100"
-        />
+        title={`${t("listen-on-spotify")}: ${track.name}`}
+      >
+        <FaSpotify aria-hidden="true" className="h-4 w-4 text-green-500 opacity-60 hover:opacity-100" />
       </Link>
     </motion.article>
   );
@@ -263,20 +241,14 @@ const SpotifyPlayer = () => {
   // Renderização condicional baseada no estado atual
   const renderContent = () => {
     if (isLoading) return <LoadingState />;
-    if (error)
-      return <ErrorState message={error} onRetry={() => void refetch()} />;
-    if (!currentTrack?.is_playing || !currentTrack.item)
-      return <NotPlayingState />;
+    if (error) return <ErrorState message={error} onRetry={() => void refetch()} />;
+    if (!currentTrack?.is_playing || !currentTrack.item) return <NotPlayingState />;
     return <TrackInfo track={currentTrack.item} />;
   };
 
   return (
-    <section
-      aria-labelledby="spotify-player-heading"
-      className="w-full space-y-3">
-      <h2
-        className="text-sm font-medium flex items-center gap-2"
-        id="spotify-player-heading">
+    <section aria-labelledby="spotify-player-heading" className="w-full space-y-3">
+      <h2 className="text-sm font-medium flex items-center gap-2" id="spotify-player-heading">
         <span aria-hidden="true" role="img">
           🎵
         </span>
