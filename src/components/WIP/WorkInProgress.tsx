@@ -183,7 +183,6 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { type: "spring", damping: 25, stiffness: 300 },
     },
     exit: { scale: 0.9, opacity: 0 },
   };
@@ -206,6 +205,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
           className="relative z-10 w-full max-w-md mx-auto"
           exit="exit"
           initial="hidden"
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
           variants={modalContentVariants}
         >
           <article className="card overflow-hidden rounded-xl shadow-2xl border-0 bg-gradient-to-b from-base-100 to-base-100/80 backdrop-blur-sm">
