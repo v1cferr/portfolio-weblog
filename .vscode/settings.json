@@ -93,4 +93,55 @@
 
   // Usa o arquivo de configuração do projeto
   "prettier.requireConfig": true,
+
+  // =================================================
+  // CONFIGURAÇÕES DE EDITOR
+  // =================================================
+
+  // Remove espaços em branco no final das linhas ao salvar
+  "files.trimTrailingWhitespace": true,
+
+  // Insere nova linha no final do arquivo
+  "files.insertFinalNewline": true,
+
+  // Remove linhas vazias extras no final do arquivo
+  "files.trimFinalNewlines": true,
+
+  // Encoding padrão UTF-8
+  "files.encoding": "utf8",
+
+  // Line ending Unix (LF)
+  "files.eol": "\n",
+
+  // =================================================
+  // CONFIGURAÇÕES DO TYPESCRIPT
+  // =================================================
+
+  // Mostra erros inline do TypeScript
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Atualiza imports automaticamente ao mover arquivos
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // =================================================
+  // CONFIGURAÇÕES DO NEXT.JS
+  // =================================================
+
+  // Esconde arquivos/pastas gerados automaticamente
+  "files.exclude": {
+    "**/.next": true,
+    "**/.vercel": true,
+    "**/node_modules": true
+  },
+
+  // Monitora mudanças em arquivos importantes
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.vercel/**": true
+  }
 }
