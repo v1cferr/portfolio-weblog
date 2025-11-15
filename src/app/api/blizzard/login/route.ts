@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 
+/**
+ *
+ */
 export async function GET() {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
   const RESPONSE_TYPE = "code";

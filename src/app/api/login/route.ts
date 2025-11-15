@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import { stringify } from "querystring";
+
+import { NextResponse } from "next/server";
 
 // Função para gerar uma string aleatória para o parâmetro state
 function generateRandomString(tamanho: number): string {
@@ -14,6 +15,9 @@ function generateRandomString(tamanho: number): string {
 const client_id: string | undefined = process.env.SPOTIFY_CLIENT_ID;
 const redirect_uri: string | undefined = process.env.SPOTIFY_REDIRECT_URI;
 
+/**
+ *
+ */
 export async function GET() {
   const state = generateRandomString(16);
   const scope = "user-read-private user-read-email user-read-currently-playing";

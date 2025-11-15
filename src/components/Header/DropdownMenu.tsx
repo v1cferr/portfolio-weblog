@@ -1,5 +1,6 @@
-import NavigationLink from "@/components/i18n/NavigationLink";
 import { FaTools } from "react-icons/fa";
+
+import NavigationLink from "@/components/i18n/NavigationLink";
 
 interface DropdownMenuProps {
   title: string;
@@ -17,13 +18,13 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({ title, items }) => (
       <summary>{title}</summary>
       <ul>
         {items.map((item, index) => (
-          <li key={index} className="mb-[0.15rem]">
+          <li className="mb-[0.15rem]" key={index}>
             {item.subItems ? (
               <details>
                 <summary className="mb-[0.25rem]">{item.label}</summary>
                 <ul>
                   {item.subItems.map((subItem, subIndex) => (
-                    <li key={subIndex} className="mb-[0.15rem]">
+                    <li className="mb-[0.15rem]" key={subIndex}>
                       <NavigationLink href={subItem.href || "/"}>
                         {subItem.label}
                         {subItem.wip && <FaTools className="inline ml-2 text-yellow-500" title="Work In Progress" />}

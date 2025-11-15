@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   description: "Extensões do Visual Studio Code",
 };
 
+/**
+ *
+ */
 export default function VSCodeLayout({ children }: { children: React.ReactNode }) {
   return <section>{children}</section>;
 }

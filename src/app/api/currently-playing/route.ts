@@ -1,5 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
+import type { NextRequest } from "next/server";
+
+/**
+ *
+ */
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const access_token = searchParams.get("access_token");

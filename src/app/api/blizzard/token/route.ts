@@ -1,7 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
+import { NextResponse } from "next/server";
 
+import type { NextRequest } from "next/server";
+
+/**
+ *
+ */
 export async function GET(request: NextRequest) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
   const CLIENT_ID = process.env.BATTLENET_CLIENT_ID!;

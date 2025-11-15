@@ -28,6 +28,9 @@ async function getAccessToken() {
   return response.json();
 }
 
+/**
+ *
+ */
 export async function GET() {
   try {
     const { access_token } = await getAccessToken();

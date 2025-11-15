@@ -1,7 +1,9 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
+
 import { routing } from "@/i18n/routing";
+
 import LocaleSwitcherSelect from "./LocaleSwitcherSelect";
 
 const flagMap: Record<string, string> = {
@@ -10,6 +12,9 @@ const flagMap: Record<string, string> = {
   "zh-cn": "🇨🇳",
 };
 
+/**
+ *
+ */
 export default function LanguageSelector() {
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
