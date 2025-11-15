@@ -15,9 +15,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:strict": "next lint --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "format:staged": "prettier --write --list-different"
+    "format:staged": "prettier --write --list-different",
+    "validate": "pnpm run format:check && pnpm run lint && pnpm exec tsc --noEmit",
+    "validate:strict": "pnpm run format:check && pnpm run lint:strict && pnpm exec tsc --noEmit",
+    "precommit": "pnpm run format && pnpm run lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
@@ -59,6 +64,8 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
     "tailwind-scrollbar": "3.1.0",
     "tailwindcss": "^3.4.18",
@@ -70,6 +77,15 @@
       "deno",
       "sharp",
       "unrs-resolver"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml,css,scss}": [
+      "prettier --write"
     ]
   }
 }
