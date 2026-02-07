@@ -5,11 +5,6 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   reactStrictMode: true,
-  eslint: {
-    // Permite que o build passe mesmo com warnings de ESLint
-    // Apenas erros irão bloquear o build
-    ignoreDuringBuilds: false,
-  },
   typescript: {
     // Permite que o build passe mesmo com erros de TypeScript
     // Use com cuidado! Descomente apenas se necessário

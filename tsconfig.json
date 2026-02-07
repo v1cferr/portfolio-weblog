@@ -28,7 +28,7 @@
     // Garante que cada arquivo seja tratado como um módulo isolado
     "isolatedModules": true,
     // Define como o JSX deve ser tratado
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     // Habilita a compilação incremental para melhorar o desempenho
     "incremental": true,
     // Plugins adicionais para o compilador TypeScript
@@ -51,6 +51,8 @@
     "**/*.ts", // Inclui todos os arquivos TypeScript
     "**/*.tsx", // Inclui todos os arquivos TypeScript com JSX
     ".next/types/**/*.ts" // Inclui arquivos de tipos gerados pelo Next.js
+    ,
+    ".next/dev/types/**/*.ts"
   ],
   // Arquivos e diretórios a serem excluídos do projeto
   "exclude": [

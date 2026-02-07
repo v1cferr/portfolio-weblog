@@ -7,7 +7,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { menuData } from "@/data/MenuData";
 import { Link } from "@/i18n/routing";
 
-import Logo from "/public/v1cferr-logo.svg";
+import Logo from "../../public/v1cferr-logo.svg";
 
 /**
  *
