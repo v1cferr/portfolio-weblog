@@ -3,31 +3,35 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
+/**
+ * Next.js configuration
+ * @see https://nextjs.org/docs/app/api-reference/next-config-js
+ */
 const nextConfig = {
+  // Habilita modo estrito do React para auxiliar na detecção de problemas em desenvolvimento
   reactStrictMode: true,
-  typescript: {
-    // Permite que o build passe mesmo com erros de TypeScript
-    // Use com cuidado! Descomente apenas se necessário
-    // ignoreBuildErrors: true,
-  },
+  /**
+   * Configuração de imagens remotas otimizadas
+   * Define hosts permitidos para otimização automática de imagens
+   * @see https://nextjs.org/docs/app/api-reference/components/image#remotepatterns
+   */
   images: {
     remotePatterns: [
+      // Imagens do Spotify
       {
         protocol: "https",
         hostname: "i.scdn.co",
         port: "",
         pathname: "/image/**",
       },
-      // Imagens aleatórias apenas para testes
-      // https://random.imagecdn.app/500/150
+      // Imagens de teste (opcional - considere remover em produção)
       {
         protocol: "https",
         hostname: "random.imagecdn.app",
         port: "",
         pathname: "/**",
       },
-      // Imagens dos chars do WoW
-      // https://render.worldofwarcraft.com/us/character/stormrage/200/246938824-inset.jpg
+      // Renders de personagens do World of Warcraft
       {
         protocol: "https",
         hostname: "render.worldofwarcraft.com",
@@ -36,6 +40,11 @@ const nextConfig = {
       },
     ],
   },
+
+  /**
+   * Configuração do webpack para SVG
+   * Permite importar SVGs como componentes React usando @svgr/webpack
+   */
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

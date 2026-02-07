@@ -42,7 +42,7 @@ const eslintConfig = [
         sourceType: "module",
         ecmaFeatures: { jsx: true },
         project: "./tsconfig.json", // Adiciona a configuração do TypeScript para habilitar regras que precisam de type-checking
-        projectService: true, // Habilita o serviço de projeto do TypeScript
+        // projectService: true, // Habilita o serviço de projeto do TypeScript
         tsconfigRootDir: import.meta.dirname,
       },
     },
