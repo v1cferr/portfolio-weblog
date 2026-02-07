@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import CopySetupButton from "@/components/Personal/Setup/CopySetupButton";
 import { components, photos } from "@/data/SetupData";
 import { getUsageTime } from "@/utils/getTimeBetween";
 
@@ -31,6 +32,11 @@ export default function Setup() {
   return (
     // TODO: Adicionar o mês-ano de aquisição (+quanto tempo até atualmente)
     <div className="container mx-auto p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold">Meu Setup</h1>
+        <CopySetupButton />
+      </div>
+
       {/* Componentes */}
       {components.map((component) => (
         <div className="mb-8" key={component.category}>
