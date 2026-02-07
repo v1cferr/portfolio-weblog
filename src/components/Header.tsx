@@ -2,12 +2,11 @@
 
 import { DropdownMenu } from "@/components/Header/DropdownMenu";
 import LanguageSelector from "@/components/i18n/LanguageSelector";
+import Logo from "@/components/Logo";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import ThemeToggle from "@/components/ThemeToggle";
 import { menuData } from "@/data/MenuData";
 import { Link } from "@/i18n/routing";
-
-import Logo from "../../public/v1cferr-logo.svg";
 
 /**
  *
