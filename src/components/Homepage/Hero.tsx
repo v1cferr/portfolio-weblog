@@ -70,9 +70,9 @@ export default function Hero() {
                 fill
                 priority
                 alt="Victor Ferreira - Software-AI Engineer"
-                className="rounded-full object-cover"
+                className="rounded-full object-cover object-center"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                src="/pictures/20240926085333.jpg"
+                src="/pictures/me/20260212154431.jpg"
               />
             </div>
           </header>

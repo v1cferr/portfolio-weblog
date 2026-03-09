@@ -14,7 +14,7 @@ import {
   SiVite,
   SiSwagger,
   SiJavascript,
-  SiCss3,
+  SiCss,
   SiHtml5,
   SiSupabase,
   SiPostgresql,
@@ -72,7 +72,7 @@ export const categories: ICategoryData[] = [
         color: "text-orange-500",
       },
       {
-        icon: SiCss3,
+        icon: SiCss,
         title: "CSS",
         href: "https://developer.mozilla.org/docs/Web/CSS",
         color: "text-blue-400",
