@@ -149,8 +149,8 @@ export const components = [
       },
       {
         name: "Cadeira",
-        description: "Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho",
-        url: "https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/",
+        description: "Cadeira Gamer Pichau Omega S, Espuma Moldada, Braço 3D, Frog, Preta e Cinza - PG-OMGS-BG01",
+        url: "https://www.pichau.com.br/cadeira-gamer-pichau-omega-s-espuma-moldada-braco-3d-preta-e-cinza-pg-omgs-bg01",
       },
       {
         name: "Mouse",
@@ -290,6 +290,15 @@ export const components = [
           "Utilizei de 2022 até 2025. Excelente custo-benefício para desktop, som claro para uso geral e iluminação discreta. Limitação principal foi a ausência de subwoofer e potência reduzida para músicas/filmes com grave mais encorpado. Substituída pela Edifier G1500 Max com subwoofer dedicado.",
         date: "2022-03",
         endDate: "2025-08",
+      },
+      {
+        name: "Cadeira",
+        description: "Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho",
+        url: "https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/",
+        review:
+          "Utilizei de 2023 até meados de 2026. Cadeira de entrada que quebrou muito o galho, mas com o tempo a espuma começou a ceder e senti falta de ajustes mais precisos (como braços 3D). Substituída pela Pichau Omega S.",
+        date: "2023-04",
+        endDate: "2026-05",
       },
     ],
   },
