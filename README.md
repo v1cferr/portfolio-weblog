@@ -14,7 +14,7 @@
 
 ```bash
 .
-├── .devcontainer/           # Configuração do ambiente de desenvolvimento (VS Code, Docker)
+├── .envrc                   # Seleciona o dev shell do Nix via direnv
 ├── .github/                 # Workflows, templates e configs do GitHub
 ├── .vscode/                 # Configurações específicas do VS Code
 ├── public/                  # Arquivos públicos (imagens, favicon, etc.)
@@ -37,6 +37,8 @@
 │   ├── types/               # Tipos personalizados
 │   └── middleware.ts        # Middlewares do Next.js
 ├── supabase/                # Configurações e schemas do Supabase
+├── flake.nix                # Dev shell com node, pnpm, deno e supabase CLI
+├── flake.lock               # Versões fixadas do nixpkgs
 ├── ...
 └── README.md                # Documentação do projeto
 ```
@@ -161,9 +163,8 @@ Essa combinação de recursos faz do Next.js a escolha ideal para um personal hu
 
 ## Recursos utilizados
 
-- Docker - <https://www.docker.com/>
-  - Containerization
-  - Development
+- Nix - <https://nixos.org/>
+  - Ambiente de desenvolvimento reproduzível (`nix develop`)
 - Vercel - <https://vercel.com/>
   - Hosting
   - Deployments
