@@ -27,9 +27,16 @@ yarn-error.log*
 
 # local env files
 .env*
+# .envrc only selects the Nix dev shell, it carries no secrets
+!.envrc
 
 # vercel
 .vercel
+
+# nix
+.direnv/
+result
+result-*
 
 # typescript
 *.tsbuildinfo
