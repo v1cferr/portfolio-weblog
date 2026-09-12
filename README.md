@@ -163,6 +163,8 @@ that has to be:
   - Deployments
   - Analytics
   - Speed Insights
+  - CLI (use: `pnpm vercel`), for the environment variables the dashboard
+    otherwise owns
 - Supabase - <https://supabase.com/>
   - Database
   - Edge Functions - <https://supabase.com/docs/guides/functions/quickstart>
@@ -170,7 +172,7 @@ that has to be:
       <https://supabase.com/docs/guides/functions/secrets>
     - Deno - <https://deno.com/> (the environment is set up to run Deno with its
       types)
-  - CLI (use: `pnpm supabase`)
+  - CLI (`supabase`, provided by the Nix dev shell)
 
 ## Contact
 
