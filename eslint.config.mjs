@@ -20,6 +20,13 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // The Supabase edge functions target Deno and carry their own tsconfig, and
+  // the root tsconfig.json excludes them, so the type-aware rules below cannot
+  // parse them. `next lint` never walked into these files; `eslint .` does.
+  {
+    ignores: ["supabase/**", ".next/**"],
+  },
+
   // Configurações básicas recomendadas do ESLint
   js.configs.recommended,
 

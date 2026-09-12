@@ -50,8 +50,7 @@
     "next-env.d.ts", // Arquivo de definição de tipos para o Next.js
     "**/*.ts", // Inclui todos os arquivos TypeScript
     "**/*.tsx", // Inclui todos os arquivos TypeScript com JSX
-    ".next/types/**/*.ts" // Inclui arquivos de tipos gerados pelo Next.js
-    ,
+    ".next/types/**/*.ts", // Inclui arquivos de tipos gerados pelo Next.js
     ".next/dev/types/**/*.ts"
   ],
   // Arquivos e diretórios a serem excluídos do projeto
