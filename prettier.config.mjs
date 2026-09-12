@@ -1,122 +1,122 @@
 /**
- * Configuração do Prettier para manter consistência de formatação no projeto
+ * Prettier configuration, keeping formatting consistent across the project
  * @see https://prettier.io/docs/configuration
  * @type {import("prettier").Config}
  */
 const config = {
   // =================================================
-  // CONFIGURAÇÕES BÁSICAS
+  // BASIC SETTINGS
   // =================================================
 
-  // Define a largura máxima da linha antes de quebrar
+  // Maximum line width before wrapping
   printWidth: 140,
 
-  // Tamanho da indentação (2 espaços é o padrão mais comum em projetos Next.js/React)
+  // Indentation width (2 spaces is the common default in Next.js/React projects)
   tabWidth: 2,
 
-  // Usar espaços em vez de tabs
+  // Indent with spaces rather than tabs
   useTabs: false,
 
-  // Adiciona ponto e vírgula no final das declarações
+  // Terminate statements with a semicolon
   semi: true,
 
-  // Usa aspas simples ao invés de aspas duplas
+  // Use double quotes rather than single quotes
   singleQuote: false,
 
-  // Define quando usar aspas em propriedades de objetos
-  // "as-needed" = apenas quando necessário
-  // "consistent" = mantém consistência se uma prop precisa de aspas
-  // "preserve" = mantém como está no código original
+  // When to quote object properties
+  // "as-needed" = only where required
+  // "consistent" = quote them all if any one needs quoting
+  // "preserve" = leave them as written
   quoteProps: "as-needed",
 
-  // Usa aspas simples em JSX (independente da configuração singleQuote)
+  // Quote style inside JSX (independent of singleQuote)
   jsxSingleQuote: false,
 
   // =================================================
-  // VÍRGULAS E PONTUAÇÃO
+  // COMMAS AND PUNCTUATION
   // =================================================
 
-  // Adiciona vírgula no final quando possível (objetos multi-linha, arrays, etc)
-  // "es5" = adiciona onde é válido no ES5 (objetos, arrays, mas não em parâmetros de função)
-  // "all" = adiciona em todos os lugares possíveis (incluindo parâmetros de função)
-  // "none" = nunca adiciona vírgula no final
+  // Trailing commas where valid
+  // "es5" = wherever ES5 allows them (objects, arrays, but not function parameters)
+  // "all" = everywhere possible, function parameters included
+  // "none" = never
   trailingComma: "es5",
 
   // =================================================
-  // ESPAÇAMENTO
+  // SPACING
   // =================================================
 
-  // Adiciona espaços entre as chaves de objetos
-  // { foo: bar } ao invés de {foo: bar}
+  // Spaces inside object braces
+  // { foo: bar } rather than {foo: bar}
   bracketSpacing: true,
 
-  // Posição do > em elementos JSX com múltiplas linhas
-  // false = coloca o > na próxima linha
-  // true = mantém o > no final da última linha
+  // Placement of > on multi-line JSX elements
+  // false = put > on its own line
+  // true = keep > at the end of the last line
   bracketSameLine: false,
 
   // =================================================
   // ARROW FUNCTIONS
   // =================================================
 
-  // Define quando usar parênteses em arrow functions com um único parâmetro
-  // "always" = sempre usa parênteses: (x) => x
-  // "avoid" = evita quando possível: x => x
+  // Parentheses around a single arrow function parameter
+  // "always" = always parenthesize: (x) => x
+  // "avoid" = omit where possible: x => x
   arrowParens: "always",
 
   // =================================================
-  // QUEBRA DE LINHA
+  // LINE ENDINGS
   // =================================================
 
-  // Tipo de quebra de linha
-  // "lf" = Line Feed (\n) - padrão Unix/Linux/Mac
-  // "crlf" = Carriage Return + Line Feed (\r\n) - padrão Windows
-  // "cr" = Carriage Return (\r) - padrão Mac antigo
-  // "auto" = mantém o que já existe no arquivo
+  // Line ending style
+  // "lf" = Line Feed (\n), the Unix/Linux/Mac convention
+  // "crlf" = Carriage Return + Line Feed (\r\n), the Windows convention
+  // "cr" = Carriage Return (\r), the classic Mac convention
+  // "auto" = keep whatever the file already uses
   endOfLine: "lf",
 
-  // Adiciona nova linha no final do arquivo
-  // Nota: Esta opção é controlada pelo EditorConfig, mas está aqui como referência
+  // Newline at the end of the file
+  // Note: this is driven by EditorConfig, kept here for reference
   // insertFinalNewline: true,
 
   // =================================================
-  // HTML, CSS E MARKDOWN
+  // HTML, CSS AND MARKDOWN
   // =================================================
 
-  // Define como o HTML é formatado
-  // "css" = respeita a propriedade display do CSS
-  // "strict" = todos os elementos são formatados como block ou inline
-  // "ignore" = não formata whitespace
+  // How whitespace is treated in HTML
+  // "css" = respect the CSS display property
+  // "strict" = format every element as block or inline
+  // "ignore" = do not format whitespace
   htmlWhitespaceSensitivity: "css",
 
-  // Quebra a linha de prosa do markdown para respeitar printWidth
-  // "always" = sempre quebra
-  // "never" = nunca quebra
-  // "preserve" = mantém como está
+  // Whether markdown prose is rewrapped to printWidth
+  // "always" = always wrap
+  // "never" = never wrap
+  // "preserve" = leave as written
   proseWrap: "preserve",
 
   // =================================================
-  // COMENTÁRIOS
+  // COMMENTS
   // =================================================
 
-  // Tenta manter a formatação original de comentários
-  // Isso evita que o Prettier reformate comentários de uma maneira indesejada
-  // (Disponível a partir da versão 3.1.0)
+  // Tries to preserve the original formatting of comments, so Prettier does not
+  // reflow them in unwanted ways
+  // (available from version 3.1.0)
   // experimentalTernaries: false,
 
   // =================================================
-  // PLUGINS E PARSERS CUSTOMIZADOS
+  // PLUGINS AND CUSTOM PARSERS
   // =================================================
 
-  // Plugins adicionais podem ser adicionados aqui
+  // Additional plugins go here
   plugins: [],
 
   // =================================================
-  // OVERRIDES - CONFIGURAÇÕES ESPECÍFICAS POR TIPO DE ARQUIVO
+  // OVERRIDES - PER FILE TYPE SETTINGS
   // =================================================
 
   overrides: [
-    // Configuração específica para arquivos JSON
+    // JSON files
     {
       files: ["*.json", ".prettierrc", ".eslintrc"],
       options: {
@@ -124,14 +124,14 @@ const config = {
         printWidth: 100,
       },
     },
-    // Configuração específica para arquivos YAML
+    // YAML files
     {
       files: ["*.yml", "*.yaml"],
       options: {
         tabWidth: 2,
       },
     },
-    // Configuração específica para arquivos Markdown
+    // Markdown files
     {
       files: ["*.md", "*.mdx"],
       options: {
@@ -139,7 +139,7 @@ const config = {
         printWidth: 80,
       },
     },
-    // Configuração específica para arquivos de configuração
+    // Configuration files
     {
       files: ["*.config.js", "*.config.mjs", "*.config.ts"],
       options: {

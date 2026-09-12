@@ -6,8 +6,8 @@ import CharacterCard from "@/components/Personal/Games/WoW/CharacterCard";
 /* eslint-disable @next/next/no-img-element */
 // import Image from "next/image";
 
-// TODO: Futuramente se for víável, adicionar DeepL para traduzir dados enviados das APIs para suas respectivas línguas.
-// TODO: Utilizar APIs para buscar as informações dos chars, achievs e addons (PvP Stats talvez?):
+// TODO: if it turns out to be viable, add DeepL to translate the data coming from the APIs into each language.
+// TODO: use the APIs to fetch character, achievement and addon data (PvP stats too, perhaps):
 
 // - [x] API Client & Keys: https://develop.battle.net/access/clients/
 // - [x] Chars: https://develop.battle.net/documentation/world-of-warcraft/profile-apis
@@ -34,7 +34,7 @@ export default function WorldOfWarcraft() {
 
   return (
     <div className="container mx-auto p-6 space-y-12">
-      {/* Título */}
+      {/* Title */}
       <section>
         <h1 className="text-4xl font-bold">{t("title")}</h1>
         <p className="text-lg">{t("subtitle")}</p>

@@ -14,8 +14,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:strict": "next lint --max-warnings 0",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:staged": "prettier --write --list-different",
@@ -69,7 +69,8 @@
     "prettier": "^3.8.1",
     "tailwind-scrollbar": "3.1.0",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vercel": "^59.16.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -77,6 +78,7 @@
       "@swc/core",
       "@vercel/speed-insights",
       "deno",
+      "esbuild",
       "sharp",
       "unrs-resolver"
     ]

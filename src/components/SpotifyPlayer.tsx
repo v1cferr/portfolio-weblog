@@ -10,11 +10,11 @@ import { FaSpotify } from "react-icons/fa";
 import useSWR from "swr";
 
 // ============================================================
-// Interfaces e Tipos
+// Interfaces and types
 // ============================================================
 
 /**
- * Interface para a faixa do Spotify
+ * A track as returned by Spotify
  */
 interface ISpotifyTrack {
   album: {
@@ -27,7 +27,7 @@ interface ISpotifyTrack {
 }
 
 /**
- * Interface para a resposta da API do Spotify
+ * The shape of the Spotify API response
  */
 interface ICurrentlyPlaying {
   item?: ISpotifyTrack;
@@ -35,47 +35,47 @@ interface ICurrentlyPlaying {
 }
 
 // ============================================================
-// Configuração do SWR e API
+// SWR and API configuration
 // ============================================================
 
 /**
- * Chave para cache do SWR
- * Usando uma constante para evitar strings mágicas no código
+ * SWR cache key, kept in a constant to avoid
+ * magic strings scattered through the file
  */
 const SPOTIFY_API_KEY = "/api/spotify";
 
 /**
- * Função para buscar dados do Spotify
- * @returns {Promise<ICurrentlyPlaying>} Dados da faixa atual
+ * Fetches the current track from our Spotify route
+ * @returns {Promise<ICurrentlyPlaying>} The currently playing track
  */
 const spotifyFetcher = async (): Promise<ICurrentlyPlaying> => {
   const res = await fetch(SPOTIFY_API_KEY);
-  if (!res.ok) throw new Error("Falha ao buscar dados do Spotify");
+  if (!res.ok) throw new Error("Failed to fetch data from Spotify");
   return res.json();
 };
 
 // ============================================================
-// Hook personalizado
+// Custom hook
 // ============================================================
 
 /**
- * Hook que gerencia o estado e as requisições à API do Spotify
- * Utiliza SWR para cache e revalidação inteligente
+ * Owns the state and the requests to the Spotify route,
+ * using SWR for caching and revalidation
  */
 const useSpotifyTrack = () => {
-  // Configuração do SWR com otimizações para reduzir chamadas desnecessárias
+  // SWR is tuned to keep the request rate down
   const { data, error, isLoading, mutate } = useSWR<ICurrentlyPlaying>(SPOTIFY_API_KEY, spotifyFetcher, {
-    refreshInterval: 60000, // 1 minuto - Aumentado para reduzir chamadas
-    revalidateOnFocus: false, // Não revalidar quando janela ganha foco
-    dedupingInterval: 30000, // 30 segundos para evitar requests duplicados
+    refreshInterval: 60000, // 1 minute, raised to cut down on requests
+    revalidateOnFocus: false, // Do not revalidate when the window regains focus
+    dedupingInterval: 30000, // 30 seconds, to drop duplicate requests
   });
 
-  // Processamento memorizado dos dados para evitar recálculos desnecessários
+  // Memoised so the derived value is not recomputed on every render
   const currentTrack = useMemo(() => {
     return data && data.is_playing && data.item ? data : null;
   }, [data]);
 
-  // Função de atualização manual dos dados
+  // Manual refresh
   const refetch = useCallback(() => mutate(), [mutate]);
 
   return {
@@ -87,11 +87,11 @@ const useSpotifyTrack = () => {
 };
 
 // ============================================================
-// Componentes de UI
+// UI components
 // ============================================================
 
 /**
- * Componente exibido durante o carregamento dos dados
+ * Shown while the data is loading
  */
 const LoadingState = () => {
   const t = useTranslations("SpotifyPlayer");
@@ -111,8 +111,8 @@ const LoadingState = () => {
 };
 
 /**
- * Componente exibido quando ocorre um erro na requisição
- * @param {string} message - Mensagem de erro a ser exibida
+ * Shown when the request fails
+ * @param {string} message - The error message to display
  */
 const ErrorState = ({ message, onRetry }: { message: string; onRetry: () => void }) => {
   const t = useTranslations("SpotifyPlayer");
@@ -144,7 +144,7 @@ const ErrorState = ({ message, onRetry }: { message: string; onRetry: () => void
 };
 
 /**
- * Componente exibido quando nenhuma música está tocando no Spotify
+ * Shown when nothing is playing
  */
 const NotPlayingState = () => {
   const t = useTranslations("SpotifyPlayer");
@@ -162,13 +162,13 @@ const NotPlayingState = () => {
 };
 
 /**
- * Componente para exibir informações de uma faixa em reprodução
- * @param {ISpotifyTrack} track - Dados da faixa do Spotify
+ * Shows the details of the track currently playing
+ * @param {ISpotifyTrack} track - The Spotify track
  */
 const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
   const t = useTranslations("SpotifyPlayer");
 
-  // Formatando os nomes dos artistas usando a localização
+  // Artist names, joined for display
   const artistNames = track.artists.map((artist) => artist.name).join(", ");
 
   return (
@@ -179,7 +179,7 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
       initial={{ opacity: 0 }}
       itemType="https://schema.org/MusicRecording"
     >
-      {/* Capa do álbum à esquerda */}
+      {/* Album cover on the left */}
       <figure className="h-16 w-16 flex-shrink-0">
         <Image
           priority
@@ -193,7 +193,7 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
         />
       </figure>
 
-      {/* Informações da faixa à direita */}
+      {/* Track details on the right */}
       <div className="flex-1 min-w-0">
         <h3 className="font-medium truncate text-base" itemProp="name">
           {track.name}
@@ -210,7 +210,7 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
         <meta content={track.album.name} itemProp="inAlbum" />
       </div>
 
-      {/* Ícone do Spotify no canto superior direito - Link para faixa */}
+      {/* Spotify icon in the top right corner, linking to the track */}
       <Link
         aria-label={`${t("listen-on-spotify")}: ${track.name}`}
         className="absolute top-2 right-2 hover:opacity-100 transition-opacity"
@@ -227,18 +227,18 @@ const TrackInfo = ({ track }: { track: ISpotifyTrack }) => {
 };
 
 // ============================================================
-// Componente Principal
+// Main component
 // ============================================================
 
 /**
- * Componente principal do player do Spotify
- * Gerencia os diferentes estados e renderiza o componente apropriado
+ * The Spotify player itself,
+ * dispatching to the component that matches the current state
  */
 const SpotifyPlayer = () => {
   const t = useTranslations("SpotifyPlayer");
   const { currentTrack, error, isLoading, refetch } = useSpotifyTrack();
 
-  // Renderização condicional baseada no estado atual
+  // Picks the view for the current state
   const renderContent = () => {
     if (isLoading) return <LoadingState />;
     if (error) return <ErrorState message={error} onRetry={() => void refetch()} />;

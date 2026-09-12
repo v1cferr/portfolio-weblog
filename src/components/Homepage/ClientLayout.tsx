@@ -16,7 +16,7 @@ import "@/styles/global.css";
 // Configuração da fonte
 const inter = Inter({ subsets: ["latin"] });
 
-// Tipos para as props
+// Prop types
 type ClientLayoutProps = {
   children: React.ReactNode;
   localeData: {
@@ -25,7 +25,7 @@ type ClientLayoutProps = {
   };
 };
 
-// Componente de modal WIP - extraído para melhor organização
+// The work-in-progress modal, pulled out to keep this file readable
 const WIPModal = memo(({ onClose }: { onClose: () => void }) => (
   <div className="fixed inset-0 flex items-center justify-center z-[100] m-5">
     <WorkInProgress onClose={onClose} />
@@ -33,7 +33,7 @@ const WIPModal = memo(({ onClose }: { onClose: () => void }) => (
 ));
 WIPModal.displayName = "WIPModal";
 
-// Conteúdo principal do layout
+// Main layout content
 const PageContent = memo(({ children, isVisible }: { children: React.ReactNode; isVisible: boolean }) => (
   <div className={isVisible ? "opacity-100 transition-opacity duration-300" : "opacity-0"}>
     <Header />
@@ -42,7 +42,7 @@ const PageContent = memo(({ children, isVisible }: { children: React.ReactNode; 
 ));
 PageContent.displayName = "PageContent";
 
-// Componente principal do layout
+// Main layout component
 const ClientLayout = ({ children, localeData }: ClientLayoutProps) => {
   const [isWipVisible, setIsWipVisible] = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
@@ -52,7 +52,7 @@ const ClientLayout = ({ children, localeData }: ClientLayoutProps) => {
     setIsWipVisible(false);
   }, []);
 
-  // Exibe o conteúdo com efeito de fade in após um pequeno atraso
+  // Fades the content in after a short delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setContentVisible(true);
@@ -69,7 +69,7 @@ const ClientLayout = ({ children, localeData }: ClientLayoutProps) => {
             {/* Modal WIP renderizado condicionalmente */}
             {isWipVisible && <WIPModal onClose={handleWipClose} />}
 
-            {/* Conteúdo principal */}
+            {/* Main content */}
             <PageContent isVisible={contentVisible}>{children}</PageContent>
 
             {/* Ferramentas de análise */}

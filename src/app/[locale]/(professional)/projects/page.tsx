@@ -1,7 +1,7 @@
 import ProjectsTimeline from "@/components/Professional/Projects/Timeline";
 
 /**
- * Página que exibe a linha do tempo dos projetos.
+ * Page showing the project timeline.
  */
 export default function Projects() {
   return (

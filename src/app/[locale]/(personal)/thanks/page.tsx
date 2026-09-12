@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-// Pagina dedicada para agradecer familia, amigos e colegas que
-// contribuiram e contribuem para/com/na minha vida
+// A page dedicated to thanking the family, friends and colleagues who
+// have shaped my life and go on shaping it
 
 // Apenas um mock temporário
 /**
@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function Thanks() {
   return (
     <div className="container mx-auto p-6 space-y-12">
-      {/* Título */}
+      {/* Title */}
       <section>
         <h1 className="text-4xl font-bold">Agradecimentos</h1>
         <p className="text-lg">Agradecimentos especiais para quem contribuiu e contribui na minha vida</p>

@@ -1,7 +1,7 @@
-// NOTA: É necessário instalar os seguintes pacotes:
+// NOTE: the following packages must be installed:
 // pnpm add -D @eslint/js @eslint/eslintrc eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsx-a11y eslint-plugin-jsdoc eslint-plugin-react
 
-// Importação de módulos necessários para a configuração do ESLint
+// Modules required by this ESLint configuration
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -11,25 +11,32 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import jsdoc from "eslint-plugin-jsdoc";
 import react from "eslint-plugin-react";
 
-// Compatibilidade para configurações antigas do ESLint
-// Permite usar extensões como 'next' e 'prettier' no formato flat config
+// Compatibility layer for the legacy ESLint configuration format
+// Lets 'next' and 'prettier' extends be used from the flat config
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
-  // Adiciona resolução de plugins que serão importados através do FlatCompat
+  // Resolves the plugins that come in through FlatCompat
   recommendedConfig: { plugins: {} },
 });
 
 const eslintConfig = [
-  // Configurações básicas recomendadas do ESLint
+  // The Supabase edge functions target Deno and carry their own tsconfig, and
+  // the root tsconfig.json excludes them, so the type-aware rules below cannot
+  // parse them. `next lint` never walked into these files; `eslint .` does.
+  {
+    ignores: ["supabase/**", ".next/**"],
+  },
+
+  // ESLint recommended baseline
   js.configs.recommended,
 
-  // Adiciona configurações do Next.js e Prettier
-  // O Prettier deve vir por último para evitar conflitos com outras regras
+  // Next.js and Prettier configurations
+  // Prettier must come last so it can switch off conflicting rules
   ...compat.config({
     extends: ["next", "prettier"],
   }),
 
-  // Configuração para TypeScript
+  // TypeScript setup
   {
     files: ["**/*.{ts,tsx}"],
     plugins: {
@@ -41,14 +48,14 @@ const eslintConfig = [
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: { jsx: true },
-        project: "./tsconfig.json", // Adiciona a configuração do TypeScript para habilitar regras que precisam de type-checking
-        // projectService: true, // Habilita o serviço de projeto do TypeScript
+        project: "./tsconfig.json", // Points at the TS project so type-aware rules can run
+        // projectService: true, // Enables the TypeScript project service
         tsconfigRootDir: import.meta.dirname,
       },
     },
   },
 
-  // Adiciona as regras recomendadas para React Hooks em formato flat config
+  // React Hooks recommended rules, in flat config form
   {
     plugins: {
       "react-hooks": reactHooks,
@@ -61,7 +68,7 @@ const eslintConfig = [
   },
 
   {
-    // Define os tipos de arquivos aos quais aplicar estas regras
+    // File types these rules apply to
     files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       "jsx-a11y": jsxA11y,
@@ -70,27 +77,27 @@ const eslintConfig = [
     },
     rules: {
       // =================================================
-      // REGRAS DE TRATAMENTO DE ERROS
+      // ERROR HANDLING RULES
       // =================================================
 
-      // Avisa sobre console.log mas permite console.warn e console.error
-      // Útil para evitar logs desnecessários em produção
+      // Warns on console.log but allows console.warn and console.error,
+      // which keeps stray logs out of production
       "no-console": ["warn", { allow: ["warn", "error"] }],
 
-      // DESATIVADO: Estava causando falsos positivos com o React em arquivos Next.js
-      // Considera erros globais definidos pelo framework mas não explicitamente importados
+      // DISABLED: it was reporting false positives for React in Next.js files,
+      // flagging framework globals that are never imported explicitly
       "no-undef": "off",
 
-      // MODIFICADO: Alterado de error para warn para facilitar o desenvolvimento
-      // Marca variáveis não utilizadas como aviso, mas ignora as que começam com _
-      // Convenção para indicar variáveis intencionalmente não utilizadas
+      // MODIFIED: downgraded from error to warn to keep development moving.
+      // Unused variables warn, except those prefixed with _, the convention
+      // for marking a variable as intentionally unused
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
 
       // =================================================
-      // REGRAS DE ESTILO E CSS
+      // STYLE AND CSS RULES
       // =================================================
 
-      // Proíbe o uso de estilos inline para manter a separação de preocupações
+      // Forbids inline styles, keeping presentation out of the markup
       "react/forbid-component-props": [
         "error",
         {
@@ -115,58 +122,58 @@ const eslintConfig = [
       ],
 
       // =================================================
-      // REGRAS DE ORGANIZAÇÃO DE CÓDIGO
+      // CODE ORGANISATION RULES
       // =================================================
 
-      // Regras para importações consistentes
-      // Evita duplicação de imports (import React from 'react' várias vezes)
+      // Consistent imports.
+      // Avoids importing the same module twice
       "import/no-duplicates": "error",
 
-      // Organiza os imports em grupos e em ordem alfabética
+      // Groups imports and alphabetises them
       "import/order": [
         "warn",
         {
-          // Define a ordem dos grupos de importação
+          // Order of the import groups
           groups: [
-            "builtin", // Módulos nativos do Node.js (ex: fs, path)
-            "external", // Pacotes npm (ex: react, next)
-            "internal", // Importações internas do projeto (caminhos absolutos)
-            "parent", // Importações do diretório pai (ex: ../)
-            "sibling", // Importações do mesmo diretório (ex: ./)
-            "index", // Importações do arquivo index
-            "object", // Importações de objetos
-            "type", // Importações de tipos
+            "builtin", // Node.js built-ins (fs, path, ...)
+            "external", // npm packages (react, next, ...)
+            "internal", // Project-internal imports (absolute paths)
+            "parent", // Imports from a parent directory (../)
+            "sibling", // Imports from the same directory (./)
+            "index", // Index file imports
+            "object", // Object imports
+            "type", // Type imports
           ],
-          // Adiciona linha em branco entre os grupos
+          // Blank line between groups
           "newlines-between": "always",
-          // Organiza em ordem alfabética, ignorando maiúsculas/minúsculas
+          // Alphabetical, case insensitive
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
 
       // =================================================
-      // REGRAS ESPECÍFICAS PARA REACT
+      // REACT SPECIFIC RULES
       // =================================================
 
-      // Desativa a verificação de PropTypes (usamos TypeScript)
+      // PropTypes are unnecessary: the project is typed with TypeScript
       "react/prop-types": "off",
 
-      // Ordena as props do JSX para melhor legibilidade
-      // Ex: primeiro props curtos, depois callbacks no final
+      // Sorts JSX props for readability:
+      // shorthand props first, callbacks last
       "react/jsx-sort-props": ["warn", { callbacksLast: true, shorthandFirst: true }],
 
-      // Força componentes sem filhos a serem auto-fechados
-      // Ex: <div /> em vez de <div></div> quando não há conteúdo
+      // Requires childless components to be self-closing,
+      // e.g. <div /> rather than <div></div>
       "react/self-closing-comp": "warn",
 
-      // Proíbe o uso de dangerouslySetInnerHTML para segurança
+      // Forbids dangerouslySetInnerHTML, for safety
       "react/no-danger": "error",
 
-      // Avisa sobre o uso de índices como chaves (causa problemas de performance e bugs)
+      // Warns on array indexes as keys, a source of bugs and wasted renders
       "react/no-array-index-key": "warn",
 
       // =================================================
-      // REGRAS DE ACESSIBILIDADE
+      // ACCESSIBILITY RULES
       // =================================================
 
       "jsx-a11y/alt-text": "error",
@@ -180,7 +187,7 @@ const eslintConfig = [
       "jsx-a11y/media-has-caption": "warn",
 
       // =================================================
-      // REGRAS ESPECÍFICAS PARA NEXT.JS
+      // NEXT.JS SPECIFIC RULES
       // =================================================
 
       "@next/next/no-img-element": "warn",
@@ -189,7 +196,7 @@ const eslintConfig = [
       "@next/next/no-title-in-document-head": "warn",
 
       // =================================================
-      // REGRAS DE COMENTÁRIOS
+      // COMMENT RULES
       // =================================================
 
       "jsdoc/require-jsdoc": [
@@ -206,7 +213,7 @@ const eslintConfig = [
       ],
 
       // =================================================
-      // REGRAS DE CONVENÇÕES DE NOMES
+      // NAMING CONVENTION RULES
       // =================================================
 
       "@typescript-eslint/naming-convention": [
@@ -227,60 +234,60 @@ const eslintConfig = [
       ],
 
       // =================================================
-      // REGRAS DE ALIAS DE IMPORTAÇÃO
+      // IMPORT ALIAS RULES
       // =================================================
 
       "import/no-unresolved": "off",
 
       // =================================================
-      // REGRAS DE PERFORMANCE
+      // PERFORMANCE RULES
       // =================================================
 
       "react/jsx-no-useless-fragment": "warn",
     },
   },
 
-  // Regras específicas para TypeScript em arquivos .ts/.tsx
+  // Rules that only apply to .ts/.tsx files
   {
     files: ["**/*.{ts,tsx}"],
     rules: {
       // =================================================
-      // REGRAS ESPECÍFICAS PARA TYPESCRIPT
+      // TYPESCRIPT SPECIFIC RULES
       // =================================================
 
-      // Avisa sobre o uso de 'any' - incentiva tipagem mais precisa
+      // Warns on 'any', nudging towards a precise type
       "@typescript-eslint/no-explicit-any": "warn",
 
-      // Desativa a necessidade de declarar tipo de retorno explícito
-      // O TypeScript já infere os tipos corretamente na maioria dos casos
+      // Explicit return types are not required:
+      // inference gets it right in the vast majority of cases
       "@typescript-eslint/explicit-function-return-type": "off",
 
-      // Desativa a necessidade de tipos explícitos para APIs públicas
+      // Explicit types are not required on public APIs either
       "@typescript-eslint/explicit-module-boundary-types": "off",
 
-      // Incentiva o uso de imports de tipos consistentes
-      // Ex: import type { MyType } from './types'
+      // Encourages consistent type imports,
+      // e.g. import type { MyType } from './types'
       "@typescript-eslint/consistent-type-imports": "warn",
 
-      // Evita afirmações não nulas (!) que podem causar erros em runtime
+      // Discourages non-null assertions (!), which can blow up at runtime
       "@typescript-eslint/no-non-null-assertion": "warn",
 
-      // Evita condições desnecessárias que TypeScript já pode verificar
+      // Flags conditions TypeScript can already prove redundant
       "@typescript-eslint/no-unnecessary-condition": "warn",
 
-      // Evita promessas não tratadas
+      // Flags unhandled promises
       "@typescript-eslint/no-floating-promises": "warn",
 
-      // Garante que await seja usado apenas com Promises
+      // Ensures await is only used on thenables
       "@typescript-eslint/await-thenable": "error",
 
-      // Evita uso incorreto de Promises
+      // Flags misused promises
       "@typescript-eslint/no-misused-promises": "warn",
 
-      // Preferir o operador de coalescência nula (??) em vez de OR (||)
+      // Prefers nullish coalescing (??) over logical or (||)
       "@typescript-eslint/prefer-nullish-coalescing": "warn",
 
-      // Preferir o operador de encadeamento opcional (?.)
+      // Prefers optional chaining (?.)
       "@typescript-eslint/prefer-optional-chain": "warn",
     },
   },

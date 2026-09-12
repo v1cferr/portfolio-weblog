@@ -30,14 +30,14 @@ function PhotoGallery() {
  */
 export default function Setup() {
   return (
-    // TODO: Adicionar o mês-ano de aquisição (+quanto tempo até atualmente)
+    // TODO: add the month and year each piece was bought, plus how long it has been in use
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Meu Setup</h1>
         <CopySetupButton />
       </div>
 
-      {/* Componentes */}
+      {/* Components */}
       {components.map((component) => (
         <div className="mb-8" key={component.category}>
           <h2 className="text-2xl font-bold mb-4">{component.category}</h2>

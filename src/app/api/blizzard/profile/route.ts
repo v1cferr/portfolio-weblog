@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await SUPABASE.from("blizzard_tokens").select("*").order("expires_at", { ascending: false }).limit(1);
 
-  // TODO: Se o token não estiver válido ou expirado, utilizar o Edge Functions do Supbase
-  // Para buscar um novo token de acesso.
+  // TODO: when the token is invalid or expired, use Supabase Edge Functions
+  // to fetch a fresh access token.
   // Edge Functions: <https://supabase.com/docs/guides/functions>
   // Developing Edge Functions locally: <https://supabase.com/docs/guides/functions/quickstart>
 

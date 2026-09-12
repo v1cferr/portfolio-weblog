@@ -29,7 +29,7 @@ export default function Home() {
           aprendizado de máquina e segurança.
         </p>
 
-        {/* Lista de objetivos */}
+        {/* Goal list */}
         <ul className="mt-4 space-y-2 text-base-content/90">
           <li className="flex items-center gap-2">✅ Dominar frameworks de IA e aprendizado profundo</li>
           <li className="flex items-center gap-2">✅ Aprofundar conhecimentos em segurança e escalabilidade</li>

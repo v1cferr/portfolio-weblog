@@ -6,18 +6,18 @@ const SHEET_ID = "1CT7apH_TdLH-tlwjsT9B9-8cCPYKYkkV7GbyFVLfE0g";
 const RANGE = "A1:F200";
 
 /**
- * Busca dados de uma planilha do Google Sheets através da API do Google Sheets.
+ * Reads data from a Google Sheets spreadsheet through the Google Sheets API.
  *
- * @description Esta função realiza uma requisição GET para a API do Google Sheets v4
- * para obter valores de uma planilha específica. Utiliza as variáveis de ambiente
- * SHEET_ID, RANGE e API_KEY para construir a URL da requisição.
+ * @description Issues a GET request against the Google Sheets v4 API to read
+ * values from a given spreadsheet. The spreadsheet id and range are constants
+ * in this file; only the API key comes from the environment.
  *
- * @returns {Promise<NextResponse>} Retorna uma resposta JSON contendo:
- * - Em caso de sucesso: `{ data: any[][] }` - Array bidimensional com os valores da planilha
- * - Em caso de planilha vazia: `{ data: [], detail: "Nenhum dado encontrado", status: 404 }`
- * - Em caso de erro: `{ data: [], detail: "Erro ao buscar os dados do Google Sheets", status: 500 }`
+ * @returns {Promise<NextResponse>} A JSON response containing:
+ * - On success: `{ data: any[][] }`, a two-dimensional array of the sheet values
+ * - On an empty sheet: `{ data: [], detail: "No data found", status: 404 }`
+ * - On failure: `{ data: [], detail: "Failed to fetch data from Google Sheets", status: 500 }`
  *
- * @throws {Error} Registra erros no console quando falha ao acessar a API do Google Sheets
+ * @throws {Error} Logs to the console when the Google Sheets API cannot be reached
  *
  * @example
  * ```typescript
@@ -42,7 +42,7 @@ export async function GET(): Promise<NextResponse> {
     if (!response.data?.values) {
       return NextResponse.json({
         data: [],
-        detail: "Nenhum dado encontrado",
+        detail: "No data found",
         status: 404,
       });
     }
@@ -53,7 +53,7 @@ export async function GET(): Promise<NextResponse> {
 
     return NextResponse.json({
       data: [],
-      detail: "Erro ao buscar os dados do Google Sheets",
+      detail: "Failed to fetch data from Google Sheets",
       status: 500,
     });
   }

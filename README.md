@@ -1,117 +1,112 @@
-# Início
+# Overview
 
-- **Nome do projeto**: portfolio-weblog
-- **URL/Domínio**: <https://v1cferr.dev>
-  - **Registro**: Hostinger
-- **Tecnologias**:
-  - Next.js 15 (App Router + TypeScript)
+- **Project name**: portfolio-weblog
+- **URL/domain**: <https://v1cferr.dev>
+  - **Registrar**: Hostinger
+- **Technologies**:
+  - Next.js 16 (App Router + TypeScript)
   - Tailwind CSS
   - DaisyUI
-- **Hospedagem (PaaS)**: Vercel
-- **BaaS (Backend as a service)**: Supabase
+- **Hosting (PaaS)**: Vercel
+- **BaaS (backend as a service)**: Supabase
 
-## Estrutura do Projeto
+## Project structure
 
 ```bash
 .
-├── .devcontainer/           # Configuração do ambiente de desenvolvimento (VS Code, Docker)
-├── .github/                 # Workflows, templates e configs do GitHub
-├── .vscode/                 # Configurações específicas do VS Code
-├── public/                  # Arquivos públicos (imagens, favicon, etc.)
-│   └── languages/           # Arquivos de tradução/idiomas
-├── src/                     # Código-fonte principal
-│   ├── app/                 # Rotas e páginas do Next.js (App Router)
-│   │   ├── [api]/           # Rotas de API customizadas
-│   │   ├── [locale]/        # Rotas internacionalizadas
-│   │   │   ├── (professional)/  # Páginas profissionais
-│   │   │   ├── (knowledge)/     # Páginas de conhecimento
-│   │   │   ├── (personal)/      # Páginas pessoais
-│   │   │   ├── [...rest]/       # Catch-all para rotas não mapeadas
-│   │   │   ├── layout.tsx       # Layout principal das rotas de locale
-│   │   │   ├── not-found.tsx    # Página 404 customizada
-│   │   │   └── page.tsx         # Página principal do locale
-│   ├── components/          # Componentes reutilizáveis React
-│   ├── i18n/                # Configuração e arquivos de internacionalização
-│   ├── styles/              # Estilos globais e utilitários CSS/Tailwind
-│   ├── utils/               # Funções utilitárias/helpers
-│   ├── types/               # Tipos personalizados
-│   └── middleware.ts        # Middlewares do Next.js
-├── supabase/                # Configurações e schemas do Supabase
+├── .envrc                   # Selects the Nix dev shell through direnv
+├── .github/                 # GitHub workflows, templates and configuration
+├── .vscode/                 # VS Code settings
+├── public/                  # Public assets (images, favicon, ...)
+│   └── languages/           # Translation files
+├── src/                     # Application source
+│   ├── app/                 # Next.js routes and pages (App Router)
+│   │   ├── [api]/           # Custom API routes
+│   │   ├── [locale]/        # Internationalised routes
+│   │   │   ├── (professional)/  # Professional pages
+│   │   │   ├── (knowledge)/     # Knowledge pages
+│   │   │   ├── (personal)/      # Personal pages
+│   │   │   ├── [...rest]/       # Catch-all for unmapped routes
+│   │   │   ├── layout.tsx       # Main layout for the locale routes
+│   │   │   ├── not-found.tsx    # Custom 404 page
+│   │   │   └── page.tsx         # Locale home page
+│   ├── components/          # Reusable React components
+│   ├── i18n/                # Internationalisation setup
+│   ├── styles/              # Global styles and CSS/Tailwind utilities
+│   ├── utils/               # Helper functions
+│   ├── types/               # Shared types
+│   └── proxy.ts             # Next.js proxy (formerly middleware.ts)
+├── supabase/                # Supabase configuration and schemas
+├── flake.nix                # Dev shell with node, pnpm, deno and the supabase CLI
+├── flake.lock               # Pinned nixpkgs revision
 ├── ...
-└── README.md                # Documentação do projeto
+└── README.md                # This document
 ```
 
-## Motivo da escolha da tecnologia
+## Why this stack
 
-Escolhi Next.js por ser um **framework full‑stack** que unifica front‑end e
-back‑end em um único repositório monolito, aproveitando as seguintes vantagens:
+I picked Next.js because it is a **full-stack framework** that keeps front-end
+and back-end in a single repository, which brings:
 
-- **App Router e Layouts Aninhados**: convenção de pastas para rotas, layouts e
-  módulos de idiomas, proporcionando organização e escalabilidade da estrutura
-  de pastas.
-- **Renderização Híbrida (SSR, SSG, ISR)**:
-  - **SSG** (Static Site Generation) gera HTML pré-renderizado em build time,
-    ideal para conteúdo estático (posts e páginas pessoais).
-  - **SSR** (Server Side Rendering) entrega páginas dinâmicas sob demanda,
-    garantindo dados sempre atuais.
-  - **ISR** (Incremental Static Regeneration) permite atualizações pontuais de
-    páginas estáticas sem rebuild completo.
-- **React Server Components**: possibilita executar lógica e busca de dados no
-  servidor dentro de componentes, reduzindo o bundle enviado ao cliente e
-  melhorando a performance.
-- **API Routes Integradas e Edge Functions**: criação de endpoints REST/GraphQL
-  diretamente em `app/api`, com possibilidade de rodar como funções serverless
-  ou em edge runtime para latência mínima.
-- **Otimizações Out‑of‑the‑box**:
-  - **Image Optimization** com o componente `<Image>` para carregamento
-    responsivo e lazy loading automático.
-  - **Font Optimization** e split de código automático por rota.
-  - **Middleware** nativo para adicionar cabeçalhos, autenticação e
-    redirecionamentos de forma centralizada.
-- **Experiência de Desenvolvimento e Productividade**:
-  - **TypeScript First**: tipagem nativa, autocompletar e refatoração segura em
-    toda a base de código.
-  - **Hot Reload** e feedback instantâneo durante o desenvolvimento.
-  - **Preview Deploys** no Vercel: cada PR gera um ambiente isolado com URL
-    única para revisão.
-- **SEO e Performance**:
-  - Páginas pré-renderizadas melhoram tempo de carregamento e ranking em motores
-    de busca.
-  - Suporte a metadados dinâmicos e geração de sitemaps/robots sem configurações
-    externas.
-- **Ecosistema Maduro**:
-  - Integrações oficiais (NextAuth, tRPC, Prisma, MDX, analytics, A/B testing).
-  - Comunidade ativa e ampla documentação, facilitando solução de problemas.
-- **Monorepo e Compartilhamento de Códigos**:
-  - Fácil separação de pacotes e compartilhamento de hooks, tipos e serviços
-    entre front-end e API.
-  - Sinergia com ferramentas de CI/CD e Dev Containers, garantindo consistência
-    entre ambientes de desenvolvimento.
-- **Escalabilidade e Manutenção**:
-  - Arquitetura modular que cresce com o projeto.
-  - Atualizações frequentes e compatibilidade retroativa garantida pela equipe
-    do Vercel.
+- **App Router and nested layouts**: a folder convention for routes, layouts and
+  language modules, which keeps the structure organised as it grows.
+- **Hybrid rendering (SSR, SSG, ISR)**:
+  - **SSG** (static site generation) pre-renders HTML at build time, ideal for
+    static content such as posts and personal pages.
+  - **SSR** (server side rendering) serves dynamic pages on demand, so the data
+    is always current.
+  - **ISR** (incremental static regeneration) refreshes individual static pages
+    without a full rebuild.
+- **React Server Components**: logic and data fetching run on the server inside
+  components, shrinking the bundle sent to the client.
+- **Built-in API routes and edge functions**: REST/GraphQL endpoints live in
+  `app/api` and can run as serverless functions or on the edge runtime for
+  minimal latency.
+- **Out-of-the-box optimisations**:
+  - **Image optimisation** through the `<Image>` component, with responsive
+    loading and automatic lazy loading.
+  - **Font optimisation** and automatic per-route code splitting.
+  - **Native proxy** for headers, authentication and redirects in one place.
+- **Developer experience**:
+  - **TypeScript first**: native typing, completion and safe refactoring across
+    the whole codebase.
+  - **Hot reload** and instant feedback while developing.
+  - **Preview deploys** on Vercel: every PR gets an isolated environment on its
+    own URL.
+- **SEO and performance**:
+  - Pre-rendered pages load faster and rank better.
+  - Dynamic metadata and sitemap/robots generation with no external tooling.
+- **Mature ecosystem**:
+  - First-party integrations (NextAuth, tRPC, Prisma, MDX, analytics, A/B
+    testing).
+  - An active community and thorough documentation.
+- **Monorepo and code sharing**:
+  - Packages separate cleanly, and hooks, types and services are shared between
+    the front-end and the API.
+  - Works well with CI/CD tooling, keeping environments consistent.
+- **Scalability and maintenance**:
+  - A modular architecture that grows with the project.
+  - Frequent releases with backward compatibility maintained by the Vercel team.
 
-Essa combinação de recursos faz do Next.js a escolha ideal para um personal hub
-(portfolio‑weblog) que precisa ser:
+Together this makes Next.js a good fit for a personal hub (portfolio-weblog)
+that has to be:
 
-1. **Rápido para desenvolver**: convenções e ferramentas integradas reduzem o
-   tempo de configuração.
-2. **Ótimo para SEO**: SSR/SSG garantem indexação e performance.
-3. **Fácil de manter**: estrutura clara, tipagem e monorepo reduzem a dívida
-   técnica.
-4. **Preparado para crescer**: pode adicionar APIs, autenticação, analytics e
-   funções edge conforme a demanda.
+1. **Quick to build**: conventions and bundled tooling cut the setup time.
+2. **Good at SEO**: SSR/SSG deliver indexing and performance.
+3. **Easy to maintain**: a clear structure, typing and a monorepo keep the
+   technical debt down.
+4. **Ready to grow**: APIs, authentication, analytics and edge functions can be
+   added as the need appears.
 
 ## Features
 
-- 🌐 Suporte a múltiplos idiomas
-- 🎨 Temas claros e escuros
-- 📱 Design responsivo
-- 🚀 Desempenho otimizado
-- 📊 Integração com APIs externas (Blizzard, Spotify)
+- 🌐 Multi-language support
+- 🎨 Light and dark themes
+- 📱 Responsive design
+- 🚀 Optimised performance
+- 📊 Integration with external APIs (Blizzard, Spotify)
 
-## Roadmap (melhorias)
+## Roadmap
 
 - [ ] View Transition - <https://github.com/shuding/next-view-transitions>
 - [ ] Uses `.mdx` files for blog posts -
@@ -126,7 +121,7 @@ Essa combinação de recursos faz do Next.js a escolha ideal para um personal hu
 - [ ] Add a button to fast contact (work with me), someway to contact and/or
       download the resume-CV
 - [ ] Weblog? (Posts, guides, tutorials, etc)
-- [ ] Add the [roadmap.sh](https://roadmap.sh) in the "conhecimento" page
+- [ ] Add the [roadmap.sh](https://roadmap.sh) in the "knowledge" page
 - [ ] Add a vertical reverse chronological timeline (resume-CV) using DaisyUI
 - [ ] Add a "Projects" page with the projects I've worked on (Frontendmentor,
       XGuardian, etc)
@@ -135,14 +130,14 @@ Essa combinação de recursos faz do Next.js a escolha ideal para um personal hu
 - [ ] Add animations using [Framer Motion](https://motion.dev/) all over the
       personal hub
 
-### SEO (rankeamento nos motores de busca)
+### SEO
 
 - [ ] Add a `robots.txt` file
 - [ ] Add a `sitemap.xml` file
 - [ ] Add a `humans.txt` file
 - [ ] Add a `manifest.json` file
 
-## Finalizado(s)
+## Done
 
 - [x] {2025-2-9} Plan the hero section with the main information and put on Home
       page
@@ -159,33 +154,34 @@ Essa combinação de recursos faz do Next.js a escolha ideal para um personal hu
       etc.)
 - [x] {2024-12-??} Add a custom `loading.tsx` component
 
-## Recursos utilizados
+## Resources used
 
-- Docker - <https://www.docker.com/>
-  - Containerization
-  - Development
+- Nix - <https://nixos.org/>
+  - Reproducible development environment (`nix develop`)
 - Vercel - <https://vercel.com/>
   - Hosting
   - Deployments
   - Analytics
   - Speed Insights
+  - CLI (use: `pnpm vercel`), for the environment variables the dashboard
+    otherwise owns
 - Supabase - <https://supabase.com/>
   - Database
   - Edge Functions - <https://supabase.com/docs/guides/functions/quickstart>
     - Managing Environment Variables -
       <https://supabase.com/docs/guides/functions/secrets>
-    - Deno - <https://deno.com/> (Consegui configurar o ambiente para rodar o
-      Deno com os types)
-  - CLI (use: `pnpm supabase`)
+    - Deno - <https://deno.com/> (the environment is set up to run Deno with its
+      types)
+  - CLI (`supabase`, provided by the Nix dev shell)
 
-## Contato
+## Contact
 
 - **Email**: [dev.victorferreira@gmail.com](mailto:dev.victorferreira@gmail.com)
 - **LinkedIn**:
   [linkedin.com/in/victorferreira](https://www.linkedin.com/in/victorferreira)
 - **Twitter**: [twitter.com/v1cferr](https://twitter.com/v1cferr)
 
-## Licença
+## License
 
-Este projeto está licenciado sob a Licença PHL. Veja o arquivo
-[LICENSE](LICENSE) para mais detalhes.
+This project is licensed under the PHL License. See the [LICENSE](LICENSE) file
+for details.

@@ -13,7 +13,13 @@ export async function GET(request: Request) {
 
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirectUri = "http://localhost:3000/api/auth/callback";
+  // Spotify requires this to match the redirect_uri sent by /api/login byte for
+  // byte, so both routes have to read it from the same environment variable.
+  const redirectUri = process.env.SPOTIFY_REDIRECT_URI;
+
+  if (!redirectUri) {
+    return NextResponse.json({ error: "SPOTIFY_REDIRECT_URI is not configured" }, { status: 500 });
+  }
 
   try {
     const response = await fetch("https://accounts.spotify.com/api/token", {

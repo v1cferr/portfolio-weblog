@@ -54,7 +54,7 @@ function formatPhotoData(photo: Omit<IPhoto, "alt" | "date">): IPhoto {
   const match = photo.src.match(datePattern);
 
   if (!match) {
-    const errMsg = `Data não encontrada no nome do arquivo: ${photo.src}`;
+    const errMsg = `No date found in the file name: ${photo.src}`;
 
     console.error(errMsg);
     return {
