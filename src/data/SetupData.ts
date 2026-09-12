@@ -94,8 +94,8 @@ export const components = [
       },
       {
         name: "Placa de vídeo (GPU)",
-        description: "Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing",
-        url: "https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD",
+        description: "ASRock Intel Arc B580 Steel Legend 12GB OC, 12GB GDDR6, 192-bit, XeSS, Ray Tracing",
+        url: "https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20B580%20Steel%20Legend%2012GB%20OC/index.asp",
       },
       {
         name: "Memória (RAM)",
@@ -209,11 +209,6 @@ export const components = [
         description: "ATTIV SENO 700 VA BI",
         url: "https://www.intelbras.com/pt-br/energia/nobreaks/senoidal",
       },
-      {
-        name: "Placa de Vídeo (GPU)",
-        description: "Intel Arc B580",
-        url: "https://www.intel.com.br/content/www/br/pt/products/sku/241598/intel-arc-b580-graphics/specifications.html",
-      },
     ],
   },
   {
@@ -299,6 +294,15 @@ export const components = [
           "Utilizei de 2023 até meados de 2026. Cadeira de entrada que quebrou muito o galho, mas com o tempo a espuma começou a ceder e senti falta de ajustes mais precisos (como braços 3D). Substituída pela Pichau Omega S.",
         date: "2023-04",
         endDate: "2026-05",
+      },
+      {
+        name: "Placa de vídeo (GPU)",
+        description: "Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing",
+        url: "https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD",
+        review:
+          "Utilizei de 2022 até meados de 2026. Deu conta do recado em 1080p, mas os 8GB de VRAM começaram a apertar e o driver proprietário sempre foi o ponto de atrito no Linux. Vendida para bancar a troca pela Arc B580, que tem 12GB e roda com driver open-source (xe + Mesa).",
+        date: "2022-08",
+        endDate: "2026-07",
       },
     ],
   },
