@@ -6,7 +6,27 @@ const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
 
 const basic = Buffer.from(`${client_id}:${client_secret}`).toString("base64");
 
+/**
+ * Raised when Spotify refuses the stored credentials, either because they are
+ * missing or because the refresh token was revoked. Retrying cannot recover
+ * from it: the token has to be generated again through /api/login.
+ */
+class SpotifyCredentialsError extends Error {}
+
+/**
+ * Payload used whenever there is nothing to show, so the player falls back to
+ * its idle state instead of rendering an error to visitors.
+ */
+const notPlaying = () => NextResponse.json({ is_playing: false });
+
+/**
+ * Exchanges the stored refresh token for a short-lived access token.
+ */
 async function getAccessToken() {
+  if (!client_id || !client_secret || !refresh_token) {
+    throw new SpotifyCredentialsError("Spotify environment variables are not configured");
+  }
+
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -15,13 +35,18 @@ async function getAccessToken() {
     },
     body: new URLSearchParams({
       grant_type: "refresh_token",
-      refresh_token: refresh_token!,
+      refresh_token,
     }),
     cache: "no-store",
   });
 
   if (!response.ok) {
     const text = await response.text();
+
+    if (text.includes("invalid_grant")) {
+      throw new SpotifyCredentialsError(`Refresh token rejected by Spotify: ${text}`);
+    }
+
     throw new Error(`Failed to get access token: ${text}`);
   }
 
@@ -44,7 +69,7 @@ export async function GET() {
     });
 
     if (response.status === 204) {
-      return NextResponse.json({ isPlaying: false });
+      return notPlaying();
     }
 
     if (!response.ok) {
@@ -55,6 +80,13 @@ export async function GET() {
     const song = await response.json();
     return NextResponse.json(song);
   } catch (error) {
+    // A broken integration is not worth an error state on the page: log it for
+    // the maintainer and let the player render as if nothing were playing.
+    if (error instanceof SpotifyCredentialsError) {
+      console.warn("Spotify integration unavailable:", error.message);
+      return notPlaying();
+    }
+
     console.error("Error in /api/spotify:", error);
     return NextResponse.json(
       {
