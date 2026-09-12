@@ -1,13 +1,13 @@
 # =================================================
-# ARQUIVOS E PASTAS GERADOS AUTOMATICAMENTE
+# GENERATED FILES AND FOLDERS
 # =================================================
 
-# Dependências
+# Dependencies
 node_modules/
 .pnp/
 .pnp.js
 
-# Build do Next.js
+# Next.js build output
 .next/
 out/
 dist/
@@ -18,30 +18,30 @@ build/
 .turbo/
 
 # =================================================
-# ARQUIVOS DE LOCK E CONFIGURAÇÃO DE PACKAGE MANAGERS
+# PACKAGE MANAGER LOCK AND CONFIG FILES
 # =================================================
 
-# Lock files (não devem ser formatados)
+# Lock files, which must not be reformatted
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
 bun.lockb
 
 # =================================================
-# ARQUIVOS GERADOS AUTOMATICAMENTE
+# AUTOMATICALLY GENERATED FILES
 # =================================================
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-# Arquivos de ambiente
+# Environment files
 .env
 .env.*
 !.env.example
 
 # =================================================
-# LOGS E DEBUGGING
+# LOGS AND DEBUGGING
 # =================================================
 
 # Logs
@@ -53,7 +53,7 @@ lerna-debug.log*
 .pnpm-debug.log*
 
 # =================================================
-# PASTAS DO SISTEMA E IDE
+# SYSTEM AND IDE FOLDERS
 # =================================================
 
 # macOS
@@ -86,7 +86,7 @@ Desktop.ini
 .gitattributes
 
 # =================================================
-# COVERAGE E TESTES
+# COVERAGE AND TESTS
 # =================================================
 
 coverage/
@@ -97,15 +97,15 @@ coverage/
 # SUPABASE
 # =================================================
 
-# Arquivos gerados do Supabase
+# Supabase generated files
 supabase/.branches/
 supabase/.temp/
 
 # =================================================
-# ARQUIVOS PÚBLICOS E ASSETS
+# PUBLIC FILES AND ASSETS
 # =================================================
 
-# Imagens e assets geralmente não precisam ser formatados
+# Images and assets generally do not need formatting
 public/
 *.png
 *.jpg
@@ -117,28 +117,28 @@ public/
 *.avif
 
 # =================================================
-# ARQUIVOS DE DOCUMENTAÇÃO ESPECÍFICOS
+# SPECIFIC DOCUMENTATION FILES
 # =================================================
 
-# Changelog gerado automaticamente
+# Automatically generated changelog
 CHANGELOG.md
 
 # =================================================
-# OUTROS
+# OTHERS
 # =================================================
 
-# Arquivos temporários
+# Temporary files
 *.tmp
 *.temp
 .temp/
 
-# Arquivos de backup
+# Backup files
 *.backup
 *.bak
 
-# Arquivos compilados
+# Compiled files
 *.min.js
 *.min.css
 
-# Arquivos de configuração do Docker
+# Docker configuration files
 .dockerignore

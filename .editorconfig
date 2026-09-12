@@ -1,110 +1,109 @@
-# EditorConfig é um projeto que ajuda a manter estilos de codificação consistentes
-# entre diferentes editores e IDEs.
+# EditorConfig keeps coding styles consistent across different editors and IDEs.
 # @see https://editorconfig.org
 
-# Este arquivo indica que é o arquivo raiz de configuração
-# e a busca por arquivos .editorconfig deve parar aqui
+# Marks this as the root configuration file, so the search for further
+# .editorconfig files stops here
 root = true
 
 # =================================================
-# CONFIGURAÇÕES PADRÃO PARA TODOS OS ARQUIVOS
+# DEFAULTS FOR EVERY FILE
 # =================================================
 
 [*]
-# Define o conjunto de caracteres como UTF-8
+# Character set
 charset = utf-8
 
-# Define o estilo de indentação (espaços)
+# Indent with spaces rather than tabs
 indent_style = space
 
-# Define o tamanho da indentação
+# Indentation width
 indent_size = 2
 
-# Define o tipo de quebra de linha
-# lf = Line Feed (\n) - padrão Unix/Linux/Mac
+# Line ending style
+# lf = Line Feed (\n), the Unix/Linux/Mac convention
 end_of_line = lf
 
-# Insere uma nova linha no final do arquivo
+# Keep a newline at the end of the file
 insert_final_newline = true
 
-# Remove espaços em branco no final das linhas
-# Nota: O Prettier pode ter comportamento diferente em template strings
+# Strip trailing whitespace
+# Note: Prettier may behave differently inside template strings
 trim_trailing_whitespace = true
 
-# Define o comprimento máximo da linha
+# Maximum line length
 max_line_length = 80
 
 # =================================================
-# CONFIGURAÇÕES ESPECÍFICAS POR TIPO DE ARQUIVO
+# PER FILE TYPE
 # =================================================
 
-# Arquivos Markdown - preserva espaços duplos no final (usados para quebra de linha)
+# Markdown, where trailing double spaces are meaningful (hard line breaks)
 [*.md]
 trim_trailing_whitespace = false
 max_line_length = 80
 
-# Arquivos YAML e YML
+# YAML files
 [*.{yml,yaml}]
 indent_size = 2
 
-# Arquivos JSON
+# JSON files
 [*.json]
 indent_size = 2
 
-# Package.json especificamente (alguns projetos preferem 2 espaços)
+# package.json specifically (some projects prefer 2 spaces)
 [package.json]
 indent_size = 2
 
-# Arquivos Python
+# Python files
 [*.py]
 indent_size = 4
 max_line_length = 88
 
-# Arquivos Makefile (DEVEM usar tabs)
+# Makefiles (tabs are mandatory)
 [Makefile]
 indent_style = tab
 
-# Arquivos Go (convenção da linguagem)
+# Go files (language convention)
 [*.go]
 indent_style = tab
 indent_size = 4
 
-# Arquivos de configuração do Next.js e TypeScript
+# Next.js and TypeScript sources
 [*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}]
 indent_size = 2
 max_line_length = 80
 
-# Arquivos de configuração
+# Configuration files
 [*.config.{js,mjs,ts,mts}]
 max_line_length = 100
 
-# Arquivos CSS, SCSS, LESS
+# CSS, SCSS, LESS
 [*.{css,scss,sass,less}]
 indent_size = 2
 
-# Arquivos HTML
+# HTML
 [*.{html,htm}]
 indent_size = 2
 
-# Arquivos XML, SVG
+# XML, SVG
 [*.{xml,svg}]
 indent_size = 2
 
-# Arquivos de configuração TOML
+# TOML configuration
 [*.toml]
 indent_size = 2
 
-# Arquivos Shell Script
+# Shell scripts
 [*.sh]
 indent_size = 2
 end_of_line = lf
 
-# Arquivos .env (variáveis de ambiente)
+# Environment files
 [.env*]
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Arquivos de lock (não devem ser editados manualmente)
+# Lock files, which are never edited by hand
 [{package-lock.json,pnpm-lock.yaml,yarn.lock}]
 indent_size = 2
 insert_final_newline = true

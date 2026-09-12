@@ -1,18 +1,18 @@
 {
   // =================================================
-  // CONFIGURAÇÕES DE FORMATAÇÃO
+  // FORMATTING
   // =================================================
 
-  // Define o Prettier como formatador padrão para todos os arquivos
+  // Prettier is the default formatter for every file
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  // Formata automaticamente ao salvar
+  // Format on save
   "editor.formatOnSave": true,
 
-  // Formata automaticamente ao colar código
+  // Format pasted code
   "editor.formatOnPaste": true,
 
-  // Configurações específicas por linguagem
+  // Per-language overrides
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
@@ -73,10 +73,10 @@
   },
 
   // =================================================
-  // CONFIGURAÇÕES DO ESLINT
+  // ESLINT
   // =================================================
 
-  // Executa ESLint ao salvar
+  // Run ESLint on save
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -85,58 +85,58 @@
   ],
 
   // =================================================
-  // CONFIGURAÇÕES DO PRETTIER
+  // PRETTIER
   // =================================================
 
-  // Exibe mensagens de status do Prettier
+  // Show Prettier status messages
   "prettier.enable": true,
 
-  // Usa o arquivo de configuração do projeto
+  // Use the project configuration file
   "prettier.requireConfig": true,
 
   // =================================================
-  // CONFIGURAÇÕES DE EDITOR
+  // EDITOR
   // =================================================
 
-  // Remove espaços em branco no final das linhas ao salvar
+  // Strip trailing whitespace on save
   "files.trimTrailingWhitespace": true,
 
-  // Insere nova linha no final do arquivo
+  // Keep a final newline
   "files.insertFinalNewline": true,
 
-  // Remove linhas vazias extras no final do arquivo
+  // Drop extra blank lines at the end of the file
   "files.trimFinalNewlines": true,
 
-  // Encoding padrão UTF-8
+  // Default encoding: UTF-8
   "files.encoding": "utf8",
 
   // Line ending Unix (LF)
   "files.eol": "\n",
 
   // =================================================
-  // CONFIGURAÇÕES DO TYPESCRIPT
+  // TYPESCRIPT
   // =================================================
 
-  // Mostra erros inline do TypeScript
+  // Show TypeScript errors inline
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
 
-  // Atualiza imports automaticamente ao mover arquivos
+  // Update imports automatically when files move
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
 
   // =================================================
-  // CONFIGURAÇÕES DO NEXT.JS
+  // NEXT.JS
   // =================================================
 
-  // Esconde arquivos/pastas gerados automaticamente
+  // Hide generated files and folders
   "files.exclude": {
     "**/.next": true,
     "**/.vercel": true,
     "**/node_modules": true
   },
 
-  // Monitora mudanças em arquivos importantes
+  // Watch the files that matter
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,

@@ -1,19 +1,18 @@
 {
   "recommendations": [
-    // Deno para Supabase Edge Functions
+    // Deno, for the Supabase edge functions
     "denoland.vscode-deno",
 
-    // Prettier - Formatador de código
+    // Prettier - code formatter
     "esbenp.prettier-vscode",
 
-    // ESLint - Linter
+    // ESLint - linter
     "dbaeumer.vscode-eslint",
 
-    // EditorConfig - Consistência de estilo
+    // EditorConfig - style consistency across editors
     "editorconfig.editorconfig",
 
     // Tailwind CSS IntelliSense
     "bradlc.vscode-tailwindcss"
   ]
 }
-
