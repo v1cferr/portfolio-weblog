@@ -9,8 +9,8 @@ const RANGE = "A1:F200";
  * Reads data from a Google Sheets spreadsheet through the Google Sheets API.
  *
  * @description Issues a GET request against the Google Sheets v4 API to read
- * values from a given spreadsheet. The SHEET_ID, RANGE and API_KEY environment
- * variables make up the request URL.
+ * values from a given spreadsheet. The spreadsheet id and range are constants
+ * in this file; only the API key comes from the environment.
  *
  * @returns {Promise<NextResponse>} A JSON response containing:
  * - On success: `{ data: any[][] }`, a two-dimensional array of the sheet values

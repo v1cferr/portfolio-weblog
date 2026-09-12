@@ -29,6 +29,8 @@ yarn-error.log*
 .env*
 # .envrc only selects the Nix dev shell, it carries no secrets
 !.envrc
+# .env.example documents the variables, it holds no values
+!.env.example
 
 # vercel
 .vercel
