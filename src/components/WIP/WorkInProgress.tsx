@@ -13,10 +13,10 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { socialLinks } from "@/data/SocialLinksData";
 
 /**
- * Componente de Backdrop com Blur
+ * Blurred backdrop
  *
- * Exibe um fundo escuro com efeito de desfoque para o modal
- * com animação de fade in/out. Não fecha o modal ao clicar.
+ * A dark, blurred layer behind the modal, fading in and out.
+ * Clicking it does not dismiss the modal.
  */
 const ModalBackdrop = memo(() => (
   <motion.div
@@ -30,9 +30,9 @@ const ModalBackdrop = memo(() => (
 ModalBackdrop.displayName = "ModalBackdrop";
 
 /**
- * Componente de Cabeçalho do Modal
+ * Modal header
  *
- * Exibe os controles superiores do modal (idioma, tema e botão de fechar)
+ * The top controls: language, theme and close
  * O botão X é a única forma visual de fechar o modal.
  */
 const ModalHeader = memo(({ onClose }: { onClose: () => void }) => (
@@ -57,9 +57,9 @@ const ModalHeader = memo(({ onClose }: { onClose: () => void }) => (
 ModalHeader.displayName = "ModalHeader";
 
 /**
- * Componente de Conteúdo do Modal
+ * Modal body
  *
- * Exibe o conteúdo principal do modal com o título e descrição
+ * The title and description
  */
 const ModalContent = memo(() => {
   const t = useTranslations("WorkInProgress");
@@ -86,9 +86,9 @@ const ModalContent = memo(() => {
 ModalContent.displayName = "ModalContent";
 
 /**
- * Componente de Links Sociais
+ * Social links
  *
- * Exibe os links para redes sociais com animações
+ * Animated links to the social profiles
  */
 const SocialLinks = memo(() => {
   const t = useTranslations("WorkInProgress");
@@ -134,31 +134,31 @@ const SocialLinks = memo(() => {
 SocialLinks.displayName = "SocialLinks";
 
 /**
- * Componente Modal de Trabalho em Progresso
+ * Work-in-progress modal
  *
- * Exibe um modal indicando que o site está em construção
- * com animações fornecidas pelo Framer Motion. O componente
+ * Announces that the site is still being built,
+ * animated with Framer Motion.
  * implementa práticas de acessibilidade como trap focus e
  * tratamento de tecla Escape.
  *
  * O modal só pode ser fechado pelo botão X ou pela tecla Escape.
  *
- * @param {Function} onClose - Função chamada quando o modal é fechado
+ * @param {Function} onClose - Called when the modal is dismissed
  */
 function WorkInProgress({ onClose }: { onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Previne a rolagem quando o modal está aberto
+  // Locks scrolling while the modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
-    // Função de limpeza para restaurar o comportamento normal
+    // Restores it on unmount
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
 
-  // Manipulador para tecla Escape
+  // Escape key handler
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -168,7 +168,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
     [onClose]
   );
 
-  // Adiciona event listener para tecla Escape
+  // Listens for the Escape key
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
 
@@ -177,7 +177,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
     };
   }, [handleKeyDown]);
 
-  // Define variantes de animação para o conteúdo do modal
+  // Animation variants for the modal content
   const modalContentVariants = {
     hidden: { scale: 0.9, opacity: 0 },
     visible: {
@@ -199,7 +199,7 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
         {/* Backdrop com blur (sem onClick para fechar) */}
         <ModalBackdrop />
 
-        {/* Conteúdo do Modal */}
+        {/* Modal content */}
         <motion.div
           animate="visible"
           className="relative z-10 w-full max-w-md mx-auto"
@@ -212,9 +212,9 @@ function WorkInProgress({ onClose }: { onClose: () => void }) {
             {/* Cabeçalho do Card */}
             <ModalHeader onClose={onClose} />
 
-            {/* Conteúdo do Card */}
+            {/* Card content */}
             <main className="p-6 md:p-8 space-y-6 md:space-y-8">
-              {/* Seção de título e descrição */}
+              {/* Title and description */}
               <ModalContent />
 
               {/* Player do Spotify */}

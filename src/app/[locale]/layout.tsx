@@ -12,7 +12,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Metadados da página
+// Page metadata
 export const metadata: Metadata = {
   title: {
     template: "%s | v1cferr",
@@ -39,11 +39,11 @@ export const metadata: Metadata = {
   },
 };
 
-// Função para buscar dados de localização
+// Loads the localisation data
 async function fetchLocaleData(params: Promise<{ locale: string }>) {
   const { locale } = await params;
 
-  // Verifica se o locale está incluído nas rotas permitidas
+  // Checks the locale against the routing whitelist
 
   // Temporiariamente desabilitado
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,20 +51,20 @@ async function fetchLocaleData(params: Promise<{ locale: string }>) {
     notFound();
   }
 
-  // Busca as mensagens de localização
+  // Loads the translation messages
   const messages = await getMessages();
 
   return { locale, messages };
 }
 
-// Componente principal do layout da página
+// Main page layout component
 /**
  *
  */
 export default async function HomeLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
-  // Busca os dados de localização
+  // Fetches the localisation data
   const localeData = await fetchLocaleData(params);
 
-  // Renderiza o layout do cliente com os dados de localização
+  // Renders the client layout with the localisation data
   return <ClientLayout localeData={localeData}>{children}</ClientLayout>;
 }

@@ -2,14 +2,14 @@ import { stringify } from "querystring";
 
 import { NextResponse } from "next/server";
 
-// Função para gerar uma string aleatória para o parâmetro state
-function generateRandomString(tamanho: number): string {
-  let texto = "";
-  const possivel = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (let i = 0; i < tamanho; i++) {
-    texto += possivel.charAt(Math.floor(Math.random() * possivel.length));
+// Generates the random string used for the state parameter
+function generateRandomString(length: number): string {
+  let text = "";
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
-  return texto;
+  return text;
 }
 
 const client_id: string | undefined = process.env.SPOTIFY_CLIENT_ID;

@@ -3,7 +3,7 @@ export const menuData = [
     // Professional
     title: "Profissional", // Documentação da minha vida profissional
     items: [
-      // Incluir minha contribuição no XGuardian apesar de não ser um projeto open-source na seção de projetos
+      // Add my XGuardian contribution to the projects section, even though it is not open source
       { label: "Projetos", href: "/projects", wip: false }, // Projetos pessoais e profissionais (ordem cronológica inversa)
       { label: "Carreira", href: "/career", wip: false }, // Linha do tempo e detalhes de cargos + atribuições (ordem cronológica inversa) - um CV praticamente + o quê aprendi com cada experiência
       { label: "Logotipo", href: "/logo", wip: true }, // Conceito e significado do logotipo
@@ -38,7 +38,7 @@ export const menuData = [
         label: "Hardware",
         subItems: [
           // Adicionar sobre o Arch Linux e meus dotfiles? (Atualmente dualboot: Windows 11 + Arch Linux [Hyprland & Docker])
-          // No setup, colocar os upgrades que pretendo fazer (e.g.: RTX 3080, Ryzen 9 5900X, 64GB RAM, etc.)
+          // On the setup page, list the upgrades I plan to make (e.g. RTX 3080, Ryzen 9 5900X, 64GB RAM)
           { label: "Setup", href: "/setup", wip: false }, // PWL-11 | Meu workstation; lugarzin do coração <3
           { label: "Servidor", href: "/server", wip: true }, // PWL-40 | Ainda pretendo montar um servidor privado pela soberania dos dados
         ],

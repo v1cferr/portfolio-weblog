@@ -34,7 +34,7 @@ function Header() {
             </label>
           </div>
 
-          {/* Container do drawer quando está ativo */}
+          {/* Drawer container, while open */}
           <div className="drawer-side">
             <label aria-label="close sidebar" className="drawer-overlay" htmlFor="my-drawer" />
             <div className="flex flex-col min-h-full w-auto max-w-xs bg-base-200 p-4 rounded-r-box">

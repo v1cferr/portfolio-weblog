@@ -18,7 +18,7 @@ export function getUsageTime(start: string, end?: string): string {
 }
 
 /**
- * Calcula duração para datas no formato "MMM yyyy - MMM yyyy" ou "MMM yyyy - Atual"
+ * Computes the duration for dates shaped "MMM yyyy - MMM yyyy" or "MMM yyyy - Atual"
  */
 export function getTimelineDuration(dateRange: string): string {
   const [start, end] = dateRange.split(" - ");

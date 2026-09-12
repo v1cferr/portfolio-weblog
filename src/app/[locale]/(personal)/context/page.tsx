@@ -4,7 +4,7 @@ import Link from "next/link";
 import { calculateAge } from "@/utils/calculateAge";
 
 /**
- * Componente da página de Contexto
+ * Context page component
  * Apresenta o histórico pessoal, perspectiva e abordagem em relação à tecnologia e sociedade
  */
 export default function Context() {
@@ -20,7 +20,7 @@ export default function Context() {
         />
       </Head>
       <article className="prose prose-invert max-w-none dark:prose-invert">
-        {/* Container principal com largura controlada e centralizado */}
+        {/* Centred main container with a capped width */}
         <div className="container mx-auto px-4 sm:px-6 py-8 bg-base-100/5 rounded-lg shadow-sm">
           <div className="max-w-3xl mx-auto">
             <header className="mb-8">

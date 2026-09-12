@@ -1,5 +1,5 @@
-// TODO: Conectar com a API do GitHub para buscar os repositórios
-// TODO: Utilizar o Supabase para cachear os dados
+// TODO: pull the repositories from the GitHub API
+// TODO: cache the data in Supabase
 
 export type FilterType = "all" | "projects" | "tests";
 export type SortDirection = "newest" | "oldest";

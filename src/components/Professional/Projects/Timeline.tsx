@@ -17,7 +17,7 @@ interface ITimelineItemProps {
 }
 
 const TimelineItem: FC<ITimelineItemProps> = ({ project, isExpanded, onToggleExpand, isActive }) => {
-  // Formata a data para pt-BR
+  // Formats the date for pt-BR
   const formattedDate = new Date(project.date).toLocaleDateString("pt-BR", {
     year: "numeric",
     month: "short",
@@ -135,7 +135,7 @@ const TimelineItem: FC<ITimelineItemProps> = ({ project, isExpanded, onToggleExp
             </div>
           </div>
 
-          {/* Conteúdo Expandido */}
+          {/* Expanded content */}
           <AnimatePresence initial={false}>
             {isExpanded && (
               <motion.div
@@ -234,7 +234,7 @@ const ProjectTimeline: FC = () => {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set());
 
-  // Refs para navegação por âncora
+  // Refs used for anchor navigation
   const projectsRef = useRef<HTMLDivElement>(null);
   const testsRef = useRef<HTMLDivElement>(null);
 
@@ -272,7 +272,7 @@ const ProjectTimeline: FC = () => {
     });
   };
 
-  // Rola para a seção
+  // Scrolls to the section
   const scrollToSection = (section: "projects" | "tests") => {
     const ref = section === "projects" ? projectsRef : testsRef;
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -282,7 +282,7 @@ const ProjectTimeline: FC = () => {
   const mainProjects = filteredProjects.filter((p) => p.type === "project");
   const technicalTests = filteredProjects.filter((p) => p.type === "test");
 
-  // Handler para mudança de ordenação
+  // Handles a change of sort order
   const handleSortChange = () => {
     setSortDirection((prev) => (prev === "newest" ? "oldest" : "newest"));
   };
@@ -357,7 +357,7 @@ const ProjectTimeline: FC = () => {
         </div>
       )}
 
-      {/* Estado Vazio */}
+      {/* Empty state */}
       {filteredProjects.length === 0 && (
         <div className="text-center py-12">
           <p className="text-base-content/70">Nenhum projeto encontrado com o filtro atual.</p>

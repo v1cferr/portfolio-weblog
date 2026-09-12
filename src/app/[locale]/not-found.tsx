@@ -6,19 +6,19 @@ import { FaArrowLeft, FaHome } from "react-icons/fa";
 import { IoReload } from "react-icons/io5";
 
 /**
- * Página 404 Não Encontrada
+ * 404 Not Found page
  *
- * Exibe uma página de erro quando uma rota não é encontrada.
- * Inclui um temporizador que conta o tempo desde que o usuário chegou à página,
- * além de botões para navegação alternativa.
+ * Shown when a route cannot be resolved.
+ * Includes a timer counting how long the visitor has been on the page,
+ * plus buttons offering a way out.
  *
  */
 export default function NotFoundPage() {
   const [timeElapsed, setTimeElapsed] = useState(0);
 
   /**
-   * Efeito para iniciar o temporizador quando o componente é montado
-   * Limpa o intervalo quando o componente é desmontado
+   * Starts the timer when the component mounts
+   * and clears the interval when it unmounts
    */
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,10 +29,10 @@ export default function NotFoundPage() {
   }, []);
 
   /**
-   * Formata o tempo decorrido em minutos e segundos
+   * Formats the elapsed time as minutes and seconds
    *
    * @param {number} seconds - Segundos totais decorridos
-   * @returns {string} Tempo formatado no formato "m:ss"
+   * @returns {string} Time formatted as "m:ss"
    */
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -44,7 +44,7 @@ export default function NotFoundPage() {
     <main aria-labelledby="error-title" className="flex items-center justify-center bg-base-100 overflow-y-hidden" role="main">
       <section className="w-full max-w-3xl px-4 md:px-6 py-12 md:py-16">
         <header className="flex flex-col items-center text-center">
-          {/* Exibição principal do erro - tamanhos de texto responsivos */}
+          {/* Main error display, with responsive text sizes */}
           <div className="relative">
             <h1
               aria-label="Erro 404"

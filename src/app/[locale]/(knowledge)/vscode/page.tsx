@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import Loading from "@/components/Loading";
 
-// Link da planilha com as extensões do VSCode:
+// Spreadsheet listing the VSCode extensions:
 // docs.google.com/spreadsheets/d/1CT7apH_TdLH-tlwjsT9B9-8cCPYKYkkV7GbyFVLfE0g/edit?gid=906698806#gid=906698806
 
 /**
@@ -30,7 +30,7 @@ export default function VSCode() {
         .filter((index: number) => index !== -1);
       setDescriptionIndexes(indexes);
     } else {
-      console.error("Erro ao buscar os dados do Google Sheets:", response.statusText);
+      console.error("Failed to fetch data from Google Sheets:", response.statusText);
     }
 
     setLoading(false);

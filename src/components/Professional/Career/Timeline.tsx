@@ -15,7 +15,7 @@ interface ITimelineItem {
   link: string;
 }
 
-// TODO: Tabela no Supabase para armazenar os dados da Timeline (exps)
+// TODO: move the timeline entries into a Supabase table
 const timelineData: ITimelineItem[] = [
   {
     id: "freelance-software-ai-developer",
