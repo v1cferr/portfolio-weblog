@@ -10,6 +10,13 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   // Habilita modo estrito do React para auxiliar na detecção de problemas em desenvolvimento
   reactStrictMode: true,
+
+  /**
+   * Emits .next/standalone, the self-contained bundle the Docker image runs.
+   * Kept behind a flag because Vercel produces its own output format and does
+   * not need this mode.
+   */
+  ...(process.env.BUILD_STANDALONE === "1" ? { output: "standalone" } : {}),
   /**
    * Configuração de imagens remotas otimizadas
    * Define hosts permitidos para otimização automática de imagens
