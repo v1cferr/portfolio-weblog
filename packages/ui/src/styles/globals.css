@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 @source "../../../../apps/web/src/**/*.{ts,tsx}";
@@ -138,5 +139,48 @@
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+/*
+ * Long-form articles: Plex Serif at a comfortable measure, colours from the
+ * tokens so both themes stay consistent, code blocks themed by Shiki.
+ */
+@layer components {
+  .prose-hub {
+    @apply prose max-w-[68ch] font-serif text-[1.075rem] leading-[1.75] dark:prose-invert;
+    --tw-prose-body: var(--foreground);
+    --tw-prose-headings: var(--foreground);
+    --tw-prose-links: var(--lane-writing);
+    --tw-prose-bold: var(--foreground);
+    --tw-prose-quotes: var(--muted-foreground);
+    --tw-prose-code: var(--foreground);
+    --tw-prose-hr: var(--border);
+    --tw-prose-bullets: var(--lane-writing);
+    --tw-prose-counters: var(--muted-foreground);
+    --tw-prose-invert-body: var(--foreground);
+    --tw-prose-invert-headings: var(--foreground);
+    --tw-prose-invert-links: var(--lane-writing);
+    --tw-prose-invert-bold: var(--foreground);
+    --tw-prose-invert-code: var(--foreground);
+  }
+  .prose-hub :where(h2, h3, h4) {
+    @apply font-display tracking-tight;
+  }
+  .prose-hub .heading-anchor {
+    color: inherit;
+    @apply no-underline hover:underline hover:decoration-lane-writing hover:underline-offset-4;
+  }
+  .prose-hub :where(code):not(pre code) {
+    @apply rounded bg-muted px-1 py-0.5 font-mono text-[0.85em] font-normal before:content-none after:content-none;
+  }
+  .prose-hub pre {
+    @apply rounded-lg border bg-card font-mono text-sm leading-relaxed;
+  }
+  .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-light);
+  }
+  .dark .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-dark);
   }
 }
