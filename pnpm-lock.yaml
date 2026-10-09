@@ -32,6 +32,9 @@ importers:
       '@workspace/content':
         specifier: workspace:*
         version: link:../../packages/content
+      '@workspace/github':
+        specifier: workspace:*
+        version: link:../../packages/github
       '@workspace/search':
         specifier: workspace:*
         version: link:../../packages/search
@@ -143,6 +146,28 @@ importers:
       tsx:
         specifier: ^4.23.15
         version: 4.23.15
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^5.0.3
+        version: 5.0.3(@types/node@22.20.5)(vite@8.3.4(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+
+  packages/github:
+    dependencies:
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
+    devDependencies:
+      '@types/node':
+        specifier: ^22.20.5
+        version: 22.20.5
+      '@workspace/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: ^10.12.0
+        version: 10.12.0(jiti@2.7.0)
       typescript:
         specifier: ~6.0.3
         version: 6.0.3

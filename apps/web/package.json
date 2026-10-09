@@ -14,6 +14,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "@workspace/content": "workspace:*",
+    "@workspace/github": "workspace:*",
     "@workspace/search": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "^1.54.0",
