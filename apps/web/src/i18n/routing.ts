@@ -11,3 +11,10 @@ export const routing = defineRouting({
 });
 
 export type Locale = (typeof routing.locales)[number];
+
+/** Locale names written in their own language, for the switcher and notices. */
+export const localeNames: Record<Locale, string> = {
+  "en-us": "English",
+  "pt-br": "Português",
+  "zh-cn": "中文",
+};

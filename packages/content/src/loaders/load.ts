@@ -174,8 +174,10 @@ export function loadContent(root: string): LoadResult {
 /** Walks up from `start` to the directory holding pnpm-workspace.yaml and returns its content/ folder. */
 export function findContentRoot(start: string = process.cwd()): string {
   const fromEnv = process.env.CONTENT_DIR;
-  if (fromEnv !== undefined && fromEnv !== "") return path.resolve(fromEnv);
-  let dir = path.resolve(start);
+  if (fromEnv !== undefined && fromEnv !== "") return path.resolve(/*turbopackIgnore: true*/ fromEnv);
+  // Tooling only; bundled apps pass their content root explicitly so the
+  // bundler does not trace the whole repository.
+  let dir = path.resolve(/*turbopackIgnore: true*/ start);
   for (;;) {
     if (existsSync(path.join(dir, "pnpm-workspace.yaml"))) return path.join(dir, "content");
     const parent = path.dirname(dir);
