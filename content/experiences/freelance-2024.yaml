@@ -1,0 +1,17 @@
+# Listed on v1 with no client, project or evidence; not published until the
+# author confirms it.
+id: freelance-2024
+status: review
+organization: independent
+positions:
+  - title: { en-us: Software and AI developer, pt-br: Software-AI Developer }
+    employmentType: freelance
+    start: 2024-04
+
+summary:
+  pt-br: Desenvolvimento de aplicações web integrando modelos de IA/LLM para automação de processos e análise de dados.
+
+pendingReview:
+  - claim: Freelance "Software-AI Developer", April 2024 to present
+    source: v1 career timeline
+    note: overlaps the Xmart Solutions positions; confirm scope and whether it is still current

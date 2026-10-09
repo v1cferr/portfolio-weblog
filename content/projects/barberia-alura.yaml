@@ -1,0 +1,11 @@
+id: barberia-alura
+title: barberia-alura
+repository: v1cferr/barberia-alura
+state: historical
+category: study
+summary:
+  en-us: Project built during the ONE program (Oracle Next Education), in partnership with Alura.
+  pt-br: Projeto realizado durante o programa ONE (Oracle Next Education) em parceria com a Alura.
+links:
+  - { label: GitHub Pages, url: "https://v1cferr.github.io/barberia-alura/", kind: demo }
+technologies: [html, css]

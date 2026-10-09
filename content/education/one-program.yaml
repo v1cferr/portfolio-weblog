@@ -1,0 +1,11 @@
+# Evidence: public repositories built during the program (their descriptions
+# and topics name ONE and Alura). Dates and completion are not recorded
+# anywhere, so they are left out instead of guessed.
+id: one-program
+institution: oracle-next-education
+kind: course
+title:
+  en-us: Oracle Next Education (ONE), in partnership with Alura
+  pt-br: Oracle Next Education (ONE), em parceria com a Alura
+projects: [barberia-alura, encriptador-descriptador]
+technologies: [html, css, javascript]

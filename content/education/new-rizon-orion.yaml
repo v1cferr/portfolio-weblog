@@ -1,0 +1,9 @@
+# Evidence: the orion-bootcamp repository. Dates and completion are unknown.
+id: new-rizon-orion
+institution: new-rizon
+kind: bootcamp
+title:
+  en-us: Orion bootcamp
+  pt-br: Bootcamp Orion
+projects: [orion-bootcamp]
+technologies: [typescript]

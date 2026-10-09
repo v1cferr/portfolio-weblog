@@ -1,0 +1,82 @@
+# Sources: positioning from Jira PWL-96, trajectory from PWL-101, links from
+# v1 src/data/SocialLinksData.ts and PWL-25 comments. The phone number and the
+# birth date that v1 published are intentionally not migrated.
+id: victor-ferreira
+name: Victor Ferreira
+handle: v1cferr
+location: São Carlos, SP, Brazil
+photo: /images/profile.jpg
+
+headline:
+  en-us: AI software developer
+  pt-br: AI Software Developer
+
+summary:
+  en-us: >-
+    Developer focused on Python, React, FastAPI, RAG and LLM integration, automation,
+    local infrastructure and full-stack development.
+  pt-br: >-
+    Desenvolvedor com foco em Python, React, FastAPI, RAG, integração com LLMs,
+    automação, infraestrutura local e desenvolvimento full-stack.
+
+about:
+  en-us:
+    - >-
+      My path into software did not start in software. It went through industrial processes,
+      IT infrastructure, networks and support before reaching software engineering and, now,
+      AI systems.
+    - >-
+      Each step left something that still shapes how I work: continuous improvement and
+      production flow from the plant floor, care for people and data from IT support, patience
+      and troubleshooting from network support, and pipelines, security and teamwork from
+      my first development job.
+    - >-
+      This hub is where I keep that history and what I build next: experiences, projects,
+      studies and an engineering journal, all versioned as plain content in Git.
+  pt-br:
+    - >-
+      Meu caminho até o software não começou no software. Passou por processos industriais,
+      infraestrutura de TI, redes e suporte antes de chegar à engenharia de software e, agora,
+      a sistemas de IA.
+    - >-
+      Cada etapa deixou algo que ainda molda como trabalho: melhoria contínua e fluxo de
+      produção na fábrica, cuidado com pessoas e dados no suporte de TI, paciência e
+      diagnóstico no suporte de redes, e pipelines, segurança e trabalho em equipe no meu
+      primeiro emprego como desenvolvedor.
+    - >-
+      Este hub é onde guardo essa história e o que construo a seguir: experiências, projetos,
+      estudos e um diário de engenharia, tudo versionado como conteúdo em Git.
+
+focus:
+  en-us:
+    - Retrieval-augmented generation and LLM integration with verifiable sources
+    - Python and FastAPI back ends, React and Next.js front ends
+    - Reproducible local infrastructure with Nix and NixOS
+    - Automation of everyday workflows
+  pt-br:
+    - RAG e integração com LLMs com fontes verificáveis
+    - Back ends em Python e FastAPI, front ends em React e Next.js
+    - Infraestrutura local reproduzível com Nix e NixOS
+    - Automação de fluxos do dia a dia
+
+links:
+  - { label: GitHub, url: "https://github.com/v1cferr", kind: profile }
+  - { label: LinkedIn, url: "https://www.linkedin.com/in/v1cferr", kind: profile }
+  - { label: X, url: "https://x.com/v1cferr", kind: profile }
+  - { label: Email, url: "mailto:dev.victorferreira@gmail.com", kind: email }
+  - { label: Microsoft Learn, url: "https://learn.microsoft.com/en-us/users/v1cferr", kind: profile }
+  - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile }
+  - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile }
+
+quotes:
+  - text: Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.
+    source: Mateus 7:7
+    url: https://www.bibliaonline.com.br/nvi/mt/7/7
+    locale: pt-br
+  - text: Não tenha medo de crescer lentamente, tenha medo de ficar parado.
+    source: Provérbio chinês
+    locale: pt-br
+  - text: Uma jornada de mil milhas começa com um único passo.
+    source: Lao Tzu
+    url: https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step
+    locale: pt-br

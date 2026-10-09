@@ -1,0 +1,15 @@
+id: grad-radar
+title: grad-radar
+repository: v1cferr/grad-radar
+state: active
+category: personal
+summary:
+  en-us: >-
+    A self-hosted system for discovering, comparing and tracking tuition-free, in-person graduate
+    programs, admissions calls, research groups, faculty, scholarships and deadlines.
+  pt-br: >-
+    Sistema self-hosted para descobrir, comparar e acompanhar programas de pós-graduação gratuitos e
+    presenciais, editais, grupos de pesquisa, docentes, bolsas e prazos.
+links:
+  - { label: pos.v1cferr.dev, url: "https://pos.v1cferr.dev", kind: website }
+technologies: [python]

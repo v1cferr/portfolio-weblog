@@ -1,0 +1,210 @@
+# Workstation, migrated from v1 src/data/SetupData.ts (text kept in pt-br as
+# written; other locales show it with a "not translated" notice). The photo
+# history is not migrated: most photos carry GPS EXIF data.
+# updatedAt: the latest change recorded in v1 (GPU swap, 2026-07).
+id: setup
+updatedAt: 2026-07
+groups:
+  - id: components
+    title:
+      pt-br: Componentes
+    items:
+      - role:
+          pt-br: Processador (CPU)
+        model: Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200
+        url: https://www.intel.com.br/content/www/br/pt/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html
+      - role:
+          pt-br: Placa-mãe (MOBO)
+        model: Asus EX-B560M-V5, Intel B560 LGA 1200, DDR4, ATX
+        url: https://www.asus.com/br/motherboards-components/motherboards/expedition/ex-b560m-v5/
+      - role:
+          pt-br: Placa de vídeo (GPU)
+        model: ASRock Intel Arc B580 Steel Legend 12GB OC, 12GB GDDR6, 192-bit, XeSS, Ray Tracing
+        url: https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20B580%20Steel%20Legend%2012GB%20OC/index.asp
+      - role:
+          pt-br: Memória (RAM)
+        model: (2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA
+        url: https://www.pichau.com.br/memoria-team-group-t-force-vulcan-pichau-8gb-1x8-ddr4-3200mhz-c16-vermelha-tlprd48g3200hc16f01
+      - role:
+          pt-br: Armazenamento (M2 Gen 4)
+        model: "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s"
+        url: https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive
+      - role:
+          pt-br: Armazenamento (M2 Gen 3)
+        model: "KingSpec 1TB M.2 NMVe 2280 PCIe 3x4 Leitura: 2400Mbps, Escrita: 1800Mbps"
+        url: https://pt.aliexpress.com/item/32847169083.html
+      - role:
+          pt-br: Fonte de alimentação (PSU)
+        model: Sharkoon WPM Gold Zero, 550W, 80 Plus Gold, Semi-Modular
+        url: https://pt.sharkoon.com/product/GoldZERO
+      - role:
+          pt-br: Gabinete (CASE)
+        model: Gabinete Gamer Sharkoon VS9 RGB, Mid Tower, ATX, Lateral em Vidro Temperado, 3x Cooler Fan, Branco - VS9 RGB
+        url: https://www.kabum.com.br/produto/508876/gabinete-gamer-sharkoon-vs9-rgb-mid-tower-atx-lateral-em-vidro-temperado-3x-cooler-fan-branco-vs9-rgb
+  - id: peripherals
+    title:
+      pt-br: Periféricos
+    items:
+      - role:
+          pt-br: Air Cooler
+        model: DeepCool High Performance AK400, 120mm, Intel-AMD, R-AK400-BKNNMN-G-1
+        url: https://www.terabyteshop.com.br/produto/21648/cooler-para-processador-deepcool-ak400-120mm-intel-amd-r-ak400-bknnmn-g-1
+      - role:
+          pt-br: Pasta Térmica
+        model: Snowdog Husky 1g 12.8w/mk - Alta Performance
+        url: https://www.mercadolivre.com.br/pasta-termica-snowdog-husky-1g-128wmk-alta-performance/p/MLB27050357
+      - role:
+          pt-br: Adaptador de Rede
+        model: Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182
+        url: https://www.kabum.com.br/produto/135247/adaptador-wifi-d-link-ac1200-dual-band-5ghz-802-11ac-usb-3-0-dwa-182
+      - role:
+          pt-br: Caixa de Som
+        model: Subwoofer 30W RMS EDIFIER G1500 MAX - Preto
+        url: https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html
+      - role:
+          pt-br: Cadeira
+        model: Cadeira Gamer Pichau Omega S, Espuma Moldada, Braço 3D, Frog, Preta e Cinza - PG-OMGS-BG01
+        url: https://www.pichau.com.br/cadeira-gamer-pichau-omega-s-espuma-moldada-braco-3d-preta-e-cinza-pg-omgs-bg01
+      - role:
+          pt-br: Mouse
+        model: Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis
+        url: https://www.razer.com/br-pt/gaming-mice/razer-deathadder-v2
+      - role:
+          pt-br: Mousepad
+        model: Redragon World of Warcraft Aliança 300x800x3mm Azul
+        url: https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul
+      - role:
+          pt-br: Controle Joystick
+        model: Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS
+        url: https://pt.aliexpress.com/item/1005006251691728.html
+      - role:
+          pt-br: Teclado Mecânico
+        model: Redragon TECLADO OPTICO GAMER MAGIC-WAND PRO RGB BRANCO SWITCH VERMELHO ABNT2
+        url: https://www.redragon.com.br/magicwandpro-lunarwhite
+      - role:
+          pt-br: Webcam
+        model: Webcam Redragon Streaming Fobos, 720p
+        url: https://www.redragon.com.br/fobos
+      - role:
+          pt-br: Headset over-ear
+        model: Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable
+          RGB
+        url: https://pt.aliexpress.com/item/1005005875379717.html
+      - role:
+          pt-br: Fone in-ear
+        model: Baseus Bowie MA10 Pro ANC Earphones
+        url: https://pt.aliexpress.com/item/1005006079931969.html
+      - role:
+          pt-br: Monitor principal
+        model: Monitor Gamer LG UltraGear 27 Full HD, 144Hz, 1ms, IPS, HDMI e DisplayPort, HDR 10, 99% sRGB, FreeSync Premium,
+          VESA - 27GN65R
+        url: https://www.lg.com/br/monitores/monitores-ultragear/27gn65r-b/
+      - role:
+          pt-br: Monitor secundário
+        model: Monitor AOC 21.5" 22B1H Led Full HD
+        url: https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ
+  - id: planned
+    title:
+      pt-br: Possíveis upgrades
+    items:
+      - role:
+          pt-br: Nobreak Senoidal
+        model: ATTIV SENO 700 VA BI
+        url: https://www.intelbras.com/pt-br/energia/nobreaks/senoidal
+  - id: retired
+    title:
+      pt-br: Peças aposentadas
+    items:
+      - role:
+          pt-br: Water Cooler
+        model: Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB
+        url: https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb
+        note:
+          pt-br: Utilizei de 2022 até +/- final de 2025. Ele ainda funciona normalmente, mas a perfomance dele já não é mais a
+            mesma que antes e por ser AIO é mais dificil de realizar manutenção.
+        since: 2022-08
+        until: 2025-11
+      - role:
+          pt-br: Teclado Mecânico
+        model: Redragon Kumara Switch Blue ABNT2 K552
+        url: https://www.redragon.com.br/kumarargbabnt2blue
+        note:
+          pt-br: Utilizei de 2018 até meados de 2024. Teclado bom demais, mas o switch azul é bem barulhento e depois de um tempo
+            começou a dar double click. Troquei por um switch purple e continua funcionando até hoje. Está guardado como teclado
+            reserva.
+        since: 2018-06
+        until: 2024-05
+      - role:
+          pt-br: Fone de Ouvido
+        model: Razer Hammerhead
+        url: https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x
+        note:
+          pt-br: Utilizei de 2022 até 2024. Earbuds com bom som, mas chama muito a atenção por conta do LED e não tem cancelamento
+            de ruído. Troquei por um fone in-ear com cancelamento de ruído e sem LED.
+        since: 2022-01
+        until: 2024-04
+      - role:
+          pt-br: Gabinete
+        model: Sharkoon VG6
+        url: https://pt.sharkoon.com/product/VG6W
+        note:
+          pt-br: Utilizei de 2021 até 2024. Quebrou muito o galho, mas não tem suporte para fans superiores e ainda tinha espaço
+            para leitor de CD/DVD. Troquei por um gabinete com airflow melhor e suporte para fans em cima.
+        since: 2021-03
+        until: 2024-01
+      - role:
+          pt-br: Mouse
+        model: Redragon Cobra M711
+        url: https://www.redragon.com.br/cobra
+        note:
+          pt-br: Utilizei de 2018 até 2024. Mouse bom demais, depois de anos de uso intenso ele começou a dar double click. Mas
+            pelo preço, compensa bastante, muito custo-beneficio. Troquei por um Razer DeathAdder V2.
+        since: 2018-06
+        until: 2024-03
+      - role:
+          pt-br: Mousepad
+        model: Havit HV-MP830
+        url: https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261
+        note:
+          pt-br: Utilizei de 2019 até 2024. Mousepad bom demais, costura muito boa, não rasgou até hoje e deixo como reserva.
+            Troquei por um mousepad da Redragon com tema de WoW.
+        since: 2019-11
+        until: 2024-05
+      - role:
+          pt-br: Headset over-ear
+        model: Redragon Zeus 7.1 H510
+        url: https://www.redragon.com.br/zeus
+        note:
+          pt-br: Utilizei de 2020 até 2024. Melhor headset que já tive, som ótimo, drivers e configuração de software com 7.1
+            e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.
+        since: 2020-08
+        until: 2024-03
+      - role:
+          pt-br: Soundbar
+        model: Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560
+        url: https://www.redragon.com.br/adiemus
+        note:
+          pt-br: Utilizei de 2022 até 2025. Excelente custo-benefício para desktop, som claro para uso geral e iluminação discreta.
+            Limitação principal foi a ausência de subwoofer e potência reduzida para músicas/filmes com grave mais encorpado.
+            Substituída pela Edifier G1500 Max com subwoofer dedicado.
+        since: 2022-03
+        until: 2025-08
+      - role:
+          pt-br: Cadeira
+        model: Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho
+        url: https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/
+        note:
+          pt-br: Utilizei de 2023 até meados de 2026. Cadeira de entrada que quebrou muito o galho, mas com o tempo a espuma começou
+            a ceder e senti falta de ajustes mais precisos (como braços 3D). Substituída pela Pichau Omega S.
+        since: 2023-04
+        until: 2026-05
+      - role:
+          pt-br: Placa de vídeo (GPU)
+        model: Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing
+        url: https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD
+        note:
+          pt-br: Utilizei de 2022 até meados de 2026. Deu conta do recado em 1080p, mas os 8GB de VRAM começaram a apertar e o
+            driver proprietário sempre foi o ponto de atrito no Linux. Vendida para bancar a troca pela Arc B580, que tem 12GB
+            e roda com driver open-source (xe + Mesa).
+        since: 2022-08
+        until: 2026-07

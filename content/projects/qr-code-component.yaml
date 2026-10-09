@@ -1,0 +1,12 @@
+id: qr-code-component
+title: qr-code-component
+repository: v1cferr/qr-code-component
+state: historical
+category: challenge
+summary:
+  en-us: Solution to the Frontend Mentor "QR code component" challenge.
+  pt-br: Solução do desafio "QR code component" do Frontend Mentor.
+links:
+  - { label: Challenge, url: "https://www.frontendmentor.io/challenges/qr-code-component-iux_sIO_H", kind: other }
+  - { label: GitHub Pages, url: "https://v1cferr.github.io/qr-code-component/", kind: demo }
+technologies: [html, css]

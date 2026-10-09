@@ -1,0 +1,15 @@
+id: obsidian-rag
+title: obsidian-rag
+repository: v1cferr/obsidian-rag
+state: experimental
+category: personal
+featured: true
+summary:
+  en-us: >-
+    Personal RAG chatbot over an Obsidian vault. Answers cite the note they came from, and nothing
+    leaves the machine: Ollama, LightRAG and RAG-Anything index Markdown, PDFs and images locally.
+  pt-br: >-
+    Chatbot RAG pessoal sobre um vault do Obsidian. As respostas citam a nota de origem e nada sai
+    da máquina: Ollama, LightRAG e RAG-Anything indexam Markdown, PDFs e imagens localmente.
+technologies: [python, ollama, lightrag, rag]
+skills: [ai-systems]

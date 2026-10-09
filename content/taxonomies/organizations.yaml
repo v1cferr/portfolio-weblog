@@ -1,0 +1,53 @@
+# Organizations referenced by experiences, studies and certifications.
+# Logos live in apps/web/public/company-logos.
+
+- id: amcor
+  name: Amcor
+  kind: company
+  url: https://www.amcor.com/
+  logo: /company-logos/amcor.jpg
+
+- id: cultura-inglesa
+  name: Cultura Inglesa
+  kind: company
+  url: https://www.culturainglesa.com.br/
+  logo: /company-logos/cultura-inglesa.webp
+
+- id: vip-telecom
+  name: VIP Telecom (Giga+)
+  kind: company
+  url: https://www.viptelecominternet.com.br/
+  logo: /company-logos/vip-telecom.jpeg
+
+- id: xmart-solutions
+  name: Xmart Solutions
+  kind: company
+  url: https://www.xmartsolutions.com.br/
+  logo: /company-logos/xmart-solutions.svg
+
+- id: fai-ufscar
+  name: FAI·UFSCar
+  kind: company
+  url: https://www.fai.ufscar.br/
+  location: São Carlos, SP, Brazil
+
+# The v1 site listed a freelance role with no client or evidence; kept for
+# review only (see docs/migration/editorial-review.md).
+- id: independent
+  name: Freelance
+  kind: self-employed
+  status: review
+
+- id: alura
+  name: Alura
+  kind: platform
+  url: https://www.alura.com.br/
+
+- id: oracle-next-education
+  name: Oracle Next Education (ONE)
+  kind: program
+  url: https://www.oracle.com/br/education/oracle-next-education/
+
+- id: new-rizon
+  name: New Rizon
+  kind: company
