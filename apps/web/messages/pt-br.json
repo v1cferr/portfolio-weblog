@@ -145,7 +145,11 @@
       "academic": "Acadêmico",
       "study": "Estudo",
       "challenge": "Desafio"
-    }
+    },
+    "uncurated": "Mais repositórios públicos",
+    "uncuratedDescription": "Listados automaticamente do GitHub e sem curadoria: ser público não torna um repositório um destaque.",
+    "fromGithub": "Do GitHub",
+    "notOnGithub": "Sem repositório público."
   },
   "Timeline": {
     "title": "Linha do tempo",
@@ -155,7 +159,16 @@
     "repositoryCreatedHint": "Não há data de início registrada para este projeto, então é exibida a data de criação do repositório.",
     "empty": "Nada para mostrar ainda.",
     "started": "Início de {title}",
-    "published": "Publicado"
+    "published": "Publicado",
+    "legendCareer": "Carreira",
+    "legendStudy": "Estudos",
+    "kind": {
+      "position": "Carreira",
+      "project": "Projeto",
+      "education": "Estudos",
+      "certification": "Certificação",
+      "post": "Artigo"
+    }
   },
   "Weblog": {
     "title": "Weblog",

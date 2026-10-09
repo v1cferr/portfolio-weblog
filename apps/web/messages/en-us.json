@@ -145,7 +145,11 @@
       "academic": "Academic",
       "study": "Study",
       "challenge": "Challenge"
-    }
+    },
+    "uncurated": "More public repositories",
+    "uncuratedDescription": "Listed automatically from GitHub and not curated: being public does not make a repository a highlight.",
+    "fromGithub": "From GitHub",
+    "notOnGithub": "No public repository."
   },
   "Timeline": {
     "title": "Timeline",
@@ -155,7 +159,16 @@
     "repositoryCreatedHint": "No start date is recorded for this project, so the repository creation date is shown instead.",
     "empty": "Nothing to show yet.",
     "started": "Started {title}",
-    "published": "Published"
+    "published": "Published",
+    "legendCareer": "Career",
+    "legendStudy": "Studies",
+    "kind": {
+      "position": "Career",
+      "project": "Project",
+      "education": "Studies",
+      "certification": "Certification",
+      "post": "Article"
+    }
   },
   "Weblog": {
     "title": "Weblog",

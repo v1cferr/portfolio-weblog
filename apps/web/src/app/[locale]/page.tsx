@@ -6,10 +6,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { SectionHeading } from "@/components/page-header";
 import { Trajectory } from "@/features/profile/trajectory";
+import { CommitGraph } from "@/features/timeline/commit-graph";
 import { ProjectCard } from "@/features/projects/project-card";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
+import { getRepoIndex } from "@/lib/github";
 import { personJsonLd } from "@/lib/structured-data";
+
+// The "Recently" list can use repository creation dates from GitHub.
+export const revalidate = 86400;
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -20,6 +25,10 @@ export default async function HomePage() {
   const summary = localize(profile.summary, locale);
   const focus = localizeList(profile.focus, locale);
   const featured = content.getProjects().filter((project) => project.featured);
+  const index = await getRepoIndex();
+  const recent = content
+    .getUnifiedTimeline({ repositoryCreatedAt: (repository) => (index.ok ? index.get(repository)?.created_at : undefined) })
+    .slice(0, 6);
 
   return (
     <>
@@ -103,6 +112,22 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {recent.length > 0 && (
+        <section aria-labelledby="recent" className="mb-16">
+          <SectionHeading
+            id="recent"
+            action={
+              <Link href="/timeline" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
+              </Link>
+            }
+          >
+            {t("recent")}
+          </SectionHeading>
+          <CommitGraph events={recent} groupByYear={false} label={t("recent")} />
         </section>
       )}
     </>
