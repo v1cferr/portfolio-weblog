@@ -1,0 +1,16 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Packages allowed to run install scripts. Everything else is blocked, which is
+# pnpm's default and the reason this list exists.
+onlyBuiltDependencies:
+  - "@tailwindcss/oxide"
+  - esbuild
+  - sharp
+  - unrs-resolver
+
+# Native helpers pulled in by the shadcn CLI; nothing at runtime needs them built.
+ignoredBuiltDependencies:
+  - "@parcel/watcher"
+  - "@swc/core"

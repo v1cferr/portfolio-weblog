@@ -1,144 +1,15 @@
-# =================================================
-# GENERATED FILES AND FOLDERS
-# =================================================
-
-# Dependencies
+# Generated
 node_modules/
-.pnp/
-.pnp.js
-
-# Next.js build output
 .next/
 out/
-dist/
-build/
-
-# Cache
-.cache/
-.turbo/
-
-# =================================================
-# PACKAGE MANAGER LOCK AND CONFIG FILES
-# =================================================
-
-# Lock files, which must not be reformatted
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-bun.lockb
-
-# =================================================
-# AUTOMATICALLY GENERATED FILES
-# =================================================
-
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# Environment files
-.env
-.env.*
-!.env.example
-
-# =================================================
-# LOGS AND DEBUGGING
-# =================================================
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-
-# =================================================
-# SYSTEM AND IDE FOLDERS
-# =================================================
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Linux
-*~
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.swn
-.history/
-
-# =================================================
-# GIT
-# =================================================
-
-.git/
-.gitignore
-.gitattributes
-
-# =================================================
-# COVERAGE AND TESTS
-# =================================================
-
 coverage/
-.nyc_output/
-*.lcov
+test-results/
+playwright-report/
+next-env.d.ts
+*.tsbuildinfo
 
-# =================================================
-# SUPABASE
-# =================================================
+# Lock files are never reformatted
+pnpm-lock.yaml
 
-# Supabase generated files
-supabase/.branches/
-supabase/.temp/
-
-# =================================================
-# PUBLIC FILES AND ASSETS
-# =================================================
-
-# Images and assets generally do not need formatting
-public/
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.svg
-*.ico
-*.webp
-*.avif
-
-# =================================================
-# SPECIFIC DOCUMENTATION FILES
-# =================================================
-
-# Automatically generated changelog
-CHANGELOG.md
-
-# =================================================
-# OTHERS
-# =================================================
-
-# Temporary files
-*.tmp
-*.temp
-.temp/
-
-# Backup files
-*.backup
-*.bak
-
-# Compiled files
-*.min.js
-*.min.css
-
-# Docker configuration files
-.dockerignore
+# Static assets
+apps/web/public/

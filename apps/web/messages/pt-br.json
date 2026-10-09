@@ -1,0 +1,17 @@
+{
+  "LocaleSwitcher": {
+    "label": "Alterar idioma",
+    "locale": {
+      "en-us": "Inglês",
+      "pt-br": "Português",
+      "zh-cn": "Chinês"
+    }
+  },
+  "Metadata": {
+    "title": "Victor Ferreira",
+    "description": "Personal hub de Victor Ferreira: carreira, projetos, estudos e um diário de engenharia."
+  },
+  "Home": {
+    "title": "Personal Hub"
+  }
+}
