@@ -44,6 +44,8 @@ export interface ContentRegistry {
   getCareerTimeline(): TimelineEvent[];
   getUnifiedTimeline(enrichment?: TimelineEnrichment): TimelineEvent[];
   getRelatedContent(id: string): RelatedEntity[];
+  /** Path, relative to the content root, of the file that declares a visible entity. */
+  getSourceFile(id: string): string | undefined;
   /** Type of any entity visible through this registry. */
   getEntityType(id: string): EntityType | undefined;
   readonly warnings: readonly ContentIssue[];
@@ -161,8 +163,15 @@ export function createRegistry(
   // Relations among visible entities only, in both directions.
   const edges = collectEdges(content).filter((edge) => visibleIds.has(edge.from.id) && visibleIds.has(edge.to.id));
 
-  const profile = content.profile?.value;
-  if (profile === undefined) throw new Error("The profile is missing; run the content checker");
+  const sourceFiles = new Map(nodes.map((node) => [node.id, node.file]));
+  const profileSource = content.profile?.value;
+  if (profileSource === undefined) throw new Error("The profile is missing; run the content checker");
+  const profile = {
+    ...profileSource,
+    trajectory: profileSource.trajectory.map((step) =>
+      step.ref !== undefined && !visibleIds.has(step.ref) ? { label: step.label } : step
+    ),
+  };
 
   const publishedAtBySlug = () =>
     [...translations.keys()].map((slug) => ({ slug, publishedAt: getPost(slug, "en-us")?.frontmatter.publishedAt }));
@@ -196,6 +205,7 @@ export function createRegistry(
       ...edges.filter((edge) => edge.from.id === id).map((edge) => ({ ...edge.to, field: edge.field, direction: "outgoing" as const })),
       ...edges.filter((edge) => edge.to.id === id).map((edge) => ({ ...edge.from, field: edge.field, direction: "incoming" as const })),
     ],
+    getSourceFile: (id) => (visibleIds.has(id) ? sourceFiles.get(id) : undefined),
     getEntityType: (id) => visibleIds.get(id),
     warnings,
   };

@@ -32,6 +32,18 @@ export function validateContent(content: RawContent): ValidationResult {
 
   for (const edge of collectEdges(content)) checkEdge(edge, byId, errors, warnings);
 
+  // The profile is not a node, but its trajectory links into the graph.
+  if (content.profile !== undefined) {
+    const { value, file } = content.profile;
+    for (const step of value.trajectory) {
+      if (step.ref === undefined) continue;
+      const target = byId.get(step.ref);
+      if (target === undefined) errors.push({ file, message: `trajectory → "${step.ref}": no entity with this id` });
+      else if (target.isPrivate)
+        errors.push({ file, message: `trajectory → "${step.ref}": public content cannot reference private content` });
+    }
+  }
+
   const order = (file: string, what: string, start: PartialDate | undefined, end: PartialDate | undefined) => {
     if (start !== undefined && end !== undefined && !isOrdered(start, end)) {
       errors.push({ file, message: `${what}: end ${end} is before start ${start}` });

@@ -77,6 +77,20 @@ describe("relations", () => {
   });
 });
 
+describe("profile trajectory", () => {
+  it("rejects steps pointing at missing entities", () => {
+    const profile = {
+      id: "me",
+      name: "N",
+      handle: "h",
+      headline: { "en-us": "H" },
+      summary: { "en-us": "S" },
+      trajectory: [{ label: { "en-us": "Step" }, ref: "nope" }],
+    };
+    expect(check({ "profile/profile.yaml": profile }).errors.join()).toContain('trajectory → "nope"');
+  });
+});
+
 describe("dates", () => {
   it("rejects an end before the start", () => {
     const result = check({

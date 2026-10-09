@@ -80,3 +80,17 @@ quotes:
     source: Lao Tzu
     url: https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step
     locale: pt-br
+
+# The arc described in Jira PWL-101: processes → infrastructure →
+# networks/support → software engineering → AI systems.
+trajectory:
+  - label: { en-us: Processes, pt-br: Processos }
+    ref: amcor-2021
+  - label: { en-us: Infrastructure, pt-br: Infraestrutura }
+    ref: cultura-inglesa-2022
+  - label: { en-us: Networks and support, pt-br: Redes e suporte }
+    ref: vip-telecom-2023
+  - label: { en-us: Software engineering, pt-br: Engenharia de software }
+    ref: xmart-solutions-2024
+  - label: { en-us: AI systems, pt-br: Sistemas de IA }
+    ref: obsidian-rag

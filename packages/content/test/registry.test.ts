@@ -61,6 +61,11 @@ describe("public registry", () => {
     expect(registry.getRelatedContent("wip")).toEqual([]);
   });
 
+  it("points each visible entity at its source file", () => {
+    expect(registry.getSourceFile("hub")).toBe("projects/hub.yaml");
+    expect(registry.getSourceFile("wip")).toBeUndefined();
+  });
+
   it("orders experiences by their latest position", () => {
     expect(registry.getExperiences().map((e) => e.id)).toEqual(["acme-dev", "acme-old"]);
   });
