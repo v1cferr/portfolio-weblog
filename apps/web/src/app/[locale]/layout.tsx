@@ -11,6 +11,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { SiteLanguageNotice } from "@/components/fallback-notice";
 import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -83,6 +84,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           <NextIntlClientProvider messages={clientMessages}>
             <TooltipProvider>
               <SiteHeader />
+              <SiteLanguageNotice locale={locale} />
               <main id="content" className="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 sm:px-6 md:pt-16">
                 {children}
               </main>
@@ -90,8 +92,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
+        {/* The scripts are served by Vercel's edge; elsewhere they would 404. */}
+        {process.env.VERCEL === "1" && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

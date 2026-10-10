@@ -60,7 +60,8 @@
     "evidence": "Evidências",
     "links": "Links",
     "seeAll": "Ver tudo",
-    "back": "Voltar para {section}"
+    "back": "Voltar para {section}",
+    "siteFallbackNotice": "Este site ainda não está disponível em {requested}, então é exibido em {actual}."
   },
   "Kind": {
     "experience": "Carreira",

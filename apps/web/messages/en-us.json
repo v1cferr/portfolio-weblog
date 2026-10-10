@@ -60,7 +60,8 @@
     "evidence": "Evidence",
     "links": "Links",
     "seeAll": "See all",
-    "back": "Back to {section}"
+    "back": "Back to {section}",
+    "siteFallbackNotice": "This site is not available in {requested} yet, so it is shown in {actual}."
   },
   "Kind": {
     "experience": "Career",

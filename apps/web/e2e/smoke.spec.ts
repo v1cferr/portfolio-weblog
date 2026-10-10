@@ -22,12 +22,18 @@ const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) < 768;
 
 test.describe("every page", () => {
   for (const path of PAGES) {
-    test(`${path} renders one h1 and fits the viewport`, async ({ page }) => {
-      const response = await page.goto(path);
+    test(`${path} renders one h1, fits the viewport and logs no errors`, async ({ page }) => {
+      const errors: string[] = [];
+      page.on("console", (message) => {
+        if (message.type() === "error") errors.push(message.text());
+      });
+      page.on("pageerror", (error) => errors.push(error.message));
+      const response = await page.goto(path, { waitUntil: "networkidle" });
       expect(response?.status()).toBe(200);
       await expect(page.locator("h1")).toHaveCount(1);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, "no horizontal scrolling").toBeLessThanOrEqual(0);
+      expect(errors).toEqual([]);
     });
   }
 });
@@ -73,6 +79,20 @@ test.describe("visibility rules", () => {
     // A fresh context has no NEXT_LOCALE cookie, so the default locale applies.
     await page.goto("/projects");
     await expect(page).toHaveURL(/\/en-us\/projects$/);
+  });
+});
+
+test.describe("languages", () => {
+  test("a locale without editorial content says so once, site-wide", async ({ page }) => {
+    await page.goto("/zh-cn/career/xmart-solutions-2024");
+    await expect(page.getByText(/not available in 中文 yet/)).toHaveCount(1);
+    await page.goto("/pt-br/career");
+    await expect(page.getByText(/não está disponível/)).toHaveCount(0);
+  });
+
+  test("text in another language is marked with its lang attribute", async ({ page }) => {
+    await page.goto("/en-us/setup");
+    await expect(page.locator("main [lang=pt-br]").first()).toBeVisible();
   });
 });
 

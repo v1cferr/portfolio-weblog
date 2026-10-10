@@ -18,3 +18,9 @@ export const localeNames: Record<Locale, string> = {
   "pt-br": "Português",
   "zh-cn": "中文",
 };
+
+/**
+ * Locales with reviewed editorial content. Others (zh-cn today) show the
+ * English text with one site-wide notice instead of a notice per block.
+ */
+export const editorialLocales: readonly Locale[] = ["en-us", "pt-br"];
