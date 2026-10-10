@@ -36,6 +36,11 @@
   name: Freelance
   kind: self-employed
 
+- id: uniasselvi
+  name: UNIASSELVI
+  kind: university
+  url: https://www.uniasselvi.com.br/
+
 - id: alura
   name: Alura
   kind: platform

@@ -3,9 +3,10 @@
 # 2026-10-10, and the author's note that the AI software developer position
 # was temporary while graduating.
 #
-# The AI systems analyst responsibilities were drafted on request from the
-# usual scope of the role (job postings, see docs/migration/editorial-review.md),
-# limited to what overlaps with the work described in the LinkedIn entry.
+# AI systems analyst: building AI solutions (RAG, LLMs, LLMOps, agents,
+# skills, tools and tool calling) is stated by the author (2026-10-10). The
+# other responsibilities were drafted on request from the usual scope of the
+# role (job postings) and await confirmation (docs/migration/editorial-review.md).
 id: fai-ufscar-2026
 organization: fai-ufscar
 location: São Carlos, SP, Brazil
@@ -29,12 +30,14 @@ positions:
     start: 2026-08
     responsibilities:
       en-us:
+        - Design and build AI solutions with RAG and LLMs, including agents with skills, tools and tool calling, and the LLMOps practices to run them
         - Analyze institutional processes and requirements with the teams involved, and translate them into AI solution designs
         - Take AI initiatives from proof of concept to evaluation, including prompts, workflows, knowledge sources and evaluation criteria
         - Assess whether the data behind each initiative is ready, well structured and compliant with privacy and governance requirements
         - Evaluate the risks and technical fit of AI tools and models before they are adopted
         - Document solutions and support the teams that adopt them
       pt-br:
+        - Projetar e desenvolver soluções de IA com RAG e LLMs, incluindo agentes com skills, tools e tool calling, e as práticas de LLMOps para operá-las
         - Analisar processos e requisitos institucionais com as equipes envolvidas e traduzi-los em desenhos de soluções de IA
         - Conduzir iniciativas de IA da prova de conceito à avaliação, incluindo prompts, fluxos, fontes de conhecimento e critérios de avaliação
         - Verificar se os dados de cada iniciativa estão prontos, bem estruturados e de acordo com requisitos de privacidade e governança
@@ -65,5 +68,5 @@ responsibilities:
     - Estudar restrições técnicas, de privacidade e de governança no uso de IA em ambientes institucionais
     - Contribuir para a modernização de processos com IA aplicada, experimentação técnica, documentação e prototipação iterativa
 
-technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering]
+technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
 skills: [ai-systems, api-development, automation, technical-documentation, software-development]

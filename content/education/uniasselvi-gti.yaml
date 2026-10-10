@@ -1,0 +1,28 @@
+# Source: the author's LinkedIn education entry, shared on 2026-10-10. The
+# LinkedIn header reads "Information Technology Project Management", while the
+# description, the attached diploma and v1 ("Graduação em GTI") say
+# "Information Technology Management"; the latter is used.
+id: uniasselvi-gti
+institution: uniasselvi
+kind: degree
+title:
+  en-us: Technology degree in Information Technology Management
+  pt-br: Tecnólogo em Gestão da Tecnologia da Informação
+state: completed
+start: 2023-09
+end: 2026-08
+summary:
+  en-us: >-
+    Higher education technology degree focused on technology management, business processes,
+    information systems, IT governance and the strategic use of technology in organizations.
+    Coursework completed in July 2026; degree conferred in August 2026.
+  pt-br: >-
+    Graduação tecnológica com foco em gestão da tecnologia, processos de negócio, sistemas de
+    informação, governança de TI e uso estratégico da tecnologia nas organizações. Curso
+    concluído em julho de 2026; diploma conferido em agosto de 2026.
+skills: [software-development, automation]
+learnings:
+  en-us:
+    - Supports my work in software development, applied AI, workflow automation, process modernization and technical decision-making
+  pt-br:
+    - Sustenta meu trabalho em desenvolvimento de software, IA aplicada, automação de fluxos, modernização de processos e decisões técnicas

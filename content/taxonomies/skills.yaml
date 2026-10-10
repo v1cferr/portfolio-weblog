@@ -30,7 +30,7 @@
 
 - id: ai-systems
   name: { en-us: AI systems and LLM integration, pt-br: Sistemas de IA e integração com LLMs }
-  technologies: [rag, llm, local-llms, prompt-engineering, ollama, python]
+  technologies: [rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops, ollama, python]
 
 - id: automation
   name: { en-us: Workflow and process automation, pt-br: Automação de fluxos e processos }
