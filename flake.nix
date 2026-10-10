@@ -37,6 +37,11 @@
           # Only greet on an interactive shell: `nix develop --command` pipes
           # stdout into other tools, and a banner there corrupts their input.
           shellHook = ''
+            # A host profile may export LD_LIBRARY_PATH with libraries built
+            # against a newer glibc than this shell's nixpkgs, which crashes
+            # the Playwright browsers on start. Nothing here needs it.
+            unset LD_LIBRARY_PATH
+
             if [ -t 1 ]; then
               echo "portfolio-weblog: node $(node --version), pnpm $(pnpm --version)"
             fi
