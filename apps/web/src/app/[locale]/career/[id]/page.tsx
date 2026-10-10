@@ -125,6 +125,11 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
                 )}
               </span>
               {position.start !== undefined && <DateRange start={position.start} end={position.end} showDuration />}
+              {position.note !== undefined && (
+                <span className="text-sm text-muted-foreground" lang={localize(position.note, locale).locale}>
+                  {localize(position.note, locale).value}
+                </span>
+              )}
             </li>
           ))}
         </ol>
@@ -144,6 +149,18 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
           </section>
         )}
         <ListSection title={t("responsibilities")} list={experience.responsibilities} locale={locale} />
+        {[...experience.positions]
+          .reverse()
+          .map((position) =>
+            position.responsibilities === undefined ? null : (
+              <ListSection
+                key={`responsibilities-${position.start ?? ""}`}
+                title={t("positionResponsibilities", { title: localize(position.title, locale).value })}
+                list={position.responsibilities}
+                locale={locale}
+              />
+            )
+          )}
         <ListSection title={t("contributions")} list={experience.contributions} locale={locale} />
         <ListSection title={t("learnings")} list={experience.learnings} locale={locale} />
         {hindsight && (

@@ -8,7 +8,10 @@ import { buildSearchDocuments, mdxToText, type SearchDocument, searchOptions } f
 
 const registry = loadRegistry(
   makeContent({
-    "experiences/acme-dev.yaml": experience({ learnings: { "en-us": ["Kubernetes operations"] } }),
+    "experiences/acme-dev.yaml": experience({
+      learnings: { "en-us": ["Kubernetes operations"] },
+      positions: [{ title: { "en-us": "Developer" }, start: "2023-01", responsibilities: { "en-us": ["Owned the observability stack"] } }],
+    }),
     "projects/hub.yaml": project({ technologies: ["python"] }),
     "projects/secret.yaml": project({ id: "secret", title: "Secret plans", visibility: "private" }),
     "projects/wip.yaml": project({ id: "wip", title: "Unfinished", status: "draft" }),
@@ -48,6 +51,7 @@ describe("buildSearchDocuments", () => {
     const index = new MiniSearch<SearchDocument>(searchOptions);
     index.addAll(docs);
     expect(index.search("kubernet")[0]?.entityId).toBe("acme-dev");
+    expect(index.search("observability")[0]?.entityId).toBe("acme-dev");
     expect(index.search("python").map((hit) => hit.id as string)).toContain("project:hub:pt-br");
   });
 });

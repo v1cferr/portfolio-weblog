@@ -108,7 +108,8 @@
       "freelance": "Freelance",
       "apprenticeship": "Aprendiz",
       "volunteer": "Voluntário"
-    }
+    },
+    "positionResponsibilities": "Como {title}"
   },
   "Projects": {
     "title": "Projetos",

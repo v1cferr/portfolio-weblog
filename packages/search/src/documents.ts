@@ -47,7 +47,11 @@ export function buildSearchDocuments(content: ContentRegistry, locale: Locale): 
         experience.context && localize(experience.context, locale).value,
         localizeList(experience.responsibilities, locale)?.value,
         localizeList(experience.contributions, locale)?.value,
-        localizeList(experience.learnings, locale)?.value
+        localizeList(experience.learnings, locale)?.value,
+        experience.positions.flatMap((position) => [
+          ...(position.note ? [localize(position.note, locale).value] : []),
+          ...(localizeList(position.responsibilities, locale)?.value ?? []),
+        ])
       ),
       excerpt: summary.value,
       url: `${prefix}/career/${experience.id}`,
