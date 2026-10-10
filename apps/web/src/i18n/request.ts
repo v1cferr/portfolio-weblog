@@ -3,23 +3,8 @@ import * as rootParams from "next/root-params";
 import { hasLocale } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
 
+import { type Messages, withFallback } from "./messages";
 import { routing } from "./routing";
-
-type Messages = Record<string, unknown>;
-
-function isPlainObject(value: unknown): value is Messages {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-/** Fills keys missing from `partial` with the default locale's strings. */
-function withFallback(fallback: Messages, partial: Messages): Messages {
-  const merged: Messages = { ...fallback };
-  for (const [key, value] of Object.entries(partial)) {
-    const base = merged[key];
-    merged[key] = isPlainObject(base) && isPlainObject(value) ? withFallback(base, value) : value;
-  }
-  return merged;
-}
 
 async function loadMessages(locale: string): Promise<Messages> {
   return ((await import(`../../messages/${locale}.json`)) as { default: Messages }).default;
