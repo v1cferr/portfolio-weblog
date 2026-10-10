@@ -1,0 +1,10 @@
+{
+  "LocaleSwitcher": {
+    "label": "选择语言",
+    "locale": {
+      "en-us": "英语",
+      "pt-br": "葡萄牙语",
+      "zh-cn": "中文"
+    }
+  }
+}

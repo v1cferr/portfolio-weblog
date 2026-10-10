@@ -1,0 +1,69 @@
+---
+title: Rebuilding this hub around content, not components
+summary:
+  Why v2 of v1cferr.dev treats structured files in Git as the source of truth,
+  and the web app as one view of them.
+status: published
+publishedAt: 2026-10-09
+category: engineering
+tags: [architecture, nextjs, content-first]
+projects: [portfolio-weblog]
+technologies: [nextjs, typescript, nix]
+---
+
+The first version of this site kept my career inside React components. Job
+titles, dates and project descriptions lived in `.tsx` files next to the markup
+that rendered them. It worked until I wanted to change something that was not a
+component: correct a date, add what I learned at a job, or show the same project
+on two pages.
+
+Version 2 inverts that relationship.
+
+## Content is the source of truth
+
+Everything the site says about me lives under `content/` as YAML and MDX files:
+experiences, projects, studies, technologies and these articles. Each file is
+validated with a Zod schema, and every entity has a stable id, an editorial
+status and a visibility.
+
+```yaml
+id: xmart-solutions-2024
+organization: xmart-solutions
+positions:
+  - title: { en-us: Software development intern }
+    employmentType: internship
+    start: 2024-06
+    end: 2024-09
+```
+
+Dates carry only the precision that is actually known. `2024-06` stays a month;
+the site never pads it to a day, because a padded date is an invented fact.
+
+## Relations are declared, then checked
+
+A project can point at the experience it came from, and an article at the
+projects it discusses. A checker runs in CI and fails the build when a reference
+points nowhere, when an id is reused, when an end date comes before a start
+date, or when public content points at private content.
+
+<Callout title="Nothing unpublished leaks">
+  The read API drops drafts, entries in review and private entries, and it also
+  removes references to them. Pages, the sitemap, the RSS feed and the search
+  index all go through it.
+</Callout>
+
+## Timelines are derived
+
+The career timeline and the unified timeline are not written by hand. They come
+from position dates, project start dates, studies and publication dates. When a
+project has no recorded start, the timeline can use its repository's creation
+date from GitHub, but it labels it as such: a repository being created is not
+the same thing as a project starting.
+
+## The web app is one view
+
+The site is a Next.js app in a small pnpm monorepo, with the design system in
+its own package. The same content could feed a CLI, a résumé generator or,
+later, a retrieval layer that answers questions with citations back to these
+files. That is the point: the content should outlive the framework that renders
+it today.

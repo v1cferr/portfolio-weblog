@@ -1,0 +1,244 @@
+{
+  "LocaleSwitcher": {
+    "label": "Alterar idioma",
+    "locale": {
+      "en-us": "Inglês",
+      "pt-br": "Português",
+      "zh-cn": "Chinês"
+    }
+  },
+  "Metadata": {
+    "title": "Victor Ferreira",
+    "description": "Personal hub de Victor Ferreira: carreira, projetos, estudos e um diário de engenharia."
+  },
+  "Nav": {
+    "label": "Principal",
+    "home": "Início",
+    "about": "Sobre",
+    "career": "Carreira",
+    "projects": "Projetos",
+    "timeline": "Linha do tempo",
+    "weblog": "Weblog",
+    "education": "Estudos",
+    "setup": "Setup",
+    "openMenu": "Abrir menu",
+    "skipToContent": "Pular para o conteúdo"
+  },
+  "Theme": {
+    "label": "Alterar tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "Search": {
+    "open": "Buscar",
+    "title": "Buscar no hub",
+    "placeholder": "Buscar experiências, projetos, tecnologias, artigos…",
+    "empty": "Nada corresponde a “{query}”. Tente uma tecnologia ou o nome de uma empresa.",
+    "hint": "Digite para buscar em tudo o que está publicado aqui.",
+    "loading": "Carregando o índice de busca…",
+    "error": "Não foi possível carregar o índice de busca. Recarregue a página para tentar de novo.",
+    "type": {
+      "experience": "Carreira",
+      "project": "Projeto",
+      "post": "Artigo",
+      "education": "Estudos",
+      "technology": "Tecnologia",
+      "page": "Página"
+    }
+  },
+  "Common": {
+    "present": "atual",
+    "years": "{count, plural, one {# ano} other {# anos}}",
+    "months": "{count, plural, one {# mês} other {# meses}}",
+    "source": "Fonte",
+    "sourceHint": "O arquivo de conteúdo que gera esta página",
+    "fallbackNotice": "Este texto ainda não está disponível em {requested}, então é exibido em {actual}.",
+    "related": "Relacionados",
+    "technologies": "Tecnologias",
+    "skills": "Competências",
+    "evidence": "Evidências",
+    "links": "Links",
+    "seeAll": "Ver tudo",
+    "back": "Voltar para {section}",
+    "siteFallbackNotice": "Este site ainda não está disponível em {requested}, então é exibido em {actual}."
+  },
+  "Kind": {
+    "experience": "Carreira",
+    "project": "Projeto",
+    "education": "Estudos",
+    "certification": "Certificação",
+    "post": "Artigo",
+    "organization": "Organização",
+    "technology": "Tecnologia",
+    "skill": "Competência"
+  },
+  "Home": {
+    "trajectory": "Como cheguei aqui",
+    "focus": "Trabalhando em",
+    "featured": "Projetos selecionados",
+    "latest": "Escritos recentes",
+    "recent": "Recentemente",
+    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos."
+  },
+  "About": {
+    "title": "Sobre",
+    "description": "Quem eu sou, de onde vim e no que foco.",
+    "trajectory": "Trajetória",
+    "focus": "Foco",
+    "elsewhere": "Em outros lugares",
+    "quotes": "Frases que guardo comigo"
+  },
+  "Career": {
+    "title": "Carreira",
+    "description": "Cada cargo, do mais recente ao mais antigo, com o que fiz e o que aprendi.",
+    "positions": "Cargos",
+    "context": "Contexto",
+    "responsibilities": "Responsabilidades",
+    "contributions": "Contribuições",
+    "learnings": "O que aprendi",
+    "hindsight": "O que eu faria diferente",
+    "impact": "Aonde isso levou",
+    "empty": "Nenhuma experiência publicada ainda.",
+    "employmentType": {
+      "full-time": "Tempo integral",
+      "part-time": "Meio período",
+      "internship": "Estágio",
+      "contract": "Contrato",
+      "freelance": "Freelance",
+      "apprenticeship": "Aprendiz",
+      "volunteer": "Voluntário"
+    },
+    "positionResponsibilities": "Como {title}"
+  },
+  "Projects": {
+    "title": "Projetos",
+    "description": "Projetos pessoais, profissionais e de estudo. O status é uma decisão editorial, não um palpite a partir de commits.",
+    "filterState": "Filtrar por status",
+    "filterCategory": "Filtrar por categoria",
+    "all": "Todos",
+    "count": "{count, plural, =0 {Nenhum projeto} one {# projeto} other {# projetos}}",
+    "clear": "Limpar filtros",
+    "technology": "Usando {name}",
+    "empty": "Nenhum projeto corresponde a esses filtros.",
+    "featured": "Destaque",
+    "problem": "O que resolve",
+    "learnings": "O que aprendi",
+    "repository": "Repositório",
+    "repositoryCreated": "Repositório criado",
+    "lastPush": "Último push",
+    "started": "Início",
+    "ended": "Fim",
+    "language": "Linguagem principal",
+    "githubUnavailable": "Os detalhes do repositório no GitHub estão indisponíveis agora; o resto da página vem do próprio conteúdo do hub.",
+    "collaborators": "Com",
+    "state": {
+      "active": "Ativo",
+      "maintained": "Mantido",
+      "stable": "Estável",
+      "experimental": "Experimental",
+      "paused": "Pausado",
+      "historical": "Histórico",
+      "archived": "Arquivado"
+    },
+    "category": {
+      "personal": "Pessoal",
+      "professional": "Profissional",
+      "academic": "Acadêmico",
+      "study": "Estudo",
+      "challenge": "Desafio"
+    },
+    "uncurated": "Mais repositórios públicos",
+    "uncuratedDescription": "Listados automaticamente do GitHub e sem curadoria: ser público não torna um repositório um destaque.",
+    "fromGithub": "Do GitHub",
+    "notOnGithub": "Sem repositório público."
+  },
+  "Timeline": {
+    "title": "Linha do tempo",
+    "description": "Carreira, projetos, estudos e escrita em um único eixo, derivados do próprio conteúdo.",
+    "legend": "Trilhas",
+    "repositoryCreated": "repositório criado",
+    "repositoryCreatedHint": "Não há data de início registrada para este projeto, então é exibida a data de criação do repositório.",
+    "empty": "Nada para mostrar ainda.",
+    "started": "Início de {title}",
+    "published": "Publicado",
+    "legendCareer": "Carreira",
+    "legendStudy": "Estudos",
+    "kind": {
+      "position": "Carreira",
+      "project": "Projeto",
+      "education": "Estudos",
+      "certification": "Certificação",
+      "post": "Artigo"
+    }
+  },
+  "Weblog": {
+    "title": "Weblog",
+    "description": "Um diário de engenharia: o que construo, como funciona e o que aprendi fazendo.",
+    "published": "Publicado em {date}",
+    "updated": "Atualizado em {date}",
+    "tags": "Tags",
+    "empty": "Nenhum artigo publicado ainda.",
+    "rss": "Feed RSS",
+    "availableIn": "Também disponível em",
+    "allTags": "Todas as tags",
+    "taggedWith": "Com a tag “{tag}”",
+    "category": {
+      "engineering": "Engenharia",
+      "infrastructure": "Infraestrutura",
+      "ai": "IA",
+      "career": "Carreira",
+      "journal": "Diário"
+    }
+  },
+  "Education": {
+    "title": "Estudos",
+    "description": "Cursos, programas e certificações, com os trabalhos que saíram deles.",
+    "certifications": "Certificações",
+    "certificationsEmpty": "Nenhuma certificação publicada ainda.",
+    "empty": "Nenhum estudo publicado ainda.",
+    "noDates": "Datas não registradas",
+    "issued": "Emitida em {date}",
+    "credential": "Credencial",
+    "projects": "Projetos deste programa",
+    "state": {
+      "ongoing": "Em andamento",
+      "completed": "Concluído",
+      "paused": "Pausado",
+      "incomplete": "Incompleto"
+    },
+    "kind": {
+      "degree": "Graduação",
+      "technical": "Curso técnico",
+      "bootcamp": "Bootcamp",
+      "course": "Curso",
+      "self-study": "Autodidata"
+    }
+  },
+  "Setup": {
+    "title": "Setup",
+    "description": "A estação de trabalho que uso todos os dias, e as peças que ela já aposentou.",
+    "updated": "Atualizado em {date}",
+    "since": "Desde {date}",
+    "period": "{start} – {end}"
+  },
+  "NotFound": {
+    "title": "Página não encontrada",
+    "description": "Não há nada neste endereço. Ele pode ter mudado quando o hub foi reconstruído.",
+    "home": "Ir para a página inicial"
+  },
+  "Error": {
+    "title": "Esta página não carregou",
+    "description": "Algo deu errado ao renderizá-la. Tente de novo; se continuar falhando, o resto do hub segue funcionando.",
+    "retry": "Tentar de novo"
+  },
+  "Footer": {
+    "builtFrom": "Feito a partir de conteúdo simples em Git.",
+    "repository": "Código-fonte",
+    "rss": "RSS"
+  },
+  "Media": {
+    "label": "Fotos",
+    "placeholder": "As fotos desta entrada serão adicionadas em breve."
+  }
+}

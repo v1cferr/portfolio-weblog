@@ -1,0 +1,70 @@
+---
+title: Reconstruindo este hub em torno do conteúdo, não dos componentes
+summary:
+  Por que a v2 do v1cferr.dev trata arquivos estruturados em Git como fonte da
+  verdade, e a aplicação web como uma representação deles.
+status: published
+publishedAt: 2026-10-09
+category: engineering
+tags: [architecture, nextjs, content-first]
+projects: [portfolio-weblog]
+technologies: [nextjs, typescript, nix]
+---
+
+A primeira versão deste site guardava minha carreira dentro de componentes
+React. Cargos, datas e descrições de projetos ficavam em arquivos `.tsx`, ao
+lado do markup que os renderizava. Funcionou até eu querer mudar algo que não
+era um componente: corrigir uma data, registrar o que aprendi em um emprego ou
+mostrar o mesmo projeto em duas páginas.
+
+A versão 2 inverte essa relação.
+
+## O conteúdo é a fonte da verdade
+
+Tudo o que o site diz sobre mim fica em `content/`, em arquivos YAML e MDX:
+experiências, projetos, estudos, tecnologias e estes artigos. Cada arquivo é
+validado por um schema Zod, e cada entidade tem um id estável, um status
+editorial e uma visibilidade.
+
+```yaml
+id: xmart-solutions-2024
+organization: xmart-solutions
+positions:
+  - title: { pt-br: Estagiário de desenvolvimento }
+    employmentType: internship
+    start: 2024-06
+    end: 2024-09
+```
+
+As datas têm só a precisão que de fato se conhece. `2024-06` continua sendo um
+mês; o site nunca completa com um dia, porque uma data completada é um fato
+inventado.
+
+## Relações são declaradas e depois verificadas
+
+Um projeto pode apontar para a experiência de onde veio, e um artigo para os
+projetos que discute. Um verificador roda no CI e quebra o build quando uma
+referência não aponta para nada, quando um id se repete, quando uma data de fim
+vem antes do início, ou quando conteúdo público aponta para conteúdo privado.
+
+<Callout title="Nada não publicado vaza">
+  A API de leitura descarta rascunhos, itens em revisão e itens privados, e
+  também remove as referências a eles. Páginas, sitemap, feed RSS e índice de
+  busca passam todos por ela.
+</Callout>
+
+## As linhas do tempo são derivadas
+
+A linha do tempo da carreira e a linha do tempo unificada não são escritas à
+mão. Elas vêm das datas dos cargos, dos inícios de projetos, dos estudos e das
+datas de publicação. Quando um projeto não tem início registrado, a linha do
+tempo pode usar a data de criação do repositório no GitHub, mas avisa que é
+isso: criar um repositório não é o mesmo que começar um projeto.
+
+## A aplicação web é uma representação
+
+O site é uma aplicação Next.js em um pequeno monorepo pnpm, com o design system
+em um pacote próprio. O mesmo conteúdo poderia alimentar uma CLI, um gerador de
+currículo ou, mais tarde, uma camada de busca que responde perguntas citando
+estes arquivos. Esse é o ponto: o conteúdo deve sobreviver ao framework que o
+renderiza hoje.

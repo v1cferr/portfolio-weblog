@@ -1,0 +1,244 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "en-us": "English",
+      "pt-br": "Portuguese",
+      "zh-cn": "Chinese"
+    }
+  },
+  "Metadata": {
+    "title": "Victor Ferreira",
+    "description": "Personal hub of Victor Ferreira: career, projects, studies and an engineering journal."
+  },
+  "Nav": {
+    "label": "Main",
+    "home": "Home",
+    "about": "About",
+    "career": "Career",
+    "projects": "Projects",
+    "timeline": "Timeline",
+    "weblog": "Weblog",
+    "education": "Studies",
+    "setup": "Setup",
+    "openMenu": "Open menu",
+    "skipToContent": "Skip to content"
+  },
+  "Theme": {
+    "label": "Change theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Search": {
+    "open": "Search",
+    "title": "Search the hub",
+    "placeholder": "Search experiences, projects, technologies, articles…",
+    "empty": "Nothing matches “{query}”. Try a technology or a company name.",
+    "hint": "Type to search everything published here.",
+    "loading": "Loading the search index…",
+    "error": "The search index could not be loaded. Reload the page to try again.",
+    "type": {
+      "experience": "Career",
+      "project": "Project",
+      "post": "Article",
+      "education": "Studies",
+      "technology": "Technology",
+      "page": "Page"
+    }
+  },
+  "Common": {
+    "present": "present",
+    "years": "{count, plural, one {# yr} other {# yrs}}",
+    "months": "{count, plural, one {# mo} other {# mos}}",
+    "source": "Source",
+    "sourceHint": "The content file this page is built from",
+    "fallbackNotice": "This text is not available in {requested} yet, so it is shown in {actual}.",
+    "related": "Related",
+    "technologies": "Technologies",
+    "skills": "Skills",
+    "evidence": "Evidence",
+    "links": "Links",
+    "seeAll": "See all",
+    "back": "Back to {section}",
+    "siteFallbackNotice": "This site is not available in {requested} yet, so it is shown in {actual}."
+  },
+  "Kind": {
+    "experience": "Career",
+    "project": "Project",
+    "education": "Studies",
+    "certification": "Certification",
+    "post": "Article",
+    "organization": "Organization",
+    "technology": "Technology",
+    "skill": "Skill"
+  },
+  "Home": {
+    "trajectory": "How I got here",
+    "focus": "Working on",
+    "featured": "Selected projects",
+    "latest": "Latest writing",
+    "recent": "Recently",
+    "noPosts": "No articles are published yet. The first ones are being written."
+  },
+  "About": {
+    "title": "About",
+    "description": "Who I am, where I came from and what I focus on.",
+    "trajectory": "Trajectory",
+    "focus": "Focus",
+    "elsewhere": "Elsewhere",
+    "quotes": "Quotes I keep around"
+  },
+  "Career": {
+    "title": "Career",
+    "description": "Every position, newest first, with what I did and what I learned there.",
+    "positions": "Positions",
+    "context": "Context",
+    "responsibilities": "Responsibilities",
+    "contributions": "Contributions",
+    "learnings": "What I learned",
+    "hindsight": "What I would do differently",
+    "impact": "Where it led",
+    "empty": "No experiences are published yet.",
+    "employmentType": {
+      "full-time": "Full-time",
+      "part-time": "Part-time",
+      "internship": "Internship",
+      "contract": "Contract",
+      "freelance": "Freelance",
+      "apprenticeship": "Apprenticeship",
+      "volunteer": "Volunteer"
+    },
+    "positionResponsibilities": "As {title}"
+  },
+  "Projects": {
+    "title": "Projects",
+    "description": "Personal, professional and study projects. Status is an editorial call, not a guess from commit activity.",
+    "filterState": "Filter by status",
+    "filterCategory": "Filter by category",
+    "all": "All",
+    "count": "{count, plural, =0 {No projects match} one {# project} other {# projects}}",
+    "clear": "Clear filters",
+    "technology": "Using {name}",
+    "empty": "No projects match these filters.",
+    "featured": "Featured",
+    "problem": "What it solves",
+    "learnings": "What I learned",
+    "repository": "Repository",
+    "repositoryCreated": "Repository created",
+    "lastPush": "Last push",
+    "started": "Started",
+    "ended": "Ended",
+    "language": "Main language",
+    "githubUnavailable": "Repository details from GitHub are unavailable right now; the rest of this page comes from the hub's own content.",
+    "collaborators": "With",
+    "state": {
+      "active": "Active",
+      "maintained": "Maintained",
+      "stable": "Stable",
+      "experimental": "Experimental",
+      "paused": "Paused",
+      "historical": "Historical",
+      "archived": "Archived"
+    },
+    "category": {
+      "personal": "Personal",
+      "professional": "Professional",
+      "academic": "Academic",
+      "study": "Study",
+      "challenge": "Challenge"
+    },
+    "uncurated": "More public repositories",
+    "uncuratedDescription": "Listed automatically from GitHub and not curated: being public does not make a repository a highlight.",
+    "fromGithub": "From GitHub",
+    "notOnGithub": "No public repository."
+  },
+  "Timeline": {
+    "title": "Timeline",
+    "description": "Career, projects, studies and writing on one axis, derived from the content itself.",
+    "legend": "Lanes",
+    "repositoryCreated": "repository created",
+    "repositoryCreatedHint": "No start date is recorded for this project, so the repository creation date is shown instead.",
+    "empty": "Nothing to show yet.",
+    "started": "Started {title}",
+    "published": "Published",
+    "legendCareer": "Career",
+    "legendStudy": "Studies",
+    "kind": {
+      "position": "Career",
+      "project": "Project",
+      "education": "Studies",
+      "certification": "Certification",
+      "post": "Article"
+    }
+  },
+  "Weblog": {
+    "title": "Weblog",
+    "description": "An engineering journal: what I build, how it works and what I learned doing it.",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "tags": "Tags",
+    "empty": "No articles are published yet.",
+    "rss": "RSS feed",
+    "availableIn": "Also available in",
+    "allTags": "All tags",
+    "taggedWith": "Tagged “{tag}”",
+    "category": {
+      "engineering": "Engineering",
+      "infrastructure": "Infrastructure",
+      "ai": "AI",
+      "career": "Career",
+      "journal": "Journal"
+    }
+  },
+  "Education": {
+    "title": "Studies",
+    "description": "Courses, programs and certifications, with the work that came out of them.",
+    "certifications": "Certifications",
+    "certificationsEmpty": "No certifications are published yet.",
+    "empty": "No studies are published yet.",
+    "noDates": "Dates not recorded",
+    "issued": "Issued {date}",
+    "credential": "Credential",
+    "projects": "Projects from this program",
+    "state": {
+      "ongoing": "Ongoing",
+      "completed": "Completed",
+      "paused": "Paused",
+      "incomplete": "Incomplete"
+    },
+    "kind": {
+      "degree": "Degree",
+      "technical": "Technical course",
+      "bootcamp": "Bootcamp",
+      "course": "Course",
+      "self-study": "Self-study"
+    }
+  },
+  "Setup": {
+    "title": "Setup",
+    "description": "The workstation I use every day, and the parts it has retired.",
+    "updated": "Updated {date}",
+    "since": "Since {date}",
+    "period": "{start} – {end}"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "Nothing lives at this address. It may have moved when the hub was rebuilt.",
+    "home": "Go to the home page"
+  },
+  "Error": {
+    "title": "This page failed to load",
+    "description": "Something went wrong while rendering it. Try again; if it keeps failing, the rest of the hub still works.",
+    "retry": "Try again"
+  },
+  "Footer": {
+    "builtFrom": "Built from plain content in Git.",
+    "repository": "Source code",
+    "rss": "RSS"
+  },
+  "Media": {
+    "label": "Photos",
+    "placeholder": "Photos for this entry will be added soon."
+  }
+}

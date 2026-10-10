@@ -1,0 +1,33 @@
+# Sources: v1 career timeline (role, dates, duties) and Jira PWL-33 (learnings).
+id: vip-telecom-2023
+organization: vip-telecom
+positions:
+  - title: { en-us: Level 2 technical support, pt-br: Suporte técnico N2 }
+    start: 2023-07
+    end: 2023-12
+
+summary:
+  en-us: Second-level support for internet customers of a regional ISP.
+  pt-br: Suporte de segundo nível para clientes de um provedor de internet regional.
+
+responsibilities:
+  en-us:
+    - Supported external customers with network, router and traffic-control problems
+    - Escalated critical problems and followed contingency plans
+    - Monitored network performance
+  pt-br:
+    - Atendimento a clientes externos com falhas de rede, roteadores e controle de tráfego
+    - Detecção de problemas críticos e aplicação de planos de contingência
+    - Monitoramento da performance da rede
+
+learnings:
+  en-us:
+    - A lot about computer networks in practice
+    - Patience when helping non-technical people who are under stress
+    - Dealing with external customers
+  pt-br:
+    - Muito sobre redes na prática
+    - Paciência para ajudar pessoas leigas sob estresse
+    - Lidar com clientes externos
+
+skills: [networking, it-support]

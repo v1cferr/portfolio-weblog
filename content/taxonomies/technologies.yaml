@@ -1,0 +1,70 @@
+# Technologies referenced across the hub. The first block comes from the v1
+# tech stack (src/data/TechStackData.ts); the rest from experiences and the
+# public repositories that use them.
+
+# Languages
+- { id: javascript, name: JavaScript, category: language }
+- { id: typescript, name: TypeScript, category: language }
+- { id: python, name: Python, category: language }
+- { id: html, name: HTML, category: language }
+- { id: css, name: CSS, category: language }
+- { id: sql, name: SQL, category: language }
+- { id: bash, name: Bash / Zsh, category: language }
+- { id: nix, name: Nix, category: language, url: "https://nixos.org/" }
+- { id: gleam, name: Gleam, category: language, url: "https://gleam.run/" }
+- { id: markdown, name: Markdown, category: language }
+- { id: latex, name: LaTeX, category: language }
+
+# Frameworks and libraries
+- { id: react, name: React, category: framework, url: "https://react.dev/" }
+- { id: nextjs, name: Next.js, category: framework, url: "https://nextjs.org/" }
+- { id: nodejs, name: Node.js, category: platform, url: "https://nodejs.org/" }
+- { id: tailwindcss, name: Tailwind CSS, category: framework, url: "https://tailwindcss.com/" }
+- { id: astro, name: Astro, category: framework, url: "https://astro.build/" }
+- { id: fastapi, name: FastAPI, category: framework, url: "https://fastapi.tiangolo.com/" }
+- { id: vite, name: Vite, category: tool, url: "https://vite.dev/" }
+- { id: playwright, name: Playwright, category: tool, url: "https://playwright.dev/" }
+
+# Data
+- { id: mysql, name: MySQL, category: database }
+- { id: postgresql, name: PostgreSQL, category: database }
+- { id: supabase, name: Supabase, category: platform }
+
+# Infrastructure and delivery
+- { id: git, name: Git, category: tool }
+- { id: github, name: GitHub, category: platform }
+- { id: github-actions, name: GitHub Actions, category: infrastructure }
+- { id: jenkins, name: Jenkins, category: infrastructure }
+- { id: docker, name: Docker, category: infrastructure }
+- { id: aws, name: AWS, category: infrastructure }
+- { id: nixos, name: NixOS, category: infrastructure, url: "https://nixos.org/" }
+- { id: vercel, name: Vercel, category: platform }
+- { id: vscode, name: VS Code, category: tool }
+- { id: figma, name: Figma, category: tool }
+- { id: swagger, name: Swagger / OpenAPI, category: tool }
+- { id: jira, name: Jira, category: tool }
+- { id: confluence, name: Confluence, category: tool }
+
+# Application security
+- { id: fortify, name: Fortify on Demand, category: security }
+- { id: sonatype-nexus, name: Sonatype Nexus, category: security }
+- { id: owasp-zap, name: OWASP ZAP, category: security }
+
+# AI
+- { id: openai-api, name: OpenAI API, category: ai }
+- { id: gemini-api, name: Gemini API, category: ai }
+- { id: hugging-face, name: Hugging Face, category: ai }
+- { id: ollama, name: Ollama, category: ai, url: "https://ollama.com/" }
+- { id: lightrag, name: LightRAG, category: ai }
+- { id: rag, name: Retrieval-augmented generation (RAG), category: practice }
+- { id: llm, name: Large language models (LLMs), category: ai }
+- { id: local-llms, name: Local LLMs, category: ai }
+- { id: prompt-engineering, name: Prompt engineering, category: practice }
+- { id: ai-agents, name: AI agents, category: ai }
+- { id: tool-calling, name: Tool calling, category: ai }
+- { id: llmops, name: LLMOps, category: practice }
+
+# Practices
+- { id: scrumban, name: Scrumban, category: practice }
+- { id: kanban, name: Kanban, category: practice }
+- { id: kaizen, name: Kaizen, category: practice }

@@ -1,0 +1,72 @@
+# Sources: the author's LinkedIn experience entry (positions, employment
+# types, dates, location, work mode, description and skills), shared on
+# 2026-10-10, and the author's note that the AI software developer position
+# was temporary while graduating.
+#
+# AI systems analyst: building AI solutions (RAG, LLMs, LLMOps, agents,
+# skills, tools and tool calling) is stated by the author (2026-10-10). The
+# other responsibilities were drafted on request from the usual scope of the
+# role (job postings) and await confirmation (docs/migration/editorial-review.md).
+id: fai-ufscar-2026
+organization: fai-ufscar
+location: São Carlos, SP, Brazil
+workMode: on-site
+positions:
+  - title:
+      en-us: AI software developer intern, Superintendence
+      pt-br: Estagiário de desenvolvimento de software de IA, Superintendência
+    employmentType: internship
+    start: 2026-03
+    end: 2026-07
+  - title: { en-us: AI software developer, pt-br: Desenvolvedor de software de IA }
+    employmentType: full-time
+    start: 2026-07
+    end: 2026-08
+    note:
+      en-us: A temporary position while I finished my degree and received my diploma.
+      pt-br: Um cargo temporário enquanto eu concluía a graduação e recebia o diploma.
+  - title: { en-us: AI systems analyst, pt-br: Analista de sistemas de IA }
+    employmentType: full-time
+    start: 2026-08
+    responsibilities:
+      en-us:
+        - Design and build AI solutions with RAG and LLMs, including agents with skills, tools and tool calling, and the LLMOps practices to run them
+        - Analyze institutional processes and requirements with the teams involved, and translate them into AI solution designs
+        - Take AI initiatives from proof of concept to evaluation, including prompts, workflows, knowledge sources and evaluation criteria
+        - Assess whether the data behind each initiative is ready, well structured and compliant with privacy and governance requirements
+        - Evaluate the risks and technical fit of AI tools and models before they are adopted
+        - Document solutions and support the teams that adopt them
+      pt-br:
+        - Projetar e desenvolver soluções de IA com RAG e LLMs, incluindo agentes com skills, tools e tool calling, e as práticas de LLMOps para operá-las
+        - Analisar processos e requisitos institucionais com as equipes envolvidas e traduzi-los em desenhos de soluções de IA
+        - Conduzir iniciativas de IA da prova de conceito à avaliação, incluindo prompts, fluxos, fontes de conhecimento e critérios de avaliação
+        - Verificar se os dados de cada iniciativa estão prontos, bem estruturados e de acordo com requisitos de privacidade e governança
+        - Avaliar riscos e adequação técnica de ferramentas e modelos de IA antes da adoção
+        - Documentar as soluções e apoiar as equipes que as adotam
+
+summary:
+  en-us: >-
+    AI software development at the FAI.UFSCar Superintendence: exploring, evaluating and applying
+    artificial intelligence to institutional workflows.
+  pt-br: >-
+    Desenvolvimento de software de IA na Superintendência da FAI.UFSCar: explorar, avaliar e
+    aplicar inteligência artificial aos fluxos de trabalho institucionais.
+
+responsibilities:
+  en-us:
+    - Research and evaluate AI tools and technologies for potential institutional adoption
+    - Develop proofs of concept and internal tools using Python, FastAPI, RAG and modern LLM tooling
+    - Support the organization, structuring and preprocessing of data for AI-related initiatives
+    - Identify opportunities to apply AI across internal processes, reducing repetitive work and improving operational efficiency
+    - Study technical, privacy and governance constraints related to the use of AI in institutional environments
+    - Contribute to process modernization through applied AI, technical experimentation, documentation and iterative prototyping
+  pt-br:
+    - Pesquisar e avaliar ferramentas e tecnologias de IA para possível adoção institucional
+    - Desenvolver provas de conceito e ferramentas internas com Python, FastAPI, RAG e ferramentas modernas de LLM
+    - Apoiar a organização, a estruturação e o pré-processamento de dados para iniciativas de IA
+    - Identificar oportunidades de aplicar IA nos processos internos, reduzindo trabalho repetitivo e melhorando a eficiência operacional
+    - Estudar restrições técnicas, de privacidade e de governança no uso de IA em ambientes institucionais
+    - Contribuir para a modernização de processos com IA aplicada, experimentação técnica, documentação e prototipação iterativa
+
+technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
+skills: [ai-systems, api-development, automation, technical-documentation, software-development]

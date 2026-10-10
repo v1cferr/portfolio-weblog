@@ -1,0 +1,24 @@
+id: portfolio-weblog
+title: Personal Hub (v1cferr.dev)
+repository: v1cferr/portfolio-weblog
+state: active
+category: personal
+featured: true
+summary:
+  en-us: >-
+    This site: a long-lived personal hub for career history, projects, studies and an engineering
+    journal, with all content versioned in Git.
+  pt-br: >-
+    Este site: um personal hub de longo prazo para trajetória profissional, projetos, estudos e
+    um diário de engenharia, com todo o conteúdo versionado em Git.
+problem:
+  en-us: >-
+    A portfolio that hard-codes its data in components has to be rebuilt every time a career
+    changes. Here structured content is the source of truth and the site is only one view of it.
+  pt-br: >-
+    Um portfólio com dados presos aos componentes precisa ser refeito a cada mudança de carreira.
+    Aqui o conteúdo estruturado é a fonte da verdade e o site é só uma representação dele.
+links:
+  - { label: v1cferr.dev, url: "https://v1cferr.dev", kind: website }
+technologies: [nextjs, react, typescript, tailwindcss, nix, vercel, github-actions]
+skills: [web-development]

@@ -1,0 +1,186 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+@source "../../../../apps/web/src/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+/*
+ * Personal Hub design tokens.
+ *
+ * Palette: cool porcelain paper and blue-black ink, so long text reads calmly
+ * in both themes. Colour is reserved for meaning: each kind of entry in the
+ * hub (career, project, study, writing) owns one "lane" colour, used the same
+ * way in timelines, badges and links.
+ *
+ *   paper   #F4F6F7 / #0E1418     ink      #15212B / #E2E8ED
+ *   muted   #5A6975 / #93A2AD     rule     #D9DFE3 / #24313A
+ *   career  #2E6E5C / #67B9A0     project  #3C5A9C / #8FA8E3
+ *   study   #94661C / #D8AE63     writing  #8C3A59 / #DB8AAA
+ *
+ * Type: Bricolage Grotesque for display (headings only), IBM Plex Sans for
+ * interface and body, IBM Plex Mono for dates, ids and paths, IBM Plex Serif
+ * for long-form articles. The faces are loaded by the app with next/font and
+ * exposed as --font-display, --font-sans, --font-mono and --font-serif.
+ */
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-lane-career: var(--lane-career);
+  --color-lane-project: var(--lane-project);
+  --color-lane-study: var(--lane-study);
+  --color-lane-writing: var(--lane-writing);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  --radius: 0.375rem;
+
+  --background: #f4f6f7;
+  --foreground: #15212b;
+  --card: #fbfcfc;
+  --card-foreground: #15212b;
+  --popover: #fbfcfc;
+  --popover-foreground: #15212b;
+  --primary: #15212b;
+  --primary-foreground: #f4f6f7;
+  --secondary: #e7ecef;
+  --secondary-foreground: #15212b;
+  --muted: #e7ecef;
+  --muted-foreground: #5a6975;
+  --accent: #e2e9ec;
+  --accent-foreground: #15212b;
+  --destructive: #b3261e;
+  --border: #d9dfe3;
+  --input: #cfd7dc;
+  --ring: #3c5a9c;
+
+  --lane-career: #2e6e5c;
+  --lane-project: #3c5a9c;
+  --lane-study: #94661c;
+  --lane-writing: #8c3a59;
+}
+
+.dark {
+  --background: #0e1418;
+  --foreground: #e2e8ed;
+  --card: #131b21;
+  --card-foreground: #e2e8ed;
+  --popover: #131b21;
+  --popover-foreground: #e2e8ed;
+  --primary: #e2e8ed;
+  --primary-foreground: #0e1418;
+  --secondary: #1b252c;
+  --secondary-foreground: #e2e8ed;
+  --muted: #1b252c;
+  --muted-foreground: #93a2ad;
+  --accent: #1f2b33;
+  --accent-foreground: #e2e8ed;
+  --destructive: #f2867e;
+  --border: #24313a;
+  --input: #2c3a44;
+  --ring: #8fa8e3;
+
+  --lane-career: #67b9a0;
+  --lane-project: #8fa8e3;
+  --lane-study: #d8ae63;
+  --lane-writing: #db8aaa;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "ss02";
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/*
+ * Long-form articles: Plex Serif at a comfortable measure, colours from the
+ * tokens so both themes stay consistent, code blocks themed by Shiki.
+ */
+@layer components {
+  .prose-hub {
+    @apply prose max-w-[68ch] font-serif text-[1.075rem] leading-[1.75] dark:prose-invert;
+    --tw-prose-body: var(--foreground);
+    --tw-prose-headings: var(--foreground);
+    --tw-prose-links: var(--lane-writing);
+    --tw-prose-bold: var(--foreground);
+    --tw-prose-quotes: var(--muted-foreground);
+    --tw-prose-code: var(--foreground);
+    --tw-prose-hr: var(--border);
+    --tw-prose-bullets: var(--lane-writing);
+    --tw-prose-counters: var(--muted-foreground);
+    --tw-prose-invert-body: var(--foreground);
+    --tw-prose-invert-headings: var(--foreground);
+    --tw-prose-invert-links: var(--lane-writing);
+    --tw-prose-invert-bold: var(--foreground);
+    --tw-prose-invert-code: var(--foreground);
+  }
+  .prose-hub :where(h2, h3, h4) {
+    @apply font-display tracking-tight;
+  }
+  .prose-hub .heading-anchor {
+    color: inherit;
+    @apply no-underline hover:underline hover:decoration-lane-writing hover:underline-offset-4;
+  }
+  .prose-hub :where(code):not(pre code) {
+    @apply rounded bg-muted px-1 py-0.5 font-mono text-[0.85em] font-normal before:content-none after:content-none;
+  }
+  .prose-hub pre {
+    @apply rounded-lg border bg-card font-mono text-sm leading-relaxed;
+  }
+  .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-light);
+  }
+  .dark .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-dark);
+  }
+}
