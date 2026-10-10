@@ -13,6 +13,7 @@
     "eslint.config.js",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "e2e/**/*.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
