@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { loadContent, loadRegistry, validateContent } from "../src";
+import { loadContent, loadRegistry, parseFrontmatter, validateContent } from "../src";
 import { experience, makeContent, post, project } from "./fixture";
 
 function check(files: Record<string, unknown>) {
@@ -115,6 +115,18 @@ describe("dates", () => {
   it("requires publishedAt on published posts", () => {
     const result = check({ "weblog/hello/en-us.mdx": post({ title: "Hi", summary: "S", status: "published", category: "journal" }) });
     expect(result.errors.join()).toContain("a published post needs publishedAt");
+  });
+});
+
+describe("frontmatter", () => {
+  it("rejects a post without a frontmatter block", () => {
+    expect(check({ "weblog/bare/en-us.mdx": "# Just a body\n" }).errors.join()).toContain("missing frontmatter");
+  });
+
+  it("accepts CRLF line endings and keeps the body intact", () => {
+    const { data, content } = parseFrontmatter("---\r\ntitle: Hi\r\npublishedAt: 2026-10-01\r\n---\r\nBody --- with dashes\n");
+    expect(data).toEqual({ title: "Hi", publishedAt: "2026-10-01" });
+    expect(content).toBe("Body --- with dashes\n");
   });
 });
 

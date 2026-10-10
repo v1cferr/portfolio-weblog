@@ -1,7 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
-import matter from "gray-matter";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 
@@ -51,6 +50,17 @@ export interface RawContent {
 export interface LoadResult {
   content: RawContent;
   issues: ContentIssue[];
+}
+
+/**
+ * Splits `---\n<yaml>\n---\n<body>`. Frontmatter is parsed with the same YAML
+ * 1.2 parser as the .yaml files, so dates stay strings and nothing else
+ * (gray-matter pulled in js-yaml and its CLI dependencies) is needed.
+ */
+export function parseFrontmatter(source: string): { data: unknown; content: string } {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(source);
+  if (match === null) throw new Error("missing frontmatter (the file must start with a --- block)");
+  return { data: parseYaml(match[1] ?? "") as unknown, content: match[2] ?? "" };
 }
 
 function formatZodError(error: z.ZodError): string {
@@ -134,11 +144,9 @@ export function loadContent(root: string): LoadResult {
           issues.push({ file: rel(file), message: `file name must be a locale (${LOCALES.join(", ")})` });
           continue;
         }
-        let parsed: matter.GrayMatterFile<string>;
+        let parsed: { data: unknown; content: string };
         try {
-          // Same YAML 1.2 parser as the .yaml files: js-yaml (gray-matter's
-          // default) turns unquoted dates into Date objects.
-          parsed = matter(readFileSync(file, "utf8"), { engines: { yaml: (source) => parseYaml(source) as object } });
+          parsed = parseFrontmatter(readFileSync(file, "utf8"));
         } catch (error) {
           issues.push({ file: rel(file), message: `invalid frontmatter: ${(error as Error).message}` });
           continue;

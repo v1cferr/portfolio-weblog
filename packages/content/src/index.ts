@@ -1,6 +1,6 @@
 export * from "./dates";
 export * from "./loaders/errors";
-export { findContentRoot, loadContent, type PostSource, type RawContent } from "./loaders/load";
+export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type RawContent } from "./loaders/load";
 export * from "./locale";
 export type { EntityRef, EntityType } from "./relations/graph";
 export { validateContent, type ValidationResult } from "./relations/validate";
