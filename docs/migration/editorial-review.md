@@ -6,15 +6,20 @@ noted as "published".
 
 ## Facts that are missing (content in `review`, not rendered)
 
-- `content/experiences/fai-ufscar-ai-systems.yaml`: official title, start date,
-  summary, responsibilities. The GitHub bio says "AI Systems Analyst"; nothing
-  else is recorded.
 - `content/experiences/freelance-2024.yaml`: the v1 "Software-AI Developer,
   Freelance, Apr 2024 – present" entry. Confirm it, describe it, or delete it.
 - Undergraduate degree: v1's menu mentions "Graduação em GTI" with no
   institution or dates, so no education entry exists for it yet.
 - Start dates and completion of the ONE program and the New Rizon bootcamp
   (published without dates).
+
+## Published with partial information
+
+- `content/experiences/fai-ufscar-2026.yaml` (published 2026-10-10 from the
+  author's LinkedIn entry): the role description was cut off in the screenshot,
+  so responsibilities, contributions and learnings are empty, and only the
+  AI/LLM skill is linked. Paste the full description and the "+10 skills" to
+  complete it.
 
 ## Claims kept out of public pages (`pendingReview` fields)
 

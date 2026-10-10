@@ -1,4 +1,4 @@
-# Sources: positioning from Jira PWL-96, trajectory from PWL-101, links from
+# Sources: headline from the current role (LinkedIn, GitHub bio), positioning from Jira PWL-96, trajectory from PWL-101, links from
 # v1 src/data/SocialLinksData.ts and PWL-25 comments. The phone number and the
 # birth date that v1 published are intentionally not migrated.
 id: victor-ferreira
@@ -8,8 +8,8 @@ location: São Carlos, SP, Brazil
 photo: /images/profile.jpg
 
 headline:
-  en-us: AI software developer
-  pt-br: AI Software Developer
+  en-us: AI systems analyst
+  pt-br: Analista de sistemas de IA
 
 summary:
   en-us: >-
@@ -93,4 +93,4 @@ trajectory:
   - label: { en-us: Software engineering, pt-br: Engenharia de software }
     ref: xmart-solutions-2024
   - label: { en-us: AI systems, pt-br: Sistemas de IA }
-    ref: obsidian-rag
+    ref: fai-ufscar-2026

@@ -1,0 +1,42 @@
+# Source: the author's LinkedIn experience entry, shared on 2026-10-10
+# (positions, employment types, dates, location and work mode). The entry's
+# description was cut off in the screenshot, so only its visible part is used.
+id: fai-ufscar-2026
+organization: fai-ufscar
+location: São Carlos, SP, Brazil
+workMode: on-site
+positions:
+  - title:
+      en-us: AI software developer intern, Superintendence
+      pt-br: Estagiário de desenvolvimento de software de IA, Superintendência
+    employmentType: internship
+    start: 2026-03
+    end: 2026-07
+  - title: { en-us: AI software developer, pt-br: Desenvolvedor de software de IA }
+    employmentType: full-time
+    start: 2026-07
+    end: 2026-08
+  - title: { en-us: AI systems analyst, pt-br: Analista de sistemas de IA }
+    employmentType: full-time
+    start: 2026-08
+
+summary:
+  en-us: >-
+    AI software development at the FAI.UFSCar Superintendence: exploring, evaluating and applying
+    AI in its initiatives.
+  pt-br: >-
+    Desenvolvimento de software de IA na Superintendência da FAI.UFSCar: explorar, avaliar e
+    aplicar IA nas suas iniciativas.
+
+skills: [ai-systems]
+
+pendingReview:
+  - claim: Full description of the role
+    source: LinkedIn experience entry
+    note: >-
+      the screenshot shows only "Working at the FAI.UFSCar Superintendence on AI software
+      development initiatives focused on exploring, evaluating, and applying…"; paste the rest
+      to fill responsibilities, contributions and learnings
+  - claim: Skills listed on LinkedIn beyond "Artificial Intelligence (AI)" and "Large Language Models (LLM)"
+    source: LinkedIn experience entry ("+10 skills")
+    note: list them to link technologies
