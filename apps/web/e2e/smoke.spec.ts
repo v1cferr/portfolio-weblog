@@ -96,6 +96,45 @@ test.describe("languages", () => {
   });
 });
 
+test.describe("keyboard", () => {
+  test("the first Tab reaches the skip link, which moves focus to the content", async ({ page }) => {
+    await page.goto("/en-us/career");
+    await page.keyboard.press("Tab");
+    const skip = page.getByRole("link", { name: "Skip to content" });
+    await expect(skip).toBeFocused();
+    await expect(skip).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/#content$/);
+    await page.keyboard.press("Tab");
+    const inMain = await page.evaluate(() => document.querySelector("main")?.contains(document.activeElement) ?? false);
+    expect(inMain).toBe(true);
+  });
+
+  test("search opens with / and closes with Escape", async ({ page }) => {
+    await page.goto("/en-us/projects");
+    await page.locator("body").click({ position: { x: 5, y: 300 } });
+    await page.keyboard.press("/");
+    const input = page.getByPlaceholder(/Search experiences/);
+    await expect(input).toBeFocused();
+    await page.keyboard.type("nixos");
+    await expect(page.getByRole("option").first()).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(input).toBeHidden();
+  });
+
+  test("the mobile menu works without a mouse", async ({ page }) => {
+    test.skip(!isMobile(page), "mobile only");
+    await page.goto("/en-us");
+    await page.getByRole("button", { name: "Open menu" }).focus();
+    await page.keyboard.press("Enter");
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();
+  });
+});
+
 test.describe("interactions", () => {
   test("primary navigation reaches the career page", async ({ page }) => {
     await page.goto("/en-us");
