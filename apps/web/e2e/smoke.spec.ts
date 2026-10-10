@@ -7,6 +7,7 @@ const PAGES = [
   "/en-us/career",
   "/en-us/career/xmart-solutions-2024",
   "/en-us/career/fai-ufscar-2026",
+  "/en-us/career/freelance-2024",
   "/en-us/projects",
   "/en-us/projects/obsidian-rag",
   "/en-us/timeline",
@@ -59,7 +60,7 @@ test.describe("accessibility", () => {
 });
 
 test.describe("visibility rules", () => {
-  for (const path of ["/en-us/career/freelance-2024", "/en-us/weblog/openwrt-home-network", "/en-us/does-not-exist"]) {
+  for (const path of ["/en-us/weblog/openwrt-home-network", "/en-us/does-not-exist"]) {
     test(`${path} is not found`, async ({ page }) => {
       const response = await page.goto(path);
       expect(response?.status()).toBe(404);

@@ -31,12 +31,10 @@
   url: https://www.fai.ufscar.br/
   location: São Carlos, SP, Brazil
 
-# The v1 site listed a freelance role with no client or evidence; kept for
-# review only (see docs/migration/editorial-review.md).
+# Independent work; confirmed by the author on 2026-10-10.
 - id: independent
   name: Freelance
   kind: self-employed
-  status: review
 
 - id: alura
   name: Alura

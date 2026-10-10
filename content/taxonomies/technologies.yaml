@@ -57,6 +57,9 @@
 - { id: ollama, name: Ollama, category: ai, url: "https://ollama.com/" }
 - { id: lightrag, name: LightRAG, category: ai }
 - { id: rag, name: Retrieval-augmented generation (RAG), category: practice }
+- { id: llm, name: Large language models (LLMs), category: ai }
+- { id: local-llms, name: Local LLMs, category: ai }
+- { id: prompt-engineering, name: Prompt engineering, category: practice }
 
 # Practices
 - { id: scrumban, name: Scrumban, category: practice }

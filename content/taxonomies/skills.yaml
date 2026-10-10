@@ -30,4 +30,17 @@
 
 - id: ai-systems
   name: { en-us: AI systems and LLM integration, pt-br: Sistemas de IA e integração com LLMs }
-  technologies: [rag, ollama, python]
+  technologies: [rag, llm, local-llms, prompt-engineering, ollama, python]
+
+- id: automation
+  name: { en-us: Workflow and process automation, pt-br: Automação de fluxos e processos }
+
+- id: api-development
+  name: { en-us: API development, pt-br: Desenvolvimento de APIs }
+  technologies: [fastapi, python]
+
+- id: technical-documentation
+  name: { en-us: Technical documentation, pt-br: Documentação técnica }
+
+- id: software-development
+  name: { en-us: Software development, pt-br: Desenvolvimento de software }
