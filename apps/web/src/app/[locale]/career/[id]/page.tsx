@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 
 import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { MediaGallery } from "@/components/media-gallery";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -140,6 +141,10 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
       </header>
 
       {fallback !== undefined && <FallbackNotice requested={locale} actual={fallback.locale} />}
+
+      <div className="mb-10">
+        <MediaGallery media={experience.media} placeholder={experience.mediaPlaceholder} />
+      </div>
 
       <div className="space-y-10">
         {context && (

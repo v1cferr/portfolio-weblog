@@ -26,6 +26,10 @@ or misspelled field fails validation instead of being silently dropped.
   [visibility](visibility.md)).
 - Localized text: `{ en-us?, pt-br?, zh-cn? }`, at least one locale. Lists use
   the same shape with arrays.
+- Media (experiences, projects, studies): `media: [{ src, alt, caption? }]` with
+  `src` under `apps/web/public`, plus `mediaPlaceholder: false` to opt out of
+  the "photos coming" space (switched site-wide in
+  `apps/web/src/config/site.ts`). See [add photos](../guides/add-media.md).
 - Dates: `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Unquoted values are fine; use only
   the precision you actually know.
 
@@ -43,9 +47,10 @@ Declared on one side and indexed in both directions by the registry:
 | Skill         | `technologies`                                       | Technology                               |
 | Profile       | `trajectory[].ref`                                   | any entity                               |
 
-`pnpm content:check` fails on: schema errors, duplicate ids, id/file-name
-mismatch, references to missing entities or to the wrong type, end dates before
-start dates, published experiences without start dates, published posts without
+`pnpm content:check` fails on: images that are missing or still carry
+EXIF/XMP/IPTC metadata, schema errors, duplicate ids, id/file-name mismatch,
+references to missing entities or to the wrong type, end dates before start
+dates, published experiences without start dates, published posts without
 `publishedAt`, translations that disagree on visibility, and public content
 referencing private content. References from public content to entries still in
 review only warn; the registry hides them.

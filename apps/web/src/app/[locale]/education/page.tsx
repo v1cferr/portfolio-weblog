@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { DateRange, PartialDate } from "@/components/date-range";
+import { MediaGallery } from "@/components/media-gallery";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -97,6 +98,7 @@ export default async function EducationPage() {
                         </ul>
                       </div>
                     )}
+                    <MediaGallery media={item.media} placeholder={item.mediaPlaceholder} compact />
                     <TechList ids={item.technologies} label={common("technologies")} />
                     <SourceLink file={content.getSourceFile(item.id)} />
                   </CardContent>

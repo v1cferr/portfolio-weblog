@@ -2,6 +2,7 @@ export * from "./dates";
 export * from "./loaders/errors";
 export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type RawContent } from "./loaders/load";
 export * from "./locale";
+export { checkMedia, collectMedia, type MediaReference } from "./media";
 export type { EntityRef, EntityType } from "./relations/graph";
 export { validateContent, type ValidationResult } from "./relations/validate";
 export * from "./registry/registry";

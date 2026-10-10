@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText, PartialDate } from "./common";
+import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate } from "./common";
 
 /**
  * Editorial lifecycle of a project, set by hand. A quiet repository does not
@@ -39,5 +39,6 @@ export const Project = z.strictObject({
   skills: z.array(Id).default([]),
   experiences: z.array(Id).default([]),
   collaborators: z.array(z.strictObject({ name: z.string().min(1), url: z.url().optional() })).default([]),
+  ...mediaFields,
 });
 export type Project = z.infer<typeof Project>;

@@ -93,6 +93,14 @@ test.describe("languages", () => {
   });
 });
 
+test.describe("media", () => {
+  test("entries without photos show the reserved space", async ({ page }) => {
+    await page.goto("/en-us/career/fai-ufscar-2026");
+    await expect(page.getByTestId("media-placeholder")).toBeVisible();
+    await expect(page.getByTestId("media-placeholder")).toContainText("Photos for this entry will be added soon.");
+  });
+});
+
 test.describe("keyboard", () => {
   test("the first Tab reaches the skip link, which moves focus to the content", async ({ page }) => {
     await page.goto("/en-us/career");

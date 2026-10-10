@@ -91,6 +91,7 @@ export function collectEdges(content: RawContent): Edge[] {
     const from = { type: "education", id: value.id } as const;
     link(from, "institution", "organization", [value.institution], file);
     link(from, "technologies", "technology", value.technologies, file);
+    link(from, "skills", "skill", value.skills, file);
     link(from, "projects", "project", value.projects, file);
   }
   for (const { value, file } of content.certifications) {

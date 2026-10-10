@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { MediaGallery } from "@/components/media-gallery";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -107,6 +108,10 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
           </header>
 
           {fallback !== undefined && <FallbackNotice requested={locale} actual={fallback.locale} />}
+
+          <div className="mb-10">
+            <MediaGallery media={project.media} placeholder={project.mediaPlaceholder} />
+          </div>
 
           <div className="space-y-10">
             {problem && (

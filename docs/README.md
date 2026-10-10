@@ -9,7 +9,7 @@
 - Guides: [add an experience](guides/add-experience.md) ·
   [add a project](guides/add-project.md) ·
   [publish an article](guides/publish-post.md) ·
-  [deploy and preview](guides/deploy.md)
+  [add photos](guides/add-media.md) · [deploy and preview](guides/deploy.md)
 - [Decisions (ADRs)](decisions/README.md)
 - [Migration from v1](migration/README.md) · [inventory](migration/inventory.md)
   · [editorial review](migration/editorial-review.md)

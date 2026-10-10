@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText, PartialDate } from "./common";
+import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate } from "./common";
 
 export const Education = z.strictObject({
   ...entityBase,
@@ -15,8 +15,10 @@ export const Education = z.strictObject({
   summary: LocalizedText.optional(),
   learnings: LocalizedList.default({}),
   technologies: z.array(Id).default([]),
+  skills: z.array(Id).default([]),
   projects: z.array(Id).default([]),
   evidence: z.array(Link).default([]),
+  ...mediaFields,
 });
 export type Education = z.infer<typeof Education>;
 

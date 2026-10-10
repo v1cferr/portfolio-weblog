@@ -236,5 +236,9 @@
     "builtFrom": "Feito a partir de conteúdo simples em Git.",
     "repository": "Código-fonte",
     "rss": "RSS"
+  },
+  "Media": {
+    "label": "Fotos",
+    "placeholder": "As fotos desta entrada serão adicionadas em breve."
   }
 }

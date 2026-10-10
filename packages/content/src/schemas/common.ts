@@ -78,3 +78,24 @@ export const entityBase = {
   visibility: Visibility.default("public"),
   pendingReview: z.array(PendingReview).default([]),
 };
+
+/**
+ * An image shown with an entity. Files live under apps/web/public and must be
+ * stripped of EXIF metadata (pnpm media:add does it; content:check enforces it).
+ */
+export const Media = z.strictObject({
+  src: z.string().regex(/^\/[\w./-]+\.(?:jpe?g|png|webp|avif)$/i, "src is a path under apps/web/public to a jpg, png, webp or avif file"),
+  alt: LocalizedText,
+  caption: LocalizedText.optional(),
+});
+export type Media = z.infer<typeof Media>;
+
+/**
+ * Media fields shared by entities that can show images: the images, and an
+ * opt-out from the site's "photos coming" placeholder for entities that will
+ * never have any.
+ */
+export const mediaFields = {
+  media: z.array(Media).default([]),
+  mediaPlaceholder: z.boolean().default(true),
+};

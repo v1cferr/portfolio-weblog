@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "media:add": "pnpm --filter @workspace/content media:add"
   },
   "devDependencies": {
     "husky": "^9.1.7",

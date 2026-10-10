@@ -122,7 +122,7 @@ export function createRegistry(
         a.title.localeCompare(b.title)
     );
   const education = pick(content.education)
-    .map((item) => ({ ...item, technologies: keep(item.technologies), projects: keep(item.projects) }))
+    .map((item) => ({ ...item, technologies: keep(item.technologies), skills: keep(item.skills), projects: keep(item.projects) }))
     .sort((a, b) => compareDesc(a.start ?? "0000", b.start ?? "0000"));
   const certifications = pick(content.certifications)
     .map((cert) => ({ ...cert, technologies: keep(cert.technologies) }))

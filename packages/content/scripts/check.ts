@@ -3,12 +3,17 @@
  * references, date order, and the public/private boundary. Exits non-zero on
  * any error; warnings are printed but do not fail the build.
  */
-import { createRegistry, findContentRoot, formatIssues, loadContent, validateContent } from "../src";
+import path from "node:path";
+
+import sharp from "sharp";
+
+import { checkMedia, createRegistry, findContentRoot, formatIssues, loadContent, validateContent } from "../src";
 
 const root = findContentRoot();
 const { content, issues } = loadContent(root);
 const { errors, warnings } = validateContent(content);
-const all = [...issues, ...errors];
+const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web", "public"), (file) => sharp(file).metadata());
+const all = [...issues, ...errors, ...mediaIssues];
 
 if (warnings.length > 0) console.warn(`Warnings (${warnings.length}):\n${formatIssues(warnings)}\n`);
 

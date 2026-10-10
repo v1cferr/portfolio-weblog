@@ -21,7 +21,10 @@ publishable.
    namespaces they need.
 8. Not migrated from v1 on purpose: phone number, birth date, geotagged photos,
    family photos, names of colleagues, private repositories.
-9. Preview deployments answer `robots.txt` with `Disallow: /`.
+9. Images referenced by content must carry no EXIF, XMP or IPTC metadata (GPS,
+   device, time); `pnpm content:check` fails otherwise and `pnpm media:add`
+   prepares them.
+10. Preview deployments answer `robots.txt` with `Disallow: /`.
 
 Tests cover rules 1–4 (`packages/content`), 2 for search (`packages/search`), 6
 (`packages/github`) and the 404s for hidden entries (`apps/web/e2e`).
