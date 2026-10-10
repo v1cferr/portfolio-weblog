@@ -19,14 +19,17 @@ import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 
-const fontDisplay = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600", "700"] });
-const fontSans = IBM_Plex_Sans({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600"] });
+// Only the weights the design uses. The serif is for articles and the About
+// page, so it is not preloaded on every page.
+const fontDisplay = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600"] });
+const fontSans = IBM_Plex_Sans({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500"] });
 const fontMono = IBM_Plex_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
 const fontSerif = IBM_Plex_Serif({
   subsets: ["latin"],
   variable: "--font-serif",
-  weight: ["400", "500", "600"],
+  weight: ["400", "600"],
   style: ["normal", "italic"],
+  preload: false,
 });
 
 /** Namespaces read by client components; everything else stays on the server. */
