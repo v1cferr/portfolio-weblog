@@ -12,3 +12,4 @@ so.
 | [0004](0004-drop-supabase-and-personal-integrations.md) | Supabase and personal integrations stay in v1    | Accepted |
 | [0005](0005-toolchain-versions.md)                      | TypeScript 6.0 and ESLint 10                     | Accepted |
 | [0006](0006-local-search-before-ai.md)                  | Local text search before any AI layer            | Accepted |
+| [0007](0007-visual-system.md)                           | Tokyo Night, clear glass, lane backdrop          | Accepted |

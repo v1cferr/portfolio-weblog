@@ -14,6 +14,7 @@ import type { ReactNode } from "react";
 import { SiteLanguageNotice } from "@/components/fallback-notice";
 import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
+import { Backdrop } from "@/components/backdrop";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
@@ -82,10 +83,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SESSION_SCRIPT }} />
       </head>
-      <body className="flex min-h-dvh flex-col">
+      <body className="relative isolate flex min-h-dvh flex-col">
         <ThemeProvider>
           <NextIntlClientProvider messages={clientMessages}>
             <TooltipProvider>
+              <Backdrop />
               <SiteHeader />
               <SiteLanguageNotice locale={locale} />
               <main id="content" className="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 sm:px-6 md:pt-16">
