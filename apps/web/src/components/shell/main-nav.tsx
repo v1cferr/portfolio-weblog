@@ -32,7 +32,7 @@ export function MainNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-                  active && "bg-accent text-foreground"
+                  active && "bg-accent text-accent-foreground"
                 )}
               >
                 <item.icon aria-hidden className="size-4" />

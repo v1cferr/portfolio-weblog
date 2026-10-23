@@ -37,7 +37,7 @@ export async function RelatedContent({ id }: { id: string }) {
             <li key={entity.id}>
               <Link
                 href={entity.href}
-                className="group flex h-full flex-col gap-1 rounded-lg border bg-card p-4 transition-colors hover:border-foreground/30"
+                className="group flex h-full flex-col gap-1 glass rounded-xl border p-4 transition-colors hover:border-foreground/30"
               >
                 <span className="flex items-center gap-2 font-mono text-[0.7rem] tracking-wide text-muted-foreground uppercase">
                   <LaneIcon lane={lane} />

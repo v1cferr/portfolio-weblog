@@ -13,7 +13,10 @@ import { describeEntity } from "@/lib/entities";
 export async function Trajectory({ steps, label }: { steps: Profile["trajectory"]; label: string }) {
   const locale = await getLocale();
   return (
-    <ol aria-label={label} className="grid gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-5">
+    <ol
+      aria-label={label}
+      className="glass grid overflow-hidden rounded-xl border divide-y divide-border/60 sm:grid-cols-5 sm:divide-x sm:divide-y-0"
+    >
       {steps.map((step, index) => {
         const entity = step.ref !== undefined ? describeEntity(step.ref, locale) : undefined;
         const lane = entity !== undefined && entity.type in laneOf ? laneOf[entity.type as keyof typeof laneOf] : "career";
@@ -28,7 +31,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
           </>
         );
         return (
-          <li key={index} className="bg-card">
+          <li key={index}>
             {entity?.href !== undefined ? (
               <Link href={entity.href} className="flex h-full flex-col gap-2 p-4 transition-colors hover:bg-accent">
                 {body}

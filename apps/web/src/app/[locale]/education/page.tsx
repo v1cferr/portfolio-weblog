@@ -41,7 +41,7 @@ export default async function EducationPage() {
             const title = localize(item.title, locale);
             return (
               <li key={item.id} id={item.id} className="scroll-mt-24">
-                <Card className="h-full gap-4 py-5">
+                <Card variant="glass" className="h-full gap-4 py-5">
                   <CardHeader className="flex flex-row items-start gap-3 px-5">
                     {institution !== undefined && <OrganizationMark organization={institution} />}
                     <div className="min-w-0 space-y-1">

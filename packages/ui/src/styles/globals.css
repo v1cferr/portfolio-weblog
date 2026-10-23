@@ -10,15 +10,28 @@
 /*
  * Personal Hub design tokens.
  *
- * Palette: cool porcelain paper and blue-black ink, so long text reads calmly
- * in both themes. Colour is reserved for meaning: each kind of entry in the
- * hub (career, project, study, writing) owns one "lane" colour, used the same
- * way in timelines, badges and links.
+ * Palette: Tokyo Night, the palette of the owner's desktop (dotfiles
+ * modules/home/desktop/palette.nix), as Night for dark and Day for light,
+ * chosen on 2026-10-23 from a side-by-side bake-off. Day's text, subtext and
+ * lane colours are darkened just enough to reach 4.5:1 on the page and on
+ * clear glass; Night's originals already pass. One accent, the vermilion of a
+ * hanko seal (#c4342c, as on the owner's lockscreen), marks the brand and is
+ * kept off small text in dark mode, where it sits under 4.5:1.
  *
- *   paper   #F4F6F7 / #0E1418     ink      #15212B / #E2E8ED
- *   muted   #5A6975 / #93A2AD     rule     #D9DFE3 / #24313A
- *   career  #2E6E5C / #67B9A0     project  #3C5A9C / #8FA8E3
- *   study   #94661C / #D8AE63     writing  #8C3A59 / #DB8AAA
+ * Colour is reserved for meaning: each kind of entry (career, project, study,
+ * writing) owns one lane colour, used the same way in the timeline, badges,
+ * links and the background lanes.
+ *
+ *           Day (light)   Night (dark)
+ *   page    #e1e2e7       #1a1b26        text     #355cb7 / #c0caf5
+ *   subtext #526196       #a9b1d6        border   #c4c8da / #3b4261
+ *   career  #0c6d5b       #73daca        project  #2362b6 / #7aa2f7
+ *   study   #775c36       #e0af68        writing  #7c45c4 / #bb9af7
+ *
+ * Glass: clear, like the lockscreen's LiquidGlass (the owner's pick): a light
+ * translucent tint, backdrop blur, a 1 px light hairline, a top sheen and a
+ * soft shadow. Without backdrop-filter, or with reduced transparency, surfaces
+ * fall back to an opaque card.
  *
  * Type: Manrope for everything that is read (headings, interface, articles)
  * and JetBrains Mono for dates, ids, paths and code. The app loads both with
@@ -51,6 +64,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  --color-brand: var(--brand);
   --color-lane-career: var(--lane-career);
   --color-lane-project: var(--lane-project);
   --color-lane-study: var(--lane-study);
@@ -66,55 +80,67 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #f4f6f7;
-  --foreground: #15212b;
-  --card: #fbfcfc;
-  --card-foreground: #15212b;
-  --popover: #fbfcfc;
-  --popover-foreground: #15212b;
-  --primary: #15212b;
-  --primary-foreground: #f4f6f7;
-  --secondary: #e7ecef;
-  --secondary-foreground: #15212b;
-  --muted: #e7ecef;
-  --muted-foreground: #5a6975;
-  --accent: #e2e9ec;
-  --accent-foreground: #15212b;
-  --destructive: #b3261e;
-  --border: #d9dfe3;
-  --input: #cfd7dc;
-  --ring: #3c5a9c;
+  --background: #e1e2e7;
+  --foreground: #355cb7;
+  --card: #eceef3;
+  --card-foreground: #355cb7;
+  --popover: #f0f1f5;
+  --popover-foreground: #355cb7;
+  --primary: #355cb7;
+  --primary-foreground: #f0f1f5;
+  --secondary: #d0d5e3;
+  --secondary-foreground: #2c4f9e;
+  --muted: #d0d5e3;
+  --muted-foreground: #526196;
+  --accent: #d0d5e3;
+  --accent-foreground: #2c4f9e;
+  --destructive: #c4243c;
+  --border: #c4c8da;
+  --input: #b4bad1;
+  --ring: #2362b6;
+  --brand: #c4342c;
 
-  --lane-career: #2e6e5c;
-  --lane-project: #3c5a9c;
-  --lane-study: #94661c;
-  --lane-writing: #8c3a59;
+  --lane-career: #0c6d5b;
+  --lane-project: #2362b6;
+  --lane-study: #775c36;
+  --lane-writing: #7c45c4;
+
+  --glass-tint: rgb(240 241 245 / 0.55);
+  --glass-border: rgb(255 255 255 / 0.65);
+  --glass-sheen: rgb(255 255 255 / 0.35);
+  --glass-shadow: 0 14px 36px rgb(55 96 191 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.7);
 }
 
 .dark {
-  --background: #0e1418;
-  --foreground: #e2e8ed;
-  --card: #131b21;
-  --card-foreground: #e2e8ed;
-  --popover: #131b21;
-  --popover-foreground: #e2e8ed;
-  --primary: #e2e8ed;
-  --primary-foreground: #0e1418;
-  --secondary: #1b252c;
-  --secondary-foreground: #e2e8ed;
-  --muted: #1b252c;
-  --muted-foreground: #93a2ad;
-  --accent: #1f2b33;
-  --accent-foreground: #e2e8ed;
-  --destructive: #f2867e;
-  --border: #24313a;
-  --input: #2c3a44;
-  --ring: #8fa8e3;
+  --background: #1a1b26;
+  --foreground: #c0caf5;
+  --card: #1f2335;
+  --card-foreground: #c0caf5;
+  --popover: #1f2335;
+  --popover-foreground: #c0caf5;
+  --primary: #c0caf5;
+  --primary-foreground: #1a1b26;
+  --secondary: #292e42;
+  --secondary-foreground: #c0caf5;
+  --muted: #292e42;
+  --muted-foreground: #a9b1d6;
+  --accent: #292e42;
+  --accent-foreground: #c0caf5;
+  --destructive: #f7768e;
+  --border: #3b4261;
+  --input: #414868;
+  --ring: #7aa2f7;
+  --brand: #c4342c;
 
-  --lane-career: #67b9a0;
-  --lane-project: #8fa8e3;
-  --lane-study: #d8ae63;
-  --lane-writing: #db8aaa;
+  --lane-career: #73daca;
+  --lane-project: #7aa2f7;
+  --lane-study: #e0af68;
+  --lane-writing: #bb9af7;
+
+  --glass-tint: rgb(26 27 38 / 0.42);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-sheen: rgb(255 255 255 / 0.07);
+  --glass-shadow: 0 14px 36px rgb(0 0 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.08);
 }
 
 @layer base {
@@ -137,6 +163,33 @@
     *::after {
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/*
+ * Clear glass surface (see the token notes at the top). backdrop-filter only
+ * blurs what is behind the element, so it needs the page backdrop to read.
+ */
+@layer components {
+  .glass {
+    background-color: var(--glass-tint);
+    background-image: linear-gradient(180deg, var(--glass-sheen), transparent 35%);
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(24px) saturate(1.35);
+    backdrop-filter: blur(24px) saturate(1.35);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background-color: var(--card);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background-color: var(--card);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
   }
 }
@@ -171,10 +224,10 @@
     @apply no-underline hover:underline hover:decoration-lane-writing hover:underline-offset-4;
   }
   .prose-hub :where(code):not(pre code) {
-    @apply rounded bg-muted px-1 py-0.5 font-mono text-[0.85em] font-normal before:content-none after:content-none;
+    @apply rounded bg-muted px-1 py-0.5 font-mono text-secondary-foreground text-[0.85em] font-normal before:content-none after:content-none;
   }
   .prose-hub pre {
-    @apply rounded-lg border bg-card font-mono text-sm leading-relaxed;
+    @apply rounded-lg border bg-white font-mono text-sm leading-relaxed dark:bg-popover;
   }
   .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
     color: var(--shiki-light);

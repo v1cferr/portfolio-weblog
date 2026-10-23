@@ -27,7 +27,7 @@ export async function MediaGallery({ media, placeholder, compact = false }: Medi
       <div
         data-testid="media-placeholder"
         className={cn(
-          "flex items-center gap-3 rounded-lg border border-dashed bg-muted/40 text-sm text-muted-foreground",
+          "flex items-center gap-3 rounded-lg border border-dashed bg-card/50 text-sm text-muted-foreground",
           compact ? "px-3 py-2.5" : "px-4 py-6"
         )}
       >
