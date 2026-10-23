@@ -208,3 +208,65 @@ groups:
             e roda com driver open-source (xe + Mesa).
         since: 2022-08
         until: 2026-07
+
+# Photo history from v1 (public/pictures/setup), re-encoded with pnpm media:add
+# so no metadata survives. The 2019-12-09 photo is left out (it shows a family
+# member), and the 2025-01-27 lock screen widgets (weather and traffic for the
+# home town) are blurred.
+photos:
+  - src: /setup/20250127.webp
+    date: 2025-01-27
+    alt:
+      en-us: "Desk with a World of Warcraft Alliance mousepad and the monitor's lock screen"
+      pt-br: "Mesa com mousepad da Aliança de World of Warcraft e a tela de bloqueio do monitor"
+    caption:
+      pt-br: "Troquei o Mousepad pelo da Alliance Azul bonitão (Redragon) e o gabinete pelo Sharkoon VS9 RGB Branco mesmo."
+  - src: /setup/20240530.webp
+    date: 2024-05-30
+    alt:
+      en-us: "White mechanical keyboard with a wrist rest in front of a monitor showing a sound wave wallpaper"
+      pt-br: "Teclado mecânico branco com apoio de pulso diante de um monitor com papel de parede de onda sonora"
+    caption:
+      pt-br: "Apenas mostrando o teclado com apoio de pulso e o Wallpaper do álbum 'AM' do Arctic Monkeys. Nenhuma outra peça."
+  - src: /setup/20231105.webp
+    date: 2023-11-05
+    alt:
+      en-us: "Two monitors on the desk with code on screen and the PC beside them"
+      pt-br: "Dois monitores na mesa com código na tela e o PC ao lado"
+    caption:
+      pt-br: "Tirei o gabinete e coloquei os dois monitores na mesa. Deixei o PC em cima de um apoio."
+  - src: /setup/20230928.webp
+    date: 2023-09-28
+    alt:
+      en-us: "New monitor, RGB keyboard and mouse on the desk"
+      pt-br: "Monitor, teclado RGB e mouse novos na mesa"
+    caption:
+      pt-br: "Monitor: 'LG UltraGear 27 144Hz 1ms', Teclado: 'Redragon Magic Wand Pro' e Mouse: 'Razer DeathAdder V2'. Todos novos."
+  - src: /setup/20230417.webp
+    date: 2023-04-17
+    alt:
+      en-us: "Red and black gaming chair next to the desk and the assembled PC"
+      pt-br: "Cadeira gamer vermelha e preta ao lado da mesa e do PC montado"
+    caption:
+      pt-br: "Já estava com o PC montado graças a ajuda do meu pai <3 (inicio de 2022 até meio de 2023). E Comprei a cadeira 'Mymax MX5'."
+  - src: /setup/20220308.webp
+    date: 2022-03-08
+    alt:
+      en-us: "Monitor with a soundbar below it, keyboard, headset and mouse"
+      pt-br: "Monitor com soundbar embaixo, teclado, headset e mouse"
+    caption:
+      pt-br: "Apenas a Soundbar 'Redragon Adiemus 6W RMS RGB USB 150Hz/20KHz Botão Touch' em baixo do monitor. O resto é o mesmo."
+  - src: /setup/20211102.webp
+    date: 2021-11-02
+    alt:
+      en-us: "Monitor, red-lit keyboard, headset and a large mousepad"
+      pt-br: "Monitor, teclado com luz vermelha, headset e um mousepad grande"
+    caption:
+      pt-br: 'Peguei o Headset ''Redragon Zeus 7.1 H510'', Monitor ''AOC 21.5" 22B1H'' e um Mousepad descente: ''Havit HV-MP830''.'
+  - src: /setup/20191117.webp
+    date: 2019-11-17
+    alt:
+      en-us: "Laptop on a desk with an external keyboard and mouse"
+      pt-br: "Notebook na mesa com teclado e mouse externos"
+    caption:
+      pt-br: "Eu estudando no notebook 'Acer Aspire 3 (A315-53-32U4)' . Teclado 'Redragon Kumara K552', Mouse 'Redragon Cobra M711' e um pad genérico."

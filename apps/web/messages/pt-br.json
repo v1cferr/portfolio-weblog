@@ -233,6 +233,7 @@
     "updated": "Atualizado em {date}",
     "since": "Desde {date}",
     "period": "{start} – {end}",
+    "photos": "O setup ao longo dos anos",
     "present": "atual"
   },
   "NotFound": {

@@ -37,6 +37,21 @@ describe("checkMedia", () => {
     expect(issues[0]?.message).toContain("still has EXIF/XMP/IPTC metadata");
   });
 
+  it("checks the setup's photo history too", async () => {
+    const { content } = loadContent(
+      makeContent({
+        "profile/setup.yaml": {
+          id: "setup",
+          updatedAt: "2026-07",
+          groups: [{ id: "desk", title: { "en-us": "Desk" }, items: [{ role: { "en-us": "Monitor" }, model: "LG" }] }],
+          photos: [{ src: "/setup/2025.webp", date: "2025-01-27", alt: { "en-us": "The desk" } }],
+        },
+      })
+    );
+    const issues = await checkMedia(content, publicDirWith("setup/2025.webp"), () => Promise.resolve({ exif: Buffer.from("GPS") }));
+    expect(issues[0]?.message).toContain("still has EXIF/XMP/IPTC metadata");
+  });
+
   it("requires alt text and an image path", () => {
     const { issues } = loadContent(makeContent({ "projects/hub.yaml": project({ media: [{ src: "/x.gif" }] }) }));
     expect(issues.map((issue) => issue.message).join()).toMatch(/alt.*|src is a path/);

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, LocalizedText, PartialDate } from "./common";
+import { entityBase, LocalizedText, Media, PartialDate } from "./common";
 
 export const SetupItem = z.strictObject({
   /** What the part is for, e.g. "Processor (CPU)". */
@@ -25,5 +25,7 @@ export const Setup = z.strictObject({
       })
     )
     .min(1),
+  /** The desk over the years, each photo dated; shown newest first. */
+  photos: z.array(Media.extend({ date: PartialDate })).default([]),
 });
 export type Setup = z.infer<typeof Setup>;

@@ -12,7 +12,9 @@ export interface MediaReference {
 /** Every image referenced by content, with the file that references it. */
 export function collectMedia(content: RawContent): MediaReference[] {
   const sources = [...content.experiences, ...content.projects, ...content.education];
-  return sources.flatMap(({ value, file }) => value.media.map((media) => ({ src: media.src, file })));
+  const media = sources.flatMap(({ value, file }) => value.media.map((item) => ({ src: item.src, file })));
+  const setup = content.setup;
+  return setup === undefined ? media : [...media, ...setup.value.photos.map((photo) => ({ src: photo.src, file: setup.file }))];
 }
 
 /**

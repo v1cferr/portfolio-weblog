@@ -233,6 +233,7 @@
     "updated": "Updated {date}",
     "since": "Since {date}",
     "period": "{start} – {end}",
+    "photos": "The desk over the years",
     "present": "present"
   },
   "NotFound": {

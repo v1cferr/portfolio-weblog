@@ -1,6 +1,7 @@
 import { localize } from "@workspace/content";
 import { ExternalLinkIcon, MonitorIcon } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -127,6 +128,48 @@ export default async function SetupPage() {
           );
         })}
       </div>
+      {setup.photos.length > 0 && (
+        <section aria-labelledby="setup-photos" className="mt-14">
+          <SectionHeading id="setup-photos">{t("photos")}</SectionHeading>
+          <RailTimeline
+            lane="project"
+            nodeClassName="top-5"
+            gapClassName="space-y-4"
+            entries={newestFirst(setup.photos, (photo) => ({ start: photo.date, end: photo.date })).map((photo) => {
+              const alt = localize(photo.alt, locale);
+              const caption = photo.caption && localize(photo.caption, locale);
+              return {
+                key: photo.src,
+                node: "past",
+                children: (
+                  <figure className="glass grid gap-4 overflow-hidden rounded-xl border p-3 sm:grid-cols-[18rem_minmax(0,1fr)] sm:p-4">
+                    <a href={photo.src} className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted">
+                      <Image
+                        src={photo.src}
+                        alt={alt.value}
+                        fill
+                        sizes="(min-width: 640px) 288px, 100vw"
+                        className="object-cover transition-transform hover:scale-[1.02]"
+                      />
+                    </a>
+                    <figcaption className="space-y-1.5 self-center">
+                      <time dateTime={photo.date} className="font-mono text-xs text-muted-foreground tabular-nums">
+                        {formatPartialDate(photo.date, locale)}
+                      </time>
+                      {caption && (
+                        <p className="text-pretty" lang={caption.locale}>
+                          {caption.value}
+                        </p>
+                      )}
+                    </figcaption>
+                  </figure>
+                ),
+              };
+            })}
+          />
+        </section>
+      )}
+
       <div className="mt-12">
         <SourceLink file="profile/setup.yaml" />
       </div>
