@@ -1,5 +1,6 @@
-# Sources: headline from the current role (LinkedIn, GitHub bio), positioning from Jira PWL-96, trajectory from PWL-101, links from
-# v1 src/data/SocialLinksData.ts and PWL-25 comments. The phone number and the
+# Sources: headline, summary and focus from the author's LinkedIn headline
+# (2026-10-22) and GitHub profile README (role, FAI·UFSCar); trajectory from
+# Jira PWL-101; links from v1 src/data/SocialLinksData.ts and PWL-25 comments. The phone number and the
 # birth date that v1 published are intentionally not migrated.
 id: victor-ferreira
 name: Victor Ferreira
@@ -8,16 +9,16 @@ location: São Carlos, SP, Brazil
 photo: /images/profile.jpg
 
 headline:
-  en-us: AI systems analyst
-  pt-br: Analista de sistemas de IA
+  en-us: AI systems analyst at FAI·UFSCar
+  pt-br: Analista de sistemas de IA na FAI·UFSCar
 
 summary:
   en-us: >-
-    Developer focused on Python, React, FastAPI, RAG and LLM integration, automation,
-    local infrastructure and full-stack development.
+    AI engineering, LLMOps, RAG and GraphRAG, and agents. I build with Python and FastAPI,
+    TypeScript and React, and keep my infrastructure declarative with Nix and NixOS.
   pt-br: >-
-    Desenvolvedor com foco em Python, React, FastAPI, RAG, integração com LLMs,
-    automação, infraestrutura local e desenvolvimento full-stack.
+    Engenharia de IA, LLMOps, RAG e GraphRAG, e agentes. Construo com Python e FastAPI,
+    TypeScript e React, e mantenho minha infraestrutura declarativa com Nix e NixOS.
 
 about:
   en-us:
@@ -49,14 +50,18 @@ about:
 
 focus:
   en-us:
-    - Retrieval-augmented generation and LLM integration with verifiable sources
-    - Python and FastAPI back ends, React and Next.js front ends
-    - Reproducible local infrastructure with Nix and NixOS
+    - AI engineering and LLMOps, from prototype to a solution that keeps running
+    - RAG and GraphRAG with answers that cite their sources
+    - Agents with skills, tools and tool calling
+    - Python and FastAPI back ends, TypeScript and React front ends
+    - Reproducible infrastructure with Nix and NixOS
     - Automation of everyday workflows
   pt-br:
-    - RAG e integração com LLMs com fontes verificáveis
-    - Back ends em Python e FastAPI, front ends em React e Next.js
-    - Infraestrutura local reproduzível com Nix e NixOS
+    - Engenharia de IA e LLMOps, do protótipo a uma solução que continua rodando
+    - RAG e GraphRAG com respostas que citam as fontes
+    - Agentes com skills, tools e tool calling
+    - Back ends em Python e FastAPI, front ends em TypeScript e React
+    - Infraestrutura reproduzível com Nix e NixOS
     - Automação de fluxos do dia a dia
 
 links:
