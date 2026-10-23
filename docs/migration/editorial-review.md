@@ -6,19 +6,8 @@ noted as "published".
 
 ## Facts that are missing (not rendered)
 
-- Undergraduate degree: v1's menu mentions "Graduação em GTI", and the author
-  graduated in 2026, but the institution and the dates are not recorded, so no
-  education entry exists yet.
 - Start dates and completion of the ONE program and the New Rizon bootcamp
   (published without dates).
-
-## Drafted on request (published on the v2 preview)
-
-- `content/experiences/fai-ufscar-2026.yaml`, position "AI systems analyst": its
-  five responsibilities were drafted from the usual scope of the role (public
-  job postings) and limited to what overlaps with the work in the author's
-  LinkedIn description. Confirm or edit them; they describe the role, not
-  verified outcomes.
 
 ## Claims kept out of public pages (`pendingReview` fields)
 

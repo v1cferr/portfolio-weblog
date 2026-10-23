@@ -1,7 +1,6 @@
 # Source: the author's LinkedIn education entry, shared on 2026-10-10. The
-# LinkedIn header reads "Information Technology Project Management", while the
-# description, the attached diploma and v1 ("Graduação em GTI") say
-# "Information Technology Management"; the latter is used.
+# course name (Information Technology Management, "GTI") was confirmed by the
+# author on 2026-10-22; the LinkedIn header's "Project Management" is wrong.
 id: uniasselvi-gti
 institution: uniasselvi
 kind: degree
