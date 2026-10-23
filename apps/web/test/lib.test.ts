@@ -4,7 +4,15 @@ import en from "../messages/en-us.json";
 import pt from "../messages/pt-br.json";
 import zh from "../messages/zh-cn.json";
 import { withFallback } from "../src/i18n/messages";
-import { currentMonth, formatDayMonth, formatMonthRange, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
+import {
+  currentMonth,
+  formatDayMonth,
+  formatMonthRange,
+  newestFirst,
+  formatPartialDate,
+  formatYearSpan,
+  monthsBetween,
+} from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
 
 describe("formatPartialDate", () => {
@@ -35,6 +43,19 @@ describe("formatMonthRange", () => {
     expect(formatMonthRange("2026-07", "2026-08", "pt-br", "atual")).toBe("jul – ago 2026");
     expect(formatMonthRange("2024-09", "2025-07", "en-us", "present")).toBe("Sep 2024 – Jul 2025");
     expect(formatMonthRange("2026-08", undefined, "pt-br", "atual")).toBe("ago 2026 – atual");
+  });
+});
+
+describe("newestFirst", () => {
+  it("puts ongoing entries first and undated ones last", () => {
+    const items = [
+      { id: "undated" },
+      { id: "old", start: "2019-01", end: "2020-06" },
+      { id: "now", start: "2025-02" },
+      { id: "recent", start: "2023-09", end: "2026-08" },
+      { id: "year", start: "2021", end: "2022" },
+    ];
+    expect(newestFirst(items, (item) => item).map((item) => item.id)).toEqual(["now", "recent", "year", "old", "undated"]);
   });
 });
 

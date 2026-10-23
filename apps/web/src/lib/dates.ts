@@ -75,3 +75,21 @@ export function formatMonthRange(start: string, end: string | undefined, locale:
   }
   return `${label(start)} – ${label(end)}`;
 }
+
+/**
+ * Reverse chronological order for anything with optional dates: ongoing
+ * entries first, then by their latest date, newest first; entries with no
+ * dates at all go last, in their original order.
+ */
+export function newestFirst<T>(items: readonly T[], dates: (item: T) => { start?: string | undefined; end?: string | undefined }): T[] {
+  const rank = (item: T) => {
+    const { start, end } = dates(item);
+    if (start === undefined && end === undefined) return { group: 2, key: "" };
+    if (end === undefined) return { group: 0, key: start ?? "" };
+    return { group: 1, key: end };
+  };
+  return items
+    .map((item, index) => ({ item, index, ...rank(item) }))
+    .sort((a, b) => a.group - b.group || b.key.localeCompare(a.key) || a.index - b.index)
+    .map(({ item }) => item);
+}

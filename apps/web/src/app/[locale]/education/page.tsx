@@ -8,11 +8,13 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { DateRange, PartialDate } from "@/components/date-range";
 import { MediaGallery } from "@/components/media-gallery";
 import { PageHeader, SectionHeading } from "@/components/page-header";
+import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
+import { newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,8 +27,9 @@ export default async function EducationPage() {
   const locale = await getLocale();
   const [t, common] = await Promise.all([getTranslations("Education"), getTranslations("Common")]);
   const content = getContent();
-  const education = content.getEducation();
-  const certifications = content.getCertifications();
+  // Newest on top, like every dated list on the site; undated entries last.
+  const education = newestFirst(content.getEducation(), (item) => item);
+  const certifications = newestFirst(content.getCertifications(), (cert) => ({ start: cert.issuedAt, end: cert.issuedAt }));
 
   return (
     <>
@@ -35,13 +38,18 @@ export default async function EducationPage() {
       {education.length === 0 ? (
         <p className="text-muted-foreground">{t("empty")}</p>
       ) : (
-        <ul className="grid gap-4 md:grid-cols-2">
-          {education.map((item) => {
+        <RailTimeline
+          lane="study"
+          label={t("title")}
+          entries={education.map((item) => {
             const institution = content.getOrganization(item.institution);
             const title = localize(item.title, locale);
-            return (
-              <li key={item.id} id={item.id} className="scroll-mt-24">
-                <Card variant="glass" className="h-full gap-4 py-5">
+            return {
+              key: item.id,
+              id: item.id,
+              node: item.start === undefined ? "undated" : item.end === undefined ? "current" : "past",
+              children: (
+                <Card variant="glass" className="gap-4 py-5">
                   <CardHeader className="flex flex-row items-start gap-3 px-5">
                     {institution !== undefined && <OrganizationMark organization={institution} />}
                     <div className="min-w-0 space-y-1">
@@ -68,7 +76,7 @@ export default async function EducationPage() {
                         </p>
                       )}
                       {item.start !== undefined ? (
-                        <DateRange start={item.start} end={item.end} />
+                        <DateRange start={item.start} end={item.end} compact />
                       ) : (
                         <p className="font-mono text-xs text-muted-foreground">{t("noDates")}</p>
                       )}
@@ -103,10 +111,10 @@ export default async function EducationPage() {
                     <SourceLink file={content.getSourceFile(item.id)} />
                   </CardContent>
                 </Card>
-              </li>
-            );
+              ),
+            };
           })}
-        </ul>
+        />
       )}
 
       <section aria-labelledby="certifications-heading" id="certifications" className="mt-16 scroll-mt-24">
