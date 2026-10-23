@@ -22,9 +22,13 @@
  * writing) owns one lane colour, used the same way in the timeline, badges,
  * links and the background lanes.
  *
+ * Light mode keeps Day's hues for the lanes but sets text in ink, not
+ * Day's blue, so links and lanes stay the only colour in running text
+ * (refined on 2026-10-23 after a second palette bake-off).
+ *
  *           Day (light)   Night (dark)
- *   page    #e1e2e7       #1a1b26        text     #355cb7 / #c0caf5
- *   subtext #526196       #a9b1d6        border   #c4c8da / #3b4261
+ *   page    #e6e7ed       #1a1b26        text     #2a2e45 / #c0caf5
+ *   subtext #4c5373       #a9b1d6        border   #c4c8da / #3b4261
  *   career  #0c6d5b       #73daca        project  #2362b6 / #7aa2f7
  *   study   #775c36       #e0af68        writing  #7c45c4 / #bb9af7
  *
@@ -80,20 +84,20 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #e1e2e7;
-  --foreground: #355cb7;
+  --background: #e6e7ed;
+  --foreground: #2a2e45;
   --card: #eceef3;
-  --card-foreground: #355cb7;
+  --card-foreground: #2a2e45;
   --popover: #f0f1f5;
-  --popover-foreground: #355cb7;
-  --primary: #355cb7;
+  --popover-foreground: #2a2e45;
+  --primary: #2a2e45;
   --primary-foreground: #f0f1f5;
   --secondary: #d0d5e3;
-  --secondary-foreground: #2c4f9e;
+  --secondary-foreground: #2a2e45;
   --muted: #d0d5e3;
-  --muted-foreground: #526196;
+  --muted-foreground: #4c5373;
   --accent: #d0d5e3;
-  --accent-foreground: #2c4f9e;
+  --accent-foreground: #2a2e45;
   --destructive: #c4243c;
   --border: #c4c8da;
   --input: #b4bad1;
@@ -108,7 +112,7 @@
   --glass-tint: rgb(240 241 245 / 0.55);
   --glass-border: rgb(255 255 255 / 0.65);
   --glass-sheen: rgb(255 255 255 / 0.35);
-  --glass-shadow: 0 14px 36px rgb(55 96 191 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --glass-shadow: 0 14px 36px rgb(42 46 69 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.75);
 }
 
 .dark {
