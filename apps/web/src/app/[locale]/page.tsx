@@ -1,9 +1,9 @@
 import { localize, localizeList } from "@workspace/content";
 import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
-import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
+import { Avatar } from "@/features/profile/avatar";
 import { SectionHeading } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
 import { Trajectory } from "@/features/profile/trajectory";
@@ -59,14 +59,7 @@ export default async function HomePage() {
             <SocialLinks links={profile.links} label={common("links")} />
           </div>
           {profile.photo !== undefined && (
-            <Image
-              src={profile.photo}
-              alt={profile.name}
-              width={220}
-              height={220}
-              priority
-              className="hidden aspect-square rounded-xl border object-cover grayscale-[35%] md:block"
-            />
+            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="hidden md:block" />
           )}
         </section>
 

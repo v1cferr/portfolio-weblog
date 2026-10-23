@@ -7,6 +7,7 @@ import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { SourceLink } from "@/components/source-link";
+import { Avatar } from "@/features/profile/avatar";
 import { Trajectory } from "@/features/profile/trajectory";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
@@ -45,6 +46,7 @@ export default async function AboutPage() {
         </div>
 
         <aside className="space-y-10">
+          {profile.photo !== undefined && <Avatar name={profile.name} caption="victor@hub:~$ whoami" />}
           {focus !== undefined && (
             <section aria-labelledby="focus">
               <h2 id="focus" className="mb-3 font-mono text-xs tracking-wide text-muted-foreground uppercase">

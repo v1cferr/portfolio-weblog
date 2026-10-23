@@ -43,6 +43,7 @@ test.describe("every page", () => {
 test.describe("accessibility", () => {
   for (const path of [
     "/en-us",
+    "/en-us/about",
     "/en-us/career/xmart-solutions-2024",
     "/en-us/timeline",
     "/en-us/weblog/rebuilding-the-hub-content-first",
