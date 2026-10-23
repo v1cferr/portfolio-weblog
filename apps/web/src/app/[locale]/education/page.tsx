@@ -1,11 +1,12 @@
 import { localize } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { ExternalLinkIcon, GraduationCapIcon } from "lucide-react";
+import { AwardIcon, ExternalLinkIcon, GraduationCapIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { DateRange, PartialDate } from "@/components/date-range";
+import { EmptyState } from "@/components/empty-state";
 import { MediaGallery } from "@/components/media-gallery";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
@@ -120,7 +121,7 @@ export default async function EducationPage() {
       <section aria-labelledby="certifications-heading" id="certifications" className="mt-16 scroll-mt-24">
         <SectionHeading id="certifications-heading">{t("certifications")}</SectionHeading>
         {certifications.length === 0 ? (
-          <p className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">{t("certificationsEmpty")}</p>
+          <EmptyState icon={AwardIcon} title={t("certificationsEmpty")} />
         ) : (
           <ul className="divide-y border-y">
             {certifications.map((cert) => (

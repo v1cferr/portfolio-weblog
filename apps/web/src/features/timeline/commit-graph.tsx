@@ -6,6 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
+import { YearHeading } from "@/components/year-heading";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatDayMonth } from "@/lib/dates";
@@ -67,16 +68,7 @@ export async function CommitGraph({
       {[...groups].map(([year, items]) => (
         <section key={year} aria-label={year || undefined} className="pb-4">
           {groupByYear && (
-            <h2
-              aria-label={`${year}, ${t("entries", { count: items.length })}`}
-              className="glass sticky top-17 z-10 my-3 w-fit rounded-full border px-3 py-1 font-mono text-sm font-medium tabular-nums"
-            >
-              {year}
-              <span aria-hidden className="text-muted-foreground">
-                {" · "}
-                {items.length}
-              </span>
-            </h2>
+            <YearHeading as="h2" year={year} count={items.length} label={`${year}, ${t("entries", { count: items.length })}`} />
           )}
           <RevealList>
             {items.map((row) => {

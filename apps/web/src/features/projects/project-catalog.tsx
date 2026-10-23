@@ -2,16 +2,20 @@
 
 import type * as React from "react";
 import { Button } from "@workspace/ui/components/button";
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@workspace/ui/components/item";
 import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-group";
-import { SparklesIcon, XIcon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
+import { SearchXIcon, SparklesIcon, XIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 import { TechnologyIcon } from "@/components/icon";
+import { EmptyState } from "@/components/empty-state";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { RailTimeline } from "@/components/rail-timeline";
+import { YearHeading } from "@/components/year-heading";
 import { Link } from "@/i18n/navigation";
 import { formatDayMonth, newestFirst } from "@/lib/dates";
 
@@ -147,7 +151,17 @@ export function ProjectCatalog({
       </div>
 
       {visible.length === 0 ? (
-        <p className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">{t("empty")}</p>
+        <EmptyState icon={SearchXIcon} title={t("empty")}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              router.replace(pathname, { scroll: false });
+            }}
+          >
+            <XIcon /> {t("clear")}
+          </Button>
+        </EmptyState>
       ) : (
         <section aria-labelledby="all-projects">
           <h2 id="all-projects" className="sr-only">
@@ -155,13 +169,7 @@ export function ProjectCatalog({
           </h2>
           {[...years].map(([year, items]) => (
             <section key={year || "undated"} aria-label={year || t("undated")} className="pb-2">
-              <h3 className="glass sticky top-17 z-10 my-3 w-fit rounded-full border px-3 py-1 font-mono text-sm font-medium tabular-nums">
-                {year || t("undated")}
-                <span aria-hidden className="text-muted-foreground">
-                  {" · "}
-                  {items.length}
-                </span>
-              </h3>
+              <YearHeading as="h3" year={year || t("undated")} count={items.length} label={year || t("undated")} />
               <RailTimeline
                 lane="project"
                 nodeClassName="top-5"
@@ -194,36 +202,48 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
 /** One project on the timeline: name, status and summary, with its stack and date. */
 function ProjectRow({ project, date }: { project: ProjectCardData; date?: string | undefined }) {
   return (
-    <article className="glass relative flex flex-col gap-2 rounded-xl border px-4 py-3 transition-colors hover:border-lane-project/50 sm:flex-row sm:items-center sm:gap-4">
-      <div className="min-w-0 flex-1 space-y-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <h4 className="font-semibold">
-            <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
-              {project.title}
-            </Link>
-          </h4>
-          <ProjectStateBadge state={project.state} label={project.stateLabel} />
-          <span className="font-mono text-[0.7rem] text-muted-foreground">{project.categoryLabel}</span>
-        </div>
-        <p className="line-clamp-1 text-sm text-muted-foreground" lang={project.summaryLocale}>
-          {project.summary}
-        </p>
-      </div>
-      <div className="flex shrink-0 items-center gap-3">
-        <ul className="flex items-center gap-1.5">
-          {project.technologies.slice(0, 4).map((tech) => (
-            <li key={tech.id} title={tech.name}>
-              <TechnologyIcon icon={tech.icon} category={tech.category} className="size-4" />
-              <span className="sr-only">{tech.name}</span>
-            </li>
-          ))}
-        </ul>
-        {date !== undefined && date !== "" && (
-          <time dateTime={project.date} className="w-14 text-right font-mono text-xs whitespace-nowrap text-muted-foreground tabular-nums">
-            {date}
-          </time>
-        )}
-      </div>
-    </article>
+    <Item variant="glass" asChild className="relative hover:border-lane-project/50">
+      <article>
+        <ItemContent className="min-w-0">
+          <ItemTitle className="flex-wrap text-base">
+            <h4>
+              <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
+                {project.title}
+              </Link>
+            </h4>
+            <ProjectStateBadge state={project.state} label={project.stateLabel} />
+            <span className="font-mono text-[0.7rem] font-normal text-muted-foreground">{project.categoryLabel}</span>
+          </ItemTitle>
+          <ItemDescription className="line-clamp-1" lang={project.summaryLocale}>
+            {project.summary}
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions className="relative z-10 gap-3">
+          <ul className="flex items-center gap-1.5">
+            {project.technologies.slice(0, 4).map((tech) => (
+              <li key={tech.id}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="inline-flex">
+                      <TechnologyIcon icon={tech.icon} category={tech.category} className="size-4" />
+                      <span className="sr-only">{tech.name}</span>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>{tech.name}</TooltipContent>
+                </Tooltip>
+              </li>
+            ))}
+          </ul>
+          {date !== undefined && date !== "" && (
+            <time
+              dateTime={project.date}
+              className="w-14 text-right font-mono text-xs whitespace-nowrap text-muted-foreground tabular-nums"
+            >
+              {date}
+            </time>
+          )}
+        </ItemActions>
+      </article>
+    </Item>
   );
 }

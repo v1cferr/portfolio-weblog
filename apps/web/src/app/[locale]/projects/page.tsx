@@ -10,6 +10,7 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PartialDate } from "@/components/date-range";
 import { toCardData } from "@/features/projects/project-card";
 import { ProjectCatalog } from "@/features/projects/project-catalog";
+import { ShowMore } from "@/features/projects/show-more";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
@@ -93,17 +94,13 @@ export default async function ProjectsPage() {
             ))}
           </ul>
           {uncurated.length > UNCURATED_VISIBLE && (
-            <details className="group">
-              <summary className="mt-3 cursor-pointer list-none font-mono text-sm text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
-                <span className="group-open:hidden">{t("showAll", { count: uncurated.length })}</span>
-                <span className="hidden group-open:inline">{t("showLess")}</span>
-              </summary>
-              <ul className="mt-3 divide-y border-y">
+            <ShowMore more={t("showAll", { count: uncurated.length })} less={t("showLess")}>
+              <ul className="divide-y border-b">
                 {uncurated.slice(UNCURATED_VISIBLE).map((repo) => (
                   <UncuratedRow key={repo.full_name} repo={repo} />
                 ))}
               </ul>
-            </details>
+            </ShowMore>
           )}
         </section>
       )}

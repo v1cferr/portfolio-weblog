@@ -2,6 +2,7 @@ import { PenLineIcon, RssIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { PostCard } from "@/features/weblog/post-card";
 import { getContent } from "@/lib/content";
@@ -28,7 +29,7 @@ export default async function WeblogPage() {
         </a>
       </PageHeader>
       {posts.length === 0 ? (
-        <p className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">{t("empty")}</p>
+        <EmptyState icon={PenLineIcon} title={t("empty")} />
       ) : (
         <div className="max-w-4xl border-t">
           {posts.map((post) => (

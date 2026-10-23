@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
+import { Kbd } from "@workspace/ui/components/kbd";
 import { SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
@@ -49,7 +50,7 @@ export function SearchDialog() {
       >
         <SearchIcon />
         <span className="hidden sm:inline">{t("open")}</span>
-        <kbd className="pointer-events-none hidden rounded border bg-muted px-1.5 font-mono text-[0.65rem] md:inline">/</kbd>
+        <Kbd className="hidden font-mono md:inline-flex">/</Kbd>
       </Button>
       {loaded && <SearchPanel open={open} onOpenChange={changeOpen} />}
     </>

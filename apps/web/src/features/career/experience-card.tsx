@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
+import { Badge } from "@workspace/ui/components/badge";
 import { type Experience, localize } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
@@ -75,9 +76,9 @@ export async function ExperienceCard({ experience }: { experience: Experience })
                       <span className="text-muted-foreground"> · {t(`employmentType.${position.employmentType}`)}</span>
                     )}
                     {current && (
-                      <span className="ml-2 rounded-full bg-brand/15 px-1.5 py-px align-middle text-[0.7rem] font-semibold">
+                      <Badge variant="now" className="ml-2 align-middle">
                         {common("now")}
-                      </span>
+                      </Badge>
                     )}
                   </p>
                   {position.start !== undefined && (

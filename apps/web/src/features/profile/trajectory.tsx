@@ -1,5 +1,6 @@
 import { localize, type Organization, type Profile } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
+import { Badge } from "@workspace/ui/components/badge";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, laneOf, laneText } from "@/components/lane";
@@ -70,9 +71,9 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
                 <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground tabular-nums">
                   {station.years}
                   {station.current && (
-                    <span className="rounded-full bg-brand/15 px-1.5 py-px font-sans text-[0.7rem] font-semibold text-foreground">
+                    <Badge variant="now" className="font-sans">
                       {t("now")}
-                    </span>
+                    </Badge>
                   )}
                 </span>
               )}

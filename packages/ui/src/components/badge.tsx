@@ -15,6 +15,9 @@ const badgeVariants = cva(
         outline: "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
         ghost: "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Site variants: the vermilion "now" chip and a glass pill (year headings).
+        now: "bg-brand/15 font-semibold text-foreground",
+        glass: "glass h-auto border px-3 py-1 font-mono text-sm tabular-nums text-foreground",
       },
     },
     defaultVariants: {
