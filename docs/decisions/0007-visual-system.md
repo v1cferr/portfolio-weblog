@@ -39,3 +39,25 @@ glass strengths (clear and frosted).
   `github-light` colours need it to pass contrast.
 - The axe checks in the e2e suite still run in both themes and still pass. Any
   new colour has to keep 4.5:1 over glass.
+
+## Revision (2026-10-23, second round)
+
+The owner found the result still "raw". A second bake-off compared three
+palettes (Tokyo Night refined, Kanagawa, a Nippon-iro palette) and four type
+pairings (Manrope, Geist, IBM Plex, Martian Mono with Hanken Grotesk).
+
+- **Palette:** Tokyo Night stays. Light-mode text moves from Day's blue to ink
+  (`#2a2e45`, subtext `#4c5373`), so links and lanes are the only colour in
+  running text.
+- **Type:** Martian Mono for the name, page titles, section headings and article
+  h2s, narrowed with its `wdth` axis. Hanken Grotesk for everything else, and
+  JetBrains Mono for data.
+- **Flags:** round flags from circle-flags, with the language code next to the
+  flag.
+- **Components:** official shadcn components first (Kbd, Empty, Item,
+  Collapsible, HoverCard), and site looks as `cva` variants (Badge `now` and
+  `glass`, Item `glass`), so feature code does not repeat long class lists.
+  Third-party registries only after review.
+- **Signature:** the home page is a git log. A main line runs from a vermilion
+  HEAD node at the name, and each section branches off in its lane's colour. The
+  lines draw on scroll with CSS scroll-driven animations.
