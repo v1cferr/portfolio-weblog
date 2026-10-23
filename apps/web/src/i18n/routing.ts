@@ -8,6 +8,10 @@ export const routing = defineRouting({
   locales: ["en-us", "pt-br", "zh-cn"],
   defaultLocale: "en-us",
   localePrefix: "always",
+  // No remembered choice: an unprefixed visit always follows the system
+  // language (Accept-Language), even after browsing another locale. The
+  // switcher still works, because the locale lives in the URL.
+  localeCookie: false,
 });
 
 export type Locale = (typeof routing.locales)[number];

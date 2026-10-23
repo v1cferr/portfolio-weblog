@@ -80,6 +80,16 @@ test.describe("visibility rules", () => {
 });
 
 test.describe("languages", () => {
+  test("an unprefixed visit always follows the system language", async ({ browser }) => {
+    const context = await browser.newContext({ locale: "pt-BR" });
+    const page = await context.newPage();
+    await page.goto("/en-us/projects");
+    await page.goto("/");
+    await expect(page).toHaveURL(/\/pt-br$/);
+    expect((await context.cookies()).some((cookie) => cookie.name === "NEXT_LOCALE")).toBe(false);
+    await context.close();
+  });
+
   test("a locale without editorial content says so once, site-wide", async ({ page }) => {
     await page.goto("/zh-cn/career/xmart-solutions-2024");
     await expect(page.getByText(/not available in 中文 yet/)).toHaveCount(1);
