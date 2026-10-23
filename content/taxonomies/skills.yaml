@@ -1,0 +1,46 @@
+# Capabilities broader than one tool. Each one is backed by at least one
+# experience or project that references it.
+
+- id: continuous-improvement
+  name: { en-us: Continuous improvement, pt-br: Melhoria contínua }
+  technologies: [kaizen, kanban]
+
+- id: it-support
+  name: { en-us: IT support, pt-br: Suporte de TI }
+  technologies: [jira]
+
+- id: networking
+  name: { en-us: Networking, pt-br: Redes }
+
+- id: devsecops
+  name: { en-us: DevSecOps and application security, pt-br: DevSecOps e segurança de aplicações }
+  technologies: [fortify, sonatype-nexus, owasp-zap]
+
+- id: ci-cd
+  name: { en-us: CI/CD pipelines, pt-br: Pipelines de CI/CD }
+  technologies: [github-actions, jenkins]
+
+- id: web-development
+  name: { en-us: Web development, pt-br: Desenvolvimento web }
+  technologies: [react, nextjs, typescript, fastapi]
+
+- id: infrastructure-as-code
+  name: { en-us: Infrastructure as code, pt-br: Infraestrutura como código }
+  technologies: [nix, nixos]
+
+- id: ai-systems
+  name: { en-us: AI systems and LLM integration, pt-br: Sistemas de IA e integração com LLMs }
+  technologies: [rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops, ollama, python]
+
+- id: automation
+  name: { en-us: Workflow and process automation, pt-br: Automação de fluxos e processos }
+
+- id: api-development
+  name: { en-us: API development, pt-br: Desenvolvimento de APIs }
+  technologies: [fastapi, python]
+
+- id: technical-documentation
+  name: { en-us: Technical documentation, pt-br: Documentação técnica }
+
+- id: software-development
+  name: { en-us: Software development, pt-br: Desenvolvimento de software }

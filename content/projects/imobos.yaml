@@ -1,0 +1,13 @@
+id: imobos
+title: imobos
+repository: v1cferr/imobos
+state: experimental
+category: personal
+summary:
+  en-us: >-
+    Self-hosted operating system for a real estate brokerage: CRM, client management, property
+    workflows, communications and automation.
+  pt-br: >-
+    Sistema operacional self-hosted para uma imobiliária: CRM, gestão de clientes, fluxos de
+    imóveis, comunicação e automação.
+technologies: [typescript]

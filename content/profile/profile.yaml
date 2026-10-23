@@ -1,0 +1,101 @@
+# Sources: headline, summary and focus from the author's LinkedIn headline
+# (2026-10-22) and GitHub profile README (role, FAI·UFSCar); trajectory from
+# Jira PWL-101; links from v1 src/data/SocialLinksData.ts and PWL-25 comments. The phone number and the
+# birth date that v1 published are intentionally not migrated.
+id: victor-ferreira
+name: Victor Ferreira
+handle: v1cferr
+location: São Carlos, SP, Brazil
+photo: /images/profile.jpg
+
+headline:
+  en-us: AI systems analyst at FAI·UFSCar
+  pt-br: Analista de sistemas de IA na FAI·UFSCar
+
+summary:
+  en-us: >-
+    AI engineering, LLMOps, RAG and GraphRAG, and agents. I build with Python and FastAPI,
+    TypeScript and React, and keep my infrastructure declarative with Nix and NixOS.
+  pt-br: >-
+    Engenharia de IA, LLMOps, RAG e GraphRAG, e agentes. Construo com Python e FastAPI,
+    TypeScript e React, e mantenho minha infraestrutura declarativa com Nix e NixOS.
+
+about:
+  en-us:
+    - >-
+      My path into software did not start in software. It went through industrial processes,
+      IT infrastructure, networks and support before reaching software engineering and, now,
+      AI systems.
+    - >-
+      Each step left something that still shapes how I work: continuous improvement and
+      production flow from the plant floor, care for people and data from IT support, patience
+      and troubleshooting from network support, and pipelines, security and teamwork from
+      my first development job.
+    - >-
+      This hub is where I keep that history and what I build next: experiences, projects,
+      studies and an engineering journal, all versioned as plain content in Git.
+  pt-br:
+    - >-
+      Meu caminho até o software não começou no software. Passou por processos industriais,
+      infraestrutura de TI, redes e suporte antes de chegar à engenharia de software e, agora,
+      a sistemas de IA.
+    - >-
+      Cada etapa deixou algo que ainda molda como trabalho: melhoria contínua e fluxo de
+      produção na fábrica, cuidado com pessoas e dados no suporte de TI, paciência e
+      diagnóstico no suporte de redes, e pipelines, segurança e trabalho em equipe no meu
+      primeiro emprego como desenvolvedor.
+    - >-
+      Este hub é onde guardo essa história e o que construo a seguir: experiências, projetos,
+      estudos e um diário de engenharia, tudo versionado como conteúdo em Git.
+
+focus:
+  en-us:
+    - AI engineering and LLMOps, from prototype to a solution that keeps running
+    - RAG and GraphRAG with answers that cite their sources
+    - Agents with skills, tools and tool calling
+    - Python and FastAPI back ends, TypeScript and React front ends
+    - Reproducible infrastructure with Nix and NixOS
+    - Automation of everyday workflows
+  pt-br:
+    - Engenharia de IA e LLMOps, do protótipo a uma solução que continua rodando
+    - RAG e GraphRAG com respostas que citam as fontes
+    - Agentes com skills, tools e tool calling
+    - Back ends em Python e FastAPI, front ends em TypeScript e React
+    - Infraestrutura reproduzível com Nix e NixOS
+    - Automação de fluxos do dia a dia
+
+links:
+  - { label: GitHub, url: "https://github.com/v1cferr", kind: profile, icon: "si:github" }
+  - { label: LinkedIn, url: "https://www.linkedin.com/in/v1cferr", kind: profile, icon: "dv:linkedin" }
+  - { label: X, url: "https://x.com/v1cferr", kind: profile, icon: "si:x" }
+  - { label: Email, url: "mailto:dev.victorferreira@gmail.com", kind: email, icon: "lucide:mail" }
+  - { label: Microsoft Learn, url: "https://learn.microsoft.com/en-us/users/v1cferr", kind: profile, icon: "lucide:graduation-cap" }
+  - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile, icon: "si:frontendmentor" }
+  - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile, icon: "si:monkeytype" }
+
+quotes:
+  - text: Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.
+    source: Mateus 7:7
+    url: https://www.bibliaonline.com.br/nvi/mt/7/7
+    locale: pt-br
+  - text: Não tenha medo de crescer lentamente, tenha medo de ficar parado.
+    source: Provérbio chinês
+    locale: pt-br
+  - text: Uma jornada de mil milhas começa com um único passo.
+    source: Lao Tzu
+    url: https://wikipedia.org/wiki/A_journey_of_a_thousand_miles_begins_with_a_single_step
+    locale: pt-br
+
+# The arc described in Jira PWL-101: processes → infrastructure →
+# networks/support → software engineering → AI systems.
+trajectory:
+  - label: { en-us: Processes, pt-br: Processos }
+    ref: amcor-2021
+  - label: { en-us: Infrastructure, pt-br: Infraestrutura }
+    ref: cultura-inglesa-2022
+  - label: { en-us: Networks and support, pt-br: Redes e suporte }
+    ref: vip-telecom-2023
+  - label: { en-us: Software engineering, pt-br: Engenharia de software }
+    ref: xmart-solutions-2024
+  - label: { en-us: AI systems, pt-br: Sistemas de IA }
+    ref: fai-ufscar-2026

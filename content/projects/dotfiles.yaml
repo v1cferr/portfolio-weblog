@@ -1,0 +1,15 @@
+id: dotfiles
+title: dotfiles
+repository: v1cferr/dotfiles
+state: active
+category: personal
+featured: true
+summary:
+  en-us: >-
+    Personal infrastructure as code: a declarative, reproducible and versioned NixOS workstation
+    managing the system, Home Manager, secrets, storage and services.
+  pt-br: >-
+    Infraestrutura pessoal como código: uma estação de trabalho NixOS declarativa, reproduzível e
+    versionada, que gerencia sistema, Home Manager, segredos, armazenamento e serviços.
+technologies: [nix, nixos]
+skills: [infrastructure-as-code]

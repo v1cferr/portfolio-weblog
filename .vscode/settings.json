@@ -77,12 +77,7 @@
   // =================================================
 
   // Run ESLint on save
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
   // =================================================
   // PRETTIER

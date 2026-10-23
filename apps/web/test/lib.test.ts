@@ -1,0 +1,143 @@
+import { describe, expect, it } from "vitest";
+
+import en from "../messages/en-us.json";
+import pt from "../messages/pt-br.json";
+import zh from "../messages/zh-cn.json";
+import { withFallback } from "../src/i18n/messages";
+import {
+  currentMonth,
+  formatDayMonth,
+  formatMonthRange,
+  newestFirst,
+  formatPartialDate,
+  formatYearSpan,
+  monthsBetween,
+} from "../src/lib/dates";
+import { languageAlternates, languageTag } from "../src/lib/i18n";
+import { setupToMarkdown } from "../src/lib/setup-markdown";
+
+describe("formatPartialDate", () => {
+  it("keeps the precision of the source", () => {
+    expect(formatPartialDate("2023", "en-us")).toBe("2023");
+    expect(formatPartialDate("2023-07", "en-us")).toBe("Jul 2023");
+    expect(formatPartialDate("2023-07-15", "en-us")).toBe("Jul 15, 2023");
+  });
+
+  it("never shifts the day across time zones", () => {
+    expect(formatPartialDate("2024-01-01", "pt-br")).toBe("1 de jan. de 2024");
+  });
+});
+
+describe("formatDayMonth", () => {
+  it("drops the year and keeps the precision", () => {
+    expect(formatDayMonth("2026-10-09", "pt-br")).toBe("09 out");
+    expect(formatDayMonth("2026-10-09", "en-us")).toBe("Oct 09");
+    expect(formatDayMonth("2026-08", "pt-br")).toBe("ago");
+    expect(formatDayMonth("2026-08", "en-us")).toBe("Aug");
+    expect(formatDayMonth("2026-10-09", "zh-cn")).toBe("10月09日");
+    expect(formatDayMonth("2026", "en-us")).toBe("");
+  });
+});
+
+describe("formatMonthRange", () => {
+  it("names the year once when the range stays inside it", () => {
+    expect(formatMonthRange("2026-07", "2026-08", "pt-br", "atual")).toBe("jul – ago 2026");
+    expect(formatMonthRange("2024-09", "2025-07", "en-us", "present")).toBe("Sep 2024 – Jul 2025");
+    expect(formatMonthRange("2026-08", undefined, "pt-br", "atual")).toBe("ago 2026 – atual");
+  });
+});
+
+describe("newestFirst", () => {
+  it("puts ongoing entries first and undated ones last", () => {
+    const items = [
+      { id: "undated" },
+      { id: "old", start: "2019-01", end: "2020-06" },
+      { id: "now", start: "2025-02" },
+      { id: "recent", start: "2023-09", end: "2026-08" },
+      { id: "year", start: "2021", end: "2022" },
+    ];
+    expect(newestFirst(items, (item) => item).map((item) => item.id)).toEqual(["now", "recent", "year", "old", "undated"]);
+  });
+});
+
+describe("formatYearSpan", () => {
+  it("shortens the end year and leaves open spans open", () => {
+    expect(formatYearSpan("2021-03", "2022-08")).toBe("2021–22");
+    expect(formatYearSpan("2023-07", "2023-12")).toBe("2023");
+    expect(formatYearSpan("1999", "2001-02")).toBe("1999–2001");
+    expect(formatYearSpan("2026-03")).toBe("2026–");
+  });
+});
+
+describe("monthsBetween", () => {
+  it("counts both the first and the last month", () => {
+    expect(monthsBetween("2023-07", "2023-12")).toBe(6);
+    expect(monthsBetween("2021-03", "2022-08")).toBe(18);
+  });
+
+  it("refuses to guess with year-only dates", () => {
+    expect(monthsBetween("2023", "2024-02")).toBeUndefined();
+  });
+
+  it("formats the current month", () => {
+    expect(currentMonth(new Date(Date.UTC(2026, 9, 9)))).toBe("2026-10");
+  });
+});
+
+describe("i18n helpers", () => {
+  it("builds BCP 47 tags and hreflang maps", () => {
+    expect(languageTag("pt-br")).toBe("pt-BR");
+    expect(languageAlternates("/career")).toEqual({
+      "en-US": "/en-us/career",
+      "pt-BR": "/pt-br/career",
+      "zh-CN": "/zh-cn/career",
+      "x-default": "/en-us/career",
+    });
+  });
+});
+
+describe("message catalogues", () => {
+  const keys = (messages: object, prefix = ""): string[] =>
+    Object.entries(messages).flatMap(([key, value]) =>
+      typeof value === "object" && value !== null ? keys(value as object, `${prefix}${key}.`) : [`${prefix}${key}`]
+    );
+
+  it("pt-br translates every key and adds none", () => {
+    expect(keys(pt).sort()).toEqual(keys(en).sort());
+  });
+
+  it("zh-cn only contains keys that exist in English", () => {
+    const english = new Set(keys(en));
+    expect(keys(zh).filter((key) => !english.has(key))).toEqual([]);
+  });
+
+  it("falls back to English for missing zh-cn keys without dropping reviewed ones", () => {
+    const merged = withFallback(en, zh) as typeof en;
+    expect(merged.LocaleSwitcher.label).toBe(zh.LocaleSwitcher.label);
+    expect(merged.Nav.career).toBe(en.Nav.career);
+    expect(keys(merged).sort()).toEqual(keys(en).sort());
+  });
+});
+
+describe("setupToMarkdown", () => {
+  it("lists what is in use, linked, and leaves retired parts out", () => {
+    const markdown = setupToMarkdown(
+      {
+        groups: [
+          {
+            id: "desk",
+            title: { "pt-br": "Componentes" },
+            items: [
+              { role: { "pt-br": "Monitor" }, model: "LG 27GN65R", url: "https://lg.com" },
+              { role: { "pt-br": "Mouse" }, model: "Old mouse", since: "2018", until: "2024" },
+            ],
+          },
+          { id: "retired", title: { "pt-br": "Aposentadas" }, items: [{ role: { "pt-br": "GPU" }, model: "RTX", until: "2026-07" }] },
+        ],
+      },
+      "pt-br",
+      "Meu setup"
+    );
+    expect(markdown).toBe("# Meu setup\n\n## Componentes\n\n- **Monitor**: [LG 27GN65R](https://lg.com)\n");
+  });
+});

@@ -1,0 +1,14 @@
+# ap.v1cferr.dev (the repository homepage) answered 404 on 2026-10-09, so it is not linked.
+id: ufscar-housing-radar
+title: ufscar-housing-radar
+repository: v1cferr/ufscar-housing-radar
+state: active
+category: personal
+summary:
+  en-us: >-
+    Personal radar that monitors, compares and ranks apartments near UFSCar by price, distance,
+    condominium fee, safety and other feasibility criteria.
+  pt-br: >-
+    Radar pessoal para monitorar, comparar e ranquear apartamentos próximos à UFSCar com base em
+    preço, distância, condomínio, segurança e critérios de viabilidade.
+technologies: [python]

@@ -1,0 +1,44 @@
+# Sources: v1 career timeline (role, dates, duties) and Jira PWL-33 (learnings).
+id: cultura-inglesa-2022
+organization: cultura-inglesa
+positions:
+  - title: { en-us: IT support technician, pt-br: Técnico de suporte de TI }
+    start: 2022-09
+    end: 2023-04
+
+summary:
+  en-us: IT support for staff and classrooms, working alongside the infrastructure team.
+  pt-br: Suporte de TI para colaboradores e salas de aula, junto ao time de infraestrutura.
+
+responsibilities:
+  en-us:
+    - Handled support tickets in Jira and prioritized critical incidents
+    - Preventive maintenance to reduce recurring failures
+    - Prepared workstations for new employees and helped with their onboarding
+    - Gave field support teams the information and data they needed
+  pt-br:
+    - Atendimento de chamados no Jira e priorização de incidentes críticos
+    - Manutenção preventiva para reduzir falhas recorrentes
+    - Preparação de máquinas para novos colaboradores e apoio no onboarding
+    - Apoio ao suporte de campo com informações e dados
+
+learnings:
+  en-us:
+    - How IT infrastructure is run in a multi-site organization
+    - Helping the infrastructure team keep student and employee data secure
+    - Supporting internal users, including during onboarding
+  pt-br:
+    - Como a infraestrutura de TI funciona em uma organização com várias unidades
+    - Apoiar o time de infraestrutura a manter seguros os dados de alunos e colaboradores
+    - Atender usuários internos, inclusive no onboarding
+
+technologies: [jira]
+skills: [it-support]
+
+pendingReview:
+  - claim: Resolved 40+ tickets per week with 98% satisfaction
+    source: v1 career timeline
+  - claim: Reduced recurring failures by 20% through preventive maintenance
+    source: v1 career timeline
+  - claim: Set up 60+ machines for new employees
+    source: v1 career timeline

@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Grouped weekly updates; majors arrive as separate PRs so each one gets
+  # its own compatibility check (see docs/decisions/0005-toolchain-versions.md).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Pinned to the version nixpkgs ships, so the Nix shell's browsers match.
+      - dependency-name: "@playwright/test"
+      # typescript-eslint supports TypeScript < 6.1 (ADR 0005).
+      - dependency-name: typescript
+        update-types: [version-update:semver-major, version-update:semver-minor]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

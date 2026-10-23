@@ -1,0 +1,10 @@
+id: learning-react-next
+title: learning-react-next
+repository: v1cferr/learning-react-next
+state: historical
+category: study
+summary:
+  en-us: Learning React and Next.js through a hands-on, progressive path, from the fundamentals to modern web applications.
+  pt-br: Aprendendo React e Next.js em uma jornada prática e progressiva, dos fundamentos até aplicações web modernas.
+technologies: [react, nextjs, javascript]
+skills: [web-development]

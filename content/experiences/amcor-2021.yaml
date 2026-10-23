@@ -1,0 +1,42 @@
+# Sources: v1 career timeline (role, dates, duties) and Jira PWL-33 (learnings).
+id: amcor-2021
+organization: amcor
+positions:
+  - title: { en-us: Administrative assistant, pt-br: Auxiliar administrativo }
+    start: 2021-03
+    end: 2022-08
+
+summary:
+  en-us: Administrative support for an industrial plant, close to the production line.
+  pt-br: Apoio administrativo em uma planta industrial, perto da linha de produção.
+
+responsibilities:
+  en-us:
+    - Kept industrial reports up to date
+    - Organized and maintained the department's files
+    - Controlled the stock of supplies
+  pt-br:
+    - Atualização de relatórios industriais
+    - Organização e manutenção dos arquivos do setor
+    - Controle de estoque de materiais
+
+learnings:
+  en-us:
+    - Continuous improvement and organization as daily habits
+    - How a production line and a plant's infrastructure fit together
+    - Kaizen, physical Kanban boards and production flow
+  pt-br:
+    - Melhoria contínua e organização como hábito diário
+    - Como funcionam uma linha de produção e a infraestrutura de uma fábrica
+    - Kaizen, Kanban físico e fluxo de produção
+
+technologies: [kaizen, kanban]
+skills: [continuous-improvement]
+
+pendingReview:
+  - claim: Updated industrial reports with up to 98% accuracy
+    source: v1 career timeline
+  - claim: Managed 1,000+ files, reducing access time by 30%
+    source: v1 career timeline
+  - claim: Controlled a stock of 200+ items
+    source: v1 career timeline

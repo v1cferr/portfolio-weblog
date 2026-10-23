@@ -1,0 +1,75 @@
+# Sources: v1 career timeline (roles, dates, duties) and Jira PWL-33 and
+# PWL-25 (learnings, technologies, XGuardian). The product is public; names of
+# colleagues from the Jira notes are not published.
+id: xmart-solutions-2024
+organization: xmart-solutions
+positions:
+  - title: { en-us: Software development intern, pt-br: Estagiário de desenvolvimento }
+    employmentType: internship
+    start: 2024-06
+    end: 2024-09
+  - title: { en-us: Junior software developer, pt-br: Desenvolvedor de software júnior }
+    start: 2024-09
+    end: 2025-07
+
+summary:
+  en-us: My first job as a developer, on XGuardian, Xmart's application security platform.
+  pt-br: Meu primeiro emprego como desenvolvedor, no XGuardian, a plataforma de segurança de aplicações da Xmart.
+
+context:
+  en-us: >-
+    XGuardian brings application security scans into the development workflow. The work spanned
+    CI/CD automation, front end and back end, with planning in Scrumban.
+  pt-br: >-
+    O XGuardian leva scans de segurança de aplicações para dentro do fluxo de desenvolvimento.
+    O trabalho passou por automação de CI/CD, front end e back end, com planejamento
+    em Scrumban.
+
+responsibilities:
+  en-us:
+    - Automated SAST and SCA scans with GitHub Actions
+    - Fixed front-end and back-end bugs and implemented new features
+    - Optimized front-end requests
+    - Took part in agile planning with Scrumban and Jira, and documented work in Confluence
+  pt-br:
+    - Automação de scans SAST e SCA com GitHub Actions
+    - Correção de bugs no front end e no back end e implementação de novas funcionalidades
+    - Otimização de requisições no front end
+    - Planejamento ágil com Scrumban e Jira, e documentação no Confluence
+
+contributions:
+  en-us:
+    - Shell and YAML automation for GitHub Actions pipelines
+    - A VS Code extension built on the VS Code API with Node.js
+  pt-br:
+    - Automação em Shell e YAML para pipelines no GitHub Actions
+    - Uma extensão para o VS Code com a API do VS Code em Node.js
+
+learnings:
+  en-us:
+    - Pipelines and CI/CD, including Jenkins pipelines that block on tests, linting and formatting
+    - Application security scanning (SAST, SCA, DAST and container scanning), vulnerability analysis and false positives
+    - DevSecOps as a practice, not a tool
+    - Teamwork and agile planning
+  pt-br:
+    - Pipelines e CI/CD, incluindo pipelines no Jenkins que bloqueiam em testes, linter e indentação
+    - Scans de segurança (SAST, SCA, DAST e container scanning), análise de vulnerabilidades e falsos positivos
+    - DevSecOps como prática, não como ferramenta
+    - Trabalho em equipe e planejamento ágil
+
+technologies: [github-actions, jenkins, aws, react, vite, python, fastapi, nodejs, vscode, bash, jira, confluence, scrumban]
+skills: [devsecops, ci-cd, web-development]
+
+evidence:
+  - { label: XGuardian, url: "https://xguardianplatform.io/", kind: website }
+
+pendingReview:
+  - claim: Automating SAST/SCA scans reduced manual configuration by 50%
+    source: v1 career timeline
+  - claim: Front-end request optimization improved performance by 30%
+    source: v1 career timeline
+  - claim: Fixed 50+ bugs
+    source: v1 career timeline
+  - claim: GitHub Actions automation reduced deploy time
+    source: v1 career timeline (intern position)
+    note: no figure given; keep qualitative or confirm

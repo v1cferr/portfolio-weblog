@@ -1,0 +1,19 @@
+# Source: v1 career timeline (title, start date, description), confirmed by
+# the author on 2026-10-10 as still active.
+id: freelance-2024
+organization: independent
+positions:
+  - title: { en-us: Software-AI developer, pt-br: Desenvolvedor Software-IA }
+    employmentType: freelance
+    start: 2024-04
+
+summary:
+  en-us: Web applications that integrate AI and LLM models to automate processes and analyze data.
+  pt-br: Desenvolvimento de aplicações web integrando modelos de IA/LLM para automação de processos e análise de dados.
+
+skills: [ai-systems, automation, web-development]
+
+pendingReview:
+  - claim: Clients and projects delivered as a freelancer
+    source: none recorded
+    note: add public projects or clients that can be named, with evidence

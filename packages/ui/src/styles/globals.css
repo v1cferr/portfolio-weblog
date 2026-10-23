@@ -1,0 +1,314 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+@source "../../../../apps/web/src/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+/*
+ * Personal Hub design tokens.
+ *
+ * Palette: Tokyo Night, the palette of the owner's desktop (dotfiles
+ * modules/home/desktop/palette.nix), as Night for dark and Day for light,
+ * chosen on 2026-10-23 from a side-by-side bake-off. Day's text, subtext and
+ * lane colours are darkened just enough to reach 4.5:1 on the page and on
+ * clear glass; Night's originals already pass. One accent, the vermilion of a
+ * hanko seal (#c4342c, as on the owner's lockscreen), marks the brand and is
+ * kept off small text in dark mode, where it sits under 4.5:1.
+ *
+ * Colour is reserved for meaning: each kind of entry (career, project, study,
+ * writing) owns one lane colour, used the same way in the timeline, badges,
+ * links and the background lanes.
+ *
+ * Light mode keeps Day's hues for the lanes but sets text in ink, not
+ * Day's blue, so links and lanes stay the only colour in running text
+ * (refined on 2026-10-23 after a second palette bake-off).
+ *
+ *           Day (light)   Night (dark)
+ *   page    #e6e7ed       #1a1b26        text     #2a2e45 / #c0caf5
+ *   subtext #4c5373       #a9b1d6        border   #c4c8da / #3b4261
+ *   career  #0c6d5b       #73daca        project  #2362b6 / #7aa2f7
+ *   study   #775c36       #e0af68        writing  #7c45c4 / #bb9af7
+ *
+ * Glass: clear, like the lockscreen's LiquidGlass (the owner's pick): a light
+ * translucent tint, backdrop blur, a 1 px light hairline, a top sheen and a
+ * soft shadow. Without backdrop-filter, or with reduced transparency, surfaces
+ * fall back to an opaque card.
+ *
+ * Type: Martian Mono for display (name, page and section titles, used with
+ * restraint and set semi-condensed), Hanken Grotesk for everything that is
+ * read, JetBrains Mono for dates, ids, paths and code. The app loads them with
+ * next/font as --font-martian, --font-sans and --font-mono.
+ */
+
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-martian);
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-lane-career: var(--lane-career);
+  --color-lane-project: var(--lane-project);
+  --color-lane-study: var(--lane-study);
+  --color-lane-writing: var(--lane-writing);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: #e6e7ed;
+  --foreground: #2a2e45;
+  --card: #eceef3;
+  --card-foreground: #2a2e45;
+  --popover: #f0f1f5;
+  --popover-foreground: #2a2e45;
+  --primary: #2a2e45;
+  --primary-foreground: #f0f1f5;
+  --secondary: #d0d5e3;
+  --secondary-foreground: #2a2e45;
+  --muted: #d0d5e3;
+  --muted-foreground: #4c5373;
+  --accent: #d0d5e3;
+  --accent-foreground: #2a2e45;
+  --destructive: #c4243c;
+  --border: #c4c8da;
+  --input: #b4bad1;
+  --ring: #2362b6;
+  --brand: #c4342c;
+
+  --lane-career: #0c6d5b;
+  --lane-project: #2362b6;
+  --lane-study: #775c36;
+  --lane-writing: #7c45c4;
+
+  --glass-tint: rgb(240 241 245 / 0.55);
+  --glass-border: rgb(255 255 255 / 0.65);
+  --glass-sheen: rgb(255 255 255 / 0.35);
+  --glass-shadow: 0 14px 36px rgb(42 46 69 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.75);
+}
+
+.dark {
+  --background: #1a1b26;
+  --foreground: #c0caf5;
+  --card: #1f2335;
+  --card-foreground: #c0caf5;
+  --popover: #1f2335;
+  --popover-foreground: #c0caf5;
+  --primary: #c0caf5;
+  --primary-foreground: #1a1b26;
+  --secondary: #292e42;
+  --secondary-foreground: #c0caf5;
+  --muted: #292e42;
+  --muted-foreground: #a9b1d6;
+  --accent: #292e42;
+  --accent-foreground: #c0caf5;
+  --destructive: #f7768e;
+  --border: #3b4261;
+  --input: #414868;
+  --ring: #7aa2f7;
+  --brand: #c4342c;
+
+  --lane-career: #73daca;
+  --lane-project: #7aa2f7;
+  --lane-study: #e0af68;
+  --lane-writing: #bb9af7;
+
+  --glass-tint: rgb(26 27 38 / 0.42);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-sheen: rgb(255 255 255 / 0.07);
+  --glass-shadow: 0 14px 36px rgb(0 0 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  /*
+   * Martian Mono is wide; semi-condensed (its wdth axis) and slightly tight
+   * reads as a title, not as code. next/font does not declare a stretch
+   * range, so the axis is set directly.
+   */
+  .font-display {
+    font-variation-settings: "wdth" 85;
+    letter-spacing: -0.03em;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/*
+ * Clear glass surface (see the token notes at the top). backdrop-filter only
+ * blurs what is behind the element, so it needs the page backdrop to read.
+ */
+@layer components {
+  .glass {
+    background-color: var(--glass-tint);
+    background-image: linear-gradient(180deg, var(--glass-sheen), transparent 35%);
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    -webkit-backdrop-filter: blur(24px) saturate(1.35);
+    backdrop-filter: blur(24px) saturate(1.35);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background-color: var(--card);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background-color: var(--card);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+}
+
+/*
+ * Technology logos in their brand colour, with the lightness clamped per theme
+ * (relative colour syntax) so black or pale brands stay visible. Browsers
+ * without it ignore the rule and the logo keeps currentColor.
+ */
+@layer components {
+  .brand-tint {
+    color: oklch(from var(--brand-hex) min(l, 0.55) min(c, 0.2) h);
+  }
+  .dark .brand-tint {
+    color: oklch(from var(--brand-hex) max(l, 0.78) min(c, 0.16) h);
+  }
+}
+
+/*
+ * A rail that draws itself as its section scrolls by, with CSS scroll-driven
+ * animations (no JavaScript). Browsers without them, or visitors who reduce
+ * motion, get the rail fully drawn.
+ */
+@layer components {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .draw-on-scroll {
+        transform-origin: top;
+        animation: draw-on-scroll linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 60%;
+      }
+    }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* SVG paths drawn on scroll; they need pathLength="1". */
+      .draw-path {
+        stroke-dasharray: 1;
+        animation: draw-path linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+      }
+    }
+  }
+  @keyframes draw-path {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes draw-on-scroll {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+/*
+ * Long-form articles: the reading face at a comfortable measure, colours from the
+ * tokens so both themes stay consistent, code blocks themed by Shiki.
+ */
+@layer components {
+  .prose-hub {
+    @apply prose max-w-[68ch] font-sans text-[1.0625rem] leading-[1.75] dark:prose-invert;
+    --tw-prose-body: var(--foreground);
+    --tw-prose-headings: var(--foreground);
+    --tw-prose-links: var(--lane-writing);
+    --tw-prose-bold: var(--foreground);
+    --tw-prose-quotes: var(--muted-foreground);
+    --tw-prose-code: var(--foreground);
+    --tw-prose-hr: var(--border);
+    --tw-prose-bullets: var(--lane-writing);
+    --tw-prose-counters: var(--muted-foreground);
+    --tw-prose-invert-body: var(--foreground);
+    --tw-prose-invert-headings: var(--foreground);
+    --tw-prose-invert-links: var(--lane-writing);
+    --tw-prose-invert-bold: var(--foreground);
+    --tw-prose-invert-code: var(--foreground);
+  }
+  .prose-hub :where(h2) {
+    @apply font-display;
+    font-variation-settings: "wdth" 85;
+    letter-spacing: -0.03em;
+  }
+  .prose-hub :where(h3, h4) {
+    @apply tracking-tight;
+  }
+  .prose-hub .heading-anchor {
+    color: inherit;
+    @apply no-underline hover:underline hover:decoration-lane-writing hover:underline-offset-4;
+  }
+  .prose-hub :where(code):not(pre code) {
+    @apply rounded bg-muted px-1 py-0.5 font-mono text-secondary-foreground text-[0.85em] font-normal before:content-none after:content-none;
+  }
+  .prose-hub pre {
+    @apply rounded-lg border bg-white font-mono text-sm leading-relaxed dark:bg-popover;
+  }
+  .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-light);
+  }
+  .dark .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+    color: var(--shiki-dark);
+  }
+}
