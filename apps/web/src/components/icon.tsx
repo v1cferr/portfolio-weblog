@@ -1,3 +1,4 @@
+import type * as React from "react";
 import type { Link as ContentLink, TechnologyCategory } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
 import {
@@ -58,6 +59,8 @@ interface IconProps {
   /** Used when the reference is missing or unknown. */
   fallback: LucideIcon;
   className?: string;
+  /** Tint brand logos with their own colour (see .brand-tint in globals.css). */
+  tinted?: boolean;
 }
 
 /**
@@ -65,7 +68,7 @@ interface IconProps {
  * icons as components. Always decorative; the text or aria-label next to it
  * names the thing.
  */
-export function Icon({ icon, fallback: Fallback, className }: IconProps) {
+export function Icon({ icon, fallback: Fallback, className, tinted = false }: IconProps) {
   const classes = cn("size-4 shrink-0", className);
   if (icon !== undefined) {
     const brand = brandIcons[icon];
@@ -76,7 +79,8 @@ export function Icon({ icon, fallback: Fallback, className }: IconProps) {
           fill="currentColor"
           aria-hidden="true"
           focusable="false"
-          className={classes}
+          className={cn(classes, tinted && brand.hex !== "" && "brand-tint")}
+          style={tinted && brand.hex !== "" ? ({ "--brand-hex": brand.hex } as React.CSSProperties) : undefined}
           // Trusted markup: generated at build time from the Simple Icons and Devicon packages.
           dangerouslySetInnerHTML={{ __html: brand.body }}
         />
@@ -89,7 +93,7 @@ export function Icon({ icon, fallback: Fallback, className }: IconProps) {
 }
 
 export function TechnologyIcon({ icon, category, className }: { icon?: string | undefined; category: Category; className?: string }) {
-  return <Icon icon={icon} fallback={categoryIcons[category]} className={className} />;
+  return <Icon icon={icon} fallback={categoryIcons[category]} className={className} tinted />;
 }
 
 export function ContentLinkIcon({ link, className }: { link: Pick<ContentLink, "icon" | "kind">; className?: string }) {

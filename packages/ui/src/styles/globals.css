@@ -195,6 +195,20 @@
 }
 
 /*
+ * Technology logos in their brand colour, with the lightness clamped per theme
+ * (relative colour syntax) so black or pale brands stay visible. Browsers
+ * without it ignore the rule and the logo keeps currentColor.
+ */
+@layer components {
+  .brand-tint {
+    color: oklch(from var(--brand-hex) min(l, 0.55) min(c, 0.2) h);
+  }
+  .dark .brand-tint {
+    color: oklch(from var(--brand-hex) max(l, 0.78) min(c, 0.16) h);
+  }
+}
+
+/*
  * A rail that draws itself as its section scrolls by, with CSS scroll-driven
  * animations (no JavaScript). Browsers without them, or visitors who reduce
  * motion, get the rail fully drawn.

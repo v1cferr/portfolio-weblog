@@ -6,7 +6,8 @@
  *
  * Only the icons the content uses end up in the site. Brand logos come from
  * Simple Icons (si:, CC0) and Devicon (dv:, MIT; the monochrome "plain"
- * variant), and render as inline SVG in currentColor. Lucide icons (lucide:)
+ * variant), and render as inline SVG in currentColor; each keeps its brand
+ * colour (hex) so technology badges can tint it. Lucide icons (lucide:)
  * are re-exported as components so they tree-shake.
  */
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -41,6 +42,12 @@ const lucideRefs: Record<string, string> = {};
 const bySlug = new Map(
   Object.values(simpleIcons as Record<string, { slug: string; title: string; hex: string; path: string }>).map((icon) => [icon.slug, icon])
 );
+const deviconColors = new Map(
+  (JSON.parse(readFileSync(require.resolve("devicon/devicon.json"), "utf8")) as { name: string; color?: string }[]).map((entry) => [
+    entry.name,
+    entry.color ?? "",
+  ])
+);
 const pascal = (kebab: string) => kebab.replace(/(^|-)([a-z0-9])/g, (_match: string, _dash: string, char: string) => char.toUpperCase());
 
 for (const ref of [...refs].sort()) {
@@ -65,7 +72,7 @@ for (const ref of [...refs].sort()) {
       .replace(/\s(?:fill|stroke|style|class)="[^"]*"/g, "")
       .replace(/\s+/g, " ")
       .trim();
-    brands[ref] = { title: name, hex: "", viewBox, body };
+    brands[ref] = { title: name, hex: deviconColors.get(name) ?? "", viewBox, body };
   } else if (source === "lucide") {
     const component = `${pascal(name)}Icon`;
     if (!(component in lucide)) errors.push(`${ref}: lucide-react has no ${component}`);
