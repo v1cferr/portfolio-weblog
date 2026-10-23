@@ -197,7 +197,7 @@ function ProjectRow({ project, date }: { project: ProjectCardData; date?: string
     <article className="glass relative flex flex-col gap-2 rounded-xl border px-4 py-3 transition-colors hover:border-lane-project/50 sm:flex-row sm:items-center sm:gap-4">
       <div className="min-w-0 flex-1 space-y-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h4 className="font-display font-semibold">
+          <h4 className="font-semibold">
             <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
               {project.title}
             </Link>

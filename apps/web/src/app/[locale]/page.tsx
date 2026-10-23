@@ -44,7 +44,10 @@ export default async function HomePage() {
           </p>
           <h1 className="font-display text-5xl leading-[0.95] font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
             {profile.name}
-            <span className="mt-3 block text-2xl font-medium tracking-normal text-muted-foreground sm:text-3xl" lang={headline.locale}>
+            <span
+              className="mt-4 block font-sans text-2xl font-medium tracking-normal text-muted-foreground [font-variation-settings:normal] sm:text-3xl"
+              lang={headline.locale}
+            >
               {headline.value}
             </span>
           </h1>

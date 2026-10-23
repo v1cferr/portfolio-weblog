@@ -56,7 +56,7 @@ function ListSection({ title, list, locale }: { title: string; list: LocalizedLi
   if (items === undefined) return null;
   return (
     <section className="space-y-3">
-      <h2 className="font-display text-xl font-semibold">{title}</h2>
+      <h2 className="text-xl font-semibold">{title}</h2>
       <ul className="list-disc space-y-1.5 pl-5 marker:text-lane-career">
         {items.value.map((item) => (
           <li key={item} lang={items.locale}>
@@ -150,7 +150,7 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
       <div className="space-y-10">
         {context && (
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">{t("context")}</h2>
+            <h2 className="text-xl font-semibold">{t("context")}</h2>
             <p lang={context.locale}>{context.value}</p>
           </section>
         )}
@@ -171,27 +171,27 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
         <ListSection title={t("learnings")} list={experience.learnings} locale={locale} />
         {hindsight && (
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">{t("hindsight")}</h2>
+            <h2 className="text-xl font-semibold">{t("hindsight")}</h2>
             <p lang={hindsight.locale}>{hindsight.value}</p>
           </section>
         )}
         {impact && (
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">{t("impact")}</h2>
+            <h2 className="text-xl font-semibold">{t("impact")}</h2>
             <p lang={impact.locale}>{impact.value}</p>
           </section>
         )}
 
         {experience.technologies.length > 0 && (
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">{common("technologies")}</h2>
+            <h2 className="text-xl font-semibold">{common("technologies")}</h2>
             <TechList ids={experience.technologies} label={common("technologies")} />
           </section>
         )}
 
         {experience.evidence.length > 0 && (
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">{common("evidence")}</h2>
+            <h2 className="text-xl font-semibold">{common("evidence")}</h2>
             <ul className="space-y-1">
               {experience.evidence.map((link) => (
                 <li key={link.url}>

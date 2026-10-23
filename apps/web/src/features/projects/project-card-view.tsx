@@ -36,7 +36,7 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
           <ProjectStateBadge state={project.state} label={project.stateLabel} />
           <span className="font-mono text-[0.7rem] text-muted-foreground">{project.categoryLabel}</span>
         </div>
-        <h3 className="font-display text-lg leading-snug font-semibold">
+        <h3 className="text-lg leading-snug font-semibold">
           <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
             {project.title}
           </Link>

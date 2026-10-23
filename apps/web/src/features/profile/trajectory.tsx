@@ -55,7 +55,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
               />
             </span>
             <span className="flex min-w-0 flex-col gap-1.5">
-              <span className="font-display text-base leading-tight font-semibold text-balance group-hover:underline group-hover:underline-offset-4 sm:text-lg">
+              <span className="text-base leading-tight font-semibold sm:text-lg text-balance group-hover:underline group-hover:underline-offset-4 sm:text-lg">
                 {station.label}
               </span>
               {station.organization !== undefined ? (

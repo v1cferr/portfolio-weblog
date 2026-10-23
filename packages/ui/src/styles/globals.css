@@ -37,16 +37,16 @@
  * soft shadow. Without backdrop-filter, or with reduced transparency, surfaces
  * fall back to an opaque card.
  *
- * Type: Manrope for everything that is read (headings, interface, articles)
- * and JetBrains Mono for dates, ids, paths and code. The app loads both with
- * next/font as --font-sans and --font-mono; --font-display is an alias of the
- * sans, kept as a separate role so headings can diverge later.
+ * Type: Martian Mono for display (name, page and section titles, used with
+ * restraint and set semi-condensed), Hanken Grotesk for everything that is
+ * read, JetBrains Mono for dates, ids, paths and code. The app loads them with
+ * next/font as --font-martian, --font-sans and --font-mono.
  */
 
 @theme inline {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-display: var(--font-sans);
+  --font-display: var(--font-martian);
   --font-heading: var(--font-sans);
 
   --color-background: var(--background);
@@ -156,7 +156,15 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    font-feature-settings: "ss02";
+  }
+  /*
+   * Martian Mono is wide; semi-condensed (its wdth axis) and slightly tight
+   * reads as a title, not as code. next/font does not declare a stretch
+   * range, so the axis is set directly.
+   */
+  .font-display {
+    font-variation-settings: "wdth" 85;
+    letter-spacing: -0.03em;
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-ring;
@@ -260,8 +268,13 @@
     --tw-prose-invert-bold: var(--foreground);
     --tw-prose-invert-code: var(--foreground);
   }
-  .prose-hub :where(h2, h3, h4) {
-    @apply font-display tracking-tight;
+  .prose-hub :where(h2) {
+    @apply font-display;
+    font-variation-settings: "wdth" 85;
+    letter-spacing: -0.03em;
+  }
+  .prose-hub :where(h3, h4) {
+    @apply tracking-tight;
   }
   .prose-hub .heading-anchor {
     color: inherit;

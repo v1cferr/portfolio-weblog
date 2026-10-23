@@ -15,7 +15,7 @@ export async function PostCard({ post }: { post: Post }) {
         <span className="font-mono text-[0.7rem] tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</span>
       </div>
       <div className="space-y-2">
-        <h2 className="font-display text-2xl leading-tight font-semibold text-balance">
+        <h2 className="text-2xl leading-tight font-semibold text-balance">
           <Link href={`/weblog/${post.slug}`} className="after:absolute after:inset-0 group-hover:underline group-hover:underline-offset-4">
             {fm.title}
           </Link>

@@ -117,7 +117,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
           <div className="space-y-10">
             {problem && (
               <section className="space-y-3">
-                <h2 className="font-display text-xl font-semibold">{t("problem")}</h2>
+                <h2 className="text-xl font-semibold">{t("problem")}</h2>
                 <p lang={problem.locale}>{problem.value}</p>
               </section>
             )}
@@ -128,7 +128,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
             )}
             {learnings && (
               <section className="space-y-3">
-                <h2 className="font-display text-xl font-semibold">{t("learnings")}</h2>
+                <h2 className="text-xl font-semibold">{t("learnings")}</h2>
                 <ul className="list-disc space-y-1.5 pl-5 marker:text-lane-project" lang={learnings.locale}>
                   {learnings.value.map((item) => (
                     <li key={item}>{item}</li>
@@ -138,7 +138,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
             )}
             {project.technologies.length > 0 && (
               <section className="space-y-3">
-                <h2 className="font-display text-xl font-semibold">{common("technologies")}</h2>
+                <h2 className="text-xl font-semibold">{common("technologies")}</h2>
                 <TechList ids={project.technologies} label={common("technologies")} />
               </section>
             )}

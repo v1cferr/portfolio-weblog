@@ -61,7 +61,7 @@ export default async function EducationPage() {
                           </Badge>
                         )}
                       </div>
-                      <h2 className="font-display text-xl leading-tight font-semibold" lang={title.locale}>
+                      <h2 className="text-xl leading-tight font-semibold" lang={title.locale}>
                         {title.value}
                       </h2>
                       {institution !== undefined && (

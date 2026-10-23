@@ -37,7 +37,7 @@ export async function ExperienceCard({ experience }: { experience: Experience })
       <CardHeader className="flex flex-row items-start gap-3 px-5">
         <OrganizationMark organization={organization} />
         <div className="min-w-0 flex-1">
-          <h3 className="font-display text-xl leading-tight font-semibold">
+          <h3 className="text-xl leading-tight font-semibold">
             <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
               {organization.name}
             </Link>
