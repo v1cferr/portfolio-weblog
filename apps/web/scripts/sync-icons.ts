@@ -86,13 +86,13 @@ if (errors.length > 0) {
 }
 
 // The locale switcher's flags: each locale's region (pt-br -> br), copied from
-// flag-icons (MIT) into public/flags/. Served as files, not inlined, so no page
+// circle-flags (MIT) into public/flags/. Served as files, not inlined, so no page
 // carries them in its JavaScript and two copies of one SVG never share ids.
 const FLAGS = path.join(import.meta.dirname, "..", "public", "flags");
 const flags = new Map<string, string>();
 for (const locale of routing.locales) {
   const region = locale.split("-")[1] ?? "";
-  flags.set(`${region}.svg`, readFileSync(require.resolve(`flag-icons/flags/4x3/${region}.svg`), "utf8"));
+  flags.set(`${region}.svg`, readFileSync(require.resolve(`circle-flags/flags/${region}.svg`), "utf8"));
 }
 let flagsOnDisk: string[] = [];
 try {
