@@ -232,7 +232,8 @@
     "description": "The workstation I use every day, and the parts it has retired.",
     "updated": "Updated {date}",
     "since": "Since {date}",
-    "period": "{start} – {end}"
+    "period": "{start} – {end}",
+    "present": "present"
   },
   "NotFound": {
     "title": "Page not found",

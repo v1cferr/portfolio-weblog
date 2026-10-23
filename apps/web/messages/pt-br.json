@@ -232,7 +232,8 @@
     "description": "A estação de trabalho que uso todos os dias, e as peças que ela já aposentou.",
     "updated": "Atualizado em {date}",
     "since": "Desde {date}",
-    "period": "{start} – {end}"
+    "period": "{start} – {end}",
+    "present": "atual"
   },
   "NotFound": {
     "title": "Página não encontrada",
