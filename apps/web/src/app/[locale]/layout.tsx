@@ -25,6 +25,14 @@ import { SITE_URL } from "@/lib/site";
 const fontSans = Manrope({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600", "700"] });
 const fontMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
 
+/**
+ * Every new visit starts from the system theme. next-themes always persists a
+ * manual choice in localStorage; this runs before it and drops that choice when
+ * the tab has not started a session yet, so the choice lasts for the tab (and
+ * its reloads) and never into the next visit.
+ */
+const THEME_SESSION_SCRIPT = `try{if(!sessionStorage.getItem("hub-theme-session")){localStorage.removeItem("theme");sessionStorage.setItem("hub-theme-session","1")}}catch(e){}`;
+
 /** Namespaces read by client components; everything else stays on the server. */
 const CLIENT_NAMESPACES = ["Nav", "Theme", "LocaleSwitcher", "Search", "Error", "Projects"] as const;
 
@@ -71,6 +79,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   return (
     <html lang={languageTag(locale)} suppressHydrationWarning className={cn("antialiased", fontSans.variable, fontMono.variable)}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SESSION_SCRIPT }} />
+      </head>
       <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
           <NextIntlClientProvider messages={clientMessages}>

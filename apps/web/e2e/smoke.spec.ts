@@ -163,6 +163,22 @@ test.describe("interactions", () => {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Career");
   });
 
+  test("a manual theme lasts for the tab, and a new visit follows the system again", async ({ browser }) => {
+    const context = await browser.newContext({ colorScheme: "light" });
+    const page = await context.newPage();
+    await page.goto("/en-us");
+    await page.getByRole("button", { name: "Change theme" }).click();
+    await page.getByRole("menuitemradio", { name: "Dark" }).click();
+    await expect(page.locator("html")).toHaveClass(/dark/);
+    await page.reload();
+    await expect(page.locator("html")).toHaveClass(/dark/);
+    // A new tab shares localStorage but not sessionStorage: a new visit.
+    const next = await context.newPage();
+    await next.goto("/en-us");
+    await expect(next.locator("html")).not.toHaveClass(/dark/);
+    await context.close();
+  });
+
   test("the theme can be switched to dark", async ({ page }) => {
     await page.goto("/en-us");
     await page.getByRole("button", { name: "Change theme" }).click();
