@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, LocalizedText } from "./common";
+import { entityBase, IconRef, Id, LocalizedText } from "./common";
 
 export const TechnologyCategory = z.enum([
   "language",
@@ -20,6 +20,8 @@ export const Technology = z.strictObject({
   name: z.string().min(1),
   category: TechnologyCategory,
   url: z.url().optional(),
+  /** Official logo when one exists; without it the category's generic icon is used. */
+  icon: IconRef.optional(),
 });
 export type Technology = z.infer<typeof Technology>;
 

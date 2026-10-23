@@ -53,10 +53,21 @@ export const LocalizedList = z.strictObject({
 });
 export type LocalizedList = z.infer<typeof LocalizedList>;
 
+/**
+ * An icon reference: `si:<slug>` (Simple Icons), `dv:<name>` (Devicon, plain
+ * variant) or `lucide:<kebab-name>`. apps/web generates the brand icons it
+ * uses from these references (pnpm icons:sync).
+ */
+export const IconRef = z
+  .string()
+  .regex(/^(?:si|dv|lucide):[a-z0-9]+(?:-[a-z0-9]+)*$/, "icons are si:<slug>, dv:<name> or lucide:<kebab-name>");
+export type IconRef = z.infer<typeof IconRef>;
+
 export const Link = z.strictObject({
   label: z.string().min(1),
   url: z.url({ protocol: /^https?$|^mailto$/ }),
   kind: z.enum(["website", "repository", "demo", "article", "profile", "email", "certificate", "other"]).default("other"),
+  icon: IconRef.optional(),
 });
 export type Link = z.infer<typeof Link>;
 

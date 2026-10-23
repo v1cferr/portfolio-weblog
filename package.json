@@ -13,9 +13,10 @@
     "content:check": "pnpm --filter @workspace/content check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm test",
+    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm --filter web icons:check && pnpm test",
     "prepare": "husky",
-    "media:add": "pnpm --filter @workspace/content media:add"
+    "media:add": "pnpm --filter @workspace/content media:add",
+    "icons:sync": "pnpm --filter web icons:sync"
   },
   "devDependencies": {
     "husky": "^9.1.7",

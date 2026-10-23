@@ -65,13 +65,13 @@ focus:
     - Automação de fluxos do dia a dia
 
 links:
-  - { label: GitHub, url: "https://github.com/v1cferr", kind: profile }
-  - { label: LinkedIn, url: "https://www.linkedin.com/in/v1cferr", kind: profile }
-  - { label: X, url: "https://x.com/v1cferr", kind: profile }
-  - { label: Email, url: "mailto:dev.victorferreira@gmail.com", kind: email }
-  - { label: Microsoft Learn, url: "https://learn.microsoft.com/en-us/users/v1cferr", kind: profile }
-  - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile }
-  - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile }
+  - { label: GitHub, url: "https://github.com/v1cferr", kind: profile, icon: "si:github" }
+  - { label: LinkedIn, url: "https://www.linkedin.com/in/v1cferr", kind: profile, icon: "dv:linkedin" }
+  - { label: X, url: "https://x.com/v1cferr", kind: profile, icon: "si:x" }
+  - { label: Email, url: "mailto:dev.victorferreira@gmail.com", kind: email, icon: "lucide:mail" }
+  - { label: Microsoft Learn, url: "https://learn.microsoft.com/en-us/users/v1cferr", kind: profile, icon: "lucide:graduation-cap" }
+  - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile, icon: "si:frontendmentor" }
+  - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile, icon: "si:monkeytype" }
 
 quotes:
   - text: Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.
