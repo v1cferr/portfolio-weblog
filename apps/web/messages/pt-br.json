@@ -22,7 +22,8 @@
     "education": "Estudos",
     "setup": "Setup",
     "openMenu": "Abrir menu",
-    "skipToContent": "Pular para o conteúdo"
+    "skipToContent": "Pular para o conteúdo",
+    "brandHome": "v1cferr.dev, página inicial"
   },
   "Theme": {
     "label": "Alterar tema",

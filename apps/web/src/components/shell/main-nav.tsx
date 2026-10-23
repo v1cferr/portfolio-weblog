@@ -7,6 +7,7 @@ import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { Logo } from "@/components/logo";
 import { Link, usePathname } from "@/i18n/navigation";
 
 import { HOME_ITEM, NAV_ITEMS, SETUP_ITEM } from "./nav-items";
@@ -58,7 +59,10 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
         <SheetHeader>
-          <SheetTitle className="font-mono text-sm">v1cferr</SheetTitle>
+          <SheetTitle>
+            <Logo className="h-6" />
+            <span className="sr-only">{t("brandHome")}</span>
+          </SheetTitle>
         </SheetHeader>
         <nav aria-label={t("label")} className="px-4">
           <ul className="flex flex-col gap-1">

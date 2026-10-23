@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { SearchDialog } from "@/features/search/search-dialog";
+import { Logo } from "@/components/logo";
 import { Link } from "@/i18n/navigation";
 
 import { LocaleSwitcher } from "./locale-switcher";
@@ -18,8 +19,8 @@ export async function SiteHeader() {
         {t("skipToContent")}
       </a>
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="font-mono text-sm font-medium tracking-tight" aria-label={t("home")}>
-          v1cferr<span className="text-lane-career">.dev</span>
+        <Link href="/" className="-m-1 rounded-lg p-1 transition-opacity hover:opacity-80" aria-label={t("brandHome")}>
+          <Logo />
         </Link>
         <div className="ml-auto flex items-center gap-1 lg:ml-6 lg:flex-1">
           <MainNav />
