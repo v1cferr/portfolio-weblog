@@ -50,6 +50,7 @@
   },
   "Common": {
     "present": "atual",
+    "now": "agora",
     "years": "{count, plural, one {# ano} other {# anos}}",
     "months": "{count, plural, one {# mês} other {# meses}}",
     "source": "Fonte",

@@ -50,6 +50,7 @@
   },
   "Common": {
     "present": "present",
+    "now": "now",
     "years": "{count, plural, one {# yr} other {# yrs}}",
     "months": "{count, plural, one {# mo} other {# mos}}",
     "source": "Source",

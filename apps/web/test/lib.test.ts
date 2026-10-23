@@ -4,7 +4,7 @@ import en from "../messages/en-us.json";
 import pt from "../messages/pt-br.json";
 import zh from "../messages/zh-cn.json";
 import { withFallback } from "../src/i18n/messages";
-import { currentMonth, formatPartialDate, monthsBetween } from "../src/lib/dates";
+import { currentMonth, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
 
 describe("formatPartialDate", () => {
@@ -16,6 +16,15 @@ describe("formatPartialDate", () => {
 
   it("never shifts the day across time zones", () => {
     expect(formatPartialDate("2024-01-01", "pt-br")).toBe("1 de jan. de 2024");
+  });
+});
+
+describe("formatYearSpan", () => {
+  it("shortens the end year and leaves open spans open", () => {
+    expect(formatYearSpan("2021-03", "2022-08")).toBe("2021–22");
+    expect(formatYearSpan("2023-07", "2023-12")).toBe("2023");
+    expect(formatYearSpan("1999", "2001-02")).toBe("1999–2001");
+    expect(formatYearSpan("2026-03")).toBe("2026–");
   });
 });
 

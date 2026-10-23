@@ -28,3 +28,15 @@ export function monthsBetween(start: string, end: string): number | undefined {
 export function currentMonth(now: Date = new Date()): string {
   return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
 }
+
+/**
+ * The years a span covers, compact: "2021–22", "2024–26", "2023" when it
+ * starts and ends in the same year, "2026–" while it is still open.
+ */
+export function formatYearSpan(start: string, end?: string): string {
+  const from = start.slice(0, 4);
+  if (end === undefined) return `${from}–`;
+  const to = end.slice(0, 4);
+  if (to === from) return from;
+  return `${from}–${to.slice(0, 2) === from.slice(0, 2) ? to.slice(2) : to}`;
+}
