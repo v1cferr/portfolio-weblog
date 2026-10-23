@@ -4,7 +4,7 @@ import en from "../messages/en-us.json";
 import pt from "../messages/pt-br.json";
 import zh from "../messages/zh-cn.json";
 import { withFallback } from "../src/i18n/messages";
-import { currentMonth, formatDayMonth, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
+import { currentMonth, formatDayMonth, formatMonthRange, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
 
 describe("formatPartialDate", () => {
@@ -27,6 +27,14 @@ describe("formatDayMonth", () => {
     expect(formatDayMonth("2026-08", "en-us")).toBe("Aug");
     expect(formatDayMonth("2026-10-09", "zh-cn")).toBe("10月09日");
     expect(formatDayMonth("2026", "en-us")).toBe("");
+  });
+});
+
+describe("formatMonthRange", () => {
+  it("names the year once when the range stays inside it", () => {
+    expect(formatMonthRange("2026-07", "2026-08", "pt-br", "atual")).toBe("jul – ago 2026");
+    expect(formatMonthRange("2024-09", "2025-07", "en-us", "present")).toBe("Sep 2024 – Jul 2025");
+    expect(formatMonthRange("2026-08", undefined, "pt-br", "atual")).toBe("ago 2026 – atual");
   });
 });
 

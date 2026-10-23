@@ -61,3 +61,17 @@ export function formatDayMonth(date: string, locale: string): string {
     .map((part) => part.value.replace(/\.$/, ""))
     .join(" ");
 }
+
+/**
+ * A compact month range: "jul – ago 2026" within one year, "set 2024 – jul
+ * 2025" across years, "ago 2026 – {present}" while open.
+ */
+export function formatMonthRange(start: string, end: string | undefined, locale: string, present: string): string {
+  const label = (date: string) => [formatDayMonth(date.slice(0, 7), locale), date.slice(0, 4)].filter(Boolean).join(" ");
+  if (end === undefined) return `${label(start)} – ${present}`;
+  if (start.slice(0, 4) === end.slice(0, 4)) {
+    const from = formatDayMonth(start.slice(0, 7), locale);
+    return from === "" ? start.slice(0, 4) : `${from} – ${label(end)}`;
+  }
+  return `${label(start)} – ${label(end)}`;
+}
