@@ -151,6 +151,13 @@
       "study": "Study",
       "challenge": "Challenge"
     },
+    "showAll": "Show all {count}",
+    "showLess": "Show fewer",
+    "labelState": "Status",
+    "labelCategory": "Type",
+    "undated": "No date",
+    "allProjects": "All projects, newest first",
+    "startedOn": "Started",
     "uncurated": "More public repositories",
     "uncuratedDescription": "Listed automatically from GitHub and not curated: being public does not make a repository a highlight.",
     "fromGithub": "From GitHub",

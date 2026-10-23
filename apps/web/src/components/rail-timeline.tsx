@@ -47,7 +47,20 @@ const rail: Record<Lane, { track: string; drawn: string; past: string; undated: 
  * A single-lane timeline: one vertical rail in the lane's colour, newest entry
  * on top. The caller orders the entries; the rail draws itself on scroll.
  */
-export function RailTimeline({ lane, entries, label }: { lane: Lane; entries: RailEntry[]; label?: string }) {
+export function RailTimeline({
+  lane,
+  entries,
+  label,
+  nodeClassName = "top-7",
+  gapClassName = "space-y-6",
+}: {
+  lane: Lane;
+  entries: RailEntry[];
+  label?: string;
+  /** Vertical position of the nodes, to line up with the first line of each entry. */
+  nodeClassName?: string;
+  gapClassName?: string;
+}) {
   const colors = rail[lane];
   return (
     <div className="relative">
@@ -55,13 +68,14 @@ export function RailTimeline({ lane, entries, label }: { lane: Lane; entries: Ra
       <span aria-hidden className={cn("absolute inset-y-0 left-0 w-0.5", colors.track)}>
         <span className={cn("draw-on-scroll absolute inset-0 block", colors.drawn)} />
       </span>
-      <RevealList aria-label={label} className="space-y-6 pl-6 md:pl-8">
+      <RevealList aria-label={label} className={cn("pl-6 md:pl-8", gapClassName)}>
         {entries.map((entry) => (
           <RevealItem key={entry.key} id={entry.id} className="relative scroll-mt-24">
             <span
               aria-hidden
               className={cn(
-                "absolute top-7 -left-[calc(1.5rem+5px)] size-3 rounded-full md:-left-[calc(2rem+5px)]",
+                "absolute -left-[calc(1.5rem+5px)] size-3 rounded-full md:-left-[calc(2rem+5px)]",
+                nodeClassName,
                 entry.node === "current" && "bg-brand ring-4 ring-brand/20",
                 entry.node === "past" && cn("ring-4", colors.past),
                 entry.node === "undated" && cn("border-2 bg-background", colors.undated)

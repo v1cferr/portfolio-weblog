@@ -151,6 +151,13 @@
       "study": "Estudo",
       "challenge": "Desafio"
     },
+    "showAll": "Ver todos os {count}",
+    "showLess": "Ver menos",
+    "labelState": "Estado",
+    "labelCategory": "Tipo",
+    "undated": "Sem data",
+    "allProjects": "Todos os projetos, do mais recente",
+    "startedOn": "Início",
     "uncurated": "Mais repositórios públicos",
     "uncuratedDescription": "Listados automaticamente do GitHub e sem curadoria: ser público não torna um repositório um destaque.",
     "fromGithub": "Do GitHub",

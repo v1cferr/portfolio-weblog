@@ -18,6 +18,9 @@ export interface ProjectCardData {
   category: ProjectCategory;
   categoryLabel: string;
   featured: boolean;
+  /** When the work started: from the content, else the repository's creation date. */
+  date?: string | undefined;
+  dateFromRepository: boolean;
   technologies: { id: string; name: string; icon?: string | undefined; category: (typeof TechnologyCategory.options)[number] }[];
 }
 
