@@ -1,12 +1,13 @@
 import { type TimelineEvent, localize } from "@workspace/content";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
 import { cn } from "@workspace/ui/lib/utils";
+import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { DateRange, PartialDate } from "@/components/date-range";
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
+import { formatDayMonth } from "@/lib/dates";
 import { describeEntity } from "@/lib/entities";
 
 export const LANES: readonly Lane[] = ["career", "project", "study", "writing"];
@@ -53,24 +54,41 @@ export async function CommitGraph({
     groups.set(key, [...(groups.get(key) ?? []), row]);
   }
 
+  // Inside a year group the year is in the heading; without groups it stays.
+  const short = (date: string, withYear = !groupByYear) => (
+    <time dateTime={date} className="whitespace-nowrap">
+      {[formatDayMonth(date, locale), withYear ? date.slice(0, 4) : ""].filter(Boolean).join(" ")}
+    </time>
+  );
+
   return (
-    <div aria-label={label} role="region">
+    <div aria-label={label} role="region" className={groupByYear ? "[--date-col:4.5rem]" : "[--date-col:6rem]"}>
       {[...groups].map(([year, items]) => (
-        <section key={year} aria-label={year || undefined}>
+        <section key={year} aria-label={year || undefined} className="pb-4">
           {groupByYear && (
-            <h2 className="sticky top-14 z-10 -mx-1 bg-background/90 px-1 py-2 font-mono text-sm font-medium backdrop-blur">{year}</h2>
+            <h2
+              aria-label={`${year}, ${t("entries", { count: items.length })}`}
+              className="glass sticky top-17 z-10 my-3 w-fit rounded-full border px-3 py-1 font-mono text-sm font-medium tabular-nums"
+            >
+              {year}
+              <span aria-hidden className="text-muted-foreground">
+                {" · "}
+                {items.length}
+              </span>
+            </h2>
           )}
           <ol>
             {items.map((row) => {
               const laneIndex = LANES.indexOf(row.lane);
               const fromRepository = row.event.dateSource === "repository-created";
+              const end = row.event.kind === "position" ? row.event.end : undefined;
               return (
                 <li
                   key={row.event.key}
-                  className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[6.5rem_6rem_minmax(0,1fr)] sm:gap-x-4"
+                  className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[var(--date-col)_6rem_minmax(0,1fr)] sm:gap-x-4"
                 >
-                  <div className="hidden pt-3 text-right sm:block">
-                    <PartialDate date={row.event.date} />
+                  <div className="hidden pt-3.5 text-right font-mono text-xs text-muted-foreground tabular-nums sm:block">
+                    {short(row.event.date)}
                   </div>
                   {/* The graph: four lane rails, one node on this entry's lane. */}
                   <div aria-hidden className="relative grid grid-cols-4">
@@ -80,22 +98,37 @@ export async function CommitGraph({
                         {index === laneIndex && (
                           <span
                             className={cn(
-                              "relative mt-4 size-3 rounded-full ring-4 ring-background",
-                              fromRepository ? cn("border-2 bg-background", laneText[lane], "border-current") : laneBg[lane]
+                              "relative mt-4 size-3 rounded-full ring-4 ring-current/15",
+                              laneText[lane],
+                              fromRepository ? "border-2 border-current bg-background" : "bg-current"
                             )}
                           />
                         )}
                       </div>
                     ))}
                   </div>
-                  <div className="min-w-0 border-b py-2.5">
+                  <div className="min-w-0 border-b border-border/50 py-2.5">
                     <p className={cn("flex items-center gap-1.5 font-mono text-[0.7rem] tracking-wide uppercase", laneText[row.lane])}>
                       <LaneIcon lane={row.lane} className="size-3" />
-                      <span className="sm:hidden">
-                        <PartialDate date={row.event.date} />
+                      <span className="text-muted-foreground sm:hidden">
+                        {short(row.event.date)}
                         {" · "}
                       </span>
                       {row.event.kind === "position" ? t("legendCareer") : t(`kind.${row.event.kind}`)}
+                      {fromRepository && (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              type="button"
+                              aria-label={t("repositoryCreated")}
+                              className="cursor-help rounded-sm text-muted-foreground"
+                            >
+                              <CircleDashedIcon aria-hidden className="size-3" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-64 normal-case">{t("repositoryCreatedHint")}</TooltipContent>
+                        </Tooltip>
+                      )}
                     </p>
                     <p className="font-medium">
                       {row.href !== undefined ? (
@@ -107,21 +140,11 @@ export async function CommitGraph({
                       )}
                     </p>
                     {row.subtitle !== undefined && <p className="line-clamp-1 text-sm text-muted-foreground">{row.subtitle}</p>}
-                    {row.event.kind === "position" && row.event.end !== undefined && (
-                      <DateRange start={row.event.date} end={row.event.end} />
-                    )}
-                    {fromRepository && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <button
-                            type="button"
-                            className="mt-0.5 cursor-help font-mono text-xs text-muted-foreground underline decoration-dotted underline-offset-4"
-                          >
-                            {t("repositoryCreated")}
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-64">{t("repositoryCreatedHint")}</TooltipContent>
-                      </Tooltip>
+                    {end !== undefined && (
+                      <p className="font-mono text-xs text-muted-foreground tabular-nums">
+                        {short(row.event.date, false)} – {short(end, false)}
+                        {end.slice(0, 4) !== row.event.date.slice(0, 4) && ` ${end.slice(0, 4)}`}
+                      </p>
                     )}
                   </div>
                 </li>
@@ -145,6 +168,10 @@ export async function LaneLegend() {
           {t(keys[lane])}
         </li>
       ))}
+      <li className="flex items-center gap-2 text-muted-foreground">
+        <CircleDashedIcon aria-hidden className="size-4" />
+        {t("repositoryLegend")}
+      </li>
     </ul>
   );
 }

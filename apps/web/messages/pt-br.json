@@ -156,6 +156,8 @@
     "notOnGithub": "Sem repositório público."
   },
   "Timeline": {
+    "entries": "{count, plural, one {# entrada} other {# entradas}}",
+    "repositoryLegend": "Nó vazado: data de criação do repositório",
     "title": "Linha do tempo",
     "description": "Carreira, projetos, estudos e escrita em um único eixo, derivados do próprio conteúdo.",
     "legend": "Trilhas",

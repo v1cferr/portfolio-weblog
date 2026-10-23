@@ -40,3 +40,24 @@ export function formatYearSpan(start: string, end?: string): string {
   if (to === from) return from;
   return `${from}–${to.slice(0, 2) === from.slice(0, 2) ? to.slice(2) : to}`;
 }
+
+/**
+ * Day and month without the year, for lists already grouped by year:
+ * "09 out", "Oct 09", "10月09日"; "out" / "Oct" for a month-precision date and
+ * "" for a year-only one.
+ */
+export function formatDayMonth(date: string, locale: string): string {
+  const [y, m, d] = date.split("-").map(Number);
+  if (y === undefined || m === undefined || Number.isNaN(m)) return "";
+  const tag = languageTag(locale);
+  const value = new Date(Date.UTC(y, m - 1, d ?? 1));
+  const options: Intl.DateTimeFormatOptions =
+    d === undefined ? { month: "short", timeZone: "UTC" } : { day: "2-digit", month: "short", timeZone: "UTC" };
+  const format = new Intl.DateTimeFormat(tag, options);
+  if (tag.startsWith("zh")) return format.format(value);
+  return format
+    .formatToParts(value)
+    .filter((part) => part.type === "day" || part.type === "month")
+    .map((part) => part.value.replace(/\.$/, ""))
+    .join(" ");
+}

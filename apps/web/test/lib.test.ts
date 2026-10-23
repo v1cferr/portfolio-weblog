@@ -4,7 +4,7 @@ import en from "../messages/en-us.json";
 import pt from "../messages/pt-br.json";
 import zh from "../messages/zh-cn.json";
 import { withFallback } from "../src/i18n/messages";
-import { currentMonth, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
+import { currentMonth, formatDayMonth, formatPartialDate, formatYearSpan, monthsBetween } from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
 
 describe("formatPartialDate", () => {
@@ -16,6 +16,17 @@ describe("formatPartialDate", () => {
 
   it("never shifts the day across time zones", () => {
     expect(formatPartialDate("2024-01-01", "pt-br")).toBe("1 de jan. de 2024");
+  });
+});
+
+describe("formatDayMonth", () => {
+  it("drops the year and keeps the precision", () => {
+    expect(formatDayMonth("2026-10-09", "pt-br")).toBe("09 out");
+    expect(formatDayMonth("2026-10-09", "en-us")).toBe("Oct 09");
+    expect(formatDayMonth("2026-08", "pt-br")).toBe("ago");
+    expect(formatDayMonth("2026-08", "en-us")).toBe("Aug");
+    expect(formatDayMonth("2026-10-09", "zh-cn")).toBe("10月09日");
+    expect(formatDayMonth("2026", "en-us")).toBe("");
   });
 });
 

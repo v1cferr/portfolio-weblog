@@ -156,6 +156,8 @@
     "notOnGithub": "No public repository."
   },
   "Timeline": {
+    "entries": "{count, plural, one {# entry} other {# entries}}",
+    "repositoryLegend": "Hollow node: repository creation date",
     "title": "Timeline",
     "description": "Career, projects, studies and writing on one axis, derived from the content itself.",
     "legend": "Lanes",
