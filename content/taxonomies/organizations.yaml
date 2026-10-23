@@ -1,11 +1,13 @@
 # Organizations referenced by experiences, studies and certifications.
-# Logos live in apps/web/public/company-logos.
+# Logos live in apps/web/public/company-logos: the compact icon each
+# organization declares on its own website (Xmart and Cultura Inglesa keep the
+# v1 files), prepared with pnpm media:add.
 
 - id: amcor
   name: Amcor
   kind: company
   url: https://www.amcor.com/
-  logo: /company-logos/amcor.jpg
+  logo: /company-logos/amcor.png
 
 - id: cultura-inglesa
   name: Cultura Inglesa
@@ -17,7 +19,7 @@
   name: VIP Telecom (Giga+)
   kind: company
   url: https://www.viptelecominternet.com.br/
-  logo: /company-logos/vip-telecom.jpeg
+  logo: /company-logos/vip-telecom.png
 
 - id: xmart-solutions
   name: Xmart Solutions
@@ -29,7 +31,12 @@
   name: FAI·UFSCar
   kind: company
   url: https://www.fai.ufscar.br/
+  logo: /company-logos/fai-ufscar.png
   location: São Carlos, SP, Brazil
+  # Full name as written on the foundation's own site footer.
+  description:
+    en-us: Fundação de Apoio Institucional ao Desenvolvimento Científico e Tecnológico, the support foundation linked to UFSCar.
+    pt-br: Fundação de Apoio Institucional ao Desenvolvimento Científico e Tecnológico, a fundação de apoio ligada à UFSCar.
 
 # Independent work; confirmed by the author on 2026-10-10.
 - id: independent
@@ -40,16 +47,19 @@
   name: UNIASSELVI
   kind: university
   url: https://www.uniasselvi.com.br/
+  logo: /company-logos/uniasselvi.png
 
 - id: alura
   name: Alura
   kind: platform
   url: https://www.alura.com.br/
+  logo: /company-logos/alura.png
 
 - id: oracle-next-education
   name: Oracle Next Education (ONE)
   kind: program
   url: https://www.oracle.com/br/education/oracle-next-education/
+  logo: /company-logos/oracle.png
 
 - id: new-rizon
   name: New Rizon
