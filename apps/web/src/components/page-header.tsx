@@ -1,3 +1,4 @@
+import { cn } from "@workspace/ui/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -40,16 +41,22 @@ export function SectionHeading({
   id,
   action,
   icon: Glyph,
+  branch,
 }: {
   children: ReactNode;
   id?: string;
   action?: ReactNode;
   icon?: LucideIcon;
+  /** On the home page's git spine: the branch drawn to this heading (its node replaces the icon on wide screens). */
+  branch?: ReactNode;
 }) {
   return (
-    <div className="mb-5 flex items-baseline justify-between gap-4">
+    <div className="relative mb-5 flex items-baseline justify-between gap-4">
+      {branch}
       <h2 id={id} className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-tight">
-        {Glyph !== undefined && <Glyph aria-hidden className="size-5 self-center text-muted-foreground" />}
+        {Glyph !== undefined && (
+          <Glyph aria-hidden className={cn("size-5 self-center text-muted-foreground", branch !== undefined && "lg:hidden")} />
+        )}
         {children}
       </h2>
       {action}

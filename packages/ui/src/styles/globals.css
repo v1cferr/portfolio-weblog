@@ -236,6 +236,25 @@
       }
     }
   }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* SVG paths drawn on scroll; they need pathLength="1". */
+      .draw-path {
+        stroke-dasharray: 1;
+        animation: draw-path linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+      }
+    }
+  }
+  @keyframes draw-path {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
   @keyframes draw-on-scroll {
     from {
       transform: scaleY(0);
