@@ -9,9 +9,11 @@ import { FallbackNotice } from "@/components/fallback-notice";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
+import { SetupCopyButton } from "@/features/setup/copy-button";
 import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
+import { setupToMarkdown } from "@/lib/setup-markdown";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -30,7 +32,10 @@ export default async function SetupPage() {
   return (
     <>
       <PageHeader eyebrow="content/profile/setup.yaml" icon={MonitorIcon} title={t("title")} description={t("description")}>
-        <p className="font-mono text-xs text-muted-foreground">{t("updated", { date: formatPartialDate(setup.updatedAt, locale) })}</p>
+        <div className="flex flex-wrap items-center gap-4">
+          <p className="font-mono text-xs text-muted-foreground">{t("updated", { date: formatPartialDate(setup.updatedAt, locale) })}</p>
+          <SetupCopyButton markdown={setupToMarkdown(setup, locale, t("markdownHeading"))} label={t("copy")} done={t("copied")} />
+        </div>
       </PageHeader>
 
       {firstTitle?.isFallback === true && <FallbackNotice requested={locale} actual={firstTitle.locale} />}

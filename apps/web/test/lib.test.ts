@@ -14,6 +14,7 @@ import {
   monthsBetween,
 } from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
+import { setupToMarkdown } from "../src/lib/setup-markdown";
 
 describe("formatPartialDate", () => {
   it("keeps the precision of the source", () => {
@@ -115,5 +116,28 @@ describe("message catalogues", () => {
     expect(merged.LocaleSwitcher.label).toBe(zh.LocaleSwitcher.label);
     expect(merged.Nav.career).toBe(en.Nav.career);
     expect(keys(merged).sort()).toEqual(keys(en).sort());
+  });
+});
+
+describe("setupToMarkdown", () => {
+  it("lists what is in use, linked, and leaves retired parts out", () => {
+    const markdown = setupToMarkdown(
+      {
+        groups: [
+          {
+            id: "desk",
+            title: { "pt-br": "Componentes" },
+            items: [
+              { role: { "pt-br": "Monitor" }, model: "LG 27GN65R", url: "https://lg.com" },
+              { role: { "pt-br": "Mouse" }, model: "Old mouse", since: "2018", until: "2024" },
+            ],
+          },
+          { id: "retired", title: { "pt-br": "Aposentadas" }, items: [{ role: { "pt-br": "GPU" }, model: "RTX", until: "2026-07" }] },
+        ],
+      },
+      "pt-br",
+      "Meu setup"
+    );
+    expect(markdown).toBe("# Meu setup\n\n## Componentes\n\n- **Monitor**: [LG 27GN65R](https://lg.com)\n");
   });
 });

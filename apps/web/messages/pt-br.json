@@ -233,6 +233,9 @@
     "updated": "Atualizado em {date}",
     "since": "Desde {date}",
     "period": "{start} – {end}",
+    "copy": "Copiar como Markdown",
+    "copied": "Copiado",
+    "markdownHeading": "Meu setup",
     "photos": "O setup ao longo dos anos",
     "present": "atual"
   },

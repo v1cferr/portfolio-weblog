@@ -233,6 +233,9 @@
     "updated": "Updated {date}",
     "since": "Since {date}",
     "period": "{start} – {end}",
+    "copy": "Copy as Markdown",
+    "copied": "Copied",
+    "markdownHeading": "My setup",
     "photos": "The desk over the years",
     "present": "present"
   },
