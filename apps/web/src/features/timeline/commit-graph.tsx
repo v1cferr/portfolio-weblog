@@ -4,7 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { DateRange, PartialDate } from "@/components/date-range";
-import { type Lane, laneBg, laneOf, laneText } from "@/components/lane";
+import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { describeEntity } from "@/lib/entities";
@@ -89,7 +89,8 @@ export async function CommitGraph({
                     ))}
                   </div>
                   <div className="min-w-0 border-b py-2.5">
-                    <p className={cn("font-mono text-[0.7rem] tracking-wide uppercase", laneText[row.lane])}>
+                    <p className={cn("flex items-center gap-1.5 font-mono text-[0.7rem] tracking-wide uppercase", laneText[row.lane])}>
+                      <LaneIcon lane={row.lane} className="size-3" />
                       <span className="sm:hidden">
                         <PartialDate date={row.event.date} />
                         {" · "}
@@ -140,7 +141,7 @@ export async function LaneLegend() {
     <ul aria-label={t("legend")} className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
       {LANES.map((lane) => (
         <li key={lane} className="flex items-center gap-2">
-          <span aria-hidden className={cn("size-2.5 rounded-full", laneBg[lane])} />
+          <LaneIcon lane={lane} className="size-4" />
           {t(keys[lane])}
         </li>
       ))}

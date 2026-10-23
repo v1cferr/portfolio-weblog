@@ -1,7 +1,7 @@
 import { localize } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent, CardHeader } from "@workspace/ui/components/card";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, GraduationCapIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -30,7 +30,7 @@ export default async function EducationPage() {
 
   return (
     <>
-      <PageHeader eyebrow="content/education" title={t("title")} description={t("description")} />
+      <PageHeader eyebrow="content/education" icon={GraduationCapIcon} title={t("title")} description={t("description")} />
 
       {education.length === 0 ? (
         <p className="text-muted-foreground">{t("empty")}</p>

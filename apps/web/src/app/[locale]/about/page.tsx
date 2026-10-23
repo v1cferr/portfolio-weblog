@@ -1,9 +1,10 @@
 import { localize, localizeList } from "@workspace/content";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, UserRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { FallbackNotice } from "@/components/fallback-notice";
+import { ContentLinkIcon } from "@/components/icon";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { SourceLink } from "@/components/source-link";
 import { Trajectory } from "@/features/profile/trajectory";
@@ -27,7 +28,12 @@ export default async function AboutPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
-      <PageHeader eyebrow="content/profile/profile.yaml" title={t("title")} description={localize(profile.headline, locale).value} />
+      <PageHeader
+        eyebrow="content/profile/profile.yaml"
+        icon={UserRoundIcon}
+        title={t("title")}
+        description={localize(profile.headline, locale).value}
+      />
 
       {about?.isFallback === true && <FallbackNotice requested={locale} actual={about.locale} />}
 
@@ -61,8 +67,9 @@ export default async function AboutPage() {
                   <a
                     href={link.url}
                     rel={link.kind === "profile" ? "me" : undefined}
-                    className="inline-flex items-center gap-1.5 hover:text-lane-career"
+                    className="inline-flex items-center gap-2 hover:text-lane-career"
                   >
+                    <ContentLinkIcon link={link} />
                     {link.label}
                     <ExternalLinkIcon className="size-3.5 text-muted-foreground" aria-hidden />
                   </a>

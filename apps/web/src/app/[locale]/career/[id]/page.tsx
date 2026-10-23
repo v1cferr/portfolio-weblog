@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 
 import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
@@ -195,6 +196,7 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
               {experience.evidence.map((link) => (
                 <li key={link.url}>
                   <a href={link.url} className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-lane-career">
+                    <ContentLinkIcon link={link} />
                     {link.label}
                     <ExternalLinkIcon className="size-3.5" aria-hidden />
                   </a>

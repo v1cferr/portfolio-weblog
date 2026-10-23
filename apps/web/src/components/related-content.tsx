@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { describeEntity } from "@/lib/entities";
 
-import { LaneDot, laneOf } from "./lane";
+import { LaneIcon, laneOf } from "./lane";
 import { SectionHeading } from "./page-header";
 
 const LISTED = ["experience", "project", "education", "certification", "post"] as const;
@@ -40,7 +40,7 @@ export async function RelatedContent({ id }: { id: string }) {
                 className="group flex h-full flex-col gap-1 rounded-lg border bg-card p-4 transition-colors hover:border-foreground/30"
               >
                 <span className="flex items-center gap-2 font-mono text-[0.7rem] tracking-wide text-muted-foreground uppercase">
-                  <LaneDot lane={lane} />
+                  <LaneIcon lane={lane} />
                   {kind(entity.type)}
                 </span>
                 <span className="flex items-start justify-between gap-2 font-medium">

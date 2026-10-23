@@ -1,4 +1,4 @@
-import { RssIcon } from "lucide-react";
+import { PenLineIcon, RssIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -19,7 +19,7 @@ export default async function WeblogPage() {
   const posts = getContent().getPosts(locale);
   return (
     <>
-      <PageHeader eyebrow="content/weblog" title={t("title")} description={t("description")}>
+      <PageHeader eyebrow="content/weblog" icon={PenLineIcon} title={t("title")} description={t("description")}>
         <a
           href={`/${locale}/weblog/rss.xml`}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"

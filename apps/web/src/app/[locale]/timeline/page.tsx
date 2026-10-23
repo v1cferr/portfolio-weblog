@@ -1,3 +1,4 @@
+import { GitCommitVerticalIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -25,7 +26,7 @@ export default async function TimelinePage() {
   });
   return (
     <>
-      <PageHeader eyebrow="derived from content/*" title={t("title")} description={t("description")}>
+      <PageHeader eyebrow="derived from content/*" icon={GitCommitVerticalIcon} title={t("title")} description={t("description")}>
         <LaneLegend />
       </PageHeader>
       {events.length === 0 ? <p className="text-muted-foreground">{t("empty")}</p> : <CommitGraph events={events} label={t("title")} />}

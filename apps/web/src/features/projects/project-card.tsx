@@ -21,7 +21,7 @@ export async function toCardData(project: Project): Promise<ProjectCardData> {
     featured: project.featured,
     technologies: project.technologies.flatMap((id) => {
       const tech = content.getTechnology(id);
-      return tech === undefined ? [] : [{ id, name: tech.name }];
+      return tech === undefined ? [] : [{ id, name: tech.name, icon: tech.icon, category: tech.category }];
     }),
   };
 }

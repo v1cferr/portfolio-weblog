@@ -235,7 +235,8 @@
   "Footer": {
     "builtFrom": "Feito a partir de conteúdo simples em Git.",
     "repository": "Código-fonte",
-    "rss": "RSS"
+    "rss": "RSS",
+    "elsewhere": "Em outros lugares"
   },
   "Media": {
     "label": "Fotos",

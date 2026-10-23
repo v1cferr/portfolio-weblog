@@ -1,7 +1,8 @@
 import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card";
-import type { ProjectCategory, ProjectState } from "@workspace/content";
+import type { ProjectCategory, ProjectState, TechnologyCategory } from "@workspace/content";
 
+import { TechnologyIcon } from "@/components/icon";
 import { Link } from "@/i18n/navigation";
 
 import { ProjectStateBadge } from "./project-state-badge";
@@ -17,7 +18,7 @@ export interface ProjectCardData {
   category: ProjectCategory;
   categoryLabel: string;
   featured: boolean;
-  technologies: { id: string; name: string }[];
+  technologies: { id: string; name: string; icon?: string | undefined; category: (typeof TechnologyCategory.options)[number] }[];
 }
 
 /** Presentational card, usable from server and client components alike. */
@@ -45,8 +46,11 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
           <ul className="flex flex-wrap gap-1.5">
             {project.technologies.slice(0, techLimit).map((tech) => (
               <li key={tech.id}>
-                <Badge variant="outline" asChild className="font-normal">
-                  <Link href={{ pathname: "/projects", query: { tech: tech.id } }}>{tech.name}</Link>
+                <Badge variant="outline" asChild className="gap-1.5 font-normal">
+                  <Link href={{ pathname: "/projects", query: { tech: tech.id } }}>
+                    <TechnologyIcon icon={tech.icon} category={tech.category} className="size-3.5" />
+                    {tech.name}
+                  </Link>
                 </Badge>
               </li>
             ))}

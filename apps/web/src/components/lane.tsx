@@ -1,4 +1,5 @@
 import { cn } from "@workspace/ui/lib/utils";
+import { BriefcaseBusinessIcon, FolderGit2Icon, GraduationCapIcon, type LucideIcon, PenLineIcon } from "lucide-react";
 
 export type Lane = "career" | "project" | "study" | "writing";
 
@@ -27,4 +28,17 @@ export const laneBg: Record<Lane, string> = {
 
 export function LaneDot({ lane, className }: { lane: Lane; className?: string }) {
   return <span aria-hidden className={cn("inline-block size-2 shrink-0 rounded-full", laneBg[lane], className)} />;
+}
+
+/** One icon per kind of entry, used wherever the kind is named. */
+export const laneIcon: Record<Lane, LucideIcon> = {
+  career: BriefcaseBusinessIcon,
+  project: FolderGit2Icon,
+  study: GraduationCapIcon,
+  writing: PenLineIcon,
+};
+
+export function LaneIcon({ lane, className }: { lane: Lane; className?: string }) {
+  const Glyph = laneIcon[lane];
+  return <Glyph aria-hidden className={cn("size-3.5 shrink-0", laneText[lane], className)} />;
 }

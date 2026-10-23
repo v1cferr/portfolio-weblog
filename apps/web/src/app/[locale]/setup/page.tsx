@@ -1,5 +1,5 @@
 import { localize } from "@workspace/content";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, MonitorIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -27,7 +27,7 @@ export default async function SetupPage() {
 
   return (
     <>
-      <PageHeader eyebrow="content/profile/setup.yaml" title={t("title")} description={t("description")}>
+      <PageHeader eyebrow="content/profile/setup.yaml" icon={MonitorIcon} title={t("title")} description={t("description")}>
         <p className="font-mono text-xs text-muted-foreground">{t("updated", { date: formatPartialDate(setup.updatedAt, locale) })}</p>
       </PageHeader>
 

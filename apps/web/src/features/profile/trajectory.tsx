@@ -2,7 +2,7 @@ import { localize, type Profile } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
 import { getLocale } from "next-intl/server";
 
-import { LaneDot, laneOf, laneText } from "@/components/lane";
+import { LaneIcon, laneOf, laneText } from "@/components/lane";
 import { Link } from "@/i18n/navigation";
 import { describeEntity } from "@/lib/entities";
 
@@ -20,7 +20,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
         const body = (
           <>
             <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground tabular-nums">
-              <LaneDot lane={lane} />
+              <LaneIcon lane={lane} />
               {String(index + 1).padStart(2, "0")}
             </span>
             <span className="font-display text-lg leading-tight font-semibold">{localize(step.label, locale).value}</span>

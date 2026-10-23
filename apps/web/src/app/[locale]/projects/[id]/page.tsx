@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/breadcrumb";
 import { Button } from "@workspace/ui/components/button";
 import { localize, localizeList } from "@workspace/content";
-import { ExternalLinkIcon, FolderGit2Icon, InfoIcon } from "lucide-react";
+import { FolderGit2Icon, InfoIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
@@ -192,7 +193,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
             {project.links.map((link) => (
               <Button key={link.url} asChild variant="ghost" className="justify-start">
                 <a href={link.url}>
-                  <ExternalLinkIcon /> {link.label}
+                  <ContentLinkIcon link={link} /> {link.label}
                 </a>
               </Button>
             ))}

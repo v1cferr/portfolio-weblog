@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import { Link, usePathname } from "@/i18n/navigation";
 
-import { NAV_ITEMS } from "./nav-items";
+import { HOME_ITEM, NAV_ITEMS, SETUP_ITEM } from "./nav-items";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -30,10 +30,11 @@ export function MainNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-                  active && "text-foreground underline decoration-2 underline-offset-[0.6rem]"
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
+                  active && "bg-accent text-foreground"
                 )}
               >
+                <item.icon aria-hidden className="size-4" />
                 {t(item.key)}
               </Link>
             </li>
@@ -61,7 +62,7 @@ export function MobileNav() {
         </SheetHeader>
         <nav aria-label={t("label")} className="px-4">
           <ul className="flex flex-col gap-1">
-            {[{ href: "/", key: "home" } as const, ...NAV_ITEMS, { href: "/setup", key: "setup" } as const].map((item) => {
+            {[HOME_ITEM, ...NAV_ITEMS, SETUP_ITEM].map((item) => {
               const active = item.href === "/" ? pathname === "/" : isActive(pathname, item.href);
               return (
                 <li key={item.href}>
@@ -71,8 +72,12 @@ export function MobileNav() {
                     onClick={() => {
                       setOpen(false);
                     }}
-                    className={cn("block rounded-md px-3 py-2 text-base hover:bg-accent", active && "bg-accent font-medium")}
+                    className={cn(
+                      "flex items-center gap-3 rounded-md px-3 py-2 text-base hover:bg-accent",
+                      active && "bg-accent font-medium"
+                    )}
                   >
+                    <item.icon aria-hidden className="size-4 text-muted-foreground" />
                     {t(item.key)}
                   </Link>
                 </li>

@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { SocialLinks } from "@/components/social-links";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { REPOSITORY_URL } from "@/lib/site";
@@ -9,7 +10,7 @@ export async function SiteFooter() {
   const profile = getContent().getProfile();
   return (
     <footer className="mt-24 border-t">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-start md:justify-between">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
           <p className="font-medium text-foreground">{profile.name}</p>
           <p>{t("builtFrom")}</p>
@@ -30,17 +31,8 @@ export async function SiteFooter() {
               {t("repository")}
             </a>
           </li>
-          {profile.links
-            .filter((link) => link.kind === "profile")
-            .slice(0, 2)
-            .map((link) => (
-              <li key={link.url}>
-                <a className="hover:text-foreground" href={link.url} rel="me">
-                  {link.label}
-                </a>
-              </li>
-            ))}
         </ul>
+        <SocialLinks links={profile.links} label={t("elsewhere")} size="sm" />
       </div>
     </footer>
   );

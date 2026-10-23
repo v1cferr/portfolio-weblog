@@ -1,10 +1,10 @@
 import { localize, localizeList } from "@workspace/content";
-import { Button } from "@workspace/ui/components/button";
-import { ArrowRightIcon, MapPinIcon } from "lucide-react";
+import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { SectionHeading } from "@/components/page-header";
+import { SocialLinks } from "@/components/social-links";
 import { Trajectory } from "@/features/profile/trajectory";
 import { CommitGraph } from "@/features/timeline/commit-graph";
 import { PostCard } from "@/features/weblog/post-card";
@@ -51,17 +51,7 @@ export default async function HomePage() {
           <p className="max-w-2xl text-lg text-pretty" lang={summary.locale}>
             {summary.value}
           </p>
-          <ul className="flex flex-wrap gap-2">
-            {profile.links.slice(0, 4).map((link) => (
-              <li key={link.url}>
-                <Button asChild variant="outline" size="sm">
-                  <a href={link.url} rel={link.kind === "profile" ? "me" : undefined}>
-                    {link.label}
-                  </a>
-                </Button>
-              </li>
-            ))}
-          </ul>
+          <SocialLinks links={profile.links} label={common("links")} />
         </div>
         {profile.photo !== undefined && (
           <Image
@@ -77,14 +67,18 @@ export default async function HomePage() {
 
       {profile.trajectory.length > 0 && (
         <section aria-labelledby="trajectory" className="mb-16">
-          <SectionHeading id="trajectory">{t("trajectory")}</SectionHeading>
+          <SectionHeading id="trajectory" icon={RouteIcon}>
+            {t("trajectory")}
+          </SectionHeading>
           <Trajectory steps={profile.trajectory} label={t("trajectory")} />
         </section>
       )}
 
       {focus !== undefined && (
         <section aria-labelledby="focus" className="mb-16 max-w-3xl">
-          <SectionHeading id="focus">{t("focus")}</SectionHeading>
+          <SectionHeading id="focus" icon={TargetIcon}>
+            {t("focus")}
+          </SectionHeading>
           <ul className="divide-y border-y" lang={focus.locale}>
             {focus.value.map((item) => (
               <li key={item} className="py-3 text-lg">
@@ -99,6 +93,7 @@ export default async function HomePage() {
         <section aria-labelledby="featured" className="mb-16">
           <SectionHeading
             id="featured"
+            icon={FolderGit2Icon}
             action={
               <Link href="/projects" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
                 {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
@@ -120,6 +115,7 @@ export default async function HomePage() {
       <section aria-labelledby="latest" className="mb-16 max-w-4xl">
         <SectionHeading
           id="latest"
+          icon={PenLineIcon}
           action={
             <Link href="/weblog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
               {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
@@ -143,6 +139,7 @@ export default async function HomePage() {
         <section aria-labelledby="recent" className="mb-16">
           <SectionHeading
             id="recent"
+            icon={HistoryIcon}
             action={
               <Link href="/timeline" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
                 {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />

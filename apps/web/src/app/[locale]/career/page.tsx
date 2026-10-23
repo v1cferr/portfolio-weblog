@@ -1,3 +1,4 @@
+import { BriefcaseBusinessIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -17,7 +18,7 @@ export default async function CareerPage() {
   const experiences = getContent().getExperiences();
   return (
     <>
-      <PageHeader eyebrow="content/experiences" title={t("title")} description={t("description")} />
+      <PageHeader eyebrow="content/experiences" icon={BriefcaseBusinessIcon} title={t("title")} description={t("description")} />
       {experiences.length === 0 ? <p className="text-muted-foreground">{t("empty")}</p> : <CareerTimeline experiences={experiences} />}
     </>
   );
