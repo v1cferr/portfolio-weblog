@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "media:add": "tsx scripts/add-media.ts"
+    "media:add": "tsx scripts/add-media.ts",
+    "avatar:build": "tsx scripts/build-avatar.ts"
   },
   "dependencies": {
     "yaml": "^2.9.1",

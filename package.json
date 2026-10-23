@@ -16,7 +16,8 @@
     "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm --filter web icons:check && pnpm test",
     "prepare": "husky",
     "media:add": "pnpm --filter @workspace/content media:add",
-    "icons:sync": "pnpm --filter web icons:sync"
+    "icons:sync": "pnpm --filter web icons:sync",
+    "avatar:build": "pnpm --filter @workspace/content avatar:build"
   },
   "devDependencies": {
     "husky": "^9.1.7",
