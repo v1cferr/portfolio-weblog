@@ -5,7 +5,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Mono, IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
+import { JetBrains_Mono, Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
@@ -19,18 +19,11 @@ import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 
-// Only the weights the design uses. The serif is for articles and the About
-// page, so it is not preloaded on every page.
-const fontDisplay = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600"] });
-const fontSans = IBM_Plex_Sans({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500"] });
-const fontMono = IBM_Plex_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
-const fontSerif = IBM_Plex_Serif({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400", "600"],
-  style: ["normal", "italic"],
-  preload: false,
-});
+// One family carries the site (display, interface and articles), chosen on
+// 2026-10-22 for being modern and comfortable to read; JetBrains Mono sets
+// dates, ids and code. Only the weights the design uses are loaded.
+const fontSans = Manrope({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600", "700"] });
+const fontMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
 
 /** Namespaces read by client components; everything else stays on the server. */
 const CLIENT_NAMESPACES = ["Nav", "Theme", "LocaleSwitcher", "Search", "Error", "Projects"] as const;
@@ -77,11 +70,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const clientMessages = Object.fromEntries(CLIENT_NAMESPACES.map((namespace) => [namespace, messages[namespace]]));
 
   return (
-    <html
-      lang={languageTag(locale)}
-      suppressHydrationWarning
-      className={cn("antialiased", fontDisplay.variable, fontSans.variable, fontMono.variable, fontSerif.variable)}
-    >
+    <html lang={languageTag(locale)} suppressHydrationWarning className={cn("antialiased", fontSans.variable, fontMono.variable)}>
       <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
           <NextIntlClientProvider messages={clientMessages}>

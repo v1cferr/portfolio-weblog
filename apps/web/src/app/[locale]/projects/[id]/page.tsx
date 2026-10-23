@@ -122,7 +122,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
               </section>
             )}
             {description && (
-              <p className="font-serif text-lg leading-relaxed" lang={description.locale}>
+              <p className="text-lg leading-relaxed" lang={description.locale}>
                 {description.value}
               </p>
             )}

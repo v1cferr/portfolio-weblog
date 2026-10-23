@@ -38,7 +38,7 @@ export default async function AboutPage() {
       {about?.isFallback === true && <FallbackNotice requested={locale} actual={about.locale} />}
 
       <div className="grid gap-14 lg:grid-cols-[minmax(0,42rem)_1fr]">
-        <div className="space-y-5 font-serif text-lg leading-relaxed" lang={about?.locale}>
+        <div className="space-y-5 text-lg leading-relaxed" lang={about?.locale}>
           {about?.value.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -94,7 +94,7 @@ export default async function AboutPage() {
             {profile.quotes.map((quote) => (
               <li key={quote.text}>
                 <figure className="border-l-2 border-lane-writing/50 pl-4">
-                  <blockquote lang={quote.locale} className="font-serif text-lg italic">
+                  <blockquote lang={quote.locale} className="text-lg">
                     {quote.text}
                   </blockquote>
                   <figcaption className="mt-1 text-sm text-muted-foreground">

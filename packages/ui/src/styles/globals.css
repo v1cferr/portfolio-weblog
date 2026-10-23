@@ -20,18 +20,17 @@
  *   career  #2E6E5C / #67B9A0     project  #3C5A9C / #8FA8E3
  *   study   #94661C / #D8AE63     writing  #8C3A59 / #DB8AAA
  *
- * Type: Bricolage Grotesque for display (headings only), IBM Plex Sans for
- * interface and body, IBM Plex Mono for dates, ids and paths, IBM Plex Serif
- * for long-form articles. The faces are loaded by the app with next/font and
- * exposed as --font-display, --font-sans, --font-mono and --font-serif.
+ * Type: Manrope for everything that is read (headings, interface, articles)
+ * and JetBrains Mono for dates, ids, paths and code. The app loads both with
+ * next/font as --font-sans and --font-mono; --font-display is an alias of the
+ * sans, kept as a separate role so headings can diverge later.
  */
 
 @theme inline {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
-  --font-display: var(--font-display);
-  --font-heading: var(--font-display);
+  --font-display: var(--font-sans);
+  --font-heading: var(--font-sans);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -143,12 +142,12 @@
 }
 
 /*
- * Long-form articles: Plex Serif at a comfortable measure, colours from the
+ * Long-form articles: the reading face at a comfortable measure, colours from the
  * tokens so both themes stay consistent, code blocks themed by Shiki.
  */
 @layer components {
   .prose-hub {
-    @apply prose max-w-[68ch] font-serif text-[1.075rem] leading-[1.75] dark:prose-invert;
+    @apply prose max-w-[68ch] font-sans text-[1.0625rem] leading-[1.75] dark:prose-invert;
     --tw-prose-body: var(--foreground);
     --tw-prose-headings: var(--foreground);
     --tw-prose-links: var(--lane-writing);
