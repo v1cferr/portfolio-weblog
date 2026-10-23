@@ -46,6 +46,7 @@
     "@workspace/config": "workspace:*",
     "devicon": "^2.17.0",
     "eslint": "^10.12.0",
+    "flag-icons": "7.6.0",
     "simple-icons": "^16.35.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
