@@ -30,7 +30,10 @@ export async function ExperienceCard({ experience }: { experience: Experience })
   const href = `/career/${experience.id}`;
 
   return (
-    <Card variant="glass" className="relative gap-4 py-5 transition-colors hover:border-foreground/25">
+    <Card
+      variant="glass"
+      className="relative gap-4 py-5 hover:border-foreground/25 transition-[translate,border-color] duration-200 [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+    >
       <CardHeader className="flex flex-row items-start gap-3 px-5">
         <OrganizationMark organization={organization} />
         <div className="min-w-0 flex-1">

@@ -195,6 +195,32 @@
 }
 
 /*
+ * A rail that draws itself as its section scrolls by, with CSS scroll-driven
+ * animations (no JavaScript). Browsers without them, or visitors who reduce
+ * motion, get the rail fully drawn.
+ */
+@layer components {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .draw-on-scroll {
+        transform-origin: top;
+        animation: draw-on-scroll linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 60%;
+      }
+    }
+  }
+  @keyframes draw-on-scroll {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+/*
  * Long-form articles: the reading face at a comfortable measure, colours from the
  * tokens so both themes stay consistent, code blocks themed by Shiki.
  */

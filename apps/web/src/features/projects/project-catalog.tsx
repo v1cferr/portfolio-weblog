@@ -8,6 +8,8 @@ import { useTranslations } from "next-intl";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 
+import { RevealItem, RevealList } from "@/components/motion/reveal";
+
 import { type ProjectCardData, ProjectCardView } from "./project-card-view";
 
 interface Option {
@@ -111,13 +113,13 @@ export function ProjectCatalog({
       {visible.length === 0 ? (
         <p className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">{t("empty")}</p>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealList className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((project) => (
-            <li key={project.id}>
+            <RevealItem key={project.id}>
               <ProjectCardView project={project} />
-            </li>
+            </RevealItem>
           ))}
-        </ul>
+        </RevealList>
       )}
     </div>
   );

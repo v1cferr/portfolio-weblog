@@ -5,6 +5,7 @@ import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
+import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatDayMonth } from "@/lib/dates";
@@ -77,13 +78,13 @@ export async function CommitGraph({
               </span>
             </h2>
           )}
-          <ol>
+          <RevealList>
             {items.map((row) => {
               const laneIndex = LANES.indexOf(row.lane);
               const fromRepository = row.event.dateSource === "repository-created";
               const end = row.event.kind === "position" ? row.event.end : undefined;
               return (
-                <li
+                <RevealItem
                   key={row.event.key}
                   className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[var(--date-col)_6rem_minmax(0,1fr)] sm:gap-x-4"
                 >
@@ -147,10 +148,10 @@ export async function CommitGraph({
                       </p>
                     )}
                   </div>
-                </li>
+                </RevealItem>
               );
             })}
-          </ol>
+          </RevealList>
         </section>
       ))}
     </div>

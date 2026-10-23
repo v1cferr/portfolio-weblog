@@ -51,6 +51,14 @@ test.describe("accessibility", () => {
       test(`${path} has no serious axe violations (${theme})`, async ({ page }) => {
         await page.emulateMedia({ colorScheme: theme });
         await page.goto(path);
+        // Entrances fade in; audit the settled page, not a frame mid-fade.
+        // Whatever is on screen must be fully shown; the rest waits, hidden.
+        await page.waitForFunction(() =>
+          [...document.querySelectorAll("[data-reveal]")].every((el) => {
+            const opacity = getComputedStyle(el).opacity;
+            return el.getBoundingClientRect().top < window.innerHeight * 0.85 ? opacity === "1" : ["0", "1"].includes(opacity);
+          })
+        );
         const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
         const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
         expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
@@ -151,6 +159,18 @@ test.describe("keyboard", () => {
 });
 
 test.describe("interactions", () => {
+  test("entrances never hide content", async ({ browser }) => {
+    for (const options of [{ javaScriptEnabled: false }, { reducedMotion: "reduce" as const }]) {
+      const context = await browser.newContext(options);
+      const page = await context.newPage();
+      await page.goto("/en-us/career");
+      const card = page.locator("[data-reveal]").first();
+      await expect(card).toBeVisible();
+      await expect(card).toHaveCSS("opacity", "1");
+      await context.close();
+    }
+  });
+
   test("primary navigation reaches the career page", async ({ page }) => {
     await page.goto("/en-us");
     if (isMobile(page)) {

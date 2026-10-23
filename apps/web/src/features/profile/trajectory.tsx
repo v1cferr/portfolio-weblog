@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, laneOf, laneText } from "@/components/lane";
 import { OrganizationMark } from "@/features/career/organization-mark";
+import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatYearSpan } from "@/lib/dates";
@@ -37,7 +38,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
     .reverse();
 
   return (
-    <ol aria-label={label} className="glass grid rounded-xl border p-5 sm:grid-cols-5 sm:p-6">
+    <RevealList aria-label={label} className="glass grid rounded-xl border p-5 sm:grid-cols-5 sm:p-6">
       {stations.map((station, index) => {
         const last = index === stations.length - 1;
         const body = (
@@ -79,7 +80,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
           </>
         );
         return (
-          <li key={station.entity?.id ?? station.label} className={cn("relative pb-6 sm:pr-4 sm:pb-0", last && "pb-0")}>
+          <RevealItem key={station.entity?.id ?? station.label} className={cn("relative pb-6 sm:pr-4 sm:pb-0", last && "pb-0")}>
             <span
               aria-hidden
               className={cn(
@@ -94,9 +95,9 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
             ) : (
               <div className="relative flex gap-3 sm:flex-col">{body}</div>
             )}
-          </li>
+          </RevealItem>
         );
       })}
-    </ol>
+    </RevealList>
   );
 }
