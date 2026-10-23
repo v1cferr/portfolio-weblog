@@ -14,3 +14,11 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - "@parcel/watcher"
   - "@swc/core"
+
+# Security patches pulled ahead of the packages that depend on them. Remove an
+# entry once `pnpm why <name>` shows the parent requiring the fixed version.
+overrides:
+  # Quadratic zone-identifier matching, fixed in 10.7.4. It arrives through
+  # shadcn → MCP SDK → express-rate-limit (^10.2.0, which allows the fix);
+  # the override keeps the lockfile from resolving a vulnerable 10.x again.
+  ip-address: ^10.7.4
