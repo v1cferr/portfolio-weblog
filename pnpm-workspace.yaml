@@ -22,3 +22,6 @@ overrides:
   # shadcn → MCP SDK → express-rate-limit (^10.2.0, which allows the fix);
   # the override keeps the lockfile from resolving a vulnerable 10.x again.
   ip-address: ^10.7.4
+  # Unbounded memory on oversized constrained collections (GHSA, fixed in 4.6.6).
+  # eslint-plugin-react-hooks 7.1.1 allows ^4.0.0 but the lockfile kept 4.6.5.
+  "eslint-plugin-react-hooks>zod": ^4.6.7
