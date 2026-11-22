@@ -11,6 +11,12 @@ export const Profile = z.strictObject({
   /** Longer narrative for the About page, one paragraph per entry. */
   about: LocalizedList.optional(),
   focus: LocalizedList.optional(),
+  /** "What drives me" on the About page: why this work, in the owner's words. One paragraph per entry. */
+  motivation: LocalizedList.optional(),
+  /** "How I work": short principles, one per entry. */
+  principles: LocalizedList.optional(),
+  /** What the owner is studying or reading now, for the About page's "Now" card. */
+  studying: LocalizedList.optional(),
   /** The career arc in a few steps, each pointing at the entity that shows it. */
   trajectory: z.array(z.strictObject({ label: LocalizedText, ref: Id.optional() })).default([]),
   location: z.string().optional(),
