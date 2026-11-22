@@ -91,7 +91,15 @@
     "trajectory": "Trajectory",
     "focus": "Focus",
     "elsewhere": "Elsewhere",
-    "quotes": "Quotes I keep around"
+    "quotes": "Quotes I keep around",
+    "now": "Now",
+    "working": "Working as",
+    "studying": "Studying",
+    "latestPost": "Latest post",
+    "motivation": "What drives me",
+    "principles": "How I work",
+    "stack": "Current stack",
+    "stackNote": "What I use every day in my current role, taken from the career entries."
   },
   "Career": {
     "title": "Career",
