@@ -42,3 +42,18 @@ developer account (2026-07-23). Reading one's own account fits all of it.
 - What the owner plays is public while they play it, by choice. Spotify's
   Private Session hides it (the API answers 204).
 - The rest of ADR 0004 stands: no Supabase, no WoW page, no Sheets-backed page.
+
+## Revision (2026-11-22, tap to open)
+
+On phones the header chip linked straight to Spotify, and the hover card never
+opened on touch, so a tap left the site unannounced and could read as if the
+page itself were playing music.
+
+- **The chip is a button** that opens the card (a Popover) on a tap or a click;
+  a mouse still opens it on hover, and a click after hovering pins it. Esc or a
+  tap outside closes it.
+- **The track is the link.** In the card, the cover and title link to the track
+  on Spotify in a new tab, with a hover hint ("Open in Spotify"); the separate
+  "listen" link is gone. The Spotify icon stays beside the linked metadata.
+- **"Listening now"** replaces "Playing now on Spotify", so it reads as the
+  owner listening rather than the page playing.
