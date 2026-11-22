@@ -271,9 +271,9 @@
     "placeholder": "As fotos desta entrada serão adicionadas em breve."
   },
   "NowPlaying": {
-    "playing": "Tocando agora no Spotify",
-    "listening": "Ouvindo {title}, de {artists}, no Spotify",
-    "listen": "Ouvir no Spotify",
+    "playing": "Ouvindo agora",
+    "listening": "Ouvindo agora: {title}, de {artists}",
+    "listen": "Abrir no Spotify",
     "progress": "Progresso da faixa"
   }
 }

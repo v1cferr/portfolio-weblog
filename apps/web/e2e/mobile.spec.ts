@@ -101,7 +101,7 @@ test.describe("phones at 360px", () => {
       })
     );
     await page.goto("/en-us");
-    await expect(page.getByRole("banner").getByRole("link", { name: /Listening to 505/ })).toBeVisible();
+    await expect(page.getByRole("banner").getByRole("button", { name: /Listening now: 505/ })).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, "no horizontal scrolling").toBeLessThanOrEqual(0);
     // Every control stays inside the glass pill.
