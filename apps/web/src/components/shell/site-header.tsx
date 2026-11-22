@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { NowPlayingChip } from "@/features/profile/now-playing-chip";
 import { SearchDialog } from "@/features/search/search-dialog";
 import { Logo } from "@/components/logo";
 import { Link } from "@/i18n/navigation";
@@ -25,6 +26,7 @@ export async function SiteHeader() {
         <div className="ml-auto flex items-center gap-1 lg:ml-6 lg:flex-1">
           <MainNav />
           <div className="ml-auto flex items-center gap-1">
+            <NowPlayingChip />
             <SearchDialog />
             <LocaleSwitcher />
             <ThemeToggle />

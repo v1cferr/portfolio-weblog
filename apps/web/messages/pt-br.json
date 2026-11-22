@@ -260,9 +260,8 @@
     "placeholder": "As fotos desta entrada serão adicionadas em breve."
   },
   "NowPlaying": {
-    "playing": "Tocando agora",
-    "paused": "Pausado",
-    "recent": "Tocou {time}",
+    "playing": "Tocando agora no Spotify",
+    "listening": "Ouvindo {title}, de {artists}, no Spotify",
     "listen": "Ouvir no Spotify",
     "progress": "Progresso da faixa"
   }
