@@ -21,12 +21,20 @@ export type AsciiOptions = {
   accentSaturation?: number;
   /** Minimum brightest channel (0–255) for an accent, so near-black cells stay ink. */
   accentValue?: number;
+  /**
+   * Tone curve on the stretched luminance. Above 1 darkens midtones (more ink
+   * on a light page: pale letters on a white sign show up); below 1 lifts
+   * shadows (more ink on a dark page: a black jacket keeps its shape).
+   * Defaults to 1.15 for light and 0.6 for dark.
+   */
+  gamma?: number;
 };
 
 export function asciiArt(rgb: ArrayLike<number>, cols: number, rows: number, options: AsciiOptions): AsciiRow[] {
   const ramp = options.ramp ?? ASCII_RAMP;
   const accentSaturation = options.accentSaturation ?? 0.42;
   const accentValue = options.accentValue ?? 90;
+  const gamma = options.gamma ?? (options.theme === "light" ? 1.15 : 0.6);
   const count = cols * rows;
   if (rgb.length < count * 3) throw new Error(`asciiArt: expected ${String(count * 3)} values, got ${String(rgb.length)}`);
 
@@ -47,7 +55,7 @@ export function asciiArt(rgb: ArrayLike<number>, cols: number, rows: number, opt
     const row: AsciiRow = [];
     for (let x = 0; x < cols; x++) {
       const i = y * cols + x;
-      const level = Math.pow(((luminance[i] ?? 0) - lowest) / span, 0.9);
+      const level = Math.pow(((luminance[i] ?? 0) - lowest) / span, gamma);
       const density = options.theme === "dark" ? level : 1 - level;
       const glyph = ramp[Math.min(ramp.length - 1, Math.floor(density * ramp.length))] ?? " ";
       const color =
