@@ -213,7 +213,9 @@ function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?:
   return (
     <Item variant="glass" asChild className="glass-hover relative">
       <article>
-        <ItemContent className="min-w-0">
+        {/* Phones give the summary the full width (two lines) and wrap the stack and date below it;
+            from sm up they sit beside it, as before. */}
+        <ItemContent className="min-w-0 max-sm:basis-full">
           <ItemTitle className="flex-wrap text-base">
             <Morph kind="project" id={project.id} enabled={morph}>
               <h4>
@@ -229,11 +231,11 @@ function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?:
             <ProjectStateBadge state={project.state} label={project.stateLabel} />
             <span className="font-mono text-[0.7rem] font-normal text-muted-foreground">{project.categoryLabel}</span>
           </ItemTitle>
-          <ItemDescription className="line-clamp-1" lang={project.summaryLocale}>
+          <ItemDescription className="line-clamp-2 sm:line-clamp-1" lang={project.summaryLocale}>
             {project.summary}
           </ItemDescription>
         </ItemContent>
-        <ItemActions className="relative z-10 gap-3">
+        <ItemActions className="relative z-10 gap-3 max-sm:w-full max-sm:justify-between">
           <ul className="flex items-center gap-1.5">
             {project.technologies.slice(0, 4).map((tech) => (
               <li key={tech.id}>
