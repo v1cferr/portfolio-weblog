@@ -238,3 +238,21 @@ test.describe("interactions", () => {
     }
   });
 });
+
+test.describe("security headers", () => {
+  test("pages send the CSP and hardening headers, and no x-powered-by", async ({ request }) => {
+    const response = await request.get("/en-us");
+    const headers = response.headers();
+    const csp = headers["content-security-policy"] ?? "";
+    for (const directive of ["default-src 'self'", "object-src 'none'", "frame-ancestors 'none'", "base-uri 'self'"]) {
+      expect(csp).toContain(directive);
+    }
+    expect(csp).not.toContain("unsafe-eval");
+    expect(headers["x-content-type-options"]).toBe("nosniff");
+    expect(headers["x-frame-options"]).toBe("DENY");
+    expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+    expect(headers["permissions-policy"]).toContain("camera=()");
+    expect(headers["strict-transport-security"]).toContain("includeSubDomains");
+    expect(headers["x-powered-by"]).toBeUndefined();
+  });
+});

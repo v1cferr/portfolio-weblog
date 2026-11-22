@@ -14,3 +14,4 @@ so.
 | [0006](0006-local-search-before-ai.md)                  | Local text search before any AI layer                | Accepted                  |
 | [0007](0007-visual-system.md)                           | Tokyo Night, clear glass, lane backdrop              | Accepted                  |
 | [0008](0008-spotify-now-playing.md)                     | Spotify "now playing" returns, on the server's terms | Accepted                  |
+| [0009](0009-security-headers.md)                        | Security headers with a static CSP                   | Accepted                  |
