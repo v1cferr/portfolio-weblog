@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { cn } from "@workspace/ui/lib/utils";
 
 import { ContentLinkIcon } from "./icon";
+import { ExternalLink } from "@/components/external-link";
 
 /**
  * Profile links as icon buttons. The name is the accessible label and the
@@ -27,9 +28,9 @@ export function SocialLinks({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button asChild variant="outline" size={size === "sm" ? "icon-sm" : "icon-lg"} className="rounded-full">
-                <a href={link.url} aria-label={link.label} rel={link.kind === "profile" ? "me" : undefined}>
+                <ExternalLink href={link.url} aria-label={link.label} me={link.kind === "profile"}>
                   <ContentLinkIcon link={link} className={size === "sm" ? "size-3.5" : "size-[1.1rem]"} />
-                </a>
+                </ExternalLink>
               </Button>
             </TooltipTrigger>
             <TooltipContent>{link.label}</TooltipContent>

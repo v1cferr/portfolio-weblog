@@ -14,6 +14,7 @@ import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
 import { setupToMarkdown } from "@/lib/setup-markdown";
+import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -74,10 +75,10 @@ export default async function SetupPage() {
                           </p>
                           <p className="font-medium">
                             {item.url !== undefined ? (
-                              <a href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
+                              <ExternalLink href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
                                 {item.model}
                                 <ExternalLinkIcon className="mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                              </a>
+                              </ExternalLink>
                             ) : (
                               item.model
                             )}
@@ -104,10 +105,10 @@ export default async function SetupPage() {
                         </dt>
                         <dd className="space-y-1">
                           {item.url !== undefined ? (
-                            <a href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
+                            <ExternalLink href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
                               {item.model}
                               <ExternalLinkIcon className="mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                            </a>
+                            </ExternalLink>
                           ) : (
                             <span>{item.model}</span>
                           )}

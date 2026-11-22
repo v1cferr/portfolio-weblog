@@ -14,6 +14,7 @@ import { ShowMore } from "@/features/projects/show-more";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
+import { ExternalLink } from "@/components/external-link";
 
 function used<T extends string>(values: readonly T[], present: Set<string>): T[] {
   return values.filter((value) => present.has(value));
@@ -40,9 +41,9 @@ function CatalogSkeleton() {
 function UncuratedRow({ repo }: { repo: GitHubRepo }) {
   return (
     <li className="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:gap-4">
-      <a href={repo.html_url} className="font-mono text-sm font-medium hover:text-lane-project sm:w-64 sm:shrink-0">
+      <ExternalLink href={repo.html_url} className="font-mono text-sm font-medium hover:text-lane-project sm:w-64 sm:shrink-0">
         {repo.name}
-      </a>
+      </ExternalLink>
       <span className="flex-1 text-sm text-muted-foreground">{repo.description}</span>
       <span className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
         {repo.language}

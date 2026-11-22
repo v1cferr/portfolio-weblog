@@ -265,3 +265,24 @@ test.describe("icons", () => {
     expect(await (await request.get("/icon.svg")).text()).toContain("prefers-color-scheme:dark");
   });
 });
+
+test.describe("external links", () => {
+  for (const path of ["/en-us", "/en-us/about", "/en-us/projects/obsidian-rag", "/en-us/setup"]) {
+    test(`${path} opens every external link in a new tab, without opener or referrer`, async ({ page }) => {
+      await page.goto(path);
+      const links = await page
+        .locator('a[href^="http"]')
+        .evaluateAll((anchors) =>
+          anchors
+            .filter((a) => !new URL((a as HTMLAnchorElement).href).hostname.endsWith("v1cferr.dev"))
+            .map((a) => ({ href: a.getAttribute("href"), target: a.getAttribute("target"), rel: a.getAttribute("rel") ?? "" }))
+        );
+      expect(links.length).toBeGreaterThan(0);
+      for (const link of links) {
+        expect(link.target, link.href ?? "").toBe("_blank");
+        expect(link.rel, link.href ?? "").toContain("noopener");
+        expect(link.rel, link.href ?? "").toContain("noreferrer");
+      }
+    });
+  }
+});

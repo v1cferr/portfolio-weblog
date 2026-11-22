@@ -27,6 +27,7 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
+import { ExternalLink } from "@/components/external-link";
 
 // Same period as GITHUB_REVALIDATE_SECONDS; Next requires a literal here.
 export const revalidate = 86400;
@@ -185,16 +186,16 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
           <div className="flex flex-col gap-2">
             {repo !== undefined && (
               <Button asChild variant="outline" className="justify-start">
-                <a href={repo.html_url}>
+                <ExternalLink href={repo.html_url}>
                   <FolderGit2Icon /> {t("repository")}
-                </a>
+                </ExternalLink>
               </Button>
             )}
             {project.links.map((link) => (
               <Button key={link.url} asChild variant="ghost" className="justify-start">
-                <a href={link.url}>
+                <ExternalLink href={link.url}>
                   <ContentLinkIcon link={link} /> {link.label}
-                </a>
+                </ExternalLink>
               </Button>
             ))}
           </div>

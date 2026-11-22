@@ -12,6 +12,7 @@ import { Trajectory } from "@/features/profile/trajectory";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
 import { personJsonLd } from "@/lib/structured-data";
+import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -66,15 +67,15 @@ export default async function AboutPage() {
             <ul className="space-y-1.5">
               {profile.links.map((link) => (
                 <li key={link.url}>
-                  <a
+                  <ExternalLink
                     href={link.url}
-                    rel={link.kind === "profile" ? "me" : undefined}
+                    me={link.kind === "profile"}
                     className="inline-flex items-center gap-2 hover:text-lane-career"
                   >
                     <ContentLinkIcon link={link} />
                     {link.label}
                     <ExternalLinkIcon className="size-3.5 text-muted-foreground" aria-hidden />
-                  </a>
+                  </ExternalLink>
                 </li>
               ))}
             </ul>
@@ -101,9 +102,9 @@ export default async function AboutPage() {
                   </blockquote>
                   <figcaption className="mt-1 text-sm text-muted-foreground">
                     {quote.url !== undefined ? (
-                      <a href={quote.url} className="hover:text-foreground">
+                      <ExternalLink href={quote.url} className="hover:text-foreground">
                         — {quote.source}
-                      </a>
+                      </ExternalLink>
                     ) : (
                       `— ${quote.source}`
                     )}

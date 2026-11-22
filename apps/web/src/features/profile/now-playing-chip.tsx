@@ -7,6 +7,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Cover, Equalizer, Progress, SpotifyIcon, useNowPlaying } from "./now-playing";
+import { ExternalLink } from "@/components/external-link";
 
 /**
  * What the owner is playing on Spotify, as a small chip in the header of every
@@ -26,10 +27,8 @@ export function NowPlayingChip() {
   return (
     <HoverCard openDelay={150} closeDelay={100}>
       <HoverCardTrigger asChild>
-        <a
+        <ExternalLink
           href={snapshot.trackUrl ?? "https://open.spotify.com"}
-          target="_blank"
-          rel="noopener noreferrer"
           aria-label={label}
           className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "gap-2 px-2 text-muted-foreground")}
         >
@@ -39,7 +38,7 @@ export function NowPlayingChip() {
             {snapshot.title}
             {artists !== "" && ` — ${artists}`}
           </span>
-        </a>
+        </ExternalLink>
       </HoverCardTrigger>
       <HoverCardContent align="end" className="glass-float w-80 rounded-2xl border p-3">
         <div className="flex gap-3">
@@ -60,14 +59,12 @@ export function NowPlayingChip() {
           </div>
         )}
         {snapshot.trackUrl !== undefined && (
-          <a
+          <ExternalLink
             href={snapshot.trackUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
           >
             {t("listen")} <ExternalLinkIcon aria-hidden className="size-3" />
-          </a>
+          </ExternalLink>
         )}
       </HoverCardContent>
     </HoverCard>

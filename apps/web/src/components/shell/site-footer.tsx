@@ -6,6 +6,7 @@ import { NixosLogo } from "@/components/nixos-logo";
 import { buildInfo } from "@/lib/build-info";
 import { getContent } from "@/lib/content";
 import { REPOSITORY_URL } from "@/lib/site";
+import { ExternalLink } from "@/components/external-link";
 
 export async function SiteFooter() {
   const [t, nav, locale] = await Promise.all([getTranslations("Footer"), getTranslations("Nav"), getLocale()]);
@@ -30,9 +31,9 @@ export async function SiteFooter() {
             </a>
           </li>
           <li>
-            <a className="hover:text-foreground" href={REPOSITORY_URL}>
+            <ExternalLink className="hover:text-foreground" href={REPOSITORY_URL}>
               {t("repository")}
-            </a>
+            </ExternalLink>
           </li>
         </ul>
         <SocialLinks links={profile.links} label={t("elsewhere")} size="sm" />
@@ -47,14 +48,14 @@ export async function SiteFooter() {
               ref: build.nixpkgs.ref,
               date: build.nixpkgs.date,
               commit: (chunks) => (
-                <a className="underline underline-offset-4 hover:text-foreground" href={build.commit?.url}>
+                <ExternalLink className="underline underline-offset-4 hover:text-foreground" href={build.commit?.url}>
                   {chunks}
-                </a>
+                </ExternalLink>
               ),
               nixpkgs: (chunks) => (
-                <a className="underline underline-offset-4 hover:text-foreground" href={build.nixpkgs?.url}>
+                <ExternalLink className="underline underline-offset-4 hover:text-foreground" href={build.nixpkgs?.url}>
                   {chunks}
-                </a>
+                </ExternalLink>
               ),
             })}
           </span>
@@ -64,14 +65,17 @@ export async function SiteFooter() {
       <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted-foreground sm:px-6">
         {t.rich("nixosCredit", {
           license: (chunks) => (
-            <a className="underline underline-offset-4 hover:text-foreground" href="https://creativecommons.org/licenses/by/4.0/">
+            <ExternalLink
+              className="underline underline-offset-4 hover:text-foreground"
+              href="https://creativecommons.org/licenses/by/4.0/"
+            >
               {chunks}
-            </a>
+            </ExternalLink>
           ),
           source: (chunks) => (
-            <a className="underline underline-offset-4 hover:text-foreground" href="https://nixos.org/branding">
+            <ExternalLink className="underline underline-offset-4 hover:text-foreground" href="https://nixos.org/branding">
               {chunks}
-            </a>
+            </ExternalLink>
           ),
         })}
       </p>
