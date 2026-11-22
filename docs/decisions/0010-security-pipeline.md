@@ -24,9 +24,9 @@ advisory, and the workflows referenced actions by mutable tags.
 - **Actions pinned to commit SHAs**, with the version in a comment, and
   checkouts without persisted credentials. Workflows start from
   `permissions: {}` and each job asks for what it needs.
-- **Dependabot** waits 3 days after a release (7 for majors) before opening a
-  PR; security updates skip the wait. Actions update weekly, grouped.
-  `@types/node` stays on the Node major the project runs.
+- **Dependabot** waits 7 days after a release (14 for majors) before opening a
+  PR, the minimum zizmor accepts; security updates skip the wait. Actions update
+  weekly, grouped. `@types/node` stays on the Node major the project runs.
 - Secrets scanning stays with GitGuardian, already on the repository.
 
 ## Consequences
