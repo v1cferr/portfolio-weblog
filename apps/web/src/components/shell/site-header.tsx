@@ -12,7 +12,7 @@ import { ThemeToggle } from "./theme-toggle";
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
   return (
-    <header className="glass sticky top-0 z-40 border-x-0 border-t-0 border-b">
+    <header className="glass sticky top-0 z-40">
       <a
         href="#content"
         className="sr-only rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-3 focus:left-3"

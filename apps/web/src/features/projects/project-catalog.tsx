@@ -202,7 +202,7 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
 /** One project on the timeline: name, status and summary, with its stack and date. */
 function ProjectRow({ project, date }: { project: ProjectCardData; date?: string | undefined }) {
   return (
-    <Item variant="glass" asChild className="relative hover:border-lane-project/50">
+    <Item variant="glass" asChild className="glass-hover relative">
       <article>
         <ItemContent className="min-w-0">
           <ItemTitle className="flex-wrap text-base">

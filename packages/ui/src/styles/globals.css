@@ -32,10 +32,11 @@
  *   career  #0c6d5b       #73daca        project  #2362b6 / #7aa2f7
  *   study   #775c36       #e0af68        writing  #7c45c4 / #bb9af7
  *
- * Glass: clear, like the lockscreen's LiquidGlass (the owner's pick): a light
- * translucent tint, backdrop blur, a 1 px light hairline, a top sheen and a
- * soft shadow. Without backdrop-filter, or with reduced transparency, surfaces
- * fall back to an opaque card.
+ * Glass: frosted and borderless (revised 2026-11-22): a translucent tint, a
+ * strong backdrop blur with saturation, a top sheen, a soft diffuse shadow and
+ * a fine top highlight as the only edge. Interactive glass deepens on hover
+ * (.glass-hover). Without backdrop-filter, or with reduced transparency,
+ * surfaces fall back to an opaque card with a border.
  *
  * Type: Martian Mono for display (name, page and section titles, used with
  * restraint and set semi-condensed), Hanken Grotesk for everything that is
@@ -109,10 +110,11 @@
   --lane-study: #775c36;
   --lane-writing: #7c45c4;
 
-  --glass-tint: rgb(240 241 245 / 0.55);
-  --glass-border: rgb(255 255 255 / 0.65);
-  --glass-sheen: rgb(255 255 255 / 0.35);
-  --glass-shadow: 0 14px 36px rgb(42 46 69 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.75);
+  --glass-tint: rgb(244 245 249 / 0.7);
+  --glass-tint-hover: rgb(248 249 252 / 0.84);
+  --glass-sheen: rgb(255 255 255 / 0.4);
+  --glass-shadow: 0 1px 2px rgb(42 46 69 / 0.04), 0 12px 32px -8px rgb(42 46 69 / 0.14), inset 0 1px 0 rgb(255 255 255 / 0.85);
+  --glass-shadow-hover: 0 1px 2px rgb(42 46 69 / 0.05), 0 18px 40px -8px rgb(42 46 69 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.9);
 }
 
 .dark {
@@ -141,10 +143,11 @@
   --lane-study: #e0af68;
   --lane-writing: #bb9af7;
 
-  --glass-tint: rgb(26 27 38 / 0.42);
-  --glass-border: rgb(255 255 255 / 0.12);
-  --glass-sheen: rgb(255 255 255 / 0.07);
-  --glass-shadow: 0 14px 36px rgb(0 0 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.08);
+  --glass-tint: rgb(26 27 38 / 0.55);
+  --glass-tint-hover: rgb(36 40 59 / 0.66);
+  --glass-sheen: rgb(255 255 255 / 0.06);
+  --glass-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px -10px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.1);
+  --glass-shadow-hover: 0 1px 2px rgb(0 0 0 / 0.25), 0 22px 48px -10px rgb(0 0 0 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.14);
 }
 
 @layer base {
@@ -184,22 +187,37 @@
  * blurs what is behind the element, so it needs the page backdrop to read.
  */
 @layer components {
+  /* Borderless: the border stays in the box model (no shift) but is clear; a fine top highlight is the only edge. */
   .glass {
     background-color: var(--glass-tint);
     background-image: linear-gradient(180deg, var(--glass-sheen), transparent 35%);
-    border-color: var(--glass-border);
+    border-color: transparent;
     box-shadow: var(--glass-shadow);
-    -webkit-backdrop-filter: blur(24px) saturate(1.35);
-    backdrop-filter: blur(24px) saturate(1.35);
+    -webkit-backdrop-filter: blur(32px) saturate(1.6);
+    backdrop-filter: blur(32px) saturate(1.6);
   }
+  /* Interactive glass deepens on hover instead of drawing a border. */
+  .glass-hover {
+    transition-property: background-color, box-shadow, translate;
+    transition-duration: 200ms;
+  }
+  @media (hover: hover) {
+    .glass-hover:hover {
+      background-color: var(--glass-tint-hover);
+      box-shadow: var(--glass-shadow-hover);
+    }
+  }
+  /* Without blur, or with reduced transparency, surfaces turn opaque and get their border back to separate. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .glass {
       background-color: var(--card);
+      border-color: var(--border);
     }
   }
   @media (prefers-reduced-transparency: reduce) {
     .glass {
       background-color: var(--card);
+      border-color: var(--border);
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
     }

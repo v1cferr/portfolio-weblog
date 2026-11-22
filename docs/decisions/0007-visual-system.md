@@ -61,3 +61,14 @@ pairings (Manrope, Geist, IBM Plex, Martian Mono with Hanken Grotesk).
 - **Signature:** the home page is a git log. A main line runs from a vermilion
   HEAD node at the name, and each section branches off in its lane's colour. The
   lines draw on scroll with CSS scroll-driven animations.
+
+## Revision (2026-11-22, borderless glass)
+
+The owner asked for stronger, cleaner glass without borders, across the whole
+site. `.glass` now has a denser tint for legibility, `blur(32px) saturate(1.6)`,
+a soft diffuse shadow and a fine top highlight as its only edge. Its border
+stays in the box model but is transparent, so nothing shifts. Interactive
+surfaces use `.glass-hover`, which deepens the tint and the shadow, instead of
+drawing a border on hover. The header loses its bottom border. Without
+`backdrop-filter`, or with reduced transparency, surfaces fall back to an opaque
+card that gets its border back.

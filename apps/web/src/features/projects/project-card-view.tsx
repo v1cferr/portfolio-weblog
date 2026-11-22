@@ -29,7 +29,7 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
   return (
     <Card
       variant="glass"
-      className="relative h-full gap-3 py-5 hover:border-lane-project/50 transition-[translate,border-color] duration-200 [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+      className="glass-hover relative h-full gap-3 py-5 [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
     >
       <CardHeader className="gap-2 px-5">
         <div className="flex items-center gap-2">
