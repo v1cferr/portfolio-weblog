@@ -1,4 +1,5 @@
 export * from "./dates";
+export { atkinsonDither } from "./dither";
 export * from "./loaders/errors";
 export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type RawContent } from "./loaders/load";
 export * from "./locale";

@@ -26,7 +26,7 @@ import path from "node:path";
 
 import sharp from "sharp";
 
-import { findContentRoot } from "../src";
+import { atkinsonDither, findContentRoot } from "../src";
 
 const web = path.join(findContentRoot(), "..", "apps", "web");
 const photo = path.join(web, "public", "images", "profile.jpg");
@@ -57,34 +57,16 @@ await sharp(rgba, { raw: { width: crop.width, height: crop.height, channels: 4 }
 
 // The dither: Atkinson error diffusion at a low resolution, shown pixelated.
 const size = DITHER_SIZE;
-const gray = Float32Array.from(await lifted.clone().grayscale().normalise({ lower: 2, upper: 98 }).resize(size, size).raw().toBuffer());
+const gray = await lifted.clone().grayscale().normalise({ lower: 2, upper: 98 }).resize(size, size).raw().toBuffer();
 const smallMask = await sharp(maskFile).extract(crop).toColourspace("b-w").resize(size, size).raw().toBuffer();
-const at = (x: number, y: number) => y * size + x;
-for (let y = 0; y < size; y++) {
-  for (let x = 0; x < size; x++) {
-    const old = gray[at(x, y)] ?? 0;
-    const value = old > 128 ? 255 : 0;
-    const error = (old - value) / 8;
-    gray[at(x, y)] = value;
-    for (const [dx, dy] of [
-      [1, 0],
-      [2, 0],
-      [-1, 1],
-      [0, 1],
-      [1, 1],
-      [0, 2],
-    ] as const) {
-      if (x + dx >= 0 && x + dx < size && y + dy < size) gray[at(x + dx, y + dy)] = (gray[at(x + dx, y + dy)] ?? 0) + error;
-    }
-  }
-}
+const bits = atkinsonDither(gray, size, size);
 
 for (const theme of ["dark", "light"] as const) {
   const [r, g, b] = INK[theme];
   const pixels = Buffer.alloc(size * size * 4);
   for (let i = 0; i < size * size; i++) {
     // Dark mode inks the light parts of the photo; light mode inks the dark parts.
-    const light = (gray[i] ?? 0) >= 128;
+    const light = bits[i] === 1;
     const inked = (smallMask[i] ?? 0) > 128 && (theme === "dark" ? light : !light);
     pixels[i * 4] = r;
     pixels[i * 4 + 1] = g;
