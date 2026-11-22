@@ -114,6 +114,25 @@ test.describe("glass tooltips", () => {
   }
 });
 
+test.describe("glass header", () => {
+  test("blurs the page behind it: no backdrop root between the pill and the page", async ({ page }) => {
+    await page.goto("/en-us");
+    // A view-transition-name, filter, opacity below 1 or mask on an ancestor makes it a backdrop root, and the
+    // pill's backdrop-filter would then blur only that ancestor's transparent box instead of the page.
+    const roots = await page.locator("header .glass-float").evaluate((pill) => {
+      const found: string[] = [];
+      for (let el = pill.parentElement; el && el !== document.documentElement; el = el.parentElement) {
+        const style = getComputedStyle(el);
+        if (style.viewTransitionName !== "none" || style.filter !== "none" || style.opacity !== "1" || style.maskImage !== "none") {
+          found.push(el.tagName);
+        }
+      }
+      return found;
+    });
+    expect(roots).toEqual([]);
+  });
+});
+
 test.describe("visibility rules", () => {
   for (const path of ["/en-us/weblog/openwrt-home-network", "/en-us/does-not-exist"]) {
     test(`${path} is not found`, async ({ page }) => {
