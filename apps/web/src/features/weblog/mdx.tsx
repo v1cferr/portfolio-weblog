@@ -11,6 +11,8 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
 import { Link } from "@/i18n/navigation";
+import { ExternalLink } from "@/components/external-link";
+import { isExternalUrl } from "@/lib/site";
 
 function Callout({ title, tone = "note", children }: { title?: string; tone?: "note" | "warning"; children: ReactNode }) {
   return (
@@ -25,6 +27,7 @@ function Callout({ title, tone = "note", children }: { title?: string; tone?: "n
 function Anchor({ href = "", ...props }: ComponentProps<"a">) {
   // Internal links go through the i18n Link so they keep the reader's locale.
   if (href.startsWith("/")) return <Link href={href} {...props} />;
+  if (isExternalUrl(href)) return <ExternalLink href={href} {...props} />;
   return <a href={href} {...props} />;
 }
 

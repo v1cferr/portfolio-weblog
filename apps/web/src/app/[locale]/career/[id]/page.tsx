@@ -27,6 +27,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { ExternalLink } from "@/components/external-link";
 
 export function generateStaticParams() {
   return getContent()
@@ -108,10 +109,13 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
           <div>
             <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{organization.name}</h1>
             {organization.url !== undefined && (
-              <a href={organization.url} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+              <ExternalLink
+                href={organization.url}
+                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              >
                 {new URL(organization.url).hostname.replace(/^www\./, "")}
                 <ExternalLinkIcon className="size-3" aria-hidden />
-              </a>
+              </ExternalLink>
             )}
           </div>
         </div>
@@ -195,11 +199,14 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
             <ul className="space-y-1">
               {experience.evidence.map((link) => (
                 <li key={link.url}>
-                  <a href={link.url} className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-lane-career">
+                  <ExternalLink
+                    href={link.url}
+                    className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-lane-career"
+                  >
                     <ContentLinkIcon link={link} />
                     {link.label}
                     <ExternalLinkIcon className="size-3.5" aria-hidden />
-                  </a>
+                  </ExternalLink>
                 </li>
               ))}
             </ul>

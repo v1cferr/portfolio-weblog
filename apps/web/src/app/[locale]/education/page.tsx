@@ -17,6 +17,7 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
+import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -68,9 +69,9 @@ export default async function EducationPage() {
                       {institution !== undefined && (
                         <p className="text-sm text-muted-foreground">
                           {institution.url !== undefined ? (
-                            <a href={institution.url} className="inline-flex items-center gap-1 hover:text-foreground">
+                            <ExternalLink href={institution.url} className="inline-flex items-center gap-1 hover:text-foreground">
                               {institution.name} <ExternalLinkIcon className="size-3" aria-hidden />
-                            </a>
+                            </ExternalLink>
                           ) : (
                             institution.name
                           )}
@@ -131,9 +132,9 @@ export default async function EducationPage() {
                   {content.getOrganization(cert.issuer)?.name}
                   <PartialDate date={cert.issuedAt} />
                   {cert.credentialUrl !== undefined && (
-                    <a href={cert.credentialUrl} className="inline-flex items-center gap-1 hover:text-foreground">
+                    <ExternalLink href={cert.credentialUrl} className="inline-flex items-center gap-1 hover:text-foreground">
                       {t("credential")} <ExternalLinkIcon className="size-3" aria-hidden />
-                    </a>
+                    </ExternalLink>
                   )}
                 </span>
               </li>

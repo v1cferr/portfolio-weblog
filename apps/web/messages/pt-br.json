@@ -64,7 +64,8 @@
     "links": "Links",
     "seeAll": "Ver tudo",
     "back": "Voltar para {section}",
-    "siteFallbackNotice": "Este site ainda não está disponível em {requested}, então é exibido em {actual}."
+    "siteFallbackNotice": "Este site ainda não está disponível em {requested}, então é exibido em {actual}.",
+    "opensInNewTab": "abre em uma nova aba"
   },
   "Kind": {
     "experience": "Carreira",
