@@ -1,36 +1,41 @@
 # Deploy and preview
 
-## Today (v2 on its own branch)
+## Production
 
-- Every push to `v2` builds a Vercel **preview** of the existing project, always
-  served at **[v2.v1cferr.dev](https://v2.v1cferr.dev)** (a branch domain linked
-  to `v2`, added on 2026-10-22) and at
-  `portfolio-weblog-git-v2-v1cferr.vercel.app`. Both sit behind Vercel
-  deployment protection, so only someone logged in to the Vercel team sees them,
-  and `robots.txt` disallows indexing.
-- DNS for `v1cferr.dev` is on Cloudflare: `v2` is a CNAME to the value Vercel
-  recommends (`6b916d0abaab69f1.vercel-dns-017.com`), DNS only (grey cloud). The
-  explicit record wins over the zone's wildcard.
-- Production (`v1cferr.dev`) keeps deploying `main`, which is still v1.
-- The Vercel project's Root Directory is the repository root and is shared by
-  every branch, so v2 builds from the root: `vercel.json` runs `pnpm build` and
-  reads `apps/web/.next`, and the root `package.json` declares `next` so Vercel
-  can detect the framework.
+- `main` deploys to **[v1cferr.dev](https://v1cferr.dev)** through the Vercel
+  project `portfolio-weblog`. v2 has served production since 2026-11-22.
+- The project's Root Directory is `apps/web`, with "Include files outside the
+  root directory" on, so the app sees the workspace packages and `content/`.
+  Vercel detects Next.js and pnpm from there; there is no `vercel.json`.
+- Every other branch and every pull request gets a preview deployment, behind
+  Vercel deployment protection, so only someone logged in to the Vercel team
+  sees it. `robots.txt` disallows indexing on previews.
+- Environment variables (all server-only): `SPOTIFY_CLIENT_ID`,
+  `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` (rotate with
+  `pnpm --filter web spotify:token --vercel`) and, optionally, `GITHUB_TOKEN`
+  (read-only, no scopes).
+- DNS for `v1cferr.dev` is on Cloudflare.
 
-## Switching production to v2 (needs the owner's approval)
+## Legacy (v1)
 
-1. Review `docs/migration/editorial-review.md` and resolve what should be
-   public.
-2. In Vercel → Project → Settings → Build and Deployment, set Root Directory to
-   `apps/web` and enable "Include files outside the root directory".
-3. Remove `next` from the root `package.json` and the build overrides from
-   `vercel.json` in the same pull request.
-4. Optionally add `GITHUB_TOKEN` (read-only, no scopes) to the Production
-   environment.
-5. Tag `archive/v1-final`, create the temporary `v1` branch and merge `v2` into
-   `main` with a merge commit, as in
-   [`../migration/README.md`](../migration/README.md#rollout). Rollback options
-   are in [`../migration/README.md`](../migration/README.md).
+- **[legacy.v1cferr.dev](https://legacy.v1cferr.dev)** serves v1, frozen at
+  `archive/v1-final`, for the owner to look back at. It is a separate Vercel
+  project, `portfolio-weblog-legacy`, with no Git connection: one preview
+  deployment made from the tag with the Vercel CLI, aliased to the domain and
+  protected by Vercel Authentication. v1 contains personal data that v2 left out
+  (phone number, birth date, geotagged photos), so it must stay behind the
+  login.
+- It has no environment variables: v1's integrations (Spotify, Battle.net,
+  Supabase, Google Sheets) are optional and render empty.
+- To redeploy it (only if the project is ever lost):
 
-Remove the v1-only environment variables (Spotify, Battle.net, Supabase, Google
-Sheets) once production runs v2.
+  ```sh
+  git worktree add /tmp/v1 archive/v1-final && cd /tmp/v1
+  nix develop -c pnpm install --frozen-lockfile
+  nix develop -c pnpm exec vercel link --project portfolio-weblog-legacy
+  nix develop -c pnpm exec vercel deploy          # preview, so it stays protected
+  nix develop -c pnpm exec vercel alias set <deployment-url> legacy.v1cferr.dev
+  ```
+
+- On the owner's LAN, `legacy` needs a router DNS exception like every public
+  subdomain (dotfiles `hosts/cudy-wr3000/uci/dhcp.conf`).

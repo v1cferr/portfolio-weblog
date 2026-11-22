@@ -8,9 +8,10 @@ The hub is **content-first**. Every fact lives as structured, validated files in
 documenting a career for years without rebuilding the architecture at every
 professional phase.
 
-> v2 is developed on the `v2` branch. v1 is frozen at the tag
-> `archive/pre-v2-2026-10-09` and still serves production from `main` until the
-> switch is approved. See [docs/migration](docs/migration/README.md).
+> This is v2, promoted to `main` on 2026-11-22. v1 is preserved at the signed
+> tag `archive/v1-final` (with a "v1 final" GitHub Release and its source zip)
+> and, for the owner, at legacy.v1cferr.dev. See
+> [docs/migration](docs/migration/README.md).
 
 ## Stack
 

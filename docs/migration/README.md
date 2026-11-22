@@ -6,13 +6,13 @@ technical debt just because it exists.**
 
 ## Where v1 lives
 
-| Reference                                   | Points to                               | Purpose                                                                |
-| ------------------------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| `archive/pre-v2-2026-10-09` (annotated tag) | `c41712c`                               | Frozen v1, the last commit deployed from `main` before v2 work started |
-| `main`                                      | v1 until v2 is approved                 | Production (`v1cferr.dev`) keeps deploying from it                     |
-| `v2`                                        | branched from `c41712c`, shared history | v2 development; Vercel builds preview deployments only                 |
-| `archive/v1-final` (annotated tag, future)  | the last `main` tip before the switch   | Created on promotion day; the definitive v1 reference                  |
-| `v1` (branch, future, temporary)            | same commit as `archive/v1-final`       | Kept for lookups while v2 settles, then deleted; the tag stays         |
+| Reference                                   | Points to               | Purpose                                                                 |
+| ------------------------------------------- | ----------------------- | ----------------------------------------------------------------------- |
+| `archive/pre-v2-2026-10-09` (annotated tag) | `c41712c`               | Frozen v1, the last commit deployed from `main` before v2 work started  |
+| `archive/v1-final` (annotated tag)          | `2ad1a64`               | The definitive v1: the last `main` tip before v2, with the PR #4 hotfix |
+| "v1 final" GitHub Release                   | `archive/v1-final`      | Release notes and the source zip and tar.gz, for download               |
+| legacy.v1cferr.dev                          | a deployment of the tag | v1 running, for the owner only (Vercel login); see the deploy guide     |
+| `main`                                      | v2 since 2026-11-22     | Production (`v1cferr.dev`)                                              |
 
 Tags follow the same scheme as `v1cferr/dotfiles`: `archive/pre-<change>-<date>`
 freezes the state before a rebuild starts, `archive/<era>-final` marks the last
@@ -32,37 +32,30 @@ applied on 2026-10-22. See
 ## Running v1 locally
 
 ```sh
-git switch --detach archive/pre-v2-2026-10-09
+git switch --detach archive/v1-final
 nix develop            # or: direnv allow
 pnpm install --frozen-lockfile
 cp .env.example .env.local   # Spotify / Battle.net / Supabase / Sheets values, all optional
 pnpm dev
 ```
 
-## Rollout
+## Rollout (done on 2026-11-22)
 
-1. v2 is developed on `v2`. Every push builds a Vercel preview, always reachable
-   at [v2.v1cferr.dev](https://v2.v1cferr.dev) (behind Vercel login); production
-   is untouched.
-2. Before merging, the Vercel project settings must change (the app moves to
-   `apps/web`); see [`../guides/deploy.md`](../guides/deploy.md). That change
-   and the promotion require explicit approval from the owner.
-3. Promotion day, in this order:
-
-   ```sh
-   git switch main && git pull --ff-only
-   # the definitive v1 reference, signed like every archive tag
-   git tag -a archive/v1-final -m "Final v1 tree: the last main tip before v2 was promoted to main"
-   git branch v1 archive/v1-final
-   git push origin archive/v1-final v1
-   # v2 into main with a merge commit (no squash), then push: a fast-forward, allowed by the ruleset
-   git merge --no-ff v2 -m "Merge v2: content-first rebuild of the Personal Hub"
-   git push origin main
-   ```
-
-4. After the merge: drop `v2` from the CI triggers, remove the `v2.v1cferr.dev`
-   branch domain or point it elsewhere, and delete the `v1` branch once nothing
-   needs it (the tag keeps the tree forever).
+1. v2 was developed on `v2`, previewed at v2.v1cferr.dev behind the Vercel
+   login, while production kept serving v1 from `main`.
+2. PR #4, the v1 security hotfix (Next.js 16.4.5), was merged into `main`, so
+   the final v1 and its legacy site are not vulnerable.
+3. `archive/v1-final` was tagged at that `main` tip (signed) and published as
+   the "v1 final" GitHub Release.
+4. The Vercel project's Root Directory moved to `apps/web`; the root build
+   overrides (`vercel.json`, `next` in the root `package.json`) went away.
+5. `v2` was merged into `main` with a merge commit (no squash) and pushed, a
+   fast-forward the ruleset allows.
+6. Afterwards: the `v2.v1cferr.dev` domain and its DNS were removed, the merged
+   `v2` branch deleted, the v1-only environment variables (Battle.net, Supabase,
+   Google Sheets, `NEXT_PUBLIC_BASE_URL`) removed, and v1 deployed at
+   legacy.v1cferr.dev. The temporary `v1` branch planned earlier was not needed:
+   the legacy site deploys from the tag.
 
 ## Rollback
 
@@ -71,9 +64,9 @@ pnpm dev
   Vercel (Instant Rollback).
 - **After the merge, in Git:** `git revert -m 1 <merge-commit>` on `main` and
   push. No force-push and no history rewrite (the ruleset refuses both);
-  `archive/v1-final` remains the canonical v1 reference. If the Vercel project
-  settings were changed for v2, revert them too (root directory back to the
-  repository root).
+  `archive/v1-final` remains the canonical v1 reference. Reverting to v1 in
+  production also needs the Root Directory back at the repository root and the
+  v1 environment variables restored.
 
 ## What migrated
 
