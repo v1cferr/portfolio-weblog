@@ -44,6 +44,9 @@ jobs:
       - name: Content integrity
         run: pnpm content:check
 
+      - name: Icons in sync
+        run: pnpm --filter web icons:check
+
       - name: Unit tests
         run: pnpm test
 
