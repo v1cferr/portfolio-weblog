@@ -127,3 +127,20 @@ the owner picked **Night + Day**:
   writing `#703eb2`). This replaces the ink text of the second revision.
 - **Dark stays Night.** The vermilion hanko stays the only accent.
 - The browser `theme-color` now matches both pages.
+
+## Revision (2026-11-22, layered glass)
+
+The owner wanted still more glass. Four strengths were compared in the same
+artifact (today, clearer, layered, liquid); the owner picked **layered**:
+
+- **Floating glass** (`.glass-float`): tint at 55% (light) and 42% (dark),
+  `blur(40px) saturate(1.8)`, a brighter top sheen, an inner edge highlight and
+  a gradient hairline rim on `::after`. Reduced transparency and browsers
+  without `backdrop-filter` drop the rim and keep the opaque card.
+- **Backdrop glows:** soft radial glows in the career, writing and project lane
+  colours under the dot grid, so the glass has colour to pick up.
+- **Header fix:** the `site-header` view-transition name moved from `<header>`
+  to the pill. On the header it made a backdrop root, so the pill blurred
+  nothing and the page showed through sharp. A test guards against any ancestor
+  of the pill becoming a backdrop root.
+- The liquid option (SVG refraction) was left out: Chromium only.
