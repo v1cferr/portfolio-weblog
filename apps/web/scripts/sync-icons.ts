@@ -27,6 +27,9 @@ const check = process.argv.includes("--check");
 const { content } = loadContent(findContentRoot());
 const refs = new Set<string>();
 for (const { value } of content.technologies) if (value.icon !== undefined) refs.add(value.icon);
+// Icons the interface itself uses, outside content: Spotify attributes the now-playing chip.
+const UI_ICONS = ["si:spotify"];
+for (const icon of UI_ICONS) refs.add(icon);
 const links = [
   ...(content.profile?.value.links ?? []),
   ...content.experiences.flatMap(({ value }) => value.evidence),

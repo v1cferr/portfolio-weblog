@@ -1,13 +1,15 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { type CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { brandIcons } from "@/generated/icons";
 
 import type { NowPlaying as Snapshot } from "@/lib/now-playing";
 
 /*
- * The pieces of the Spotify "now playing" UI: the data hook, the dithered
- * cover, the equalizer and the progress bar. The header chip composes them.
+ * The pieces of the Spotify "now playing" UI: the data hook, the cover, the
+ * Spotify icon, the equalizer and the progress bar. The header chip composes them.
  */
 
 const POLL_MS = 30_000;
@@ -74,24 +76,32 @@ export function useNowPlaying(): { snapshot: Snapshot | undefined; elapsed: numb
   return { snapshot, elapsed };
 }
 
-/** The cover as a dither in the text colour; the real cover fades in on hover. */
+/** The album cover as Spotify serves it; only i.scdn.co hashes reach here (see lib/now-playing). */
 export function Cover({ id, className }: { id: string; className?: string }) {
-  const mask = (tone: "light" | "dark"): CSSProperties => {
-    const url = `url(/api/now-playing/cover/${id}?tone=${tone})`;
-    return { maskImage: url, WebkitMaskImage: url, maskSize: "cover", WebkitMaskSize: "cover" };
-  };
   return (
-    <span className={cn("group/cover relative shrink-0 overflow-hidden rounded-lg", className)}>
-      <span aria-hidden className="absolute inset-0 bg-foreground [image-rendering:pixelated] dark:hidden" style={mask("light")} />
-      <span aria-hidden className="absolute inset-0 hidden bg-foreground [image-rendering:pixelated] dark:block" style={mask("dark")} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- Spotify's own cover, shown on hover only */}
-      <img
-        src={`https://i.scdn.co/image/${id}`}
-        alt=""
-        loading="lazy"
-        className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover/cover:opacity-100 motion-reduce:transition-none"
-      />
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- Spotify's own cover, already sized and cached by its CDN
+    <img src={`https://i.scdn.co/image/${id}`} alt="" loading="lazy" className={cn("shrink-0 rounded-lg object-cover", className)} />
+  );
+}
+
+/**
+ * Spotify's icon in its own green, for attribution as Spotify's guidelines
+ * require: never recoloured (so not through .brand-tint) and never placed over
+ * the album art. Decorative: the text beside it names Spotify.
+ */
+export function SpotifyIcon({ className }: { className?: string }) {
+  const icon = brandIcons["si:spotify"];
+  if (icon === undefined) return null;
+  return (
+    <svg
+      viewBox={icon.viewBox}
+      fill={icon.hex}
+      aria-hidden="true"
+      focusable="false"
+      className={cn("size-4 shrink-0", className)}
+      // Trusted markup: generated at build time from Simple Icons.
+      dangerouslySetInnerHTML={{ __html: icon.body }}
+    />
   );
 }
 

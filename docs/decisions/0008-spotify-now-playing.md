@@ -27,9 +27,11 @@ developer account (2026-07-23). Reading one's own account fits all of it.
 - **Quota-friendly.** The response is CDN-cached (`s-maxage=20`,
   `stale-while-revalidate=40`), so visitors share upstream calls. The client
   polls every 30 s only while the tab is visible.
-- **The cover as a dither.** `/api/now-playing/cover/{hash}` accepts only
-  Spotify's 40-hex image hashes (no arbitrary fetches), dithers them like the
-  avatar and is cached for a year.
+- **The real cover, attributed.** The cover comes straight from Spotify's CDN
+  (`i.scdn.co/image/{hash}`, and only that host: the hash is validated).
+  Spotify's icon, in its own green and never over the art, attributes the
+  content as their guidelines require. A dithered cover was tried first and
+  dropped on 2026-11-22 as too fussy.
 - **No login route.** The refresh token is issued once with a local script
   (`pnpm --filter web spotify:token`) that prints it and writes nothing.
 

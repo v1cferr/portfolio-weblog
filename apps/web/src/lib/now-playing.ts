@@ -12,7 +12,7 @@ export interface NowPlaying {
   album?: string;
   /** The track's page on open.spotify.com. */
   trackUrl?: string;
-  /** Spotify's image hash (i.scdn.co/image/{coverId}); the cover route dithers it. */
+  /** Spotify's image hash: the page loads only i.scdn.co/image/{coverId}. */
   coverId?: string;
   progressMs?: number;
   durationMs?: number;
