@@ -18,7 +18,7 @@ async function mock(page: Page, body: object) {
 }
 
 test.describe("now playing", () => {
-  test("shows a header chip while Spotify plays, accessibly, in both themes", async ({ page }) => {
+  test("shows a compact header chip while Spotify plays, accessibly, in both themes", async ({ page }) => {
     await mock(page, { state: "playing", progressMs: 134_000, ...track });
     for (const theme of ["light", "dark"] as const) {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
@@ -27,8 +27,14 @@ test.describe("now playing", () => {
       await expect(chip).toHaveAttribute("href", /open\.spotify\.com/);
       // Spotify attribution: its icon sits in the chip.
       await expect(chip.locator("svg").first()).toBeVisible();
+      // Compact: icon and equalizer only, the track is in the accessible name.
+      await expect(chip).toHaveText("");
+      expect((await chip.boundingBox())?.height).toBe(32);
       if ((page.viewportSize()?.width ?? 0) >= 768) {
         await chip.hover();
+        const card = page.locator('[data-slot="hover-card-content"]');
+        await expect(card.getByText("505", { exact: true })).toBeVisible();
+        await expect(card.getByText("Arctic Monkeys · Favourite Worst Nightmare")).toBeVisible();
         await expect(page.getByRole("progressbar", { name: "Track progress" })).toBeVisible();
         await expect(page.locator('img[src^="https://i.scdn.co/image/"]')).toBeVisible();
       }
