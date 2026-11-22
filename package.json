@@ -23,7 +23,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "next": "16.4.5",
-    "prettier": "^3.9.9"
+    "prettier": "^3.9.9",
+    "vercel": "65.12.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,json,md,mdx,yml,yaml,css}": "prettier --write"
