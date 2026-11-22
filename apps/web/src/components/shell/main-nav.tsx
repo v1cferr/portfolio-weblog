@@ -7,6 +7,7 @@ import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { NAV_SECTION } from "@/components/page-transition";
 import { Logo } from "@/components/logo";
 import { Link, usePathname } from "@/i18n/navigation";
 
@@ -29,6 +30,7 @@ export function MainNav() {
             <li key={item.href}>
               <Link
                 href={item.href}
+                transitionTypes={NAV_SECTION}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm whitespace-nowrap xl:px-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
@@ -72,6 +74,7 @@ export function MobileNav() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    transitionTypes={NAV_SECTION}
                     aria-current={active ? "page" : undefined}
                     onClick={() => {
                       setOpen(false);

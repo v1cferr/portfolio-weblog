@@ -15,12 +15,16 @@ export function morphName(kind: MorphKind, id: string) {
  *
  * A name must be unique on the page: where an entity shows up twice (a
  * featured card and its timeline row), only one of them passes `enabled`.
- * `default="none"` keeps it still on every transition it is not part of.
+ * `default="none"` keeps it still on every transition it is not part of, and
+ * jumping between sections never morphs: the same post can be on the weblog
+ * and on the timeline, but a section change is a crossfade, not a flight.
  */
+const SHARE = { "nav-section": "none", default: "morph" };
+
 export function Morph({ kind, id, enabled = true, children }: { kind: MorphKind; id: string; enabled?: boolean; children: ReactNode }) {
   if (!enabled) return children;
   return (
-    <ViewTransition name={morphName(kind, id)} share="morph" default="none">
+    <ViewTransition name={morphName(kind, id)} share={SHARE} default="none">
       {children}
     </ViewTransition>
   );

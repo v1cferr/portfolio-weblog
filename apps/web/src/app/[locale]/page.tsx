@@ -2,7 +2,7 @@ import { localize, localizeList } from "@workspace/content";
 import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { PageTransition } from "@/components/page-transition";
+import { NAV_SECTION, PageTransition } from "@/components/page-transition";
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { Avatar } from "@/features/profile/avatar";
@@ -105,7 +105,11 @@ export default async function HomePage() {
               icon={FolderGit2Icon}
               branch={<SpineBranch lane="project" />}
               action={
-                <Link href="/projects" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/projects"
+                  transitionTypes={NAV_SECTION}
+                  className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                >
                   {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
                 </Link>
               }
@@ -128,7 +132,11 @@ export default async function HomePage() {
             icon={PenLineIcon}
             branch={<SpineBranch lane="writing" />}
             action={
-              <Link href="/weblog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+              <Link
+                href="/weblog"
+                transitionTypes={NAV_SECTION}
+                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              >
                 {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
               </Link>
             }
@@ -153,7 +161,11 @@ export default async function HomePage() {
               icon={HistoryIcon}
               branch={<SpineBranch merge />}
               action={
-                <Link href="/timeline" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  href="/timeline"
+                  transitionTypes={NAV_SECTION}
+                  className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                >
                   {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
                 </Link>
               }

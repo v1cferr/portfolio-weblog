@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { NAV_SECTION } from "@/components/page-transition";
 import { NowPlayingChip } from "@/features/profile/now-playing-chip";
 import { SearchDialog } from "@/features/search/search-dialog";
 import { Logo } from "@/components/logo";
@@ -22,7 +23,12 @@ export async function SiteHeader() {
         {t("skipToContent")}
       </a>
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
-        <Link href="/" className="-m-1 rounded-lg p-1 transition-opacity hover:opacity-80" aria-label={t("brandHome")}>
+        <Link
+          href="/"
+          transitionTypes={NAV_SECTION}
+          className="-m-1 rounded-lg p-1 transition-opacity hover:opacity-80"
+          aria-label={t("brandHome")}
+        >
           <Logo />
         </Link>
         <div className="ml-auto flex items-center gap-1 lg:ml-6 lg:flex-1">
