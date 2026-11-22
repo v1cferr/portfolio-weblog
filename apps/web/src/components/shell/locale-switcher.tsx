@@ -36,7 +36,7 @@ export function LocaleSwitcher() {
       <Tooltip>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" aria-label={t("label")} disabled={pending} className="gap-1.5 px-2">
+            <Button variant="ghost" size="sm" aria-label={t("label")} disabled={pending} className="h-10 gap-1.5 px-2 lg:h-7">
               <Flag locale={locale} />
               {/* The language code next to the flag: a flag names a country, not a language. */}
               <span aria-hidden className="font-mono text-xs uppercase">

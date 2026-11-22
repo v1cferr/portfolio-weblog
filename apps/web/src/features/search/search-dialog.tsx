@@ -44,7 +44,7 @@ export function SearchDialog() {
         onClick={() => {
           changeOpen(true);
         }}
-        className="gap-2 text-muted-foreground"
+        className="h-10 gap-2 px-3 text-muted-foreground lg:h-7 lg:px-2.5"
         aria-label={t("open")}
         aria-haspopup="dialog"
       >

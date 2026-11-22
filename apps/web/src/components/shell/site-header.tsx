@@ -40,6 +40,7 @@ export async function SiteHeader() {
         </Link>
         <div className="ml-auto flex items-center gap-1 lg:ml-6 lg:flex-1">
           <MainNav />
+          {/* Mobile first: 40px touch targets on phones and tablets, the compact desktop sizes from lg up. */}
           <div className="ml-auto flex items-center gap-1">
             <NowPlayingChip />
             <SearchDialog />

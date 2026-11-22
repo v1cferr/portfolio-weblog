@@ -33,7 +33,7 @@ export function NowPlayingChip() {
         <ExternalLink
           href={snapshot.trackUrl ?? "https://open.spotify.com"}
           aria-label={label}
-          className={cn(buttonVariants({ variant: "ghost" }), "gap-1.5 px-2 text-muted-foreground")}
+          className={cn(buttonVariants({ variant: "ghost" }), "h-10 gap-1.5 px-2 text-muted-foreground lg:h-8")}
         >
           <SpotifyIcon />
           <Equalizer active />
