@@ -256,3 +256,12 @@ test.describe("security headers", () => {
     expect(headers["x-powered-by"]).toBeUndefined();
   });
 });
+
+test.describe("icons", () => {
+  test("the favicon files resolve and the SVG adapts to the theme", async ({ request }) => {
+    for (const path of ["/favicon.ico", "/icon.svg", "/apple-touch-icon.png"]) {
+      expect((await request.get(path)).status(), path).toBe(200);
+    }
+    expect(await (await request.get("/icon.svg")).text()).toContain("prefers-color-scheme:dark");
+  });
+});
