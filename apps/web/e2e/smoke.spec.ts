@@ -239,6 +239,52 @@ test.describe("interactions", () => {
   });
 });
 
+test.describe("page transitions", () => {
+  for (const reducedMotion of ["no-preference", "reduce"] as const) {
+    test(`list to detail and back keeps one h1 and logs no errors (${reducedMotion} motion)`, async ({ browser }) => {
+      const context = await browser.newContext({ reducedMotion, viewport: { width: 1440, height: 900 } });
+      const page = await context.newPage();
+      const errors: string[] = [];
+      page.on("console", (message) => {
+        if (message.type() === "error") errors.push(message.text());
+      });
+      page.on("pageerror", (error) => errors.push(error.message));
+
+      await page.goto("/en-us/projects");
+      const card = page.getByRole("region", { name: "Featured" }).getByRole("heading", { level: 3 }).first();
+      const title = (await card.textContent()) ?? "";
+      await card.getByRole("link").click();
+      await expect(page).toHaveURL(/\/en-us\/projects\/[^/]+$/);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+
+      await page.getByRole("navigation", { name: "breadcrumb" }).getByRole("link", { name: "Projects" }).click();
+      await expect(page).toHaveURL(/\/en-us\/projects$/);
+      await expect(page.locator("h1")).toHaveCount(1);
+
+      await page.goto("/en-us/weblog");
+      await page.locator("main article h2 a").first().click();
+      await expect(page).toHaveURL(/\/en-us\/weblog\/[^/]+$/);
+      await expect(page.locator("h1")).toHaveCount(1);
+
+      expect(errors).toEqual([]);
+      await context.close();
+    });
+  }
+
+  test("the active section's pill follows the main navigation", async ({ page }) => {
+    test.skip(isMobile(page), "the main navigation is in the menu on phones");
+    await page.goto("/en-us/projects");
+    const nav = page.getByRole("navigation", { name: "Main" });
+    await expect(nav.locator("[data-nav-pill]")).toHaveCount(1);
+    await expect(nav.getByRole("link", { name: "Projects" }).locator("[data-nav-pill]")).toHaveCount(1);
+    await nav.getByRole("link", { name: "Career" }).click();
+    await expect(page).toHaveURL(/\/en-us\/career$/);
+    await expect(nav.getByRole("link", { name: "Career" }).locator("[data-nav-pill]")).toHaveCount(1);
+    await expect(nav.locator("[data-nav-pill]")).toHaveCount(1);
+  });
+});
+
 test.describe("security headers", () => {
   test("pages send the CSP and hardening headers, and no x-powered-by", async ({ request }) => {
     const response = await request.get("/en-us");
