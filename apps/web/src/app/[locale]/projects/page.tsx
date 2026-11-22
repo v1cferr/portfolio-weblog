@@ -15,6 +15,7 @@ import { ShowMore } from "@/features/projects/show-more";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
 
 function used<T extends string>(values: readonly T[], present: Set<string>): T[] {
@@ -26,7 +27,12 @@ const UNCURATED_VISIBLE = 8;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Projects");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/projects") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/projects"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/projects") },
+  };
 }
 
 function CatalogSkeleton() {

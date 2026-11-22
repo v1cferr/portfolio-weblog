@@ -8,11 +8,17 @@ import { PageHeader } from "@/components/page-header";
 import { PostCard } from "@/features/weblog/post-card";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Weblog");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/weblog") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/weblog"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/weblog") },
+  };
 }
 
 export default async function WeblogPage() {

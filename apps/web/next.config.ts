@@ -70,7 +70,8 @@ const nextConfig: NextConfig = {
   // at runtime, so it has to ship with the server output.
   outputFileTracingRoot: workspaceRoot,
   outputFileTracingIncludes: {
-    "/**": ["../../content/**/*", "../../pnpm-workspace.yaml"],
+    // assets/fonts: read by the opengraph-image routes (src/lib/og-image.tsx).
+    "/**": ["../../content/**/*", "../../pnpm-workspace.yaml", "./assets/fonts/*.ttf"],
   },
   images: {
     formats: ["image/avif", "image/webp"],
