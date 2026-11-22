@@ -76,7 +76,9 @@ export default async function HomePage() {
             <SocialLinks links={profile.links} label={common("links")} />
           </div>
           {profile.photo !== undefined && (
-            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="hidden md:block lg:w-[30rem]" />
+            // Shown at every width: phones get the same photo (and its alt text) as desktop, which is
+            // what mobile-first indexing reads, and a priority image is never preloaded only to stay hidden.
+            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="max-md:w-72 lg:w-[30rem]" />
           )}
         </section>
 
