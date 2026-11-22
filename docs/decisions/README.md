@@ -15,3 +15,4 @@ so.
 | [0007](0007-visual-system.md)                           | Tokyo Night, clear glass, lane backdrop              | Accepted                  |
 | [0008](0008-spotify-now-playing.md)                     | Spotify "now playing" returns, on the server's terms | Accepted                  |
 | [0009](0009-security-headers.md)                        | Security headers with a static CSP                   | Accepted                  |
+| [0010](0010-security-pipeline.md)                       | A security pipeline in CI                            | Accepted                  |
