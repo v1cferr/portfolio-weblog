@@ -29,7 +29,9 @@ test.describe("now playing", () => {
       await expect(chip.locator("svg").first()).toBeVisible();
       // Compact: icon and equalizer only, the track is in the accessible name.
       await expect(chip).toHaveText("");
-      expect((await chip.boundingBox())?.height).toBe(32);
+      // As tall as the header's icon buttons: 40px touch targets below lg, 32px from lg up.
+      const toggle = page.getByRole("banner").getByRole("button", { name: "Change theme" });
+      expect((await chip.boundingBox())?.height).toBe((await toggle.boundingBox())?.height);
       if ((page.viewportSize()?.width ?? 0) >= 768) {
         await chip.hover();
         const card = page.locator('[data-slot="hover-card-content"]');

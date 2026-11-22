@@ -17,6 +17,8 @@ export function Flag({ locale, className }: { locale: Locale; className?: string
       width={18}
       height={18}
       unoptimized
+      // The header shows one in the first viewport on every page: a tiny SVG, not worth deferring.
+      loading="eager"
       className={cn("size-4.5 shrink-0 rounded-full ring-1 ring-foreground/15", className)}
     />
   );

@@ -138,7 +138,8 @@ export async function CommitGraph({
                             <button
                               type="button"
                               aria-label={t("repositoryCreated")}
-                              className="cursor-help rounded-sm text-muted-foreground"
+                              // A 12px icon in a 24px target (WCAG 2.5.8); the negative margin keeps the line as it was.
+                              className="-m-1.5 cursor-help rounded-sm p-1.5 text-muted-foreground"
                             >
                               <CircleDashedIcon aria-hidden className="size-3" />
                             </button>

@@ -67,11 +67,12 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t("openMenu")}>
+        <Button variant="ghost" size="icon" className="size-10 lg:hidden" aria-label={t("openMenu")}>
           <MenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72">
+      {/* Touch-sized: the close button grows from 28px to 40px, the links to 44px tall. */}
+      <SheetContent side="right" className="w-72 [&>[data-slot=sheet-close]]:size-10">
         <SheetHeader>
           <SheetTitle>
             <Logo className="h-6" />
@@ -92,7 +93,7 @@ export function MobileNav() {
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-base hover:bg-accent",
+                      "flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-base hover:bg-accent",
                       active && "bg-accent font-medium"
                     )}
                   >
