@@ -21,7 +21,6 @@ export async function SiteHeader() {
     <header
       // The ::before band fades the page out above the pill, so text scrolling up does not show in the gap.
       className="pointer-events-none sticky top-0 z-40 px-3 pt-3 before:absolute before:inset-x-0 before:top-0 before:-z-10 before:h-8 before:bg-linear-to-b before:from-background before:to-transparent sm:px-4"
-      style={{ viewTransitionName: "site-header" }}
     >
       <a
         href="#content"
@@ -29,7 +28,12 @@ export async function SiteHeader() {
       >
         {t("skipToContent")}
       </a>
-      <div className="glass-float pointer-events-auto mx-auto flex h-13 max-w-6xl items-center gap-4 rounded-full pr-2 pl-4 sm:pl-5">
+      <div
+        className="glass-float pointer-events-auto mx-auto flex h-13 max-w-6xl items-center gap-4 rounded-full pr-2 pl-4 sm:pl-5"
+        // Named here, not on <header>: a view-transition-name makes its element a backdrop root, so on the header the
+        // pill's backdrop-filter would blur only the header's own transparent box and the page would show through sharp.
+        style={{ viewTransitionName: "site-header" }}
+      >
         <Link
           href="/"
           transitionTypes={NAV_SECTION}
