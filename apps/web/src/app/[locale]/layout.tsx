@@ -16,6 +16,7 @@ import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
 import { Backdrop } from "@/components/backdrop";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { Spotlight } from "@/components/motion/spotlight";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
@@ -100,6 +101,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             <TooltipProvider>
               <MotionProvider>
                 <Backdrop />
+                <Spotlight />
                 <SiteHeader />
                 <SiteLanguageNotice locale={locale} />
                 <main id="content" className="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 sm:px-6 md:pt-16">

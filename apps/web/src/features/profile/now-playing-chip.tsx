@@ -41,7 +41,7 @@ export function NowPlayingChip() {
           </span>
         </a>
       </HoverCardTrigger>
-      <HoverCardContent align="end" className="glass w-80 rounded-2xl border p-3">
+      <HoverCardContent align="end" className="glass-float w-80 rounded-2xl border p-3">
         <div className="flex gap-3">
           {snapshot.coverId !== undefined && <Cover id={snapshot.coverId} className="size-16" />}
           <div className="min-w-0 flex-1 space-y-1">

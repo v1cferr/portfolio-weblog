@@ -45,7 +45,10 @@ export default async function HomePage() {
               {profile.location}
             </p>
             <h1 className="font-display text-5xl leading-[0.95] font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
-              {profile.name}
+              {/* Every stop is a text colour that already passes 4.5:1 on the page. */}
+              <span className="bg-linear-to-r from-foreground from-30% via-lane-project via-75% to-lane-writing bg-clip-text text-transparent">
+                {profile.name}
+              </span>
               <span
                 className="mt-4 block font-sans text-2xl font-medium tracking-normal text-muted-foreground [font-variation-settings:normal] sm:text-3xl"
                 lang={headline.locale}
