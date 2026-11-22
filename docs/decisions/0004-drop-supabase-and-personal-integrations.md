@@ -1,6 +1,7 @@
 # 0004. Supabase and personal integrations stay in v1
 
-- Status: accepted (2026-10-09, decided with the owner)
+- Status: accepted (2026-10-09, decided with the owner); partly superseded by
+  [0008](0008-spotify-now-playing.md) for Spotify only
 - Jira: PWL-98, PWL-32
 
 ## Context
