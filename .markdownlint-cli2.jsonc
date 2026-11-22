@@ -1,0 +1,18 @@
+// Markdown rules for every repository on the owner's machines: tables are
+// aligned, with a pipe at the start and end of each row.
+{
+  "config": {
+    "default": true,
+    // Prose is wrapped by hand; long lines and inline HTML are deliberate.
+    "MD013": false,
+    "MD033": false,
+    "MD055": { "style": "leading_and_trailing" },
+    "MD060": { "style": "aligned" }
+  },
+  "ignores": [
+    "**/node_modules/**",
+    ".direnv/**",
+    // Written and rewritten by `next dev`; it starts at a level-2 heading.
+    "apps/web/AGENTS.md"
+  ]
+}
