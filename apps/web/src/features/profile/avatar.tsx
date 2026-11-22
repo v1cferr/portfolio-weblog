@@ -1,12 +1,20 @@
+import type { AsciiRow } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
 
+import { avatarAscii } from "@/generated/avatar-ascii";
+
+/** SVG units per glyph cell: 6 wide, 10 tall (the 0.6 aspect the grid was sampled at). */
+const CELL = { width: 6, height: 10 } as const;
+
 /**
- * The owner's avatar: a 1-bit dither in the theme's ink, like a print or a
- * terminal, that crossfades to the real photo (cut out, on glass) on hover or
- * keyboard focus. Built by `pnpm avatar:build` from the photo and its mask;
- * chosen in a bake-off on 2026-10-23. A CSS transition, so no JavaScript, and
- * none at all with reduced motion.
+ * The owner's avatar: the hero photo as ASCII in the theme's ink, with colour
+ * only where the photo is vivid (the FAI logo, the red sign). A lens follows
+ * the pointer and shows the real photo through it, driven by the Spotlight's
+ * --spot-local-x/-y (no script of its own). Tapping or focusing it shows the
+ * whole photo, which is also how touch screens and reduced motion see it.
+ * Built by `pnpm avatar:build`; chosen in a side-by-side comparison on
+ * 2026-11-22.
  */
 export function Avatar({
   name,
@@ -19,37 +27,58 @@ export function Avatar({
   priority?: boolean;
   className?: string;
 }) {
+  const { columns, rows, photo } = avatarAscii;
   return (
-    <figure className={cn("group/avatar relative w-72 max-w-full", className)}>
-      {/* Focusable so keyboard users can reveal the photo too. */}
-      <div tabIndex={0} className="relative aspect-square rounded-[28px] outline-none focus-visible:ring-2 focus-visible:ring-ring">
+    <figure className={cn("group/avatar relative w-80 max-w-full", className)}>
+      {/* Focusable so keyboard and touch users can reveal the photo too. */}
+      <div
+        tabIndex={0}
+        data-avatar=""
+        data-spotlight-local=""
+        className="relative max-w-full overflow-hidden rounded-[28px] outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        style={{ aspectRatio: `${String(photo.width)} / ${String(photo.height)}` }}
+      >
+        <AsciiArt grid={avatarAscii.light} columns={columns} rows={rows} className="text-foreground/85 dark:hidden" />
+        <AsciiArt grid={avatarAscii.dark} columns={columns} rows={rows} className="hidden text-foreground/85 dark:block" />
         <Image
-          src="/images/avatar-dither-light.png"
+          src="/images/hero.jpg"
           alt={name}
           fill
-          sizes="288px"
+          sizes="(min-width: 1024px) 30rem, 20rem"
           priority={priority}
-          unoptimized
-          className="object-contain [image-rendering:pixelated] dark:hidden"
+          className="avatar-lens object-cover"
         />
-        <Image
-          src="/images/avatar-dither-dark.png"
-          alt={name}
-          fill
-          sizes="288px"
-          priority={priority}
-          unoptimized
-          className="hidden object-contain [image-rendering:pixelated] dark:block"
-        />
-        <div
-          aria-hidden
-          className="glass absolute inset-0 overflow-hidden rounded-[28px] border opacity-0 transition-opacity duration-500 group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100 motion-reduce:transition-none"
-        >
-          <div className="absolute inset-[-20%] bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--lane-project)_35%,transparent),transparent)]" />
-          <Image src="/images/avatar-cutout.webp" alt="" fill sizes="288px" className="object-contain object-bottom" />
-        </div>
       </div>
       {caption !== undefined && <figcaption className="mt-3 border-t pt-2 font-mono text-xs text-muted-foreground">{caption}</figcaption>}
     </figure>
+  );
+}
+
+function AsciiArt({ grid, columns, rows, className }: { grid: AsciiRow[]; columns: number; rows: number; className?: string }) {
+  const width = columns * CELL.width;
+  return (
+    <svg
+      aria-hidden
+      viewBox={`0 0 ${String(width)} ${String(rows * CELL.height)}`}
+      preserveAspectRatio="none"
+      className={cn("absolute inset-0 size-full font-mono [white-space:pre]", className)}
+      fill="currentColor"
+      fontSize={CELL.height}
+    >
+      {grid.map((row, y) => (
+        // textLength pins every row to the full width, whatever the font's advance.
+        <text key={y} x={0} y={(y + 0.82) * CELL.height} textLength={width} lengthAdjust="spacingAndGlyphs">
+          {row.map((segment, i) =>
+            segment.color === undefined ? (
+              segment.text
+            ) : (
+              <tspan key={i} fill={segment.color}>
+                {segment.text}
+              </tspan>
+            )
+          )}
+        </text>
+      ))}
+    </svg>
   );
 }

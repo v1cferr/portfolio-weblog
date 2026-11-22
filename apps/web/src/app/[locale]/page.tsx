@@ -69,7 +69,7 @@ export default async function HomePage() {
             <SocialLinks links={profile.links} label={common("links")} />
           </div>
           {profile.photo !== undefined && (
-            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="hidden md:block" />
+            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="hidden md:block lg:w-[30rem]" />
           )}
         </section>
 

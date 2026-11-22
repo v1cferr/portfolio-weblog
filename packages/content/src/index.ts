@@ -1,5 +1,5 @@
 export * from "./dates";
-export { atkinsonDither } from "./dither";
+export { ASCII_RAMP, asciiArt, type AsciiOptions, type AsciiRow, type AsciiSegment } from "./ascii";
 export * from "./loaders/errors";
 export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type RawContent } from "./loaders/load";
 export * from "./locale";

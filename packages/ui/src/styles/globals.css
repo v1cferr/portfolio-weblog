@@ -231,6 +231,30 @@
     -webkit-mask-image: radial-gradient(180px circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000, transparent 75%);
     mask-image: radial-gradient(180px circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000, transparent 75%);
   }
+  /*
+   * The avatar's photo, under its ASCII (features/profile/avatar.tsx): hidden,
+   * shown through a lens around the pointer while the Spotlight runs, and
+   * shown whole while the avatar has focus (a tap, a click or the keyboard).
+   */
+  .avatar-lens {
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+  :root[data-spotlight] .avatar-lens {
+    opacity: 1;
+    -webkit-mask-image: radial-gradient(5.5rem circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000 70%, transparent);
+    mask-image: radial-gradient(5.5rem circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000 70%, transparent);
+  }
+  [data-avatar]:focus .avatar-lens {
+    opacity: 1;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .avatar-lens {
+      transition: none;
+    }
+  }
   /* Interactive surfaces deepen on hover instead of drawing a border. */
   .glass-hover {
     transition-property: background-color, box-shadow, translate;
