@@ -20,22 +20,25 @@
 
 - **[legacy.v1cferr.dev](https://legacy.v1cferr.dev)** serves v1, frozen at
   `archive/v1-final`, for the owner to look back at. It is a separate Vercel
-  project, `portfolio-weblog-legacy`, with no Git connection: one preview
-  deployment made from the tag with the Vercel CLI, aliased to the domain and
-  protected by Vercel Authentication. v1 contains personal data that v2 left out
-  (phone number, birth date, geotagged photos), so it must stay behind the
-  login.
+  project, `portfolio-weblog-legacy`, with no Git connection: one production
+  deployment made from the tag with the Vercel CLI. The project's deployment
+  protection is set to "All Deployments", so the custom domain and the
+  `.vercel.app` URL both redirect to the Vercel login. v1 contains personal data
+  that v2 left out (phone number, birth date, geotagged photos), so it must stay
+  behind the login: never lower that setting.
 - It has no environment variables: v1's integrations (Spotify, Battle.net,
   Supabase, Google Sheets) are optional and render empty.
-- To redeploy it (only if the project is ever lost):
+- To redeploy it (only if the project is ever lost), first recreate the project
+  with protection on "All Deployments", then:
 
   ```sh
   git worktree add /tmp/v1 archive/v1-final && cd /tmp/v1
   nix develop -c pnpm install --frozen-lockfile
   nix develop -c pnpm exec vercel link --project portfolio-weblog-legacy
-  nix develop -c pnpm exec vercel deploy          # preview, so it stays protected
-  nix develop -c pnpm exec vercel alias set <deployment-url> legacy.v1cferr.dev
+  nix develop -c pnpm exec vercel deploy --prod
   ```
 
+  Then add `legacy.v1cferr.dev` to the project and check, logged out, that it
+  redirects to the login.
 - On the owner's LAN, `legacy` needs a router DNS exception like every public
   subdomain (dotfiles `hosts/cudy-wr3000/uci/dhcp.conf`).
