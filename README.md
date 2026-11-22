@@ -46,6 +46,10 @@ required to run.
 | `pnpm --filter web test:e2e` | Playwright smoke and accessibility tests (after `pnpm build`)                  |
 | `pnpm format`                | Prettier                                                                       |
 
+The end-to-end tests serve the build on port 3200 and reuse a server already
+listening there (outside CI). When several checkouts run them at once, give each
+its own port: `E2E_PORT=3210 pnpm --filter web test:e2e`.
+
 ## Layout
 
 ```text

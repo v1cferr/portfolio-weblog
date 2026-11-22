@@ -1,6 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = 3200;
+/**
+ * E2E_PORT lets several checkouts (one worktree per branch) run their suites
+ * at once without one reusing another's server, which would test the wrong
+ * build.
+ */
+const PORT = Number(process.env.E2E_PORT ?? 3200);
 
 /**
  * Smoke tests against the production build (`pnpm build` first). Two
