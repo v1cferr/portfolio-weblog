@@ -1,5 +1,6 @@
 import { localize, localizeList } from "@workspace/content";
 import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { NAV_SECTION, PageTransition } from "@/components/page-transition";
@@ -16,10 +17,20 @@ import { ProjectCard } from "@/features/projects/project-card";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
-import { personJsonLd } from "@/lib/structured-data";
+import { homeJsonLd } from "@/lib/structured-data";
 
 // The "Recently" list can use repository creation dates from GitHub.
 export const revalidate = 86400;
+
+/**
+ * The home page's title carries the handle and the aliases next to the name,
+ * so a search for "v1cferr" or "V1C" matches the page itself, not only its
+ * structured data. Other pages keep the short "Page · Name" template.
+ */
+export function generateMetadata(): Metadata {
+  const profile = getContent().getProfile();
+  return { title: { absolute: `${profile.name} (${[profile.handle, ...profile.aliases].join(", ")})` } };
+}
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -38,7 +49,7 @@ export default async function HomePage() {
 
   return (
     <PageTransition>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd(locale)) }} />
       <GitSpine>
         <section className="grid items-end gap-8 pb-14 md:grid-cols-[1fr_auto] md:pb-20">
           <div className="relative space-y-5">

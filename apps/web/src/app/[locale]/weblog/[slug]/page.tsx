@@ -18,6 +18,7 @@ import { formatPartialDate } from "@/lib/dates";
 import { languageTag } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site";
+import { PERSON_ID } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -71,7 +72,7 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
     datePublished: fm.publishedAt,
     dateModified: fm.updatedAt ?? fm.publishedAt,
     url: absoluteUrl(`/${post.locale}/weblog/${slug}`),
-    author: { "@type": "Person", name: getContent().getProfile().name, url: absoluteUrl("/") },
+    author: { "@type": "Person", "@id": PERSON_ID, name: getContent().getProfile().name, url: absoluteUrl("/") },
     keywords: fm.tags.join(", "),
   };
 
