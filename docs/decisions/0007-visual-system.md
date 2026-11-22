@@ -113,3 +113,17 @@ involved, and browsers without the API just swap the page):
   (Motion shared layout, `layoutId`).
 - **Reduced motion:** every view-transition duration is zero, and Motion swaps
   the pill without sliding.
+
+## Revision (2026-11-22, Tokyo Night Day)
+
+The owner found the light theme did not read as Tokyo Night. Four palettes were
+compared in an artifact (today, Night + Day, Storm + Day, Tokyo Night accents);
+the owner picked **Night + Day**:
+
+- **Light is Day proper:** page `#e1e2e7`, Day's blue text, and Day's subtext,
+  lane and red colours, each darkened from the original only as far as 4.5:1
+  needs on the page, the glass, cards and the muted fill (text `#3155a9`,
+  subtext `#4a5786`, career `#0d6756`, project `#2159a7`, study `#6e5531`,
+  writing `#703eb2`). This replaces the ink text of the second revision.
+- **Dark stays Night.** The vermilion hanko stays the only accent.
+- The browser `theme-color` now matches both pages.

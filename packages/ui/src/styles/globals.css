@@ -22,15 +22,16 @@
  * writing) owns one lane colour, used the same way in the timeline, badges,
  * links and the background lanes.
  *
- * Light mode keeps Day's hues for the lanes but sets text in ink, not
- * Day's blue, so links and lanes stay the only colour in running text
- * (refined on 2026-10-23 after a second palette bake-off).
+ * Light mode is Day proper since 2026-11-22: Day's page and its blue text,
+ * every colour darkened from Day's original only as far as 4.5:1 needs on the
+ * page, on the glass, on cards and on the muted fill. Links stay apart from
+ * the blue text by their underline, not by hue.
  *
  *           Day (light)   Night (dark)
- *   page    #e6e7ed       #1a1b26        text     #2a2e45 / #c0caf5
- *   subtext #4c5373       #a9b1d6        border   #c4c8da / #3b4261
- *   career  #0c6d5b       #73daca        project  #2362b6 / #7aa2f7
- *   study   #775c36       #e0af68        writing  #7c45c4 / #bb9af7
+ *   page    #e1e2e7       #1a1b26        text     #3155a9 / #c0caf5
+ *   subtext #4a5786       #a9b1d6        border   #c4c8da / #3b4261
+ *   career  #0d6756       #73daca        project  #2159a7 / #7aa2f7
+ *   study   #6e5531       #e0af68        writing  #703eb2 / #bb9af7
  *
  * Glass: frosted and borderless (revised 2026-11-22): a translucent tint, a
  * strong backdrop blur with saturation, a top sheen, a soft diffuse shadow and
@@ -85,33 +86,33 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #e6e7ed;
-  --foreground: #2a2e45;
-  --card: #eceef3;
-  --card-foreground: #2a2e45;
-  --popover: #f0f1f5;
-  --popover-foreground: #2a2e45;
-  --primary: #2a2e45;
-  --primary-foreground: #f0f1f5;
+  --background: #e1e2e7;
+  --foreground: #3155a9;
+  --card: #e9e9ed;
+  --card-foreground: #3155a9;
+  --popover: #ececf0;
+  --popover-foreground: #3155a9;
+  --primary: #3155a9;
+  --primary-foreground: #ececf0;
   --secondary: #d0d5e3;
-  --secondary-foreground: #2a2e45;
+  --secondary-foreground: #3155a9;
   --muted: #d0d5e3;
-  --muted-foreground: #4c5373;
+  --muted-foreground: #4a5786;
   --accent: #d0d5e3;
-  --accent-foreground: #2a2e45;
-  --destructive: #c4243c;
+  --accent-foreground: #3155a9;
+  --destructive: #af1e48;
   --border: #c4c8da;
   --input: #b4bad1;
-  --ring: #2362b6;
+  --ring: #2159a7;
   --brand: #c4342c;
 
-  --lane-career: #0c6d5b;
-  --lane-project: #2362b6;
-  --lane-study: #775c36;
-  --lane-writing: #7c45c4;
+  --lane-career: #0d6756;
+  --lane-project: #2159a7;
+  --lane-study: #6e5531;
+  --lane-writing: #703eb2;
 
-  --glass-tint: rgb(244 245 249 / 0.7);
-  --glass-tint-hover: rgb(248 249 252 / 0.84);
+  --glass-tint: rgb(233 233 237 / 0.7);
+  --glass-tint-hover: rgb(239 239 242 / 0.84);
   --surface: color-mix(in srgb, var(--foreground) 4%, transparent);
   --surface-hover: color-mix(in srgb, var(--foreground) 7%, transparent);
   --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 1px 2px rgb(42 46 69 / 0.06);
