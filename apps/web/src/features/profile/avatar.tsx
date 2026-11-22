@@ -1,6 +1,5 @@
 import { cn } from "@workspace/ui/lib/utils";
 import Image from "next/image";
-import type { ReactNode } from "react";
 
 /**
  * The owner's avatar: a 1-bit dither in the theme's ink, like a print or a
@@ -12,14 +11,11 @@ import type { ReactNode } from "react";
 export function Avatar({
   name,
   caption,
-  footer,
   priority = false,
   className,
 }: {
   name: string;
   caption?: string;
-  /** Replaces the caption, e.g. with the Spotify player (which shows the caption when idle). */
-  footer?: ReactNode;
   priority?: boolean;
   className?: string;
 }) {
@@ -53,11 +49,7 @@ export function Avatar({
           <Image src="/images/avatar-cutout.webp" alt="" fill sizes="288px" className="object-contain object-bottom" />
         </div>
       </div>
-      {footer ?? (caption !== undefined && <AvatarCaption>{caption}</AvatarCaption>)}
+      {caption !== undefined && <figcaption className="mt-3 border-t pt-2 font-mono text-xs text-muted-foreground">{caption}</figcaption>}
     </figure>
   );
-}
-
-export function AvatarCaption({ children }: { children: ReactNode }) {
-  return <figcaption className="mt-3 border-t pt-2 font-mono text-xs text-muted-foreground">{children}</figcaption>;
 }

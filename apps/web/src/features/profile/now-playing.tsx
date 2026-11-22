@@ -1,24 +1,23 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 
 import type { NowPlaying as Snapshot } from "@/lib/now-playing";
+
+/*
+ * The pieces of the Spotify "now playing" UI: the data hook, the dithered
+ * cover, the equalizer and the progress bar. The header chip composes them.
+ */
 
 const POLL_MS = 30_000;
 
 /**
- * What the owner is listening to on Spotify, under the avatar. The album cover
- * is the same 1-bit dither as the avatar (painted in the text colour through a
- * CSS mask, so it follows the theme) and turns into the real cover on hover or
- * focus. It polls /api/now-playing every 30 s while the tab is visible and
- * advances the progress bar locally in between. With nothing to show, it
- * renders `fallback` in the same reserved space, so the hero never jumps.
+ * Polls /api/now-playing every 30 s while the tab is visible (and pauses when
+ * it is hidden), and advances the elapsed time locally every second while a
+ * track plays, so the progress bar moves without extra requests.
  */
-export function NowPlaying({ fallback }: { fallback: ReactNode }) {
-  const t = useTranslations("NowPlaying");
-  const locale = useLocale();
+export function useNowPlaying(): { snapshot: Snapshot | undefined; elapsed: number } {
   const [snapshot, setSnapshot] = useState<Snapshot>();
   const [now, setNow] = useState(() => Date.now());
 
@@ -69,91 +68,35 @@ export function NowPlaying({ fallback }: { fallback: ReactNode }) {
     };
   }, [playing]);
 
-  if (snapshot === undefined || snapshot.state === "off" || snapshot.title === undefined) {
-    return <div className="mt-3 h-22">{fallback}</div>;
-  }
-
-  const duration = snapshot.durationMs ?? 0;
-  const elapsed = Math.min(duration, (snapshot.progressMs ?? 0) + (playing ? now - Date.parse(snapshot.fetchedAt) : 0));
-  const label =
-    snapshot.state === "playing"
-      ? t("playing")
-      : snapshot.state === "paused"
-        ? t("paused")
-        : t("recent", { time: relative(snapshot.playedAt, now, locale) });
-
-  return (
-    <div className="glass mt-3 flex h-22 items-center gap-3 rounded-2xl border px-2.5 py-2">
-      {snapshot.coverId !== undefined && <Cover id={snapshot.coverId} />}
-      <div className="min-w-0 flex-1">
-        <p className="flex items-center gap-1.5 font-mono text-[0.7rem] text-muted-foreground">
-          <Equalizer active={playing} />
-          <span className="truncate">{label}</span>
-          {snapshot.state !== "recent" && duration > 0 && (
-            <span className="ml-auto whitespace-nowrap tabular-nums">
-              {clock(elapsed)} / {clock(duration)}
-            </span>
-          )}
-        </p>
-        {snapshot.trackUrl !== undefined ? (
-          <a
-            href={snapshot.trackUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t("listen")}
-            className="block truncate text-sm font-semibold hover:underline hover:underline-offset-4"
-          >
-            {snapshot.title}
-          </a>
-        ) : (
-          <p className="truncate text-sm font-semibold">{snapshot.title}</p>
-        )}
-        <p className="truncate font-mono text-xs text-muted-foreground">
-          {[snapshot.artists?.join(", "), snapshot.album].filter(Boolean).join(" · ")}
-        </p>
-        {snapshot.state !== "recent" && duration > 0 && (
-          <div
-            role="progressbar"
-            aria-label={t("progress")}
-            aria-valuemin={0}
-            aria-valuemax={Math.round(duration / 1000)}
-            aria-valuenow={Math.round(elapsed / 1000)}
-            className="mt-1.5 h-0.5 overflow-hidden rounded-full bg-border"
-          >
-            <span className="block h-full bg-lane-project" style={{ width: `${String((elapsed / duration) * 100)}%` }} />
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  const duration = snapshot?.durationMs ?? 0;
+  const elapsed =
+    snapshot === undefined ? 0 : Math.min(duration, (snapshot.progressMs ?? 0) + (playing ? now - Date.parse(snapshot.fetchedAt) : 0));
+  return { snapshot, elapsed };
 }
 
-/** The cover as a dither in the text colour; the real cover fades in on hover or focus. */
-function Cover({ id }: { id: string }) {
+/** The cover as a dither in the text colour; the real cover fades in on hover. */
+export function Cover({ id, className }: { id: string; className?: string }) {
   const mask = (tone: "light" | "dark"): CSSProperties => {
     const url = `url(/api/now-playing/cover/${id}?tone=${tone})`;
     return { maskImage: url, WebkitMaskImage: url, maskSize: "cover", WebkitMaskSize: "cover" };
   };
   return (
-    <span
-      tabIndex={0}
-      className="group/cover relative size-14 shrink-0 overflow-hidden rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring"
-    >
+    <span className={cn("group/cover relative shrink-0 overflow-hidden rounded-lg", className)}>
       <span aria-hidden className="absolute inset-0 bg-foreground [image-rendering:pixelated] dark:hidden" style={mask("light")} />
       <span aria-hidden className="absolute inset-0 hidden bg-foreground [image-rendering:pixelated] dark:block" style={mask("dark")} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- Spotify's own 640 px cover, shown on hover only */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- Spotify's own cover, shown on hover only */}
       <img
         src={`https://i.scdn.co/image/${id}`}
         alt=""
         loading="lazy"
-        className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover/cover:opacity-100 group-focus-visible/cover:opacity-100 motion-reduce:transition-none"
+        className="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover/cover:opacity-100 motion-reduce:transition-none"
       />
     </span>
   );
 }
 
 /** Three bars that bounce while a track plays and rest when it does not. */
-function Equalizer({ active }: { active: boolean }) {
+export function Equalizer({ active }: { active: boolean }) {
   return (
     <span aria-hidden className="flex h-3 items-end gap-px">
       {[0, 1, 2].map((bar) => (
@@ -167,17 +110,28 @@ function Equalizer({ active }: { active: boolean }) {
   );
 }
 
-function clock(ms: number): string {
-  const seconds = Math.floor(ms / 1000);
-  return `${String(Math.floor(seconds / 60))}:${String(seconds % 60).padStart(2, "0")}`;
+/** A thin progress bar with an accessible name, and the times beside it. */
+export function Progress({ elapsed, duration, label }: { elapsed: number; duration: number; label: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <div
+        role="progressbar"
+        aria-label={label}
+        aria-valuemin={0}
+        aria-valuemax={Math.round(duration / 1000)}
+        aria-valuenow={Math.round(elapsed / 1000)}
+        className="h-0.5 flex-1 overflow-hidden rounded-full bg-border"
+      >
+        <span className="block h-full bg-lane-project" style={{ width: `${String(duration > 0 ? (elapsed / duration) * 100 : 0)}%` }} />
+      </div>
+      <span className="font-mono text-[0.7rem] whitespace-nowrap text-muted-foreground tabular-nums">
+        {clock(elapsed)} / {clock(duration)}
+      </span>
+    </div>
+  );
 }
 
-function relative(iso: string | undefined, now: number, locale: string): string {
-  if (iso === undefined) return "";
-  const minutes = Math.round((Date.parse(iso) - now) / 60_000);
-  const format = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-  if (Math.abs(minutes) < 60) return format.format(minutes, "minute");
-  const hours = Math.round(minutes / 60);
-  if (Math.abs(hours) < 24) return format.format(hours, "hour");
-  return format.format(Math.round(hours / 24), "day");
+export function clock(ms: number): string {
+  const seconds = Math.floor(ms / 1000);
+  return `${String(Math.floor(seconds / 60))}:${String(seconds % 60).padStart(2, "0")}`;
 }

@@ -3,8 +3,7 @@ import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, R
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
-import { Avatar, AvatarCaption } from "@/features/profile/avatar";
-import { NowPlaying } from "@/features/profile/now-playing";
+import { Avatar } from "@/features/profile/avatar";
 import { SectionHeading } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
 import { Trajectory } from "@/features/profile/trajectory";
@@ -60,12 +59,7 @@ export default async function HomePage() {
             <SocialLinks links={profile.links} label={common("links")} />
           </div>
           {profile.photo !== undefined && (
-            <Avatar
-              name={profile.name}
-              priority
-              className="hidden md:block"
-              footer={<NowPlaying fallback={<AvatarCaption>victor@hub:~$ whoami</AvatarCaption>} />}
-            />
+            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="hidden md:block" />
           )}
         </section>
 
