@@ -64,7 +64,8 @@
     "links": "Links",
     "seeAll": "See all",
     "back": "Back to {section}",
-    "siteFallbackNotice": "This site is not available in {requested} yet, so it is shown in {actual}."
+    "siteFallbackNotice": "This site is not available in {requested} yet, so it is shown in {actual}.",
+    "opensInNewTab": "opens in a new tab"
   },
   "Kind": {
     "experience": "Career",

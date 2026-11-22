@@ -13,3 +13,10 @@ export function sourceUrl(contentFile: string): string {
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/** True for absolute http(s) URLs that point away from v1cferr.dev. */
+export function isExternalUrl(href: string): boolean {
+  if (!/^https?:\/\//i.test(href)) return false;
+  const host = new URL(href).hostname;
+  return host !== "v1cferr.dev" && !host.endsWith(".v1cferr.dev");
+}
