@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PageHeader } from "@/components/page-header";
 import { PostCard } from "@/features/weblog/post-card";
 import { Link } from "@/i18n/navigation";
@@ -38,9 +39,9 @@ export default async function TagPage({ params }: PageProps<"/[locale]/weblog/ta
     .filter((post) => post.frontmatter.tags.includes(tag));
   if (posts.length === 0) notFound();
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "weblog" }} title={t("taggedWith", { tag })}>
-        <Link href="/weblog" className="text-sm text-muted-foreground hover:text-foreground">
+        <Link href="/weblog" transitionTypes={NAV_BACK} className="text-sm text-muted-foreground hover:text-foreground">
           ← {t("title")}
         </Link>
       </PageHeader>
@@ -49,6 +50,6 @@ export default async function TagPage({ params }: PageProps<"/[locale]/weblog/ta
           <PostCard key={post.slug} post={post} />
         ))}
       </div>
-    </>
+    </PageTransition>
   );
 }

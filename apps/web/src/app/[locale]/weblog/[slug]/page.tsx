@@ -3,8 +3,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -70,16 +72,21 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
   };
 
   return (
-    <article>
+    <PageTransition as="article">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="mb-10 max-w-3xl space-y-4">
-        <Link href="/weblog" className="font-mono text-xs text-muted-foreground hover:text-foreground">
+        <Link href="/weblog" transitionTypes={NAV_BACK} className="font-mono text-xs text-muted-foreground hover:text-foreground">
           ← {nav("weblog")}
         </Link>
         <p className="font-mono text-xs tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</p>
-        <h1 className="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl" lang={post.locale}>
-          {fm.title}
-        </h1>
+        <Morph kind="post" id={slug}>
+          <h1
+            className="w-fit font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl"
+            lang={post.locale}
+          >
+            {fm.title}
+          </h1>
+        </Morph>
         <p className="text-xl text-pretty text-muted-foreground" lang={post.locale}>
           {fm.summary}
         </p>
@@ -131,6 +138,6 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
       </footer>
 
       <RelatedContent id={slug} />
-    </article>
+    </PageTransition>
   );
 }

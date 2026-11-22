@@ -15,10 +15,12 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -88,12 +90,14 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
   const fallback = texts.find((text) => text.isFallback);
 
   return (
-    <article className="max-w-3xl">
+    <PageTransition as="article" className="max-w-3xl">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/career">{nav("career")}</Link>
+              <Link href="/career" transitionTypes={NAV_BACK}>
+                {nav("career")}
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -107,7 +111,9 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
         <div className="flex items-center gap-4">
           <OrganizationMark organization={organization} size="lg" />
           <div>
-            <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{organization.name}</h1>
+            <Morph kind="experience" id={experience.id}>
+              <h1 className="w-fit font-display text-4xl font-semibold tracking-tight md:text-5xl">{organization.name}</h1>
+            </Morph>
             {organization.url !== undefined && (
               <ExternalLink
                 href={organization.url}
@@ -216,6 +222,6 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
 
       <Separator className="my-12" />
       <RelatedContent id={id} />
-    </article>
+    </PageTransition>
   );
 }

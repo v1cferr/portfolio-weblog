@@ -9,10 +9,12 @@ import { SearchXIcon, SparklesIcon, XIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 import { TechnologyIcon } from "@/components/icon";
 import { EmptyState } from "@/components/empty-state";
+import { Morph } from "@/components/morph";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { RailTimeline } from "@/components/rail-timeline";
 import { YearHeading } from "@/components/year-heading";
@@ -177,7 +179,14 @@ export function ProjectCatalog({
                 entries={items.map((project) => ({
                   key: project.id,
                   node: project.date === undefined || project.dateFromRepository ? "undated" : "past",
-                  children: <ProjectRow project={project} date={project.date && formatDayMonth(project.date, locale)} />,
+                  children: (
+                    <ProjectRow
+                      project={project}
+                      date={project.date && formatDayMonth(project.date, locale)}
+                      // A featured project already morphs from its card above.
+                      morph={filtered || !project.featured}
+                    />
+                  ),
                 }))}
               />
             </section>
@@ -200,17 +209,23 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
 }
 
 /** One project on the timeline: name, status and summary, with its stack and date. */
-function ProjectRow({ project, date }: { project: ProjectCardData; date?: string | undefined }) {
+function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?: string | undefined; morph: boolean }) {
   return (
     <Item variant="glass" asChild className="glass-hover relative">
       <article>
         <ItemContent className="min-w-0">
           <ItemTitle className="flex-wrap text-base">
-            <h4>
-              <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
-                {project.title}
-              </Link>
-            </h4>
+            <Morph kind="project" id={project.id} enabled={morph}>
+              <h4>
+                <Link
+                  href={`/projects/${project.id}`}
+                  transitionTypes={NAV_FORWARD}
+                  className="after:absolute after:inset-0 focus-visible:outline-none"
+                >
+                  {project.title}
+                </Link>
+              </h4>
+            </Morph>
             <ProjectStateBadge state={project.state} label={project.stateLabel} />
             <span className="font-mono text-[0.7rem] font-normal text-muted-foreground">{project.categoryLabel}</span>
           </ItemTitle>

@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
+import { PageTransition } from "@/components/page-transition";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PartialDate } from "@/components/date-range";
 import { toCardData } from "@/features/projects/project-card";
@@ -77,7 +78,7 @@ export default async function ProjectsPage() {
   const uncurated = index.ok ? index.repos.filter((repo) => !repo.fork && !curated.has(repo.full_name.toLowerCase())) : [];
 
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "projects" }} icon={FolderGit2Icon} title={t("title")} description={t("description")} />
       {/* useSearchParams needs a boundary to keep the page static. */}
       <Suspense fallback={<CatalogSkeleton />}>
@@ -105,6 +106,6 @@ export default async function ProjectsPage() {
           )}
         </section>
       )}
-    </>
+    </PageTransition>
   );
 }

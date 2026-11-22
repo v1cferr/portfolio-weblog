@@ -15,10 +15,12 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -80,12 +82,14 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const repo = index?.ok === true && project.repository !== undefined ? index.get(project.repository) : undefined;
 
   return (
-    <article>
+    <PageTransition as="article">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/projects">{nav("projects")}</Link>
+              <Link href="/projects" transitionTypes={NAV_BACK}>
+                {nav("projects")}
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -102,7 +106,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
               <ProjectStateBadge state={project.state} label={t(`state.${project.state}`)} />
               <span className="font-mono text-xs text-muted-foreground">{t(`category.${project.category}`)}</span>
             </div>
-            <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{project.title}</h1>
+            <Morph kind="project" id={project.id}>
+              <h1 className="w-fit font-display text-4xl font-semibold tracking-tight md:text-5xl">{project.title}</h1>
+            </Morph>
             <p className="text-xl text-pretty" lang={summary.locale}>
               {summary.value}
             </p>
@@ -203,6 +209,6 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
       </div>
 
       <RelatedContent id={id} />
-    </article>
+    </PageTransition>
   );
 }

@@ -6,8 +6,7 @@ import type { ReactNode } from "react";
 const loadFeatures = () => import("./features").then((module) => module.default);
 
 /**
- * Loads only Motion's DOM animation features (no layout or drag), after the
- * page, and lets the visitor's reduced-motion setting turn movement into
+ * Loads Motion's DOM features (animation and layout; see features.ts) after the page, and lets the visitor's reduced-motion setting turn movement into
  * plain fades.
  */
 export function MotionProvider({ children }: { children: ReactNode }) {

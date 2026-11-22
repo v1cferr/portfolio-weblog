@@ -5,7 +5,9 @@ import { cn } from "@workspace/ui/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { DateRange } from "@/components/date-range";
+import { Morph } from "@/components/morph";
 import { TechList } from "@/components/tech-list";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -38,11 +40,13 @@ export async function ExperienceCard({ experience }: { experience: Experience })
       <CardHeader className="flex flex-row items-start gap-3 px-5">
         <OrganizationMark organization={organization} />
         <div className="min-w-0 flex-1">
-          <h3 className="text-xl leading-tight font-semibold">
-            <Link href={href} className="after:absolute after:inset-0 focus-visible:outline-none">
-              {organization.name}
-            </Link>
-          </h3>
+          <Morph kind="experience" id={experience.id}>
+            <h3 className="w-fit text-xl leading-tight font-semibold">
+              <Link href={href} transitionTypes={NAV_FORWARD} className="after:absolute after:inset-0 focus-visible:outline-none">
+                {organization.name}
+              </Link>
+            </h3>
+          </Morph>
           {start !== undefined && (
             <p className="mt-0.5">
               <DateRange start={start} end={end} showDuration compact />

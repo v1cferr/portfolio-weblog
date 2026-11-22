@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_SECTION } from "@/components/page-transition";
 import { SocialLinks } from "@/components/social-links";
 import { Link } from "@/i18n/navigation";
 import { NixosLogo } from "@/components/nixos-logo";
@@ -21,7 +22,7 @@ export async function SiteFooter() {
         </div>
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           <li>
-            <Link className="hover:text-foreground" href="/setup">
+            <Link className="hover:text-foreground" href="/setup" transitionTypes={NAV_SECTION}>
               {nav("setup")}
             </Link>
           </li>

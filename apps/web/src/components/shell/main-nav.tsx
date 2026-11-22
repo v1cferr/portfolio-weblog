@@ -4,9 +4,11 @@ import { Button } from "@workspace/ui/components/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@workspace/ui/components/sheet";
 import { cn } from "@workspace/ui/lib/utils";
 import { MenuIcon } from "lucide-react";
+import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { NAV_SECTION } from "@/components/page-transition";
 import { Logo } from "@/components/logo";
 import { Link, usePathname } from "@/i18n/navigation";
 
@@ -29,12 +31,24 @@ export function MainNav() {
             <li key={item.href}>
               <Link
                 href={item.href}
+                transitionTypes={NAV_SECTION}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm whitespace-nowrap xl:px-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-                  active && "bg-accent text-accent-foreground"
+                  "relative isolate inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm whitespace-nowrap xl:px-2.5 text-muted-foreground transition-colors hover:text-foreground",
+                  active ? "text-accent-foreground" : "hover:bg-accent"
                 )}
               >
+                {/* One pill for the whole bar: the shared layoutId makes it slide
+                    from the old item to the new one (a plain swap with reduced motion). */}
+                {active && (
+                  <m.span
+                    layoutId="main-nav-pill"
+                    data-nav-pill=""
+                    aria-hidden
+                    className="absolute inset-0 -z-10 rounded-md bg-accent"
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.4 }}
+                  />
+                )}
                 <item.icon aria-hidden className="size-4" />
                 {t(item.key)}
               </Link>
@@ -72,6 +86,7 @@ export function MobileNav() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    transitionTypes={NAV_SECTION}
                     aria-current={active ? "page" : undefined}
                     onClick={() => {
                       setOpen(false);

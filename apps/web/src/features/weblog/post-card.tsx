@@ -2,7 +2,9 @@ import type { Post } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { getTranslations } from "next-intl/server";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
+import { Morph } from "@/components/morph";
 import { Link } from "@/i18n/navigation";
 
 export async function PostCard({ post }: { post: Post }) {
@@ -15,11 +17,17 @@ export async function PostCard({ post }: { post: Post }) {
         <span className="font-mono text-[0.7rem] tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</span>
       </div>
       <div className="space-y-2">
-        <h2 className="text-2xl leading-tight font-semibold text-balance">
-          <Link href={`/weblog/${post.slug}`} className="after:absolute after:inset-0 group-hover:underline group-hover:underline-offset-4">
-            {fm.title}
-          </Link>
-        </h2>
+        <Morph kind="post" id={post.slug}>
+          <h2 className="w-fit text-2xl leading-tight font-semibold text-balance">
+            <Link
+              href={`/weblog/${post.slug}`}
+              transitionTypes={NAV_FORWARD}
+              className="after:absolute after:inset-0 group-hover:underline group-hover:underline-offset-4"
+            >
+              {fm.title}
+            </Link>
+          </h2>
+        </Morph>
         <p className="text-pretty text-muted-foreground" lang={post.locale}>
           {fm.summary}
         </p>

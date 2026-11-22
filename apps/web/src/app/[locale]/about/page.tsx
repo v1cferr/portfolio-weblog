@@ -3,6 +3,7 @@ import { ExternalLinkIcon, UserRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { PageHeader, SectionHeading } from "@/components/page-header";
@@ -28,7 +29,7 @@ export default async function AboutPage() {
   const focus = localizeList(profile.focus, locale);
 
   return (
-    <>
+    <PageTransition>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
       <PageHeader
         source={{ path: "profile/profile.yaml", name: "profile" }}
@@ -119,6 +120,6 @@ export default async function AboutPage() {
       <div className="mt-12">
         <SourceLink file="profile/profile.yaml" />
       </div>
-    </>
+    </PageTransition>
   );
 }

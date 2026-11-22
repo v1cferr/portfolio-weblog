@@ -403,3 +403,118 @@
     color: var(--shiki-dark);
   }
 }
+
+/*
+ * Page transitions, with the browser's View Transitions API driven by React's
+ * <ViewTransition> (see docs/decisions/0007-visual-system.md). Three kinds:
+ *
+ * - morph: the same thing on both pages (a card's title and the detail page's
+ *   title) moves and resizes from one place to the other;
+ * - nav-forward / nav-back: list to detail slides left, the way back slides
+ *   right, so the direction says where the visitor went;
+ * - nav-section: the top navigation only crossfades; sections are siblings,
+ *   not deeper or shallower.
+ *
+ * Old content leaves fast and new content arrives gently. Browsers without the
+ * API just swap the page.
+ */
+:root {
+  --vt-exit: 150ms;
+  --vt-enter: 210ms;
+  --vt-move: 400ms;
+}
+
+/* Clicks during a transition reach the live page instead of the overlay. */
+::view-transition {
+  pointer-events: none;
+}
+
+/*
+ * The header is the fixed reference while the content moves: it is named
+ * (site-header) so it leaves the page snapshot, and never animates. The old
+ * copy is hidden so both never show at once; z-index keeps it above the slide.
+ */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: var(--vt-move);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* A short blur mid-flight hides the text resampling while it scales. */
+::view-transition-image-pair(.morph) {
+  animation-name: vt-via-blur;
+}
+
+::view-transition-old(.nav-forward) {
+  --vt-offset: -60px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --vt-offset: 60px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --vt-offset: 60px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --vt-offset: -60px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+
+::view-transition-old(.nav-section) {
+  animation: var(--vt-exit) ease-in both vt-fade reverse;
+}
+::view-transition-new(.nav-section) {
+  animation: var(--vt-enter) ease-out var(--vt-exit) both vt-fade;
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+@keyframes vt-via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+/* Reduced motion: no movement at all, the page swaps at once. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-image-pair(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
