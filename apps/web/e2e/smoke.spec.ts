@@ -378,3 +378,28 @@ test.describe("external links", () => {
     });
   }
 });
+
+test.describe("structured data", () => {
+  const graph = async (page: Page, path: string) => {
+    await page.goto(path);
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    return blocks.map((text) => JSON.parse(text) as Record<string, unknown>);
+  };
+
+  test("the home page names the site and the person, with the handle and aliases", async ({ page }) => {
+    const [home] = await graph(page, "/en-us");
+    const nodes = (home?.["@graph"] ?? []) as Record<string, unknown>[];
+    const website = nodes.find((node) => node["@type"] === "WebSite");
+    const person = nodes.find((node) => node["@type"] === "Person");
+    expect(website?.name).toBe("Victor Ferreira");
+    expect(website?.alternateName).toEqual(expect.arrayContaining(["v1cferr", "V1C"]));
+    expect(person?.alternateName).toEqual(expect.arrayContaining(["v1cferr", "V1C"]));
+    expect((person?.sameAs as string[]).length).toBeGreaterThan(0);
+  });
+
+  test("the About page is a ProfilePage about the same person", async ({ page }) => {
+    const [about] = await graph(page, "/pt-br/about");
+    expect(about?.["@type"]).toBe("ProfilePage");
+    expect((about?.mainEntity as Record<string, unknown>)["@id"]).toBe("https://v1cferr.dev/#person");
+  });
+});

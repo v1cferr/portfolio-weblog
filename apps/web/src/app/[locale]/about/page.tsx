@@ -24,7 +24,7 @@ import { Trajectory } from "@/features/profile/trajectory";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
-import { personJsonLd } from "@/lib/structured-data";
+import { profilePageJsonLd } from "@/lib/structured-data";
 import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -59,7 +59,7 @@ export default async function AboutPage() {
 
   return (
     <PageTransition>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd(locale)) }} />
       <PageHeader
         source={{ path: "profile/profile.yaml", name: "profile" }}
         icon={UserRoundIcon}
