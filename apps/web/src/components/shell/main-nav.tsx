@@ -34,7 +34,7 @@ export function MainNav() {
                 transitionTypes={NAV_SECTION}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative isolate inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm whitespace-nowrap xl:px-2.5 text-muted-foreground transition-colors hover:text-foreground",
+                  "relative isolate inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm whitespace-nowrap xl:px-2.5 text-muted-foreground transition-colors hover:text-foreground",
                   active ? "text-accent-foreground" : "hover:bg-accent"
                 )}
               >
@@ -45,7 +45,7 @@ export function MainNav() {
                     layoutId="main-nav-pill"
                     data-nav-pill=""
                     aria-hidden
-                    className="absolute inset-0 -z-10 rounded-md bg-accent"
+                    className="absolute inset-0 -z-10 rounded-full bg-accent"
                     transition={{ type: "spring", bounce: 0.15, duration: 0.4 }}
                   />
                 )}
