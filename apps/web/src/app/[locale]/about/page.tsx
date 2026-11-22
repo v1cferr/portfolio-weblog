@@ -24,13 +24,27 @@ import { Trajectory } from "@/features/profile/trajectory";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { personJsonLd } from "@/lib/structured-data";
 import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("About");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/about") };
+  const profile = getContent().getProfile();
+  const [firstName, ...lastNames] = profile.name.split(" ");
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/about"),
+    openGraph: {
+      type: "profile",
+      ...pageOpenGraph(locale, "/about"),
+      ...(firstName !== undefined && { firstName }),
+      ...(lastNames.length > 0 && { lastName: lastNames.join(" ") }),
+      username: profile.handle,
+    },
+  };
 }
 
 export default async function AboutPage() {

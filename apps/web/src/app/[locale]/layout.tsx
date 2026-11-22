@@ -20,6 +20,7 @@ import { Spotlight } from "@/components/motion/spotlight";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
+import { pageOpenGraph, xHandle } from "@/lib/metadata";
 import { SITE_URL } from "@/lib/site";
 
 // Type, chosen in a bake-off on 2026-10-23: Martian Mono for display (the
@@ -55,6 +56,7 @@ export const viewport: Viewport = {
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const handle = xHandle();
   return {
     metadataBase: new URL(SITE_URL),
     title: { default: t("title"), template: `%s · ${t("title")}` },
@@ -66,7 +68,10 @@ export async function generateMetadata(): Promise<Metadata> {
       languages: languageAlternates("/"),
       types: { "application/rss+xml": `/${locale}/weblog/rss.xml` },
     },
-    openGraph: { type: "website", siteName: "v1cferr.dev", locale: languageTag(locale).replace("-", "_") },
+    // The site card comes from opengraph-image.tsx next to this layout.
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/", { siteImage: false }) },
+    // X falls back to the Open Graph title, description and image.
+    twitter: { card: "summary_large_image", ...(handle !== undefined && { site: handle, creator: handle }) },
     // icon.svg switches its own colour (black on light themes, white on dark);
     // favicon.ico and the Apple icon are opaque tiles for clients without SVG.
     icons: {

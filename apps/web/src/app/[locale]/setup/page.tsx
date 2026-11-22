@@ -14,13 +14,19 @@ import { SetupCopyButton } from "@/features/setup/copy-button";
 import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { setupToMarkdown } from "@/lib/setup-markdown";
 import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Setup");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/setup") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/setup"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/setup") },
+  };
 }
 
 export default async function SetupPage() {

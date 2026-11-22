@@ -16,6 +16,7 @@ import { localeNames } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { formatPartialDate } from "@/lib/dates";
 import { languageTag } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site";
 
 export const dynamicParams = false;
@@ -37,8 +38,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/weblog/[
     title: post.frontmatter.title,
     description: post.frontmatter.summary,
     alternates: { canonical: `/${post.locale}/weblog/${slug}`, languages },
+    // og:url follows the canonical; the card comes from opengraph-image.tsx in this segment.
     openGraph: {
       type: "article",
+      ...pageOpenGraph(post.locale, `/weblog/${slug}`, { siteImage: false }),
+      authors: [absoluteUrl(`/${locale}/about`)],
       title: post.frontmatter.title,
       description: post.frontmatter.summary,
       ...(post.frontmatter.publishedAt !== undefined && { publishedTime: post.frontmatter.publishedAt }),

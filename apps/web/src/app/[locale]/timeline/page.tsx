@@ -8,6 +8,7 @@ import { CommitGraph, LaneLegend } from "@/features/timeline/commit-graph";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 
 // Projects without a start date fall back to their repository's creation
 // date, which comes from GitHub and is refreshed daily.
@@ -16,7 +17,12 @@ export const revalidate = 86400;
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Timeline");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/timeline") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/timeline"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/timeline") },
+  };
 }
 
 export default async function TimelinePage() {

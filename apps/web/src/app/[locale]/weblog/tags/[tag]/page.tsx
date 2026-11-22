@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 
 export const dynamicParams = false;
 
@@ -27,7 +28,12 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/weblog/t
   const { tag } = await params;
   const locale = await getLocale();
   const t = await getTranslations("Weblog");
-  return { title: t("taggedWith", { tag }), alternates: pageAlternates(locale, `/weblog/tags/${tag}`), robots: { index: false } };
+  return {
+    title: t("taggedWith", { tag }),
+    alternates: pageAlternates(locale, `/weblog/tags/${tag}`),
+    openGraph: { type: "website", ...pageOpenGraph(locale, `/weblog/tags/${tag}`) },
+    robots: { index: false },
+  };
 }
 
 export default async function TagPage({ params }: PageProps<"/[locale]/weblog/tags/[tag]">) {

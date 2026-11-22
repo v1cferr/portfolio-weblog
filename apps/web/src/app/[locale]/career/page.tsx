@@ -7,11 +7,17 @@ import { PageHeader } from "@/components/page-header";
 import { CareerTimeline } from "@/features/career/career-timeline";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Career");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/career") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/career"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/career") },
+  };
 }
 
 export default async function CareerPage() {

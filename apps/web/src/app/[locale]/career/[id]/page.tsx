@@ -29,6 +29,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
 
 export function generateStaticParams() {
@@ -51,6 +52,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/career/[
     title: `${title} · ${org}`,
     description: localize(experience.summary, locale).value,
     alternates: pageAlternates(locale, `/career/${id}`),
+    // The card comes from opengraph-image.tsx in this segment.
+    openGraph: { type: "website", ...pageOpenGraph(locale, `/career/${id}`, { siteImage: false }) },
   };
 }
 

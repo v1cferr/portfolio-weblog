@@ -29,6 +29,7 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
 
 // Same period as GITHUB_REVALIDATE_SECONDS; Next requires a literal here.
@@ -50,6 +51,8 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projects
     title: project.title,
     description: localize(project.summary, locale).value,
     alternates: pageAlternates(locale, `/projects/${id}`),
+    // The card comes from opengraph-image.tsx in this segment.
+    openGraph: { type: "website", ...pageOpenGraph(locale, `/projects/${id}`, { siteImage: false }) },
   };
 }
 

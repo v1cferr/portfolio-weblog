@@ -18,12 +18,18 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
+import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("Education");
-  return { title: t("title"), description: t("description"), alternates: pageAlternates(locale, "/education") };
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: pageAlternates(locale, "/education"),
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/education") },
+  };
 }
 
 export default async function EducationPage() {
