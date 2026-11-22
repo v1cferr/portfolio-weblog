@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "test": "vitest run",
     "icons:sync": "tsx scripts/sync-icons.ts",
-    "icons:check": "tsx scripts/sync-icons.ts --check"
+    "icons:check": "tsx scripts/sync-icons.ts --check",
+    "spotify:token": "tsx scripts/spotify-token.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
