@@ -271,8 +271,8 @@
     "placeholder": "Photos for this entry will be added soon."
   },
   "NowPlaying": {
-    "playing": "Playing now on Spotify",
-    "listening": "Listening to {title} by {artists} on Spotify",
+    "playing": "Listening now",
+    "listening": "Listening now: {title} by {artists}",
     "listen": "Open in Spotify",
     "progress": "Track progress"
   }
