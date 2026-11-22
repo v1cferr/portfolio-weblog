@@ -6,8 +6,8 @@ import { useEffect } from "react";
  * Feeds the pointer position to CSS as --spot-x/--spot-y on :root, once per
  * frame. Every .glass surface paints one shared spotlight from it (a
  * viewport-fixed radial gradient), so this costs one listener for the whole
- * page. Elements marked [data-spotlight-local] (the NixOS logo behind the
- * hero) also get --spot-local-x/-y in their own coordinates, to mask a reveal.
+ * page. Elements marked [data-spotlight-local] (the logos behind the hero)
+ * also get --spot-local-x/-y in their own coordinates, to mask a reveal.
  * Off on touch screens and with reduced motion; :root[data-spotlight] tells
  * CSS when it is on.
  */

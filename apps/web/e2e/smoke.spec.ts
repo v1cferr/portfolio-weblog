@@ -40,6 +40,22 @@ test.describe("every page", () => {
   }
 });
 
+test.describe("narrow viewport without mobile auto-zoom", () => {
+  // The mobile project emulates a phone, which zooms out to fit wide content
+  // and hides horizontal overflow from the check above; a plain 400px window
+  // does not.
+  for (const path of ["/pt-br", "/en-us"]) {
+    test(`${path} has no horizontal scroll at 400px`, async ({ browser }) => {
+      const context = await browser.newContext({ viewport: { width: 400, height: 800 }, isMobile: false });
+      const page = await context.newPage();
+      await page.goto(path, { waitUntil: "networkidle" });
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(overflow, "no horizontal scrolling").toBeLessThanOrEqual(0);
+      await context.close();
+    });
+  }
+});
+
 test.describe("accessibility", () => {
   for (const path of [
     "/en-us",
