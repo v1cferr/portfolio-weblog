@@ -7,6 +7,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # A fresh release waits before a PR opens, so a compromised or broken
+    # publish is usually yanked first. Security updates skip the wait.
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
     groups:
       minor-and-patch:
         update-types: [minor, patch]
@@ -16,8 +21,18 @@ updates:
       # typescript-eslint supports TypeScript < 6.1 (ADR 0005).
       - dependency-name: typescript
         update-types: [version-update:semver-major, version-update:semver-minor]
+      # Types follow the Node the project runs (22, in flake.nix and CI), not
+      # the newest Node.
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
 
+  # Actions are pinned to commit SHAs (zizmor), so only Dependabot moves them.
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: weekly
+    cooldown:
+      default-days: 3
+    groups:
+      actions:
+        patterns: ["*"]
