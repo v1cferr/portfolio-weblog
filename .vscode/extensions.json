@@ -1,8 +1,5 @@
 {
   "recommendations": [
-    // Deno, for the Supabase edge functions
-    "denoland.vscode-deno",
-
     // Prettier - code formatter
     "esbenp.prettier-vscode",
 
@@ -13,6 +10,9 @@
     "editorconfig.editorconfig",
 
     // Tailwind CSS IntelliSense
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+
+    // MDX syntax for weblog posts
+    "unifiedjs.vscode-mdx"
   ]
 }

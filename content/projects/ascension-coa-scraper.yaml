@@ -1,0 +1,13 @@
+id: ascension-coa-scraper
+title: ascension-coa-scraper
+repository: v1cferr/ascension-coa-scraper
+state: experimental
+category: personal
+summary:
+  en-us: >-
+    Extracts and normalizes Project Ascension (Conquest of Azeroth) talent trees into a structured
+    JSON dataset, using plain HTTP and no browser automation.
+  pt-br: >-
+    Extrai e normaliza as árvores de talentos do Project Ascension (Conquest of Azeroth) em um
+    dataset JSON estruturado, só com HTTP e sem automação de navegador.
+technologies: [python]

@@ -1,0 +1,39 @@
+import { getTranslations } from "next-intl/server";
+
+import { NowPlayingChip } from "@/features/profile/now-playing-chip";
+import { SearchDialog } from "@/features/search/search-dialog";
+import { Logo } from "@/components/logo";
+import { Link } from "@/i18n/navigation";
+
+import { LocaleSwitcher } from "./locale-switcher";
+import { MainNav, MobileNav } from "./main-nav";
+import { ThemeToggle } from "./theme-toggle";
+
+export async function SiteHeader() {
+  const t = await getTranslations("Nav");
+  return (
+    <header className="glass-float sticky top-0 z-40">
+      <a
+        href="#content"
+        className="sr-only rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
+      >
+        {t("skipToContent")}
+      </a>
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
+        <Link href="/" className="-m-1 rounded-lg p-1 transition-opacity hover:opacity-80" aria-label={t("brandHome")}>
+          <Logo />
+        </Link>
+        <div className="ml-auto flex items-center gap-1 lg:ml-6 lg:flex-1">
+          <MainNav />
+          <div className="ml-auto flex items-center gap-1">
+            <NowPlayingChip />
+            <SearchDialog />
+            <LocaleSwitcher />
+            <ThemeToggle />
+            <MobileNav />
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}

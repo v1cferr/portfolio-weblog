@@ -1,0 +1,10 @@
+id: acuttis-point
+title: acuttis-point
+repository: v1cferr/acuttis-point
+state: active
+category: personal
+summary:
+  en-us: Headless Acuttis timekeeping RPA built with Gleam, Playwright and declarative NixOS automation.
+  pt-br: RPA headless de registro de ponto no Acuttis, feito com Gleam, Playwright e automação declarativa no NixOS.
+technologies: [gleam, playwright, nixos]
+skills: [infrastructure-as-code]

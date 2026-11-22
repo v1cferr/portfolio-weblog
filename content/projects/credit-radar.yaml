@@ -1,0 +1,13 @@
+id: credit-radar
+title: credit-radar
+repository: v1cferr/credit-radar
+state: experimental
+category: personal
+summary:
+  en-us: >-
+    Personal credit intelligence system for tracking credit scores, debts, credit exposure, market
+    conditions and readiness for major financial decisions in Brazil.
+  pt-br: >-
+    Sistema pessoal de inteligência de crédito para acompanhar scores, dívidas, exposição de
+    crédito, condições de mercado e prontidão para grandes decisões financeiras no Brasil.
+technologies: [typescript]

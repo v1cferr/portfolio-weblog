@@ -1,0 +1,11 @@
+id: orion-bootcamp
+title: orion-bootcamp
+repository: v1cferr/orion-bootcamp
+state: historical
+category: study
+summary:
+  en-us: Exercises and projects from my participation in New Rizon's bootcamp.
+  pt-br: Exercícios e projetos da minha participação no bootcamp da New Rizon.
+links:
+  - { label: GitHub Pages, url: "https://v1cferr.github.io/orion-bootcamp/", kind: demo }
+technologies: [typescript]

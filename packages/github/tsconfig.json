@@ -1,0 +1,5 @@
+{
+  "extends": "@workspace/config/typescript/library.json",
+  "include": ["src", "test", "*.ts", "eslint.config.js"],
+  "exclude": ["node_modules"]
+}

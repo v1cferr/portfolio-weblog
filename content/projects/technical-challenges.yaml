@@ -1,0 +1,11 @@
+id: technical-challenges
+title: technical-challenges
+repository: v1cferr/technical-challenges
+state: historical
+category: challenge
+summary:
+  en-us: A collection of coding challenges completed for technical interviews and job applications.
+  pt-br: Coleção de desafios de código feitos em entrevistas técnicas e processos seletivos.
+links:
+  - { label: Supersign challenge, url: "https://supersign-challenge.vercel.app", kind: demo }
+technologies: [typescript, react]

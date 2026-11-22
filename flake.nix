@@ -1,5 +1,5 @@
 {
-  description = "Development environment for portfolio-weblog, a Next.js site deployed on Vercel";
+  description = "Development environment for portfolio-weblog, the pnpm monorepo behind v1cferr.dev";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -24,18 +24,24 @@
             pkgs.nodejs_22
 
             # Pinned to the major that matches pnpm-lock.yaml (lockfileVersion
-            # 9.0) and still reads pnpm.onlyBuiltDependencies from package.json.
+            # 9.0); the workspace is managed by pnpm only.
             pkgs.pnpm_10
-
-            # supabase/functions are Deno edge functions, deployed through the
-            # Supabase CLI rather than through the Next.js build.
-            pkgs.deno
-            pkgs.supabase-cli
           ];
+
+          # Browsers for the Playwright smoke tests. Downloaded browsers do not
+          # run on NixOS, so they come from nixpkgs, and @playwright/test in
+          # apps/web is pinned to the same version (playwright-driver.version).
+          PLAYWRIGHT_BROWSERS_PATH = pkgs.playwright-driver.browsers;
+          PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
 
           # Only greet on an interactive shell: `nix develop --command` pipes
           # stdout into other tools, and a banner there corrupts their input.
           shellHook = ''
+            # A host profile may export LD_LIBRARY_PATH with libraries built
+            # against a newer glibc than this shell's nixpkgs, which crashes
+            # the Playwright browsers on start. Nothing here needs it.
+            unset LD_LIBRARY_PATH
+
             if [ -t 1 ]; then
               echo "portfolio-weblog: node $(node --version), pnpm $(pnpm --version)"
             fi

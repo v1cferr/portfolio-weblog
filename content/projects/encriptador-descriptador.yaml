@@ -1,0 +1,11 @@
+id: encriptador-descriptador
+title: encriptador-descriptador
+repository: v1cferr/encriptador-descriptador
+state: historical
+category: study
+summary:
+  en-us: Text encoder and decoder built for sprint 1 of Challenge ONE T5, proposed by Alura.
+  pt-br: Codificador e decodificador de texto feito no Sprint 01 do Challenge ONE T5, proposto pela Alura.
+links:
+  - { label: GitHub Pages, url: "https://v1cferr.github.io/encriptador-descriptador/", kind: demo }
+technologies: [html, css, javascript]
