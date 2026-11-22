@@ -31,10 +31,18 @@ function currentRole(locale: Locale) {
   return current[0];
 }
 
+/** The name with the handle in quotes after the first name: Victor "v1cferr" Ferreira. */
+export function signature(name: string, handle: string): string {
+  const [first, ...rest] = name.split(" ");
+  return rest.length === 0 ? `${name} "${handle}"` : `${first ?? name} "${handle}" ${rest.join(" ")}`;
+}
+
 /**
  * schema.org Person built from the profile and the career; only public fields.
- * alternateName carries the handle and the aliases (Google reads real names
- * from `name` and handles from `alternateName`), sameAs every public profile,
+ * alternateName carries the name with the handle in quotes, as the owner
+ * signs it (Victor "v1cferr" Ferreira), the handle and the aliases (Google
+ * reads real names from `name` and handles from `alternateName`), sameAs every
+ * public profile,
  * and knowsAbout the technologies of the roles still open.
  */
 export function personJsonLd(locale: Locale) {
@@ -55,7 +63,7 @@ export function personJsonLd(locale: Locale) {
     "@type": "Person",
     "@id": PERSON_ID,
     name: profile.name,
-    alternateName: [profile.handle, ...profile.aliases],
+    alternateName: [signature(profile.name, profile.handle), profile.handle, ...profile.aliases],
     url: SITE_URL,
     jobTitle: role?.title ?? localize(profile.headline, locale).value,
     ...(role !== undefined && {

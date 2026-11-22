@@ -413,7 +413,7 @@ test.describe("structured data", () => {
     const person = nodes.find((node) => node["@type"] === "Person");
     expect(website?.name).toBe("Victor Ferreira");
     expect(website?.alternateName).toEqual(expect.arrayContaining(["v1cferr", "V1C"]));
-    expect(person?.alternateName).toEqual(expect.arrayContaining(["v1cferr", "V1C"]));
+    expect(person?.alternateName).toEqual(expect.arrayContaining(['Victor "v1cferr" Ferreira', "v1cferr", "V1C"]));
     expect((person?.sameAs as string[]).length).toBeGreaterThan(0);
   });
 
