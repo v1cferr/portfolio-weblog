@@ -258,5 +258,12 @@
   "Media": {
     "label": "Fotos",
     "placeholder": "As fotos desta entrada serão adicionadas em breve."
+  },
+  "NowPlaying": {
+    "playing": "Tocando agora",
+    "paused": "Pausado",
+    "recent": "Tocou {time}",
+    "listen": "Ouvir no Spotify",
+    "progress": "Progresso da faixa"
   }
 }

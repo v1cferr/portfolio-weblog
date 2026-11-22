@@ -255,6 +255,21 @@
       stroke-dashoffset: 0;
     }
   }
+  /* The now-playing equalizer; still with reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .equalizer-bar {
+      animation: equalizer 0.9s ease-in-out infinite alternate;
+      transform-origin: bottom;
+    }
+  }
+  @keyframes equalizer {
+    from {
+      transform: scaleY(0.25);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
   @keyframes draw-on-scroll {
     from {
       transform: scaleY(0);
