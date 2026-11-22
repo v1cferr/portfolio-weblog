@@ -9,6 +9,7 @@ import { SearchXIcon, SparklesIcon, XIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 import { TechnologyIcon } from "@/components/icon";
@@ -216,7 +217,11 @@ function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?:
           <ItemTitle className="flex-wrap text-base">
             <Morph kind="project" id={project.id} enabled={morph}>
               <h4>
-                <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
+                <Link
+                  href={`/projects/${project.id}`}
+                  transitionTypes={NAV_FORWARD}
+                  className="after:absolute after:inset-0 focus-visible:outline-none"
+                >
                   {project.title}
                 </Link>
               </h4>

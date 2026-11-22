@@ -2,6 +2,7 @@ import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card";
 import type { ProjectCategory, ProjectState, TechnologyCategory } from "@workspace/content";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { TechnologyIcon } from "@/components/icon";
 import { Morph } from "@/components/morph";
 import { Link } from "@/i18n/navigation";
@@ -39,7 +40,11 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
         </div>
         <Morph kind="project" id={project.id}>
           <h3 className="w-fit text-lg leading-snug font-semibold">
-            <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
+            <Link
+              href={`/projects/${project.id}`}
+              transitionTypes={NAV_FORWARD}
+              className="after:absolute after:inset-0 focus-visible:outline-none"
+            >
               {project.title}
             </Link>
           </h3>

@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
 import { Morph, type MorphKind } from "@/components/morph";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
@@ -149,7 +150,7 @@ export async function CommitGraph({
                     <Morph kind={row.morph ?? "project"} id={row.event.entity.id} enabled={row.morph !== undefined}>
                       <p className="w-fit font-medium">
                         {row.href !== undefined ? (
-                          <Link href={row.href} className="hover:underline hover:underline-offset-4">
+                          <Link href={row.href} transitionTypes={NAV_FORWARD} className="hover:underline hover:underline-offset-4">
                             {row.title}
                           </Link>
                         ) : (

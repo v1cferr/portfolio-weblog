@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
@@ -31,7 +32,7 @@ export default async function SetupPage() {
   const firstTitle = setup.groups[0] && localize(setup.groups[0].title, locale);
 
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "profile/setup.yaml" }} icon={MonitorIcon} title={t("title")} description={t("description")}>
         <div className="flex flex-wrap items-center gap-4">
           <p className="font-mono text-xs text-muted-foreground">{t("updated", { date: formatPartialDate(setup.updatedAt, locale) })}</p>
@@ -179,6 +180,6 @@ export default async function SetupPage() {
       <div className="mt-12">
         <SourceLink file="profile/setup.yaml" />
       </div>
-    </>
+    </PageTransition>
   );
 }

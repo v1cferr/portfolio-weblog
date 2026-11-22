@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
@@ -81,12 +82,14 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const repo = index?.ok === true && project.repository !== undefined ? index.get(project.repository) : undefined;
 
   return (
-    <article>
+    <PageTransition as="article">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/projects">{nav("projects")}</Link>
+              <Link href="/projects" transitionTypes={NAV_BACK}>
+                {nav("projects")}
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -206,6 +209,6 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
       </div>
 
       <RelatedContent id={id} />
-    </article>
+    </PageTransition>
   );
 }

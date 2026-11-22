@@ -5,6 +5,7 @@ import { AwardIcon, ExternalLinkIcon, GraduationCapIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { DateRange, PartialDate } from "@/components/date-range";
 import { EmptyState } from "@/components/empty-state";
 import { MediaGallery } from "@/components/media-gallery";
@@ -34,7 +35,7 @@ export default async function EducationPage() {
   const certifications = newestFirst(content.getCertifications(), (cert) => ({ start: cert.issuedAt, end: cert.issuedAt }));
 
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "education" }} icon={GraduationCapIcon} title={t("title")} description={t("description")} />
 
       {education.length === 0 ? (
@@ -142,6 +143,6 @@ export default async function EducationPage() {
           </ul>
         )}
       </section>
-    </>
+    </PageTransition>
   );
 }

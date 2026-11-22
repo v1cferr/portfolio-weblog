@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
@@ -89,12 +90,14 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
   const fallback = texts.find((text) => text.isFallback);
 
   return (
-    <article className="max-w-3xl">
+    <PageTransition as="article" className="max-w-3xl">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/career">{nav("career")}</Link>
+              <Link href="/career" transitionTypes={NAV_BACK}>
+                {nav("career")}
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -219,6 +222,6 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
 
       <Separator className="my-12" />
       <RelatedContent id={id} />
-    </article>
+    </PageTransition>
   );
 }

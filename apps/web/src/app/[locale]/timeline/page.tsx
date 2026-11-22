@@ -2,6 +2,7 @@ import { GitCommitVerticalIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { PageHeader } from "@/components/page-header";
 import { CommitGraph, LaneLegend } from "@/features/timeline/commit-graph";
 import { getContent } from "@/lib/content";
@@ -25,7 +26,7 @@ export default async function TimelinePage() {
     repositoryCreatedAt: (repository) => (index.ok ? index.get(repository)?.created_at : undefined),
   });
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "", name: "timeline" }} icon={GitCommitVerticalIcon} title={t("title")} description={t("description")}>
         <LaneLegend />
       </PageHeader>
@@ -34,6 +35,6 @@ export default async function TimelinePage() {
       ) : (
         <CommitGraph events={events} morph label={t("title")} />
       )}
-    </>
+    </PageTransition>
   );
 }

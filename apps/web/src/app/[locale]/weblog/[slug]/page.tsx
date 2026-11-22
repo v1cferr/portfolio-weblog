@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { Morph } from "@/components/morph";
@@ -71,10 +72,10 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
   };
 
   return (
-    <article>
+    <PageTransition as="article">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="mb-10 max-w-3xl space-y-4">
-        <Link href="/weblog" className="font-mono text-xs text-muted-foreground hover:text-foreground">
+        <Link href="/weblog" transitionTypes={NAV_BACK} className="font-mono text-xs text-muted-foreground hover:text-foreground">
           ← {nav("weblog")}
         </Link>
         <p className="font-mono text-xs tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</p>
@@ -137,6 +138,6 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
       </footer>
 
       <RelatedContent id={slug} />
-    </article>
+    </PageTransition>
   );
 }

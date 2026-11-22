@@ -2,6 +2,7 @@ import { PenLineIcon, RssIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { PostCard } from "@/features/weblog/post-card";
@@ -19,7 +20,7 @@ export default async function WeblogPage() {
   const t = await getTranslations("Weblog");
   const posts = getContent().getPosts(locale);
   return (
-    <>
+    <PageTransition>
       <PageHeader source={{ path: "weblog" }} icon={PenLineIcon} title={t("title")} description={t("description")}>
         <a
           href={`/${locale}/weblog/rss.xml`}
@@ -37,6 +38,6 @@ export default async function WeblogPage() {
           ))}
         </div>
       )}
-    </>
+    </PageTransition>
   );
 }

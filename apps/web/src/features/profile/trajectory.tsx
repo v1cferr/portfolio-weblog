@@ -3,6 +3,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Badge } from "@workspace/ui/components/badge";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { NAV_FORWARD } from "@/components/page-transition";
 import { type Lane, laneBg, laneOf, laneText } from "@/components/lane";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Morph } from "@/components/morph";
@@ -94,7 +95,7 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
               )}
             />
             {station.entity?.href !== undefined ? (
-              <Link href={station.entity.href} className="group relative flex gap-3 rounded-lg sm:flex-col">
+              <Link href={station.entity.href} transitionTypes={NAV_FORWARD} className="group relative flex gap-3 rounded-lg sm:flex-col">
                 {body}
               </Link>
             ) : (

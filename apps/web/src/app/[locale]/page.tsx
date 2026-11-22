@@ -2,6 +2,7 @@ import { localize, localizeList } from "@workspace/content";
 import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { PageTransition } from "@/components/page-transition";
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { Avatar } from "@/features/profile/avatar";
@@ -35,7 +36,7 @@ export default async function HomePage() {
     .slice(0, 6);
 
   return (
-    <>
+    <PageTransition>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
       <GitSpine>
         <section className="grid items-end gap-8 pb-14 md:grid-cols-[1fr_auto] md:pb-20">
@@ -163,6 +164,6 @@ export default async function HomePage() {
           </section>
         )}
       </GitSpine>
-    </>
+    </PageTransition>
   );
 }
