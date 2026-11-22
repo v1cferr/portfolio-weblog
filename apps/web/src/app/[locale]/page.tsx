@@ -1,5 +1,6 @@
 import { localize, localizeList } from "@workspace/content";
 import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { NAV_SECTION, PageTransition } from "@/components/page-transition";
@@ -20,6 +21,16 @@ import { homeJsonLd } from "@/lib/structured-data";
 
 // The "Recently" list can use repository creation dates from GitHub.
 export const revalidate = 86400;
+
+/**
+ * The home page's title carries the handle and the aliases next to the name,
+ * so a search for "v1cferr" or "V1C" matches the page itself, not only its
+ * structured data. Other pages keep the short "Page · Name" template.
+ */
+export function generateMetadata(): Metadata {
+  const profile = getContent().getProfile();
+  return { title: { absolute: `${profile.name} (${[profile.handle, ...profile.aliases].join(", ")})` } };
+}
 
 export default async function HomePage() {
   const locale = await getLocale();

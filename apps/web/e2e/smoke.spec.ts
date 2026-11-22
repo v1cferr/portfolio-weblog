@@ -388,6 +388,7 @@ test.describe("structured data", () => {
 
   test("the home page names the site and the person, with the handle and aliases", async ({ page }) => {
     const [home] = await graph(page, "/en-us");
+    await expect(page).toHaveTitle("Victor Ferreira (v1cferr, V1C)");
     const nodes = (home?.["@graph"] ?? []) as Record<string, unknown>[];
     const website = nodes.find((node) => node["@type"] === "WebSite");
     const person = nodes.find((node) => node["@type"] === "Person");
