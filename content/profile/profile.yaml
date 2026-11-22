@@ -48,6 +48,22 @@ about:
       Este hub é onde guardo essa história e o que construo a seguir: experiências, projetos,
       estudos e um diário de engenharia, tudo versionado como conteúdo em Git.
 
+# About page, in the owner's own words; each section appears only once its
+# text exists. Uncomment and write (en-us and pt-br):
+#
+# motivation:        # "What drives me": why AI, why Nix, what problem you enjoy
+#   en-us:
+#     - >-
+#       ...
+#   pt-br:
+#     - >-
+#       ...
+# principles:        # "How I work": 3 to 5 short principles
+#   en-us: [...]
+#   pt-br: [...]
+# studying:          # "Now" card: what you are studying or reading
+#   en-us: [...]
+#   pt-br: [...]
 focus:
   en-us:
     - AI engineering and LLMOps, from prototype to a solution that keeps running
