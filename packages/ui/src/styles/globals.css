@@ -33,9 +33,10 @@
  *   career  #0d6756       #73daca        project  #2159a7 / #7aa2f7
  *   study   #6e5531       #e0af68        writing  #703eb2 / #bb9af7
  *
- * Glass: frosted and borderless (revised 2026-11-22): a translucent tint, a
- * strong backdrop blur with saturation, a top sheen, a soft diffuse shadow and
- * a fine top highlight as the only edge. Interactive glass deepens on hover
+ * Glass: layered and borderless (revised 2026-11-22): a clearer translucent
+ * tint, a 40px backdrop blur with saturation, a top sheen, a soft diffuse
+ * shadow, an inner edge highlight and a gradient hairline rim, over soft
+ * lane-coloured glows in the backdrop. Interactive glass deepens on hover
  * (.glass-hover). Without backdrop-filter, or with reduced transparency,
  * surfaces fall back to an opaque card with a border.
  *
@@ -111,14 +112,20 @@
   --lane-study: #6e5531;
   --lane-writing: #703eb2;
 
-  --glass-tint: rgb(233 233 237 / 0.7);
-  --glass-tint-hover: rgb(239 239 242 / 0.84);
+  --glass-tint: rgb(233 233 237 / 0.55);
+  --glass-tint-hover: rgb(239 239 242 / 0.7);
   --surface: color-mix(in srgb, var(--foreground) 4%, transparent);
   --surface-hover: color-mix(in srgb, var(--foreground) 7%, transparent);
   --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 1px 2px rgb(42 46 69 / 0.06);
-  --glass-sheen: rgb(255 255 255 / 0.4);
-  --glass-shadow: 0 1px 2px rgb(42 46 69 / 0.04), 0 12px 32px -8px rgb(42 46 69 / 0.14), inset 0 1px 0 rgb(255 255 255 / 0.85);
-  --glass-shadow-hover: 0 1px 2px rgb(42 46 69 / 0.05), 0 18px 40px -8px rgb(42 46 69 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.9);
+  --glass-sheen: rgb(255 255 255 / 0.55);
+  --glass-rim: linear-gradient(160deg, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.2) 40%, rgb(255 255 255 / 0.6));
+  --glass-glow: 0.22;
+  --glass-shadow:
+    0 1px 2px rgb(42 46 69 / 0.04), 0 12px 32px -8px rgb(42 46 69 / 0.14), inset 0 1px 0 rgb(255 255 255 / 0.9),
+    inset 0 0 0 1px rgb(255 255 255 / 0.5);
+  --glass-shadow-hover:
+    0 1px 2px rgb(42 46 69 / 0.05), 0 18px 40px -8px rgb(42 46 69 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 0 0 1px rgb(255 255 255 / 0.55);
 }
 
 .dark {
@@ -147,12 +154,18 @@
   --lane-study: #e0af68;
   --lane-writing: #bb9af7;
 
-  --glass-tint: rgb(26 27 38 / 0.55);
-  --glass-tint-hover: rgb(36 40 59 / 0.66);
+  --glass-tint: rgb(26 27 38 / 0.42);
+  --glass-tint-hover: rgb(36 40 59 / 0.55);
   --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
-  --glass-sheen: rgb(255 255 255 / 0.06);
-  --glass-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px -10px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.1);
-  --glass-shadow-hover: 0 1px 2px rgb(0 0 0 / 0.25), 0 22px 48px -10px rgb(0 0 0 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.14);
+  --glass-sheen: rgb(255 255 255 / 0.1);
+  --glass-rim: linear-gradient(160deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.02) 40%, rgb(255 255 255 / 0.1));
+  --glass-glow: 0.28;
+  --glass-shadow:
+    0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px -10px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.16),
+    inset 0 0 0 1px rgb(255 255 255 / 0.04);
+  --glass-shadow-hover:
+    0 1px 2px rgb(0 0 0 / 0.25), 0 22px 48px -10px rgb(0 0 0 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.2),
+    inset 0 0 0 1px rgb(255 255 255 / 0.06);
 }
 
 @layer base {
@@ -216,8 +229,31 @@
     background-image: linear-gradient(180deg, var(--glass-sheen), transparent 35%);
     border-color: transparent;
     box-shadow: var(--glass-shadow);
-    -webkit-backdrop-filter: blur(32px) saturate(1.6);
-    backdrop-filter: blur(32px) saturate(1.6);
+    -webkit-backdrop-filter: blur(40px) saturate(1.8);
+    backdrop-filter: blur(40px) saturate(1.8);
+  }
+  /*
+   * Layered glass (2026-11-22): a hairline rim that catches light at the top
+   * left and fades along the sides, drawn as a masked gradient on ::after so
+   * it takes no space. Positioned utilities (fixed, sticky) still win, since
+   * they sit in a later layer.
+   */
+  .glass-float {
+    position: relative;
+  }
+  .glass-float::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: var(--glass-rim);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
   /*
    * The logos behind the hero (NixOS, V1C): a faint watermark by default
@@ -268,12 +304,18 @@
   }
   /* Without blur, or with reduced transparency, surfaces turn opaque and get their border back to separate. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass-float::after {
+      content: none;
+    }
     .glass-float {
       background-color: var(--card);
       border-color: var(--border);
     }
   }
   @media (prefers-reduced-transparency: reduce) {
+    .glass-float::after {
+      content: none;
+    }
     .glass-float {
       background-color: var(--card);
       border-color: var(--border);
