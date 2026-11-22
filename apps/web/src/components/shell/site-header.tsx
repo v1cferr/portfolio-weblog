@@ -11,8 +11,10 @@ import { ThemeToggle } from "./theme-toggle";
 
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
+  // Named for view transitions, so it stays still while the page content moves
+  // (see the page-transition rules in globals.css).
   return (
-    <header className="glass-float sticky top-0 z-40">
+    <header className="glass-float sticky top-0 z-40" style={{ viewTransitionName: "site-header" }}>
       <a
         href="#content"
         className="sr-only rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
