@@ -10,10 +10,13 @@ import { Cover, Equalizer, Progress, SpotifyIcon, useNowPlaying } from "./now-pl
 import { ExternalLink } from "@/components/external-link";
 
 /**
- * What the owner is playing on Spotify, as a small chip in the header of every
- * page, shown only while a track plays, attributed with Spotify's icon. The
+ * What the owner is playing on Spotify, as a compact chip in the header of
+ * every page, shown only while a track plays: Spotify's icon (attribution) and
+ * a moving equalizer, no visible text, as tall as the other header icon
+ * buttons. The track lives in the accessible name ("Listening to X by Y"). The
  * chip links to the track (a tap on touch screens opens Spotify); on hover or
- * focus a card shows the cover, the album and the progress.
+ * focus a card shows the cover, the title, the artists, the album, the
+ * progress and a link to listen.
  */
 export function NowPlayingChip() {
   const t = useTranslations("NowPlaying");
@@ -30,14 +33,10 @@ export function NowPlayingChip() {
         <ExternalLink
           href={snapshot.trackUrl ?? "https://open.spotify.com"}
           aria-label={label}
-          className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "gap-2 px-2 text-muted-foreground")}
+          className={cn(buttonVariants({ variant: "ghost" }), "gap-1.5 px-2 text-muted-foreground")}
         >
           <SpotifyIcon />
           <Equalizer active />
-          <span aria-hidden className="hidden max-w-56 truncate xl:inline">
-            {snapshot.title}
-            {artists !== "" && ` — ${artists}`}
-          </span>
         </ExternalLink>
       </HoverCardTrigger>
       <HoverCardContent align="end" className="glass-float w-80 rounded-2xl border p-3">
