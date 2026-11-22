@@ -7,12 +7,12 @@
     "MD013": false,
     "MD033": false,
     "MD055": { "style": "leading_and_trailing" },
-    "MD060": { "style": "aligned" }
+    "MD060": { "style": "aligned" },
   },
   "ignores": [
     "**/node_modules/**",
     ".direnv/**",
     // Written and rewritten by `next dev`; it starts at a level-2 heading.
-    "apps/web/AGENTS.md"
-  ]
+    "apps/web/AGENTS.md",
+  ],
 }
