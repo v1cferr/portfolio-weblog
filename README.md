@@ -66,6 +66,17 @@ docs/           architecture, decisions (ADRs), guides, migration
   become public
 - [Decisions](docs/decisions/README.md)
 
+## Third-party credits
+
+| Asset                                                      | Author                    | License                                                   | Where                                         |
+| ---------------------------------------------------------- | ------------------------- | --------------------------------------------------------- | --------------------------------------------- |
+| NixOS logo ([branding](https://nixos.org/branding))        | NixOS contributors        | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | home hero and footer credit, unmodified       |
+| [Simple Icons](https://simpleicons.org)                    | Simple Icons contributors | CC0 1.0 (brand marks stay their owners' trademarks)       | technology and social logos, the Spotify icon |
+| [Devicon](https://devicon.dev)                             | Devicon contributors      | MIT                                                       | technology logos, the NixOS logo file         |
+| [Lucide](https://lucide.dev)                               | Lucide contributors       | ISC                                                       | interface icons                               |
+| [circle-flags](https://github.com/HatScripts/circle-flags) | HatScripts                | MIT                                                       | language flags                                |
+| Martian Mono, Hanken Grotesk, JetBrains Mono               | their designers           | SIL Open Font License 1.1                                 | type, via Google Fonts                        |
+
 ## License
 
 [Personal Hub License (PHL) v1.0](LICENSE): the code may be read for reference;

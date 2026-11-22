@@ -218,6 +218,19 @@
     -webkit-backdrop-filter: blur(32px) saturate(1.6);
     backdrop-filter: blur(32px) saturate(1.6);
   }
+  /*
+   * The NixOS logo behind the hero: a faint watermark by default (touch,
+   * reduced motion), and with the spotlight on, shown in full colour only
+   * inside a circle around the pointer.
+   */
+  .nix-reveal {
+    opacity: 0.08;
+  }
+  :root[data-spotlight] .nix-reveal {
+    opacity: 0.9;
+    -webkit-mask-image: radial-gradient(180px circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000, transparent 75%);
+    mask-image: radial-gradient(180px circle at var(--spot-local-x, -999px) var(--spot-local-y, -999px), #000, transparent 75%);
+  }
   /* Interactive surfaces deepen on hover instead of drawing a border. */
   .glass-hover {
     transition-property: background-color, box-shadow, translate;

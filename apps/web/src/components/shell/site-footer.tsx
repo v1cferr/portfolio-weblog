@@ -34,6 +34,21 @@ export async function SiteFooter() {
         </ul>
         <SocialLinks links={profile.links} label={t("elsewhere")} size="sm" />
       </div>
+      {/* Attribution the NixOS logo's licence asks for (it appears on the home page; see components/nixos-logo.tsx). */}
+      <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted-foreground sm:px-6">
+        {t.rich("nixosCredit", {
+          license: (chunks) => (
+            <a className="underline underline-offset-4 hover:text-foreground" href="https://creativecommons.org/licenses/by/4.0/">
+              {chunks}
+            </a>
+          ),
+          source: (chunks) => (
+            <a className="underline underline-offset-4 hover:text-foreground" href="https://nixos.org/branding">
+              {chunks}
+            </a>
+          ),
+        })}
+      </p>
     </footer>
   );
 }

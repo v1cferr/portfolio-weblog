@@ -253,7 +253,8 @@
     "builtFrom": "Feito a partir de conteúdo simples em Git.",
     "repository": "Código-fonte",
     "rss": "RSS",
-    "elsewhere": "Em outros lugares"
+    "elsewhere": "Em outros lugares",
+    "nixosCredit": "Logo do NixOS: NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>"
   },
   "Media": {
     "label": "Fotos",

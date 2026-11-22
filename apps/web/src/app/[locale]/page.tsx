@@ -3,6 +3,7 @@ import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, R
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
+import { NixosLogo } from "@/components/nixos-logo";
 import { Avatar } from "@/features/profile/avatar";
 import { SectionHeading } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
@@ -39,6 +40,10 @@ export default async function HomePage() {
       <GitSpine>
         <section className="grid items-end gap-8 pb-14 md:grid-cols-[1fr_auto] md:pb-20">
           <div className="relative space-y-5">
+            <NixosLogo
+              data-spotlight-local=""
+              className="nix-reveal pointer-events-none absolute -top-10 right-0 -z-10 size-[26rem] max-md:-right-16 max-md:size-64"
+            />
             <SpineHead />
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
               <MapPinIcon className="size-3.5" aria-hidden />
