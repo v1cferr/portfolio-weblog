@@ -39,7 +39,7 @@ export default async function TagPage({ params }: PageProps<"/[locale]/weblog/ta
   if (posts.length === 0) notFound();
   return (
     <>
-      <PageHeader eyebrow="content/weblog" title={t("taggedWith", { tag })}>
+      <PageHeader source={{ path: "weblog" }} title={t("taggedWith", { tag })}>
         <Link href="/weblog" className="text-sm text-muted-foreground hover:text-foreground">
           ← {t("title")}
         </Link>

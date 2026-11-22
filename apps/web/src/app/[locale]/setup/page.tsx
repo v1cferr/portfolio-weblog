@@ -31,7 +31,7 @@ export default async function SetupPage() {
 
   return (
     <>
-      <PageHeader eyebrow="content/profile/setup.yaml" icon={MonitorIcon} title={t("title")} description={t("description")}>
+      <PageHeader source={{ path: "profile/setup.yaml" }} icon={MonitorIcon} title={t("title")} description={t("description")}>
         <div className="flex flex-wrap items-center gap-4">
           <p className="font-mono text-xs text-muted-foreground">{t("updated", { date: formatPartialDate(setup.updatedAt, locale) })}</p>
           <SetupCopyButton markdown={setupToMarkdown(setup, locale, t("markdownHeading"))} label={t("copy")} done={t("copied")} />

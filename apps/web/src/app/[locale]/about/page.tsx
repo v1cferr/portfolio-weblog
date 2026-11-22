@@ -30,7 +30,7 @@ export default async function AboutPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale)) }} />
       <PageHeader
-        eyebrow="content/profile/profile.yaml"
+        source={{ path: "profile/profile.yaml", name: "profile" }}
         icon={UserRoundIcon}
         title={t("title")}
         description={localize(profile.headline, locale).value}

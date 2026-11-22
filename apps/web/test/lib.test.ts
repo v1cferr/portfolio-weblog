@@ -15,6 +15,7 @@ import {
 } from "../src/lib/dates";
 import { languageAlternates, languageTag } from "../src/lib/i18n";
 import { setupToMarkdown } from "../src/lib/setup-markdown";
+import { nixBase32 } from "../src/lib/nix-base32";
 
 describe("formatPartialDate", () => {
   it("keeps the precision of the source", () => {
@@ -139,5 +140,14 @@ describe("setupToMarkdown", () => {
       "Meu setup"
     );
     expect(markdown).toBe("# Meu setup\n\n## Componentes\n\n- **Monitor**: [LG 27GN65R](https://lg.com)\n");
+  });
+});
+
+describe("nixBase32", () => {
+  it("matches nix hash convert --to nix32", () => {
+    // sha256("hello"); the expected value is the output of `nix hash convert --hash-algo sha256 --to nix32`.
+    const digest = Buffer.from("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824", "hex");
+    expect(nixBase32(digest)).toBe("094qif9n4cq4fdg459qzbhg1c6wywawwaaivx0k0x8xhbyx4vwic");
+    expect(nixBase32(new Uint8Array([0xff]))).toBe("7z");
   });
 });

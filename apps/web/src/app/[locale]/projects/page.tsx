@@ -77,7 +77,7 @@ export default async function ProjectsPage() {
 
   return (
     <>
-      <PageHeader eyebrow="content/projects" icon={FolderGit2Icon} title={t("title")} description={t("description")} />
+      <PageHeader source={{ path: "projects" }} icon={FolderGit2Icon} title={t("title")} description={t("description")} />
       {/* useSearchParams needs a boundary to keep the page static. */}
       <Suspense fallback={<CatalogSkeleton />}>
         <ProjectCatalog projects={cards} states={states} categories={categories} technologies={technologies} />

@@ -34,7 +34,7 @@ export default async function EducationPage() {
 
   return (
     <>
-      <PageHeader eyebrow="content/education" icon={GraduationCapIcon} title={t("title")} description={t("description")} />
+      <PageHeader source={{ path: "education" }} icon={GraduationCapIcon} title={t("title")} description={t("description")} />
 
       {education.length === 0 ? (
         <p className="text-muted-foreground">{t("empty")}</p>

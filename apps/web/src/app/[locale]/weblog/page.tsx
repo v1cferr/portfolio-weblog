@@ -20,7 +20,7 @@ export default async function WeblogPage() {
   const posts = getContent().getPosts(locale);
   return (
     <>
-      <PageHeader eyebrow="content/weblog" icon={PenLineIcon} title={t("title")} description={t("description")}>
+      <PageHeader source={{ path: "weblog" }} icon={PenLineIcon} title={t("title")} description={t("description")}>
         <a
           href={`/${locale}/weblog/rss.xml`}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"

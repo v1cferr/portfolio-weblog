@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { Avatar } from "@/features/profile/avatar";
-import { SectionHeading } from "@/components/page-header";
+import { SectionHeading, StorePath } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
 import { Trajectory } from "@/features/profile/trajectory";
 import { CommitGraph } from "@/features/timeline/commit-graph";
@@ -46,6 +46,8 @@ export default async function HomePage() {
             />
             <SpineHead />
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+              <StorePath path="profile/profile.yaml" name={profile.handle} />
+              <span aria-hidden>·</span>
               <MapPinIcon className="size-3.5" aria-hidden />
               {profile.location}
             </p>
