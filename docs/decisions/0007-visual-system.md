@@ -92,3 +92,24 @@ more Nix and NixOS:
   page's content files, in Nix's base32.
 - **Footer provenance:** the commit and the nixpkgs revision from `flake.lock`
   the build came from.
+
+## Revision (2026-11-22, page transitions)
+
+The owner chose "morph + slide" for navigation, built on React's
+`<ViewTransition>` and the browser's View Transitions API (no animation library
+involved, and browsers without the API just swap the page):
+
+- **Morph:** a list entry's title (project card or timeline row, experience
+  card, trajectory station or timeline row, post card) becomes the detail page's
+  title. A name is unique per page, so an entity shown twice morphs from one
+  place only.
+- **Direction:** list to entry slides left (`nav-forward`), the "back to" links
+  slide right (`nav-back`). Each `page.tsx` wraps its content, since layouts
+  never enter or exit.
+- **Sections:** the main navigation, the logo and "see all" links only crossfade
+  (`nav-section`), with no morphs; sections are siblings.
+- **Header:** named `site-header` and never animated, the fixed reference while
+  the content moves. In it, the active section's pill slides between items
+  (Motion shared layout, `layoutId`).
+- **Reduced motion:** every view-transition duration is zero, and Motion swaps
+  the pill without sliding.
