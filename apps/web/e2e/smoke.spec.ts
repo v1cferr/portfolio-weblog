@@ -68,6 +68,36 @@ test.describe("accessibility", () => {
   }
 });
 
+test.describe("glass tooltips", () => {
+  for (const theme of ["light", "dark"] as const) {
+    test(`a tooltip keeps its text readable over the glass (${theme})`, async ({ page }) => {
+      test.skip(isMobile(page), "tooltips open on hover");
+      await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+      await page.goto("/en-us");
+      await page.getByRole("main").getByRole("list", { name: "Links" }).getByRole("link").first().hover();
+      const tooltip = page.locator('[data-slot="tooltip-content"]');
+      await expect(tooltip).toBeVisible();
+      const results = await new AxeBuilder({ page }).include('[data-slot="tooltip-content"]').withTags(["wcag2aa"]).analyze();
+      expect(results.violations.map((violation) => violation.id)).toEqual([]);
+      // axe leaves text over a backdrop filter as "incomplete", so measure it:
+      // the text against the glass tint composited over the page background.
+      const ratio = await tooltip.evaluate((el) => {
+        const rgba = (value: string) => (value.match(/[\d.]+/g) ?? []).map(Number);
+        const [r = 0, g = 0, b = 0, a = 1] = rgba(getComputedStyle(el).backgroundColor);
+        const page = rgba(getComputedStyle(document.body).backgroundColor);
+        const surface = [r, g, b].map((channel, i) => channel * a + (page[i] ?? 0) * (1 - a));
+        const luminance = (rgb: number[]) => {
+          const [lr = 0, lg = 0, lb = 0] = rgb.map((c) => (c / 255 <= 0.03928 ? c / 255 / 12.92 : ((c / 255 + 0.055) / 1.055) ** 2.4));
+          return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
+        };
+        const [high, low] = [luminance(surface), luminance(rgba(getComputedStyle(el).color))].sort((x, y) => y - x);
+        return ((high ?? 0) + 0.05) / ((low ?? 0) + 0.05);
+      });
+      expect(ratio).toBeGreaterThanOrEqual(4.5);
+    });
+  }
+});
+
 test.describe("visibility rules", () => {
   for (const path of ["/en-us/weblog/openwrt-home-network", "/en-us/does-not-exist"]) {
     test(`${path} is not found`, async ({ page }) => {

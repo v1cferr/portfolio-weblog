@@ -51,7 +51,7 @@ export function LocaleSwitcher() {
             <span lang={locale} className="font-medium">
               {localeNames[locale]}
             </span>
-            <span className="opacity-70">{t("label")}</span>
+            <span className="text-muted-foreground">{t("label")}</span>
           </TooltipContent>
         )}
       </Tooltip>
