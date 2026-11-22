@@ -4,12 +4,23 @@
  * from the top of the viewport. CSS only: no image, no client code. The
  * content surfaces above it are nearly transparent and catch the pointer
  * spotlight (see .glass in globals.css and components/motion/spotlight.tsx).
+ *
+ * Under it, soft glows in three lane colours (career, writing, project) give
+ * the frosted glass something to colour as it passes over (layered glass,
+ * 2026-11-22). They are plain radial gradients, so nothing is blurred at
+ * runtime, and they go away with reduced transparency.
  */
 export function Backdrop() {
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10 [mask-image:radial-gradient(120%_80%_at_50%_0%,#000,transparent_75%)] [background-image:radial-gradient(color-mix(in_srgb,var(--foreground)_22%,transparent)_1px,transparent_1.4px),radial-gradient(color-mix(in_srgb,var(--foreground)_22%,transparent)_1px,transparent_1.4px)] [background-position:0_0,12px_20.78px] [background-size:24px_41.57px]"
-    />
+    <>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 opacity-(--glass-glow) motion-safe:transition-opacity [background-image:radial-gradient(40%_35%_at_0%_45%,var(--lane-career),transparent),radial-gradient(38%_40%_at_100%_20%,var(--lane-writing),transparent),radial-gradient(35%_30%_at_55%_100%,var(--lane-project),transparent)] [@media(prefers-reduced-transparency:reduce)]:hidden"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10 [mask-image:radial-gradient(120%_80%_at_50%_0%,#000,transparent_75%)] [background-image:radial-gradient(color-mix(in_srgb,var(--foreground)_22%,transparent)_1px,transparent_1.4px),radial-gradient(color-mix(in_srgb,var(--foreground)_22%,transparent)_1px,transparent_1.4px)] [background-position:0_0,12px_20.78px] [background-size:24px_41.57px]"
+      />
+    </>
   );
 }
