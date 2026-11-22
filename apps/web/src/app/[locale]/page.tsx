@@ -42,7 +42,7 @@ export default async function HomePage() {
           <div className="relative space-y-5">
             <NixosLogo
               data-spotlight-local=""
-              className="nix-reveal pointer-events-none absolute -top-10 right-0 -z-10 size-[26rem] max-md:-right-16 max-md:size-64"
+              className="spotlight-reveal pointer-events-none absolute -top-10 right-0 -z-10 size-[26rem] max-md:-right-16 max-md:size-64"
             />
             <SpineHead />
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
