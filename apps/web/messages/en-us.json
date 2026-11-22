@@ -254,7 +254,8 @@
     "repository": "Source code",
     "rss": "RSS",
     "elsewhere": "Elsewhere",
-    "nixosCredit": "NixOS logo by NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>"
+    "nixosCredit": "NixOS logo by NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
+    "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)"
   },
   "Media": {
     "label": "Photos",

@@ -72,3 +72,23 @@ surfaces use `.glass-hover`, which deepens the tint and the shadow, instead of
 drawing a border on hover. The header loses its bottom border. Without
 `backdrop-filter`, or with reduced transparency, surfaces fall back to an opaque
 card that gets its border back.
+
+## Revision (2026-11-22, direction B with Nix)
+
+The owner still found the frosted surfaces too solid. Four directions were
+compared in an interactive artifact: living aurora, grid + spotlight, paper
+minimal and grain gradient. The owner picked B (grid + spotlight) and asked for
+more Nix and NixOS:
+
+- **Background:** a faint dot grid on a 60° (hexagonal) lattice, the snowflake's
+  geometry, fading from the top.
+- **Surfaces:** content surfaces are nearly transparent and share one pointer
+  spotlight in the project blue. Floating layers (header, cards over content,
+  sticky pills) keep the frosted `.glass-float`.
+- **NixOS logo:** the official logomark behind the hero, unmodified, revealed
+  around the pointer. It is credited (CC BY 4.0) in the footer of every page and
+  in the README.
+- **Eyebrows:** page eyebrows are Nix store paths over a real SHA-256 of the
+  page's content files, in Nix's base32.
+- **Footer provenance:** the commit and the nixpkgs revision from `flake.lock`
+  the build came from.
