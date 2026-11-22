@@ -238,3 +238,30 @@ test.describe("interactions", () => {
     }
   });
 });
+
+test.describe("security headers", () => {
+  test("pages send the CSP and hardening headers, and no x-powered-by", async ({ request }) => {
+    const response = await request.get("/en-us");
+    const headers = response.headers();
+    const csp = headers["content-security-policy"] ?? "";
+    for (const directive of ["default-src 'self'", "object-src 'none'", "frame-ancestors 'none'", "base-uri 'self'"]) {
+      expect(csp).toContain(directive);
+    }
+    expect(csp).not.toContain("unsafe-eval");
+    expect(headers["x-content-type-options"]).toBe("nosniff");
+    expect(headers["x-frame-options"]).toBe("DENY");
+    expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+    expect(headers["permissions-policy"]).toContain("camera=()");
+    expect(headers["strict-transport-security"]).toContain("includeSubDomains");
+    expect(headers["x-powered-by"]).toBeUndefined();
+  });
+});
+
+test.describe("icons", () => {
+  test("the favicon files resolve and the SVG adapts to the theme", async ({ request }) => {
+    for (const path of ["/favicon.ico", "/icon.svg", "/apple-touch-icon.png"]) {
+      expect((await request.get(path)).status(), path).toBe(200);
+    }
+    expect(await (await request.get("/icon.svg")).text()).toContain("prefers-color-scheme:dark");
+  });
+});

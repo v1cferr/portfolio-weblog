@@ -67,11 +67,14 @@ export async function generateMetadata(): Promise<Metadata> {
       types: { "application/rss+xml": `/${locale}/weblog/rss.xml` },
     },
     openGraph: { type: "website", siteName: "v1cferr.dev", locale: languageTag(locale).replace("-", "_") },
+    // icon.svg switches its own colour (black on light themes, white on dark);
+    // favicon.ico and the Apple icon are opaque tiles for clients without SVG.
     icons: {
       icon: [
-        { url: "/favicon/light-mode.svg", media: "(prefers-color-scheme: light)" },
-        { url: "/favicon/dark-mode.svg", media: "(prefers-color-scheme: dark)" },
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/icon.svg", type: "image/svg+xml" },
       ],
+      apple: "/apple-touch-icon.png",
     },
   };
 }

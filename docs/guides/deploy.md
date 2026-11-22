@@ -40,5 +40,6 @@
 
   Then add `legacy.v1cferr.dev` to the project and check, logged out, that it
   redirects to the login.
+
 - On the owner's LAN, `legacy` needs a router DNS exception like every public
   subdomain (dotfiles `hosts/cudy-wr3000/uci/dhcp.conf`).
