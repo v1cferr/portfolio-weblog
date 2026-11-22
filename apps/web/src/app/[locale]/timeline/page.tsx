@@ -29,7 +29,11 @@ export default async function TimelinePage() {
       <PageHeader source={{ path: "", name: "timeline" }} icon={GitCommitVerticalIcon} title={t("title")} description={t("description")}>
         <LaneLegend />
       </PageHeader>
-      {events.length === 0 ? <p className="text-muted-foreground">{t("empty")}</p> : <CommitGraph events={events} label={t("title")} />}
+      {events.length === 0 ? (
+        <p className="text-muted-foreground">{t("empty")}</p>
+      ) : (
+        <CommitGraph events={events} morph label={t("title")} />
+      )}
     </>
   );
 }

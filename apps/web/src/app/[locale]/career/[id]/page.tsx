@@ -19,6 +19,7 @@ import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -107,7 +108,9 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
         <div className="flex items-center gap-4">
           <OrganizationMark organization={organization} size="lg" />
           <div>
-            <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{organization.name}</h1>
+            <Morph kind="experience" id={experience.id}>
+              <h1 className="w-fit font-display text-4xl font-semibold tracking-tight md:text-5xl">{organization.name}</h1>
+            </Morph>
             {organization.url !== undefined && (
               <ExternalLink
                 href={organization.url}

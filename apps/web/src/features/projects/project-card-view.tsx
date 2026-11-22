@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/compone
 import type { ProjectCategory, ProjectState, TechnologyCategory } from "@workspace/content";
 
 import { TechnologyIcon } from "@/components/icon";
+import { Morph } from "@/components/morph";
 import { Link } from "@/i18n/navigation";
 
 import { ProjectStateBadge } from "./project-state-badge";
@@ -36,11 +37,13 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
           <ProjectStateBadge state={project.state} label={project.stateLabel} />
           <span className="font-mono text-[0.7rem] text-muted-foreground">{project.categoryLabel}</span>
         </div>
-        <h3 className="text-lg leading-snug font-semibold">
-          <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
-            {project.title}
-          </Link>
-        </h3>
+        <Morph kind="project" id={project.id}>
+          <h3 className="w-fit text-lg leading-snug font-semibold">
+            <Link href={`/projects/${project.id}`} className="after:absolute after:inset-0 focus-visible:outline-none">
+              {project.title}
+            </Link>
+          </h3>
+        </Morph>
       </CardHeader>
       <CardContent className="flex-1 px-5">
         <p className="line-clamp-3 text-sm text-pretty text-muted-foreground" lang={project.summaryLocale}>

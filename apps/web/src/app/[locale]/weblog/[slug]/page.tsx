@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -77,9 +78,14 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
           ← {nav("weblog")}
         </Link>
         <p className="font-mono text-xs tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</p>
-        <h1 className="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl" lang={post.locale}>
-          {fm.title}
-        </h1>
+        <Morph kind="post" id={slug}>
+          <h1
+            className="w-fit font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl"
+            lang={post.locale}
+          >
+            {fm.title}
+          </h1>
+        </Morph>
         <p className="text-xl text-pretty text-muted-foreground" lang={post.locale}>
           {fm.summary}
         </p>

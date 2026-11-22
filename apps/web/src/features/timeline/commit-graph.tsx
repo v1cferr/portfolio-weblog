@@ -5,6 +5,7 @@ import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
+import { Morph, type MorphKind } from "@/components/morph";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { YearHeading } from "@/components/year-heading";
 import { Link } from "@/i18n/navigation";
@@ -20,7 +21,11 @@ interface Row {
   title: string;
   subtitle?: string | undefined;
   href?: string | undefined;
+  /** Set on the first row of an entity with a page of its own, when the graph morphs. */
+  morph?: MorphKind | undefined;
 }
+
+const MORPH_KINDS: Partial<Record<TimelineEvent["kind"], MorphKind>> = { position: "experience", project: "project", post: "post" };
 
 /**
  * The hub's signature view: entries drawn as a commit graph, one lane per kind
@@ -30,10 +35,16 @@ interface Row {
 export async function CommitGraph({
   events,
   groupByYear = true,
+  morph = false,
   label,
 }: {
   events: TimelineEvent[];
   groupByYear?: boolean;
+  /**
+   * Titles morph into their detail pages. Off where the same entities already
+   * morph from elsewhere on the page (the home page's cards and trajectory).
+   */
+  morph?: boolean;
   label: string;
 }) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Timeline")]);
@@ -49,6 +60,18 @@ export async function CommitGraph({
     }
     return [{ event, lane, title: entity.title, subtitle: event.kind === "project" ? undefined : entity.subtitle, href: entity.href }];
   });
+
+  // A view-transition name must be unique: an experience with several
+  // positions morphs from its newest row only.
+  if (morph) {
+    const named = new Set<string>();
+    for (const row of rows) {
+      const kind = MORPH_KINDS[row.event.kind];
+      if (kind === undefined || row.href === undefined || named.has(row.event.entity.id)) continue;
+      named.add(row.event.entity.id);
+      row.morph = kind;
+    }
+  }
 
   const groups = new Map<string, Row[]>();
   for (const row of rows) {
@@ -123,15 +146,17 @@ export async function CommitGraph({
                         </Tooltip>
                       )}
                     </p>
-                    <p className="font-medium">
-                      {row.href !== undefined ? (
-                        <Link href={row.href} className="hover:underline hover:underline-offset-4">
-                          {row.title}
-                        </Link>
-                      ) : (
-                        row.title
-                      )}
-                    </p>
+                    <Morph kind={row.morph ?? "project"} id={row.event.entity.id} enabled={row.morph !== undefined}>
+                      <p className="w-fit font-medium">
+                        {row.href !== undefined ? (
+                          <Link href={row.href} className="hover:underline hover:underline-offset-4">
+                            {row.title}
+                          </Link>
+                        ) : (
+                          row.title
+                        )}
+                      </p>
+                    </Morph>
                     {row.subtitle !== undefined && <p className="line-clamp-1 text-sm text-muted-foreground">{row.subtitle}</p>}
                     {end !== undefined && (
                       <p className="font-mono text-xs text-muted-foreground tabular-nums">

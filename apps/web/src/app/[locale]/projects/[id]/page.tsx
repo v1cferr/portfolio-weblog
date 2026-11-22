@@ -19,6 +19,7 @@ import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
+import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
@@ -102,7 +103,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
               <ProjectStateBadge state={project.state} label={t(`state.${project.state}`)} />
               <span className="font-mono text-xs text-muted-foreground">{t(`category.${project.category}`)}</span>
             </div>
-            <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{project.title}</h1>
+            <Morph kind="project" id={project.id}>
+              <h1 className="w-fit font-display text-4xl font-semibold tracking-tight md:text-5xl">{project.title}</h1>
+            </Morph>
             <p className="text-xl text-pretty" lang={summary.locale}>
               {summary.value}
             </p>

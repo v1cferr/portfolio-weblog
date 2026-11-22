@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { type Lane, laneBg, laneOf, laneText } from "@/components/lane";
 import { OrganizationMark } from "@/features/career/organization-mark";
+import { Morph } from "@/components/morph";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -62,7 +63,10 @@ export async function Trajectory({ steps, label }: { steps: Profile["trajectory"
               {station.organization !== undefined ? (
                 <span className="flex items-center gap-2 text-sm text-muted-foreground">
                   <OrganizationMark organization={station.organization} size="sm" />
-                  <span className="truncate">{station.organization.name}</span>
+                  {/* Becomes the title of the experience's page. */}
+                  <Morph kind="experience" id={station.entity?.id ?? ""} enabled={station.entity?.type === "experience"}>
+                    <span className="truncate">{station.organization.name}</span>
+                  </Morph>
                 </span>
               ) : (
                 station.entity !== undefined && <span className="text-sm text-muted-foreground">{station.entity.title}</span>
