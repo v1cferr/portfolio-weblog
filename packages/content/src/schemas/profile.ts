@@ -6,6 +6,8 @@ export const Profile = z.strictObject({
   ...entityBase,
   name: z.string().min(1),
   handle: z.string().min(1),
+  /** Other names the owner goes by (a professional nickname, a mark), for search engines and structured data. */
+  aliases: z.array(z.string().min(1)).default([]),
   headline: LocalizedText,
   summary: LocalizedText,
   /** Longer narrative for the About page, one paragraph per entry. */
