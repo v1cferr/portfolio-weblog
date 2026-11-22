@@ -13,16 +13,23 @@ import { ThemeToggle } from "./theme-toggle";
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
   // Named for view transitions, so it stays still while the page content moves
-  // (see the page-transition rules in globals.css).
+  // (see the page-transition rules in globals.css). The header itself is a
+  // transparent strip that lets clicks through; the bar is a floating glass
+  // pill inside it, with the page passing blurred underneath (option H1,
+  // picked on 2026-11-22).
   return (
-    <header className="glass-float sticky top-0 z-40" style={{ viewTransitionName: "site-header" }}>
+    <header
+      // The ::before band fades the page out above the pill, so text scrolling up does not show in the gap.
+      className="pointer-events-none sticky top-0 z-40 px-3 pt-3 before:absolute before:inset-x-0 before:top-0 before:-z-10 before:h-8 before:bg-linear-to-b before:from-background before:to-transparent sm:px-4"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <a
         href="#content"
-        className="sr-only rounded-md bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
+        className="pointer-events-auto sr-only rounded-full bg-primary px-3 py-2 text-primary-foreground focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
       >
         {t("skipToContent")}
       </a>
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:px-6">
+      <div className="glass-float pointer-events-auto mx-auto flex h-13 max-w-6xl items-center gap-4 rounded-full pr-2 pl-4 sm:pl-5">
         <Link
           href="/"
           transitionTypes={NAV_SECTION}
