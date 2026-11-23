@@ -18,3 +18,4 @@ so.
 | [0010](0010-security-pipeline.md)                       | A security pipeline in CI                            | Accepted                  |
 | [0012](0012-dated-content-folders.md)                   | Weblog posts in dated folders, with unchanged URLs   | Accepted                  |
 | [0013](0013-now-and-next.md)                            | A dated now log and next plans, partly derived       | Accepted                  |
+| [0014](0014-project-case-studies.md)                    | Project case studies in two layers                   | Accepted                  |
