@@ -143,9 +143,9 @@ export default async function HomePage() {
                 <Link
                   href="/projects"
                   transitionTypes={NAV_SECTION}
-                  className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                  className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
                 >
-                  {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                  {common("seeAll")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
                 </Link>
               }
             >
@@ -170,9 +170,9 @@ export default async function HomePage() {
               <Link
                 href="/weblog"
                 transitionTypes={NAV_SECTION}
-                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
               >
-                {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                {common("seeAll")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
               </Link>
             }
           >
@@ -199,9 +199,9 @@ export default async function HomePage() {
                 <Link
                   href="/timeline"
                   transitionTypes={NAV_SECTION}
-                  className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                  className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
                 >
-                  {common("seeAll")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                  {common("seeAll")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
                 </Link>
               }
             >

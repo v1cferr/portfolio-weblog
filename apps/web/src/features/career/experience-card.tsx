@@ -35,7 +35,7 @@ export async function ExperienceCard({ experience }: { experience: Experience })
   return (
     <Card
       variant="glass"
-      className="glass-hover relative gap-4 py-5 [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+      className="group/link glass-hover relative gap-4 py-5 [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
     >
       <CardHeader className="flex flex-row items-start gap-3 px-5">
         <OrganizationMark organization={organization} />
@@ -53,7 +53,7 @@ export async function ExperienceCard({ experience }: { experience: Experience })
             </p>
           )}
         </div>
-        <ArrowRightIcon aria-hidden className="mt-1 size-4 text-muted-foreground" />
+        <ArrowRightIcon aria-hidden className="icon-fwd mt-1 size-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="relative z-10 space-y-4 px-5">
         <ol aria-label={t("positions")} className="space-y-3">

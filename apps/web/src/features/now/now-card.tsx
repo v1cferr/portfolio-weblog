@@ -38,9 +38,9 @@ export async function NowCard() {
           <Link
             href="/now"
             transitionTypes={NAV_SECTION}
-            className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
+            className="group/link inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
           >
-            {t("fullLog")} <ArrowRightIcon className="size-3.5" aria-hidden />
+            {t("fullLog")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
           </Link>
         }
       >
@@ -60,9 +60,9 @@ export async function NowCard() {
           <NowStamp date={now.entry.date} age={now.age} />
           <Link
             href="/next"
-            className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
+            className="group/link inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
           >
-            {t("next")} <ArrowRightIcon className="size-3.5" aria-hidden />
+            {t("next")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
           </Link>
         </div>
       </div>
