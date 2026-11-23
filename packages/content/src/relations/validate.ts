@@ -42,6 +42,12 @@ export function validateContent(content: RawContent): ValidationResult {
       else if (target.isPrivate)
         errors.push({ file, message: `trajectory → "${step.ref}": public content cannot reference private content` });
     }
+    for (const chip of value.stack) {
+      for (const id of chip.technologies) {
+        const target = byId.get(id);
+        if (target?.type !== "technology") errors.push({ file, message: `stack "${chip.label}" → "${id}": no technology with this id` });
+      }
+    }
   }
 
   const order = (file: string, what: string, start: PartialDate | undefined, end: PartialDate | undefined) => {

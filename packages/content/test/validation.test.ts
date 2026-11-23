@@ -91,6 +91,20 @@ describe("profile trajectory", () => {
   });
 });
 
+describe("profile stack", () => {
+  it("rejects chips pointing at unknown technologies", () => {
+    const profile = {
+      id: "me",
+      name: "N",
+      handle: "h",
+      headline: { "en-us": "H" },
+      summary: { "en-us": "S" },
+      stack: [{ label: "Nope/Stack", technologies: ["nope"] }],
+    };
+    expect(check({ "profile/profile.yaml": profile }).errors.join()).toContain('stack "Nope/Stack" → "nope"');
+  });
+});
+
 describe("dates", () => {
   it("rejects an end before the start", () => {
     const result = check({

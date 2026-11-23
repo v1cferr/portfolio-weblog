@@ -13,6 +13,10 @@ export const Profile = z.strictObject({
   /** Longer narrative for the About page, one paragraph per entry. */
   about: LocalizedList.optional(),
   focus: LocalizedList.optional(),
+  /** Short area labels shown under the headline on the home hero, e.g. "LLMOps". Not translated. */
+  specialties: z.array(z.string().min(1)).default([]),
+  /** The daily stack on the home hero: each entry is one chip, e.g. "Python/FastAPI", with its technologies' icons. */
+  stack: z.array(z.strictObject({ label: z.string().min(1), technologies: z.array(Id).min(1) })).default([]),
   /** "What drives me" on the About page: why this work, in the owner's words. One paragraph per entry. */
   motivation: LocalizedList.optional(),
   /** "How I work": short principles, one per entry. */
