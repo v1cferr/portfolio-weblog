@@ -133,6 +133,53 @@ test.describe("glass header", () => {
   });
 });
 
+test.describe("palette", () => {
+  // Graphite + sage (ADR 0007, 2026-11-23): the name is plain foreground, and no token drifts back to pink or purple.
+  for (const theme of ["light", "dark"] as const) {
+    test(`the hero name is the foreground and no lane is pink or purple (${theme})`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.goto("/en-us");
+      const name = page.getByRole("heading", { level: 1 }).locator("span").first();
+      const [nameColour, bodyColour, backgroundImage] = await name.evaluate((el) => [
+        getComputedStyle(el).color,
+        getComputedStyle(document.body).color,
+        getComputedStyle(el).backgroundImage,
+      ]);
+      expect(nameColour).toBe(bodyColour);
+      expect(backgroundImage).toBe("none");
+
+      const hues = await page.evaluate(() => {
+        const root = getComputedStyle(document.documentElement);
+        const tokens = [
+          "--primary",
+          "--brand",
+          "--ring",
+          "--destructive",
+          "--lane-career",
+          "--lane-project",
+          "--lane-study",
+          "--lane-writing",
+        ];
+        return tokens.map((token) => {
+          const value = root.getPropertyValue(token).trim();
+          const [r = 0, g = 0, b = 0] = [1, 3, 5].map((i) => parseInt(value.slice(i, i + 2), 16) / 255);
+          const max = Math.max(r, g, b);
+          const delta = max - Math.min(r, g, b);
+          let hue = 0;
+          if (delta > 0) {
+            if (max === r) hue = 60 * (((g - b) / delta) % 6);
+            else if (max === g) hue = 60 * ((b - r) / delta + 2);
+            else hue = 60 * ((r - g) / delta + 4);
+          }
+          return { token, value, hue: (hue + 360) % 360 };
+        });
+      });
+      // Violet, purple, magenta and pink sit between about 250° and 345°.
+      expect(hues.filter(({ hue }) => hue > 250 && hue < 345)).toEqual([]);
+    });
+  }
+});
+
 test.describe("hero identity", () => {
   // The hero names the role, areas and daily stack only; the employer shows in the trajectory and career.
   test("shows the role and the stack, not the employer", async ({ page }) => {
