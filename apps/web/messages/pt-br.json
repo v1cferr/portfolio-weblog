@@ -88,7 +88,8 @@
       "label": "Das páginas do site, sem IA",
       "unavailable": "A resposta por IA não está disponível agora, então aqui está o que o site diz.",
       "rate-limited": "Muitas perguntas em pouco tempo: aqui está o que o site diz, no lugar de uma resposta por IA.",
-      "error": "A resposta por IA falhou, então aqui está o que o site diz."
+      "error": "A resposta por IA falhou, então aqui está o que o site diz.",
+      "ungrounded": "Não foi possível conferir a resposta por IA com as páginas do site, então aqui está o que o site diz."
     },
     "noSource": {
       "title": "Isso não está no site",
@@ -102,7 +103,8 @@
     "citation": "Fonte {n}",
     "stoppedNote": "Interrompida antes do fim.",
     "interrupted": "A resposta foi cortada. Tente de novo.",
-    "error": "Algo deu errado. Tente de novo em instantes."
+    "error": "Algo deu errado. Tente de novo em instantes.",
+    "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais."
   },
   "Common": {
     "present": "atual",

@@ -231,7 +231,7 @@ export function AskPanel({ onNavigate, onSearch }: { onNavigate: () => void; onS
               setQuestion(event.target.value);
             }}
             placeholder={t("placeholder")}
-            aria-describedby="ask-counter"
+            aria-describedby="ask-privacy ask-counter"
             className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-input/30 px-3 text-base outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:text-sm"
           />
           {busy ? (
@@ -246,9 +246,12 @@ export function AskPanel({ onNavigate, onSearch }: { onNavigate: () => void; onS
             </Button>
           )}
         </div>
-        <p id="ask-counter" className="px-1 text-right text-xs text-muted-foreground">
-          {t("counter", { count: question.length, max: MAX_QUESTION })}
-        </p>
+        <div className="flex items-start justify-between gap-3 px-1 text-xs text-muted-foreground">
+          <p id="ask-privacy">{t("privacy")}</p>
+          <p id="ask-counter" className="shrink-0 tabular-nums">
+            {t("counter", { count: question.length, max: MAX_QUESTION })}
+          </p>
+        </div>
       </form>
     </div>
   );

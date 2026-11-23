@@ -88,7 +88,8 @@
       "label": "From the site's pages, no AI",
       "unavailable": "The AI answer is not available right now, so here is what the site says.",
       "rate-limited": "Many questions in a short time: here is what the site says instead of an AI answer.",
-      "error": "The AI answer failed, so here is what the site says."
+      "error": "The AI answer failed, so here is what the site says.",
+      "ungrounded": "The AI answer could not be checked against the site's pages, so here is what the site says."
     },
     "noSource": {
       "title": "That isn't on the site",
@@ -102,7 +103,8 @@
     "citation": "Source {n}",
     "stoppedNote": "Stopped before the end.",
     "interrupted": "The answer was cut off. Try again.",
-    "error": "Something went wrong. Try again in a moment."
+    "error": "Something went wrong. Try again in a moment.",
+    "privacy": "AI answers come from free third-party models via OpenRouter and are checked against this site's pages. Don't type personal data."
   },
   "Common": {
     "present": "present",
