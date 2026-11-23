@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import type { Lane } from "@/components/lane";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 
-/** How an entry's node is drawn: the vermilion "now", a dated past entry, or one with no recorded dates. */
+/** How an entry's node is drawn: the sage "now", a dated past entry, or one with no recorded dates. */
 export type RailNode = "current" | "past" | "undated";
 
 export interface RailEntry {

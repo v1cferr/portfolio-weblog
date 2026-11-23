@@ -20,7 +20,7 @@ const TECH_LIMIT = 6;
 /**
  * One organization with every position held there, as a ladder: newest
  * position on top, linked by a short rail so promotions read as a path. The
- * current position is marked in vermilion, as on the trajectory.
+ * current position is marked in the sage accent, as on the trajectory.
  */
 export async function ExperienceCard({ experience }: { experience: Experience }) {
   const [locale, t, common] = await Promise.all([getLocale(), getTranslations("Career"), getTranslations("Common")]);

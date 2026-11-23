@@ -162,3 +162,53 @@ The owner picked "t1": the site as a file tree, as a second way to navigate.
   current page, whose folders open by themselves; 44 px rows on phones; no slide
   with reduced motion. Open folders persist in `localStorage` when it is
   available.
+
+## Revision (2026-11-23, graphite + sage)
+
+The owner found Tokyo Night too "pinkish": the purple end of the name gradient,
+the purple backdrop glow, the magenta and red accents. He wanted the site darker
+and cleaner, closer to his photo (black jacket, warm skin, grey-green wall), and
+picked **C1, graphite + sage**, with the theme still following the system by
+default. The direction follows what Vercel, Linear and Raycast do and what
+Material's dark theme guidance asks for: neutral greys, one accent, colour only
+where it means something, no pure black, elevation by a lighter surface, and
+desaturated colours on dark.
+
+- **Neutrals:** warm graphite with a faint green cast. Page, card and muted fill
+  step lighter for elevation; borders stay solid tokens.
+- **One accent:** sage teal, as `--primary`, `--ring` and `--brand` (the HEAD
+  node, the "now" markers, the V1C watermark, the pointer spotlight). shadcn's
+  `--accent` stays a neutral hover fill, since nav pills and menu rows put plain
+  text on it. The vermilion hanko is retired.
+- **Name:** plain foreground; the blue-to-purple gradient is gone.
+- **Backdrop:** the dot grid stays; the three lane glows become one sage glow
+  (8% in dark, 12% in light). The glass keeps its layers, retuned to graphite,
+  and the pill's backdrop-root rule is untouched.
+- **Lanes:** four distinguishable, desaturated hues, none pink, purple or
+  magenta. Career is the accent; project is steel blue, study is sand, writing
+  is olive. Light colours were fitted the PR #30 way, in ×0.97 steps towards
+  black (towards white in dark), to at least 4.6:1 on every surface they sit on:
+  the page, cards, popovers, the muted fill, the glass tint over the page and
+  over the glow's centre, and the hover fills.
+- **Share cards** and `theme-color` use the same values (the cards in dark). The
+  ASCII avatar needed nothing: its ink is `currentColor`.
+
+The lowest ratio is the worst of those surfaces; "page" is on the page alone.
+
+| Token          | Light     | Lowest | Page  | Dark      | Lowest | Page  |
+| -------------- | --------- | ------ | ----- | --------- | ------ | ----- |
+| page           | `#f6f7f6` |        |       | `#0f1112` |        |       |
+| card, popover  | `#ffffff` |        |       | `#16191a` |        |       |
+| muted fill     | `#eceeed` |        |       | `#1e2223` |        |       |
+| border         | `#d9dedc` |        |       | `#2a2f30` |        |       |
+| text           | `#141717` | 14.28  | 16.79 | `#e6e8e6` | 13.03  | 15.37 |
+| subtext        | `#5b6562` | 4.77   | 5.61  | `#9aa3a0` | 6.21   | 7.32  |
+| accent, career | `#2f6f62` | 4.66   | 5.48  | `#7fb8a8` | 7.13   | 8.41  |
+| project        | `#396795` | 4.69   | 5.51  | `#86a6c8` | 6.35   | 7.48  |
+| study          | `#7c5d2b` | 4.81   | 5.66  | `#d4b07a` | 7.87   | 9.28  |
+| writing        | `#5b6832` | 4.79   | 5.63  | `#a9b67e` | 7.40   | 8.73  |
+| destructive    | `#b23a2e` | 4.70   | 5.53  | `#e0786c` | 5.41   | 6.38  |
+
+Text on the accent passes too: white on `#2f6f62` is 5.88:1, and `#0f1112` on
+`#7fb8a8` is 8.41:1. An e2e test checks, in both themes, that the name's colour
+is the body's and that no accent or lane token has a hue between 250° and 345°.

@@ -35,7 +35,7 @@ export function GitSpine({ children }: { children: ReactNode }) {
   );
 }
 
-/** The HEAD commit: a vermilion node on the main line, level with the hero's first line. */
+/** The HEAD commit: a sage node on the main line, level with the hero's first line. */
 export function SpineHead() {
   return (
     <span aria-hidden className="absolute top-1.5 -left-16 hidden size-6 items-center justify-center lg:flex">
