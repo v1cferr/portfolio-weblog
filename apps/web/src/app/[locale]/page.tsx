@@ -18,6 +18,7 @@ import { ProjectCard } from "@/features/projects/project-card";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
+import { ownerTitle } from "@/lib/current-role";
 import { homeJsonLd } from "@/lib/structured-data";
 
 // The "Recently" list can use repository creation dates from GitHub.
@@ -38,7 +39,7 @@ export default async function HomePage() {
   const [t, common] = await Promise.all([getTranslations("Home"), getTranslations("Common")]);
   const content = getContent();
   const profile = content.getProfile();
-  const headline = localize(profile.headline, locale);
+  const headline = ownerTitle(locale);
   const summary = localize(profile.summary, locale);
   const focus = localizeList(profile.focus, locale);
   const featured = content.getProjects().filter((project) => project.featured);

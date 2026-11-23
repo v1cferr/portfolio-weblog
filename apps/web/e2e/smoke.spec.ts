@@ -138,7 +138,8 @@ test.describe("hero identity", () => {
   test("shows the role and the stack, not the employer", async ({ page }) => {
     await page.goto("/pt-br");
     const hero = page.locator("main section").first();
-    await expect(hero.getByText("AI Systems Analyst", { exact: true })).toBeVisible();
+    // The title comes from the current role in the career, without the employer.
+    await expect(hero.getByText("Analista de Sistemas de IA", { exact: true })).toBeVisible();
     await expect(hero.getByText(/LLMOps · RAG\/GraphRAG/)).toBeVisible();
     await expect(hero.getByRole("list", { name: "Stack do dia a dia" }).getByRole("listitem")).toHaveText([
       "Python/FastAPI",
