@@ -17,7 +17,7 @@ At the time of the rebuild the latest releases were TypeScript 7.0 and ESLint
   `eslint-plugin-jsx-a11y` and `eslint-plugin-import` (pulled in by
   `eslint-config-next`) still declare `^9` peers. They run correctly on 10, so
   the peer warning is accepted rather than pinning an unsupported ESLint.
-- **Playwright 1.61.1**: pinned to the version nixpkgs ships, so the Nix shell's
+- **Playwright 1.64.1**: pinned to the version nixpkgs ships, so the Nix shell's
   browsers match.
 
 ## When to revisit
