@@ -4,6 +4,12 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { ImageResponse } from "next/og";
+import { hasLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
+
+import { type Locale, routing } from "@/i18n/routing";
+
+import { OG_IMAGE_ID } from "./metadata";
 
 /*
  * Share cards (Open Graph and X) for the opengraph-image routes. One layout in
@@ -19,6 +25,32 @@ import { ImageResponse } from "next/og";
  */
 
 export const OG_SIZE = { width: 1200, height: 630 };
+
+/**
+ * The single entry a card route returns from generateImageMetadata. The
+ * routes use it instead of a static `alt` export because the alt text follows
+ * the page's locale (and title); the card is served at
+ * <route>/opengraph-image/card (OG_IMAGE_ID).
+ *
+ * With generateImageMetadata the route's own generateStaticParams is not
+ * used (Next.js only lists the image ids), so the cards are not prerendered:
+ * each renders on its first request and is then cached like an ISR page. An
+ * unknown slug or id returns no image metadata, which the route answers 404.
+ */
+export function ogImageMetadata(alt: string) {
+  return [{ id: OG_IMAGE_ID, alt, size: OG_SIZE, contentType: "image/png" }];
+}
+
+/** The route's locale param; route handlers sit outside the [locale] layout, so it is checked here. */
+export function ogLocale(requested: string): Locale {
+  return hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
+}
+
+/** Alt text of a card: "<title> — v1cferr.dev", in the page's language. */
+export async function ogImageAlt(locale: Locale, title: string): Promise<string> {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  return t("imageAlt", { title });
+}
 
 const FONT_DIR = path.join(process.cwd(), "assets", "fonts");
 

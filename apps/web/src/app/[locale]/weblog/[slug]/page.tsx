@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/weblog/[
     // og:url follows the canonical; the card comes from opengraph-image.tsx in this segment.
     openGraph: {
       type: "article",
-      ...pageOpenGraph(post.locale, `/weblog/${slug}`, { siteImage: false }),
+      ...pageOpenGraph(post.locale, `/weblog/${slug}`),
       authors: [absoluteUrl(`/${locale}/about`)],
       title: post.frontmatter.title,
       description: post.frontmatter.summary,

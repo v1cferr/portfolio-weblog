@@ -9,7 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
-import { pageOpenGraph } from "@/lib/metadata";
+import { pageOpenGraph, siteOpenGraphImages } from "@/lib/metadata";
 
 export const dynamicParams = false;
 
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/weblog/t
   return {
     title: t("taggedWith", { tag }),
     alternates: pageAlternates(locale, `/weblog/tags/${tag}`),
-    openGraph: { type: "website", ...pageOpenGraph(locale, `/weblog/tags/${tag}`) },
+    openGraph: { type: "website", ...pageOpenGraph(locale, `/weblog/tags/${tag}`), images: await siteOpenGraphImages(locale) },
     robots: { index: false },
   };
 }

@@ -69,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
       types: { "application/rss+xml": `/${locale}/weblog/rss.xml` },
     },
     // The site card comes from opengraph-image.tsx next to this layout.
-    openGraph: { type: "website", ...pageOpenGraph(locale, "/", { siteImage: false }) },
+    openGraph: { type: "website", ...pageOpenGraph(locale, "/") },
     // X falls back to the Open Graph title, description and image.
     twitter: { card: "summary_large_image", ...(handle !== undefined && { site: handle, creator: handle }) },
     // icon.svg switches its own colour (black on light themes, white on dark);

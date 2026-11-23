@@ -5,15 +5,16 @@ Goal: a search for the owner's name ("Victor Ferreira") or nickname ("v1cferr",
 
 ## What the site does
 
-| Signal             | Where                                                         | Notes                                                                                                |
-| ------------------ | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Site name          | `WebSite` JSON-LD on the home page (`lib/structured-data.ts`) | `name` is the real name; `alternateName` lists the handle, the aliases and the domain, in that order |
-| Person             | `Person` JSON-LD, `@id` `https://v1cferr.dev/#person`         | `alternateName` = handle + `aliases` from `profile.yaml`; `sameAs` = every public profile link       |
-| Profile page       | `ProfilePage` JSON-LD on `/[locale]/about`                    | Its `mainEntity` is the same Person                                                                  |
-| Posts              | `BlogPosting` JSON-LD                                         | `author` points at the Person's `@id`                                                                |
-| Home title         | `app/[locale]/page.tsx`                                       | "Victor Ferreira (v1cferr, V1C)"; other pages use "Page · Victor Ferreira"                           |
-| Languages          | `hreflang` alternates in the head and in `sitemap.xml`        | en-us, pt-br, zh-cn                                                                                  |
-| Sitemap and robots | `app/sitemap.ts`, `app/robots.ts`                             | Previews are `Disallow: /`; production allows everything but `/api/`                                 |
+| Signal             | Where                                                                                                              | Notes                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Site name          | `WebSite` JSON-LD on the home page (`lib/structured-data.ts`)                                                      | `name` is the real name; `alternateName` lists the handle, the aliases and the domain, in that order                                 |
+| Person             | `Person` JSON-LD, `@id` `https://v1cferr.dev/#person`                                                              | `alternateName` = handle + `aliases` from `profile.yaml`; `sameAs` = every public profile link                                       |
+| Profile page       | `ProfilePage` JSON-LD on `/[locale]/about`                                                                         | Its `mainEntity` is the same Person                                                                                                  |
+| Posts              | `BlogPosting` JSON-LD                                                                                              | `author` points at the Person's `@id`                                                                                                |
+| Home title         | `app/[locale]/page.tsx`                                                                                            | "Victor Ferreira (v1cferr, V1C)"; other pages use "Page · Victor Ferreira"                                                           |
+| Languages          | `hreflang` alternates in the head and in `sitemap.xml`                                                             | en-us, pt-br, zh-cn                                                                                                                  |
+| Sitemap and robots | `app/sitemap.ts`, `app/robots.ts`                                                                                  | Previews are `Disallow: /`; production allows everything but `/api/`                                                                 |
+| Share cards        | `opengraph-image.tsx` in the home, each section and each detail segment (`lib/og-image.tsx`, `lib/og-section.tsx`) | 1200×630 PNG at `<page>/opengraph-image/card`, with a localized `og:image:alt`; the X card reuses both. Tag pages show the site card |
 
 Google's guidance for AI Overviews and AI Mode (May 2026) asks for nothing
 beyond this: crawlable pages, good mobile experience and original content. No
@@ -33,6 +34,29 @@ used to ground AI answers) is not set, so it is neither granted nor refused.
 Googlebot, Bingbot and the AI search crawlers (OAI-SearchBot, PerplexityBot) are
 allowed. Blocking Google-Extended does not remove the site from Google's AI
 Overviews, which use Googlebot.
+
+## IndexNow
+
+[IndexNow](https://www.indexnow.org/) lets a site tell search engines that URLs
+were added or changed, instead of waiting for the next crawl. One submission to
+`api.indexnow.org` reaches every participating engine (Bing, Yandex, Seznam,
+Naver and others); Google does not take part. Cloudflare's Crawler Hints would
+do it automatically, but only for pages cached at the edge, and the HTML here
+passes through Cloudflare uncached (`cf-cache-status: DYNAMIC`).
+
+- **Key**: `apps/web/public/22bb3110dc9edd8cca87c4bc0a0e92da.txt`, served at
+  `https://v1cferr.dev/22bb3110dc9edd8cca87c4bc0a0e92da.txt`. The engines fetch
+  it to check that the submitter owns the host, so it is public by design. The
+  proxy skips paths with a dot, so the file is neither redirected nor localized;
+  `e2e/indexnow.spec.ts` checks it.
+- **Submission**: `.github/workflows/indexnow.yml` runs when Vercel reports a
+  successful deployment to Production (`deployment_status`). It reads every
+  `<loc>` in `sitemap.xml` and posts them in one batch. HTTP 200 or 202 means
+  accepted; 202 means the key is still being validated.
+- **Manual run**: Actions → IndexNow → Run workflow, or
+  `gh workflow run indexnow.yml`.
+- **Rotating the key**: rename the file to a new key (`openssl rand -hex 16`),
+  change `KEY` in the workflow and deploy before the next submission.
 
 ## Owner checklist (needs the owner's accounts)
 

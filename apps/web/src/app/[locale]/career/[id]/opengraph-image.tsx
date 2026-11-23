@@ -1,32 +1,28 @@
 import { localize } from "@workspace/content";
 import { notFound } from "next/navigation";
-import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 import { editorialLocales, routing } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { formatPartialDate } from "@/lib/dates";
-import { renderOgImage } from "@/lib/og-image";
+import { ogImageAlt, ogImageMetadata, ogLocale, renderOgImage } from "@/lib/og-image";
 import { storePath } from "@/lib/store-path";
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = "Career entry of Victor Ferreira on v1cferr.dev";
-
-export const dynamicParams = false;
-
-// A route handler sits outside the [locale] layout, so it lists the locale too.
-export function generateStaticParams() {
-  const ids = getContent()
-    .getExperiences()
-    .map((experience) => experience.id);
-  return routing.locales.flatMap((locale) => ids.map((id) => ({ locale, id })));
+export async function generateImageMetadata({ params }: { params: { locale: string; id: string } }) {
+  const locale = ogLocale(params.locale);
+  const content = getContent();
+  const experience = content.getExperience(params.id);
+  if (experience === undefined) return [];
+  const title = localize(experience.positions.at(-1)?.title ?? experience.summary, locale).value;
+  const org = content.getOrganization(experience.organization)?.name ?? params.id;
+  // The page's own title, "<position> · <organization>".
+  return ogImageMetadata(await ogImageAlt(locale, `${title} · ${org}`));
 }
 
 /** An experience's share card: the latest position, the organization and the period. */
 export default async function ExperienceImage({ params }: { params: Promise<{ locale: string; id: string }> }) {
   const { locale: requested, id } = await params;
-  const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
+  const locale = ogLocale(requested);
   const content = getContent();
   const experience = content.getExperience(id);
   if (experience === undefined) notFound();

@@ -9,7 +9,9 @@
   },
   "Metadata": {
     "title": "Victor Ferreira",
-    "description": "Personal hub de Victor Ferreira: carreira, projetos, estudos e um diário de engenharia."
+    "description": "Personal hub de Victor Ferreira: carreira, projetos, estudos e um diário de engenharia.",
+    "siteImageAlt": "Victor Ferreira (v1cferr), personal hub em v1cferr.dev",
+    "imageAlt": "{title} — v1cferr.dev"
   },
   "Nav": {
     "label": "Principal",
