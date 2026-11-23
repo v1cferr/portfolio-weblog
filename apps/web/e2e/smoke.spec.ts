@@ -237,6 +237,20 @@ test.describe("media", () => {
     }
     await expect(page.getByText("Internship selection result: ranked first, score 9.93.")).toBeVisible();
   });
+
+  test("a post's figures reserve their size and load lazily", async ({ page }) => {
+    await page.goto("/en-us/weblog/from-arch-to-nixos");
+    const figure = page
+      .locator("main figure")
+      .filter({ has: page.locator("img") })
+      .first();
+    const image = figure.getByRole("img");
+    await expect(image).toHaveAttribute("loading", "lazy");
+    await expect(image).toHaveAttribute("width", "1600");
+    await expect(image).toHaveAttribute("height", "1200");
+    expect(await image.getAttribute("alt")).toContain("Arch");
+    await expect(figure.locator("figcaption")).toContainText("September 2025");
+  });
 });
 
 test.describe("keyboard", () => {

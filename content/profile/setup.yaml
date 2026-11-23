@@ -220,6 +220,58 @@ groups:
 # member), and the 2025-01-27 lock screen widgets (weather and traffic for the
 # home town) are blurred.
 photos:
+  # 2025-09 to 2026-09: shared by the author on 2026-11-23; dates are each
+  # photo's EXIF DateTimeOriginal, read before the metadata was stripped. On
+  # 2026-07-23 and 2026-09-15 the LAN IP is blurred; on 2026-09-15 also a
+  # video, its suggestions and a calendar notification.
+  - src: /setup/20260915.webp
+    date: 2026-09-15
+    alt:
+      en-us: "A vertical monitor with a coding session beside the main monitor showing fastfetch on NixOS and a blurred video"
+      pt-br: "Um monitor na vertical com uma sessão de programação ao lado do monitor principal com o fastfetch no NixOS e um vídeo desfocado"
+    caption:
+      en-us: "NixOS on the Kingston NVMe, with the second monitor turned vertical."
+      pt-br: "NixOS no NVMe Kingston, com o segundo monitor na vertical."
+  - src: /setup/20260723.webp
+    date: 2026-07-23
+    alt:
+      en-us: "fastfetch on the monitor: NixOS 26.05, Hyprland, Intel Core i5-11400 and Intel Arc B580"
+      pt-br: "fastfetch no monitor: NixOS 26.05, Hyprland, Intel Core i5-11400 e Intel Arc B580"
+    caption:
+      en-us: "fastfetch on one of the first NixOS installs, still on the SanDisk SSD, with the Intel Arc B580."
+      pt-br: "fastfetch em uma das primeiras instalações do NixOS, ainda no SSD SanDisk, com a Intel Arc B580."
+  - src: /setup/20260619.webp
+    date: 2026-06-19
+    alt:
+      en-us: "Two monitors in the dark: a samurai wallpaper on the left and a lock screen with a large clock on the right"
+      pt-br: "Dois monitores no escuro: um papel de parede de samurai à esquerda e uma tela de bloqueio com um relógio grande à direita"
+    caption:
+      en-us: "The lock screen on Arch, a month before the move to NixOS."
+      pt-br: "A tela de bloqueio no Arch, um mês antes da mudança para o NixOS."
+  - src: /setup/20251112.webp
+    date: 2025-11-12
+    alt:
+      en-us: "A controller held in front of a monitor running Need for Speed: Underground 2 in an emulator, with its button mapping on the second monitor"
+      pt-br: "Um controle seguro diante de um monitor rodando Need for Speed: Underground 2 em um emulador, com o mapeamento de botões no segundo monitor"
+    caption:
+      en-us: "Mapping a controller to play Need for Speed: Underground 2 on Arch."
+      pt-br: "Mapeando um controle para jogar Need for Speed: Underground 2 no Arch."
+  - src: /setup/20251022.webp
+    date: 2025-10-22
+    alt:
+      en-us: "Two monitors on a wooden desk: macOS being installed in a virtual machine on the left, the OSX-KVM repository and a terminal on the right"
+      pt-br: "Dois monitores em uma mesa de madeira: macOS sendo instalado em uma máquina virtual à esquerda, o repositório OSX-KVM e um terminal à direita"
+    caption:
+      en-us: "Installing macOS in a QEMU/KVM virtual machine on Arch."
+      pt-br: "Instalando o macOS em uma máquina virtual QEMU/KVM no Arch."
+  - src: /setup/20250930.webp
+    date: 2025-09-30
+    alt:
+      en-us: "Two monitors at night: code in an editor with a sunset wallpaper on the left, documentation and a chat on the right"
+      pt-br: "Dois monitores à noite: código em um editor com papel de parede de pôr do sol à esquerda, documentação e um chat à direita"
+    caption:
+      en-us: "Late-night coding on Arch with Hyprland."
+      pt-br: "Programando de madrugada no Arch com Hyprland."
   - src: /setup/20250127.webp
     date: 2025-01-27
     alt:
