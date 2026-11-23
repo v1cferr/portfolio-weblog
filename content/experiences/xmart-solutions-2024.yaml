@@ -73,3 +73,14 @@ pendingReview:
   - claim: GitHub Actions automation reduced deploy time
     source: v1 career timeline (intern position)
     note: no figure given; keep qualitative or confirm
+
+# Shared by the author on 2026-11-23; everyone in it consented. Resized and
+# stripped of metadata.
+media:
+  - src: /career/xmart-solutions/team.webp
+    alt:
+      en-us: Nine colleagues posing together on the lanes of a bowling alley
+      pt-br: Nove colegas posando juntos nas pistas de um boliche
+    caption:
+      en-us: The team on a night out at the bowling alley.
+      pt-br: A equipe numa noite no boliche.

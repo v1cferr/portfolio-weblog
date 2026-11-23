@@ -40,3 +40,14 @@ pendingReview:
     source: v1 career timeline
   - claim: Controlled a stock of 200+ items
     source: v1 career timeline
+
+# Shared by the author on 2026-11-23; everyone in it consented. Resized and
+# stripped of metadata; the visible ID badges are blurred.
+media:
+  - src: /career/amcor/team.webp
+    alt:
+      en-us: A large group of colleagues posing in an office decorated with festa junina bunting, around a table of food
+      pt-br: Um grande grupo de colegas posando em um escritório decorado com bandeirinhas de festa junina, em volta de uma mesa de comida
+    caption:
+      en-us: The team at a festa junina celebration in the office.
+      pt-br: A equipe em uma festa junina no escritório.
