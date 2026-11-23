@@ -86,6 +86,27 @@ export function homeJsonLd(locale: Locale) {
   return { "@context": "https://schema.org", "@graph": [websiteJsonLd(locale), personJsonLd(locale)] };
 }
 
+/**
+ * A page about the person that changes over time (/now, /next): its
+ * dateModified is the date the page shows, so machines and readers agree.
+ */
+export function datedPageJsonLd(
+  locale: Locale,
+  { path, name, description, dateModified }: { path: string; name: string; description: string; dateModified: string }
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: absoluteUrl(`/${locale}${path}`),
+    name,
+    description,
+    inLanguage: languageTag(locale),
+    dateModified,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": PERSON_ID },
+  };
+}
+
 /** The About page is a profile page in Google's sense: its main entity is the person. */
 export function profilePageJsonLd(locale: Locale) {
   return {

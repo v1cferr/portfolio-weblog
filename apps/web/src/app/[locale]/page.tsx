@@ -7,6 +7,7 @@ import { NAV_SECTION, PageTransition } from "@/components/page-transition";
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { V1cLogo } from "@/components/v1c-logo";
+import { NowCard } from "@/features/now/now-card";
 import { Avatar } from "@/features/profile/avatar";
 import { StackChips } from "@/features/profile/stack-chips";
 import { SectionHeading, StorePath } from "@/components/page-header";
@@ -105,6 +106,8 @@ export default async function HomePage() {
             <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="max-md:w-72 lg:w-[24rem]" />
           )}
         </section>
+
+        <NowCard />
 
         {profile.trajectory.length > 0 && (
           <section aria-labelledby="trajectory" className="mb-16">

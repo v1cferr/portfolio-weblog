@@ -91,7 +91,13 @@
     "featured": "Projetos selecionados",
     "latest": "Escritos recentes",
     "recent": "Recentemente",
-    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos."
+    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos.",
+    "now": "Agora",
+    "learning": "Aprendendo",
+    "ongoing": "Em andamento",
+    "verify": "verificar",
+    "credentialsLabel": "Estudos e credenciais",
+    "allStudies": "Todos os estudos"
   },
   "About": {
     "title": "Sobre",
@@ -107,7 +113,9 @@
     "motivation": "O que me move",
     "principles": "Como trabalho",
     "stack": "Stack atual",
-    "stackNote": "O que uso todo dia no meu trabalho atual, tirado das entradas de carreira."
+    "stackNote": "O que uso todo dia no meu trabalho atual, tirado das entradas de carreira.",
+    "nowLog": "Registro do agora",
+    "next": "O que vem a seguir"
   },
   "Career": {
     "title": "Carreira",
@@ -242,7 +250,10 @@
       "bootcamp": "Bootcamp",
       "course": "Curso",
       "self-study": "Autodidata"
-    }
+    },
+    "degrees": "Graduação",
+    "courses": "Cursos e programas",
+    "certificationsDraft": "Visível só fora de produção: adicione arquivos em content/education/certifications/."
   },
   "Setup": {
     "title": "Setup",
@@ -272,7 +283,9 @@
     "rss": "RSS",
     "elsewhere": "Em outros lugares",
     "nixosCredit": "Logo do NixOS: NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
-    "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)"
+    "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)",
+    "now": "Agora",
+    "next": "Próximos passos"
   },
   "Media": {
     "label": "Fotos",
@@ -283,5 +296,31 @@
     "listening": "Ouvindo agora: {title}, de {artists}",
     "listen": "Abrir no Spotify",
     "progress": "Progresso da faixa"
+  },
+  "Now": {
+    "title": "Agora",
+    "description": "O que estou fazendo nestes dias, num registro datado, do mais recente ao mais antigo.",
+    "updated": "Atualizado em {date}",
+    "stale": "Última atualização há {days, plural, one {# dia} other {# dias}}",
+    "staleHint": "Isto pode estar desatualizado.",
+    "role": "Trabalhando como",
+    "projects": "Construindo",
+    "moreProjects": "{count, plural, other {mais #}}",
+    "post": "Último artigo",
+    "fullLog": "Registro completo",
+    "derived": "O cargo, os projetos ativos e o último artigo vêm do resto do site, como estavam na última build.",
+    "place": "De {place}",
+    "earlier": "Atualizações anteriores",
+    "empty": "Nenhuma atualização publicada ainda.",
+    "next": "O que vem a seguir",
+    "items": "Agora"
+  },
+  "Next": {
+    "title": "Próximos passos",
+    "description": "O que pretendo fazer a seguir. Planos, não promessas.",
+    "updated": "Atualizado em {date}",
+    "empty": "Nenhum plano publicado ainda.",
+    "now": "O que estou fazendo agora",
+    "items": "Planos"
   }
 }

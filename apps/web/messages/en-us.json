@@ -91,7 +91,13 @@
     "featured": "Selected projects",
     "latest": "Latest writing",
     "recent": "Recently",
-    "noPosts": "No articles are published yet. The first ones are being written."
+    "noPosts": "No articles are published yet. The first ones are being written.",
+    "now": "Now",
+    "learning": "Learning",
+    "ongoing": "In progress",
+    "verify": "verify",
+    "credentialsLabel": "Studies and credentials",
+    "allStudies": "All studies"
   },
   "About": {
     "title": "About",
@@ -107,7 +113,9 @@
     "motivation": "What drives me",
     "principles": "How I work",
     "stack": "Current stack",
-    "stackNote": "What I use every day in my current role, taken from the career entries."
+    "stackNote": "What I use every day in my current role, taken from the career entries.",
+    "nowLog": "Now log",
+    "next": "What comes next"
   },
   "Career": {
     "title": "Career",
@@ -242,7 +250,10 @@
       "bootcamp": "Bootcamp",
       "course": "Course",
       "self-study": "Self-study"
-    }
+    },
+    "degrees": "Degrees",
+    "courses": "Courses and programs",
+    "certificationsDraft": "Shown only outside production: add files to content/education/certifications/."
   },
   "Setup": {
     "title": "Setup",
@@ -272,7 +283,9 @@
     "rss": "RSS",
     "elsewhere": "Elsewhere",
     "nixosCredit": "NixOS logo by NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
-    "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)"
+    "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)",
+    "now": "Now",
+    "next": "Next"
   },
   "Media": {
     "label": "Photos",
@@ -283,5 +296,31 @@
     "listening": "Listening now: {title} by {artists}",
     "listen": "Open in Spotify",
     "progress": "Track progress"
+  },
+  "Now": {
+    "title": "Now",
+    "description": "What I am doing these days, as a dated log, newest first.",
+    "updated": "Updated {date}",
+    "stale": "Last updated {days, plural, one {# day} other {# days}} ago",
+    "staleHint": "This may be out of date.",
+    "role": "Working as",
+    "projects": "Building",
+    "moreProjects": "{count, plural, other {# more}}",
+    "post": "Latest article",
+    "fullLog": "Full log",
+    "derived": "The role, the active projects and the latest article come from the rest of the site, as of its last build.",
+    "place": "From {place}",
+    "earlier": "Earlier updates",
+    "empty": "No updates are published yet.",
+    "next": "What comes next",
+    "items": "Now"
+  },
+  "Next": {
+    "title": "Next",
+    "description": "What I plan to do next. Plans, not promises.",
+    "updated": "Updated {date}",
+    "empty": "No plans are published yet.",
+    "now": "What I am doing now",
+    "items": "Plans"
   }
 }

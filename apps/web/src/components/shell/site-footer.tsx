@@ -22,6 +22,16 @@ export async function SiteFooter() {
         </div>
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           <li>
+            <Link className="hover:text-foreground" href="/now" transitionTypes={NAV_SECTION}>
+              {t("now")}
+            </Link>
+          </li>
+          <li>
+            <Link className="hover:text-foreground" href="/next" transitionTypes={NAV_SECTION}>
+              {t("next")}
+            </Link>
+          </li>
+          <li>
             <Link className="hover:text-foreground" href="/setup" transitionTypes={NAV_SECTION}>
               {nav("setup")}
             </Link>
