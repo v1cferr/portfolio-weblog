@@ -27,6 +27,11 @@
     "skipToContent": "Skip to content",
     "brandHome": "v1cferr.dev, home page"
   },
+  "Explorer": {
+    "open": "Site explorer (~/)",
+    "label": "Site explorer",
+    "description": "Every page of the site as a file tree. Articles sit under their year and month."
+  },
   "Theme": {
     "label": "Change theme",
     "light": "Light",

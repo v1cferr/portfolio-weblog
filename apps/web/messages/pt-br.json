@@ -27,6 +27,11 @@
     "skipToContent": "Pular para o conteúdo",
     "brandHome": "v1cferr.dev, página inicial"
   },
+  "Explorer": {
+    "open": "Explorador do site (~/)",
+    "label": "Explorador do site",
+    "description": "Todas as páginas do site como uma árvore de arquivos. Os artigos ficam no ano e mês de publicação."
+  },
   "Theme": {
     "label": "Alterar tema",
     "light": "Claro",
