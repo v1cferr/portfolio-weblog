@@ -1,7 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 
 /*
- * The home page's Now card and Learning strip, the /now log and the /next
+ * The home page's Now card and studies sections (studying now, certificates), the /now log and the /next
  * plans. Dates are checked through their <time> elements, so the tests hold
  * as the content gains updates.
  */
@@ -11,13 +11,13 @@ async function jsonLd(page: Page) {
   return blocks.map((text) => JSON.parse(text) as Record<string, unknown>);
 }
 
-test.describe("home: now and learning", () => {
+test.describe("home: now and studies", () => {
   test("shows the Now card after the hero, with a few bullets and the date of the update", async ({ page }) => {
     await page.goto("/en-us");
     const sections = page.locator("main section");
-    // The hero stays first; the Now card follows it, then the Learning strip.
+    // The hero stays first; the Now card follows it, then the studies (no study is in progress today).
     await expect(sections.nth(1)).toHaveAttribute("aria-labelledby", "now");
-    await expect(sections.nth(2)).toHaveAttribute("aria-labelledby", "learning");
+    await expect(sections.nth(2)).toHaveAttribute("aria-labelledby", "credentials");
 
     const card = page.locator('section[aria-labelledby="now"]');
     await expect(card.getByRole("heading", { level: 2, name: "Now" })).toBeVisible();
@@ -42,15 +42,19 @@ test.describe("home: now and learning", () => {
     await expect(card.locator("time")).toHaveText(/^(Atualizado em )?\d{1,2} de \S+ de \d{4}$/);
   });
 
-  test("shows the Learning strip with credentials and a link to the Studies page", async ({ page }) => {
+  test("shows certificates, each study once, and a link to the Studies page", async ({ page }) => {
     await page.goto("/en-us");
-    const strip = page.locator('section[aria-labelledby="learning"]');
-    await expect(strip.getByRole("heading", { level: 2, name: "Learning" })).toBeVisible();
+    // Nothing is in progress today, so "Studying now" is absent.
+    await expect(page.locator('section[aria-labelledby="studying"]')).toHaveCount(0);
+    const strip = page.locator('section[aria-labelledby="credentials"]');
+    await expect(strip.getByRole("heading", { level: 2, name: "Certificates" })).toBeVisible();
     const tiles = strip.getByRole("list", { name: "Studies and credentials" }).getByRole("listitem");
     expect(await tiles.count()).toBeGreaterThanOrEqual(1);
-    expect(await tiles.count()).toBeLessThanOrEqual(4);
+    expect(await tiles.count()).toBeLessThanOrEqual(3);
     await expect(tiles.first().getByRole("heading", { level: 3 })).toBeVisible();
     await expect(tiles.first().locator("time")).toBeVisible();
+    // The Transforme-se certificate stands for its course: it is listed once.
+    await expect(tiles.filter({ hasText: "Transforme-se" })).toHaveCount(1);
     await expect(strip.getByRole("link", { name: "All studies" })).toHaveAttribute("href", "/en-us/education");
   });
 });
