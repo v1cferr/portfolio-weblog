@@ -1,5 +1,6 @@
 import { localize, localizeList } from "@workspace/content";
 import {
+  ArrowRightIcon,
   BookOpenIcon,
   BriefcaseIcon,
   CompassIcon,
@@ -196,6 +197,18 @@ export default async function AboutPage() {
                 </Link>
               </div>
             )}
+            <ul className="flex flex-wrap gap-x-5 border-t pt-2 text-sm">
+              <li>
+                <Link href="/now" className="inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground">
+                  {t("nowLog")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                </Link>
+              </li>
+              <li>
+                <Link href="/next" className="inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground">
+                  {t("next")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                </Link>
+              </li>
+            </ul>
           </section>
           <section aria-labelledby="elsewhere">
             <h2 id="elsewhere" className="mb-3 font-mono text-xs tracking-wide text-muted-foreground uppercase">

@@ -11,5 +11,186 @@ summary:
   pt-br: >-
     Infraestrutura pessoal como código: uma estação de trabalho NixOS declarativa, reproduzível e
     versionada, que gerencia sistema, Home Manager, segredos, armazenamento e serviços.
+links:
+  - { label: dotfiles.v1cferr.dev, url: "https://dotfiles.v1cferr.dev", kind: website }
 technologies: [nix, nixos]
 skills: [infrastructure-as-code]
+# Draft from repo facts on 2026-11-23; owner review pending.
+# Sources: v1cferr/dotfiles README, docs/rules.md, docs/arch-linux.md, docs/decisions 0006, 0009,
+# 0015, 0016, 0018, flake.nix, flake/checks.nix, .github/workflows, and the published post
+# content/weblog/2026/11/from-arch-to-nixos (the outcome is the owner's own words there).
+# `lessons` stays empty until the owner answers.
+caseStudy:
+  problem:
+    en-us: >-
+      My Arch install had config drift: what was in the repository and what was on the machine
+      drifted apart, it was awful to maintain, and there was no easy way to install exactly my
+      system on another machine.
+    pt-br: >-
+      Meu Arch tinha config drift: o que estava no repositório e o que estava na máquina se
+      afastavam, era horrível de manter, e não dava para instalar o meu sistema igualzinho em outra
+      máquina de um jeito fácil.
+  outcome:
+    en-us: >-
+      I declared the migration complete on October 13, 2026. Today one flake describes my desk, a
+      ThinkPad T480s, the router and even my phone, and putting exactly my system on the T480s, with
+      the same window manager, icons and themes, was very easy. That is what I never managed on Arch.
+    pt-br: >-
+      Declarei a migração concluída em 13 de outubro de 2026. Hoje um flake descreve o meu desktop,
+      um ThinkPad T480s, o roteador e até o celular, e colocar exatamente o meu sistema no T480s, com
+      o mesmo gerenciador de janelas, ícones e temas, foi muito fácil. Era isso que eu nunca consegui
+      no Arch.
+  role:
+    en-us: Solo, owner and only user
+    pt-br: Solo, dono e único usuário
+  motivation:
+    en-us: >-
+      Arch worked; the problem was that I was already trying to make it declarative, with Hyprland,
+      Waybar and zsh managed by stow, and it kept getting worse. The migration plan described my
+      setup as a manual, imperative reimplementation of NixOS. I wanted everything declarative
+      instead of manual, so the config works on any hardware later on and a reinstall is a command,
+      not a memory.
+    pt-br: >-
+      O Arch funcionava; o problema é que eu já tentava deixá-lo declarativo, com Hyprland, Waybar e
+      zsh gerenciados pelo stow, e só piorava. O plano de migração descreveu o meu setup como uma
+      reimplementação manual e imperativa do NixOS. Eu queria tudo declarativo em vez de manual, para
+      que a config funcione em qualquer hardware depois e reinstalar seja um comando, não uma
+      lembrança.
+  constraints:
+    en-us:
+      - Designed to last until 2032, so it stays on the idiomatic path.
+      - The lock pins everything; there is no implicit "latest" anywhere.
+      - Nix declares apps and config, never state; saves, Wine prefixes, tokens and sessions stay out of the repo.
+      - Zero evaluation warnings, and every exception carries a reason and a review date.
+    pt-br:
+      - Pensado para durar até 2032, então fica no caminho idiomático.
+      - O lock fixa tudo; não existe "latest" implícito em lugar nenhum.
+      - O Nix declara apps e configuração, nunca estado; saves, prefixos do Wine, tokens e sessões ficam fora do repositório.
+      - Zero warnings de avaliação, e toda exceção leva um motivo e uma data de revisão.
+  nonGoals:
+    en-us:
+      - Running Nix on the phone; it is audited read-only over ADB against a declared posture.
+      - Managing the router from Nix; the repository keeps a read-only mirror of its config.
+    pt-br:
+      - Rodar Nix no celular; ele é auditado só para leitura via ADB contra uma postura declarada.
+      - Gerenciar o roteador pelo Nix; o repositório guarda um espelho só de leitura da config dele.
+  approach:
+    en-us: >-
+      One flake with two hosts: the desk and the T480s laptop. nixpkgs 26.05 is the base, with
+      hand-picked packages from unstable, and Home Manager runs as a NixOS module so one rebuild
+      applies both. disko lays out btrfs, sops-nix decrypts secrets at runtime, Limine boots with
+      Secure Boot on my own keys, and restic plus btrbk handle backups. Modules offer, hosts compose.
+      Decisions become ADRs, and the documentation is published at dotfiles.v1cferr.dev.
+    pt-br: >-
+      Um flake com dois hosts: o desktop e o notebook T480s. O nixpkgs 26.05 é a base, com pacotes
+      escolhidos do unstable, e o Home Manager roda como módulo do NixOS, então um rebuild aplica os
+      dois. O disko monta o btrfs, o sops-nix decifra os segredos em tempo de execução, o Limine
+      inicia com Secure Boot nas minhas próprias chaves, e restic com btrbk cuidam dos backups. Os
+      módulos oferecem, os hosts compõem. As decisões viram ADRs, e a documentação fica em
+      dotfiles.v1cferr.dev.
+  decisions:
+    - title:
+        en-us: Limine replaces GRUB, so the initrd is verified too
+        pt-br: O Limine substitui o GRUB, para verificar também o initrd
+      chosen:
+        en-us: Limine with Secure Boot on my own keys
+        pt-br: o Limine com Secure Boot nas minhas próprias chaves
+      alternatives:
+        en-us: [GRUB with a signed initrd, lanzaboote]
+        pt-br: [GRUB com initrd assinado, lanzaboote]
+      why:
+        en-us: >-
+          Limine enrolls a hash of its config that covers the kernel, the initrd and the command
+          line, and it can chainload Windows on another disk. GRUB under lockdown has no path to
+          verify an initrd, and lanzaboote would need a signed EFI shell to reach Windows.
+        pt-br: >-
+          o Limine registra um hash da sua config que cobre o kernel, o initrd e a linha de comando,
+          e consegue encadear o Windows em outro disco. O GRUB em lockdown não tem como verificar um
+          initrd, e o lanzaboote precisaria de um shell EFI assinado para chegar ao Windows.
+      cost:
+        en-us: >-
+          It still does not stop someone with root, since the signing key sits on an unencrypted
+          disk, and the installer does not fail when signing fails, so a separate check re-verifies
+          the boot files and raises an alert.
+        pt-br: >-
+          Ainda não detém alguém com root, já que a chave de assinatura fica num disco sem
+          criptografia, e o instalador não falha quando a assinatura falha, então uma verificação à
+          parte confere os arquivos de boot e dispara um alerta.
+      adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0015-limine-over-grub.md
+    - title:
+        en-us: Bitwarden is the single source of secrets
+        pt-br: O Bitwarden é a única fonte de segredos
+      chosen:
+        en-us: Bitwarden, synced into sops-nix and decrypted into /run/secrets
+        pt-br: o Bitwarden, sincronizado no sops-nix e decifrado em /run/secrets
+      alternatives:
+        en-us: [OpenBao or Vault, a self-hosted Vaultwarden, agenix]
+        pt-br: [OpenBao ou Vault, um Vaultwarden self-hosted, agenix]
+      why:
+        en-us: >-
+          a Vault server needs maintenance and an unseal step after every power cut and stops
+          working with the network down, Vaultwarden would be one more critical service, and
+          swapping sops-nix for agenix gains nothing.
+        pt-br: >-
+          um servidor Vault pede manutenção e um unseal depois de cada queda de energia, e para de
+          funcionar sem rede, o Vaultwarden seria mais um serviço crítico, e trocar o sops-nix pelo
+          agenix não ganha nada.
+      cost:
+        en-us: >-
+          Bitwarden becomes the place to lose everything; an offline age recipient is the
+          mitigation.
+        pt-br: >-
+          O Bitwarden vira o lugar onde se perde tudo; um destinatário age offline é a mitigação.
+      adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0016-bitwarden-is-the-secrets-source.md
+    - title:
+        en-us: The desk's disks are not encrypted
+        pt-br: Os discos do desktop não são criptografados
+      chosen:
+        en-us: no disk encryption on a desktop that does not leave the house
+        pt-br: nenhuma criptografia de disco num desktop que não sai de casa
+      alternatives:
+        en-us: [LUKS unlocked by the TPM2]
+        pt-br: [LUKS destravado pelo TPM2]
+      why:
+        en-us: >-
+          theft is an accepted risk for that machine, and LUKS would have meant reformatting. The
+          laptop, which does leave, is encrypted.
+        pt-br: >-
+          o roubo é um risco aceito para essa máquina, e o LUKS exigiria reformatar. O notebook, que
+          sai de casa, é criptografado.
+      cost:
+        en-us: >-
+          A stolen disk hands over the home, the sops age key (so every secret needs rotation), the
+          SSH host keys and the Secure Boot keys. The decision has a review date: 2027-09-30.
+        pt-br: >-
+          Um disco roubado entrega a home, a chave age do sops (e todo segredo precisa ser rotacionado),
+          as chaves SSH do host e as chaves do Secure Boot. A decisão tem data de revisão: 30/09/2027.
+      adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0006-no-disk-encryption.md
+  howBuilt:
+    en-us: >-
+      Built with Claude Code, which also helped me put the migration plan together. I owned the
+      scope, the architecture and the review; the decisions were mine, and each one is an ADR.
+    pt-br: >-
+      Feito com o Claude Code, que também me ajudou a montar o plano de migração. O escopo, a
+      arquitetura e a revisão foram meus; as decisões foram minhas, e cada uma virou um ADR.
+  quality:
+    en-us:
+      - "CI: nix flake check on every push and pull request, with evaluation warnings as errors"
+      - "Pre-commit (git-hooks.nix): nixfmt, statix, deadnix, shellcheck, markdownlint, actionlint, zizmor, gitleaks, a check that refuses unencrypted secrets, and Conventional Commits"
+      - "Weekly canary: the flake against the channel heads, link checks, gitleaks over the whole history and osv-scanner on the lockfiles"
+      - "CodeQL and OpenSSF Scorecard"
+    pt-br:
+      - "CI: nix flake check em todo push e pull request, com warnings de avaliação tratados como erro"
+      - "Pre-commit (git-hooks.nix): nixfmt, statix, deadnix, shellcheck, markdownlint, actionlint, zizmor, gitleaks, uma verificação que recusa segredos sem criptografia, e Conventional Commits"
+      - "Canário semanal: o flake contra a ponta dos canais, verificação de links, gitleaks sobre todo o histórico e osv-scanner nos lockfiles"
+      - "CodeQL e OpenSSF Scorecard"
+  next:
+    en-us:
+      - Publish something for the community.
+      - Impermanence, with the root going ephemeral first and the home after.
+      - An offsite copy of the backups, which is an accepted risk under review by the end of 2026.
+    pt-br:
+      - Publicar algo para a comunidade.
+      - Impermanence, com a raiz ficando efêmera primeiro e a home depois.
+      - Uma cópia offsite dos backups, hoje um risco aceito em revisão até o fim de 2026.
+  adrs: https://github.com/v1cferr/dotfiles/tree/main/docs/decisions

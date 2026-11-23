@@ -3,6 +3,7 @@ title: imobos
 repository: v1cferr/imobos
 state: experimental
 category: personal
+featured: true
 summary:
   en-us: >-
     Self-hosted operating system for a real estate brokerage: CRM, client management, property
@@ -10,4 +11,175 @@ summary:
   pt-br: >-
     Sistema operacional self-hosted para uma imobiliária: CRM, gestão de clientes, fluxos de
     imóveis, comunicação e automação.
-technologies: [typescript]
+technologies: [typescript, nextjs, react, python, fastapi, postgresql, docker, nix]
+# Draft from repo facts on 2026-11-23; owner review pending.
+# Sources: v1cferr/imobos README, docs/adr 0001-0010 (0006, 0007, 0009 and 0010 above all),
+# apps/web/package.json, apps/api/pyproject.toml and .github/workflows/ci.yml.
+# The client is a real third party: never name her or the company she sells for.
+# `outcome` and `lessons` stay empty until the owner answers.
+caseStudy:
+  problem:
+    en-us: >-
+      A real estate broker kept her clients in WhatsApp and a spreadsheet. ImobOS is one place that
+      answers who needs attention today, why, and what the next action should be.
+    pt-br: >-
+      Uma corretora guardava os clientes no WhatsApp e numa planilha. O ImobOS é um lugar só que
+      responde quem precisa de atenção hoje, por quê, e qual é a próxima ação.
+  role:
+    en-us: Solo, for a real estate broker
+    pt-br: Solo, para uma corretora
+  motivation:
+    en-us: >-
+      The broker works two lines, sales and rentals, and wants her own leads from paid campaigns.
+      The plan began with HubSpot as the commercial source of truth, but her HubSpot belongs to the
+      company she sells for, and its admin would not authorize an integration. So ImobOS became her
+      CRM, with Chatwoot owning the conversations.
+    pt-br: >-
+      A corretora trabalha em duas frentes, vendas e locação, e quer os próprios leads de campanhas
+      pagas. O plano começou com o HubSpot como fonte da verdade comercial, mas o HubSpot dela
+      pertence à empresa para a qual ela vende, e o administrador não autorizou uma integração.
+      Então o ImobOS virou o CRM dela, com o Chatwoot dono das conversas.
+  constraints:
+    en-us:
+      - It has one real user, who is not technical and already has a Google account.
+      - No real customer data before backups exist, so the login could not depend on the database either.
+      - Customer messages and files are self-hosted, behind a single edge, backed up off the host, and sent to no third party without a decision.
+      - The repository is public; real values live only in each host's environment.
+      - The history is append-only and timestamped by the server.
+    pt-br:
+      - Ele tem uma usuária real, que não é técnica e já tem uma conta Google.
+      - Nenhum dado real de cliente antes de existir backup, então nem o login podia depender do banco.
+      - Mensagens e arquivos de clientes ficam self-hosted, atrás de uma única borda, com backup fora do host, e não vão para terceiros sem uma decisão.
+      - O repositório é público; os valores reais vivem só no ambiente de cada host.
+      - O histórico é append-only e tem o horário do servidor.
+  nonGoals:
+    en-us:
+      - Copying message bodies into ImobOS as a second inbox; Chatwoot keeps the conversations.
+      - Turborepo, while two apps with no shared packages check in under a minute.
+    pt-br:
+      - Copiar o conteúdo das mensagens para o ImobOS como uma segunda caixa de entrada; as conversas ficam no Chatwoot.
+      - Turborepo, enquanto dois apps sem pacotes compartilhados são verificados em menos de um minuto.
+  approach:
+    en-us: >-
+      A monorepo with a Next.js web app and a FastAPI API on Python, PostgreSQL and Redis, run with
+      Docker Compose on an Ubuntu VPS and developed in a Nix flake. Caddy is the only service that
+      publishes ports, and the networks are segmented so the web never touches the database: it
+      calls the API's internal routes with a token. Chatwoot runs beside it for WhatsApp Business.
+      Backups are nightly and off-site, with a weekly restore drill, and an uptime check runs every
+      five minutes.
+    pt-br: >-
+      Um monorepo com um app web em Next.js e uma API FastAPI em Python, PostgreSQL e Redis, rodando
+      com Docker Compose numa VPS Ubuntu e desenvolvido num flake Nix. O Caddy é o único serviço que
+      publica portas, e as redes são segmentadas para que a web nunca toque no banco: ela chama as
+      rotas internas da API com um token. O Chatwoot roda ao lado, para o WhatsApp Business. O
+      backup é noturno e fora do host, com um teste de restauração semanal, e uma verificação de
+      disponibilidade roda a cada cinco minutos.
+  decisions:
+    - title:
+        en-us: Sign-up with admin approval instead of an allowlist
+        pt-br: Cadastro com aprovação do admin em vez de uma allowlist
+      chosen:
+        en-us: open sign-up with admin approval, owned by the API
+        pt-br: cadastro aberto com aprovação do admin, sob responsabilidade da API
+      alternatives:
+        en-us: [an email allowlist in the environment]
+        pt-br: [uma allowlist de e-mails no ambiente]
+      why:
+        en-us: >-
+          the broker's Google account was not known when the login shipped, so an allowlist could
+          not let her in. Unknown accounts wait as pending, and a disabled account is locked out on
+          its next request.
+        pt-br: >-
+          a conta Google da corretora não era conhecida quando o login entrou no ar, então uma
+          allowlist não a deixaria entrar. Contas desconhecidas ficam pendentes, e uma conta
+          desativada perde o acesso na requisição seguinte.
+      cost:
+        en-us: >-
+          One internal HTTP call on every authenticated request, and anyone can fill the pending
+          queue; the remedies are rejecting requests, closing sign-up and a rate limit at the edge.
+        pt-br: >-
+          Uma chamada HTTP interna a cada requisição autenticada, e qualquer um pode encher a fila de
+          pendentes; os remédios são rejeitar pedidos, fechar o cadastro e um rate limit na borda.
+      adr: https://github.com/v1cferr/imobos/blob/main/docs/adr/0007-sign-up-with-admin-approval.md
+    - title:
+        en-us: ImobOS is the broker's CRM
+        pt-br: O ImobOS é o CRM da corretora
+      chosen:
+        en-us: a CRM of its own, with clients, sales and rentals funnels and an append-only history
+        pt-br: um CRM próprio, com clientes, funis de venda e locação e um histórico append-only
+      alternatives:
+        en-us: [integrating HubSpot]
+        pt-br: [integrar o HubSpot]
+      why:
+        en-us: >-
+          her HubSpot belongs to the company she sells for, whose admin would not authorize an
+          integration. HubSpot was removed from the code.
+        pt-br: >-
+          o HubSpot dela pertence à empresa para a qual ela vende, cujo administrador não autorizou
+          uma integração. O HubSpot saiu do código.
+      cost:
+        en-us: >-
+          ImobOS has to be good at what a CRM gives for free: quick capture on the phone, search,
+          deduplication by phone and history. The backup now protects business records too.
+        pt-br: >-
+          O ImobOS precisa ser bom no que um CRM entrega de graça: cadastro rápido no celular, busca,
+          deduplicação por telefone e histórico. O backup agora protege também registros do negócio.
+      adr: https://github.com/v1cferr/imobos/blob/main/docs/adr/0010-imobos-is-the-crm.md
+    - title:
+        en-us: Chatwoot self-hosted, isolated, at its own subdomain
+        pt-br: Chatwoot self-hosted, isolado, num subdomínio próprio
+      chosen:
+        en-us: Chatwoot on the same host with its own PostgreSQL, Redis and networks
+        pt-br: o Chatwoot no mesmo host, com PostgreSQL, Redis e redes próprios
+      alternatives:
+        en-us: [sharing the ImobOS database and networks]
+        pt-br: [compartilhar o banco e as redes do ImobOS]
+      why:
+        en-us: >-
+          it holds customers' messages and files, migrates on its own schedule and may misbehave,
+          and none of that should reach the ImobOS database; on its own networks it cannot reach the
+          ImobOS API or database at all.
+        pt-br: >-
+          ele guarda mensagens e arquivos de clientes, migra no próprio ritmo e pode se comportar
+          mal, e nada disso deve chegar ao banco do ImobOS; nas próprias redes ele não alcança nem a
+          API nem o banco do ImobOS.
+      cost:
+        en-us: >-
+          Two more databases to watch and upgrade, host memory from about 0.3 GB to 1.5 GB, and a
+          second screen for the broker until ImobOS reads conversations through Chatwoot's API.
+        pt-br: >-
+          Mais dois bancos para acompanhar e atualizar, a memória do host de cerca de 0,3 GB para
+          1,5 GB, e uma segunda tela para a corretora até o ImobOS ler as conversas pela API do
+          Chatwoot.
+      adr: https://github.com/v1cferr/imobos/blob/main/docs/adr/0009-chatwoot-self-hosted.md
+  # The AI-assistance line waits for the owner to confirm (2026-11-23).
+  howBuilt:
+    en-us: >-
+      I owned the scope, the architecture and the review, and each decision that shaped the system
+      is an ADR.
+    pt-br: >-
+      O escopo, a arquitetura e a revisão foram meus, e cada decisão que moldou o sistema virou um
+      ADR.
+  quality:
+    en-us:
+      - "CI on every push and pull request: nix flake check, lint, typecheck, tests and build"
+      - "Lint: ESLint for the web, ruff for the API, markdownlint for the docs and shellcheck for the infrastructure scripts"
+      - "Typecheck: TypeScript for the web, mypy in strict mode for the API"
+      - "Tests: Vitest for the web, pytest for the API"
+      - "CI also builds the Compose images and runs the migrations on a real PostgreSQL"
+    pt-br:
+      - "CI em todo push e pull request: nix flake check, lint, typecheck, testes e build"
+      - "Lint: ESLint na web, ruff na API, markdownlint na documentação e shellcheck nos scripts de infraestrutura"
+      - "Typecheck: TypeScript na web, mypy em modo strict na API"
+      - "Testes: Vitest na web, pytest na API"
+      - "O CI também gera as imagens do Compose e roda as migrations num PostgreSQL real"
+  next:
+    en-us:
+      - Spreadsheet import and Meta Lead Ads as lead sources.
+      - ImobOS reading conversations through Chatwoot's API, with a single sign-in between the two.
+      - AI-assisted replies with human review.
+    pt-br:
+      - Importação de planilha e Meta Lead Ads como fontes de leads.
+      - O ImobOS lendo as conversas pela API do Chatwoot, com um login único entre os dois.
+      - Respostas assistidas por IA com revisão humana.
+  adrs: https://github.com/v1cferr/imobos/tree/main/docs/adr

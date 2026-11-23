@@ -55,6 +55,57 @@
       "page": "Página"
     }
   },
+  "Ask": {
+    "open": "Perguntar",
+    "openLabel": "Perguntar sobre o Victor",
+    "tab": "Perguntar",
+    "searchTab": "Buscar",
+    "modes": "Buscar ou perguntar",
+    "close": "Fechar",
+    "title": "Pergunte sobre o Victor",
+    "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
+    "placeholder": "Pergunte sobre o trabalho do Victor…",
+    "submit": "Perguntar",
+    "stop": "Parar",
+    "clear": "Nova conversa",
+    "counter": "{count} de {max} caracteres",
+    "suggestionsTitle": "Experimente perguntar",
+    "suggestions": [
+      "Qual é o cargo atual do Victor?",
+      "Como o Victor usa Nix?",
+      "Quais projetos de RAG o Victor construiu?",
+      "Que experiência o Victor tem com segurança?"
+    ],
+    "you": "Você perguntou",
+    "status": {
+      "searching": "Buscando no site…",
+      "ready": "Resposta pronta.",
+      "noSource": "Nada no site responde a isso.",
+      "stopped": "Interrompido.",
+      "error": "Não foi possível carregar a resposta."
+    },
+    "extractive": {
+      "label": "Das páginas do site, sem IA",
+      "unavailable": "A resposta por IA não está disponível agora, então aqui está o que o site diz.",
+      "rate-limited": "Muitas perguntas em pouco tempo: aqui está o que o site diz, no lugar de uma resposta por IA.",
+      "error": "A resposta por IA falhou, então aqui está o que o site diz.",
+      "ungrounded": "Não foi possível conferir a resposta por IA com as páginas do site, então aqui está o que o site diz."
+    },
+    "noSource": {
+      "title": "Isso não está no site",
+      "body": "Nenhuma página daqui responde a isso, e as respostas vêm só das páginas do próprio site. Tente uma busca, ou fale com o Victor pela página Sobre.",
+      "search": "Buscar no site",
+      "about": "Sobre e contato"
+    },
+    "disclosure": "Gerado por IA a partir das páginas deste site; pode conter erros. Confira as fontes.",
+    "sources": "Fontes",
+    "related": "Relacionadas",
+    "citation": "Fonte {n}",
+    "stoppedNote": "Interrompida antes do fim.",
+    "interrupted": "A resposta foi cortada. Tente de novo.",
+    "error": "Algo deu errado. Tente de novo em instantes.",
+    "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais."
+  },
   "Common": {
     "present": "atual",
     "now": "agora",
@@ -91,7 +142,13 @@
     "featured": "Projetos selecionados",
     "latest": "Escritos recentes",
     "recent": "Recentemente",
-    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos."
+    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos.",
+    "now": "Agora",
+    "learning": "Aprendendo",
+    "ongoing": "Em andamento",
+    "verify": "verificar",
+    "credentialsLabel": "Estudos e credenciais",
+    "allStudies": "Todos os estudos"
   },
   "About": {
     "title": "Sobre",
@@ -107,7 +164,9 @@
     "motivation": "O que me move",
     "principles": "Como trabalho",
     "stack": "Stack atual",
-    "stackNote": "O que uso todo dia no meu trabalho atual, tirado das entradas de carreira."
+    "stackNote": "O que uso todo dia no meu trabalho atual, tirado das entradas de carreira.",
+    "nowLog": "Registro do agora",
+    "next": "O que vem a seguir"
   },
   "Career": {
     "title": "Carreira",
@@ -178,7 +237,9 @@
     "uncurated": "Mais repositórios públicos",
     "uncuratedDescription": "Listados automaticamente do GitHub e sem curadoria: ser público não torna um repositório um destaque.",
     "fromGithub": "Do GitHub",
-    "notOnGithub": "Sem repositório público."
+    "notOnGithub": "Sem repositório público.",
+    "adrs": "ADRs",
+    "caseStudy": "Estudo de caso"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entrada} other {# entradas}}",
@@ -242,7 +303,10 @@
       "bootcamp": "Bootcamp",
       "course": "Curso",
       "self-study": "Autodidata"
-    }
+    },
+    "degrees": "Graduação",
+    "courses": "Cursos e programas",
+    "certificationsDraft": "Visível só fora de produção: adicione arquivos em content/education/certifications/."
   },
   "Setup": {
     "title": "Setup",
@@ -272,7 +336,9 @@
     "rss": "RSS",
     "elsewhere": "Em outros lugares",
     "nixosCredit": "Logo do NixOS: NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
-    "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)"
+    "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)",
+    "now": "Agora",
+    "next": "Próximos passos"
   },
   "Media": {
     "label": "Fotos",
@@ -283,5 +349,55 @@
     "listening": "Ouvindo agora: {title}, de {artists}",
     "listen": "Abrir no Spotify",
     "progress": "Progresso da faixa"
+  },
+  "Now": {
+    "title": "Agora",
+    "description": "O que estou fazendo nestes dias, num registro datado, do mais recente ao mais antigo.",
+    "updated": "Atualizado em {date}",
+    "stale": "Última atualização há {days, plural, one {# dia} other {# dias}}",
+    "staleHint": "Isto pode estar desatualizado.",
+    "role": "Trabalhando como",
+    "projects": "Construindo",
+    "moreProjects": "{count, plural, other {mais #}}",
+    "post": "Último artigo",
+    "fullLog": "Registro completo",
+    "derived": "O cargo, os projetos ativos e o último artigo vêm do resto do site, como estavam na última build.",
+    "place": "De {place}",
+    "earlier": "Atualizações anteriores",
+    "empty": "Nenhuma atualização publicada ainda.",
+    "next": "O que vem a seguir",
+    "items": "Agora"
+  },
+  "Next": {
+    "title": "Próximos passos",
+    "description": "O que pretendo fazer a seguir. Planos, não promessas.",
+    "updated": "Atualizado em {date}",
+    "empty": "Nenhum plano publicado ainda.",
+    "now": "O que estou fazendo agora",
+    "items": "Planos"
+  },
+  "CaseStudy": {
+    "tldr": "Resumo",
+    "problem": "Problema",
+    "outcome": "Resultado",
+    "role": "Papel",
+    "dates": "Quando",
+    "stack": "Stack",
+    "links": "Links",
+    "motivation": "Por que eu construí",
+    "constraints": "Restrições",
+    "nonGoals": "Fora do escopo",
+    "approach": "Abordagem",
+    "decisions": "Decisões-chave",
+    "chose": "Escolhi",
+    "over": "em vez de",
+    "orSeparator": " ou ",
+    "because": "porque",
+    "cost": "Custo:",
+    "readAdr": "Ler o ADR",
+    "howBuilt": "Como foi construído",
+    "quality": "Toda mudança passa por",
+    "lessons": "O que eu mudaria",
+    "next": "Próximos passos"
   }
 }

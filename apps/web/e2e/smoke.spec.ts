@@ -15,8 +15,11 @@ const PAGES = [
   "/en-us/weblog",
   "/en-us/weblog/rebuilding-the-hub-content-first",
   "/en-us/setup",
+  "/en-us/now",
+  "/en-us/next",
   "/pt-br",
   "/pt-br/career",
+  "/pt-br/now",
   "/zh-cn/projects",
 ];
 
@@ -63,6 +66,9 @@ test.describe("accessibility", () => {
     "/en-us/career/xmart-solutions-2024",
     "/en-us/timeline",
     "/en-us/weblog/rebuilding-the-hub-content-first",
+    "/en-us/education",
+    "/en-us/now",
+    "/pt-br/next",
   ]) {
     for (const theme of ["light", "dark"] as const) {
       test(`${path} has no serious axe violations (${theme})`, async ({ page }) => {

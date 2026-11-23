@@ -5,7 +5,7 @@ import path from "node:path";
 import { type ContentRegistry, loadRegistry } from "@workspace/content";
 
 /** apps/web → repository root → content. Statically scoped so tracing stays narrow. */
-const CONTENT_ROOT = path.join(process.cwd(), "..", "..", "content");
+export const CONTENT_ROOT = path.join(process.cwd(), "..", "..", "content");
 
 let registry: ContentRegistry | undefined;
 

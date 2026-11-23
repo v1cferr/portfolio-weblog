@@ -20,6 +20,8 @@ const ROUTES = [
   "/en-us/weblog",
   "/en-us/weblog/rebuilding-the-hub-content-first",
   "/en-us/setup",
+  "/en-us/now",
+  "/pt-br/next",
 ];
 
 /** WCAG 2.5.8 Target Size (Minimum), in CSS pixels. */

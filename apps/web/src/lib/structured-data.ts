@@ -1,6 +1,6 @@
 import "server-only";
 
-import { localize } from "@workspace/content";
+import { isExpired, localize } from "@workspace/content";
 
 import type { Locale } from "@/i18n/routing";
 
@@ -17,6 +17,53 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
 export function signature(name: string, handle: string): string {
   const [first, ...rest] = name.split(" ");
   return rest.length === 0 ? `${name} "${handle}"` : `${first ?? name} "${handle}" ${rest.join(" ")}`;
+}
+
+/** An organization as schema.org knows it: its name and, when there is one, its site. */
+function organizationRef(id: string) {
+  const organization = getContent().getOrganization(id);
+  if (organization === undefined) return undefined;
+  return { "@type": "Organization", name: organization.name, ...(organization.url !== undefined && { url: organization.url }) };
+}
+
+/**
+ * The person's credentials as schema.org EducationalOccupationalCredential:
+ * every published certification that has not expired, and every completed
+ * degree. Semantic markup only; Google shows no rich result for it.
+ */
+export function credentials(locale: Locale) {
+  const content = getContent();
+  const today = new Date();
+  const certifications = content
+    .getCertifications()
+    .filter((cert) => !isExpired(cert, today))
+    .map((cert) => {
+      const recognizedBy = organizationRef(cert.issuer);
+      return {
+        "@type": "EducationalOccupationalCredential",
+        name: cert.name,
+        credentialCategory: "certification",
+        dateCreated: cert.issuedAt,
+        ...(cert.expiresAt !== undefined && { expires: cert.expiresAt }),
+        ...(recognizedBy !== undefined && { recognizedBy }),
+        ...(cert.credentialUrl !== undefined && { url: cert.credentialUrl }),
+      };
+    });
+  const degrees = content
+    .getEducation()
+    .filter((item) => item.kind === "degree" && item.state === "completed")
+    .map((item) => {
+      const recognizedBy = organizationRef(item.institution);
+      return {
+        "@type": "EducationalOccupationalCredential",
+        name: localize(item.title, locale).value,
+        credentialCategory: "degree",
+        ...(item.end !== undefined && { dateCreated: item.end }),
+        ...(recognizedBy !== undefined && { recognizedBy }),
+        url: absoluteUrl(`/${locale}/education#${item.id}`),
+      };
+    });
+  return [...degrees, ...certifications];
 }
 
 /**
@@ -41,6 +88,7 @@ export function personJsonLd(locale: Locale) {
         .filter((name) => name !== undefined)
     ),
   ];
+  const hasCredential = credentials(locale);
   return {
     "@type": "Person",
     "@id": PERSON_ID,
@@ -59,6 +107,7 @@ export function personJsonLd(locale: Locale) {
     ...(profile.photo !== undefined && { image: absoluteUrl(profile.photo) }),
     ...(profile.location !== undefined && { homeLocation: { "@type": "Place", name: profile.location } }),
     ...(knowsAbout.length > 0 && { knowsAbout }),
+    ...(hasCredential.length > 0 && { hasCredential }),
     sameAs: profile.links.filter((link) => link.kind === "profile").map((link) => link.url),
   };
 }
@@ -84,6 +133,27 @@ export function websiteJsonLd(locale: Locale) {
 /** The home page: the site and the person it is about, as one graph. */
 export function homeJsonLd(locale: Locale) {
   return { "@context": "https://schema.org", "@graph": [websiteJsonLd(locale), personJsonLd(locale)] };
+}
+
+/**
+ * A page about the person that changes over time (/now, /next): its
+ * dateModified is the date the page shows, so machines and readers agree.
+ */
+export function datedPageJsonLd(
+  locale: Locale,
+  { path, name, description, dateModified }: { path: string; name: string; description: string; dateModified: string }
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: absoluteUrl(`/${locale}${path}`),
+    name,
+    description,
+    inLanguage: languageTag(locale),
+    dateModified,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": PERSON_ID },
+  };
 }
 
 /** The About page is a profile page in Google's sense: its main entity is the person. */
