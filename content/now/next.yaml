@@ -1,0 +1,11 @@
+# What comes next (ADR 0011): plans, not promises. Shown at /next, linked from /now.
+#
+# OWNER: review and extend this seed. It holds only the plan you stated on 2026-11-23
+# ("publicar algo (um pacote ou flake Nix) para a comunidade"). Bump `updatedAt` whenever
+# you change the list; it is the date the page shows.
+updatedAt: 2026-11-23
+items:
+  en-us:
+    - Publish a Nix package or flake for the community
+  pt-br:
+    - Publicar algo (um pacote ou flake Nix) para a comunidade

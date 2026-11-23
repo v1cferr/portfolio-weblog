@@ -1,0 +1,16 @@
+# The "now" log (ADR 0011): one file per update, named after its day. Newest first everywhere.
+#
+# OWNER: review and extend this seed. It holds only what you stated on 2026-11-23. The
+# current role, the active projects and the latest post are NOT written here: the site
+# derives them from the career, projects and weblog when it is built, and shows them under
+# the newest update. Add a `note:` (a short handwritten intro, en-us and pt-br) and a
+# `place:` when you want them.
+#
+# A new update is a new file (content/now/<YYYY-MM-DD>.yaml); keep the old ones as the log.
+# After 90 days without one, the home card turns muted and says how old it is.
+date: 2026-11-23
+items:
+  en-us:
+    - "Writing on the weblog: moving from Arch Linux to NixOS"
+  pt-br:
+    - "Escrevendo no weblog: a migração do Arch Linux para o NixOS"
