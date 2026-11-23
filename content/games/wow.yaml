@@ -1,0 +1,136 @@
+# The World of Warcraft page (/wow, ADR 0015).
+#
+# characters: written by `pnpm wow:sync` (docs/guides/wow.md), which logs in to
+# Battle.net once on the owner's machine and merges what it finds here. Edit
+# `live`, `main`, `note`, `visibility` and `armoryUrl` by hand; the sync keeps
+# them. The site refreshes each character with live: true from Battle.net once
+# a day and falls back to what this file says.
+#
+# Empty until the first sync: the page shows an empty state, never made-up
+# characters.
+characters: []
+
+# Mounts the owner is after; linked on Wowhead, no hotlinked images.
+wishlist:
+  - wowheadItem: 210061
+    name:
+      en-us: Reins of Anu'relos, Flame's Guidance
+      pt-br: Rédeas de Anurelos, Guia das Chamas
+    note:
+      en-us: The flaming dream owl.
+      pt-br: Montaria flamejante dos sonhos.
+
+# The add-ons come from the dotfiles, where Nix packages them; the page reads
+# the list at runtime, so a new add-on shows up without touching this file.
+# Groups only arrange it: an add-on in no group is listed under "Other".
+addons:
+  sources: https://raw.githubusercontent.com/v1cferr/dotfiles/main/pkgs/wow-addons/sources.json
+  package: https://github.com/v1cferr/dotfiles/tree/main/pkgs/wow-addons
+  groups:
+    - id: interface
+      title:
+        en-us: Interface
+        pt-br: Interface
+      addons:
+        - leatrix-plus
+        - openmap
+        - glowing-bars
+        - prettytooltip
+        - dialogueui
+        - blizzmove
+        - minimapbuttonbutton
+        - easy-experience-bar
+        - panorama-forever
+        - simple-addon-manager
+    - id: quests
+      title:
+        en-us: Quests and leveling
+        pt-br: Missões e evolução
+      addons:
+        - questie
+        - remove-questie
+        - polestar
+        - forever-loot-sparkles
+        - auto-spell-ranks
+        - happy-camper
+        - layer-swap
+    - id: combat
+      title:
+        en-us: Combat and dungeons
+        pt-br: Combate e masmorras
+      addons:
+        - dbm
+        - dbm-vanilla
+        - details
+        - gtfo
+        - battletext-forever
+        - oneforall
+        - spy
+    - id: gear
+      title:
+        en-us: Bags, gear and economy
+        pt-br: Bolsas, equipamento e economia
+      addons:
+        - baganator
+        - syndicator
+        - auctionator
+        - pawn
+        - simple-item-levels
+        - tacotip
+        - keep-or-toss
+        - dejunk
+        - mastercraft
+    - id: spoken
+      title:
+        en-us: Voice-over in pt-BR and immersion
+        pt-br: Dublagem em pt-BR e imersão
+      addons:
+        - spoken
+        - spoken-ptbr-quests-shared
+        - spoken-ptbr-quests-alliance
+        - spoken-ptbr-quests-horde
+        - spoken-ptbr-gossip
+        - spoken-ptbr-readables
+        - spoken-ptbr-places
+        - spoken-ptbr-bosses
+        - skald
+        - forever-immersion
+        - fame
+    - id: social
+      title:
+        en-us: Chat and groups
+        pt-br: Chat e grupos
+      addons:
+        - prat
+        - wim
+        - chat-translator
+        - social-diary
+        - guildos
+        - lfg-forever
+        - lfg-bulletin-board
+    - id: tools
+      title:
+        en-us: Error reporting
+        pt-br: Relato de erros
+      addons:
+        - bugsack
+        - buggrabber
+  names:
+    dbm: Deadly Boss Mods
+    dbm-vanilla: DBM Vanilla
+    spoken-ptbr-quests-shared: Spoken pt-BR · quests
+    spoken-ptbr-quests-alliance: Spoken pt-BR · Alliance quests
+    spoken-ptbr-quests-horde: Spoken pt-BR · Horde quests
+    spoken-ptbr-gossip: Spoken pt-BR · gossip
+    spoken-ptbr-readables: Spoken pt-BR · readables
+    spoken-ptbr-places: Spoken pt-BR · places
+    spoken-ptbr-bosses: Spoken pt-BR · bosses
+    fame: Forever Ambient Music Extended
+    social-diary: Social Diary
+    wim: WIM (WoW Instant Messenger)
+    leatrix-plus: Leatrix Plus
+    details: Details! Damage Meter
+    buggrabber: BugGrabber
+    lfg-bulletin-board: LFG Bulletin Board
+    easy-experience-bar: Easy Experience Bar
+    prettytooltip: PrettyTooltip

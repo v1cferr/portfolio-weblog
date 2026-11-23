@@ -7,3 +7,4 @@ export * from "./profile";
 export * from "./project";
 export * from "./setup";
 export * from "./taxonomy";
+export * from "./wow";
