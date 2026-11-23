@@ -1,0 +1,161 @@
+---
+title: From Arch Linux to NixOS
+summary:
+  I kept trying to make my Arch declarative, and it kept getting worse. How I
+  rebuilt my workstation from scratch in Nix, piece by piece, and why I don't
+  plan to switch again.
+status: published
+publishedAt: 2026-11-23
+category: infrastructure
+tags: [nixos, arch-linux, dotfiles, migration]
+projects: [dotfiles]
+technologies: [nix, nixos, bash]
+---
+
+I've used Linux since around 2022. I started on Linux Mint, moved to Ubuntu,
+reached Arch in early 2024 and, in July 2026, NixOS. This time it's for good: my
+whole infrastructure is in Nix now, and I like it that way.
+
+This post is about that last move. Almost everything here has a commit behind it
+in the [v1cferr/dotfiles](https://github.com/v1cferr/dotfiles) repository.
+
+## Why I left an Arch that worked
+
+Arch worked. The problem was something else: I was already trying to make it
+**declarative**. Since August 2025 I had kept a dotfiles repository with
+Hyprland, Waybar and zsh, managed with `stow`
+([first commit](https://github.com/v1cferr/dotfiles/commit/7e747854)). The idea
+was to describe my system in files and recreate it whenever I needed.
+
+But it kept getting worse. There was a lot of _config drift_: what was in the
+repository and what was actually on the machine drifted apart over time. It was
+awful to maintain. And there was no easy way to install exactly my system on
+another machine.
+
+When I went looking for a way out, I found NixOS, and the way it works,
+genuinely declarative, helps a lot. The decision was mine: I had been studying
+NixOS for a while. In July 2026 I wrote the migration plan
+([`NIXOS-MIGRATION.md`](https://github.com/v1cferr/dotfiles/blob/nix-flake-skeleton/NIXOS-MIGRATION.md),
+in Portuguese), put together with Claude Code's help. That day's Arch inventory
+showed how big the thing was:
+
+- 222 days on that install;
+- 1,566 packages, 35 of them from the AUR;
+- Hyprland with Quickshell, and 16 Docker containers serving my `*.v1cferr.dev`.
+
+The plan's diagnosis summed up what I felt: the setup was already "a manual,
+imperative reimplementation of NixOS".
+
+## Safety net first
+
+Before touching anything, I kept the past. The nearly 500 commits of the Arch
+era live in tags in the same repository, such as `archive/arch-final`.
+
+That same week I found out one of my NVMe drives, a Netac, was dying. I rescued
+its data, 27 GB, with zero loss
+([commit](https://github.com/v1cferr/dotfiles/commit/5cb4f7a6)).
+
+## From scratch, for real
+
+I wanted to start from zero on a new distro. So I began with the minimal NixOS
+ISO and a literally empty repository: on July 16, 2026 I reset the history
+([`chore!: reset history`](https://github.com/v1cferr/dotfiles/commit/79f5d4a5))
+and built it up piece by piece, until it was exactly the way I wanted.
+
+The first step was a single flake holding the system and Home Manager together
+([commit](https://github.com/v1cferr/dotfiles/commit/60950c75)): one `rebuild`
+applies both.
+
+## Three disks, one flake
+
+The migration went through three disks before reaching its final home:
+
+1. A Seagate HDD, where the first version was born.
+2. A SanDisk SSD, with its partitioning already declared in
+   [disko](https://github.com/nix-community/disko)
+   ([commit](https://github.com/v1cferr/dotfiles/commit/45455b58)). On July 22,
+   the cutover script left the repository with the message "migração
+   Arch→SanDisk concluída" (Arch→SanDisk migration done)
+   ([commit](https://github.com/v1cferr/dotfiles/commit/be6d2f04)).
+3. The Kingston NVMe that used to hold Arch, formatted with btrfs on August 1
+   ([commit](https://github.com/v1cferr/dotfiles/commit/1438a965)).
+
+With the partitioning declared in disko, every disk swap is written down in the
+repository itself. The data came over through restic backups.
+
+## The desktop back, piece by piece
+
+I went quickly through GNOME and XFCE before landing on Hyprland
+([commit](https://github.com/v1cferr/dotfiles/commit/33e21dfc)), now configured
+in Lua ([commit](https://github.com/v1cferr/dotfiles/commit/7d55bb01)), with the
+Quickshell bar brought over from Arch
+([commit](https://github.com/v1cferr/dotfiles/commit/174108b5)).
+
+A few problems that turned into lessons:
+
+- **Monitors on Wayland:** the TV's connector was `HDMI-A-1`, not `HDMI-1`
+  ([commit](https://github.com/v1cferr/dotfiles/commit/ab12501d)).
+- **Dark Qt theme:** Dolphin stayed light until I pinned `QT_QPA_PLATFORMTHEME`
+  in Hyprland's environment
+  ([commit](https://github.com/v1cferr/dotfiles/commit/f6e96342)).
+- **VS Code keyring:** under Hyprland it doesn't detect `gnome-libsecret` on its
+  own ([commit](https://github.com/v1cferr/dotfiles/commit/933bd2a7)).
+
+## Secrets done right
+
+Passwords and keys live in [sops-nix](https://github.com/Mic92/sops-nix),
+encrypted with age
+([commit](https://github.com/v1cferr/dotfiles/commit/27ecea31)). The source of
+truth is Bitwarden, and a `sync-secrets` command brings them into the repository
+([commit](https://github.com/v1cferr/dotfiles/commit/c5ff005a)). Later I added a
+second age key, so there is no single point of failure
+([commit](https://github.com/v1cferr/dotfiles/commit/f738005f)).
+
+## The GPU swap
+
+On July 24 I swapped the RTX 3050 for an Intel Arc B580
+([commit](https://github.com/v1cferr/dotfiles/commit/4ba13014)). It had to do
+with Linux in general: NVIDIA's proprietary driver was always the sore point,
+and the Arc runs on an open driver. The 3050 was also too weak for the QHD
+monitor I use now, a 180 Hz ASUS ROG Strix XG27ACS (the rest is in
+[my setup](/en-us/setup)).
+
+The Arc brought two lessons: a hang on reboot, fixed with `reboot=pci`
+([commit](https://github.com/v1cferr/dotfiles/commit/59c26ce2)), and the rule
+that Intel's media driver can't come from a newer channel than libva, or video
+silently falls back to the CPU.
+
+## Measuring "done"
+
+To know when the migration was over, I ran a parity audit across 53 Arch
+configuration areas
+([arch-parity-audit.md](https://github.com/v1cferr/dotfiles/blob/main/docs/arch-parity-audit.md)).
+On August 5 I closed the Arch chapter: the old home is kept in a 44.6 GiB restic
+backup, checked with no errors
+([commit](https://github.com/v1cferr/dotfiles/commit/dd7af239)). On October 13 I
+declared the migration complete.
+
+## What the repository became
+
+Today the same flake describes more than my main machine: a ThinkPad T480s
+laptop, the router and even my phone. Putting exactly my system on the T480s,
+with the same window manager, icons and themes, was very easy, and that is what
+I never managed on Arch.
+
+Every commit goes through `nix flake check` in CI, decisions become ADRs, and
+everything is documented at
+[dotfiles.v1cferr.dev](https://dotfiles.v1cferr.dev).
+
+## What I miss, and what comes next
+
+Honestly? Maybe how easy the AUR was, always with the newest packages. On NixOS,
+if a package isn't in the `unstable` channel, packaging it, writing its flake
+and keeping it versioned takes work.
+
+But that became part of the path too. On Arch I already maintained AUR packages
+([perssua](https://aur.archlinux.org/packages/perssua) and
+[spider-git](https://aur.archlinux.org/packages/spider-git)); on NixOS I
+maintain my own packages and flakes, about 22 of them in `pkgs/` today. The next
+step is to publish something for the community.
+
+And the system won't stop evolving, because neither will I.
