@@ -18,7 +18,7 @@ const tree = () =>
     "projects/wip.yaml": project({ id: "wip", title: "WIP", status: "draft" }),
     "projects/hidden.yaml": project({ id: "hidden", title: "Hidden", visibility: "private" }),
     "projects/dated.yaml": project({ id: "dated", title: "Dated", startedAt: "2020-02" }),
-    "weblog/hello/en-us.mdx": post({
+    "weblog/2026/10/hello/en-us.mdx": post({
       title: "Hello",
       summary: "S",
       status: "published",
@@ -26,8 +26,14 @@ const tree = () =>
       category: "journal",
       projects: ["hub", "wip"],
     }),
-    "weblog/hello/pt-br.mdx": post({ title: "Olá", summary: "S", status: "published", publishedAt: "2026-10-01", category: "journal" }),
-    "weblog/draft-post/en-us.mdx": post({ title: "Draft", summary: "S", status: "draft", category: "journal" }),
+    "weblog/2026/10/hello/pt-br.mdx": post({
+      title: "Olá",
+      summary: "S",
+      status: "published",
+      publishedAt: "2026-10-01",
+      category: "journal",
+    }),
+    "weblog/2026/10/draft-post/en-us.mdx": post({ title: "Draft", summary: "S", status: "draft", category: "journal" }),
   });
 
 describe("public registry", () => {
@@ -64,6 +70,14 @@ describe("public registry", () => {
   it("points each visible entity at its source file", () => {
     expect(registry.getSourceFile("hub")).toBe("projects/hub.yaml");
     expect(registry.getSourceFile("wip")).toBeUndefined();
+  });
+
+  it("keeps the slug as the post id, apart from its dated folder", () => {
+    const hello = registry.getPost("hello", "en-us");
+    expect(hello?.slug).toBe("hello");
+    expect(hello?.dir).toBe("weblog/2026/10/hello");
+    expect(hello?.folderDate).toBe("2026-10");
+    expect(hello?.file).toBe("weblog/2026/10/hello/en-us.mdx");
   });
 
   it("orders experiences by their latest position", () => {
