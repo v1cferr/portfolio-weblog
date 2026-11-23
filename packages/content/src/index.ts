@@ -5,6 +5,7 @@ export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type R
 export * from "./locale";
 export { checkMedia, collectMedia, type MediaReference } from "./media";
 export * from "./now/now";
+export * from "./studies";
 export type { EntityRef, EntityType } from "./relations/graph";
 export { validateContent, type ValidationResult } from "./relations/validate";
 export * from "./registry/registry";

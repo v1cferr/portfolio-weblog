@@ -29,6 +29,8 @@ export const Certification = z.strictObject({
   issuedAt: PartialDate,
   expiresAt: PartialDate.optional(),
   credentialUrl: z.url().optional(),
+  /** One of the few credentials worth showing on the home page; the Studies page lists them all. */
+  featured: z.boolean().default(false),
   technologies: z.array(Id).default([]),
 });
 export type Certification = z.infer<typeof Certification>;
