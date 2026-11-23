@@ -7,6 +7,12 @@ import { languageTag } from "./i18n";
 
 export const SITE_NAME = "v1cferr.dev";
 
+/**
+ * The id of the one card every opengraph-image route returns from
+ * generateImageMetadata, so a card lives at <route>/opengraph-image/card.
+ */
+export const OG_IMAGE_ID = "card";
+
 /** Alt text of the site card, app/[locale]/opengraph-image.tsx. */
 export const SITE_IMAGE_ALT = "Victor Ferreira (v1cferr), personal hub at v1cferr.dev";
 
