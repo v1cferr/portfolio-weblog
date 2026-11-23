@@ -23,6 +23,8 @@ const SECTION_CASES = [
   { path: "/pt-br/education", title: "Estudos" },
   { path: "/en-us/about", title: "About" },
   { path: "/pt-br/setup", title: "Setup" },
+  { path: "/en-us/now", title: "Now" },
+  { path: "/pt-br/next", title: "Próximos passos" },
 ];
 
 function metaOf(page: Page) {
