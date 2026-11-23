@@ -80,6 +80,7 @@
     "skill": "Skill"
   },
   "Home": {
+    "stack": "Daily stack",
     "trajectory": "How I got here",
     "focus": "Working on",
     "featured": "Selected projects",
