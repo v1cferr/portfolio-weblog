@@ -1,9 +1,10 @@
 # Workstation, migrated from v1 src/data/SetupData.ts (text kept in pt-br as
 # written; other locales show it with a "not translated" notice). The photo
 # history is not migrated: most photos carry GPS EXIF data.
-# updatedAt: the latest change recorded in v1 (GPU swap, 2026-07).
+# updatedAt: the latest change recorded in v1 (GPU swap, 2026-07); monitors updated on
+# 2026-11-23 from the workstation itself (fastfetch, dotfiles hosts/ex-b560m-v5/hardware.nix).
 id: setup
-updatedAt: 2026-07
+updatedAt: 2026-11
 groups:
   - id: components
     title:
@@ -96,13 +97,13 @@ groups:
         url: https://pt.aliexpress.com/item/1005006079931969.html
       - role:
           pt-br: Monitor principal
+        model: ASUS ROG Strix XG27ACS 27" QHD (2560x1440), 180Hz, Fast IPS
+        url: https://rog.asus.com/monitors/27-to-31-5-inches/rog-strix-xg27acs/
+      - role:
+          pt-br: Monitor secundário (na vertical)
         model: Monitor Gamer LG UltraGear 27 Full HD, 144Hz, 1ms, IPS, HDMI e DisplayPort, HDR 10, 99% sRGB, FreeSync Premium,
           VESA - 27GN65R
         url: https://www.lg.com/br/monitores/monitores-ultragear/27gn65r-b/
-      - role:
-          pt-br: Monitor secundário
-        model: Monitor AOC 21.5" 22B1H Led Full HD
-        url: https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ
   - id: planned
     title:
       pt-br: Possíveis upgrades
@@ -115,6 +116,11 @@ groups:
     title:
       pt-br: Peças aposentadas
     items:
+      - role:
+          pt-br: Monitor secundário
+        model: Monitor AOC 21.5" 22B1H Led Full HD
+        url: https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ
+        since: 2021-11
       - role:
           pt-br: Water Cooler
         model: Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB
