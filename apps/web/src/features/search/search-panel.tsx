@@ -12,7 +12,7 @@ import { useRouter } from "@/i18n/navigation";
 type Hit = Pick<SearchDocument, "id" | "entityId" | "type" | "title" | "url" | "excerpt">;
 type State = { status: "loading" | "error" } | { status: "ready"; index: MiniSearch<SearchDocument> };
 
-const GROUP_ORDER: SearchEntityType[] = ["experience", "project", "post", "education", "certification", "technology"];
+const GROUP_ORDER: SearchEntityType[] = ["experience", "project", "post", "education", "certification", "technology", "page"];
 
 /**
  * The search dialog itself. Loaded only after the first open (see

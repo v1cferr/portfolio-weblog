@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { languageTag } from "@/lib/i18n";
+import { getNow } from "@/lib/now";
 import { absoluteUrl } from "@/lib/site";
 
 const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup"];
@@ -36,5 +37,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
   });
 
-  return [...pages, ...posts];
+  // The now log and the plans carry the date they show, like a post's updatedAt.
+  const now = getNow();
+  const latest = now.entries[0];
+  const dated = [
+    ...(latest !== undefined ? [{ ...everyLocale("/now"), lastModified: latest.date }] : []),
+    ...(now.next !== undefined ? [{ ...everyLocale("/next"), lastModified: now.next.updatedAt }] : []),
+  ];
+
+  return [...pages, ...dated, ...posts];
 }

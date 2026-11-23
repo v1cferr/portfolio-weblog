@@ -41,12 +41,15 @@ export type ExplorerNode = ExplorerFile | ExplorerFolder;
  */
 export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder> {
   const content = getContent();
-  const nav = await getTranslations({ locale, namespace: "Nav" });
+  const [nav, footer] = await Promise.all([
+    getTranslations({ locale, namespace: "Nav" }),
+    getTranslations({ locale, namespace: "Footer" }),
+  ]);
   const index = (href: string, label: string): ExplorerFile => ({ kind: "file", name: "index", label, href, icon: "page" });
-  const page = (key: "about" | "education" | "setup" | "timeline"): ExplorerFile => ({
+  const page = (key: "about" | "education" | "setup" | "timeline" | "now" | "next"): ExplorerFile => ({
     kind: "file",
     name: key,
-    label: nav(key),
+    label: key === "now" || key === "next" ? footer(key) : nav(key),
     href: `/${key}`,
     icon: "page",
   });
@@ -137,6 +140,17 @@ export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder>
     kind: "folder",
     name: "~",
     path: "~",
-    children: [index("/", nav("home")), page("about"), career, page("education"), projects, page("setup"), page("timeline"), weblog],
+    children: [
+      index("/", nav("home")),
+      page("about"),
+      career,
+      page("education"),
+      page("next"),
+      page("now"),
+      projects,
+      page("setup"),
+      page("timeline"),
+      weblog,
+    ],
   };
 }
