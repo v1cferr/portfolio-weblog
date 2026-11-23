@@ -10,17 +10,31 @@ aliases: [V1C]
 location: São Carlos, SP, Brazil
 photo: /images/profile.jpg
 
+# Home hero, chosen by the owner on 2026-11-23 from their LinkedIn headline ("AI Systems
+# Analyst | AI Engineering • LLMOps • RAG/GraphRAG • Agents | Python/FastAPI •
+# TypeScript/React • Nix/NixOS") plus what they do in practice: local models, MCP,
+# schema-defined output, and models that classify or route. The hero names the role
+# only, not the employer; the career entries show where.
+# Kept in English in every locale, as on LinkedIn (pages mark it lang="en-us").
 headline:
-  en-us: AI systems analyst at FAI·UFSCar
-  pt-br: Analista de sistemas de IA na FAI·UFSCar
+  en-us: AI Systems Analyst
+
+specialties: [AI Engineering, LLMOps, RAG/GraphRAG, Agents, MCP, Local LLMs, Structured outputs]
+
+stack:
+  - { label: Python/FastAPI, technologies: [python, fastapi] }
+  - { label: TypeScript/React, technologies: [typescript, react] }
+  - { label: Nix/NixOS, technologies: [nix, nixos] }
 
 summary:
   en-us: >-
-    AI engineering, LLMOps, RAG and GraphRAG, and agents. I build with Python and FastAPI,
-    TypeScript and React, and keep my infrastructure declarative with Nix and NixOS.
+    I take AI from prototype to production: local and hosted models, answers that cite their
+    sources, schema-validated outputs, and models that classify and route before anything is
+    generated. All on reproducible infrastructure.
   pt-br: >-
-    Engenharia de IA, LLMOps, RAG e GraphRAG, e agentes. Construo com Python e FastAPI,
-    TypeScript e React, e mantenho minha infraestrutura declarativa com Nix e NixOS.
+    Levo IA do protótipo à produção: modelos locais e via API, respostas que citam as fontes,
+    saídas validadas por schema e modelos que classificam e roteiam antes de gerar. Tudo sobre
+    infraestrutura reproduzível.
 
 about:
   en-us:

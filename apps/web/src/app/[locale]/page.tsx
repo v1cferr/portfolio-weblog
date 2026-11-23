@@ -8,6 +8,7 @@ import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { V1cLogo } from "@/components/v1c-logo";
 import { Avatar } from "@/features/profile/avatar";
+import { StackChips } from "@/features/profile/stack-chips";
 import { SectionHeading, StorePath } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
 import { Trajectory } from "@/features/profile/trajectory";
@@ -85,6 +86,13 @@ export default async function HomePage() {
                 {headline.value}
               </span>
             </h1>
+            {/* Role, areas and daily stack only; where the owner works shows in the trajectory and career. */}
+            {profile.specialties.length > 0 && (
+              <p className="max-w-2xl font-mono text-sm text-balance text-muted-foreground" lang="en-us">
+                {profile.specialties.join(" · ")}
+              </p>
+            )}
+            <StackChips stack={profile.stack} label={t("stack")} />
             <p className="max-w-2xl text-lg text-pretty" lang={summary.locale}>
               {summary.value}
             </p>
@@ -93,7 +101,7 @@ export default async function HomePage() {
           {profile.photo !== undefined && (
             // Shown at every width: phones get the same photo (and its alt text) as desktop, which is
             // what mobile-first indexing reads, and a priority image is never preloaded only to stay hidden.
-            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="max-md:w-72 lg:w-[30rem]" />
+            <Avatar name={profile.name} caption="victor@hub:~$ whoami" priority className="max-md:w-72 lg:w-[24rem]" />
           )}
         </section>
 

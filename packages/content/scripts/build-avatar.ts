@@ -3,15 +3,16 @@
  *
  *   pnpm avatar:build
  *
- * Input: apps/web/public/images/hero.jpg (the owner beside the FAI·UFSCar
- * sign, cropped and with the ID badge blurred; no metadata).
+ * Input: apps/web/public/images/hero.jpg (the owner alone, head to waist,
+ * cut from a team photo on 2026-11-23 with the ID badge blurred; no
+ * metadata).
  * Output: apps/web/src/generated/avatar-ascii.ts, one grid per theme. The
  * page renders it as SVG text and reveals the photo through a lens around
  * the pointer (features/profile/avatar.tsx).
  *
  * Chosen on 2026-11-22 from a side-by-side comparison: monochrome glyphs in
- * the theme's ink, colour only where the photo is vivid (the FAI logo and the
- * red "inovação"), 120 columns.
+ * the theme's ink, colour only where the photo is vivid (the lanyard), 120
+ * columns.
  */
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -33,7 +34,9 @@ const rows = Math.round(COLUMNS * (height / width) * CELL_ASPECT);
 const rgb = await sharp(photo).removeAlpha().resize(COLUMNS, rows, { fit: "fill", kernel: "lanczos3" }).raw().toBuffer();
 
 const grids = {
-  light: asciiArt(rgb, COLUMNS, rows, { theme: "light" }),
+  // This photo is mostly a black jacket on a grey wall: a gentler light curve keeps the face from
+  // drowning in ink (chosen 2026-11-23; the default 1.15 suited the old, white-sign photo).
+  light: asciiArt(rgb, COLUMNS, rows, { theme: "light", gamma: 0.9 }),
   dark: asciiArt(rgb, COLUMNS, rows, { theme: "dark" }),
 };
 

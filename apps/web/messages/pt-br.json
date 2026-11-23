@@ -80,6 +80,7 @@
     "skill": "Competência"
   },
   "Home": {
+    "stack": "Stack do dia a dia",
     "trajectory": "Como cheguei aqui",
     "focus": "Trabalhando em",
     "featured": "Projetos selecionados",

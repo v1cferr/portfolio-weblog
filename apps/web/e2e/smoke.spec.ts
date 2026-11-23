@@ -133,6 +133,22 @@ test.describe("glass header", () => {
   });
 });
 
+test.describe("hero identity", () => {
+  // The hero names the role, areas and daily stack only; the employer shows in the trajectory and career.
+  test("shows the role and the stack, not the employer", async ({ page }) => {
+    await page.goto("/pt-br");
+    const hero = page.locator("main section").first();
+    await expect(hero.getByText("AI Systems Analyst", { exact: true })).toBeVisible();
+    await expect(hero.getByText(/LLMOps · RAG\/GraphRAG/)).toBeVisible();
+    await expect(hero.getByRole("list", { name: "Stack do dia a dia" }).getByRole("listitem")).toHaveText([
+      "Python/FastAPI",
+      "TypeScript/React",
+      "Nix/NixOS",
+    ]);
+    await expect(hero).not.toContainText("FAI");
+  });
+});
+
 test.describe("hero signatures", () => {
   // The V1C mark and the NixOS logo sit behind the hero text on opposite corners; the text column
   // shrinks as the avatar takes its share, so they must not stack at any common width.
