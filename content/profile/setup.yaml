@@ -248,6 +248,18 @@ photos:
     caption:
       en-us: "The lock screen on Arch, a month before the move to NixOS."
       pt-br: "A tela de bloqueio no Arch, um mês antes da mudança para o NixOS."
+  # A screenshot with no EXIF; the date is the one fastfetch prints on it
+  # ("07-05-2026", day first: its 157-day install age matches the 222 days
+  # the migration plan counted in July). A LinkedIn component key in the
+  # devtools and a "now playing" line naming a chat app are blurred.
+  - src: /setup/20260507.webp
+    date: 2026-05-07
+    alt:
+      en-us: "Ultrawide screenshot of the Arch desktop: mpv playing music videos, browser devtools and a fastfetch-style summary of Arch Linux with Hyprland on a GeForce RTX 3050"
+      pt-br: "Captura ultrawide do desktop no Arch: mpv tocando clipes, as ferramentas de desenvolvedor do navegador e um resumo no estilo fastfetch do Arch Linux com Hyprland numa GeForce RTX 3050"
+    caption:
+      en-us: "The Arch desktop across both monitors, still with the RTX 3050."
+      pt-br: "O desktop do Arch nos dois monitores, ainda com a RTX 3050."
   - src: /setup/20251112.webp
     date: 2025-11-12
     alt:
