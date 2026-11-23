@@ -1,0 +1,137 @@
+import { contentWords, type RetrievedPassage } from "@workspace/search";
+import { z } from "zod";
+
+/**
+ * Grounding enforced in code (ADR 0011): the model must answer in a fixed
+ * JSON shape where every sentence names the numbered passages it comes from,
+ * and the server keeps only the sentences that pass every check below. The
+ * prompt asks for the same, but nothing here trusts it.
+ */
+
+export const MAX_SENTENCES = 6;
+export const MAX_SENTENCE_LENGTH = 300;
+
+/**
+ * Share of a sentence's content words that must appear in the passages it
+ * cites. Tuned with the `faithfulness` cases of apps/web/evals/profile-chat.yaml
+ * (2026-11-23): grounded paraphrases score 0.88 and up, invented claims 0.38
+ * and below; 0.6 leaves room on both sides.
+ */
+export const FAITHFULNESS_THRESHOLD = 0.6;
+
+/** Sent as `response_format.json_schema.schema`. Lengths and counts are enforced here, not left to the provider. */
+export const ANSWER_SCHEMA = {
+  type: "object",
+  properties: {
+    answerable: { type: "boolean", description: "False when the passages do not answer the question." },
+    sentences: {
+      type: "array",
+      description: `At most ${String(MAX_SENTENCES)} short sentences, each backed by the passages it cites.`,
+      items: {
+        type: "object",
+        properties: {
+          text: { type: "string", description: `One sentence, at most ${String(MAX_SENTENCE_LENGTH)} characters.` },
+          sources: { type: "array", description: "Numbers of the passages this sentence comes from.", items: { type: "integer" } },
+        },
+        required: ["text", "sources"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ["answerable", "sentences"],
+  additionalProperties: false,
+} as const;
+
+const ModelAnswer = z.object({
+  answerable: z.boolean(),
+  sentences: z.array(z.object({ text: z.string(), sources: z.array(z.number()) })),
+});
+
+export interface GroundedSentence {
+  text: string;
+  /** 0-based indexes into the passages sent to the model. */
+  passages: number[];
+}
+
+export type DropReason = "no-sources" | "bad-source" | "empty" | "unfaithful";
+
+export interface GroundingResult {
+  answerable: boolean;
+  sentences: GroundedSentence[];
+  dropped: DropReason[];
+}
+
+/** Parses the model's message, tolerating a ```json fence around it. Null when it is not the expected shape. */
+export function parseModelAnswer(content: string): z.infer<typeof ModelAnswer> | null {
+  const text = content
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/, "");
+  try {
+    const parsed = ModelAnswer.safeParse(JSON.parse(text));
+    return parsed.success ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Removes links, URLs and Markdown the model may have written: sentences are plain text, links come from the source cards. */
+export function plainText(text: string): string {
+  return text
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\b(?:https?:\/\/|www\.)\S+/gi, " ")
+    .replace(/\[\d+(?:\s*,\s*\d+)*\]/g, " ")
+    .replace(/[*_`#>|]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Two words match when equal, or when they share a 5-letter stem ("build" and "built" do not; "projeto" and "projetos" do). */
+function matches(word: string, vocabulary: Set<string>, stems: Set<string>): boolean {
+  return vocabulary.has(word) || (word.length >= 5 && stems.has(word.slice(0, 5)));
+}
+
+/** Share of the sentence's content words found in the passages (1 when it has none to check). */
+export function faithfulness(sentence: string, passages: readonly Pick<RetrievedPassage, "title" | "text" | "keywords">[]): number {
+  const words = contentWords(sentence);
+  if (words.length === 0) return 1;
+  const vocabulary = new Set(passages.flatMap((passage) => contentWords(`${passage.title} ${passage.keywords} ${passage.text}`)));
+  const stems = new Set([...vocabulary].filter((word) => word.length >= 5).map((word) => word.slice(0, 5)));
+  return words.filter((word) => matches(word, vocabulary, stems)).length / words.length;
+}
+
+/**
+ * Keeps the sentences that cite at least one passage, cite only passages
+ * that were sent (1..n), are plain text once links and Markdown are gone,
+ * and stay close to the passages they cite.
+ */
+export function groundAnswer(content: string, passages: readonly RetrievedPassage[]): GroundingResult | null {
+  const answer = parseModelAnswer(content);
+  if (answer === null) return null;
+  const dropped: DropReason[] = [];
+  const sentences: GroundedSentence[] = [];
+  for (const sentence of answer.sentences.slice(0, MAX_SENTENCES)) {
+    if (sentence.sources.length === 0) {
+      dropped.push("no-sources");
+      continue;
+    }
+    if (sentence.sources.some((id) => !Number.isInteger(id) || id < 1 || id > passages.length)) {
+      dropped.push("bad-source");
+      continue;
+    }
+    const text = plainText(sentence.text).slice(0, MAX_SENTENCE_LENGTH);
+    if (text.length < 2) {
+      dropped.push("empty");
+      continue;
+    }
+    const cited = [...new Set(sentence.sources)].map((id) => id - 1);
+    const sources = cited.flatMap((index) => (passages[index] ? [passages[index]] : []));
+    if (faithfulness(text, sources) < FAITHFULNESS_THRESHOLD) {
+      dropped.push("unfaithful");
+      continue;
+    }
+    sentences.push({ text, passages: cited });
+  }
+  return { answerable: answer.answerable, sentences: answer.answerable ? sentences : [], dropped };
+}

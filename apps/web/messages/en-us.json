@@ -55,6 +55,57 @@
       "page": "Page"
     }
   },
+  "Ask": {
+    "open": "Ask",
+    "openLabel": "Ask about Victor",
+    "tab": "Ask",
+    "searchTab": "Search",
+    "modes": "Search or ask",
+    "close": "Close",
+    "title": "Ask about Victor",
+    "description": "Answers come only from this site's pages, with links to them.",
+    "placeholder": "Ask about Victor's work…",
+    "submit": "Ask",
+    "stop": "Stop",
+    "clear": "New conversation",
+    "counter": "{count} of {max} characters",
+    "suggestionsTitle": "Try asking",
+    "suggestions": [
+      "What is Victor's current role?",
+      "How does Victor use Nix?",
+      "Which RAG projects has Victor built?",
+      "What security experience does Victor have?"
+    ],
+    "you": "You asked",
+    "status": {
+      "searching": "Searching the site…",
+      "ready": "Answer ready.",
+      "noSource": "Nothing on the site answers this.",
+      "stopped": "Stopped.",
+      "error": "The answer could not be loaded."
+    },
+    "extractive": {
+      "label": "From the site's pages, no AI",
+      "unavailable": "The AI answer is not available right now, so here is what the site says.",
+      "rate-limited": "Many questions in a short time: here is what the site says instead of an AI answer.",
+      "error": "The AI answer failed, so here is what the site says.",
+      "ungrounded": "The AI answer could not be checked against the site's pages, so here is what the site says."
+    },
+    "noSource": {
+      "title": "That isn't on the site",
+      "body": "No page here answers it, and answers only come from the site's own pages. Try a search, or reach Victor through the About page.",
+      "search": "Search the site",
+      "about": "About and contact"
+    },
+    "disclosure": "AI-generated from this site's pages; may be wrong. Check the sources.",
+    "sources": "Sources",
+    "related": "Related",
+    "citation": "Source {n}",
+    "stoppedNote": "Stopped before the end.",
+    "interrupted": "The answer was cut off. Try again.",
+    "error": "Something went wrong. Try again in a moment.",
+    "privacy": "AI answers come from free third-party models via OpenRouter and are checked against this site's pages. Don't type personal data."
+  },
   "Common": {
     "present": "present",
     "now": "now",
