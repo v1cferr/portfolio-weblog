@@ -47,33 +47,36 @@ export function SearchDialog() {
 
   return (
     <>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={(event) => {
-          openIn("search", event.currentTarget);
-        }}
-        className="h-10 gap-2 px-3 text-muted-foreground lg:h-7 lg:px-2.5"
-        aria-label={t("open")}
-        aria-haspopup="dialog"
-      >
-        <SearchIcon />
-        <span className="hidden sm:inline">{t("open")}</span>
-        <Kbd className="hidden font-mono md:inline-flex">/</Kbd>
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={(event) => {
-          openIn("ask", event.currentTarget);
-        }}
-        className="h-10 gap-2 px-3 text-muted-foreground lg:h-7 lg:px-2.5"
-        aria-label={ask("openLabel")}
-        aria-haspopup="dialog"
-      >
-        <SparklesIcon />
-        <span className="hidden sm:inline">{ask("open")}</span>
-      </Button>
+      {/* On phones the two buttons join into one segmented pill, so the header still fits at 360px with the now-playing chip. */}
+      <div className="flex items-center sm:gap-1">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={(event) => {
+            openIn("search", event.currentTarget);
+          }}
+          className="h-10 gap-2 px-3 text-muted-foreground max-sm:w-[34px] max-sm:rounded-r-none max-sm:px-0 lg:h-7 lg:px-2.5"
+          aria-label={t("open")}
+          aria-haspopup="dialog"
+        >
+          <SearchIcon />
+          <span className="hidden sm:inline">{t("open")}</span>
+          <Kbd className="hidden font-mono md:inline-flex">/</Kbd>
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={(event) => {
+            openIn("ask", event.currentTarget);
+          }}
+          className="h-10 gap-2 px-3 text-muted-foreground max-sm:-ml-px max-sm:w-[34px] max-sm:rounded-l-none max-sm:px-0 lg:h-7 lg:px-2.5"
+          aria-label={ask("openLabel")}
+          aria-haspopup="dialog"
+        >
+          <SparklesIcon />
+          <span className="hidden sm:inline">{ask("open")}</span>
+        </Button>
+      </div>
       {loaded && <SearchPanel open={open} onOpenChange={setOpen} mode={mode} onModeChange={setMode} returnFocus={opener} />}
     </>
   );
