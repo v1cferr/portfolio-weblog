@@ -221,9 +221,21 @@ test.describe("languages", () => {
 
 test.describe("media", () => {
   test("entries without photos show the reserved space", async ({ page }) => {
-    await page.goto("/en-us/career/fai-ufscar-2026");
+    await page.goto("/en-us/career/vip-telecom-2023");
     await expect(page.getByTestId("media-placeholder")).toBeVisible();
     await expect(page.getByTestId("media-placeholder")).toContainText("Photos for this entry will be added soon.");
+  });
+
+  test("entries with photos show them lazily, with alt text, in reserved space", async ({ page }) => {
+    await page.goto("/en-us/career/fai-ufscar-2026");
+    await expect(page.getByTestId("media-placeholder")).toHaveCount(0);
+    const images = page.getByRole("list", { name: "Photos" }).getByRole("img");
+    await expect(images).toHaveCount(3);
+    for (const image of await images.all()) {
+      expect(await image.getAttribute("alt")).not.toBe("");
+      await expect(image).toHaveAttribute("loading", "lazy");
+    }
+    await expect(page.getByText("Internship selection result: ranked first, score 9.93.")).toBeVisible();
   });
 });
 
