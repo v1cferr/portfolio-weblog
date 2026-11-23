@@ -13,6 +13,9 @@ export async function toCardData(
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Projects")]);
   const content = getContent();
   const summary = localize(project.summary, locale);
+  // Featured cards lead with the problem, from the case study when there is one.
+  const problemText = project.featured ? (project.caseStudy?.problem ?? project.problem) : undefined;
+  const problem = problemText && localize(problemText, locale);
   return {
     id: project.id,
     title: project.title,
@@ -23,6 +26,9 @@ export async function toCardData(
     category: project.category,
     categoryLabel: t(`category.${project.category}`),
     featured: project.featured,
+    problem: problem?.value,
+    problemLocale: problem?.locale,
+    caseStudyLabel: project.caseStudy !== undefined ? t("caseStudy") : undefined,
     ...dateOf(project, repositoryCreatedAt),
     technologies: project.technologies.flatMap((id) => {
       const tech = content.getTechnology(id);

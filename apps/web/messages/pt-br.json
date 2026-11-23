@@ -186,7 +186,9 @@
     "uncurated": "Mais repositórios públicos",
     "uncuratedDescription": "Listados automaticamente do GitHub e sem curadoria: ser público não torna um repositório um destaque.",
     "fromGithub": "Do GitHub",
-    "notOnGithub": "Sem repositório público."
+    "notOnGithub": "Sem repositório público.",
+    "adrs": "ADRs",
+    "caseStudy": "Estudo de caso"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entrada} other {# entradas}}",
@@ -322,5 +324,29 @@
     "empty": "Nenhum plano publicado ainda.",
     "now": "O que estou fazendo agora",
     "items": "Planos"
+  },
+  "CaseStudy": {
+    "tldr": "Resumo",
+    "problem": "Problema",
+    "outcome": "Resultado",
+    "role": "Papel",
+    "dates": "Quando",
+    "stack": "Stack",
+    "links": "Links",
+    "motivation": "Por que eu construí",
+    "constraints": "Restrições",
+    "nonGoals": "Fora do escopo",
+    "approach": "Abordagem",
+    "decisions": "Decisões-chave",
+    "chose": "Escolhi",
+    "over": "em vez de",
+    "orSeparator": " ou ",
+    "because": "porque",
+    "cost": "Custo:",
+    "readAdr": "Ler o ADR",
+    "howBuilt": "Como foi construído",
+    "quality": "Toda mudança passa por",
+    "lessons": "O que eu mudaria",
+    "next": "Próximos passos"
   }
 }
