@@ -8,7 +8,7 @@ import { expect, type Page, test } from "@playwright/test";
 const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) < 768;
 
 /** The computed `translate` of the first "See all" arrow on the home page. */
-async function seeAllArrow(page: Page) {
+function seeAllArrow(page: Page) {
   const link = page.getByRole("link", { name: "See all" }).first();
   const arrow = link.locator("svg.icon-fwd");
   const translate = () => arrow.evaluate((element) => getComputedStyle(element).translate);
@@ -20,7 +20,7 @@ test.describe("link icons", () => {
     test.skip(isMobile(page), "hover effects are for pointer devices");
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.goto("/en-us");
-    const { link, translate } = await seeAllArrow(page);
+    const { link, translate } = seeAllArrow(page);
     expect(await translate()).toBe("none");
     await link.hover();
     await expect.poll(translate).toBe("3px");
@@ -30,7 +30,7 @@ test.describe("link icons", () => {
     test.skip(isMobile(page), "hover effects are for pointer devices");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/en-us");
-    const { link, translate } = await seeAllArrow(page);
+    const { link, translate } = seeAllArrow(page);
     await link.hover();
     // Longer than the 170ms transition, so a nudge would have landed.
     await page.waitForTimeout(400);
@@ -41,7 +41,7 @@ test.describe("link icons", () => {
     test.skip(isMobile(page), "keyboard focus is checked on desktop");
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.goto("/en-us");
-    const { link, translate } = await seeAllArrow(page);
+    const { link, translate } = seeAllArrow(page);
     // After a key press, focus counts as keyboard focus, so :focus-visible matches.
     await page.keyboard.press("Shift");
     await link.focus();
