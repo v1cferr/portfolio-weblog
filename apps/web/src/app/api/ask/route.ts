@@ -1,10 +1,11 @@
-import { ask } from "@/lib/ask/engine";
+import { ask, openRouterGenerate } from "@/lib/ask/engine";
+import { getApiKey } from "@/lib/ask/openrouter";
 import { parseAskRequest } from "@/lib/ask/schema";
-import { getClient, getRetriever, isRateLimited } from "@/lib/ask/server";
+import { getRetriever, isRateLimited } from "@/lib/ask/server";
 
 /**
  * The profile chat (ADR 0011): answers a question about the owner from the
- * site's own pages, streamed as NDJSON (lib/ask/protocol.ts). Questions are
+ * site's own pages, sent as NDJSON (lib/ask/protocol.ts). Questions are
  * never stored or logged; logs carry reason codes only.
  */
 export const runtime = "nodejs";
@@ -34,11 +35,12 @@ export async function POST(request: Request) {
   if (!parsed.success) return Response.json({ error: "invalid_request" }, { status: 400 });
 
   const { locale, question, history } = parsed.data;
+  const apiKey = getApiKey();
   const events = ask(
     { locale, question, history },
     {
       retriever: getRetriever(locale),
-      client: getClient(),
+      generate: apiKey === null ? null : openRouterGenerate(apiKey),
       isRateLimited: () => isRateLimited(request),
       signal: request.signal,
       log,

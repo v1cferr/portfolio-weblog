@@ -22,8 +22,6 @@ export function getRetriever(locale: Locale): Retriever {
   return retriever;
 }
 
-export { getClient } from "./anthropic";
-
 let warned = false;
 function warnOnce(message: string) {
   if (warned) return;

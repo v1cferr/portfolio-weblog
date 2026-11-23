@@ -27,13 +27,14 @@ export interface AskRequest {
 
 /**
  * How the answer is made:
- * - `model`: written by the model from the retrieved passages, with citations;
+ * - `model`: written by a model from the retrieved passages, every sentence
+ *   checked against the passages it cites;
  * - `extractive`: the best matching passages, quoted, no model (no key, rate
- *   limited or the model failed);
+ *   limited, the model failed, or nothing it wrote passed the checks);
  * - `no-source`: nothing on the site matches, so nothing is answered.
  */
 export type AskMode = "model" | "extractive" | "no-source";
-export type FallbackReason = "unavailable" | "rate-limited" | "error";
+export type FallbackReason = "unavailable" | "rate-limited" | "error" | "ungrounded";
 
 export interface AskSource {
   /** Citation number shown in the answer, or null for a related page the answer did not cite. */

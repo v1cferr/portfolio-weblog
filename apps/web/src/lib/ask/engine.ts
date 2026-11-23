@@ -1,7 +1,8 @@
-import Anthropic from "@anthropic-ai/sdk";
 import type { Retriever, RetrievedPassage } from "@workspace/search";
 
-import { buildMessages, MAX_TOKENS, MODEL, systemPrompt } from "./prompt";
+import { ANSWER_SCHEMA, groundAnswer } from "./grounding";
+import { type ChatMessage, type CompletionResult, complete } from "./openrouter";
+import { buildMessages } from "./prompt";
 import type { AskEvent, AskTurn, FallbackReason } from "./protocol";
 import { CitationMap, extractiveSources } from "./sources";
 
@@ -11,15 +12,23 @@ export interface AskInput {
   history: readonly AskTurn[];
 }
 
+/** Asks a model for a structured answer; see openrouter.ts. */
+export type Generate = (messages: ChatMessage[], signal?: AbortSignal) => Promise<CompletionResult>;
+
 export interface AskContext {
   retriever: Retriever;
   /** null when there is no API key: the answer is extractive. */
-  client: Anthropic | null;
+  generate: Generate | null;
   /** Asked only before calling the model; true means the answer is extractive. */
   isRateLimited?: () => Promise<boolean>;
   signal?: AbortSignal;
-  /** Called with a reason code only, never the question. */
+  /** Called with reason codes only, never the question or the answer. */
   log?: (message: string) => void;
+}
+
+/** The OpenRouter-backed generator for a key. */
+export function openRouterGenerate(apiKey: string): Generate {
+  return (messages, signal) => complete({ apiKey, messages, schema: ANSWER_SCHEMA, ...(signal && { signal }) });
 }
 
 /**
@@ -42,9 +51,11 @@ function* extractive(passages: readonly RetrievedPassage[], reason: FallbackReas
 
 /**
  * The whole answer as events (protocol.ts). No source, no answer: without a
- * passage above the threshold the model is never called. Without a key, over
- * the rate limit, or when the model fails before writing anything, the answer
- * is the matching passages themselves.
+ * passage above the threshold the model is never called. The model's reply
+ * is buffered and checked (grounding.ts) before anything is sent; only
+ * sentences that cite real passages and stay close to them reach the
+ * visitor. Without a key, over the rate limit, when the model fails, or when
+ * nothing survives the checks, the answer is the matching passages themselves.
  */
 export async function* ask(input: AskInput, context: AskContext): AsyncGenerator<AskEvent, void, undefined> {
   const passages = retrieveFor(context.retriever, input.question, input.history);
@@ -53,7 +64,7 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     yield { type: "done" };
     return;
   }
-  if (context.client === null) {
+  if (context.generate === null) {
     yield* extractive(passages, "unavailable");
     return;
   }
@@ -62,59 +73,34 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     return;
   }
 
-  const citations = new CitationMap(passages);
-  let started = false;
-  /** Citation numbers of the text block being streamed, shown after its text. */
-  let pending: number[] = [];
-
-  try {
-    const stream = context.client.messages.stream(
-      {
-        model: MODEL,
-        max_tokens: MAX_TOKENS,
-        output_config: { effort: "low" },
-        system: systemPrompt(input.locale),
-        messages: buildMessages(input.question, input.history, passages),
-      },
-      { signal: context.signal }
-    );
-
-    for await (const event of stream) {
-      if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-        if (!started) {
-          started = true;
-          yield { type: "status", mode: "model" };
-        }
-        yield { type: "text", text: event.delta.text };
-      } else if (
-        event.type === "content_block_delta" &&
-        event.delta.type === "citations_delta" &&
-        event.delta.citation.type === "search_result_location"
-      ) {
-        const n = citations.cite(event.delta.citation.search_result_index);
-        if (n !== undefined && !pending.includes(n)) pending.push(n);
-      } else if (event.type === "content_block_stop" && pending.length > 0) {
-        for (const n of pending) yield { type: "cite", n };
-        pending = [];
-      } else if (event.type === "message_delta" && event.delta.stop_reason !== null && event.delta.stop_reason !== "end_turn") {
-        context.log?.(`stop_reason=${event.delta.stop_reason}`);
-      }
-    }
-  } catch (error) {
-    if (context.signal?.aborted === true) return;
-    context.log?.(error instanceof Anthropic.APIError ? `api_error status=${String(error.status)}` : "stream_error");
-    if (!started) {
-      yield* extractive(passages, "error");
-      return;
-    }
-    yield { type: "error" };
+  const result = await context.generate(buildMessages(input.locale, input.question, input.history, passages), context.signal);
+  if (!result.ok) {
+    if (result.reason === "aborted") return;
+    context.log?.(`model_failed reason=${result.reason}${result.status === undefined ? "" : ` status=${String(result.status)}`}`);
+    yield* extractive(passages, "error");
     return;
   }
 
-  if (!started) {
-    // A refusal, or a budget spent before any text: nothing to show from the model.
+  const grounded = groundAnswer(result.content, passages);
+  if (grounded === null) {
+    context.log?.(`invalid_answer model=${result.model}`);
     yield* extractive(passages, "error");
     return;
+  }
+  if (grounded.dropped.length > 0) context.log?.(`dropped model=${result.model} ${grounded.dropped.join(",")}`);
+  if (grounded.sentences.length === 0) {
+    context.log?.(`ungrounded model=${result.model} answerable=${String(grounded.answerable)}`);
+    yield* extractive(passages, "ungrounded");
+    return;
+  }
+
+  const citations = new CitationMap(passages);
+  yield { type: "status", mode: "model" };
+  for (const [index, sentence] of grounded.sentences.entries()) {
+    // Numbers are given in order of first citation, one per page.
+    const numbers = [...new Set(sentence.passages.flatMap((passage) => citations.cite(passage) ?? []))];
+    yield { type: "text", text: index === 0 ? sentence.text : ` ${sentence.text}` };
+    for (const n of numbers) yield { type: "cite", n };
   }
   yield { type: "sources", sources: citations.sources() };
   yield { type: "done" };
