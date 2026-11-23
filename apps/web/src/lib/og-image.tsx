@@ -13,7 +13,7 @@ import { OG_IMAGE_ID } from "./metadata";
 
 /*
  * Share cards (Open Graph and X) for the opengraph-image routes. One layout in
- * the dark Tokyo Night palette: the hex dot grid of the page background, the
+ * the dark graphite + sage palette: the hex dot grid of the page background, the
  * V1C mark, a Nix store path as the eyebrow, the title in Martian Mono and a
  * shell prompt in the lane colour of the section.
  *
@@ -66,22 +66,24 @@ const FONTS = await Promise.all([
   font("Hanken Grotesk", "HankenGrotesk-Medium.ttf", 500),
 ]);
 
-/** Tokyo Night (Night), the same values as the .dark tokens in globals.css. */
+/** Graphite + sage (dark), the same values as the .dark tokens in globals.css. */
 const PALETTE = {
-  background: "#1a1b26",
-  foreground: "#c0caf5",
-  muted: "#a9b1d6",
-  faint: "#565f89",
-  border: "#3b4261",
+  background: "#0f1112",
+  foreground: "#e6e8e6",
+  muted: "#9aa3a0",
+  faint: "#6b7572",
+  border: "#2a2f30",
+  /** The one accent, sage; the site card (no lane) uses it. */
+  accent: "#7fb8a8",
 };
 
 export type OgLane = "career" | "project" | "study" | "writing";
 
 export const LANE_COLOURS: Record<OgLane, string> = {
-  career: "#73daca",
-  project: "#7aa2f7",
-  study: "#e0af68",
-  writing: "#bb9af7",
+  career: "#7fb8a8",
+  project: "#86a6c8",
+  study: "#d4b07a",
+  writing: "#a9b67e",
 };
 
 export interface OgCard {
@@ -139,7 +141,7 @@ function V1cMark({ size, colour }: { size: number; colour: string }) {
  * cell, a second dot offset by half a cell), like components/backdrop.tsx.
  */
 const DOT_GRID = `data:image/svg+xml;utf8,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><pattern id="d" width="24" height="41.57" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#c0caf5" fill-opacity="0.2"/><circle cx="13.2" cy="21.985" r="1.2" fill="#c0caf5" fill-opacity="0.2"/></pattern><radialGradient id="f" cx="0.5" cy="0" r="1"><stop offset="0" stop-color="#fff"/><stop offset="0.75" stop-color="#fff" stop-opacity="0.15"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><mask id="m"><rect width="1200" height="630" fill="url(#f)"/></mask></defs><rect width="1200" height="630" fill="url(#d)" mask="url(#m)"/></svg>`
+  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><pattern id="d" width="24" height="41.57" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#e6e8e6" fill-opacity="0.2"/><circle cx="13.2" cy="21.985" r="1.2" fill="#e6e8e6" fill-opacity="0.2"/></pattern><radialGradient id="f" cx="0.5" cy="0" r="1"><stop offset="0" stop-color="#fff"/><stop offset="0.75" stop-color="#fff" stop-opacity="0.15"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><mask id="m"><rect width="1200" height="630" fill="url(#f)"/></mask></defs><rect width="1200" height="630" fill="url(#d)" mask="url(#m)"/></svg>`
 )}`;
 
 /** A soft circle of the lane colour, drawn as SVG so it fades without a visible edge. */
@@ -150,7 +152,7 @@ function glow(colour: string): string {
 }
 
 export function renderOgImage(card: OgCard): ImageResponse {
-  const accent = card.lane === undefined ? PALETTE.foreground : LANE_COLOURS[card.lane];
+  const accent = card.lane === undefined ? PALETTE.accent : LANE_COLOURS[card.lane];
   const lanes = Object.entries(LANE_COLOURS) as [OgLane, string][];
   const title = clip(card.title, 72);
 
@@ -199,7 +201,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
                 padding: "10px 20px",
                 borderRadius: 999,
                 border: `1px solid ${PALETTE.border}`,
-                background: "rgba(31, 35, 53, 0.8)",
+                background: "rgba(22, 25, 26, 0.8)",
                 fontFamily: "Martian Mono",
                 fontSize: 22,
                 color: PALETTE.foreground,
