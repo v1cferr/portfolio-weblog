@@ -152,13 +152,14 @@ caseStudy:
           1,5 GB, e uma segunda tela para a corretora até o ImobOS ler as conversas pela API do
           Chatwoot.
       adr: https://github.com/v1cferr/imobos/blob/main/docs/adr/0009-chatwoot-self-hosted.md
+  # The AI-assistance line waits for the owner to confirm (2026-11-23).
   howBuilt:
     en-us: >-
-      Built with Claude Code. I owned the scope, the architecture and the review, and each decision
-      that shaped the system is an ADR.
+      I owned the scope, the architecture and the review, and each decision that shaped the system
+      is an ADR.
     pt-br: >-
-      Feito com o Claude Code. O escopo, a arquitetura e a revisão foram meus, e cada decisão que
-      moldou o sistema virou um ADR.
+      O escopo, a arquitetura e a revisão foram meus, e cada decisão que moldou o sistema virou um
+      ADR.
   quality:
     en-us:
       - "CI on every push and pull request: nix flake check, lint, typecheck, tests and build"
