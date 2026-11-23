@@ -1,17 +1,22 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { NAV_SECTION } from "@/components/page-transition";
 import { NowPlayingChip } from "@/features/profile/now-playing-chip";
 import { SearchDialog } from "@/features/search/search-dialog";
 import { Logo } from "@/components/logo";
 import { Link } from "@/i18n/navigation";
+import { buildExplorerTree } from "@/lib/explorer-tree";
 
+import { ExplorerSheet } from "./explorer-sheet";
 import { LocaleSwitcher } from "./locale-switcher";
 import { MainNav, MobileNav } from "./main-nav";
 import { ThemeToggle } from "./theme-toggle";
 
 export async function SiteHeader() {
   const t = await getTranslations("Nav");
+  // The site as a file tree: the "~/" panel from lg up, a section of the menu below (no room for one more button
+  // next to the now-playing chip at 360px).
+  const explorer = await buildExplorerTree(await getLocale());
   // Named for view transitions, so it stays still while the page content moves
   // (see the page-transition rules in globals.css). The header itself is a
   // transparent strip that lets clicks through; the bar is a floating glass
@@ -46,11 +51,12 @@ export async function SiteHeader() {
           <MainNav />
           {/* Mobile first: 40px touch targets on phones and tablets, the compact desktop sizes from lg up. */}
           <div className="ml-auto flex items-center gap-1">
+            <ExplorerSheet tree={explorer} />
             <NowPlayingChip />
             <SearchDialog />
             <LocaleSwitcher />
             <ThemeToggle />
-            <MobileNav />
+            <MobileNav explorer={explorer} />
           </div>
         </div>
       </div>

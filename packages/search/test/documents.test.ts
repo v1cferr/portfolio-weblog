@@ -15,11 +15,11 @@ const registry = loadRegistry(
     "projects/hub.yaml": project({ technologies: ["python"] }),
     "projects/secret.yaml": project({ id: "secret", title: "Secret plans", visibility: "private" }),
     "projects/wip.yaml": project({ id: "wip", title: "Unfinished", status: "draft" }),
-    "weblog/hello/en-us.mdx": post(
+    "weblog/2026/10/hello/en-us.mdx": post(
       { title: "Hello", summary: "First post", status: "published", publishedAt: "2026-10-01", category: "journal", tags: ["intro"] },
       "# Heading\n\n```ts\nconst hidden = 1;\n```\n\nVisible prose."
     ),
-    "weblog/draft/en-us.mdx": post({ title: "Draft thoughts", summary: "S", status: "draft", category: "journal" }),
+    "weblog/2026/10/draft/en-us.mdx": post({ title: "Draft thoughts", summary: "S", status: "draft", category: "journal" }),
   })
 );
 

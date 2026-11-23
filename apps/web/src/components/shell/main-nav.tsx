@@ -11,7 +11,9 @@ import { useState } from "react";
 import { NAV_SECTION } from "@/components/page-transition";
 import { Logo } from "@/components/logo";
 import { Link, usePathname } from "@/i18n/navigation";
+import type { ExplorerFolder } from "@/lib/explorer-tree";
 
+import { ExplorerTree } from "./explorer-sheet";
 import { HOME_ITEM, NAV_ITEMS } from "./nav-items";
 
 function isActive(pathname: string, href: string) {
@@ -60,8 +62,9 @@ export function MainNav() {
   );
 }
 
-export function MobileNav() {
+export function MobileNav({ explorer }: { explorer: ExplorerFolder }) {
   const t = useTranslations("Nav");
+  const tExplorer = useTranslations("Explorer");
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   return (
@@ -79,32 +82,45 @@ export function MobileNav() {
             <span className="sr-only">{t("brandHome")}</span>
           </SheetTitle>
         </SheetHeader>
-        <nav aria-label={t("label")} className="px-4">
-          <ul className="flex flex-col gap-1">
-            {[HOME_ITEM, ...NAV_ITEMS].map((item) => {
-              const active = item.href === "/" ? pathname === "/" : isActive(pathname, item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    transitionTypes={NAV_SECTION}
-                    aria-current={active ? "page" : undefined}
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                    className={cn(
-                      "flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-base hover:bg-accent",
-                      active && "bg-accent font-medium"
-                    )}
-                  >
-                    <item.icon aria-hidden className="size-4 text-muted-foreground" />
-                    {t(item.key)}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-6">
+          <nav aria-label={t("label")}>
+            <ul className="flex flex-col gap-1">
+              {[HOME_ITEM, ...NAV_ITEMS].map((item) => {
+                const active = item.href === "/" ? pathname === "/" : isActive(pathname, item.href);
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      transitionTypes={NAV_SECTION}
+                      aria-current={active ? "page" : undefined}
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                      className={cn(
+                        "flex min-h-11 items-center gap-3 rounded-md px-3 py-2 text-base hover:bg-accent",
+                        active && "bg-accent font-medium"
+                      )}
+                    >
+                      <item.icon aria-hidden className="size-4 text-muted-foreground" />
+                      {t(item.key)}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          {/* The "~/" explorer, after the sections it complements: the same tree as the desktop panel. */}
+          <nav aria-label={tExplorer("label")} className="mt-3 border-t border-border/60 pt-3">
+            <ExplorerTree
+              // Named here, since the menu has no "~/" title above it.
+              tree={{ ...explorer, label: tExplorer("label") }}
+              rootOpen={false}
+              onNavigate={() => {
+                setOpen(false);
+              }}
+            />
+          </nav>
+        </div>
       </SheetContent>
     </Sheet>
   );

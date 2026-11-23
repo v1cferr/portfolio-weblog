@@ -72,17 +72,25 @@ export function validateContent(content: RawContent): ValidationResult {
     if (fm.status === "published" && fm.publishedAt === undefined) {
       errors.push({ file: post.file, message: "a published post needs publishedAt" });
     }
+    // The tree must not lie: a dated post sits in the folder of its publication month.
+    if (fm.publishedAt !== undefined && !post.folderDate.startsWith(fm.publishedAt.slice(0, 7))) {
+      const [year = "", month = "<MM>"] = fm.publishedAt.split("-");
+      errors.push({
+        file: post.file,
+        message: `publishedAt ${fm.publishedAt} disagrees with the folder ${post.folderDate.replace("-", "/")}; move the post to weblog/${year}/${month}/${post.slug}`,
+      });
+    }
   }
 
   // Translations of one post must agree on whether the post exists publicly.
-  const visibilityBySlug = new Map<string, Set<string>>();
+  const visibilityByDir = new Map<string, Set<string>>();
   for (const post of content.posts) {
-    const set = visibilityBySlug.get(post.slug) ?? new Set<string>();
+    const set = visibilityByDir.get(post.dir) ?? new Set<string>();
     set.add(post.frontmatter.visibility);
-    visibilityBySlug.set(post.slug, set);
+    visibilityByDir.set(post.dir, set);
   }
-  for (const [slug, set] of visibilityBySlug) {
-    if (set.size > 1) errors.push({ file: `weblog/${slug}`, message: "translations disagree on visibility" });
+  for (const [dir, set] of visibilityByDir) {
+    if (set.size > 1) errors.push({ file: dir, message: "translations disagree on visibility" });
   }
 
   return { errors, warnings };

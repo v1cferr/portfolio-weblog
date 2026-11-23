@@ -6,8 +6,9 @@ export const PostCategory = z.enum(["engineering", "infrastructure", "ai", "care
 export type PostCategory = z.infer<typeof PostCategory>;
 
 /**
- * Frontmatter of content/weblog/<slug>/<locale>.mdx. The slug (directory) is
- * the stable id shared by every translation of a post.
+ * Frontmatter of content/weblog/<YYYY>/<MM>/<slug>/<locale>.mdx. The slug
+ * (directory) is the stable id shared by every translation of a post; the
+ * year and month folders must agree with `publishedAt` when it is set.
  */
 export const PostFrontmatter = z.strictObject({
   title: z.string().min(1),

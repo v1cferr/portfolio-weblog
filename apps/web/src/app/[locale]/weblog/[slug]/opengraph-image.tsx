@@ -23,7 +23,8 @@ export default async function PostImage({ params }: { params: Promise<{ locale: 
   const { title, summary, publishedAt } = post.frontmatter;
   // The date follows the post's language: the card's fonts carry no CJK glyphs.
   return renderOgImage({
-    storePath: storePath(`weblog/${slug}`).label,
+    // Hashes the post's own folder (weblog/<YYYY>/<MM>/<slug>); the label stays the slug.
+    storePath: storePath(post.dir).label,
     title,
     subtitle: summary,
     meta: publishedAt === undefined ? undefined : formatPartialDate(publishedAt, post.locale),

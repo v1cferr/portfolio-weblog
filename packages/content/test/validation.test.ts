@@ -127,14 +127,56 @@ describe("dates", () => {
   });
 
   it("requires publishedAt on published posts", () => {
-    const result = check({ "weblog/hello/en-us.mdx": post({ title: "Hi", summary: "S", status: "published", category: "journal" }) });
+    const result = check({
+      "weblog/2026/10/hello/en-us.mdx": post({ title: "Hi", summary: "S", status: "published", category: "journal" }),
+    });
     expect(result.errors.join()).toContain("a published post needs publishedAt");
+  });
+});
+
+describe("dated weblog folders", () => {
+  const published = (publishedAt: string) => post({ title: "Hi", summary: "S", status: "published", publishedAt, category: "journal" });
+
+  it("accepts a post in the folder of its publication month", () => {
+    expect(check({ "weblog/2026/10/hello/en-us.mdx": published("2026-10-09") }).errors).toEqual([]);
+  });
+
+  it("rejects a folder that disagrees with publishedAt", () => {
+    const result = check({ "weblog/2026/11/hello/en-us.mdx": published("2026-10-09") });
+    expect(result.errors).toEqual([
+      "weblog/2026/11/hello/en-us.mdx: publishedAt 2026-10-09 disagrees with the folder 2026/11; move the post to weblog/2026/10/hello",
+    ]);
+  });
+
+  it("checks only the year when publishedAt has no month", () => {
+    expect(check({ "weblog/2026/03/hello/en-us.mdx": published("2026") }).errors).toEqual([]);
+    expect(check({ "weblog/2025/03/hello/en-us.mdx": published("2026") }).errors.join()).toContain("disagrees with the folder 2025/03");
+  });
+
+  it("lets a draft without publishedAt sit in any month", () => {
+    const draft = post({ title: "Hi", summary: "S", status: "draft", category: "journal" });
+    expect(check({ "weblog/2024/02/someday/en-us.mdx": draft }).errors).toEqual([]);
+  });
+
+  it("rejects the same slug in two dated folders", () => {
+    const result = check({
+      "weblog/2026/10/hello/en-us.mdx": published("2026-10-09"),
+      "weblog/2026/11/hello/pt-br.mdx": published("2026-11-01"),
+    });
+    expect(result.errors).toEqual([
+      'weblog/2026/11/hello: duplicate post slug "hello" (also in weblog/2026/10/hello); a slug is a URL and must be unique',
+    ]);
+  });
+
+  it("rejects the old flat layout and malformed months", () => {
+    expect(check({ "weblog/hello/en-us.mdx": published("2026-10-09") }).errors.join()).toContain("expected a four-digit year");
+    expect(check({ "weblog/2026/13/hello/en-us.mdx": published("2026-10-09") }).errors.join()).toContain("expected a two-digit month");
   });
 });
 
 describe("frontmatter", () => {
   it("rejects a post without a frontmatter block", () => {
-    expect(check({ "weblog/bare/en-us.mdx": "# Just a body\n" }).errors.join()).toContain("missing frontmatter");
+    expect(check({ "weblog/2026/10/bare/en-us.mdx": "# Just a body\n" }).errors.join()).toContain("missing frontmatter");
   });
 
   it("accepts CRLF line endings and keeps the body intact", () => {

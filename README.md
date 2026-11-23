@@ -53,7 +53,8 @@ its own port: `E2E_PORT=3210 pnpm --filter web test:e2e`.
 ## Layout
 
 ```text
-content/        profile, experiences, projects, education, weblog, taxonomies
+content/        profile, experiences, projects, education, taxonomies,
+                weblog/<YYYY>/<MM>/<slug>/<locale>.mdx (URLs stay /weblog/<slug>)
 apps/web/       the Next.js site
 packages/       content (schemas, registry, timelines) · github · search · ui · config
 docs/           architecture, decisions (ADRs), guides, migration

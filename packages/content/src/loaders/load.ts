@@ -27,6 +27,13 @@ export interface Sourced<T> {
 
 export interface PostSource {
   slug: string;
+  /**
+   * Year and month of the folder the post lives in (`weblog/<YYYY>/<MM>/<slug>`),
+   * as "YYYY-MM". The validator holds it to `publishedAt`.
+   */
+  folderDate: string;
+  /** The post's directory, relative to the content root ("weblog/2026/11/<slug>"). */
+  dir: string;
   locale: Locale;
   frontmatter: PostFrontmatter;
   /** Raw MDX body; compiled by the web app, never executed here. */
@@ -126,35 +133,75 @@ export function loadContent(root: string): LoadResult {
     return out;
   }
 
+  /** Subdirectories of `dir`, sorted, without dotfiles. */
+  function subdirs(dir: string): string[] {
+    return readdirSync(dir)
+      .filter((name) => !name.startsWith(".") && statSync(path.join(dir, name)).isDirectory())
+      .sort();
+  }
+
+  /**
+   * Posts live in `weblog/<YYYY>/<MM>/<slug>/<locale>.mdx`. The year and month
+   * only organize the tree; the slug alone is the id and the URL, so it must be
+   * unique across every folder.
+   */
   function posts(dir: string): PostSource[] {
     if (!existsSync(dir)) return [];
     const out: PostSource[] = [];
-    for (const slug of readdirSync(dir).sort()) {
-      const postDir = path.join(dir, slug);
-      if (!statSync(postDir).isDirectory()) continue;
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-        issues.push({ file: rel(postDir), message: "post directories are kebab-case slugs" });
+    const seen = new Map<string, string>();
+    for (const year of subdirs(dir)) {
+      if (!/^\d{4}$/.test(year)) {
+        issues.push({ file: rel(path.join(dir, year)), message: "posts live in weblog/<YYYY>/<MM>/<slug>/; expected a four-digit year" });
         continue;
       }
-      for (const name of readdirSync(postDir).sort()) {
-        if (!name.endsWith(".mdx")) continue;
-        const file = path.join(postDir, name);
-        const locale = name.slice(0, -".mdx".length);
-        if (!(LOCALES as readonly string[]).includes(locale)) {
-          issues.push({ file: rel(file), message: `file name must be a locale (${LOCALES.join(", ")})` });
+      for (const month of subdirs(path.join(dir, year))) {
+        if (!/^(?:0[1-9]|1[0-2])$/.test(month)) {
+          issues.push({ file: rel(path.join(dir, year, month)), message: "expected a two-digit month (01 to 12)" });
           continue;
         }
-        let parsed: { data: unknown; content: string };
-        try {
-          parsed = parseFrontmatter(readFileSync(file, "utf8"));
-        } catch (error) {
-          issues.push({ file: rel(file), message: `invalid frontmatter: ${(error as Error).message}` });
-          continue;
+        for (const slug of subdirs(path.join(dir, year, month))) {
+          const postDir = path.join(dir, year, month, slug);
+          if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+            issues.push({ file: rel(postDir), message: "post directories are kebab-case slugs" });
+            continue;
+          }
+          const previous = seen.get(slug);
+          if (previous !== undefined) {
+            issues.push({
+              file: rel(postDir),
+              message: `duplicate post slug "${slug}" (also in ${previous}); a slug is a URL and must be unique`,
+            });
+            continue;
+          }
+          seen.set(slug, rel(postDir));
+          out.push(...translations(postDir, slug, `${year}-${month}`));
         }
-        const frontmatter = parseWith(PostFrontmatter, parsed.data, file);
-        if (frontmatter === undefined) continue;
-        out.push({ slug, locale: locale as Locale, frontmatter, body: parsed.content, file: rel(file) });
       }
+    }
+    return out;
+  }
+
+  /** Every `<locale>.mdx` of one post directory. */
+  function translations(postDir: string, slug: string, folderDate: string): PostSource[] {
+    const out: PostSource[] = [];
+    for (const name of readdirSync(postDir).sort()) {
+      if (!name.endsWith(".mdx")) continue;
+      const file = path.join(postDir, name);
+      const locale = name.slice(0, -".mdx".length);
+      if (!(LOCALES as readonly string[]).includes(locale)) {
+        issues.push({ file: rel(file), message: `file name must be a locale (${LOCALES.join(", ")})` });
+        continue;
+      }
+      let parsed: { data: unknown; content: string };
+      try {
+        parsed = parseFrontmatter(readFileSync(file, "utf8"));
+      } catch (error) {
+        issues.push({ file: rel(file), message: `invalid frontmatter: ${(error as Error).message}` });
+        continue;
+      }
+      const frontmatter = parseWith(PostFrontmatter, parsed.data, file);
+      if (frontmatter === undefined) continue;
+      out.push({ slug, folderDate, dir: rel(postDir), locale: locale as Locale, frontmatter, body: parsed.content, file: rel(file) });
     }
     return out;
   }
