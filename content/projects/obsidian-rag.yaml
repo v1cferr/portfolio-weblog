@@ -3,7 +3,7 @@ title: obsidian-rag
 repository: v1cferr/obsidian-rag
 state: experimental
 category: personal
-featured: true
+featured: false
 summary:
   en-us: >-
     Personal RAG chatbot over an Obsidian vault. Answers cite the note they came from, and nothing
