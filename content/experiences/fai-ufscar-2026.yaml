@@ -25,7 +25,7 @@ positions:
     note:
       en-us: A temporary position while I finished my degree and received my diploma.
       pt-br: Um cargo temporário enquanto eu concluía a graduação e recebia o diploma.
-  - title: { en-us: AI systems analyst, pt-br: Analista de sistemas de IA }
+  - title: { en-us: AI Systems Analyst, pt-br: Analista de Sistemas de IA }
     employmentType: full-time
     start: 2026-08
     responsibilities:

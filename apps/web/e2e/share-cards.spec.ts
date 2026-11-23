@@ -9,7 +9,7 @@ import { expect, test, type Page } from "@playwright/test";
 const DETAIL_CASES = [
   { path: "/en-us/weblog/rebuilding-the-hub-content-first", title: "Rebuilding this hub around content, not components" },
   { path: "/pt-br/projects/obsidian-rag", title: "obsidian-rag" },
-  { path: "/en-us/career/fai-ufscar-2026", title: "AI systems analyst" },
+  { path: "/en-us/career/fai-ufscar-2026", title: "AI Systems Analyst" },
   { path: "/en-us", title: "Victor Ferreira" },
 ];
 

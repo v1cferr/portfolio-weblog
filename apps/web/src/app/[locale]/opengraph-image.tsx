@@ -1,6 +1,5 @@
-import { localize } from "@workspace/content";
-
 import { getContent } from "@/lib/content";
+import { ownerTitle } from "@/lib/current-role";
 import { siteImageAlt } from "@/lib/metadata";
 import { ogImageMetadata, ogLocale, renderOgImage } from "@/lib/og-image";
 import { storePath } from "@/lib/store-path";
@@ -16,7 +15,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
   return renderOgImage({
     storePath: storePath("profile/profile.yaml", profile.handle).label,
     title: profile.name,
-    subtitle: localize(profile.headline, locale).value,
+    subtitle: ownerTitle(locale).value,
     meta: `@${profile.handle}`,
     command: "whoami",
   });
