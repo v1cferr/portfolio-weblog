@@ -50,6 +50,17 @@ export function normalizeTerm(term: string): string {
     .toLowerCase();
 }
 
+/**
+ * The words of a text that carry meaning: normalized, without stop words,
+ * numbers kept, words shorter than three letters dropped. Used to check that
+ * a generated sentence stays close to the passages it cites.
+ */
+export function contentWords(text: string): string[] {
+  return (normalizeTerm(text).match(/[\p{L}\p{N}][\p{L}\p{N}+#.-]*[\p{L}\p{N}+#]|[\p{L}\p{N}]/gu) ?? []).filter(
+    (word) => word.length >= 3 && !STOP_WORDS.has(word)
+  );
+}
+
 function processTerm(term: string): string | null {
   const normalized = normalizeTerm(term);
   return normalized.length < 2 || STOP_WORDS.has(normalized) ? null : normalized;
