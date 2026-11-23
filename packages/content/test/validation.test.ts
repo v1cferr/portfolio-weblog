@@ -46,6 +46,70 @@ describe("schemas", () => {
   });
 });
 
+describe("case studies", () => {
+  const decision = (overrides: Record<string, unknown> = {}) => ({
+    title: { "en-us": "Storage" },
+    chosen: { "en-us": "YAML in Git" },
+    alternatives: { "en-us": ["A CMS"] },
+    why: { "en-us": "Reviewable diffs." },
+    cost: { "en-us": "No editor UI." },
+    adr: "https://github.com/acme/hub/blob/main/docs/decisions/0001.md",
+    ...overrides,
+  });
+  const caseStudy = (overrides: Record<string, unknown> = {}) => ({
+    problem: { "en-us": "Data stuck in components.", "pt-br": "Dados presos aos componentes." },
+    role: { "en-us": "Solo" },
+    decisions: [decision()],
+    ...overrides,
+  });
+
+  it("accepts a case study with only the required fields", () => {
+    expect(check({ "projects/hub.yaml": project({ caseStudy: caseStudy() }) }).errors).toEqual([]);
+  });
+
+  it("accepts a full case study", () => {
+    const full = caseStudy({
+      outcome: { "en-us": "Shipped." },
+      motivation: { "en-us": "Why." },
+      constraints: { "en-us": ["Free tier"] },
+      nonGoals: { "en-us": ["A CMS"] },
+      approach: { "en-us": "How." },
+      quality: { "en-us": ["Typecheck"] },
+      howBuilt: { "en-us": "Built with an AI assistant." },
+      lessons: { "en-us": ["One"] },
+      next: { "en-us": ["Two"] },
+      adrs: "https://github.com/acme/hub/tree/main/docs/decisions",
+    });
+    expect(check({ "projects/hub.yaml": project({ caseStudy: full }) }).errors).toEqual([]);
+  });
+
+  it("requires the problem", () => {
+    const { problem: _, ...withoutProblem } = caseStudy();
+    expect(check({ "projects/hub.yaml": project({ caseStudy: withoutProblem }) }).errors.join()).toMatch(/caseStudy\.problem/);
+  });
+
+  it("allows at most three decisions", () => {
+    const result = check({ "projects/hub.yaml": project({ caseStudy: caseStudy({ decisions: [1, 2, 3, 4].map(() => decision()) }) }) });
+    expect(result.errors.join()).toMatch(/caseStudy\.decisions/);
+  });
+
+  it("requires at least one decision", () => {
+    expect(check({ "projects/hub.yaml": project({ caseStudy: caseStudy({ decisions: [] }) }) }).errors.join()).toMatch(
+      /caseStudy\.decisions/
+    );
+  });
+
+  it("rejects a decision without alternatives", () => {
+    const result = check({ "projects/hub.yaml": project({ caseStudy: caseStudy({ decisions: [decision({ alternatives: {} })] }) }) });
+    expect(result.errors.join()).toContain("at least one alternative");
+  });
+
+  it("rejects an ADR link that is not a web URL", () => {
+    const result = check({ "projects/hub.yaml": project({ caseStudy: caseStudy({ decisions: [decision({ adr: "docs/0001.md" })] }) }) });
+    expect(result.errors.join()).toMatch(/adr/);
+  });
+});
+
 describe("relations", () => {
   it("rejects duplicate ids across entity types", () => {
     const result = check({ "projects/typescript.yaml": project({ id: "typescript" }) });
