@@ -144,3 +144,21 @@ artifact (today, clearer, layered, liquid); the owner picked **layered**:
   nothing and the page showed through sharp. A test guards against any ancestor
   of the pill becoming a backdrop root.
 - The liquid option (SVG refraction) was left out: Chromium only.
+
+## Revision (2026-11-23, file explorer)
+
+The owner picked "t1": the site as a file tree, as a second way to navigate.
+
+- **What:** `~/` with `about`, `career/<id>`, `projects/<id>`,
+  `weblog/<YYYY>/<MM>/<slug>` and the other sections, built from the content
+  registry. Mono file names, localized titles next to them, lucide folder and
+  file icons in the project lane colour. Dated folders are newest first.
+- **Where:** on desktop, a `.glass-float` side panel opened from a `~/` button
+  in the header; the main navigation stays as it is. Below `lg` the header has
+  no room for one more button next to the now-playing chip at 360 px, so the
+  tree is a closed `~/` section of the menu sheet, under the primary sections.
+- **Accessibility:** nested `<nav aria-label>`, `<ul>`, `<details>`/`<summary>`
+  and plain links, not the ARIA tree widget; `aria-current="page"` on the
+  current page, whose folders open by themselves; 44 px rows on phones; no slide
+  with reduced motion. Open folders persist in `localStorage` when it is
+  available.
