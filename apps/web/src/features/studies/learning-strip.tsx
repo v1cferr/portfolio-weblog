@@ -90,7 +90,7 @@ export async function LearningStrip() {
   if (tiles.length === 0) return null;
 
   return (
-    <section aria-labelledby="learning" className="mb-16 max-w-4xl">
+    <section aria-labelledby="learning" className="mb-16 max-w-3xl">
       <SectionHeading
         id="learning"
         icon={GraduationCapIcon}

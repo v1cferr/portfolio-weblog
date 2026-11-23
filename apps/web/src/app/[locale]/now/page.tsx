@@ -66,7 +66,7 @@ export default async function NowPage() {
               <h2 id="latest-update" className="font-display text-2xl font-semibold tracking-tight">
                 <time dateTime={latest.entry.date}>{formatPartialDate(latest.entry.date, locale)}</time>
               </h2>
-              <NowStamp date={latest.entry.date} age={latest.age} />
+              {latest.age.stale && <NowStamp date={latest.entry.date} age={latest.age} />}
             </header>
             {latest.note !== undefined && (
               <p className="text-lg text-pretty" lang={latest.note.locale}>
