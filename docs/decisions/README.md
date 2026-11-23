@@ -12,7 +12,7 @@ so.
 | [0004](0004-drop-supabase-and-personal-integrations.md) | Supabase and personal integrations stay in v1        | Partly superseded by 0008 |
 | [0005](0005-toolchain-versions.md)                      | TypeScript 6.0 and ESLint 10                         | Accepted                  |
 | [0006](0006-local-search-before-ai.md)                  | Local text search before any AI layer                | Accepted                  |
-| [0007](0007-visual-system.md)                           | Tokyo Night, clear glass, lane backdrop              | Accepted                  |
+| [0007](0007-visual-system.md)                           | Graphite + sage (was Tokyo Night), glass, dot grid   | Accepted                  |
 | [0008](0008-spotify-now-playing.md)                     | Spotify "now playing" returns, on the server's terms | Accepted                  |
 | [0009](0009-security-headers.md)                        | Security headers with a static CSP                   | Accepted                  |
 | [0010](0010-security-pipeline.md)                       | A security pipeline in CI                            | Accepted                  |
