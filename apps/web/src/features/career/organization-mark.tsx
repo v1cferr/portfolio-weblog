@@ -23,7 +23,7 @@ export function OrganizationMark({ organization, size = "default" }: { organizat
         // eslint-disable-next-line @next/next/no-img-element -- tiny static logos; next/image adds nothing here
         <img src={organization.logo} alt="" className="size-full object-contain p-0.5" decoding="async" />
       ) : (
-        <span aria-hidden className="font-mono text-xs text-[#3b4261]">
+        <span aria-hidden className="font-mono text-xs text-[#2a2f30]">
           {initials}
         </span>
       )}
