@@ -9,14 +9,14 @@ import {
 } from "@workspace/ui/components/breadcrumb";
 import { Button } from "@workspace/ui/components/button";
 import { localize, localizeList } from "@workspace/content";
-import { FolderGit2Icon, InfoIcon } from "lucide-react";
+import { FolderGit2Icon, InfoIcon, ScrollTextIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { NAV_BACK, PageTransition } from "@/components/page-transition";
-import { PartialDate } from "@/components/date-range";
+import { DateRange, PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
@@ -24,6 +24,7 @@ import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
+import { CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
 import { ProjectStateBadge } from "@/features/projects/project-state-badge";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -77,12 +78,43 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const problem = project.problem && localize(project.problem, locale);
   const description = project.description && localize(project.description, locale);
   const learnings = localizeList(project.learnings, locale);
-  const fallback = [summary, problem, description, learnings].find((text) => text?.isFallback === true);
+  const caseStudy = project.caseStudy;
+  const caseProblem = caseStudy && localize(caseStudy.problem, locale);
+  const fallback = [summary, problem, description, learnings, caseProblem].find((text) => text?.isFallback === true);
 
   // GitHub is enrichment only. A repository is linked only if GitHub lists it
   // as public right now; if GitHub is unreachable, the page says so.
   const index = project.repository !== undefined ? await getRepoIndex() : undefined;
   const repo = index?.ok === true && project.repository !== undefined ? index.get(project.repository) : undefined;
+
+  // With a case study, its TL;DR card carries the dates, the stack and the
+  // links, so the side column keeps only what GitHub adds.
+  const start = project.startedAt ?? repo?.created_at.slice(0, 10);
+  const links = (className: string) => (
+    <div className={className}>
+      {repo !== undefined && (
+        <Button asChild variant="outline" className="justify-start">
+          <ExternalLink href={repo.html_url}>
+            <FolderGit2Icon /> {t("repository")}
+          </ExternalLink>
+        </Button>
+      )}
+      {caseStudy?.adrs !== undefined && (
+        <Button asChild variant="outline" className="justify-start">
+          <ExternalLink href={caseStudy.adrs}>
+            <ScrollTextIcon /> {t("adrs")}
+          </ExternalLink>
+        </Button>
+      )}
+      {project.links.map((link) => (
+        <Button key={link.url} asChild variant="ghost" className="justify-start">
+          <ExternalLink href={link.url}>
+            <ContentLinkIcon link={link} /> {link.label}
+          </ExternalLink>
+        </Button>
+      ))}
+    </div>
+  );
 
   return (
     <PageTransition as="article">
@@ -120,49 +152,81 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
 
           {fallback !== undefined && <FallbackNotice requested={locale} actual={fallback.locale} />}
 
+          {caseStudy !== undefined && (
+            <div className="mb-10">
+              <CaseStudySummary
+                caseStudy={caseStudy}
+                locale={locale}
+                dates={
+                  start !== undefined ? (
+                    <span className="inline-flex flex-wrap items-baseline gap-x-2">
+                      <DateRange start={start} end={project.endedAt} />
+                      {project.startedAt === undefined && (
+                        <span className="text-xs text-muted-foreground">({t("repositoryCreated").toLowerCase()})</span>
+                      )}
+                    </span>
+                  ) : undefined
+                }
+                stack={project.technologies.length > 0 ? <TechList ids={project.technologies} label={common("technologies")} /> : undefined}
+                links={links("flex flex-wrap gap-2")}
+              />
+            </div>
+          )}
+
           <div className="mb-10">
             <MediaGallery media={project.media} placeholder={project.mediaPlaceholder} />
           </div>
 
-          <div className="space-y-10">
-            {problem && (
-              <section className="space-y-3">
-                <h2 className="text-xl font-semibold">{t("problem")}</h2>
-                <p lang={problem.locale}>{problem.value}</p>
-              </section>
-            )}
-            {description && (
-              <p className="text-lg leading-relaxed" lang={description.locale}>
-                {description.value}
-              </p>
-            )}
-            {learnings && (
-              <section className="space-y-3">
-                <h2 className="text-xl font-semibold">{t("learnings")}</h2>
-                <ul className="list-disc space-y-1.5 pl-5 marker:text-lane-project" lang={learnings.locale}>
-                  {learnings.value.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-            )}
-            {project.technologies.length > 0 && (
-              <section className="space-y-3">
-                <h2 className="text-xl font-semibold">{common("technologies")}</h2>
-                <TechList ids={project.technologies} label={common("technologies")} />
-              </section>
-            )}
-          </div>
+          {caseStudy !== undefined ? (
+            <div className="space-y-10">
+              {description && (
+                <p className="text-lg leading-relaxed" lang={description.locale}>
+                  {description.value}
+                </p>
+              )}
+              <CaseStudyDeepDive caseStudy={caseStudy} locale={locale} />
+            </div>
+          ) : (
+            <div className="space-y-10">
+              {problem && (
+                <section className="space-y-3">
+                  <h2 className="text-xl font-semibold">{t("problem")}</h2>
+                  <p lang={problem.locale}>{problem.value}</p>
+                </section>
+              )}
+              {description && (
+                <p className="text-lg leading-relaxed" lang={description.locale}>
+                  {description.value}
+                </p>
+              )}
+              {learnings && (
+                <section className="space-y-3">
+                  <h2 className="text-xl font-semibold">{t("learnings")}</h2>
+                  <ul className="list-disc space-y-1.5 pl-5 marker:text-lane-project" lang={learnings.locale}>
+                    {learnings.value.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+              {project.technologies.length > 0 && (
+                <section className="space-y-3">
+                  <h2 className="text-xl font-semibold">{common("technologies")}</h2>
+                  <TechList ids={project.technologies} label={common("technologies")} />
+                </section>
+              )}
+            </div>
+          )}
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <dl className="divide-y border-y">
-            {project.startedAt !== undefined && (
+            {caseStudy === undefined && project.startedAt !== undefined && (
               <Fact label={t("started")}>
                 <PartialDate date={project.startedAt} />
               </Fact>
             )}
-            {project.endedAt !== undefined && (
+            {caseStudy === undefined && project.endedAt !== undefined && (
               <Fact label={t("ended")}>
                 <PartialDate date={project.endedAt} />
               </Fact>
@@ -192,22 +256,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
             </Alert>
           )}
 
-          <div className="flex flex-col gap-2">
-            {repo !== undefined && (
-              <Button asChild variant="outline" className="justify-start">
-                <ExternalLink href={repo.html_url}>
-                  <FolderGit2Icon /> {t("repository")}
-                </ExternalLink>
-              </Button>
-            )}
-            {project.links.map((link) => (
-              <Button key={link.url} asChild variant="ghost" className="justify-start">
-                <ExternalLink href={link.url}>
-                  <ContentLinkIcon link={link} /> {link.label}
-                </ExternalLink>
-              </Button>
-            ))}
-          </div>
+          {caseStudy === undefined && links("flex flex-col gap-2")}
         </aside>
       </div>
 

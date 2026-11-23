@@ -19,3 +19,4 @@ so.
 | [0011](0011-profile-chat.md)                            | A profile chat that answers only from the site's pages | Accepted, revised 2026-11-23 |
 | [0012](0012-dated-content-folders.md)                   | Weblog posts in dated folders, with unchanged URLs     | Accepted                     |
 | [0013](0013-now-and-next.md)                            | A dated now log and next plans, partly derived         | Accepted                     |
+| [0014](0014-project-case-studies.md)                    | Project case studies in two layers                     | Accepted                     |

@@ -1,5 +1,6 @@
 import { Badge } from "@workspace/ui/components/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@workspace/ui/components/card";
+import { ScrollTextIcon } from "lucide-react";
 import type { ProjectCategory, ProjectState, TechnologyCategory } from "@workspace/content";
 
 import { NAV_FORWARD } from "@/components/page-transition";
@@ -20,6 +21,11 @@ export interface ProjectCardData {
   category: ProjectCategory;
   categoryLabel: string;
   featured: boolean;
+  /** One line on the problem the project solves; featured projects only. */
+  problem?: string | undefined;
+  problemLocale?: string | undefined;
+  /** Set when the project has a case study: the badge's text. */
+  caseStudyLabel?: string | undefined;
   /** When the work started: from the content, else the repository's creation date. */
   date?: string | undefined;
   dateFromRepository: boolean;
@@ -37,6 +43,12 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
         <div className="flex items-center gap-2">
           <ProjectStateBadge state={project.state} label={project.stateLabel} />
           <span className="font-mono text-[0.7rem] text-muted-foreground">{project.categoryLabel}</span>
+          {project.caseStudyLabel !== undefined && (
+            <Badge variant="now" className="ml-auto gap-1 font-medium">
+              <ScrollTextIcon aria-hidden />
+              {project.caseStudyLabel}
+            </Badge>
+          )}
         </div>
         <Morph kind="project" id={project.id}>
           <h3 className="w-fit text-lg leading-snug font-semibold">
@@ -49,6 +61,11 @@ export function ProjectCardView({ project, techLimit = 4 }: { project: ProjectCa
             </Link>
           </h3>
         </Morph>
+        {project.problem !== undefined && (
+          <p className="text-sm font-medium text-pretty" lang={project.problemLocale}>
+            {project.problem}
+          </p>
+        )}
       </CardHeader>
       <CardContent className="flex-1 px-5">
         <p className="line-clamp-3 text-sm text-pretty text-muted-foreground" lang={project.summaryLocale}>

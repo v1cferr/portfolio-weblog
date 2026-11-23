@@ -237,7 +237,9 @@
     "uncurated": "More public repositories",
     "uncuratedDescription": "Listed automatically from GitHub and not curated: being public does not make a repository a highlight.",
     "fromGithub": "From GitHub",
-    "notOnGithub": "No public repository."
+    "notOnGithub": "No public repository.",
+    "adrs": "ADRs",
+    "caseStudy": "Case study"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entry} other {# entries}}",
@@ -373,5 +375,29 @@
     "empty": "No plans are published yet.",
     "now": "What I am doing now",
     "items": "Plans"
+  },
+  "CaseStudy": {
+    "tldr": "TL;DR",
+    "problem": "Problem",
+    "outcome": "Outcome",
+    "role": "Role",
+    "dates": "When",
+    "stack": "Stack",
+    "links": "Links",
+    "motivation": "Why I built it",
+    "constraints": "Constraints",
+    "nonGoals": "Not in scope",
+    "approach": "Approach",
+    "decisions": "Key decisions",
+    "chose": "Chose",
+    "over": "over",
+    "orSeparator": " or ",
+    "because": "because",
+    "cost": "Cost:",
+    "readAdr": "Read the ADR",
+    "howBuilt": "How it was built",
+    "quality": "Every change passes",
+    "lessons": "What I would change",
+    "next": "Next"
   }
 }
