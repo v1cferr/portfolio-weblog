@@ -5,12 +5,12 @@ public, normalized documents with `entityId`, `type`, `locale`, `section`,
 `title`, `keywords`, `text` and `url`. The profile chat is built on them (ADR
 0011).
 
-| Step       | Plan                                                                              | Status                                                                                                                               |
-| ---------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Corpus     | Reuse those documents; chunk long fields by heading, keeping document id and URL. | Done: `buildRetrievalPassages` (About page, entities with prose, posts split by heading).                                            |
-| Retrieval  | Hybrid (MiniSearch keyword + vector similarity), filtered by locale.              | Keyword only, on the server (`createRetriever`). Embeddings deferred: they need a second vendor key.                                 |
-| Generation | The model answers only from retrieved chunks and cites them by URL.               | Done: Claude Haiku 5.5, `search_result` blocks with citations; cards built from the API's citations. No retrieved source, no answer. |
-| Evals      | A fixed set of questions with expected sources, run in CI.                        | Done: `apps/web/evals/profile-chat.yaml`; retrieval runs in `pnpm test`, the model checks with `eval:chat` and a key.                |
+| Step       | Plan                                                                              | Status                                                                                                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Corpus     | Reuse those documents; chunk long fields by heading, keeping document id and URL. | Done: `buildRetrievalPassages` (About page, entities with prose, posts split by heading).                                                                                                         |
+| Retrieval  | Hybrid (MiniSearch keyword + vector similarity), filtered by locale.              | Keyword only, on the server (`createRetriever`). Embeddings deferred: no free, stable embeddings endpoint to depend on yet.                                                                       |
+| Generation | The model answers only from retrieved chunks and cites them by URL.               | Done: free models via OpenRouter, strict JSON with passage ids per sentence; the server drops uncited, out-of-range or unfaithful sentences and maps ids to URLs. No retrieved source, no answer. |
+| Evals      | A fixed set of questions with expected sources, run in CI.                        | Done: `apps/web/evals/profile-chat.yaml`; retrieval and faithfulness run in `pnpm test`, the model checks with `eval:chat` and an OpenRouter key.                                                 |
 
 Next, when the eval set shows misses that keywords cannot fix: embeddings
 computed at build time or in an `apps/ai` job (ADR 0002) from the public corpus
