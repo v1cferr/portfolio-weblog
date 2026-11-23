@@ -1,4 +1,4 @@
-# What comes next (ADR 0011): plans, not promises. Shown at /next, linked from /now.
+# What comes next (ADR 0013): plans, not promises. Shown at /next, linked from /now.
 #
 # OWNER: review and extend this seed. It holds only the plan you stated on 2026-11-23
 # ("publicar algo (um pacote ou flake Nix) para a comunidade"). Bump `updatedAt` whenever

@@ -73,7 +73,7 @@ export function writtenNow(entry: NowEntry, locale: Locale) {
 /**
  * How old the newest update is. The site is static: this is computed when a
  * page is rendered (at build time, then again on every ISR revalidation, once
- * a day), so "N days ago" can lag by at most a day. ADR 0011.
+ * a day), so "N days ago" can lag by at most a day. ADR 0013.
  */
 export function nowAge(entry: NowEntry, today: Date = new Date()) {
   const days = daysSince(entry.date, today);

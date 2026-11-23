@@ -1,4 +1,4 @@
-# The "now" log (ADR 0011): one file per update, named after its day. Newest first everywhere.
+# The "now" log (ADR 0013): one file per update, named after its day. Newest first everywhere.
 #
 # OWNER: review and extend this seed. It holds only what you stated on 2026-11-23. The
 # current role, the active projects and the latest post are NOT written here: the site

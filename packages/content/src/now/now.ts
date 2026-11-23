@@ -9,7 +9,7 @@ import { ContentValidationError } from "../loaders/errors";
 import { NextPlans, NowEntry } from "../schemas";
 
 /*
- * The "now" log and the "next" plans (ADR 0011). They are a dated log, not
+ * The "now" log and the "next" plans (ADR 0013). They are a dated log, not
  * entities: no ids, no relations, so they load on their own instead of going
  * through the registry, and each update is one file named after its day.
  */
