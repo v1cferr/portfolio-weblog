@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projects
     description: localize(project.summary, locale).value,
     alternates: pageAlternates(locale, `/projects/${id}`),
     // The card comes from opengraph-image.tsx in this segment.
-    openGraph: { type: "website", ...pageOpenGraph(locale, `/projects/${id}`, { siteImage: false }) },
+    openGraph: { type: "website", ...pageOpenGraph(locale, `/projects/${id}`) },
   };
 }
 

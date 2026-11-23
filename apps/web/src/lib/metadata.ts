@@ -1,5 +1,7 @@
 import "server-only";
 
+import { getTranslations } from "next-intl/server";
+
 import type { Locale } from "@/i18n/routing";
 
 import { getContent } from "./content";
@@ -13,8 +15,11 @@ export const SITE_NAME = "v1cferr.dev";
  */
 export const OG_IMAGE_ID = "card";
 
-/** Alt text of the site card, app/[locale]/opengraph-image.tsx. */
-export const SITE_IMAGE_ALT = "Victor Ferreira (v1cferr), personal hub at v1cferr.dev";
+/** Alt text of the site card, app/[locale]/opengraph-image.tsx, in the page's language. */
+export async function siteImageAlt(locale: Locale): Promise<string> {
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  return t("siteImageAlt");
+}
 
 /** og:locale wants an underscore ("pt-br" → "pt_BR"). */
 export function openGraphLocale(locale: string): string {
@@ -24,28 +29,29 @@ export function openGraphLocale(locale: string): string {
 /**
  * The Open Graph fields every page shares: its URL, the site name and the
  * locale. A page's `openGraph` replaces its parent's whole object, images
- * included, so a page without an opengraph-image of its own asks for the site
- * card here (`siteImage`); the pages that have one leave it out and Next.js
- * adds theirs.
+ * included. Next.js adds the card of a page with an opengraph-image of its
+ * own; a page without one asks for the site card with siteOpenGraphImages().
  */
-export function pageOpenGraph(locale: Locale, path: string, { siteImage = true }: { siteImage?: boolean } = {}) {
+export function pageOpenGraph(locale: Locale, path: string) {
   const suffix = path === "/" ? "" : path;
   return {
     siteName: SITE_NAME,
     locale: openGraphLocale(locale),
     url: `/${locale}${suffix}`,
-    ...(siteImage && {
-      images: [
-        {
-          url: `/${locale}/opengraph-image`,
-          width: 1200,
-          height: 630,
-          type: "image/png",
-          alt: SITE_IMAGE_ALT,
-        },
-      ],
-    }),
   };
+}
+
+/** The site card, for a page without an opengraph-image of its own (the tag pages). */
+export async function siteOpenGraphImages(locale: Locale) {
+  return [
+    {
+      url: `/${locale}/opengraph-image/${OG_IMAGE_ID}`,
+      width: 1200,
+      height: 630,
+      type: "image/png",
+      alt: await siteImageAlt(locale),
+    },
+  ];
 }
 
 /** The owner's X handle ("@v1cferr"), read from the profile links; undefined when there is none. */
