@@ -1,0 +1,67 @@
+name: IndexNow
+
+# Tells Bing, Yandex and the other IndexNow engines about every URL in the
+# sitemap right after a production deployment, instead of waiting for their
+# next crawl. Cloudflare's Crawler Hints cannot do it here: the HTML is not
+# cached at the edge, so Cloudflare never sees a page change.
+# docs/guides/seo.md has the details.
+
+on:
+  # Vercel reports each deployment to GitHub; only a successful one to
+  # Production submits (see the job's `if`).
+  deployment_status:
+  workflow_dispatch:
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  submit:
+    name: Submit the sitemap
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    env:
+      HOST: v1cferr.dev
+      # Public by design: the engines check it against https://$HOST/$KEY.txt
+      # (apps/web/public). Rotate both together.
+      KEY: 22bb3110dc9edd8cca87c4bc0a0e92da
+    steps:
+      - name: Submit the sitemap URLs
+        run: |
+          set -euo pipefail
+
+          # Only this host's URLs: IndexNow rejects the whole batch otherwise.
+          curl --fail --silent --show-error --retry 3 "https://$HOST/sitemap.xml" \
+            | grep -o '<loc>[^<]*</loc>' \
+            | sed -e 's#^<loc>##' -e 's#</loc>$##' \
+            | grep "^https://$HOST/" \
+            | sort -u > urls.txt
+          count=$(wc -l < urls.txt)
+          if [ "$count" -eq 0 ]; then
+            echo "::error::No URLs found in https://$HOST/sitemap.xml"
+            exit 1
+          fi
+
+          jq --raw-input --slurp \
+            --arg host "$HOST" --arg key "$KEY" \
+            '{host: $host, key: $key, keyLocation: "https://\($host)/\($key).txt", urlList: (split("\n") | map(select(. != "")))}' \
+            urls.txt > payload.json
+
+          # 200: accepted; 202: accepted, key validation pending.
+          status=$(curl --silent --show-error --retry 3 --output response.txt --write-out '%{http_code}' \
+            --header 'Content-Type: application/json; charset=utf-8' \
+            --data @payload.json https://api.indexnow.org/indexnow)
+          echo "IndexNow answered HTTP $status for $count URLs"
+          cat response.txt
+          case "$status" in
+            200 | 202) ;;
+            *) echo "::error::IndexNow answered HTTP $status"; exit 1 ;;
+          esac
