@@ -20,8 +20,10 @@ export function SearchDialog() {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [mode, setMode] = useState<PanelMode>("search");
+  const [opener, setOpener] = useState<HTMLElement | null>(null);
 
-  function openIn(next: PanelMode) {
+  function openIn(next: PanelMode, from: HTMLElement) {
+    setOpener(from);
     setMode(next);
     setLoaded(true);
     setOpen(true);
@@ -33,6 +35,7 @@ export function SearchDialog() {
         event.preventDefault();
         setLoaded(true);
         setMode("search");
+        setOpener(document.activeElement instanceof HTMLElement ? document.activeElement : null);
         setOpen((value) => !value);
       }
     }
@@ -47,8 +50,8 @@ export function SearchDialog() {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => {
-          openIn("search");
+        onClick={(event) => {
+          openIn("search", event.currentTarget);
         }}
         className="h-10 gap-2 px-3 text-muted-foreground lg:h-7 lg:px-2.5"
         aria-label={t("open")}
@@ -61,8 +64,8 @@ export function SearchDialog() {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => {
-          openIn("ask");
+        onClick={(event) => {
+          openIn("ask", event.currentTarget);
         }}
         className="h-10 gap-2 px-3 text-muted-foreground lg:h-7 lg:px-2.5"
         aria-label={ask("openLabel")}
@@ -71,7 +74,7 @@ export function SearchDialog() {
         <SparklesIcon />
         <span className="hidden sm:inline">{ask("open")}</span>
       </Button>
-      {loaded && <SearchPanel open={open} onOpenChange={setOpen} mode={mode} onModeChange={setMode} />}
+      {loaded && <SearchPanel open={open} onOpenChange={setOpen} mode={mode} onModeChange={setMode} returnFocus={opener} />}
     </>
   );
 }

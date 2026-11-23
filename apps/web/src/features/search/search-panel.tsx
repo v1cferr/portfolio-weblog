@@ -32,11 +32,14 @@ export default function SearchPanel({
   onOpenChange,
   mode,
   onModeChange,
+  returnFocus,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   mode: PanelMode;
   onModeChange: (mode: PanelMode) => void;
+  /** The element that opened the dialog, focused again when it closes. */
+  returnFocus: HTMLElement | null;
 }) {
   const t = useTranslations("Search");
   const ask = useTranslations("Ask");
@@ -87,6 +90,12 @@ export default function SearchPanel({
           const target = event.currentTarget instanceof HTMLElement ? event.currentTarget : null;
           target?.querySelector<HTMLElement>("[data-state=active] [data-autofocus]")?.focus();
         }}
+        // The dialog has no Radix trigger, so focus goes back to whatever opened it.
+        onCloseAutoFocus={(event) => {
+          if (returnFocus?.isConnected !== true) return;
+          event.preventDefault();
+          returnFocus.focus();
+        }}
         className="flex flex-col gap-0 overflow-hidden p-0 sm:max-h-[min(42rem,85dvh)] sm:max-w-xl max-sm:inset-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:ring-0"
       >
         <DialogHeader className="sr-only">
@@ -102,11 +111,11 @@ export default function SearchPanel({
         >
           <div className="flex items-center gap-2 border-b p-2">
             <TabsList aria-label={ask("modes")} className="h-auto! flex-1 sm:flex-none">
-              <TabsTrigger value="search" className="min-h-11 min-w-24 px-3 sm:min-h-8">
+              <TabsTrigger value="search" className="min-h-11 min-w-24 px-3 text-muted-foreground sm:min-h-8">
                 <SearchIcon aria-hidden />
                 {ask("searchTab")}
               </TabsTrigger>
-              <TabsTrigger value="ask" className="min-h-11 min-w-24 px-3 sm:min-h-8">
+              <TabsTrigger value="ask" className="min-h-11 min-w-24 px-3 text-muted-foreground sm:min-h-8">
                 <SparklesIcon aria-hidden />
                 {ask("tab")}
               </TabsTrigger>
