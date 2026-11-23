@@ -1,6 +1,6 @@
 export { buildSearchDocuments, mdxToText } from "./documents";
 export * from "./options";
-export { buildRetrievalPassages, type Passage, splitByHeading, splitParagraphs } from "./passages";
+export { atxHeading, buildRetrievalPassages, type Passage, splitByHeading, splitParagraphs } from "./passages";
 export {
   createRetriever,
   MAX_PASSAGES,

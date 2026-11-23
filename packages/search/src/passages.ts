@@ -62,8 +62,8 @@ export function splitByHeading(body: string): { heading: string; text: string }[
   let inFence = false;
   for (const line of body.split("\n")) {
     if (line.trimStart().startsWith("```")) inFence = !inFence;
-    const heading = inFence ? null : /^#{1,3}\s+(.+?)\s*#*\s*$/.exec(line);
-    if (heading?.[1] !== undefined) sections.push({ heading: heading[1], source: [] });
+    const heading = inFence ? undefined : atxHeading(line);
+    if (heading !== undefined) sections.push({ heading, source: [] });
     else sections.at(-1)?.source.push(line);
   }
   return sections
@@ -192,4 +192,24 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
   }
 
   return passages;
+}
+
+/**
+ * The text of an ATX heading of level 1 to 3 ("## Title", optionally closed
+ * with "##"), or undefined. Parsed by hand instead of one regex: a pattern like
+ * /^#{1,3}\s+(.+?)\s*#*\s*$/ backtracks polynomially on long runs of spaces
+ * (CodeQL js/polynomial-redos), and post bodies are library input.
+ */
+export function atxHeading(line: string): string | undefined {
+  let level = 0;
+  while (level < line.length && line[level] === "#") level++;
+  if (level < 1 || level > 3) return undefined;
+  const next = line[level];
+  if (next !== " " && next !== "\t") return undefined;
+  let text = line.slice(level).trim();
+  // An optional closing sequence of '#' counts only after whitespace.
+  let end = text.length;
+  while (end > 0 && text[end - 1] === "#") end--;
+  if (end < text.length && (end === 0 || text[end - 1] === " " || text[end - 1] === "\t")) text = text.slice(0, end).trimEnd();
+  return text === "" ? undefined : text;
 }
