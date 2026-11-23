@@ -53,14 +53,18 @@ export default async function HomePage() {
       <GitSpine>
         <section className="grid items-end gap-8 pb-14 md:grid-cols-[1fr_auto] md:pb-20">
           <div className="relative space-y-5">
-            {/* Two signatures behind the hero: the owner's mark by the name, NixOS on the right. */}
+            {/*
+             * Two signatures behind the hero text, on opposite corners so they never stack: the owner's
+             * mark behind the name (top left), NixOS behind the summary (bottom right). The column is only
+             * as wide as the space the avatar leaves, so the sizes step with it.
+             */}
             <V1cLogo
               data-spotlight-local=""
-              className="spotlight-reveal pointer-events-none absolute top-8 left-0 -z-10 size-[20rem] text-lane-project max-md:top-12 max-md:size-44"
+              className="spotlight-reveal pointer-events-none absolute top-12 left-0 -z-10 size-44 text-lane-project md:top-8 lg:size-56 xl:size-68"
             />
             <NixosLogo
               data-spotlight-local=""
-              className="spotlight-reveal pointer-events-none absolute -top-10 right-0 -z-10 size-[26rem] max-md:size-64"
+              className="spotlight-reveal pointer-events-none absolute right-0 bottom-0 -z-10 size-40 lg:size-44 xl:size-60"
             />
             <SpineHead />
             <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">

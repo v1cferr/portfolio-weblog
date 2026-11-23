@@ -133,6 +133,25 @@ test.describe("glass header", () => {
   });
 });
 
+test.describe("hero signatures", () => {
+  // The V1C mark and the NixOS logo sit behind the hero text on opposite corners; the text column
+  // shrinks as the avatar takes its share, so they must not stack at any common width.
+  for (const width of [390, 768, 1024, 1171, 1440]) {
+    test(`do not overlap at ${String(width)}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/en-us");
+      const boxes = await page
+        .locator("section svg.spotlight-reveal")
+        .evaluateAll((logos) => logos.map((logo) => logo.getBoundingClientRect().toJSON() as DOMRect));
+      expect(boxes).toHaveLength(2);
+      const [mark, nixos] = boxes as [DOMRect, DOMRect];
+      const overlapX = Math.min(mark.right, nixos.right) - Math.max(mark.left, nixos.left);
+      const overlapY = Math.min(mark.bottom, nixos.bottom) - Math.max(mark.top, nixos.top);
+      expect(overlapX <= 0 || overlapY <= 0).toBe(true);
+    });
+  }
+});
+
 test.describe("visibility rules", () => {
   for (const path of ["/en-us/weblog/openwrt-home-network", "/en-us/does-not-exist"]) {
     test(`${path} is not found`, async ({ page }) => {
