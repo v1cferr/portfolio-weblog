@@ -70,3 +70,30 @@ responsibilities:
 
 technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
 skills: [ai-systems, api-development, automation, technical-documentation, software-development]
+
+# Photos shared by the author on 2026-11-23, resized and stripped of metadata;
+# screens on the desk and the ID badge are blurred; the selection result keeps
+# only the header and the author's own row (other candidates and the
+# signature are cropped out).
+media:
+  - src: /career/fai-ufscar/selection-result.webp
+    alt:
+      en-us: FAI·UFSCar document header with the final result text and one table row, Victor Ferreira in 1st place with a score of 9.93
+      pt-br: Cabeçalho de documento da FAI·UFSCar com o texto do resultado final e uma linha da tabela, Victor Ferreira em 1º lugar com nota 9,93
+    caption:
+      en-us: "Internship selection result: ranked first, score 9.93."
+      pt-br: "Resultado do processo seletivo do estágio: 1º lugar, nota 9,93."
+  - src: /career/fai-ufscar/welcome-kit.webp
+    alt:
+      en-us: FAI·UFSCar welcome kit on a desk, with a notebook, a coaster, a bottle, a "Seja muito bem-vindo(a)!" card and a blurred ID badge
+      pt-br: Kit de boas-vindas da FAI·UFSCar sobre a mesa, com caderno, porta-copos, garrafa, cartão "Seja muito bem-vindo(a)!" e um crachá desfocado
+    caption:
+      en-us: The welcome kit I received at FAI·UFSCar.
+      pt-br: O kit de boas-vindas que recebi na FAI·UFSCar.
+  - src: /career/fai-ufscar/desk.webp
+    alt:
+      en-us: Work desk with a white PC case, a laptop on a stand, a monitor, a keyboard and a FAI·UFSCar mouse pad; the screens are blurred
+      pt-br: Mesa de trabalho com gabinete branco, notebook em suporte, monitor, teclado e mousepad da FAI·UFSCar; as telas estão desfocadas
+    caption:
+      en-us: My desk at the Superintendence, July 2026.
+      pt-br: Minha mesa na Superintendência, julho de 2026.

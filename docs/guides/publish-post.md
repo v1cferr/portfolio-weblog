@@ -25,10 +25,21 @@
    Markdown, GFM tables and fenced code. Components:
 
    <Callout title="...">...</Callout>
+
+   <Figure
+     src="/setup/20260723.webp"
+     width="1600"
+     height="1200"
+     alt="..."
+     caption="..."
+   />
    ```
 
 2. JavaScript expressions are blocked in MDX; only the components exposed in
-   `apps/web/src/features/weblog/mdx.tsx` can be used.
+   `apps/web/src/features/weblog/mdx.tsx` can be used. Images go under
+   `apps/web/public` through `pnpm media:add`, which strips their metadata and
+   prints their size; `Figure` takes that size as strings, so the page reserves
+   the space and does not shift.
 3. Translate by adding another `<locale>.mdx` in the same folder. Without it,
    readers in that locale get the original with a notice.
 4. Corrections to a published article: change the text, set `updatedAt`, and

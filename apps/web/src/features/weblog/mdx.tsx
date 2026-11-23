@@ -3,6 +3,7 @@ import "server-only";
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert";
 import { Separator } from "@workspace/ui/components/separator";
 import { InfoIcon, TriangleAlertIcon } from "lucide-react";
+import Image from "next/image";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { ComponentProps, ReactNode } from "react";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -24,6 +25,28 @@ function Callout({ title, tone = "note", children }: { title?: string; tone?: "n
   );
 }
 
+/**
+ * An image in a post. MDX blocks JS expressions, so the intrinsic size comes
+ * in as strings; it reserves the space so the text does not jump on load.
+ */
+function Figure({ src, alt, caption, width, height }: { src: string; alt: string; caption?: string; width: string; height: string }) {
+  return (
+    <figure className="not-prose my-8 space-y-2">
+      <a href={src} className="block overflow-hidden rounded-lg border bg-muted">
+        <Image
+          src={src}
+          alt={alt}
+          width={Number(width)}
+          height={Number(height)}
+          sizes="(min-width: 768px) 720px, 100vw"
+          className="h-auto w-full"
+        />
+      </a>
+      {caption !== undefined && <figcaption className="text-center text-sm text-muted-foreground">{caption}</figcaption>}
+    </figure>
+  );
+}
+
 function Anchor({ href = "", ...props }: ComponentProps<"a">) {
   // Internal links go through the i18n Link so they keep the reader's locale.
   if (href.startsWith("/")) return <Link href={href} {...props} />;
@@ -36,6 +59,7 @@ const components = {
   a: Anchor,
   hr: () => <Separator className="my-10" />,
   Callout,
+  Figure,
 };
 
 /**

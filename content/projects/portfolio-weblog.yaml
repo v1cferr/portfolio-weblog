@@ -182,3 +182,14 @@ caseStudy:
     pt-br:
       - Um chat de perfil que responde só a partir das páginas públicas do site e as cita, sem virar fonte de fatos.
   adrs: https://github.com/v1cferr/portfolio-weblog/tree/main/docs/decisions
+
+# Screenshot of v1 shared by the author on 2026-11-23, resized and stripped of
+# metadata: the site this project rebuilt.
+media:
+  - src: /projects/portfolio-weblog/v1-home.webp
+    alt:
+      en-us: 'Home page of v1 of this site, dark themed: the author''s round photo, "Oi, sou o Victor.", "Software-AI Engineer in Progress", social links and three quotes'
+      pt-br: 'Página inicial da v1 deste site, no tema escuro: a foto redonda do autor, "Oi, sou o Victor.", "Software-AI Engineer in Progress", links sociais e três citações'
+    caption:
+      en-us: v1 of this site, the starting point of the rebuild.
+      pt-br: A v1 deste site, o ponto de partida da reconstrução.

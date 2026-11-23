@@ -64,3 +64,9 @@
 - id: new-rizon
   name: New Rizon
   kind: company
+
+# Runs the Transforme-se training program; named on the author's certificate.
+- id: serasa-experian
+  name: Serasa Experian
+  kind: company
+  url: https://www.serasaexperian.com.br/

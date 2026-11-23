@@ -42,3 +42,15 @@ pendingReview:
     source: v1 career timeline
   - claim: Set up 60+ machines for new employees
     source: v1 career timeline
+
+# Shared by the author on 2026-11-23. Resized and stripped of metadata; the
+# wall dashboard, the monitor and the laptop screen are blurred because they
+# showed internal tickets and chats.
+media:
+  - src: /career/cultura-inglesa/office.webp
+    alt:
+      en-us: Open-plan IT office with rows of desks and monitors and two wall screens; every screen is blurred
+      pt-br: Escritório aberto de TI com fileiras de mesas e monitores e duas telas na parede; todas as telas estão desfocadas
+    caption:
+      en-us: The IT support room where I worked.
+      pt-br: A sala de suporte de TI onde eu trabalhava.
