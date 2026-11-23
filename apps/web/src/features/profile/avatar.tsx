@@ -9,7 +9,7 @@ const CELL = { width: 6, height: 10 } as const;
 
 /**
  * The owner's avatar: the hero photo as ASCII in the theme's ink, with colour
- * only where the photo is vivid (the FAI logo, the red sign). A lens follows
+ * only where the photo is vivid (the lanyard). A lens follows
  * the pointer and shows the real photo through it, driven by the Spotlight's
  * --spot-local-x/-y (no script of its own). Tapping or focusing it shows the
  * whole photo, which is also how touch screens and reduced motion see it.
@@ -44,7 +44,7 @@ export function Avatar({
           src="/images/hero.jpg"
           alt={name}
           fill
-          sizes="(min-width: 1024px) 30rem, 20rem"
+          sizes="(min-width: 1024px) 24rem, 20rem"
           priority={priority}
           className="avatar-lens object-cover"
         />
