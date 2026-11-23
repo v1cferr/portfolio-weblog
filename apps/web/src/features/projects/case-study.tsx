@@ -21,9 +21,9 @@ function list(value: LocalizedList | undefined, locale: Locale) {
 }
 
 /** A labelled fact inside the TL;DR card. */
-function Fact({ label, children }: { label: string; children: ReactNode }) {
+function Fact({ label, wide = false, children }: { label: string; wide?: boolean; children: ReactNode }) {
   return (
-    <div className="space-y-1">
+    <div className={wide ? "space-y-1 sm:col-span-2" : "space-y-1"}>
       <dt className="font-mono text-xs tracking-wide text-muted-foreground uppercase">{label}</dt>
       <dd className="text-pretty">{children}</dd>
     </div>
@@ -52,45 +52,43 @@ export async function CaseStudySummary({
   const outcome = text(caseStudy.outcome, locale);
   const role = localize(caseStudy.role, locale);
   return (
-    <Card variant="glass" className="gap-4 py-5" aria-labelledby="tldr">
-      <CardHeader className="px-5">
-        <h2 id="tldr" className="font-display text-sm font-semibold tracking-wide uppercase">
-          {t("tldr")}
-        </h2>
-      </CardHeader>
-      <CardContent className="px-5">
-        <dl className="grid gap-4 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <Fact label={t("problem")}>
+    <section aria-labelledby="tldr">
+      <Card variant="glass" className="gap-4 py-5">
+        <CardHeader className="px-5">
+          <h2 id="tldr" className="font-display text-sm font-semibold tracking-wide uppercase">
+            {t("tldr")}
+          </h2>
+        </CardHeader>
+        <CardContent className="px-5">
+          <dl className="grid gap-4 sm:grid-cols-2">
+            <Fact label={t("problem")} wide>
               <span className="text-lg" lang={problem.locale}>
                 {problem.value}
               </span>
             </Fact>
-          </div>
-          {outcome !== undefined && (
-            <div className="sm:col-span-2">
-              <Fact label={t("outcome")}>
+            {outcome !== undefined && (
+              <Fact label={t("outcome")} wide>
                 <span lang={outcome.locale}>{outcome.value}</span>
               </Fact>
-            </div>
-          )}
-          <Fact label={t("role")}>
-            <span lang={role.locale}>{role.value}</span>
-          </Fact>
-          {dates !== undefined && <Fact label={t("dates")}>{dates}</Fact>}
-          {stack !== undefined && (
-            <div className="sm:col-span-2">
-              <Fact label={t("stack")}>{stack}</Fact>
-            </div>
-          )}
-          {links !== undefined && (
-            <div className="sm:col-span-2">
-              <Fact label={t("links")}>{links}</Fact>
-            </div>
-          )}
-        </dl>
-      </CardContent>
-    </Card>
+            )}
+            <Fact label={t("role")}>
+              <span lang={role.locale}>{role.value}</span>
+            </Fact>
+            {dates !== undefined && <Fact label={t("dates")}>{dates}</Fact>}
+            {stack !== undefined && (
+              <Fact label={t("stack")} wide>
+                {stack}
+              </Fact>
+            )}
+            {links !== undefined && (
+              <Fact label={t("links")} wide>
+                {links}
+              </Fact>
+            )}
+          </dl>
+        </CardContent>
+      </Card>
+    </section>
   );
 }
 
