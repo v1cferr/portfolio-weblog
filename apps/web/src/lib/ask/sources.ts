@@ -61,7 +61,7 @@ function pageTitle(passage: RetrievedPassage): string {
   return passage.type === "post" ? (passage.title.split(" › ")[0] ?? passage.title) : passage.title;
 }
 
-const EXCERPT_LENGTH = 280;
+const EXCERPT_LENGTH = 220;
 
 /**
  * The sentences of a passage that match the most query terms, in their
@@ -87,7 +87,8 @@ export function excerpt(passage: RetrievedPassage, length = EXCERPT_LENGTH): str
   }
   const text = picked
     .sort((a, b) => a.index - b.index)
-    .map((candidate) => candidate.sentence)
+    // Lines without a full stop (list items) would run together; close them.
+    .map((candidate) => (/[.!?…:;]$/.test(candidate.sentence) ? candidate.sentence : `${candidate.sentence}.`))
     .join(" ");
   return text.length > length + 40 ? `${text.slice(0, length).trimEnd()}…` : text;
 }
