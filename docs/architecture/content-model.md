@@ -3,18 +3,18 @@
 Schemas live in `packages/content/src/schemas`. Objects are strict: an unknown
 or misspelled field fails validation instead of being silently dropped.
 
-| Entity        | Location                                     | Notes                                                      |
-| ------------- | -------------------------------------------- | ---------------------------------------------------------- |
-| Profile       | `content/profile/profile.yaml`               | headline, summary, about, focus, links, quotes, trajectory |
-| Setup         | `content/profile/setup.yaml`                 | workstation groups; outside the graph                      |
-| Organization  | `content/taxonomies/organizations.yaml`      | companies, schools, programs, platforms                    |
-| Technology    | `content/taxonomies/technologies.yaml`       | name, category, URL                                        |
-| Skill         | `content/taxonomies/skills.yaml`             | broader capabilities, linked to technologies               |
-| Experience    | `content/experiences/<id>.yaml`              | one organization, one or more positions                    |
-| Project       | `content/projects/<id>.yaml`                 | curated metadata + optional `owner/name` repository        |
-| Education     | `content/education/<id>.yaml`                | course, program, degree...                                 |
-| Certification | `content/education/certifications/<id>.yaml` | issuer, issue date, credential URL                         |
-| WeblogPost    | `content/weblog/<slug>/<locale>.mdx`         | frontmatter + MDX body; one file per translation           |
+| Entity        | Location                                         | Notes                                                      |
+| ------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| Profile       | `content/profile/profile.yaml`                   | headline, summary, about, focus, links, quotes, trajectory |
+| Setup         | `content/profile/setup.yaml`                     | workstation groups; outside the graph                      |
+| Organization  | `content/taxonomies/organizations.yaml`          | companies, schools, programs, platforms                    |
+| Technology    | `content/taxonomies/technologies.yaml`           | name, category, URL                                        |
+| Skill         | `content/taxonomies/skills.yaml`                 | broader capabilities, linked to technologies               |
+| Experience    | `content/experiences/<id>.yaml`                  | one organization, one or more positions                    |
+| Project       | `content/projects/<id>.yaml`                     | curated metadata + optional `owner/name` repository        |
+| Education     | `content/education/<id>.yaml`                    | course, program, degree...                                 |
+| Certification | `content/education/certifications/<id>.yaml`     | issuer, issue date, credential URL                         |
+| WeblogPost    | `content/weblog/<YYYY>/<MM>/<slug>/<locale>.mdx` | one file per translation; folder = month of `publishedAt`  |
 
 ## Common fields
 

@@ -1,7 +1,12 @@
 # Publish an article
 
-1. Create `content/weblog/<slug>/<locale>.mdx` (the slug is the URL and the id
-   shared by every translation):
+1. Create `content/weblog/<YYYY>/<MM>/<slug>/<locale>.mdx`. The slug is the URL
+   (`/<locale>/weblog/<slug>`) and the id shared by every translation, so it
+   must be unique across all folders. `<YYYY>/<MM>` is the month of
+   `publishedAt`; a draft without one goes under the month you create it, and
+   moves with `git mv` if it is published in another month (`pnpm content:check`
+   names the right folder). See
+   [ADR 0012](../decisions/0012-dated-content-folders.md).
 
    ```mdx
    ---

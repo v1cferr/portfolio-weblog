@@ -16,3 +16,4 @@ so.
 | [0008](0008-spotify-now-playing.md)                     | Spotify "now playing" returns, on the server's terms | Accepted                  |
 | [0009](0009-security-headers.md)                        | Security headers with a static CSP                   | Accepted                  |
 | [0010](0010-security-pipeline.md)                       | A security pipeline in CI                            | Accepted                  |
+| [0012](0012-dated-content-folders.md)                   | Weblog posts in dated folders, with unchanged URLs   | Accepted                  |
