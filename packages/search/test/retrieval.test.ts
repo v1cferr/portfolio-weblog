@@ -12,7 +12,7 @@ const registry = loadRegistry(
     }),
     "projects/hub.yaml": project({ technologies: ["python"] }),
     "projects/secret.yaml": project({ id: "secret", title: "Secret plans", visibility: "private" }),
-    "weblog/hello/en-us.mdx": post(
+    "weblog/2026/10/hello/en-us.mdx": post(
       { title: "Hello", summary: "First post", status: "published", publishedAt: "2026-10-01", category: "journal", tags: ["intro"] },
       "Intro paragraph.\n\n## Declarative machines\n\nEvery host is described in a flake.\n\n```nix\n# not a heading\n```\n\n## Gardening\n\nTomatoes need sun."
     ),
