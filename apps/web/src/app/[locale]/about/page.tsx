@@ -23,6 +23,7 @@ import { Avatar } from "@/features/profile/avatar";
 import { Trajectory } from "@/features/profile/trajectory";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
+import { ownerTitle } from "@/lib/current-role";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { profilePageJsonLd } from "@/lib/structured-data";
@@ -78,7 +79,7 @@ export default async function AboutPage() {
         source={{ path: "profile/profile.yaml", name: "profile" }}
         icon={UserRoundIcon}
         title={t("title")}
-        description={localize(profile.headline, locale).value}
+        description={ownerTitle(locale).value}
       />
 
       {about?.isFallback === true && <FallbackNotice requested={locale} actual={about.locale} />}

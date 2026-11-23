@@ -1,35 +1,17 @@
 import "server-only";
 
-import { compareDesc, localize } from "@workspace/content";
+import { localize } from "@workspace/content";
 
 import type { Locale } from "@/i18n/routing";
 
 import { getContent } from "./content";
+import { currentRole } from "./current-role";
 import { languageTag } from "./i18n";
 import { absoluteUrl, SITE_URL } from "./site";
 
 /** Stable node ids, so every page's JSON-LD points at the same person and site. */
 export const PERSON_ID = `${SITE_URL}/#person`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
-
-/**
- * The latest current position at an employer (freelance work is not an
- * employer), derived from the career so it changes with the next job.
- */
-function currentRole(locale: Locale) {
-  const content = getContent();
-  const current = content
-    .getExperiences()
-    .flatMap((experience) => {
-      const organization = content.getOrganization(experience.organization);
-      if (organization === undefined || organization.kind === "self-employed") return [];
-      return experience.positions
-        .filter((position) => position.start !== undefined && position.end === undefined)
-        .map((position) => ({ organization, title: localize(position.title, locale).value, start: position.start ?? "" }));
-    })
-    .sort((a, b) => compareDesc(a.start, b.start));
-  return current[0];
-}
 
 /** The name with the handle in quotes after the first name: Victor "v1cferr" Ferreira. */
 export function signature(name: string, handle: string): string {

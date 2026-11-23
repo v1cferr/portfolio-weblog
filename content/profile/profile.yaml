@@ -13,9 +13,11 @@ photo: /images/profile.jpg
 # Home hero, chosen by the owner on 2026-11-23 from their LinkedIn headline ("AI Systems
 # Analyst | AI Engineering • LLMOps • RAG/GraphRAG • Agents | Python/FastAPI •
 # TypeScript/React • Nix/NixOS") plus what they do in practice: local models, MCP,
-# schema-defined output, and models that classify or route. The hero names the role
-# only, not the employer; the career entries show where.
-# Kept in English in every locale, as on LinkedIn (pages mark it lang="en-us").
+# schema-defined output, and models that classify or route.
+#
+# The title the site shows is NOT this headline: it is the current role's title from
+# the career (lib/current-role.ts), without the employer, so it follows the next job on
+# its own. The headline is only the fallback for when no role is open.
 headline:
   en-us: AI Systems Analyst
 
