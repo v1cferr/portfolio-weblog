@@ -1,6 +1,5 @@
 import "server-only";
 
-import Anthropic from "@anthropic-ai/sdk";
 import { checkRateLimit } from "@vercel/firewall";
 import type { Locale } from "@workspace/content";
 import { buildRetrievalPassages, createRetriever, type Retriever } from "@workspace/search";
@@ -23,12 +22,7 @@ export function getRetriever(locale: Locale): Retriever {
   return retriever;
 }
 
-/** The API client, or null without ANTHROPIC_API_KEY: the chat then answers extractively. */
-export function getClient(): Anthropic | null {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (apiKey === undefined || apiKey === "") return null;
-  return new Anthropic({ apiKey, maxRetries: 1, timeout: 20_000 });
-}
+export { getClient } from "./anthropic";
 
 let warned = false;
 function warnOnce(message: string) {
