@@ -25,7 +25,8 @@
     "setup": "Setup",
     "openMenu": "Open menu",
     "skipToContent": "Skip to content",
-    "brandHome": "v1cferr.dev, home page"
+    "brandHome": "v1cferr.dev, home page",
+    "wow": "World of Warcraft"
   },
   "Explorer": {
     "open": "Site explorer (~/)",
@@ -166,7 +167,8 @@
     "stack": "Current stack",
     "stackNote": "What I use every day in my current role, taken from the career entries.",
     "nowLog": "Now log",
-    "next": "What comes next"
+    "next": "What comes next",
+    "wow": "Playing: World of Warcraft"
   },
   "Career": {
     "title": "Career",
@@ -319,6 +321,44 @@
     "markdownHeading": "My setup",
     "photos": "The desk over the years",
     "present": "present"
+  },
+  "Wow": {
+    "title": "World of Warcraft",
+    "description": "The characters I play, the add-ons I run, and a mount I'm still after.",
+    "forever": "WoW Forever",
+    "foreverNote": "Blizzard's Classic+ game, out since November 4, 2026: no realms, one realm per ruleset, and characters named Name Surname. It's what I play most.",
+    "retail": "World of Warcraft (Retail)",
+    "retailNote": "Not playing right now",
+    "charactersLabel": "Characters in {game}",
+    "emptyTitle": "No characters mapped yet",
+    "emptyDescription": "They show up here after the first Battle.net sync.",
+    "level": "Level {level}",
+    "main": "Main",
+    "live": "Live from Battle.net, {date}",
+    "snapshot": "Snapshot of {date}",
+    "snapshotUndated": "Snapshot",
+    "armory": "Armory",
+    "itemLevel": "Item level {value}",
+    "achievementPoints": "{value} achievement points",
+    "rulesets": {
+      "normal": "Normal",
+      "pvp": "PvP",
+      "rp": "RP",
+      "rpPvp": "RP-PvP",
+      "hardcore": "Hardcore"
+    },
+    "factions": {
+      "alliance": "Alliance",
+      "horde": "Horde",
+      "neutral": "Neutral"
+    },
+    "wishlist": "Mounts I'm after",
+    "onWowhead": "on Wowhead",
+    "addons": "Add-ons",
+    "addonsNote": "{count} add-ons for WoW Forever, each pinned to its latest stable release and installed as one <nix>Nix derivation</nix> from my dotfiles.",
+    "addonsSnapshot": "The list could not be read today; this is the copy kept in the site's repository.",
+    "otherGroup": "Other",
+    "addonCount": "{count, plural, one {# add-on} other {# add-ons}}"
   },
   "NotFound": {
     "title": "Page not found",

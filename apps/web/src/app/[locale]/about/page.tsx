@@ -208,6 +208,11 @@ export default async function AboutPage() {
                   {t("next")} <ArrowRightIcon className="size-3.5" aria-hidden />
                 </Link>
               </li>
+              <li>
+                <Link href="/wow" className="inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground">
+                  {t("wow")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                </Link>
+              </li>
             </ul>
           </section>
           <section aria-labelledby="elsewhere">
