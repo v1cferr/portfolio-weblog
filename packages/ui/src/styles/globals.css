@@ -10,35 +10,33 @@
 /*
  * Personal Hub design tokens.
  *
- * Palette: Tokyo Night, the palette of the owner's desktop (dotfiles
- * modules/home/desktop/palette.nix), as Night for dark and Day for light,
- * chosen on 2026-10-23 from a side-by-side bake-off. Day's text, subtext and
- * lane colours are darkened just enough to reach 4.5:1 on the page and on
- * clear glass; Night's originals already pass. One accent, the vermilion of a
- * hanko seal (#c4342c, as on the owner's lockscreen), marks the brand and is
- * kept off small text in dark mode, where it sits under 4.5:1.
+ * Palette: graphite + sage (chosen on 2026-11-23, replacing Tokyo Night). Warm
+ * neutral greys with a faint green cast, like the owner's photo (black jacket,
+ * grey-green wall), and ONE accent, a sage teal, exposed as --primary, --ring
+ * and --brand. No pure black: elevation is a lighter surface, not a shadow.
+ * shadcn's --accent stays what shadcn means by it, a neutral hover fill.
  *
  * Colour is reserved for meaning: each kind of entry (career, project, study,
  * writing) owns one lane colour, used the same way in the timeline, badges,
- * links and the background lanes.
+ * links and the spine. The lanes are desaturated and never pink, purple or
+ * magenta; career is the accent itself. Each was fitted (x0.97 steps towards
+ * black in light, towards white in dark) to at least 4.6:1 on the page, cards,
+ * popovers, the muted fill, the glass tint and the sage glow, in both themes.
  *
- * Light mode is Day proper since 2026-11-22: Day's page and its blue text,
- * every colour darkened from Day's original only as far as 4.5:1 needs on the
- * page, on the glass, on cards and on the muted fill. Links stay apart from
- * the blue text by their underline, not by hue.
+ *           light     dark                light     dark
+ *   page    #f6f7f6   #0f1112    text     #141717   #e6e8e6
+ *   card    #ffffff   #16191a    subtext  #5b6562   #9aa3a0
+ *   muted   #eceeed   #1e2223    border   #d9dedc   #2a2f30
+ *   accent  #2f6f62   #7fb8a8    error    #b23a2e   #e0786c
+ *   career  #2f6f62   #7fb8a8    project  #396795   #86a6c8
+ *   study   #7c5d2b   #d4b07a    writing  #5b6832   #a9b67e
  *
- *           Day (light)   Night (dark)
- *   page    #e1e2e7       #1a1b26        text     #3155a9 / #c0caf5
- *   subtext #4a5786       #a9b1d6        border   #c4c8da / #3b4261
- *   career  #0d6756       #73daca        project  #2159a7 / #7aa2f7
- *   study   #6e5531       #e0af68        writing  #703eb2 / #bb9af7
- *
- * Glass: layered and borderless (revised 2026-11-22): a clearer translucent
- * tint, a 40px backdrop blur with saturation, a top sheen, a soft diffuse
- * shadow, an inner edge highlight and a gradient hairline rim, over soft
- * lane-coloured glows in the backdrop. Interactive glass deepens on hover
- * (.glass-hover). Without backdrop-filter, or with reduced transparency,
- * surfaces fall back to an opaque card with a border.
+ * Glass: layered and borderless (revised 2026-11-22): a clear graphite tint, a
+ * 40px backdrop blur with saturation, a top sheen, a soft diffuse shadow, an
+ * inner edge highlight and a gradient hairline rim, over one soft sage glow in
+ * the backdrop. Interactive glass deepens on hover (.glass-hover). Without
+ * backdrop-filter, or with reduced transparency, surfaces fall back to an
+ * opaque card with a border.
  *
  * Type: Martian Mono for display (name, page and section titles, used with
  * restraint and set semi-condensed), Hanken Grotesk for everything that is
@@ -87,84 +85,84 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #e1e2e7;
-  --foreground: #3155a9;
-  --card: #e9e9ed;
-  --card-foreground: #3155a9;
-  --popover: #ececf0;
-  --popover-foreground: #3155a9;
-  --primary: #3155a9;
-  --primary-foreground: #ececf0;
-  --secondary: #d0d5e3;
-  --secondary-foreground: #3155a9;
-  --muted: #d0d5e3;
-  --muted-foreground: #4a5786;
-  --accent: #d0d5e3;
-  --accent-foreground: #3155a9;
-  --destructive: #af1e48;
-  --border: #c4c8da;
-  --input: #b4bad1;
-  --ring: #2159a7;
-  --brand: #c4342c;
+  --background: #f6f7f6;
+  --foreground: #141717;
+  --card: #ffffff;
+  --card-foreground: #141717;
+  --popover: #ffffff;
+  --popover-foreground: #141717;
+  --primary: #2f6f62;
+  --primary-foreground: #ffffff;
+  --secondary: #eceeed;
+  --secondary-foreground: #141717;
+  --muted: #eceeed;
+  --muted-foreground: #5b6562;
+  --accent: #eceeed;
+  --accent-foreground: #141717;
+  --destructive: #b23a2e;
+  --border: #d9dedc;
+  --input: #c9d0cd;
+  --ring: #2f6f62;
+  --brand: #2f6f62;
 
-  --lane-career: #0d6756;
-  --lane-project: #2159a7;
-  --lane-study: #6e5531;
-  --lane-writing: #703eb2;
+  --lane-career: #2f6f62;
+  --lane-project: #396795;
+  --lane-study: #7c5d2b;
+  --lane-writing: #5b6832;
 
-  --glass-tint: rgb(233 233 237 / 0.55);
-  --glass-tint-hover: rgb(239 239 242 / 0.7);
+  --glass-tint: rgb(255 255 255 / 0.55);
+  --glass-tint-hover: rgb(255 255 255 / 0.7);
   --surface: color-mix(in srgb, var(--foreground) 4%, transparent);
   --surface-hover: color-mix(in srgb, var(--foreground) 7%, transparent);
-  --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 1px 2px rgb(42 46 69 / 0.06);
+  --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 1px 2px rgb(20 23 23 / 0.06);
   --glass-sheen: rgb(255 255 255 / 0.55);
   --glass-rim: linear-gradient(160deg, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.2) 40%, rgb(255 255 255 / 0.6));
-  --glass-glow: 0.22;
+  --glass-glow: 0.12;
   --glass-shadow:
-    0 1px 2px rgb(42 46 69 / 0.04), 0 12px 32px -8px rgb(42 46 69 / 0.14), inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 1px 2px rgb(20 23 23 / 0.04), 0 12px 32px -8px rgb(20 23 23 / 0.14), inset 0 1px 0 rgb(255 255 255 / 0.9),
     inset 0 0 0 1px rgb(255 255 255 / 0.5);
   --glass-shadow-hover:
-    0 1px 2px rgb(42 46 69 / 0.05), 0 18px 40px -8px rgb(42 46 69 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 1px 2px rgb(20 23 23 / 0.05), 0 18px 40px -8px rgb(20 23 23 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.95),
     inset 0 0 0 1px rgb(255 255 255 / 0.55);
 }
 
 .dark {
-  --background: #1a1b26;
-  --foreground: #c0caf5;
-  --card: #1f2335;
-  --card-foreground: #c0caf5;
-  --popover: #1f2335;
-  --popover-foreground: #c0caf5;
-  --primary: #c0caf5;
-  --primary-foreground: #1a1b26;
-  --secondary: #292e42;
-  --secondary-foreground: #c0caf5;
-  --muted: #292e42;
-  --muted-foreground: #a9b1d6;
-  --accent: #292e42;
-  --accent-foreground: #c0caf5;
-  --destructive: #f7768e;
-  --border: #3b4261;
-  --input: #414868;
-  --ring: #7aa2f7;
-  --brand: #c4342c;
+  --background: #0f1112;
+  --foreground: #e6e8e6;
+  --card: #16191a;
+  --card-foreground: #e6e8e6;
+  --popover: #16191a;
+  --popover-foreground: #e6e8e6;
+  --primary: #7fb8a8;
+  --primary-foreground: #0f1112;
+  --secondary: #1e2223;
+  --secondary-foreground: #e6e8e6;
+  --muted: #1e2223;
+  --muted-foreground: #9aa3a0;
+  --accent: #1e2223;
+  --accent-foreground: #e6e8e6;
+  --destructive: #e0786c;
+  --border: #2a2f30;
+  --input: #343a3b;
+  --ring: #7fb8a8;
+  --brand: #7fb8a8;
 
-  --lane-career: #73daca;
-  --lane-project: #7aa2f7;
-  --lane-study: #e0af68;
-  --lane-writing: #bb9af7;
+  --lane-career: #7fb8a8;
+  --lane-project: #86a6c8;
+  --lane-study: #d4b07a;
+  --lane-writing: #a9b67e;
 
-  --glass-tint: rgb(26 27 38 / 0.42);
-  --glass-tint-hover: rgb(36 40 59 / 0.55);
-  --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
-  --glass-sheen: rgb(255 255 255 / 0.1);
-  --glass-rim: linear-gradient(160deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.02) 40%, rgb(255 255 255 / 0.1));
-  --glass-glow: 0.28;
+  --glass-tint: rgb(22 25 26 / 0.42);
+  --glass-tint-hover: rgb(30 34 35 / 0.55);
+  --surface-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --glass-sheen: rgb(255 255 255 / 0.07);
+  --glass-rim: linear-gradient(160deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.02) 40%, rgb(255 255 255 / 0.08));
+  --glass-glow: 0.08;
   --glass-shadow:
-    0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px -10px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 1px 2px rgb(0 0 0 / 0.2), 0 16px 40px -10px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.1),
     inset 0 0 0 1px rgb(255 255 255 / 0.04);
   --glass-shadow-hover:
-    0 1px 2px rgb(0 0 0 / 0.25), 0 22px 48px -10px rgb(0 0 0 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.2),
+    0 1px 2px rgb(0 0 0 / 0.25), 0 22px 48px -10px rgb(0 0 0 / 0.65), inset 0 1px 0 rgb(255 255 255 / 0.14),
     inset 0 0 0 1px rgb(255 255 255 / 0.06);
 }
 
@@ -208,7 +206,7 @@
   /*
    * Content surfaces (direction B, 2026-11-22): nearly transparent over the
    * hex dot grid, a fine top highlight, no border, and a soft spotlight in the
-   * project blue that follows the pointer. The spotlight is one background
+   * sage accent that follows the pointer. The spotlight is one background
    * fixed to the viewport, positioned by --spot-x/--spot-y on :root (set by
    * components/motion/spotlight.tsx), so every surface shares it cheaply.
    */
@@ -216,7 +214,7 @@
     background-color: var(--surface);
     background-image: radial-gradient(
       320px circle at var(--spot-x, -999px) var(--spot-y, -999px),
-      color-mix(in srgb, var(--lane-project) 14%, transparent),
+      color-mix(in srgb, var(--primary) 12%, transparent),
       transparent 70%
     );
     background-attachment: fixed;
