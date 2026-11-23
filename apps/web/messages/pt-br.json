@@ -55,6 +55,55 @@
       "page": "Página"
     }
   },
+  "Ask": {
+    "open": "Perguntar",
+    "openLabel": "Perguntar sobre o Victor",
+    "tab": "Perguntar",
+    "searchTab": "Buscar",
+    "modes": "Buscar ou perguntar",
+    "close": "Fechar",
+    "title": "Pergunte sobre o Victor",
+    "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
+    "placeholder": "Pergunte sobre o trabalho do Victor…",
+    "submit": "Perguntar",
+    "stop": "Parar",
+    "clear": "Nova conversa",
+    "counter": "{count} de {max} caracteres",
+    "suggestionsTitle": "Experimente perguntar",
+    "suggestions": [
+      "Qual é o cargo atual do Victor?",
+      "Como o Victor usa Nix?",
+      "Quais projetos de RAG o Victor construiu?",
+      "Que experiência o Victor tem com segurança?"
+    ],
+    "you": "Você perguntou",
+    "status": {
+      "searching": "Buscando no site…",
+      "ready": "Resposta pronta.",
+      "noSource": "Nada no site responde a isso.",
+      "stopped": "Interrompido.",
+      "error": "Não foi possível carregar a resposta."
+    },
+    "extractive": {
+      "label": "Das páginas do site, sem IA",
+      "unavailable": "A resposta por IA não está disponível agora, então aqui está o que o site diz.",
+      "rate-limited": "Muitas perguntas em pouco tempo: aqui está o que o site diz, no lugar de uma resposta por IA.",
+      "error": "A resposta por IA falhou, então aqui está o que o site diz."
+    },
+    "noSource": {
+      "title": "Isso não está no site",
+      "body": "Nenhuma página daqui responde a isso, e as respostas vêm só das páginas do próprio site. Tente uma busca, ou fale com o Victor pela página Sobre.",
+      "search": "Buscar no site",
+      "about": "Sobre e contato"
+    },
+    "disclosure": "Gerado por IA a partir das páginas deste site; pode conter erros. Confira as fontes.",
+    "sources": "Fontes",
+    "related": "Relacionadas",
+    "citation": "Fonte {n}",
+    "stoppedNote": "Interrompida antes do fim.",
+    "interrupted": "A resposta foi cortada. Tente de novo.",
+    "error": "Algo deu errado. Tente de novo em instantes."
+  },
   "Common": {
     "present": "atual",
     "now": "agora",
