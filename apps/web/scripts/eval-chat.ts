@@ -1,65 +1,95 @@
 /**
  * Profile chat eval (ADR 0011): `pnpm --filter web eval:chat`.
  *
- * Always runs the retrieval checks of evals/profile-chat.yaml (free, offline).
- * With ANTHROPIC_API_KEY set, also asks the model every question and probe,
- * through the same engine as POST /api/ask, and checks citations and rules.
- * That part costs a few cents per run with Claude Haiku 5.5.
+ * Always runs the retrieval and faithfulness checks of
+ * evals/profile-chat.yaml (free, offline). With OPENROUTER_API_KEY set, also
+ * asks the free models every question and probe, through the same engine as
+ * POST /api/ask, and checks what survives the server's grounding checks.
+ * Free models only, so a run costs nothing, but they are rate limited:
+ * expect some fallbacks.
  */
-import { getClient } from "../src/lib/ask/anthropic";
-import { ask } from "../src/lib/ask/engine";
+import type { Locale } from "@workspace/content";
+
+import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval } from "../evals/profile-chat";
+import { ask, openRouterGenerate } from "../src/lib/ask/engine";
+import { getApiKey } from "../src/lib/ask/openrouter";
 import type { AskEvent, AskSource } from "../src/lib/ask/protocol";
-import { loadEvalSet, retrieverFor, runRetrieval } from "../evals/profile-chat";
 
 const set = loadEvalSet();
 let failures = 0;
+const say = (line: string) => {
+  console.warn(line);
+};
 
-console.warn("Retrieval (top 6)");
+say("Retrieval (top 6)");
 for (const result of runRetrieval(set)) {
   if (!result.ok) failures++;
-  const expected = result.expect.length === 0 ? "no source" : result.expect.join(" | ");
-  console.warn(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.question}`);
-  if (!result.ok) console.warn(`       expected ${expected}; got ${result.retrieved.join(", ") || "nothing"}`);
+  say(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.question}`);
+  if (!result.ok) say(`       expected ${result.expect.join(" | ") || "no source"}; got ${result.retrieved.join(", ") || "nothing"}`);
 }
 
-const client = getClient();
-if (client === null) {
-  console.warn("\nModel checks skipped: ANTHROPIC_API_KEY is not set.");
+say("\nFaithfulness check");
+for (const result of runFaithfulness(set)) {
+  if (!result.ok) failures++;
+  say(
+    `  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.score.toFixed(2)} ${result.grounded ? "grounded" : "invented"}: ${result.sentence}`
+  );
+}
+
+const apiKey = getApiKey();
+if (apiKey === null) {
+  say("\nModel checks skipped: OPENROUTER_API_KEY is not set.");
 } else {
-  const answer = async (locale: "en-us" | "pt-br", question: string) => {
+  const generate = openRouterGenerate(apiKey);
+  const answer = async (locale: Locale, question: string) => {
     let text = "";
     let mode = "";
+    let reason = "";
     let sources: AskSource[] = [];
-    const events: AsyncGenerator<AskEvent> = ask({ locale, question, history: [] }, { retriever: retrieverFor(locale), client });
+    const cites: number[] = [];
+    const logs: string[] = [];
+    const events: AsyncGenerator<AskEvent> = ask(
+      { locale, question, history: [] },
+      { retriever: retrieverFor(locale), generate, log: (line) => logs.push(line) }
+    );
     for await (const event of events) {
-      if (event.type === "status") mode = event.mode;
+      if (event.type === "status") {
+        mode = event.mode;
+        reason = event.reason ?? "";
+      }
       if (event.type === "text") text += event.text;
+      if (event.type === "cite") cites.push(event.n);
       if (event.type === "sources") sources = event.sources;
     }
-    return { text, mode, cited: sources.filter((source) => source.n !== null).map((source) => source.url) };
+    const numbered = new Map(sources.flatMap((source) => (source.n === null ? [] : [[source.n, source.url] as const])));
+    return { text, mode, reason, logs, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
   };
 
-  console.warn("\nModel answers");
+  say("\nModel answers (free models via OpenRouter)");
   for (const { locale, question, expect } of set.questions) {
-    if (expect.length === 0) continue;
     const result = await answer(locale, question);
-    const ok = result.mode === "model" && expect.some((url) => result.cited.includes(url));
+    const ok =
+      expect.length === 0
+        ? result.mode === "no-source"
+        : result.mode === "extractive" || (result.validCites && expect.some((url) => result.cited.includes(url)));
     if (!ok) failures++;
-    console.warn(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${question}`);
-    if (!ok)
-      console.warn(`       mode ${result.mode}; cited ${result.cited.join(", ") || "nothing"}\n       ${result.text.replace(/\s+/g, " ")}`);
+    const how = result.mode === "extractive" ? `extractive (${result.reason})` : result.mode;
+    say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${how}: ${question}`);
+    if (!ok || result.mode === "extractive")
+      say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
   }
 
-  console.warn("\nInjection probes");
+  say("\nInjection probes");
   for (const { locale, question, forbid } of set.injections) {
     const result = await answer(locale, question);
     const leaked = [...forbid, "://"].filter((text) => result.text.toLowerCase().includes(text.toLowerCase()));
-    const ok = leaked.length === 0;
+    // Either the model declined (extractive fallback) or every sentence it kept passed the grounding checks.
+    const ok = leaked.length === 0 && (result.mode !== "model" || result.validCites);
     if (!ok) failures++;
-    console.warn(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${question}`);
-    if (!ok) console.warn(`       contains ${leaked.join(", ")}: ${result.text.replace(/\s+/g, " ")}`);
+    say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.reason ? ` (${result.reason})` : ""}: ${question}`);
+    if (result.mode === "model" || !ok) say(`       ${leaked.length > 0 ? `contains ${leaked.join(", ")}: ` : ""}${result.text}`);
   }
 }
 
-console.warn(failures === 0 ? "\nAll checks passed." : `\n${String(failures)} check(s) failed.`);
+say(failures === 0 ? "\nAll checks passed." : `\n${String(failures)} check(s) failed.`);
 process.exitCode = failures === 0 ? 0 : 1;

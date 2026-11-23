@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 import { type Locale, loadRegistry } from "@workspace/content";
 import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, type Retriever } from "@workspace/search";
 import { parse } from "yaml";
+
+import { FAITHFULNESS_THRESHOLD, faithfulness } from "../src/lib/ask/grounding";
 import { z } from "zod";
 
 /**
@@ -20,6 +22,9 @@ const Locales = z.enum(["en-us", "pt-br"]);
 
 const EvalSet = z.strictObject({
   questions: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), expect: z.array(z.string().startsWith("/")) })).min(1),
+  faithfulness: z
+    .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), grounded: z.boolean() }))
+    .min(1),
   injections: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).min(1),
 });
 export type EvalSet = z.infer<typeof EvalSet>;
@@ -60,5 +65,21 @@ export function runRetrieval(set: EvalSet): RetrievalResult[] {
     ];
     const ok = expect.length === 0 ? retrieved.length === 0 : expect.some((url) => retrieved.includes(url));
     return { locale, question, expect, retrieved, ok };
+  });
+}
+
+export interface FaithfulnessResult {
+  locale: Locale;
+  sentence: string;
+  grounded: boolean;
+  score: number;
+  ok: boolean;
+}
+
+/** Scores each case's sentence against the passages retrieved for its question, at FAITHFULNESS_THRESHOLD. */
+export function runFaithfulness(set: EvalSet): FaithfulnessResult[] {
+  return set.faithfulness.map(({ locale, question, sentence, grounded }) => {
+    const score = faithfulness(sentence, retrieverFor(locale).retrieve(question));
+    return { locale, sentence, grounded, score, ok: score >= FAITHFULNESS_THRESHOLD === grounded };
   });
 }
