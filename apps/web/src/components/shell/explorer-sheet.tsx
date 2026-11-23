@@ -130,9 +130,11 @@ export function ExplorerTree({
             <Icon aria-hidden className="size-4 shrink-0 text-muted-foreground" />
             <span className="flex min-w-0 flex-col leading-tight">
               <span className={cn("truncate font-mono text-sm", current && "font-semibold")}>{node.name}</span>
-              <span className="truncate text-xs text-muted-foreground" lang={node.lang}>
-                {node.label}
-              </span>
+              {!repeatsName(node.name, node.label) && (
+                <span className="truncate text-xs text-muted-foreground" lang={node.lang}>
+                  {node.label}
+                </span>
+              )}
             </span>
           </Link>
         </li>
@@ -156,7 +158,9 @@ export function ExplorerTree({
             />
             <Folder aria-hidden className="size-4 shrink-0 text-lane-project" />
             <span className="font-mono text-sm">{node.name}/</span>
-            {node.label !== undefined && <span className="truncate text-xs text-muted-foreground">{node.label}</span>}
+            {node.label !== undefined && !repeatsName(node.name, node.label) && (
+              <span className="truncate text-xs text-muted-foreground">{node.label}</span>
+            )}
           </summary>
           <ul className="ml-3 border-l border-border/60 pl-1.5">{node.children.map(renderNode)}</ul>
         </details>
@@ -165,4 +169,14 @@ export function ExplorerTree({
   }
 
   return <ul>{renderNode(tree)}</ul>;
+}
+
+/**
+ * Whether a label only repeats the file or folder name ("career/ Career" in
+ * en-us). Those are hidden; translated ones ("career/ Carreira") stay.
+ */
+function repeatsName(name: string, label: string | undefined): boolean {
+  if (label === undefined) return true;
+  const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return normalize(name) === normalize(label);
 }

@@ -34,6 +34,18 @@ async function openPhone(browser: Browser) {
   return { context, page: await context.newPage() };
 }
 
+test.describe("explorer labels", () => {
+  test("hides labels that only repeat the name, keeps translated ones", async ({ page }) => {
+    await page.goto("/en-us");
+    const en = await openDesktop(page);
+    await expect(en.locator("summary", { hasText: "career/" })).toHaveText("career/");
+    await page.goto("/pt-br");
+    await page.getByRole("banner").getByRole("button", { name: "Explorador do site (~/)" }).click();
+    const pt = page.getByRole("dialog").getByRole("navigation", { name: "Explorador do site" });
+    await expect(pt.locator("summary", { hasText: "career/" })).toContainText("Carreira");
+  });
+});
+
 test.describe("explorer on desktop", () => {
   test("files the post under its year and month and marks the current page", async ({ page }) => {
     await page.goto(POST);
