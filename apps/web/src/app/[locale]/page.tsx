@@ -16,6 +16,7 @@ import { Trajectory } from "@/features/profile/trajectory";
 import { CommitGraph } from "@/features/timeline/commit-graph";
 import { PostCard } from "@/features/weblog/post-card";
 import { ProjectCard } from "@/features/projects/project-card";
+import { LearningStrip } from "@/features/studies/learning-strip";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { getRepoIndex } from "@/lib/github";
@@ -108,6 +109,7 @@ export default async function HomePage() {
         </section>
 
         <NowCard />
+        <LearningStrip />
 
         {profile.trajectory.length > 0 && (
           <section aria-labelledby="trajectory" className="mb-16">
