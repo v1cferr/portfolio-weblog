@@ -123,7 +123,13 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
     type: "profile",
     locale: headline.locale,
     title: `${profile.name} · ${headline.value}`,
-    keywords: lines(profile.aliases, profile.handle, profile.location),
+    keywords: lines(
+      profile.aliases,
+      profile.handle,
+      profile.location,
+      profile.specialties,
+      profile.stack.map((entry) => entry.label)
+    ),
     text: lines(
       `${profile.name} (${profile.handle}): ${headline.value}.`,
       current.length > 0 ? `${label.current}: ${current.join("; ")}.` : undefined,
