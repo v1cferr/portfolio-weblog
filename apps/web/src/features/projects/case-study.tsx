@@ -181,7 +181,8 @@ export async function CaseStudyDeepDive({ caseStudy, locale }: { caseStudy: Case
                           <span className="font-medium">{t("over")}</span>{" "}
                           <span lang={alternatives.locale}>{alternatives.value.join(t("orSeparator"))}</span>
                         </>
-                      )}{" "}
+                      )}
+                      {", "}
                       <span className="font-medium">{t("because")}</span> <span lang={why.locale}>{why.value}</span>
                     </p>
                     <p>
