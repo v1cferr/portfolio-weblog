@@ -22,3 +22,163 @@ links:
   - { label: v1cferr.dev, url: "https://v1cferr.dev", kind: website }
 technologies: [nextjs, react, typescript, tailwindcss, nix, vercel, github-actions]
 skills: [web-development]
+# Draft from repo facts on 2026-11-23; owner review pending.
+# Sources: docs/decisions 0001-0013, docs/migration/README.md, docs/architecture/ai-roadmap.md,
+# .github/workflows (ci, security, codeql), .husky/pre-commit. outcome and lessons stay
+# empty until the owner answers.
+caseStudy:
+  problem:
+    en-us: >-
+      My first portfolio kept its data inside React components, so every change of content was a
+      code change and nothing checked what the site claimed. I rebuilt it so that versioned,
+      validated content is the source of truth and the site is one view of it.
+    pt-br: >-
+      Meu primeiro portfólio guardava os dados dentro de componentes React, então toda mudança de
+      conteúdo era uma mudança de código e nada conferia o que o site afirmava. Eu o reconstruí para
+      que o conteúdo versionado e validado seja a fonte da verdade e o site, uma representação dele.
+  role:
+    en-us: Solo, from scope to deployment
+    pt-br: Solo, do escopo ao deploy
+  motivation:
+    en-us: >-
+      In v1, career data and projects lived in React components and src/data/*.ts, five of six
+      projects were placeholders, and nothing validated what the site claimed. The hub is meant to
+      last many years and several careers, and the framework that renders it will change long
+      before the content stops mattering. So v2 is a rebuild, not a refactor: migrate knowledge,
+      content and evidence, and do not carry technical debt just because it exists.
+    pt-br: >-
+      Na v1, a trajetória e os projetos viviam em componentes React e em src/data/*.ts, cinco de
+      seis projetos eram placeholders e nada validava o que o site afirmava. O hub foi pensado para
+      durar muitos anos e várias carreiras, e o framework que o renderiza vai mudar bem antes de o
+      conteúdo deixar de importar. Por isso a v2 é uma reconstrução, não um refactor: migrar
+      conhecimento, conteúdo e evidências, sem carregar dívida técnica só porque ela existe.
+  constraints:
+    en-us:
+      - Only content that is published and public reaches any output; claims not yet verified wait in a field no page renders.
+      - Dates keep only the precision that is known (year, month or day), so none is invented.
+      - Nothing mutates state at runtime, so there are no Server Actions, no database and no login.
+      - Every colour keeps 4.5:1 contrast over the glass, checked with axe in both themes.
+      - v1 stays reachable from signed archive tags, a GitHub Release and a legacy deployment.
+    pt-br:
+      - Só conteúdo publicado e público chega a qualquer saída; afirmações ainda não verificadas esperam num campo que nenhuma página renderiza.
+      - As datas guardam só a precisão conhecida (ano, mês ou dia), para não inventar nenhuma.
+      - Nada muda estado em tempo de execução, então não há Server Actions, banco de dados nem login.
+      - Toda cor mantém contraste de 4,5:1 sobre o vidro, verificado com axe nos dois temas.
+      - A v1 continua acessível por tags de arquivo assinadas, uma Release no GitHub e um deploy legado.
+  nonGoals:
+    en-us:
+      - Rebuilding v1's Supabase, Battle.net, Google Sheets and edge-function integrations.
+      - A database next to the content in Git.
+      - Turborepo, while one app and a few source-only packages validate in under a minute.
+    pt-br:
+      - Refazer as integrações da v1 com Supabase, Battle.net, Google Sheets e edge functions.
+      - Um banco de dados ao lado do conteúdo no Git.
+      - Turborepo, enquanto um app e poucos pacotes só de código-fonte validam em menos de um minuto.
+  approach:
+    en-us: >-
+      A pnpm monorepo with one Next.js app and small TypeScript packages. packages/content owns
+      the Zod schemas, loading, cross-file validation and the public registry; the app reads
+      content only through it. YAML holds entities and MDX holds articles. GitHub metadata is
+      enrichment fetched on the server and regenerated at most daily. v2 was built on its own
+      branch, previewed behind a login, and promoted to v1cferr.dev on 2026-11-22.
+    pt-br: >-
+      Um monorepo pnpm com um app Next.js e pacotes TypeScript pequenos. O packages/content é dono
+      dos schemas Zod, do carregamento, da validação entre arquivos e do registro público; o app só
+      lê conteúdo por ele. YAML guarda as entidades e MDX, os artigos. Os metadados do GitHub são
+      enriquecimento buscado no servidor e regenerado no máximo uma vez por dia. A v2 foi feita num
+      branch próprio, com preview atrás de login, e promovida para v1cferr.dev em 22/11/2026.
+  decisions:
+    - title:
+        en-us: Content lives in Git, not in components
+        pt-br: O conteúdo vive no Git, não nos componentes
+      chosen:
+        en-us: versioned YAML and MDX checked by Zod
+        pt-br: YAML e MDX versionados e validados com Zod
+      alternatives:
+        en-us: ["data in React components (v1)", a database]
+        pt-br: ["dados em componentes React (v1)", um banco de dados]
+      why:
+        en-us: >-
+          content survives a change of framework, adding a fact is editing a file that has to pass
+          pnpm content:check, and a database would only duplicate what Git already versions.
+        pt-br: >-
+          o conteúdo sobrevive a uma troca de framework, acrescentar um fato é editar um arquivo que
+          precisa passar no pnpm content:check, e um banco só duplicaria o que o Git já versiona.
+      cost:
+        en-us: >-
+          The registry is built in memory at build time. That is fine for hundreds of entities;
+          tens of thousands would need an index.
+        pt-br: >-
+          O registro é montado em memória no build. Isso basta para centenas de entidades; dezenas de
+          milhares pediriam um índice.
+      adr: https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0001-content-first.md
+    - title:
+        en-us: Next.js is the only backend
+        pt-br: O Next.js é o único backend
+      chosen:
+        en-us: a modular monolith on Next.js
+        pt-br: um monolito modular em Next.js
+      alternatives:
+        en-us: ["a separate API (FastAPI, NestJS or Express)"]
+        pt-br: ["uma API separada (FastAPI, NestJS ou Express)"]
+      why:
+        en-us: >-
+          no requirement needs one, and it would add a deployment, a network hop and a second
+          language runtime.
+        pt-br: >-
+          nenhum requisito pede uma, e ela traria mais um deploy, um salto de rede e um segundo
+          runtime de linguagem.
+      cost:
+        en-us: >-
+          Python pipelines, long-running jobs or local inference do not fit here; they would get
+          their own app, fed by the same public corpus.
+        pt-br: >-
+          Pipelines em Python, jobs longos ou inferência local não cabem aqui; ganhariam um app
+          próprio, alimentado pelo mesmo corpus público.
+      adr: https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0002-nextjs-as-backend.md
+    - title:
+        en-us: A static Content Security Policy
+        pt-br: Uma Content Security Policy estática
+      chosen:
+        en-us: a static CSP in next.config.ts
+        pt-br: uma CSP estática no next.config.ts
+      alternatives:
+        en-us: [per-request nonces]
+        pt-br: [nonces por requisição]
+      why:
+        en-us: >-
+          nonces render every page on demand, which turns off static optimization and ISR and keeps
+          the CDN from caching HTML.
+        pt-br: >-
+          nonces renderizam toda página sob demanda, o que desliga a otimização estática e o ISR e
+          impede a CDN de fazer cache do HTML.
+      cost:
+        en-us: >-
+          Scripts need 'unsafe-inline', because the App Router inlines its payload in script tags.
+        pt-br: >-
+          Os scripts precisam de 'unsafe-inline', porque o App Router embute o payload em tags script.
+      adr: https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0009-security-headers.md
+  howBuilt:
+    en-us: >-
+      Built with Claude Code. I owned the scope, the architecture and the review, and every decision
+      that shaped the site is recorded as an ADR.
+    pt-br: >-
+      Feito com o Claude Code. O escopo, a arquitetura e a revisão foram meus, e toda decisão que
+      moldou o site está registrada num ADR.
+  quality:
+    en-us:
+      - "Pre-commit: Prettier on staged files"
+      - "CI: format, lint, typecheck, content integrity, icons in sync, unit tests and the production build"
+      - "CI: Playwright end-to-end tests, with axe accessibility checks in light and dark"
+      - "Security: pnpm audit of production dependencies, zizmor on the workflows and CodeQL"
+    pt-br:
+      - "Pre-commit: Prettier nos arquivos em stage"
+      - "CI: formatação, lint, typecheck, integridade do conteúdo, ícones em sincronia, testes unitários e o build de produção"
+      - "CI: testes end-to-end com Playwright, com verificação de acessibilidade do axe no claro e no escuro"
+      - "Segurança: pnpm audit das dependências de produção, zizmor nos workflows e CodeQL"
+  next:
+    en-us:
+      - A profile chat that answers only from the site's public pages and cites them, without becoming a source of facts.
+    pt-br:
+      - Um chat de perfil que responde só a partir das páginas públicas do site e as cita, sem virar fonte de fatos.
+  adrs: https://github.com/v1cferr/portfolio-weblog/tree/main/docs/decisions
