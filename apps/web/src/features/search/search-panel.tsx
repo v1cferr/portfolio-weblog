@@ -101,12 +101,12 @@ export default function SearchPanel({
           className="min-h-0 flex-1 gap-0"
         >
           <div className="flex items-center gap-2 border-b p-2">
-            <TabsList aria-label={ask("modes")} className="h-11! flex-1 sm:h-9! sm:flex-none">
-              <TabsTrigger value="search" className="min-w-24 px-3">
+            <TabsList aria-label={ask("modes")} className="h-auto! flex-1 sm:flex-none">
+              <TabsTrigger value="search" className="min-h-11 min-w-24 px-3 sm:min-h-8">
                 <SearchIcon aria-hidden />
                 {ask("searchTab")}
               </TabsTrigger>
-              <TabsTrigger value="ask" className="min-w-24 px-3">
+              <TabsTrigger value="ask" className="min-h-11 min-w-24 px-3 sm:min-h-8">
                 <SparklesIcon aria-hidden />
                 {ask("tab")}
               </TabsTrigger>
