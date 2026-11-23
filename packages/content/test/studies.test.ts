@@ -55,6 +55,16 @@ describe("credential selection", () => {
     expect(ids(selectCredentials({ education, certifications: [] }, { today: TODAY }))).toEqual(["degree", "course"]);
   });
 
+  it("does not show a study twice when its featured certificate is already there", () => {
+    const certificate = cert({ id: "program-cert", issuer: "uni", issuedAt: "2026-05", featured: true });
+    const program = study({ id: "program", state: "completed", end: "2026-05" });
+    expect(ids(selectCredentials({ education: [program, ...education], certifications: [certificate] }, { today: TODAY }))).toEqual([
+      "program-cert",
+      "degree",
+      "course",
+    ]);
+  });
+
   it("respects the limit", () => {
     expect(ids(selectCredentials({ education, certifications }, { today: TODAY, limit: 1 }))).toEqual(["new"]);
     expect(selectCredentials({ education, certifications }, { today: TODAY, limit: 0 })).toEqual([]);

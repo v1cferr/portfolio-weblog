@@ -32,18 +32,22 @@ export function ongoingStudies(education: readonly Education[]): Education[] {
 /**
  * Up to `limit` credentials: the featured certifications that have not
  * expired, newest first, then, while there is room, the completed studies
- * that ended most recently. Unfeatured certifications stay on the Studies page.
+ * that ended most recently. Unfeatured certifications stay on the Studies page,
+ * and a study is skipped when its featured certificate already stands for it.
  */
 export function selectCredentials(
   { education, certifications }: { education: readonly Education[]; certifications: readonly Certification[] },
   { limit = 3, today = new Date() }: { limit?: number; today?: Date } = {}
 ): Credential[] {
-  const featured = certifications
+  const shown = certifications
     .filter((certification) => certification.featured && !isExpired(certification, today))
-    .sort((a, b) => byDateDesc(a.issuedAt, b.issuedAt))
-    .map((certification): Credential => ({ kind: "certification", certification }));
+    .sort((a, b) => byDateDesc(a.issuedAt, b.issuedAt));
+  const featured = shown.map((certification): Credential => ({ kind: "certification", certification }));
+  // A study whose certificate is already shown (same issuer, same month) would appear twice.
+  const certified = new Set(shown.map((certification) => `${certification.issuer}@${certification.issuedAt}`));
   const completed = education
     .filter((item) => item.state === "completed")
+    .filter((item) => item.end === undefined || !certified.has(`${item.institution}@${item.end}`))
     .sort((a, b) => byDateDesc(a.end ?? a.start, b.end ?? b.start))
     .map((item): Credential => ({ kind: "education", education: item }));
   return [...featured, ...completed].slice(0, Math.max(0, limit));
