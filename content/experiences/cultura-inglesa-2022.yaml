@@ -1,10 +1,14 @@
-# Sources: v1 career timeline (role, dates, duties) and Jira PWL-33 (learnings).
+# Sources: v1 career timeline (duties) and Jira PWL-33 (learnings). Title,
+# dates, location and the LinkedIn duties come from the author's LinkedIn
+# profile (PDF export), chosen as the reference by the author on 2026-11-23.
 id: cultura-inglesa-2022
 organization: cultura-inglesa
+location: São Paulo, SP, Brazil
 positions:
-  - title: { en-us: IT support technician, pt-br: Técnico de suporte de TI }
+  - title: { en-us: IT Support Technician Intern, pt-br: Estagiário de suporte técnico de TI }
+    employmentType: internship
     start: 2022-09
-    end: 2023-04
+    end: 2023-03
 
 summary:
   en-us: IT support for staff and classrooms, working alongside the infrastructure team.
@@ -16,11 +20,19 @@ responsibilities:
     - Preventive maintenance to reduce recurring failures
     - Prepared workstations for new employees and helped with their onboarding
     - Gave field support teams the information and data they needed
+    - Troubleshot hardware, software and user access issues with the infrastructure team
+    - Preventive and corrective maintenance of desktops, notebooks, printers and peripherals
+    - Used support and remote access tools to handle requests and help users
+    - Formatted and configured Windows and ChromeOS devices for internal users
   pt-br:
     - Atendimento de chamados no Jira e priorização de incidentes críticos
     - Manutenção preventiva para reduzir falhas recorrentes
     - Preparação de máquinas para novos colaboradores e apoio no onboarding
     - Apoio ao suporte de campo com informações e dados
+    - Diagnóstico de problemas de hardware, software e acesso de usuários com o time de infraestrutura
+    - Manutenção preventiva e corretiva de desktops, notebooks, impressoras e periféricos
+    - Ferramentas de suporte e de acesso remoto para atender chamados e ajudar usuários
+    - Formatação e configuração de dispositivos Windows e ChromeOS para usuários internos
 
 learnings:
   en-us:

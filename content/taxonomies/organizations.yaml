@@ -1,7 +1,9 @@
 # Organizations referenced by experiences, studies and certifications.
 # Logos live in apps/web/public/company-logos: the compact icon each
 # organization declares on its own website (Xmart and Cultura Inglesa keep the
-# v1 files), prepared with pnpm media:add.
+# v1 files), prepared with pnpm media:add. Senac São Paulo is the exception:
+# its favicon is a 32 px crop of the symbol, so it uses the stacked logo from
+# its own site header instead.
 
 - id: amcor
   name: Amcor
@@ -15,11 +17,16 @@
   url: https://www.culturainglesa.com.br/
   logo: /company-logos/cultura-inglesa.webp
 
+# The VIP Telecom brand later became Giga+, whose site keeps a page for it
+# (owner-provided, 2026-11-23).
 - id: vip-telecom
   name: VIP Telecom (Giga+)
   kind: company
-  url: https://www.viptelecominternet.com.br/
+  url: https://www.gigamaisfibra.com.br/vip-telecom/
   logo: /company-logos/vip-telecom.png
+  description:
+    en-us: A regional internet provider whose brand later became Giga+.
+    pt-br: Um provedor de internet regional cuja marca depois passou a ser Giga+.
 
 - id: xmart-solutions
   name: Xmart Solutions
@@ -61,12 +68,61 @@
   url: https://www.oracle.com/br/education/oracle-next-education/
   logo: /company-logos/oracle.png
 
+# Runs the Orion bootcamp; site owner-provided on 2026-11-23.
 - id: new-rizon
   name: New Rizon
   kind: company
+  url: https://orion.newrizon.global/
+  # The Orion site's favicon: the bootcamp badge.
+  logo: /company-logos/new-rizon.png
 
 # Runs the Transforme-se training program; named on the author's certificate.
 - id: serasa-experian
   name: Serasa Experian
   kind: company
   url: https://www.serasaexperian.com.br/
+  logo: /company-logos/serasa-experian.png
+
+# Studies from the author's LinkedIn education entries, confirmed by the
+# author on 2026-11-23.
+- id: ufscar
+  name: UFSCar
+  kind: university
+  url: https://www.ufscar.br/
+  logo: /company-logos/ufscar.png
+  location: São Carlos, SP, Brazil
+  description:
+    en-us: Universidade Federal de São Carlos, a federal public university.
+    pt-br: Universidade Federal de São Carlos, uma universidade pública federal.
+
+- id: senac-sp
+  name: Senac São Paulo
+  kind: school
+  url: https://www.sp.senac.br/
+  logo: /company-logos/senac-sp.png
+
+- id: 42-paris
+  name: 42 Paris
+  kind: school
+  url: https://42.fr/
+  logo: /company-logos/42.png
+
+# Certificate issuers from the author's LinkedIn profile (read 2026-11-23).
+- id: amazon-web-services
+  name: Amazon Web Services (AWS)
+  kind: company
+  url: https://aws.amazon.com/
+
+- id: google
+  name: Google
+  kind: company
+  url: https://grow.google/
+
+- id: ka-solution
+  name: Ka Solution
+  kind: company
+
+- id: cruzeiro-do-sul
+  name: Universidade Cruzeiro do Sul
+  kind: school
+  url: https://www.cruzeirodosul.edu.br/

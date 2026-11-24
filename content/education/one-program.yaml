@@ -1,11 +1,15 @@
 # Evidence: public repositories built during the program (their descriptions
-# and topics name ONE and Alura). Dates and completion are not recorded
-# anywhere, so they are left out instead of guessed.
+# and topics name ONE and Alura). Dates: the author's LinkedIn education entry
+# "Alura, Frontend Development Program (February 2023 - October 2023)" is this
+# program, as the author confirmed on 2026-11-23, along with its completion.
 id: one-program
 institution: oracle-next-education
 kind: course
 title:
   en-us: Oracle Next Education (ONE), in partnership with Alura
   pt-br: Oracle Next Education (ONE), em parceria com a Alura
+state: completed
+start: 2023-02
+end: 2023-10
 projects: [barberia-alura, encriptador-descriptador]
 technologies: [html, css, javascript]

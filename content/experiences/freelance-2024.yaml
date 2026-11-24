@@ -1,5 +1,7 @@
 # Source: v1 career timeline (title, start date, description), confirmed by
-# the author on 2026-10-10 as still active.
+# the author on 2026-10-10 as still active. Xmart Solutions as a freelance
+# client: stated by the author on 2026-11-23; the full LinkedIn profile dates
+# that engagement April–November 2025, remote (see xmart-solutions-2024).
 id: freelance-2024
 organization: independent
 positions:
@@ -11,9 +13,17 @@ summary:
   en-us: Web applications that integrate AI and LLM models to automate processes and analyze data.
   pt-br: Desenvolvimento de aplicações web integrando modelos de IA/LLM para automação de processos e análise de dados.
 
+responsibilities:
+  en-us:
+    - Freelance work for Xmart Solutions, remote, from April to November 2025, after my full-time period there
+  pt-br:
+    - Trabalho como freelancer para a Xmart Solutions, remoto, de abril a novembro de 2025, depois do meu período em tempo integral lá
+
 skills: [ai-systems, automation, web-development]
 
 pendingReview:
   - claim: Clients and projects delivered as a freelancer
     source: none recorded
-    note: add public projects or clients that can be named, with evidence
+    note: >-
+      Xmart Solutions is a named client, April–November 2025 (author and LinkedIn, 2026-11-23); add other public
+      projects or clients that can be named, with evidence

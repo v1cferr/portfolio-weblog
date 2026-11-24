@@ -10,6 +10,11 @@ summary:
   en-us: Second-level support for internet customers of a regional ISP.
   pt-br: Suporte de segundo nível para clientes de um provedor de internet regional.
 
+# The rebrand is owner-provided (2026-11-23): https://www.gigamaisfibra.com.br/vip-telecom/
+context:
+  en-us: VIP Telecom's brand later became Giga+.
+  pt-br: A marca VIP Telecom depois passou a ser Giga+.
+
 responsibilities:
   en-us:
     - Supported external customers with network, router and traffic-control problems

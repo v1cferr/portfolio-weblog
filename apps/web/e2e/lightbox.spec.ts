@@ -7,44 +7,55 @@ import { expect, type Page, test } from "@playwright/test";
  */
 
 const SETUP = "/en-us/setup";
-const FIRST = { src: "/setup/20260915.webp", caption: "NixOS on the Kingston NVMe, with the second monitor turned vertical." };
 
 const photoLinks = (page: Page) => page.locator('section[aria-labelledby="setup-photos"] a[href^="/setup/"]');
 const dialog = (page: Page) => page.getByRole("dialog");
 const counter = (page: Page) => page.getByTestId("lightbox-counter");
 const photoParam = (page: Page) => new URL(page.url()).searchParams.get("photo");
 
+/** The gallery's size and its newest photo, read from the page so new photos don't break the tests. */
+async function gallery(page: Page) {
+  const links = photoLinks(page);
+  const total = await links.count();
+  const src = (await links.first().getAttribute("href")) ?? "";
+  return { total, src };
+}
+
 async function openFirst(page: Page) {
   await page.goto(SETUP);
+  const info = await gallery(page);
   await photoLinks(page).first().click();
   await expect(dialog(page)).toBeVisible();
+  return info;
 }
 
 test.describe("lightbox", () => {
   test("a click opens the image in a named dialog with its caption, date and position", async ({ page }) => {
-    await openFirst(page);
-    await expect(dialog(page)).toHaveAccessibleName(FIRST.caption);
-    await expect(counter(page)).toHaveText("1/15");
-    await expect(dialog(page).getByText("Image 1 of 15")).toBeAttached();
-    await expect(dialog(page).getByText(FIRST.caption)).toBeVisible();
-    await expect(dialog(page).locator("time")).toHaveAttribute("datetime", "2026-09-15");
-    await expect(dialog(page).getByRole("link", { name: /Open original/ })).toHaveAttribute("href", FIRST.src);
+    const { total, src } = await openFirst(page);
+    const caption = (await dialog(page).getByTestId("lightbox-caption").textContent())?.trim() ?? "";
+    expect(caption.length).toBeGreaterThan(0);
+    await expect(dialog(page)).toHaveAccessibleName(caption);
+    await expect(counter(page)).toHaveText(`1/${String(total)}`);
+    await expect(dialog(page).getByText(`Image 1 of ${String(total)}`)).toBeAttached();
+    await expect(dialog(page).locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}(-\d{2})?$/);
+    await expect(dialog(page).getByRole("link", { name: /Open original/ })).toHaveAttribute("href", src);
     expect(photoParam(page)).toBe("setup-1");
   });
 
   test("the arrow keys and buttons step through the gallery", async ({ page }) => {
-    await openFirst(page);
+    const { total } = await openFirst(page);
+    const last = `${String(total)}/${String(total)}`;
     await page.keyboard.press("ArrowRight");
-    await expect(counter(page)).toHaveText("2/15");
+    await expect(counter(page)).toHaveText(`2/${String(total)}`);
     expect(photoParam(page)).toBe("setup-2");
     await page.keyboard.press("ArrowLeft");
-    await expect(counter(page)).toHaveText("1/15");
+    await expect(counter(page)).toHaveText(`1/${String(total)}`);
     await page.keyboard.press("ArrowLeft");
-    await expect(counter(page)).toHaveText("15/15");
+    await expect(counter(page)).toHaveText(last);
     await dialog(page).getByRole("button", { name: "Next image" }).click();
-    await expect(counter(page)).toHaveText("1/15");
+    await expect(counter(page)).toHaveText(`1/${String(total)}`);
     await dialog(page).getByRole("button", { name: "Previous image" }).click();
-    await expect(counter(page)).toHaveText("15/15");
+    await expect(counter(page)).toHaveText(last);
   });
 
   test("Esc closes it and gives focus back to the thumbnail", async ({ page }) => {
@@ -73,9 +84,11 @@ test.describe("lightbox", () => {
   });
 
   test("a ?photo= link opens that image on load", async ({ page }) => {
+    await page.goto(SETUP);
+    const { total } = await gallery(page);
     await page.goto(`${SETUP}?photo=setup-3`);
     await expect(dialog(page)).toBeVisible();
-    await expect(counter(page)).toHaveText("3/15");
+    await expect(counter(page)).toHaveText(`3/${String(total)}`);
     await page.keyboard.press("Escape");
     await expect(dialog(page)).toBeHidden();
     expect(photoParam(page)).toBeNull();
@@ -90,12 +103,13 @@ test.describe("lightbox", () => {
   test("the thumbnail stays a link to the file, and a modified click is left to the browser", async ({ page, context, isMobile }) => {
     test.skip(isMobile, "modifier clicks need a keyboard");
     await page.goto(SETUP);
+    const { src } = await gallery(page);
     const link = photoLinks(page).first();
-    await expect(link).toHaveAttribute("href", FIRST.src);
+    await expect(link).toHaveAttribute("href", src);
     const opened = context.waitForEvent("page");
     await link.click({ modifiers: ["ControlOrMeta"] });
     const tab = await opened;
-    expect(new URL(tab.url()).pathname).toBe(FIRST.src);
+    expect(new URL(tab.url()).pathname).toBe(src);
     await tab.close();
     await expect(dialog(page)).toBeHidden();
     expect(photoParam(page)).toBeNull();
@@ -103,7 +117,7 @@ test.describe("lightbox", () => {
 
   test("a horizontal swipe turns the page", async ({ page, isMobile }) => {
     test.skip(isMobile, "drives the pointer with a mouse");
-    await openFirst(page);
+    const { total } = await openFirst(page);
     const frame = page.getByTestId("lightbox-frame");
     const box = await frame.boundingBox();
     if (box === null) throw new Error("no frame");
@@ -111,7 +125,7 @@ test.describe("lightbox", () => {
     await page.mouse.down();
     await page.mouse.move(box.x + box.width / 2 - 200, box.y + box.height / 2, { steps: 8 });
     await page.mouse.up();
-    await expect(counter(page)).toHaveText("2/15");
+    await expect(counter(page)).toHaveText(`2/${String(total)}`);
   });
 
   test("a career gallery opens from its tiles too", async ({ page }) => {

@@ -220,6 +220,40 @@ groups:
 # member), and the 2025-01-27 lock screen widgets (weather and traffic for the
 # home town) are blurred.
 photos:
+  # 2026-11-23: screenshots shared by the author, dated by their file names,
+  # re-encoded to webp without metadata. Checked before publishing: no chats,
+  # notifications, e-mails, IPs or tokens are on screen (the GitHub Actions
+  # panel shows this public repository), so nothing is blurred.
+  - src: /setup/20261123-all.webp
+    width: 2000
+    height: 1055
+    date: 2026-11-23
+    alt:
+      en-us: "Both monitors side by side: the vertical one with a clock, weather, energy chart, GitHub Actions runs and system gauges over a spiral galaxy, the main one with fastfetch on NixOS over a starfield"
+      pt-br: "Os dois monitores lado a lado: o vertical com relógio, clima, gráfico de energia, execuções do GitHub Actions e medidores do sistema sobre uma galáxia espiral, o principal com o fastfetch no NixOS sobre um campo de estrelas"
+    caption:
+      en-us: "The NixOS desktop in November 2026, across both monitors."
+      pt-br: "Desktop no NixOS em novembro de 2026, nos dois monitores."
+  - src: /setup/20261123-secondary.webp
+    width: 900
+    height: 1600
+    date: 2026-11-23
+    alt:
+      en-us: "Vertical monitor with Quickshell widgets: clock and weather, CPU and GPU energy use, GitHub Actions runs of portfolio-weblog, CPU, RAM, disk, GPU, temperature and network gauges, and running services, over a spiral galaxy"
+      pt-br: "Monitor vertical com widgets do Quickshell: relógio e clima, consumo de energia da CPU e da GPU, execuções do GitHub Actions do portfolio-weblog, medidores de CPU, RAM, disco, GPU, temperatura e rede, e serviços em execução, sobre uma galáxia espiral"
+    caption:
+      en-us: "The secondary monitor, vertical: a Quickshell dashboard."
+      pt-br: "O monitor secundário, na vertical: um painel feito no Quickshell."
+  - src: /setup/20261123-primary.webp
+    width: 1600
+    height: 900
+    date: 2026-11-23
+    alt:
+      en-us: "Main monitor with a kitty terminal running fastfetch: NixOS 26.05, Hyprland 0.57.2, Quickshell, Intel Core i5-11400 and Intel Arc B580, over a starfield wallpaper"
+      pt-br: "Monitor principal com um terminal kitty rodando o fastfetch: NixOS 26.05, Hyprland 0.57.2, Quickshell, Intel Core i5-11400 e Intel Arc B580, sobre um papel de parede de campo de estrelas"
+    caption:
+      en-us: "The NixOS desktop in November 2026: Hyprland + Quickshell on the main monitor."
+      pt-br: "Desktop no NixOS em novembro de 2026: Hyprland + Quickshell no monitor principal."
   # 2025-09 to 2026-09: shared by the author on 2026-11-23; dates are each
   # photo's EXIF DateTimeOriginal, read before the metadata was stripped. On
   # 2026-07-23 and 2026-09-15 the LAN IP is blurred; on 2026-09-15 also a
