@@ -119,6 +119,12 @@ export const Wow = z
     visibility: Visibility.default("public"),
     /** The day `pnpm wow:sync` last mapped the characters; absent until it runs. */
     syncedAt: Day.optional(),
+    /**
+     * Characters below this level stay in the file (the sync keeps them) but
+     * are not shown, whatever the game. A character with no known level is
+     * hidden too while it is set.
+     */
+    minLevel: z.int().min(1).max(100).optional(),
     characters: z.array(WowCharacter).default([]),
     wishlist: z.array(WowWish).default([]),
     addons: WowAddons.optional(),

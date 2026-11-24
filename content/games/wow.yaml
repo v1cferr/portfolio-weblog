@@ -6,8 +6,10 @@
 # them. The site refreshes each character with live: true from Battle.net once
 # a day and falls back to what this file says.
 #
-# First synced on 2026-11-24. The owner chose to show all characters, with one
-# main per game: Fearvy (Retail) and Victor Whitebane (WoW Forever).
+# First synced on 2026-11-24, with one main per game: Fearvy (Retail) and
+# Victor Whitebane (WoW Forever). The owner chose on 2026-11-24 to show only
+# characters at level 20 or above, in every game; the rest stay here.
+minLevel: 20
 characters:
   - game: retail
     name: Viictororc

@@ -67,6 +67,16 @@ describe("wow page content", () => {
     expect(() => loadWow(bad)).toThrow(ContentValidationError);
   });
 
+  it("hides characters below minLevel in every game, and those with no level, but keeps them in the file", () => {
+    const low = { ...retail, name: "Magnon", level: 6 };
+    const unknown = { ...forever, name: "Lunastra", surname: "Gorehorn", level: undefined };
+    const root = makeContent({ "games/wow.yaml": { minLevel: 20, characters: [forever, retail, low, unknown] } });
+    expect(loadWow(root)?.characters.map((c) => c.name)).toEqual(["Judgement", "Fearvy"]);
+    expect(loadWowContent(root).wow?.characters).toHaveLength(4);
+    const all = makeContent({ "games/wow.yaml": { characters: [forever, low] } });
+    expect(loadWow(all)?.characters).toHaveLength(2);
+  });
+
   it("the real file is valid", () => {
     const { wow, issues } = loadWowContent(findContentRoot());
     expect(issues).toEqual([]);
