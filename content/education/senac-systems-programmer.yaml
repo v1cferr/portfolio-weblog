@@ -1,6 +1,11 @@
 # Source: the author's LinkedIn education entry (PDF export, "Systems
 # Programmer, Computer Software Technology/Technician · (May 2025 - May
-# 2026)"), confirmed by the author on 2026-11-23 as completed.
+# 2026)"), confirmed by the author on 2026-11-23 as completed. The full profile
+# (read 2026-11-23) records the Transforme-se program (Serasa Experian + Senac,
+# Technology and Data track, 280 h) as this entry's activity and DebtView as its
+# final integrative project, so the Transforme-se study and its photos live here.
+# Photos shared by the author on 2026-11-23, resized and stripped of metadata;
+# the class photo keeps everyone (they consented), with ID badges blurred.
 id: senac-systems-programmer
 institution: senac-sp
 kind: technical
@@ -10,3 +15,39 @@ title:
 state: completed
 start: 2025-05
 end: 2026-05
+summary:
+  en-us: >-
+    Systems programming training through Transforme-se, a program by Serasa Experian with Senac
+    São Paulo: the 280-hour Technology and Data track. In the final integrative project, DebtView, I
+    worked on the front end, database integration, tests and fixes, and an AI chatbot module.
+  pt-br: >-
+    Formação em programação de sistemas pelo Transforme-se, programa da Serasa Experian com o Senac
+    São Paulo: a trilha de Tecnologia e Dados, de 280 horas. No projeto integrador final, o DebtView,
+    trabalhei no front end, na integração com o banco, em testes e correções e num módulo de chatbot
+    com IA.
+
+media:
+  - src: /education/transforme-se/certificate.webp
+    width: 1600
+    height: 1136
+    alt:
+      en-us: Transforme-se certificate awarded to Victor Ferreira for the Technology and Data track of Serasa Experian's program, 280 hours, São Carlos, 20 May 2026
+      pt-br: Certificado Transforme-se conferido a Victor Ferreira pela formação em Tecnologia e Dados do programa da Serasa Experian, 280 horas, São Carlos, 20 de maio de 2026
+    caption:
+      en-us: The certificate, 280 hours.
+      pt-br: O certificado, 280 horas.
+  - src: /education/transforme-se/class.webp
+    width: 1600
+    height: 1200
+    alt:
+      en-us: The class posing in an auditorium, most of them in blue and purple Transforme-se t-shirts
+      pt-br: A turma posando em um auditório, a maioria com camisetas azuis e roxas do Transforme-se
+    caption:
+      en-us: The class.
+      pt-br: A turma.
+  - src: /education/transforme-se/library.webp
+    width: 1200
+    height: 1600
+    alt:
+      en-us: Victor standing in a library in a blue Serasa Experian Transforme-se t-shirt, between shelves of books and magazines
+      pt-br: Victor em pé em uma biblioteca com a camiseta azul do Transforme-se da Serasa Experian, entre estantes de livros e revistas
