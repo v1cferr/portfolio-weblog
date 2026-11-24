@@ -7,6 +7,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { PageTransition } from "@/components/page-transition";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
+import type { LightboxItem } from "@/components/lightbox/photo-param";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
@@ -36,6 +38,22 @@ export default async function SetupPage() {
   if (setup === undefined) notFound();
 
   const firstTitle = setup.groups[0] && localize(setup.groups[0].title, locale);
+  const photos = newestFirst(setup.photos, (photo) => ({ start: photo.date, end: photo.date })).map((photo) => ({
+    photo,
+    alt: localize(photo.alt, locale),
+    caption: photo.caption && localize(photo.caption, locale),
+    date: formatPartialDate(photo.date, locale),
+  }));
+  const photoItems = photos.map(({ photo, alt, caption, date }): LightboxItem => ({
+    src: photo.src,
+    width: photo.width,
+    height: photo.height,
+    alt: alt.value,
+    altLang: alt.locale,
+    caption: caption?.value,
+    captionLang: caption?.locale,
+    date: { iso: photo.date, label: date },
+  }));
 
   return (
     <PageTransition>
@@ -141,22 +159,24 @@ export default async function SetupPage() {
           );
         })}
       </div>
-      {setup.photos.length > 0 && (
+      {photos.length > 0 && (
         <section aria-labelledby="setup-photos" className="mt-14">
           <SectionHeading id="setup-photos">{t("photos")}</SectionHeading>
-          <RailTimeline
-            lane="project"
-            nodeClassName="top-5"
-            gapClassName="space-y-4"
-            entries={newestFirst(setup.photos, (photo) => ({ start: photo.date, end: photo.date })).map((photo) => {
-              const alt = localize(photo.alt, locale);
-              const caption = photo.caption && localize(photo.caption, locale);
-              return {
+          <Lightbox id="setup" items={photoItems}>
+            <RailTimeline
+              lane="project"
+              nodeClassName="top-5"
+              gapClassName="space-y-4"
+              entries={photos.map(({ photo, alt, caption, date }, index) => ({
                 key: photo.src,
                 node: "past",
                 children: (
                   <figure className="glass grid gap-4 overflow-hidden rounded-xl border p-3 sm:grid-cols-[18rem_minmax(0,1fr)] sm:p-4">
-                    <a href={photo.src} className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted">
+                    <LightboxTrigger
+                      index={index}
+                      className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted"
+                      frameClassName="absolute inset-0"
+                    >
                       <Image
                         src={photo.src}
                         alt={alt.value}
@@ -164,10 +184,10 @@ export default async function SetupPage() {
                         sizes="(min-width: 640px) 288px, 100vw"
                         className="object-cover transition-transform hover:scale-[1.02]"
                       />
-                    </a>
+                    </LightboxTrigger>
                     <figcaption className="space-y-1.5 self-center">
                       <time dateTime={photo.date} className="font-mono text-xs text-muted-foreground tabular-nums">
-                        {formatPartialDate(photo.date, locale)}
+                        {date}
                       </time>
                       {caption && (
                         <p className="text-pretty" lang={caption.locale}>
@@ -177,9 +197,9 @@ export default async function SetupPage() {
                     </figcaption>
                   </figure>
                 ),
-              };
-            })}
-          />
+              }))}
+            />
+          </Lightbox>
         </section>
       )}
 
