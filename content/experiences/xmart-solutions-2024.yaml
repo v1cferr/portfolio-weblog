@@ -1,8 +1,8 @@
 # Sources: v1 career timeline (duties) and Jira PWL-33 and PWL-25 (learnings,
 # technologies, XGuardian). Positions, dates, locations and the LinkedIn
 # responsibilities come from the author's LinkedIn profile (PDF export), which
-# the author chose as the reference on 2026-11-23; the freelance work after the
-# full-time period was stated by the author the same day. The product is
+# the author chose as the reference on 2026-11-23. The full profile (read the
+# same day) marks the Software Developer position as freelance and remote. The product is
 # public; names of colleagues from the Jira notes are not published.
 id: xmart-solutions-2024
 organization: xmart-solutions
@@ -26,12 +26,13 @@ positions:
     end: 2025-04
     location: Santo André, SP, Brazil
   - title: { en-us: Software Developer, pt-br: Desenvolvedor de software }
+    employmentType: freelance
     start: 2025-04
     end: 2025-11
     location: São Carlos, SP, Brazil
     note:
-      en-us: Continued contributing after the full-time period through freelance work.
-      pt-br: Continuei contribuindo depois do período em tempo integral, como freelancer.
+      en-us: Freelance and remote, after the full-time period.
+      pt-br: Freelance e remoto, depois do período em tempo integral.
     responsibilities:
       en-us:
         - Backend development and maintenance of XGuardian products, in a cybersecurity product environment
