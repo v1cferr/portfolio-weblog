@@ -5,6 +5,7 @@ import {
   BriefcaseIcon,
   CompassIcon,
   ExternalLinkIcon,
+  LanguagesIcon,
   LayersIcon,
   ListChecksIcon,
   PenLineIcon,
@@ -216,6 +217,30 @@ export default async function AboutPage() {
               </li>
             </ul>
           </section>
+          {profile.languages.length > 0 && (
+            <section aria-labelledby="languages">
+              <h2 id="languages" className="mb-3 flex items-center gap-2 font-mono text-xs tracking-wide text-muted-foreground uppercase">
+                <LanguagesIcon className="size-3.5" aria-hidden />
+                {t("languages")}
+              </h2>
+              <dl className="space-y-1.5">
+                {profile.languages.map((language) => {
+                  const name = localize(language.name, locale);
+                  const level = localize(language.level, locale);
+                  return (
+                    <div key={name.value} className="flex flex-wrap items-baseline gap-x-2">
+                      <dt className="font-medium" lang={name.locale}>
+                        {name.value}
+                      </dt>
+                      <dd className="text-sm text-muted-foreground" lang={level.locale}>
+                        {level.value}
+                      </dd>
+                    </div>
+                  );
+                })}
+              </dl>
+            </section>
+          )}
           <section aria-labelledby="elsewhere">
             <h2 id="elsewhere" className="mb-3 font-mono text-xs tracking-wide text-muted-foreground uppercase">
               {t("elsewhere")}
