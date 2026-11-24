@@ -190,11 +190,11 @@ export async function CaseStudyDeepDive({ caseStudy, locale }: { caseStudy: Case
                       <p>
                         <ExternalLink
                           href={decision.adr}
-                          className="inline-flex items-center gap-1.5 text-sm font-medium text-lane-project underline-offset-4 hover:underline"
+                          className="group/link inline-flex items-center gap-1.5 text-sm font-medium text-lane-project underline-offset-4 hover:underline"
                         >
                           <ScrollTextIcon aria-hidden className="size-4" />
                           {t("readAdr")}
-                          <ExternalLinkIcon aria-hidden className="size-3.5" />
+                          <ExternalLinkIcon aria-hidden className="icon-out size-3.5" />
                         </ExternalLink>
                       </p>
                     )}

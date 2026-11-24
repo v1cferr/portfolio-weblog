@@ -212,3 +212,35 @@ The lowest ratio is the worst of those surfaces; "page" is on the page alone.
 Text on the accent passes too: white on `#2f6f62` is 5.88:1, and `#0f1112` on
 `#7fb8a8` is 8.41:1. An e2e test checks, in both themes, that the name's colour
 is the body's and that no accent or lane token has a hue between 250° and 345°.
+
+## Revision (2026-11-23, motion language for icons)
+
+Icons were static, so links and controls gave no feedback beyond a colour
+change. The owner chose **"A everywhere + B for stateful controls"**:
+
+- **A, CSS micro-interactions** for every link with an icon, server components
+  included. One easing (`--ease-out-micro`, `cubic-bezier(.2,.8,.2,1)`) and one
+  duration (`--dur-micro`, 170 ms). The link carries the named group
+  `group/link` and the icon a class that says its direction: `.icon-fwd` and
+  `.icon-back` nudge 3 px, `.icon-out` (external) goes 2 px up-right, `.icon-up`
+  and `.icon-lift` (social and brand marks) lift 2 px, `.icon-muted` goes from
+  the subtext colour to the text colour. Hover counts on pointer devices only,
+  keyboard focus (`:focus-visible`) always does the same, and the movement needs
+  `prefers-reduced-motion: no-preference`. Buttons press to 96%, except text
+  links and the buttons below. Icons inside prose stay still.
+- **B, Motion state icons** for the controls whose icon is a state: copy (copy
+  to check, back after 1.5 s), the theme toggle (sun, moon or monitor for the
+  chosen theme, turning and scaling in), the mobile menu (bars into a cross) and
+  search (the lens tilts on hover or focus). Lucide's shapes (ISC) redrawn as
+  `m.*` elements, since `LazyMotion strict` rejects `motion.*`; timings after
+  lucide-animated (MIT); 250 ms at most; `whileTap` scales to 95%.
+  `MotionConfig reducedMotion="user"` does not stop opacity, `pathLength` or a
+  path's `d`, so each icon checks `useReducedMotion()` and swaps at once.
+- **Brand marks:** a GitHub repository shows the GitHub mark, not a generic
+  folder, kept monochrome and unaltered as GitHub's rules ask (only its position
+  and grey-to-text colour change). A WhatsApp mark, if a link ever needs one,
+  keeps its official green (`#25D366`).
+
+An e2e test checks that a hovered or focused arrow moves without a
+reduced-motion preference and stays still with one, and that the copy, theme and
+menu icons reach their states.

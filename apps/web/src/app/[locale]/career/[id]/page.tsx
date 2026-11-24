@@ -120,10 +120,10 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
             {organization.url !== undefined && (
               <ExternalLink
                 href={organization.url}
-                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
               >
                 {new URL(organization.url).hostname.replace(/^www\./, "")}
-                <ExternalLinkIcon className="size-3" aria-hidden />
+                <ExternalLinkIcon className="icon-out size-3" aria-hidden />
               </ExternalLink>
             )}
           </div>
@@ -210,11 +210,11 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
                 <li key={link.url}>
                   <ExternalLink
                     href={link.url}
-                    className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-lane-career"
+                    className="group/link inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-lane-career"
                   >
                     <ContentLinkIcon link={link} />
                     {link.label}
-                    <ExternalLinkIcon className="size-3.5" aria-hidden />
+                    <ExternalLinkIcon className="icon-out size-3.5" aria-hidden />
                   </ExternalLink>
                 </li>
               ))}

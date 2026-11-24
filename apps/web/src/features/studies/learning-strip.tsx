@@ -95,9 +95,9 @@ export async function LearningStrip() {
     <Link
       href="/education"
       transitionTypes={NAV_SECTION}
-      className="inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
+      className="group/link inline-flex min-h-11 items-center gap-1 text-sm text-muted-foreground hover:text-foreground sm:min-h-0"
     >
-      {t("allStudies")} <ArrowRightIcon className="size-3.5" aria-hidden />
+      {t("allStudies")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
     </Link>
   );
   const tileList = (tiles: Tile[], label: string) => (
@@ -167,10 +167,10 @@ function TileItem({ tile, locale, ongoingLabel, verifyLabel }: { tile: Tile; loc
           {tile.verify !== undefined && (
             <ExternalLink
               href={tile.verify}
-              className="relative z-10 inline-flex min-h-11 items-center gap-0.5 font-mono text-xs underline underline-offset-4 hover:text-foreground sm:min-h-0"
+              className="group/link relative z-10 inline-flex min-h-11 items-center gap-0.5 font-mono text-xs underline underline-offset-4 hover:text-foreground sm:min-h-0"
             >
               {verifyLabel} <span className="sr-only">{tile.title}</span>
-              <ArrowUpRightIcon className="size-3" aria-hidden />
+              <ArrowUpRightIcon className="icon-out size-3" aria-hidden />
             </ExternalLink>
           )}
         </p>

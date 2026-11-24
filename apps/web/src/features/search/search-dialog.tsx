@@ -2,10 +2,13 @@
 
 import { Button } from "@workspace/ui/components/button";
 import { Kbd } from "@workspace/ui/components/kbd";
-import { SearchIcon, SparklesIcon } from "lucide-react";
+import { SparklesIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+
+import { MotionButton } from "@/components/motion/motion-button";
+import { SearchLensIcon } from "@/components/motion/state-icons";
 
 import type { PanelMode } from "./search-panel";
 
@@ -49,7 +52,7 @@ export function SearchDialog() {
     <>
       {/* On phones the two buttons join into one segmented pill, so the header still fits at 360px with the now-playing chip. */}
       <div className="flex items-center sm:gap-1">
-        <Button
+        <MotionButton
           variant="outline"
           size="sm"
           onClick={(event) => {
@@ -59,10 +62,10 @@ export function SearchDialog() {
           aria-label={t("open")}
           aria-haspopup="dialog"
         >
-          <SearchIcon />
+          <SearchLensIcon className="size-3.5" />
           <span className="hidden sm:inline">{t("open")}</span>
           <Kbd className="hidden font-mono md:inline-flex">/</Kbd>
-        </Button>
+        </MotionButton>
         <Button
           variant="outline"
           size="sm"

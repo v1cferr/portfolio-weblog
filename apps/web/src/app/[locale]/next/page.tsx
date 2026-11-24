@@ -74,8 +74,11 @@ export default async function NextPage() {
             </ol>
           </section>
 
-          <Link href="/now" className="glass glass-hover flex min-h-11 items-center gap-3 rounded-xl border px-5 py-4 font-medium">
-            <ArrowLeftIcon aria-hidden className="size-4 text-muted-foreground" />
+          <Link
+            href="/now"
+            className="group/link glass glass-hover flex min-h-11 items-center gap-3 rounded-xl border px-5 py-4 font-medium"
+          >
+            <ArrowLeftIcon aria-hidden className="icon-back size-4 text-muted-foreground" />
             {t("now")}
           </Link>
         </div>
