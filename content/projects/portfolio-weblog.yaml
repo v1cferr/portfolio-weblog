@@ -187,6 +187,8 @@ caseStudy:
 # metadata: the site this project rebuilt.
 media:
   - src: /projects/portfolio-weblog/v1-home.webp
+    width: 1600
+    height: 780
     alt:
       en-us: 'Home page of v1 of this site, dark themed: the author''s round photo, "Oi, sou o Victor.", "Software-AI Engineer in Progress", social links and three quotes'
       pt-br: 'Página inicial da v1 deste site, no tema escuro: a foto redonda do autor, "Oi, sou o Victor.", "Software-AI Engineer in Progress", links sociais e três citações'

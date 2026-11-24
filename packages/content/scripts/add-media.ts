@@ -36,5 +36,7 @@ console.warn(`Wrote ${path.relative(process.cwd(), target)} (${String(info.width
 
 media:
   - src: /${destination.replace(/^\/+/, "")}
+    width: ${String(info.width)}
+    height: ${String(info.height)}
     alt: { en-us: Describe what the image shows, pt-br: Descreva o que a imagem mostra }
     caption: { en-us: Optional caption }`);

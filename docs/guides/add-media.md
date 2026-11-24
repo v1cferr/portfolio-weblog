@@ -7,18 +7,23 @@
    pnpm media:add ~/Pictures/original.jpg career/fai-ufscar/team.webp
    ```
 
-   The file lands in `apps/web/public/career/fai-ufscar/team.webp`.
+   The file lands in `apps/web/public/career/fai-ufscar/team.webp`, and the
+   command prints the YAML to paste, with the final width and height.
 
 2. Reference it in the entry's YAML (experience, project or study):
 
    ```yaml
    media:
      - src: /career/fai-ufscar/team.webp
+       width: 1600
+       height: 1200
        alt: { en-us: What the image shows, pt-br: O que a imagem mostra }
        caption: { en-us: Optional caption }
    ```
 
-3. `pnpm content:check` fails if the file is missing or still has metadata.
+3. `pnpm content:check` fails if the file is missing, still has metadata, or has
+   a size other than the one in the YAML. The size lets the page reserve the
+   space and the lightbox size the full view before the file arrives.
 
 Photos of other people need their consent before they are published.
 
