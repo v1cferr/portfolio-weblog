@@ -54,7 +54,7 @@ test.describe("/wow", () => {
     await page.goto("/pt-br/wow");
     await expect(page).toHaveURL(/\/pt-br\/wow$/);
     await page.goto("/en-us/about");
-    await expect(page.getByRole("link", { name: /World of Warcraft/ })).toHaveAttribute("href", "/en-us/wow");
+    await expect(page.getByRole("link", { name: "Playing: World of Warcraft" })).toHaveAttribute("href", "/en-us/wow");
   });
 
   for (const theme of ["light", "dark"] as const) {
