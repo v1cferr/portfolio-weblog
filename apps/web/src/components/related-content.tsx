@@ -35,17 +35,14 @@ export async function RelatedContent({ id }: { id: string }) {
           const lane = laneOf[entity.type as Listed];
           return (
             <li key={entity.id}>
-              <Link href={entity.href} className="group flex h-full flex-col gap-1 glass glass-hover rounded-xl border p-4">
+              <Link href={entity.href} className="group/link flex h-full flex-col gap-1 glass glass-hover rounded-xl border p-4">
                 <span className="flex items-center gap-2 font-mono text-[0.7rem] tracking-wide text-muted-foreground uppercase">
                   <LaneIcon lane={lane} />
                   {kind(entity.type)}
                 </span>
                 <span className="flex items-start justify-between gap-2 font-medium">
                   {entity.title}
-                  <ArrowUpRightIcon
-                    className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden
-                  />
+                  <ArrowUpRightIcon className="icon-out size-4 shrink-0 text-muted-foreground" aria-hidden />
                 </span>
                 {entity.subtitle !== undefined && <span className="line-clamp-2 text-sm text-muted-foreground">{entity.subtitle}</span>}
               </Link>

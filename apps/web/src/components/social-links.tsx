@@ -28,8 +28,8 @@ export function SocialLinks({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button asChild variant="outline" size={size === "sm" ? "icon-sm" : "icon-lg"} className="rounded-full">
-                <ExternalLink href={link.url} aria-label={link.label} me={link.kind === "profile"}>
-                  <ContentLinkIcon link={link} className={size === "sm" ? "size-3.5" : "size-[1.1rem]"} />
+                <ExternalLink href={link.url} aria-label={link.label} me={link.kind === "profile"} className="group/link">
+                  <ContentLinkIcon link={link} className={cn("icon-lift icon-muted", size === "sm" ? "size-3.5" : "size-[1.1rem]")} />
                 </ExternalLink>
               </Button>
             </TooltipTrigger>

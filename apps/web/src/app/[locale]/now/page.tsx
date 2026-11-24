@@ -125,10 +125,10 @@ export default async function NowPage() {
 
           <Link
             href="/next"
-            className="glass glass-hover flex min-h-11 items-center justify-between gap-3 rounded-xl border px-5 py-4 font-medium"
+            className="group/link glass glass-hover flex min-h-11 items-center justify-between gap-3 rounded-xl border px-5 py-4 font-medium"
           >
             {t("next")}
-            <ArrowRightIcon aria-hidden className="size-4 text-muted-foreground" />
+            <ArrowRightIcon aria-hidden className="icon-fwd size-4 text-muted-foreground" />
           </Link>
         </div>
       )}

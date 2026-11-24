@@ -18,7 +18,7 @@ import type { ReactNode } from "react";
 import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { DateRange, PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
-import { ContentLinkIcon } from "@/components/icon";
+import { ContentLinkIcon, GITHUB_MARK, Icon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
 import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
@@ -93,9 +93,10 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const links = (className: string) => (
     <div className={className}>
       {repo !== undefined && (
-        <Button asChild variant="outline" className="justify-start">
+        <Button asChild variant="outline" className="group/link justify-start">
           <ExternalLink href={repo.html_url}>
-            <FolderGit2Icon /> {t("repository")}
+            {/* GitHub's mark, monochrome and unaltered: only its position and grey-to-foreground colour change. */}
+            <Icon icon={GITHUB_MARK} fallback={FolderGit2Icon} className="icon-lift icon-muted" /> {t("repository")}
           </ExternalLink>
         </Button>
       )}
@@ -107,9 +108,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
         </Button>
       )}
       {project.links.map((link) => (
-        <Button key={link.url} asChild variant="ghost" className="justify-start">
+        <Button key={link.url} asChild variant="ghost" className="group/link justify-start">
           <ExternalLink href={link.url}>
-            <ContentLinkIcon link={link} /> {link.label}
+            <ContentLinkIcon link={link} className="icon-lift" /> {link.label}
           </ExternalLink>
         </Button>
       ))}

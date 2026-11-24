@@ -338,6 +338,82 @@
 }
 
 /*
+ * Icon micro-interactions (docs/decisions/0007-visual-system.md, "motion
+ * language for icons"). Pure CSS, so server components get them too. The link
+ * or button is the trigger: it carries the named group `group/link`, and its
+ * icon one of these classes, so hovering anywhere on the link (pointer devices
+ * only) or focusing it with the keyboard moves the icon:
+ *
+ *   .icon-fwd   arrow right: nudges forward      .icon-out   external: diagonal, up-right
+ *   .icon-back  arrow left: nudges back          .icon-up    arrow up, back to top: lifts
+ *   .icon-lift  social and brand marks: lift     .icon-muted muted until the link is active
+ *
+ * Movement only without a reduced-motion preference; the colour change stays.
+ * Buttons get press feedback (a slight scale) unless they are text links or
+ * animate their own press with Motion (data-press="motion").
+ */
+@theme {
+  --ease-out-micro: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+:root {
+  --dur-micro: 170ms;
+}
+@layer components {
+  .icon-fwd,
+  .icon-back,
+  .icon-out,
+  .icon-up,
+  .icon-lift,
+  .icon-muted {
+    transition-property: translate, color;
+    transition-duration: var(--dur-micro);
+    transition-timing-function: var(--ease-out-micro);
+  }
+  .icon-muted {
+    color: var(--muted-foreground);
+  }
+  .group\/link:is(:focus-visible, :has(:focus-visible)) .icon-muted {
+    color: var(--foreground);
+  }
+  @media (hover: hover) {
+    .group\/link:hover .icon-muted {
+      color: var(--foreground);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .group\/link:is(:focus-visible, :has(:focus-visible)) .icon-fwd {
+      translate: 3px 0;
+    }
+    .group\/link:is(:focus-visible, :has(:focus-visible)) .icon-back {
+      translate: -3px 0;
+    }
+    .group\/link:is(:focus-visible, :has(:focus-visible)) .icon-out {
+      translate: 2px -2px;
+    }
+    .group\/link:is(:focus-visible, :has(:focus-visible)) :is(.icon-up, .icon-lift) {
+      translate: 0 -2px;
+    }
+    @media (hover: hover) {
+      .group\/link:hover .icon-fwd {
+        translate: 3px 0;
+      }
+      .group\/link:hover .icon-back {
+        translate: -3px 0;
+      }
+      .group\/link:hover .icon-out {
+        translate: 2px -2px;
+      }
+      .group\/link:hover :is(.icon-up, .icon-lift) {
+        translate: 0 -2px;
+      }
+    }
+    [data-slot="button"]:not([data-variant="link"], [data-press="motion"]):active {
+      scale: 0.96;
+    }
+  }
+}
+
+/*
  * A rail that draws itself as its section scrolls by, with CSS scroll-driven
  * animations (no JavaScript). Browsers without them, or visitors who reduce
  * motion, get the rail fully drawn.

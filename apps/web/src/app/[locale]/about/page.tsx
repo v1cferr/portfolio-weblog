@@ -199,13 +199,19 @@ export default async function AboutPage() {
             )}
             <ul className="flex flex-wrap gap-x-5 border-t pt-2 text-sm">
               <li>
-                <Link href="/now" className="inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground">
-                  {t("nowLog")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                <Link
+                  href="/now"
+                  className="group/link inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground"
+                >
+                  {t("nowLog")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
                 </Link>
               </li>
               <li>
-                <Link href="/next" className="inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground">
-                  {t("next")} <ArrowRightIcon className="size-3.5" aria-hidden />
+                <Link
+                  href="/next"
+                  className="group/link inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground"
+                >
+                  {t("next")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
                 </Link>
               </li>
               <li>
@@ -225,11 +231,11 @@ export default async function AboutPage() {
                   <ExternalLink
                     href={link.url}
                     me={link.kind === "profile"}
-                    className="inline-flex items-center gap-2 hover:text-lane-career"
+                    className="group/link inline-flex items-center gap-2 hover:text-lane-career"
                   >
                     <ContentLinkIcon link={link} />
                     {link.label}
-                    <ExternalLinkIcon className="size-3.5 text-muted-foreground" aria-hidden />
+                    <ExternalLinkIcon className="icon-out size-3.5 text-muted-foreground" aria-hidden />
                   </ExternalLink>
                 </li>
               ))}
