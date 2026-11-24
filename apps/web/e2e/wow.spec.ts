@@ -33,7 +33,7 @@ test.describe("/wow", () => {
     await expect(addons.getByRole("heading", { level: 2, name: "Add-ons" })).toBeVisible();
     await expect(addons.getByRole("link", { name: /Nix derivation/ })).toHaveAttribute(
       "href",
-      /github\.com\/v1cferr\/dotfiles\/.*wow-addons/
+      /^https:\/\/github\.com\/v1cferr\/dotfiles\/.*wow-addons/
     );
     expect(await addons.getByRole("heading", { level: 3 }).count()).toBeGreaterThanOrEqual(3);
     expect(await addons.getByRole("listitem").count()).toBeGreaterThanOrEqual(40);
