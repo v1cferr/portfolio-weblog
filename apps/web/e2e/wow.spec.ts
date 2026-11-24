@@ -9,7 +9,7 @@ import { expect, test } from "@playwright/test";
  */
 
 test.describe("/wow", () => {
-  test("renders Forever before Retail, with their empty states", async ({ page }) => {
+  test("renders Forever before Retail, each with its main first", async ({ page }) => {
     const response = await page.goto("/en-us/wow");
     expect(response?.status()).toBe(200);
     await expect(page).toHaveURL(/\/en-us\/wow$/);
@@ -22,8 +22,12 @@ test.describe("/wow", () => {
     expect(retail).toBeGreaterThan(forever);
 
     await expect(page.locator('section[aria-labelledby="wow-retail"]')).toContainText("Not playing right now");
+    // The characters come from content/games/wow.yaml; each game has one main, listed first.
     for (const id of ["wow-forever", "wow-retail"]) {
-      await expect(page.locator(`section[aria-labelledby="${id}"]`).getByText("No characters mapped yet")).toBeVisible();
+      const cards = page.locator(`section[aria-labelledby="${id}"] li article`);
+      expect(await cards.count()).toBeGreaterThan(0);
+      await expect(cards.first().getByText("Main", { exact: true })).toBeVisible();
+      await expect(page.locator(`section[aria-labelledby="${id}"]`).getByText("No characters mapped yet")).toHaveCount(0);
     }
   });
 
