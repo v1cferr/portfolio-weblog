@@ -101,8 +101,8 @@
   url: https://www.sp.senac.br/
   logo: /company-logos/senac-sp.png
 
-- id: 42-sao-paulo
-  name: 42 São Paulo
+- id: 42-paris
+  name: 42 Paris
   kind: school
-  url: https://www.42sp.org.br/
-  logo: /company-logos/42-sao-paulo.png
+  url: https://42.fr/
+  logo: /company-logos/42.png
