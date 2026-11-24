@@ -105,7 +105,13 @@
     "stoppedNote": "Interrompida antes do fim.",
     "interrupted": "A resposta foi cortada. Tente de novo.",
     "error": "Algo deu errado. Tente de novo em instantes.",
-    "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais."
+    "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais.",
+    "unknown": {
+      "title": "Não sei: o site não diz isso",
+      "body": "Li as páginas mais próximas da pergunta e nenhuma responde. Prefiro não inventar. Se for importante, fale com o Victor pela página Sobre.",
+      "read": "Páginas que li"
+    },
+    "partial": "O site responde só parte da pergunta; o resto não está nas páginas, então ficou de fora."
   },
   "Common": {
     "present": "atual",

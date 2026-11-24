@@ -24,6 +24,8 @@ interface Turn {
   phase: "searching" | "streaming" | "done" | "stopped" | "failed";
   mode?: AskMode;
   reason?: FallbackReason;
+  /** A model answer that covers only part of the question. */
+  partial?: boolean;
   parts: Part[];
   sources: AskSource[];
   /** The model failed after it had started writing. */
@@ -119,8 +121,14 @@ export function AskPanel({ onNavigate, onSearch }: { onNavigate: () => void; onS
         switch (event.type) {
           case "status":
             mode = event.mode;
-            update(id, (turn) => ({ ...turn, phase: "streaming", mode: event.mode, ...(event.reason && { reason: event.reason }) }));
-            if (event.mode === "no-source") setAnnouncement(t("status.noSource"));
+            update(id, (turn) => ({
+              ...turn,
+              phase: "streaming",
+              mode: event.mode,
+              ...(event.reason && { reason: event.reason }),
+              ...(event.partial && { partial: true }),
+            }));
+            if (event.mode === "no-source" || event.mode === "unknown") setAnnouncement(t("status.noSource"));
             break;
           case "text":
             update(id, (turn) => {
@@ -147,7 +155,7 @@ export function AskPanel({ onNavigate, onSearch }: { onNavigate: () => void; onS
         }
       }
       update(id, (turn) => ({ ...turn, phase: "done", interrupted: turn.interrupted === true || !finished }));
-      if (mode !== "no-source") setAnnouncement(t("status.ready"));
+      if (mode !== "no-source" && mode !== "unknown") setAnnouncement(t("status.ready"));
     } catch {
       if (abort.signal.aborted) {
         update(id, (turn) => ({ ...turn, phase: "stopped" }));
@@ -305,6 +313,18 @@ function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate: () => 
     );
   }
 
+  if (turn.mode === "unknown") {
+    return (
+      <div className="flex flex-col gap-2" data-testid="ask-unknown">
+        <div className="flex flex-col gap-1 rounded-lg bg-muted/50 p-3 text-sm">
+          <p className="font-medium">{t("unknown.title")}</p>
+          <p className="text-muted-foreground">{t("unknown.body")}</p>
+        </div>
+        {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("unknown.read")} />}
+      </div>
+    );
+  }
+
   if (turn.mode === "extractive") {
     return (
       <div className="flex flex-col gap-2" data-testid="ask-extractive">
@@ -330,6 +350,12 @@ function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate: () => 
           )
         )}
       </p>
+      {turn.partial === true && !streaming && (
+        <p className="flex items-start gap-2 text-xs text-muted-foreground" data-testid="ask-partial">
+          <InfoIcon aria-hidden className="mt-0.5 size-3.5 shrink-0" />
+          <span>{t("partial")}</span>
+        </p>
+      )}
       {turn.phase === "stopped" && <p className="text-xs text-muted-foreground">{t("stoppedNote")}</p>}
       {turn.interrupted === true && <p className="text-xs text-destructive">{t("interrupted")}</p>}
       {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("sources")} />}
