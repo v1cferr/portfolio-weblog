@@ -3,6 +3,8 @@
 # horária de 280 horas". The start date is not on it, so it is left out.
 # Photos shared by the author on 2026-11-23, resized and stripped of metadata;
 # the class photo keeps everyone (they consented), with ID badges blurred.
+# A close crop of the library photo was removed on 2026-11-23: the owner
+# reported it as a duplicate.
 id: transforme-se-2026
 institution: serasa-experian
 kind: course
@@ -34,10 +36,6 @@ media:
     caption:
       en-us: The class.
       pt-br: A turma.
-  - src: /education/transforme-se/portrait.webp
-    alt:
-      en-us: Victor in a blue Transforme-se t-shirt in front of a library bookshelf
-      pt-br: Victor com uma camiseta azul do Transforme-se diante de uma estante de biblioteca
   - src: /education/transforme-se/library.webp
     alt:
       en-us: Victor standing in a library in a blue Serasa Experian Transforme-se t-shirt, between shelves of books and magazines
