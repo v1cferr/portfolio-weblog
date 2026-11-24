@@ -1,4 +1,6 @@
-# Evidence: the orion-bootcamp repository. Dates and completion are unknown.
+# Evidence: the orion-bootcamp repository, and the "Orion Bootcamp — Mars 101"
+# project on the author's LinkedIn profile (read 2026-11-23) for the dates,
+# squad, hours and stack. Colleagues are not named.
 # The program site (orion.newrizon.global) is owner-provided, 2026-11-23.
 id: new-rizon-orion
 institution: new-rizon
@@ -6,5 +8,19 @@ kind: bootcamp
 title:
   en-us: Orion bootcamp
   pt-br: Bootcamp Orion
+state: completed
+start: 2023-10
+end: 2023-12
+summary:
+  en-us: >-
+    180 hours in an agile squad (Trapezium: two product owners, three back-end and two front-end
+    developers) working in Scrumban. I worked on the front end of Mars 101, a web app with
+    meteorological information about Mars, built with Angular, Bootstrap and Angular Material,
+    integrated with a Node.js back end and containerised with Docker.
+  pt-br: >-
+    180 horas num squad ágil (Trapezium: dois product owners, três devs back-end e dois front-end)
+    trabalhando em Scrumban. Fiz o front end do Mars 101, uma aplicação web com informações
+    meteorológicas de Marte, com Angular, Bootstrap e Angular Material, integrada a um back-end
+    Node.js e em contêiner com Docker.
 projects: [orion-bootcamp]
-technologies: [typescript]
+technologies: [typescript, nodejs, docker]

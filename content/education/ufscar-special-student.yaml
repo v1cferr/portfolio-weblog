@@ -1,6 +1,7 @@
 # Source: the author's LinkedIn education entry (PDF export, "Graduate Special
 # Student, Computer Science · (August 2026)"), confirmed by the author on
-# 2026-11-23 as his current study, still in progress.
+# 2026-11-23 as his current study, still in progress. PPGCC and the AI / ML / DL
+# coursework: full LinkedIn profile, read 2026-11-23.
 id: ufscar-special-student
 institution: ufscar
 kind: course
@@ -12,3 +13,10 @@ field:
   pt-br: Ciência da Computação
 state: ongoing
 start: 2026-08
+summary:
+  en-us: >-
+    Special student in the Computer Science Graduate Program (PPGCC), taking graduate coursework in
+    artificial intelligence, machine learning and deep learning.
+  pt-br: >-
+    Aluno especial no Programa de Pós-Graduação em Ciência da Computação (PPGCC), cursando
+    disciplinas de pós em inteligência artificial, machine learning e deep learning.
