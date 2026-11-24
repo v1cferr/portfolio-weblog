@@ -11,6 +11,8 @@ export const Position = z.strictObject({
   start: PartialDate.optional(),
   /** Omitted while the position is current. */
   end: PartialDate.optional(),
+  /** Where this position was based, when it differs between positions of the same experience. */
+  location: z.string().optional(),
   /** Short context for this position alone, e.g. why it was temporary. */
   note: LocalizedText.optional(),
   /** What this position added on top of the experience-wide responsibilities. */

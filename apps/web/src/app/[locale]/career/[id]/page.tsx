@@ -140,6 +140,9 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
                 )}
               </span>
               {position.start !== undefined && <DateRange start={position.start} end={position.end} showDuration />}
+              {(position.location ?? experience.location) !== undefined && (
+                <span className="text-sm text-muted-foreground">{position.location ?? experience.location}</span>
+              )}
               {position.note !== undefined && (
                 <span className="text-sm text-muted-foreground" lang={localize(position.note, locale).locale}>
                   {localize(position.note, locale).value}

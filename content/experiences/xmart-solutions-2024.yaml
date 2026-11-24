@@ -1,16 +1,46 @@
-# Sources: v1 career timeline (roles, dates, duties) and Jira PWL-33 and
-# PWL-25 (learnings, technologies, XGuardian). The product is public; names of
-# colleagues from the Jira notes are not published.
+# Sources: v1 career timeline (duties) and Jira PWL-33 and PWL-25 (learnings,
+# technologies, XGuardian). Positions, dates, locations and the LinkedIn
+# responsibilities come from the author's LinkedIn profile (PDF export), which
+# the author chose as the reference on 2026-11-23; the freelance work after the
+# full-time period was stated by the author the same day. The product is
+# public; names of colleagues from the Jira notes are not published.
 id: xmart-solutions-2024
 organization: xmart-solutions
 positions:
-  - title: { en-us: Software development intern, pt-br: Estagiário de desenvolvimento }
+  - title: { en-us: Frontend Developer Intern, pt-br: Estagiário de desenvolvimento front-end }
     employmentType: internship
     start: 2024-06
     end: 2024-09
-  - title: { en-us: Junior software developer, pt-br: Desenvolvedor de software júnior }
+    location: Santo André, SP, Brazil
+    responsibilities:
+      en-us:
+        - Developed user interfaces with React, Vite and TypeScript
+        - Supported front-end improvements for XGuardian products and internal tools
+        - Worked with developers, designers and product stakeholders to deliver maintainable UI components
+      pt-br:
+        - Desenvolvimento de interfaces com React, Vite e TypeScript
+        - Apoio a melhorias de front end nos produtos XGuardian e em ferramentas internas
+        - Trabalho com desenvolvedores, designers e pessoas de produto para entregar componentes de UI fáceis de manter
+  - title: { en-us: Full Stack Developer, pt-br: Desenvolvedor full stack }
     start: 2024-09
-    end: 2025-07
+    end: 2025-04
+    location: Santo André, SP, Brazil
+  - title: { en-us: Software Developer, pt-br: Desenvolvedor de software }
+    start: 2025-04
+    end: 2025-11
+    location: São Carlos, SP, Brazil
+    note:
+      en-us: Continued contributing after the full-time period through freelance work.
+      pt-br: Continuei contribuindo depois do período em tempo integral, como freelancer.
+    responsibilities:
+      en-us:
+        - Backend development and maintenance of XGuardian products, in a cybersecurity product environment
+        - Automation and DevOps tasks to improve development and deployment workflows
+        - Technical improvements to internal and external product components
+      pt-br:
+        - Desenvolvimento back-end e manutenção dos produtos XGuardian, em um ambiente de produto de cibersegurança
+        - Automação e tarefas de DevOps para melhorar os fluxos de desenvolvimento e deploy
+        - Melhorias técnicas em componentes internos e externos do produto
 
 summary:
   en-us: My first job as a developer, on XGuardian, Xmart's application security platform.
@@ -30,11 +60,23 @@ responsibilities:
     - Automated SAST and SCA scans with GitHub Actions
     - Fixed front-end and back-end bugs and implemented new features
     - Optimized front-end requests
+    - Developed front-end applications with React, Vite and TypeScript
+    - Built and maintained back-end services with Python and FastAPI
+    - Contributed to vulnerability analysis workflows with SAST, SCA, DAST and container analysis
+    - Helped maintain CI/CD pipelines with Jenkins, GitHub and shell scripts
+    - Worked with AWS services for deployment and environment automation
+    - Contributed to internal tools, IDE extensions and interactive dashboards
     - Took part in agile planning with Scrumban and Jira, and documented work in Confluence
   pt-br:
     - Automação de scans SAST e SCA com GitHub Actions
     - Correção de bugs no front end e no back end e implementação de novas funcionalidades
     - Otimização de requisições no front end
+    - Desenvolvimento de aplicações front-end com React, Vite e TypeScript
+    - Desenvolvimento e manutenção de serviços back-end com Python e FastAPI
+    - Fluxos de análise de vulnerabilidades com SAST, SCA, DAST e análise de containers
+    - Manutenção de pipelines de CI/CD com Jenkins, GitHub e shell scripts
+    - Serviços da AWS para deploy e automação de ambientes
+    - Ferramentas internas, extensões de IDE e dashboards interativos
     - Planejamento ágil com Scrumban e Jira, e documentação no Confluence
 
 contributions:
@@ -57,7 +99,7 @@ learnings:
     - DevSecOps como prática, não como ferramenta
     - Trabalho em equipe e planejamento ágil
 
-technologies: [github-actions, jenkins, aws, react, vite, python, fastapi, nodejs, vscode, bash, jira, confluence, scrumban]
+technologies: [github-actions, jenkins, aws, react, vite, typescript, python, fastapi, nodejs, vscode, bash, jira, confluence, scrumban]
 skills: [devsecops, ci-cd, web-development]
 
 evidence:
