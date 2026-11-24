@@ -97,6 +97,8 @@ test.describe("glass tooltips", () => {
       test.skip(isMobile(page), "tooltips open on hover");
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us");
+      // A hover before hydration opens nothing; the theme toggle enables once React has committed.
+      await expect(page.getByRole("button", { name: "Change theme" })).toBeEnabled();
       await page.getByRole("main").getByRole("list", { name: "Links" }).getByRole("link").first().hover();
       const tooltip = page.locator('[data-slot="tooltip-content"]');
       await expect(tooltip).toBeVisible();
@@ -221,6 +223,44 @@ test.describe("hero signatures", () => {
       expect(overlapX <= 0 || overlapY <= 0).toBe(true);
     });
   }
+});
+
+test.describe("hero avatar", () => {
+  // A 1-bit Atkinson dither in the theme's ink (ADR 0007, 2026-11-24): lit pixels on a dark page,
+  // shadow pixels on a light one, over a photo only the lens or focus shows.
+  for (const [theme, mask] of [
+    ["light", "hero-dither-light.png"],
+    ["dark", "hero-dither-dark.png"],
+  ] as const) {
+    test(`draws the ${theme} mask in the foreground ink`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.goto("/en-us");
+      const dither = page.locator("[data-avatar-dither]");
+      await expect(dither).toHaveAttribute("aria-hidden", "true");
+      const style = await dither.evaluate((el) => {
+        const css = getComputedStyle(el);
+        return { mask: css.maskImage || css.getPropertyValue("-webkit-mask-image"), width: el.getBoundingClientRect().width };
+      });
+      expect(style.mask).toContain(mask);
+      expect(style.width).toBeGreaterThan(200);
+      const response = await page.request.get(`/images/${mask}`);
+      expect(response.ok()).toBe(true);
+      expect((await response.body()).length).toBeLessThan(10_000);
+    });
+  }
+
+  test("keeps the photo's alt text and box size, and shows it whole on focus", async ({ page }) => {
+    await page.goto("/en-us");
+    const avatar = page.locator("[data-avatar]");
+    const box = await avatar.boundingBox();
+    expect(box).not.toBeNull();
+    // The box keeps the photo's 580 × 780 ratio before any image arrives.
+    expect((box?.width ?? 0) / (box?.height ?? 1)).toBeCloseTo(580 / 780, 2);
+    const photo = avatar.getByRole("img", { name: "Victor Ferreira" });
+    await avatar.focus();
+    await expect(photo).toHaveCSS("opacity", "1");
+    await expect(photo).toHaveCSS("mask-image", "none");
+  });
 });
 
 test.describe("visibility rules", () => {

@@ -271,3 +271,38 @@ shared lightbox, `components/lightbox`, instead of the bare file:
 - **Cost:** pages ship only the triggers; the dialog is a separate chunk,
   fetched on hover, focus or touch of a thumbnail. Content states each image's
   width and height, so the frame has its aspect ratio before the file arrives.
+
+## Revision (2026-11-24, hero portrait: 1-bit Atkinson)
+
+The hero avatar's ASCII art (2026-11-22) gives way to a 1-bit Atkinson dither,
+option "P1a" of a side-by-side comparison; Bayer, mosaic, halftone and LED
+renders were the runners-up.
+
+- **Build:** `pnpm avatar:build` reads `public/images/hero.jpg` with sharp:
+  greyscale, normalise, a mild contrast boost (`linear(1.15, -12)`), 192 cells
+  across with the photo's ratio, then Atkinson at a 0.5 threshold (1/8 of the
+  error to six neighbours, so flat areas stay clean). The dither is pure code in
+  `packages/content/src/dither.ts`, tested without an image library.
+- **Two masks, one dither:** the output is alpha only, ink opaque and the rest
+  transparent, so CSS paints it in the theme's foreground (at 85%, as the ASCII
+  was). Polarity follows the page: on dark, the ink draws the photo's lit pixels
+  (`hero-dither-dark.png`); on light, its shadow pixels
+  (`hero-dither-light.png`), the exact complement. Both themes show a positive
+  portrait. Each is a 1-bit palette PNG of about 5 KB with no metadata, and only
+  the active theme's one is fetched.
+- **Crisp pixels:** the masks are stored at 4x with nearest neighbour, because
+  most engines ignore `image-rendering` on masks and would blur a 192-pixel mask
+  stretched to the box. 192 cells give exactly 2 CSS pixels per cell in the
+  desktop hero (24rem).
+- **Photo and lens:** unchanged. The real photo keeps its alt text, the lens
+  around the pointer and the full reveal on focus or tap, and keeps `priority`:
+  with the Spotlight on, the lens leaves the photo at opacity 1 under a mask,
+  and Chrome reports it as the LCP (masks are not LCP candidates), so demoting
+  it would delay the metric.
+- **Layout:** the box keeps the photo's 580 × 780 ratio before anything loads,
+  so nothing shifts. The ASCII helpers, their tests and the generated grid are
+  gone.
+
+An e2e test checks, in both themes, that the dither layer is hidden from
+assistive technology, uses that theme's mask, and that the mask stays under 10
+KB; and that focus shows the whole photo.
