@@ -112,17 +112,26 @@
   name: Amazon Web Services (AWS)
   kind: company
   url: https://aws.amazon.com/
+  # The 144 px apple-touch-icon aws.amazon.com declares.
+  logo: /company-logos/aws.png
 
 - id: google
   name: Google
   kind: company
   url: https://grow.google/
+  # The 180 px apple-touch-icon grow.google declares, the "G" (google.com
+  # itself only declares a 32 px favicon).
+  logo: /company-logos/google.png
 
 - id: ka-solution
   name: Ka Solution
   kind: company
+  url: https://www.kasolution.com.br/
+  # The 48 px frame of the favicon its site declares.
+  logo: /company-logos/ka-solution.png
 
 - id: cruzeiro-do-sul
   name: Universidade Cruzeiro do Sul
   kind: school
   url: https://www.cruzeirodosul.edu.br/
+  # No logo yet: the site answers automated requests with 403.
