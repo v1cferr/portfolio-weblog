@@ -10,6 +10,12 @@ import { getRetriever, isRateLimited } from "@/lib/ask/server";
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/**
+ * Seconds Vercel lets the function run. The default (10) cut longer answers
+ * with a 504; the model gets up to TIMEOUT_MS (30 s, lib/ask/openrouter.ts),
+ * plus retrieval and the stream.
+ */
+export const maxDuration = 45;
 
 /** Largest body accepted, in bytes: a 300-character question and three short turns fit with room to spare. */
 const MAX_BODY = 16_384;
