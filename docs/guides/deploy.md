@@ -12,8 +12,9 @@
   sees it. `robots.txt` disallows indexing on previews.
 - Environment variables (all server-only): `SPOTIFY_CLIENT_ID`,
   `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` (rotate with
-  `pnpm --filter web spotify:token --vercel`) and, optionally, `GITHUB_TOKEN`
-  (read-only, no scopes).
+  `pnpm --filter web spotify:token --vercel`), `BATTLENET_CLIENT_ID` and
+  `BATTLENET_CLIENT_SECRET` (the /wow page, [guide](wow.md)) and, optionally,
+  `GITHUB_TOKEN` (read-only, no scopes).
 - DNS for `v1cferr.dev` is on Cloudflare.
 
 ## Legacy (v1)
