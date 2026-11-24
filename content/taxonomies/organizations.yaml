@@ -66,12 +66,35 @@
   url: https://www.oracle.com/br/education/oracle-next-education/
   logo: /company-logos/oracle.png
 
+# Runs the Orion bootcamp; site owner-provided on 2026-11-23.
 - id: new-rizon
   name: New Rizon
   kind: company
+  url: https://orion.newrizon.global/
 
 # Runs the Transforme-se training program; named on the author's certificate.
 - id: serasa-experian
   name: Serasa Experian
   kind: company
   url: https://www.serasaexperian.com.br/
+
+# Studies from the author's LinkedIn education entries, confirmed by the
+# author on 2026-11-23.
+- id: ufscar
+  name: UFSCar
+  kind: university
+  url: https://www.ufscar.br/
+  location: São Carlos, SP, Brazil
+  description:
+    en-us: Universidade Federal de São Carlos, a federal public university.
+    pt-br: Universidade Federal de São Carlos, uma universidade pública federal.
+
+- id: senac-sp
+  name: Senac São Paulo
+  kind: school
+  url: https://www.sp.senac.br/
+
+- id: 42-sao-paulo
+  name: 42 São Paulo
+  kind: school
+  url: https://www.42sp.org.br/

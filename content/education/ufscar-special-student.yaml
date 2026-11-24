@@ -1,0 +1,14 @@
+# Source: the author's LinkedIn education entry (PDF export, "Graduate Special
+# Student, Computer Science · (August 2026)"), confirmed by the author on
+# 2026-11-23 as his current study, still in progress.
+id: ufscar-special-student
+institution: ufscar
+kind: course
+title:
+  en-us: Graduate Special Student, Computer Science
+  pt-br: Aluno especial de pós-graduação em Ciência da Computação
+field:
+  en-us: Computer Science
+  pt-br: Ciência da Computação
+state: ongoing
+start: 2026-08
