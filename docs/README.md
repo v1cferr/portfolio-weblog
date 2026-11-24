@@ -10,7 +10,8 @@
   [add a project](guides/add-project.md) ·
   [publish an article](guides/publish-post.md) ·
   [add photos](guides/add-media.md) · [deploy and preview](guides/deploy.md) ·
-  [repository settings](guides/repository-settings.md)
+  [repository settings](guides/repository-settings.md) ·
+  [World of Warcraft page](guides/wow.md)
 - [Decisions (ADRs)](decisions/README.md)
 - [Migration from v1](migration/README.md) · [inventory](migration/inventory.md)
   · [editorial review](migration/editorial-review.md)

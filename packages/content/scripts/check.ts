@@ -7,14 +7,26 @@ import path from "node:path";
 
 import sharp from "sharp";
 
-import { checkMedia, createRegistry, findContentRoot, formatIssues, loadContent, loadNowContent, publicNow, validateContent } from "../src";
+import {
+  checkMedia,
+  createRegistry,
+  findContentRoot,
+  formatIssues,
+  loadContent,
+  loadNowContent,
+  loadWowContent,
+  publicNow,
+  publicWow,
+  validateContent,
+} from "../src";
 
 const root = findContentRoot();
 const { content, issues } = loadContent(root);
 const { errors, warnings } = validateContent(content);
 const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web", "public"), (file) => sharp(file).metadata());
 const now = loadNowContent(root);
-const all = [...issues, ...errors, ...mediaIssues, ...now.issues];
+const wow = loadWowContent(root);
+const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues];
 
 if (warnings.length > 0) console.warn(`Warnings (${warnings.length}):\n${formatIssues(warnings)}\n`);
 
@@ -37,6 +49,7 @@ console.warn(
     count("certifications", everything.getCertifications().length, publicView.getCertifications().length),
     count("posts", everything.getPostSlugs().length, publicView.getPostSlugs().length),
     count("now updates", now.log.entries.length, publicNow(now.log).entries.length),
+    count("wow characters", wow.wow?.characters.length ?? 0, publicWow(wow.wow)?.characters.length ?? 0),
     count("technologies", everything.getTechnologies().length, publicView.getTechnologies().length),
   ].join("\n")
 );

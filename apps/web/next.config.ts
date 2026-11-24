@@ -9,7 +9,6 @@ const workspaceRoot = path.join(import.meta.dirname, "../..");
 
 /** v1 pages that v2 does not rebuild (docs/migration/inventory.md), sent to the closest page. */
 const retiredRoutes = [
-  { from: "wow", to: "about" },
   { from: "vscode", to: "setup" },
   { from: "goals", to: "about" },
   { from: "context", to: "about" },
@@ -31,8 +30,9 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${vercelLive}`,
   `style-src 'self' 'unsafe-inline'${vercelLive}`,
-  // i.scdn.co: the Spotify album cover in the now-playing chip.
-  `img-src 'self' blob: data: https://i.scdn.co${vercelLive}`,
+  // i.scdn.co: the Spotify album cover in the now-playing chip. render.worldofwarcraft.com:
+  // WoW character renders (served through /_next/image, allowed should one be shown directly).
+  `img-src 'self' blob: data: https://i.scdn.co https://render.worldofwarcraft.com${vercelLive}`,
   `font-src 'self'${vercelLive}`,
   `connect-src 'self'${vercelLive}`,
   `frame-src ${vercelLive === "" ? "'none'" : vercelLive.trim()}`,
@@ -75,6 +75,10 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Character renders on /wow, from Blizzard's render host only (lib/battlenet.ts checks the URL too).
+    remotePatterns: [
+      { protocol: "https", hostname: "render.worldofwarcraft.com", pathname: "/**" },
+    ],
   },
   headers() {
     return Promise.resolve([{ source: "/:path*", headers: securityHeaders }]);
