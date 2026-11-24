@@ -97,6 +97,8 @@ test.describe("glass tooltips", () => {
       test.skip(isMobile(page), "tooltips open on hover");
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us");
+      // A hover before hydration opens nothing; the theme toggle enables once React has committed.
+      await expect(page.getByRole("button", { name: "Change theme" })).toBeEnabled();
       await page.getByRole("main").getByRole("list", { name: "Links" }).getByRole("link").first().hover();
       const tooltip = page.locator('[data-slot="tooltip-content"]');
       await expect(tooltip).toBeVisible();
