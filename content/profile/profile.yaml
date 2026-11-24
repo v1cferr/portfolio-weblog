@@ -114,6 +114,41 @@ links:
   - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile, icon: "si:frontendmentor" }
   - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile, icon: "si:monkeytype" }
 
+# Personal facts for the end of the About page. The tattoo's meaning is the owner's
+# own description (2026-11-23); the photo was cropped out of their screenshot,
+# resized and stripped of metadata.
+curiosities:
+  - id: alliance-tattoo
+    text:
+      en-us: >-
+        My only gaming tattoo is the lion of the Alliance, from World of Warcraft. To me it
+        stands for courage, strength and self-awareness, and I love it.
+      pt-br: >-
+        Minha única tatuagem de games é o leão da Aliança, de World of Warcraft. Para mim,
+        ele simboliza coragem, força e autoconsciência, e gosto demais dela.
+    href: /wow
+    media:
+      src: /about/alliance-tattoo.webp
+      width: 860
+      height: 1150
+      alt:
+        en-us: Forearm with a black tattoo of the lion's head emblem of the World of Warcraft Alliance
+        pt-br: Antebraço com uma tatuagem preta do emblema da cabeça de leão da Aliança de World of Warcraft
+  - id: wow-on-nix
+    text:
+      en-us: >-
+        I still play World of Warcraft, and my add-ons are packaged with Nix in my dotfiles,
+        like everything else on my machine.
+      pt-br: >-
+        Ainda jogo World of Warcraft, e os meus add-ons são empacotados com Nix nos meus
+        dotfiles, como todo o resto da minha máquina.
+    href: /wow
+  - id: alliance-mousepad
+    text:
+      en-us: Even the mousepad on my desk is the Alliance one.
+      pt-br: Até o mousepad da minha mesa é o da Aliança.
+    href: /setup
+
 quotes:
   - text: Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.
     source: Mateus 7:7

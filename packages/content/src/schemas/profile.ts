@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText } from "./common";
+import { entityBase, Id, Link, LocalizedList, LocalizedText, Media } from "./common";
 
 export const Profile = z.strictObject({
   ...entityBase,
@@ -31,6 +31,21 @@ export const Profile = z.strictObject({
   /** Path under apps/web/public; must be stripped of EXIF metadata. */
   photo: z.string().startsWith("/").optional(),
   links: z.array(Link).default([]),
+  /**
+   * "Curiosities" at the end of the About page: personal facts, each in the owner's
+   * own words, optionally with a photo (opens in the lightbox) and a page on this site.
+   */
+  curiosities: z
+    .array(
+      z.strictObject({
+        id: Id,
+        text: LocalizedText,
+        /** A path on this site that tells more, e.g. "/wow". */
+        href: z.string().startsWith("/").optional(),
+        media: Media.optional(),
+      })
+    )
+    .default([]),
   quotes: z
     .array(
       z.strictObject({
