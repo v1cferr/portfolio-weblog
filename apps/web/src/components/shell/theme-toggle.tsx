@@ -37,7 +37,14 @@ export function ThemeToggle() {
   const choice = hydrated ? (isChoice(theme) ? theme : "system") : undefined;
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      {/*
+        Disabled until hydration commits. The button is in the server HTML, but
+        a press that lands while React is still hydrating the header is lost
+        (the menu opens on pointerdown, and that event never reaches Radix), so
+        an early click did nothing. Disabled says "not yet" instead, and stays
+        true without JavaScript, where the menu cannot open at all.
+      */}
+      <DropdownMenuTrigger asChild disabled={!hydrated}>
         <MotionButton variant="ghost" size="icon" aria-label={t("label")} className="size-10 lg:size-8">
           <ThemeStateIcon choice={choice} />
         </MotionButton>
