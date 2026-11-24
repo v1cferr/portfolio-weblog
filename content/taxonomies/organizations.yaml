@@ -106,3 +106,23 @@
   kind: school
   url: https://42.fr/
   logo: /company-logos/42.png
+
+# Certificate issuers from the author's LinkedIn profile (read 2026-11-23).
+- id: amazon-web-services
+  name: Amazon Web Services (AWS)
+  kind: company
+  url: https://aws.amazon.com/
+
+- id: google
+  name: Google
+  kind: company
+  url: https://grow.google/
+
+- id: ka-solution
+  name: Ka Solution
+  kind: company
+
+- id: cruzeiro-do-sul
+  name: Universidade Cruzeiro do Sul
+  kind: school
+  url: https://www.cruzeirodosul.edu.br/
