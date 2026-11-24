@@ -1,6 +1,6 @@
 # World of Warcraft page
 
-`/wow` lists the owner's WoW Forever and Retail characters, his add-ons and a
+`/wow` lists the owner's WoW Forever and Retail characters, their add-ons and a
 mount wishlist, from `content/games/wow.yaml`. Battle.net keeps levels, gear and
 renders current once a day; the file is what shows when it does not answer. ADR
 0015 has the why.

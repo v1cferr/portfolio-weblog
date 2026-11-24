@@ -65,7 +65,7 @@ async function CharacterCard({ view, locale, syncedAt }: { view: CharacterView; 
   const faction = live?.faction ?? character.faction;
   const note = character.note && localize(character.note, locale);
   return (
-    <article className="glass flex h-full gap-4 rounded-xl border p-4">
+    <article className="glass flex h-full min-w-0 gap-4 rounded-xl border p-4">
       {live?.renderUrl !== undefined ? (
         <Image src={live.renderUrl} alt="" width={64} height={64} className="size-16 shrink-0 rounded-lg border bg-muted object-cover" />
       ) : (
@@ -86,11 +86,12 @@ async function CharacterCard({ view, locale, syncedAt }: { view: CharacterView; 
             .filter(Boolean)
             .join(" · ")}
         </p>
-        {live !== undefined && (live.itemLevel !== undefined || live.achievementPoints !== undefined) && (
+        {live !== undefined && (live.itemLevel !== undefined || (live.achievementPoints ?? 0) > 0) && (
           <p className="font-mono text-xs text-muted-foreground tabular-nums">
             {[
               live.itemLevel !== undefined ? t("itemLevel", { value: live.itemLevel }) : undefined,
-              live.achievementPoints !== undefined
+              // A new WoW Forever character reports 0, which says nothing.
+              live.achievementPoints !== undefined && live.achievementPoints > 0
                 ? t("achievementPoints", { value: live.achievementPoints.toLocaleString(locale) })
                 : undefined,
             ]
@@ -104,7 +105,7 @@ async function CharacterCard({ view, locale, syncedAt }: { view: CharacterView; 
           </p>
         )}
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1">
-          <Badge variant="outline" className="font-mono font-normal">
+          <Badge variant="outline" className="h-auto font-mono font-normal whitespace-normal">
             {view.fetchedAt !== undefined
               ? t("live", { date: date(view.fetchedAt.slice(0, 10)) })
               : syncedAt !== undefined
@@ -150,6 +151,7 @@ export default async function WowPage() {
       <ul className="grid gap-3 sm:grid-cols-2" aria-label={t("charactersLabel", { game })}>
         {list.map((view) => (
           <li
+            className="min-w-0"
             key={`${view.character.region}:${view.character.name}:${view.character.game === "forever" ? view.character.surname : view.character.realm}`}
           >
             <CharacterCard view={view} locale={locale} syncedAt={wow.syncedAt} />
