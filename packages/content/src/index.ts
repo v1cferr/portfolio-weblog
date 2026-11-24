@@ -1,5 +1,6 @@
 export * from "./dates";
 export { ASCII_RAMP, asciiArt, type AsciiOptions, type AsciiRow, type AsciiSegment } from "./ascii";
+export { atkinsonDither, ditherMask } from "./dither";
 export * from "./games/wow";
 export * from "./loaders/errors";
 export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type RawContent } from "./loaders/load";
