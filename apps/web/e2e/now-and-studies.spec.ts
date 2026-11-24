@@ -15,9 +15,10 @@ test.describe("home: now and studies", () => {
   test("shows the Now card after the hero, with a few bullets and the date of the update", async ({ page }) => {
     await page.goto("/en-us");
     const sections = page.locator("main section");
-    // The hero stays first; the Now card follows it, then the studies (no study is in progress today).
+    // The hero stays first; the Now card follows it, then the study in progress and the certificates.
     await expect(sections.nth(1)).toHaveAttribute("aria-labelledby", "now");
-    await expect(sections.nth(2)).toHaveAttribute("aria-labelledby", "credentials");
+    await expect(sections.nth(2)).toHaveAttribute("aria-labelledby", "studying");
+    await expect(sections.nth(3)).toHaveAttribute("aria-labelledby", "credentials");
 
     const card = page.locator('section[aria-labelledby="now"]');
     await expect(card.getByRole("heading", { level: 2, name: "Now" })).toBeVisible();
@@ -42,10 +43,15 @@ test.describe("home: now and studies", () => {
     await expect(card.locator("time")).toHaveText(/^(Atualizado em )?\d{1,2} de \S+ de \d{4}$/);
   });
 
-  test("shows certificates, each study once, and a link to the Studies page", async ({ page }) => {
+  test("shows the study in progress, certificates, each study once, and a link to the Studies page", async ({ page }) => {
     await page.goto("/en-us");
-    // Nothing is in progress today, so "Studying now" is absent.
-    await expect(page.locator('section[aria-labelledby="studying"]')).toHaveCount(0);
+    // The UFSCar graduate special student enrollment is in progress.
+    const studying = page.locator('section[aria-labelledby="studying"]');
+    await expect(studying.getByRole("heading", { level: 2, name: "Studying now" })).toBeVisible();
+    const current = studying.getByRole("list", { name: "Studying now" }).getByRole("listitem");
+    await expect(current).toHaveCount(1);
+    await expect(current.first()).toContainText("Graduate Special Student, Computer Science");
+    await expect(current.first()).toContainText("UFSCar");
     const strip = page.locator('section[aria-labelledby="credentials"]');
     await expect(strip.getByRole("heading", { level: 2, name: "Certificates" })).toBeVisible();
     const tiles = strip.getByRole("list", { name: "Studies and credentials" }).getByRole("listitem");
