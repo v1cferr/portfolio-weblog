@@ -212,3 +212,30 @@ The lowest ratio is the worst of those surfaces; "page" is on the page alone.
 Text on the accent passes too: white on `#2f6f62` is 5.88:1, and `#0f1112` on
 `#7fb8a8` is 8.41:1. An e2e test checks, in both themes, that the name's colour
 is the body's and that no accent or lane token has a hue between 250° and 345°.
+
+## Revision (2026-11-23, image lightbox)
+
+Images (entity galleries, post figures, the Setup photo timeline) open in one
+shared lightbox, `components/lightbox`, instead of the bare file:
+
+- **Progressive enhancement:** each thumbnail stays a link to the file. Only a
+  plain left click is intercepted; without JavaScript, or with a modifier key or
+  the middle button, the browser opens the image itself.
+- **Grow, not pop:** the large view grows out of its thumbnail with a Motion
+  `layoutId` and shrinks back into it on close; stepping to another image slides
+  it in. With reduced motion, `MotionConfig reducedMotion="user"` turns the
+  layout animation off, so only the opacity fades.
+- **Surface:** a Radix dialog (focus trap, Esc, the page made inert, focus back
+  to the thumbnail) over a frosted backdrop of the page colour, with
+  `.glass-float` controls of 44px. The caption names the dialog; without one,
+  the alt text does, unseen.
+- **Navigation:** arrows, ←/→ and a horizontal swipe. The swipe is started by
+  hand (`dragListener={false}`) so the frame keeps
+  `touch-action: pan-y pinch-zoom` and the browser's pinch-zoom still works.
+- **History:** opening pushes `?photo=<gallery>-<n>`, so Back closes it and the
+  URL deep-links the image; stepping replaces the entry. It does not use View
+  Transitions, so it leaves page navigation and the header pill's backdrop
+  alone.
+- **Cost:** pages ship only the triggers; the dialog is a separate chunk,
+  fetched on hover, focus or touch of a thumbnail. Content states each image's
+  width and height, so the frame has its aspect ratio before the file arrives.
