@@ -161,3 +161,32 @@ Trade-offs:
 The "Rate limit rule in Vercel" above is unchanged. The `max_tokens`, model and
 key in the Decision and Consequences above describe the original version and no
 longer apply.
+
+## Revision (2026-11-24, natural answers, "I don't know")
+
+The owner asked for answers in the model's own words, shaped by what the visitor
+asks (a recruiter's role, a project), on one condition: nothing invented, and "I
+don't know" when the site has no source.
+
+- **Voice.** The prompt now asks for a natural answer aimed at the visitor's
+  question and context, combining facts from several passages, with names, dates
+  and numbers kept exactly. Up to 8 sentences (was 6). The checks in code are
+  unchanged: every sentence cites passages and must pass the faithfulness
+  threshold, or it is dropped.
+- **"I don't know" is an answer.** When the model reads the passages and sets
+  `answerable: false`, the panel says the site does not say, and lists the pages
+  it read (`mode: "unknown"`), instead of quoting passages that do not answer.
+- **Partial answers.** The schema has `incomplete`: the model answers the part
+  the passages cover, and the panel, not the model, says the rest is not on the
+  site (`partial` on the status). A dropped sentence also marks the answer
+  partial. The model never writes the "not on the site" sentence itself, so it
+  cannot be used to slip in an unsourced claim.
+- **Reliability.** `max_tokens` went from 700 to 2500 and the time budget from
+  20 to 30 seconds: reasoning models spent the whole budget thinking and
+  returned an empty message. An off-schema reply now moves on to the next free
+  models instead of ending in the extractive answer.
+- **Evals.** New free-form questions (a recruiter's) and an `unknowns` set
+  (salary, a language not listed, an employer the site never names) that must
+  end in "the site does not say", the passages, or a partial answer. On
+  2026-11-24 the free models answered 20 of 27 questions, all checks passing,
+  and said "I don't know" to every unknown and injection probe.
