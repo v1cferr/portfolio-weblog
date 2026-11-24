@@ -121,6 +121,20 @@ export function createBattleNetClient(options: BattleNetOptions) {
 
   return {
     token,
+    /**
+     * Class and race names in every locale, keyed by their English name: the
+     * file stores "Night Elf", the pt-BR page shows "Elfo Noturno". Game data,
+     * the same for every region, so it is asked in the US.
+     */
+    async playableNames(): Promise<BattleNetResult<Map<string, LocalizedText>>> {
+      const [classes, races] = await Promise.all([
+        get("us", "/data/wow/playable-class/index", "static-us"),
+        get("us", "/data/wow/playable-race/index", "static-us"),
+      ]);
+      if (!classes.ok) return classes;
+      if (!races.ok) return races;
+      return { ok: true, data: mapPlayableNames([classes.data, races.data]) };
+    },
     /** The profile summary and the render of one character, mapped to what the page shows. */
     async character(
       ref:
@@ -140,6 +154,26 @@ export function createBattleNetClient(options: BattleNetOptions) {
 }
 
 export type BattleNetClient = ReturnType<typeof createBattleNetClient>;
+
+const PlayableIndex = z.object({
+  classes: z.array(z.unknown()).optional(),
+  races: z.array(z.unknown()).optional(),
+});
+
+/** English name to every locale, from the playable class and race indexes. */
+export function mapPlayableNames(indexes: readonly unknown[]): Map<string, LocalizedText> {
+  const names = new Map<string, LocalizedText>();
+  for (const index of indexes) {
+    const parsed = PlayableIndex.safeParse(index);
+    if (!parsed.success) continue;
+    for (const item of [...(parsed.data.classes ?? []), ...(parsed.data.races ?? [])]) {
+      const name = localized(item);
+      const english = name?.["en-us"];
+      if (name !== undefined && english !== undefined && !names.has(english)) names.set(english, name);
+    }
+  }
+  return names;
+}
 
 /* ---------- Mapping ---------- */
 

@@ -1,4 +1,4 @@
-import { localize, type WowRuleset } from "@workspace/content";
+import { localize, type LocalizedText, type WowRuleset } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@workspace/ui/components/empty";
 import { BirdIcon, ExternalLinkIcon, Gamepad2Icon, PuzzleIcon, SwordsIcon, UserRoundIcon } from "lucide-react";
@@ -12,7 +12,7 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
 import { SourceLink } from "@/components/source-link";
 import type { Locale } from "@/i18n/routing";
-import { type CharacterView, getCharacterViews } from "@/lib/blizzard";
+import { type CharacterView, getCharacterViews, getPlayableNames } from "@/lib/blizzard";
 import { formatPartialDate } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
@@ -45,7 +45,18 @@ const RULESET_KEY: Record<WowRuleset, "normal" | "pvp" | "rp" | "rpPvp" | "hardc
 /** Wowhead's own locale prefixes. */
 const WOWHEAD_LOCALE: Record<Locale, string> = { "en-us": "", "pt-br": "pt/", "zh-cn": "cn/" };
 
-async function CharacterCard({ view, locale, syncedAt }: { view: CharacterView; locale: Locale; syncedAt: string | undefined }) {
+async function CharacterCard({
+  view,
+  locale,
+  syncedAt,
+  names,
+}: {
+  view: CharacterView;
+  locale: Locale;
+  syncedAt: string | undefined;
+  /** English class and race names to every locale, for characters shown from the file. */
+  names: ReadonlyMap<string, LocalizedText>;
+}) {
   const t = await getTranslations("Wow");
   const date = (day: string) => formatPartialDate(day, locale);
   const { character, live } = view;
@@ -53,7 +64,11 @@ async function CharacterCard({ view, locale, syncedAt }: { view: CharacterView; 
   const level = live?.level ?? character.level;
   const race = live?.raceName !== undefined ? localize(live.raceName, locale) : undefined;
   const cls = live?.className !== undefined ? localize(live.className, locale) : undefined;
-  const raceClass = [race?.value ?? character.race, cls?.value ?? character.class].filter(Boolean).join(" ");
+  const fromFile = (english: string | undefined) => {
+    const name = english === undefined ? undefined : names.get(english);
+    return name === undefined ? english : localize(name, locale).value;
+  };
+  const raceClass = [race?.value ?? fromFile(character.race), cls?.value ?? fromFile(character.class)].filter(Boolean).join(" ");
   const place =
     live?.placeName !== undefined
       ? localize(live.placeName, locale).value
@@ -130,9 +145,10 @@ export default async function WowPage() {
   const wow = getWow();
   if (wow === undefined) notFound();
 
-  const [views, addons] = await Promise.all([
+  const [views, addons, names] = await Promise.all([
     getCharacterViews(sortCharacters(wow.characters)),
     wow.addons === undefined ? undefined : getAddonList(wow.addons),
+    getPlayableNames(),
   ]);
   const forever = views.filter((view) => view.character.game === "forever");
   const retail = views.filter((view) => view.character.game === "retail");
@@ -154,7 +170,7 @@ export default async function WowPage() {
             className="min-w-0"
             key={`${view.character.region}:${view.character.name}:${view.character.game === "forever" ? view.character.surname : view.character.realm}`}
           >
-            <CharacterCard view={view} locale={locale} syncedAt={wow.syncedAt} />
+            <CharacterCard view={view} locale={locale} syncedAt={wow.syncedAt} names={names} />
           </li>
         ))}
       </ul>

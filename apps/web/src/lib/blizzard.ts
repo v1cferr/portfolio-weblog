@@ -1,6 +1,6 @@
 import "server-only";
 
-import { slugifyRealm, type WowCharacter } from "@workspace/content";
+import { type LocalizedText, slugifyRealm, type WowCharacter } from "@workspace/content";
 
 import { type BattleNetFailure, type BattleNetClient, createBattleNetClient, type LiveCharacter } from "./battlenet";
 
@@ -70,4 +70,14 @@ export async function getCharacterViews(characters: readonly WowCharacter[], now
       return { character, live: result.data, fetchedAt: now().toISOString() };
     })
   );
+}
+
+/**
+ * Class and race names in every locale, keyed by English, for characters shown
+ * from the file. Empty when Battle.net does not answer: the page then keeps the
+ * English names the file has.
+ */
+export async function getPlayableNames(): Promise<Map<string, LocalizedText>> {
+  const result = await battleNet().playableNames();
+  return result.ok ? result.data : new Map();
 }
