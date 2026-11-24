@@ -6,9 +6,299 @@
 # them. The site refreshes each character with live: true from Battle.net once
 # a day and falls back to what this file says.
 #
-# Empty until the first sync: the page shows an empty state, never made-up
-# characters.
-characters: []
+# First synced on 2026-11-24. The owner chose to show all characters, with one
+# main per game: Fearvy (Retail) and Victor Whitebane (WoW Forever).
+characters:
+  - game: retail
+    name: Viictororc
+    region: us
+    class: Shaman
+    race: Orc
+    faction: horde
+    level: 5
+    realm: Gallywix
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/gallywix/viictororc
+    live: false
+  - game: retail
+    name: Xamãnesco
+    region: us
+    class: Shaman
+    race: Pandaren
+    faction: alliance
+    level: 60
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/xam%C3%A3nesco
+    live: false
+  - game: retail
+    name: Fearvy
+    region: us
+    class: Monk
+    race: Pandaren
+    faction: alliance
+    level: 90
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/fearvy
+    live: true
+    main: true
+  - game: retail
+    name: Daäram
+    region: us
+    class: Paladin
+    race: Lightforged Draenei
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/da%C3%A4ram
+    live: false
+  - game: retail
+    name: Celflames
+    region: us
+    class: Warlock
+    race: Void Elf
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/celflames
+    live: false
+  - game: retail
+    name: Éterluz
+    region: us
+    class: Priest
+    race: Void Elf
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/%C3%A9terluz
+    live: false
+  - game: retail
+    name: Feraman
+    region: us
+    class: Hunter
+    race: Worgen
+    faction: alliance
+    level: 75
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/feraman
+    live: false
+  - game: retail
+    name: Nefästo
+    region: us
+    class: Death Knight
+    race: Human
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/nef%C3%A4sto
+    live: false
+  - game: retail
+    name: Keanur
+    region: us
+    class: Demon Hunter
+    race: Night Elf
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/keanur
+    live: false
+  - game: retail
+    name: Morrïgann
+    region: us
+    class: Warrior
+    race: Human
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/morr%C3%AFgann
+    live: false
+  - game: retail
+    name: Maiëvy
+    region: us
+    class: Rogue
+    race: Night Elf
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/mai%C3%ABvy
+    live: false
+  - game: retail
+    name: Benfurion
+    region: us
+    class: Druid
+    race: Night Elf
+    faction: alliance
+    level: 1
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/benfurion
+    live: false
+  - game: retail
+    name: Naturce
+    region: us
+    class: Druid
+    race: Worgen
+    faction: alliance
+    level: 8
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/naturce
+    live: false
+  - game: retail
+    name: Magnon
+    region: us
+    class: Mage
+    race: Gnome
+    faction: alliance
+    level: 6
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/magnon
+    live: false
+  - game: retail
+    name: Powerwing
+    region: us
+    class: Evoker
+    race: Dracthyr
+    faction: alliance
+    level: 60
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/powerwing
+    live: false
+  - game: retail
+    name: Braseforge
+    region: us
+    class: Shaman
+    race: Dark Iron Dwarf
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/braseforge
+    live: false
+  - game: retail
+    name: Jainapóskrak
+    region: us
+    class: Mage
+    race: Void Elf
+    faction: alliance
+    level: 10
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/jainap%C3%B3skrak
+    live: false
+  - game: retail
+    name: Melidalline
+    region: us
+    class: Mage
+    race: Void Elf
+    faction: alliance
+    level: 10
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/melidalline
+    live: false
+  - game: retail
+    name: Ðrâze
+    region: us
+    class: Mage
+    race: Dracthyr
+    faction: alliance
+    level: 10
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/%C3%B0r%C3%A2ze
+    live: false
+  - game: retail
+    name: Totozão
+    region: us
+    class: Warrior
+    race: Human
+    faction: alliance
+    level: 8
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/totoz%C3%A3o
+    live: false
+  - game: retail
+    name: Shâolin
+    region: us
+    class: Monk
+    race: Worgen
+    faction: alliance
+    level: 80
+    realm: Stormrage
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/stormrage/sh%C3%A2olin
+    live: false
+  - game: retail
+    name: Cindro
+    region: us
+    class: Mage
+    race: Night Elf
+    faction: alliance
+    level: 40
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/cindro
+    live: false
+  - game: retail
+    name: Shindrow
+    region: us
+    class: Priest
+    race: Human
+    faction: alliance
+    level: 28
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/shindrow
+    live: false
+  - game: retail
+    name: Fearvy
+    region: us
+    class: Monk
+    race: Pandaren
+    faction: alliance
+    level: 60
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/fearvy
+    live: false
+  - game: retail
+    name: Nëfasto
+    region: us
+    class: Death Knight
+    race: Worgen
+    faction: alliance
+    level: 23
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/n%C3%ABfasto
+    live: false
+  - game: retail
+    name: Nadillí
+    region: us
+    class: Demon Hunter
+    race: Night Elf
+    faction: alliance
+    level: 8
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/nadill%C3%AD
+    live: false
+  - game: retail
+    name: Rämmus
+    region: us
+    class: Shaman
+    race: Dwarf
+    faction: alliance
+    level: 19
+    realm: Nemesis
+    armoryUrl: https://worldofwarcraft.blizzard.com/en-us/character/us/nemesis/r%C3%A4mmus
+    live: false
+  - game: forever
+    name: Lunastra
+    region: us
+    class: Druid
+    race: Night Elf
+    faction: alliance
+    level: 8
+    surname: Gorehorn
+    live: false
+  - game: forever
+    name: Victor
+    region: us
+    class: Druid
+    race: Night Elf
+    faction: alliance
+    level: 25
+    surname: Whitebane
+    live: true
+    main: true
 
 # Mounts the owner is after; linked on Wowhead, no hotlinked images.
 wishlist:
@@ -147,3 +437,4 @@ addons:
     simple-item-levels: Simple Item Level
     forever-immersion: Forever Immersion
     remove-questie: Remove Questie
+syncedAt: 2026-11-24
