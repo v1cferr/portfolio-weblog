@@ -22,6 +22,7 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
 import { Avatar } from "@/features/profile/avatar";
+import { Curiosities } from "@/features/profile/curiosities";
 import { Trajectory } from "@/features/profile/trajectory";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -301,6 +302,8 @@ export default async function AboutPage() {
           </ul>
         </section>
       )}
+
+      <Curiosities items={profile.curiosities} />
 
       <div className="mt-12">
         <SourceLink file="profile/profile.yaml" />
