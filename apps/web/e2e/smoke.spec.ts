@@ -381,6 +381,14 @@ test.describe("interactions", () => {
     await context.close();
   });
 
+  test("the theme toggle stays disabled until hydration, so no early press is lost", async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const page = await context.newPage();
+    await page.goto("/en-us");
+    await expect(page.getByRole("button", { name: "Change theme" })).toBeDisabled();
+    await context.close();
+  });
+
   test("the theme can be switched to dark", async ({ page }) => {
     await page.goto("/en-us");
     await page.getByRole("button", { name: "Change theme" }).click();
