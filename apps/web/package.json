@@ -14,7 +14,9 @@
     "eval:chat": "tsx scripts/eval-chat.ts",
     "icons:sync": "tsx scripts/sync-icons.ts",
     "icons:check": "tsx scripts/sync-icons.ts --check",
-    "spotify:token": "tsx scripts/spotify-token.ts"
+    "spotify:token": "tsx scripts/spotify-token.ts",
+    "wow:addons": "tsx scripts/wow-addons.ts",
+    "wow:sync": "tsx scripts/wow-sync.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

@@ -25,6 +25,9 @@ import {
 
 import { brandIcons, lucideIcons } from "@/generated/icons";
 
+/** The GitHub mark (Simple Icons), wherever a link means "a GitHub repository". */
+export const GITHUB_MARK = "si:github";
+
 type Category = (typeof TechnologyCategory.options)[number];
 
 /** Generic icons when a technology has no official logo. */
@@ -96,6 +99,18 @@ export function TechnologyIcon({ icon, category, className }: { icon?: string | 
   return <Icon icon={icon} fallback={categoryIcons[category]} className={className} tinted />;
 }
 
-export function ContentLinkIcon({ link, className }: { link: Pick<ContentLink, "icon" | "kind">; className?: string }) {
-  return <Icon icon={link.icon} fallback={linkIcons[link.kind]} className={className} />;
+/** True for a link to a repository hosted on GitHub. */
+function isGitHubRepository(kind: ContentLink["kind"], url: string | undefined) {
+  if (kind !== "repository" || url === undefined || !URL.canParse(url)) return false;
+  return new URL(url).hostname === "github.com";
+}
+
+/**
+ * The icon of a content link. A GitHub repository shows the GitHub mark, kept
+ * monochrome (currentColor) as GitHub's brand rules ask, instead of the
+ * generic repository folder.
+ */
+export function ContentLinkIcon({ link, className }: { link: Pick<ContentLink, "icon" | "kind"> & { url?: string }; className?: string }) {
+  const icon = link.icon ?? (isGitHubRepository(link.kind, link.url) ? GITHUB_MARK : undefined);
+  return <Icon icon={icon} fallback={linkIcons[link.kind]} className={className} />;
 }

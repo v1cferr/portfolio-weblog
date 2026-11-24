@@ -25,7 +25,8 @@
     "setup": "Setup",
     "openMenu": "Abrir menu",
     "skipToContent": "Pular para o conteúdo",
-    "brandHome": "v1cferr.dev, página inicial"
+    "brandHome": "v1cferr.dev, página inicial",
+    "wow": "World of Warcraft"
   },
   "Explorer": {
     "open": "Explorador do site (~/)",
@@ -167,7 +168,8 @@
     "stack": "Stack atual",
     "stackNote": "O que uso todo dia no meu trabalho atual, tirado das entradas de carreira.",
     "nowLog": "Registro do agora",
-    "next": "O que vem a seguir"
+    "next": "O que vem a seguir",
+    "wow": "Jogando: World of Warcraft"
   },
   "Career": {
     "title": "Carreira",
@@ -320,6 +322,44 @@
     "markdownHeading": "Meu setup",
     "photos": "O setup ao longo dos anos",
     "present": "atual"
+  },
+  "Wow": {
+    "title": "World of Warcraft",
+    "description": "Os personagens que eu jogo, os addons que eu uso e uma montaria que ainda quero pegar.",
+    "forever": "WoW Forever",
+    "foreverNote": "O Classic+ da Blizzard, lançado em 4 de novembro de 2026: sem reinos, um reino por modo de jogo e personagens com Nome e Sobrenome. É o que eu mais jogo.",
+    "retail": "World of Warcraft (Retail)",
+    "retailNote": "Não estou jogando no momento",
+    "charactersLabel": "Personagens em {game}",
+    "emptyTitle": "Nenhum personagem mapeado ainda",
+    "emptyDescription": "Eles aparecem aqui depois da primeira sincronização com a Battle.net.",
+    "level": "Nível {level}",
+    "main": "Principal",
+    "live": "Ao vivo da Battle.net, {date}",
+    "snapshot": "Retrato de {date}",
+    "snapshotUndated": "Retrato",
+    "armory": "Arsenal",
+    "itemLevel": "Nível de item {value}",
+    "achievementPoints": "{value} pontos de conquista",
+    "rulesets": {
+      "normal": "Normal",
+      "pvp": "JxJ",
+      "rp": "RP",
+      "rpPvp": "RP-JxJ",
+      "hardcore": "Hardcore"
+    },
+    "factions": {
+      "alliance": "Aliança",
+      "horde": "Horda",
+      "neutral": "Neutro"
+    },
+    "wishlist": "Montarias que quero pegar",
+    "onWowhead": "no Wowhead",
+    "addons": "Addons",
+    "addonsNote": "{count} addons para o WoW Forever, cada um fixado na última versão estável e instalado como uma <nix>derivação Nix</nix> dos meus dotfiles.",
+    "addonsSnapshot": "Não deu para ler a lista hoje; esta é a cópia guardada no repositório do site.",
+    "otherGroup": "Outros",
+    "addonCount": "{count, plural, one {# addon} other {# addons}}"
   },
   "NotFound": {
     "title": "Página não encontrada",

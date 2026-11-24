@@ -100,9 +100,9 @@ export default async function SetupPage() {
                           </p>
                           <p className="font-medium">
                             {item.url !== undefined ? (
-                              <ExternalLink href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
+                              <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
                                 {item.model}
-                                <ExternalLinkIcon className="mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                                <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
                               </ExternalLink>
                             ) : (
                               item.model
@@ -130,9 +130,9 @@ export default async function SetupPage() {
                         </dt>
                         <dd className="space-y-1">
                           {item.url !== undefined ? (
-                            <ExternalLink href={item.url} className="inline-flex items-start gap-1.5 hover:text-lane-project">
+                            <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
                               {item.model}
-                              <ExternalLinkIcon className="mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                              <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
                             </ExternalLink>
                           ) : (
                             <span>{item.model}</span>

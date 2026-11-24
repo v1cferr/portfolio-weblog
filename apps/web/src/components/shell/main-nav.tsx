@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@workspace/ui/components/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@workspace/ui/components/sheet";
 import { cn } from "@workspace/ui/lib/utils";
-import { MenuIcon } from "lucide-react";
 import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { NAV_SECTION } from "@/components/page-transition";
 import { Logo } from "@/components/logo";
+import { MotionButton } from "@/components/motion/motion-button";
+import { MenuStateIcon } from "@/components/motion/state-icons";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ExplorerFolder } from "@/lib/explorer-tree";
 
@@ -70,9 +70,9 @@ export function MobileNav({ explorer }: { explorer: ExplorerFolder }) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-10 lg:hidden" aria-label={t("openMenu")}>
-          <MenuIcon />
-        </Button>
+        <MotionButton variant="ghost" size="icon" className="size-10 lg:hidden" aria-label={t("openMenu")}>
+          <MenuStateIcon open={open} />
+        </MotionButton>
       </SheetTrigger>
       {/* Touch-sized: the close button grows from 28px to 40px, the links to 44px tall. */}
       <SheetContent side="right" className="w-72 [&>[data-slot=sheet-close]]:size-10">

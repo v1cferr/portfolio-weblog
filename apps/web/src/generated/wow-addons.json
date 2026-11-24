@@ -1,0 +1,267 @@
+{
+  "questie": {
+    "source": "github",
+    "repo": "Questie/Questie",
+    "url": "https://github.com/Questie/Questie/releases/download/bundle/v12.12.0%2Bv1.1.4/Questie-v12.12.0%2Bv1.1.4.zip"
+  },
+  "dbm": {
+    "source": "github",
+    "repo": "DeadlyBossMods/DeadlyBossMods",
+    "url": "https://github.com/DeadlyBossMods/DeadlyBossMods/releases/download/12.1.25/DBM-Core-12.1.25.zip"
+  },
+  "layer-swap": {
+    "source": "curseforge",
+    "projectId": 1710286,
+    "url": "https://edge.forgecdn.net/files/9768/590/LayerSwap-1.14.47.zip"
+  },
+  "leatrix-plus": {
+    "source": "curseforge",
+    "projectId": 94855,
+    "url": "https://edge.forgecdn.net/files/9744/906/Leatrix_Plus-1.60.37-forever.zip"
+  },
+  "auctionator": {
+    "source": "curseforge",
+    "projectId": 6124,
+    "url": "https://edge.forgecdn.net/files/9761/689/Auctionator-352.zip"
+  },
+  "bugsack": {
+    "source": "curseforge",
+    "projectId": 6273,
+    "url": "https://edge.forgecdn.net/files/9336/367/BugSack-v12.1.9.zip"
+  },
+  "buggrabber": {
+    "source": "curseforge",
+    "projectId": 13344,
+    "url": "https://edge.forgecdn.net/files/9277/326/!BugGrabber-v12.1.1.zip"
+  },
+  "pawn": {
+    "source": "curseforge",
+    "projectId": 4646,
+    "url": "https://edge.forgecdn.net/files/9736/137/Pawn-2.14.8-Forever.zip"
+  },
+  "openmap": {
+    "source": "curseforge",
+    "projectId": 1735937,
+    "url": "https://edge.forgecdn.net/files/9753/379/OpenMap-v0.8.13-forever.zip"
+  },
+  "forever-loot-sparkles": {
+    "source": "curseforge",
+    "projectId": 1729017,
+    "url": "https://edge.forgecdn.net/files/9533/118/ForeverLootSparkles-v2.0.0-forever.zip"
+  },
+  "glowing-bars": {
+    "source": "curseforge",
+    "projectId": 1754997,
+    "url": "https://edge.forgecdn.net/files/9763/368/GlowingBars-4.4.0.zip"
+  },
+  "prettytooltip": {
+    "source": "curseforge",
+    "projectId": 1720719,
+    "url": "https://edge.forgecdn.net/files/9654/209/PrettyTooltip-v1.4.2.zip"
+  },
+  "keep-or-toss": {
+    "source": "curseforge",
+    "projectId": 1737994,
+    "url": "https://edge.forgecdn.net/files/9770/898/KeepOrToss-2.5.1.zip"
+  },
+  "social-diary": {
+    "source": "curseforge",
+    "projectId": 1733454,
+    "url": "https://edge.forgecdn.net/files/9753/182/social_diary-v4.2.4.zip"
+  },
+  "happy-camper": {
+    "source": "curseforge",
+    "projectId": 1715557,
+    "url": "https://edge.forgecdn.net/files/9753/449/HappyCamper-1.1.5.2.zip"
+  },
+  "dbm-vanilla": {
+    "source": "github",
+    "repo": "DeadlyBossMods/DBM-Vanilla",
+    "url": "https://github.com/DeadlyBossMods/DBM-Vanilla/releases/download/r837/DBM-Vanilla_SoD-r837.zip"
+  },
+  "simple-addon-manager": {
+    "source": "curseforge",
+    "projectId": 689213,
+    "url": "https://edge.forgecdn.net/files/9758/698/SimpleAddonManager-v1.70.zip"
+  },
+  "minimapbuttonbutton": {
+    "source": "curseforge",
+    "projectId": 446096,
+    "url": "https://edge.forgecdn.net/files/9632/718/MinimapButtonButton-1.24.18.zip"
+  },
+  "dialogueui": {
+    "source": "curseforge",
+    "projectId": 989270,
+    "url": "https://edge.forgecdn.net/files/9666/149/DialogueUI-1.0.7-d.zip"
+  },
+  "spoken": {
+    "source": "curseforge",
+    "projectId": 1700375,
+    "url": "https://edge.forgecdn.net/files/9762/824/Spoken-3.12.1.zip"
+  },
+  "spoken-ptbr-quests-shared": {
+    "source": "curseforge",
+    "projectId": 1717819,
+    "url": "https://edge.forgecdn.net/files/9738/617/SpokenQuestsAudioShared_ptBR-1.1.0.zip"
+  },
+  "spoken-ptbr-quests-alliance": {
+    "source": "curseforge",
+    "projectId": 1743722,
+    "url": "https://edge.forgecdn.net/files/9738/605/SpokenQuestsAudioAlliance_ptBR-1.1.0.zip"
+  },
+  "spoken-ptbr-quests-horde": {
+    "source": "curseforge",
+    "projectId": 1743740,
+    "url": "https://edge.forgecdn.net/files/9738/612/SpokenQuestsAudioHorde_ptBR-1.1.0.zip"
+  },
+  "spoken-ptbr-gossip": {
+    "source": "curseforge",
+    "projectId": 1743731,
+    "url": "https://edge.forgecdn.net/files/9738/626/SpokenQuestsAudioGossip_ptBR-1.1.0.zip"
+  },
+  "spoken-ptbr-readables": {
+    "source": "curseforge",
+    "projectId": 1723287,
+    "url": "https://edge.forgecdn.net/files/9738/633/SpokenReadablesAudio_ptBR-2.1.0.zip"
+  },
+  "spoken-ptbr-places": {
+    "source": "curseforge",
+    "projectId": 1713138,
+    "url": "https://edge.forgecdn.net/files/9476/622/SpokenPlacesAudio_ptBR-2.0.2.zip"
+  },
+  "spoken-ptbr-bosses": {
+    "source": "curseforge",
+    "projectId": 1783849,
+    "url": "https://edge.forgecdn.net/files/9452/585/SpokenBossesAudio_ptBR-1.1.0.zip"
+  },
+  "chat-translator": {
+    "source": "curseforge",
+    "projectId": 1726863,
+    "url": "https://edge.forgecdn.net/files/9701/490/ChatTranslator-0.7.13.zip"
+  },
+  "blizzmove": {
+    "source": "curseforge",
+    "projectId": 17809,
+    "url": "https://edge.forgecdn.net/files/9492/856/BlizzMove-v3.8.8.zip"
+  },
+  "auto-spell-ranks": {
+    "source": "curseforge",
+    "projectId": 1704071,
+    "url": "https://edge.forgecdn.net/files/9575/437/AutoSpellRanks-1.2.0-forever.zip"
+  },
+  "prat": {
+    "source": "curseforge",
+    "projectId": 7473,
+    "url": "https://edge.forgecdn.net/files/9509/40/Prat-3.0-3.9.117.zip"
+  },
+  "battletext-forever": {
+    "source": "curseforge",
+    "projectId": 1722502,
+    "url": "https://edge.forgecdn.net/files/9774/656/BattleTextForever-v1.38.1-forever.zip"
+  },
+  "easy-experience-bar": {
+    "source": "curseforge",
+    "projectId": 1387290,
+    "url": "https://edge.forgecdn.net/files/9667/978/EasyExperienceBar.zip"
+  },
+  "baganator": {
+    "source": "curseforge",
+    "projectId": 914482,
+    "url": "https://edge.forgecdn.net/files/9738/29/Baganator-868.zip"
+  },
+  "syndicator": {
+    "source": "curseforge",
+    "projectId": 988370,
+    "url": "https://edge.forgecdn.net/files/9738/18/Syndicator-293.zip"
+  },
+  "dejunk": {
+    "source": "curseforge",
+    "projectId": 413260,
+    "url": "https://edge.forgecdn.net/files/9446/591/Dejunk-3.5.1.zip"
+  },
+  "wim": {
+    "source": "curseforge",
+    "projectId": 7474,
+    "url": "https://edge.forgecdn.net/files/9721/125/WIM-3.19.8.zip"
+  },
+  "lfg-forever": {
+    "source": "curseforge",
+    "projectId": 1707849,
+    "url": "https://edge.forgecdn.net/files/9747/838/LFGForever.zip"
+  },
+  "lfg-bulletin-board": {
+    "source": "curseforge",
+    "projectId": 484920,
+    "url": "https://edge.forgecdn.net/files/9487/37/LFGBulletinBoard-v3.57.zip"
+  },
+  "mastercraft": {
+    "source": "curseforge",
+    "projectId": 1711528,
+    "url": "https://edge.forgecdn.net/files/9760/561/Mastercraft-v2.1.1.zip"
+  },
+  "polestar": {
+    "source": "curseforge",
+    "projectId": 1744437,
+    "url": "https://edge.forgecdn.net/files/9750/975/Polestar-0.4.2.2.zip"
+  },
+  "oneforall": {
+    "source": "curseforge",
+    "projectId": 1714201,
+    "url": "https://edge.forgecdn.net/files/9774/593/OneForAll-6.2.14.zip"
+  },
+  "simple-item-levels": {
+    "source": "curseforge",
+    "projectId": 287692,
+    "url": "https://edge.forgecdn.net/files/9753/825/SimpleItemLevel-v76.zip"
+  },
+  "tacotip": {
+    "source": "curseforge",
+    "projectId": 1555962,
+    "url": "https://edge.forgecdn.net/files/9695/501/TacoTip.zip"
+  },
+  "skald": {
+    "source": "curseforge",
+    "projectId": 1748824,
+    "url": "https://edge.forgecdn.net/files/9744/395/Skald-v1.1.1.zip"
+  },
+  "forever-immersion": {
+    "source": "curseforge",
+    "projectId": 1702985,
+    "url": "https://edge.forgecdn.net/files/9700/830/ForeverImmersion-1.11.1.zip"
+  },
+  "fame": {
+    "source": "curseforge",
+    "projectId": 1728351,
+    "url": "https://edge.forgecdn.net/files/9730/561/ForeverAmbientMusicExtended-2.1.0.zip"
+  },
+  "panorama-forever": {
+    "source": "curseforge",
+    "projectId": 1706544,
+    "url": "https://edge.forgecdn.net/files/9724/299/Panorama-1.8.2-forever.zip"
+  },
+  "remove-questie": {
+    "source": "curseforge",
+    "projectId": 1308020,
+    "url": "https://edge.forgecdn.net/files/9773/289/RemoveQuestie-v1.15.zip"
+  },
+  "details": {
+    "source": "curseforge",
+    "projectId": 61284,
+    "url": "https://edge.forgecdn.net/files/9521/145/Details-Details.20261109.15410.172.zip"
+  },
+  "gtfo": {
+    "source": "curseforge",
+    "projectId": 20697,
+    "url": "https://edge.forgecdn.net/files/9695/357/GTFO-6.12.4.zip"
+  },
+  "guildos": {
+    "source": "curseforge",
+    "projectId": 1549177,
+    "url": "https://edge.forgecdn.net/files/9773/365/GuildOS-v1.38.0.zip"
+  },
+  "spy": {
+    "source": "curseforge",
+    "projectId": 1701654,
+    "url": "https://edge.forgecdn.net/files/9750/849/Spy-1.3.8-forever28.zip"
+  }
+}

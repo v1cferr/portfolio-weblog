@@ -1,7 +1,8 @@
 # 0004. Supabase and personal integrations stay in v1
 
 - Status: accepted (2026-10-09, decided with the owner); partly superseded by
-  [0008](0008-spotify-now-playing.md) for Spotify only
+  [0008](0008-spotify-now-playing.md) for Spotify and by
+  [0015](0015-world-of-warcraft-returns.md) for the WoW page
 - Jira: PWL-98, PWL-32
 
 ## Context

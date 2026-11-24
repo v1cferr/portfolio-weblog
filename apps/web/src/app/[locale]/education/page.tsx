@@ -72,8 +72,8 @@ export default async function EducationPage() {
             {institution !== undefined && (
               <p className="text-sm text-muted-foreground">
                 {institution.url !== undefined ? (
-                  <ExternalLink href={institution.url} className="inline-flex items-center gap-1 hover:text-foreground">
-                    {institution.name} <ExternalLinkIcon className="size-3" aria-hidden />
+                  <ExternalLink href={institution.url} className="group/link inline-flex items-center gap-1 hover:text-foreground">
+                    {institution.name} <ExternalLinkIcon className="icon-out size-3" aria-hidden />
                   </ExternalLink>
                 ) : (
                   institution.name
@@ -167,10 +167,10 @@ export default async function EducationPage() {
                     {cert.credentialUrl !== undefined && (
                       <ExternalLink
                         href={cert.credentialUrl}
-                        className="inline-flex min-h-11 items-center gap-1 hover:text-foreground sm:min-h-0"
+                        className="group/link inline-flex min-h-11 items-center gap-1 hover:text-foreground sm:min-h-0"
                       >
                         {t("credential")} <span className="sr-only">{cert.name}</span>
-                        <ExternalLinkIcon className="size-3" aria-hidden />
+                        <ExternalLinkIcon className="icon-out size-3" aria-hidden />
                       </ExternalLink>
                     )}
                   </span>

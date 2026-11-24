@@ -15,6 +15,7 @@ const PAGES = [
   "/en-us/weblog",
   "/en-us/weblog/rebuilding-the-hub-content-first",
   "/en-us/setup",
+  "/en-us/wow",
   "/en-us/now",
   "/en-us/next",
   "/pt-br",
