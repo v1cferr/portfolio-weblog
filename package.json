@@ -17,7 +17,8 @@
     "prepare": "husky",
     "media:add": "pnpm --filter @workspace/content media:add",
     "icons:sync": "pnpm --filter web icons:sync",
-    "avatar:build": "pnpm --filter @workspace/content avatar:build"
+    "avatar:build": "pnpm --filter @workspace/content avatar:build",
+    "wow:sync": "pnpm --filter web wow:sync"
   },
   "devDependencies": {
     "husky": "^9.1.7",

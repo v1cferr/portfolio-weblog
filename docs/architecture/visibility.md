@@ -16,9 +16,10 @@ publishable.
 6. GitHub data is enrichment: a repository is linked only while the API lists it
    as public, and private repositories are filtered even if a token could see
    them.
-7. No secret reaches the browser: `GITHUB_TOKEN` and the `SPOTIFY_*` credentials
-   are read only in server modules marked `server-only`, and client components
-   receive only the message namespaces they need.
+7. No secret reaches the browser: `GITHUB_TOKEN`, the `SPOTIFY_*` and the
+   `BATTLENET_*` credentials are read only in server modules marked
+   `server-only`, and client components receive only the message namespaces they
+   need.
 8. Not migrated from v1 on purpose: phone number, birth date, geotagged photos,
    family photos, names of colleagues, private repositories.
 9. Images referenced by content must carry no EXIF, XMP or IPTC metadata (GPS,

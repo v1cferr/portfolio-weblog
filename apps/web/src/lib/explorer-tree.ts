@@ -46,7 +46,7 @@ export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder>
     getTranslations({ locale, namespace: "Footer" }),
   ]);
   const index = (href: string, label: string): ExplorerFile => ({ kind: "file", name: "index", label, href, icon: "page" });
-  const page = (key: "about" | "education" | "setup" | "timeline" | "now" | "next"): ExplorerFile => ({
+  const page = (key: "about" | "education" | "setup" | "timeline" | "now" | "next" | "wow"): ExplorerFile => ({
     kind: "file",
     name: key,
     label: key === "now" || key === "next" ? footer(key) : nav(key),
@@ -151,6 +151,7 @@ export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder>
       page("setup"),
       page("timeline"),
       weblog,
+      page("wow"),
     ],
   };
 }
