@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
 import { faithfulness, groundAnswer, parseModelAnswer, plainText } from "../src/lib/ask/grounding";
-import { complete, FREE_MODELS, isFreeModel, OPENROUTER_URL } from "../src/lib/ask/openrouter";
+import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
 import { buildMessages, passagesBlock } from "../src/lib/ask/prompt";
 import type { AskEvent } from "../src/lib/ask/protocol";
 import { parseAskRequest } from "../src/lib/ask/schema";
@@ -64,7 +64,8 @@ function fakeModel(content: string | null) {
   return generate;
 }
 
-const answer = (sentences: { text: string; sources: number[] }[], answerable = true) => JSON.stringify({ answerable, sentences });
+const answer = (sentences: { text: string; sources: number[] }[], answerable = true, incomplete = false) =>
+  JSON.stringify({ answerable, incomplete, sentences });
 
 describe("parseAskRequest", () => {
   it("accepts a question in a site locale and keeps the last three turns", () => {
@@ -146,7 +147,7 @@ describe("OpenRouter models", () => {
     expect(headers["X-Title"]).toBe("v1cferr.dev");
     const body = JSON.parse(init?.body as string) as Record<string, unknown>;
     expect(body).toMatchObject({
-      max_tokens: 700,
+      max_tokens: MAX_TOKENS,
       provider: { require_parameters: true },
       response_format: { type: "json_schema", json_schema: { strict: true } },
     });
@@ -165,10 +166,28 @@ describe("OpenRouter models", () => {
     expect(payment).toHaveBeenCalledTimes(1);
   });
 
+  it("tries the next free models when a reply is refused by accept", async () => {
+    const replies = ["not json", '{"answerable":true,"incomplete":false,"sentences":[]}'];
+    const fetchImpl = vi.fn(() =>
+      Promise.resolve(Response.json({ model: "x:free", choices: [{ message: { content: replies.shift() ?? "" } }] }))
+    );
+    const models = ["a:free", "b:free", "c:free", "d:free"];
+    const result = await complete({
+      apiKey: "k",
+      messages: [],
+      schema: {},
+      models,
+      fetchImpl,
+      accept: (content) => content.startsWith("{"),
+    });
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    expect(result).toMatchObject({ ok: true });
+  });
+
   it("gives up when the time is spent", async () => {
     let clock = 0;
     const fetchImpl = vi.fn<typeof fetch>(() => {
-      clock += 25_000;
+      clock += TIMEOUT_MS + 1;
       return Promise.resolve(new Response("{}", { status: 429 }));
     });
     const result = await complete({
@@ -205,7 +224,11 @@ describe("prompt", () => {
 
 describe("grounding", () => {
   it("parses the schema, with or without a code fence, and refuses anything else", () => {
-    expect(parseModelAnswer('```json\n{"answerable":true,"sentences":[]}\n```')).toEqual({ answerable: true, sentences: [] });
+    expect(parseModelAnswer('```json\n{"answerable":true,"sentences":[]}\n```')).toEqual({
+      answerable: true,
+      incomplete: false,
+      sentences: [],
+    });
     expect(parseModelAnswer("Victor built a RAG.")).toBeNull();
     expect(parseModelAnswer('{"answerable":"yes"}')).toBeNull();
   });
@@ -294,7 +317,8 @@ describe("ask", () => {
     );
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate }));
     expect(events).toEqual([
-      { type: "status", mode: "model" },
+      // The Nobel sentence was dropped, so the answer is marked partial.
+      { type: "status", mode: "model", partial: true },
       { type: "text", text: "Victor built a personal RAG chatbot over an Obsidian vault." },
       { type: "cite", n: 1 },
       { type: "text", text: " Victor built a RAG over his notes with citations." },
@@ -311,11 +335,36 @@ describe("ask", () => {
     ]);
   });
 
+  it("marks an answer partial when the model says the passages cover only part of the question", async () => {
+    const full = await collect(
+      ask(input, {
+        retriever: retriever(PASSAGES),
+        generate: fakeModel(answer([{ text: "Victor built a RAG over his notes.", sources: [1] }])),
+      })
+    );
+    expect(full[0]).toEqual({ type: "status", mode: "model" });
+    const part = await collect(
+      ask(input, {
+        retriever: retriever(PASSAGES),
+        generate: fakeModel(answer([{ text: "Victor built a RAG over his notes.", sources: [1] }], true, true)),
+      })
+    );
+    expect(part[0]).toEqual({ type: "status", mode: "model", partial: true });
+  });
+
+  it("says the site does not know, with the pages it read, when the model finds no answer in them", async () => {
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate: fakeModel(answer([], false)) }));
+    expect(events[0]).toEqual({ type: "status", mode: "unknown" });
+    expect(events.some((event) => event.type === "text")).toBe(false);
+    const sources = events.find((event) => event.type === "sources");
+    expect(sources?.type === "sources" && sources.sources.length).toBeGreaterThan(0);
+    expect(events.at(-1)).toEqual({ type: "done" });
+  });
+
   it("falls back to the passages when the model fails, replies off-schema, or nothing survives the checks", async () => {
     for (const [generate, reason] of [
       [fakeModel(null), "error"],
       [fakeModel("Sure! Victor is great."), "error"],
-      [fakeModel(answer([], false)), "ungrounded"],
       [fakeModel(answer([{ text: "Victor lives on the Moon with penguins.", sources: [1] }])), "ungrounded"],
     ] as const) {
       const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate }));

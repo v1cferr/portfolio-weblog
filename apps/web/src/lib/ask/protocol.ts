@@ -31,9 +31,11 @@ export interface AskRequest {
  *   checked against the passages it cites;
  * - `extractive`: the best matching passages, quoted, no model (no key, rate
  *   limited, the model failed, or nothing it wrote passed the checks);
+ * - `unknown`: related pages were found, but the model read them and they do
+ *   not answer the question, so the answer is "the site does not say";
  * - `no-source`: nothing on the site matches, so nothing is answered.
  */
-export type AskMode = "model" | "extractive" | "no-source";
+export type AskMode = "model" | "extractive" | "unknown" | "no-source";
 export type FallbackReason = "unavailable" | "rate-limited" | "error" | "ungrounded";
 
 export interface AskSource {
@@ -47,7 +49,8 @@ export interface AskSource {
 }
 
 export type AskEvent =
-  | { type: "status"; mode: AskMode; reason?: FallbackReason }
+  /** `partial`: a model answer that covers only part of the question, said by the panel, not the model. */
+  | { type: "status"; mode: AskMode; reason?: FallbackReason; partial?: true }
   | { type: "text"; text: string }
   | { type: "cite"; n: number }
   | { type: "sources"; sources: AskSource[] }

@@ -23,9 +23,15 @@ export const FREE_MODELS = [
 /** OpenRouter accepts a short fallback list per request; longer chains are walked by the caller. */
 const MODELS_PER_REQUEST = 3;
 
-export const MAX_TOKENS = 700;
+/**
+ * Room for the answer and any reasoning before it: on most providers the
+ * limit covers both, and a reasoning model that spends it all returns an
+ * empty message (finish_reason "length"). 700 did that once answers grew
+ * longer (2026-11-24).
+ */
+export const MAX_TOKENS = 2500;
 /** Time for the whole answer, every attempt included. */
-export const TIMEOUT_MS = 20_000;
+export const TIMEOUT_MS = 30_000;
 
 export function isFreeModel(id: string): boolean {
   return id.endsWith(":free") || id === "openrouter/free";
@@ -43,7 +49,8 @@ export interface ChatMessage {
 }
 
 export type CompletionResult =
-  { ok: true; content: string; model: string } | { ok: false; reason: "timeout" | "aborted" | "http" | "empty"; status?: number };
+  | { ok: true; content: string; model: string }
+  | { ok: false; reason: "timeout" | "aborted" | "http" | "empty" | "invalid"; status?: number; model?: string };
 
 /** Statuses worth another model: rate limited, no endpoint, upstream errors. 402 (credits) and 4xx request errors are not. */
 function retryable(status: number): boolean {
@@ -60,7 +67,8 @@ interface ChatCompletionResponse {
  * One structured answer from the first free model that gives one. Each
  * request carries up to three models for OpenRouter's own fallback; when a
  * request still fails with a retryable status, the next models are tried
- * until the time runs out.
+ * until the time runs out. A reply `accept` refuses (off-schema JSON) also
+ * moves on to the next models.
  */
 export async function complete(options: {
   apiKey: string;
@@ -68,10 +76,12 @@ export async function complete(options: {
   schema: Record<string, unknown>;
   signal?: AbortSignal;
   models?: readonly string[];
+  /** Checks the reply's content; false tries the next models. */
+  accept?: (content: string) => boolean;
   fetchImpl?: typeof fetch;
   now?: () => number;
 }): Promise<CompletionResult> {
-  const { apiKey, messages, schema, signal, models = FREE_MODELS, fetchImpl = fetch, now = Date.now } = options;
+  const { apiKey, messages, schema, signal, models = FREE_MODELS, accept, fetchImpl = fetch, now = Date.now } = options;
   const free = models.filter(isFreeModel);
   const deadline = now() + TIMEOUT_MS;
   let last: CompletionResult = { ok: false, reason: "empty" };
@@ -111,7 +121,12 @@ export async function complete(options: {
     }
     const body = (await response.json().catch(() => ({}))) as ChatCompletionResponse;
     const content = body.choices?.[0]?.message?.content;
-    if (typeof content === "string" && content.trim() !== "") return { ok: true, content, model: body.model ?? "unknown" };
+    if (typeof content === "string" && content.trim() !== "") {
+      const model = body.model ?? "unknown";
+      if (accept === undefined || accept(content)) return { ok: true, content, model };
+      last = { ok: false, reason: "invalid", model };
+      continue;
+    }
     // A 200 can still carry an upstream error or an empty message: try the next models.
     last = { ok: false, reason: "empty", ...(body.error?.code !== undefined && { status: body.error.code }) };
   }
