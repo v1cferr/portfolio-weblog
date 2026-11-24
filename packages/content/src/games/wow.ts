@@ -38,10 +38,19 @@ export function loadWowContent(root: string): WowLoadResult {
   };
 }
 
-/** Only what a public page may show: the page itself must be published and public, and so must each character. */
+/**
+ * Only what a public page may show: the page itself must be published and
+ * public, and so must each character, at `minLevel` or above when it is set.
+ */
 export function publicWow(wow: Wow | undefined): Wow | undefined {
   if (wow === undefined || wow.status !== "published" || wow.visibility !== "public") return undefined;
-  return { ...wow, characters: wow.characters.filter((character) => character.visibility === "public") };
+  const { minLevel } = wow;
+  return {
+    ...wow,
+    characters: wow.characters.filter(
+      (character) => character.visibility === "public" && (minLevel === undefined || (character.level ?? 0) >= minLevel)
+    ),
+  };
 }
 
 /** Loads the public page content; throws with every problem when the file is invalid. */

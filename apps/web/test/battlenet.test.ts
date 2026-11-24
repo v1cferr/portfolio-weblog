@@ -4,6 +4,7 @@ import {
   characterPath,
   createBattleNetClient,
   foreverSlug,
+  mapPlayableNames,
   mapProfile,
   pickRender,
   profileNamespace,
@@ -180,5 +181,26 @@ describe("battle.net mapping", () => {
       "https://render.worldofwarcraft.com/forever-us/a.png"
     );
     expect(pickRender({ nothing: true })).toBeUndefined();
+  });
+});
+
+describe("mapPlayableNames", () => {
+  it("keys class and race names by English, with every locale Battle.net sends", () => {
+    const names = mapPlayableNames([
+      { classes: [{ id: 11, name: { en_US: "Druid", pt_BR: "Druida", zh_CN: "德鲁伊" } }] },
+      {
+        races: [
+          { id: 4, name: { en_US: "Night Elf", pt_BR: "Elfo Noturno" } },
+          { id: 24, name: { en_US: "Pandaren", pt_BR: "Pandaren" } },
+          { id: 25, name: { en_US: "Pandaren", pt_BR: "Pandaren (Aliança)" } },
+          { id: 0, name: "" },
+        ],
+      },
+      { unexpected: true },
+    ]);
+    expect(names.get("Druid")).toEqual({ "en-us": "Druid", "pt-br": "Druida", "zh-cn": "德鲁伊" });
+    expect(names.get("Night Elf")?.["pt-br"]).toBe("Elfo Noturno");
+    expect(names.get("Pandaren")?.["pt-br"]).toBe("Pandaren");
+    expect(names.size).toBe(3);
   });
 });
