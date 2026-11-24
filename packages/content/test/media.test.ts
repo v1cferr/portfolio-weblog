@@ -16,25 +16,37 @@ function publicDirWith(...files: string[]) {
   return dir;
 }
 
+/** The size withMedia() and the setup photo state. */
+const SIZE = { width: 1600, height: 1200 };
+
 const withMedia = (src: string) =>
-  loadContent(makeContent({ "projects/hub.yaml": project({ media: [{ src, alt: { "en-us": "Screenshot" } }] }) })).content;
+  loadContent(
+    makeContent({ "projects/hub.yaml": project({ media: [{ src, width: 1600, height: 1200, alt: { "en-us": "Screenshot" } }] }) })
+  ).content;
 
 describe("checkMedia", () => {
   it("accepts an existing image without metadata", async () => {
-    const issues = await checkMedia(withMedia("/shots/hub.webp"), publicDirWith("shots/hub.webp"), () => Promise.resolve({}));
+    const issues = await checkMedia(withMedia("/shots/hub.webp"), publicDirWith("shots/hub.webp"), () => Promise.resolve(SIZE));
     expect(issues).toEqual([]);
   });
 
   it("rejects a missing file", async () => {
-    const issues = await checkMedia(withMedia("/shots/missing.webp"), publicDirWith(), () => Promise.resolve({}));
+    const issues = await checkMedia(withMedia("/shots/missing.webp"), publicDirWith(), () => Promise.resolve(SIZE));
     expect(issues[0]?.message).toContain("does not exist");
   });
 
   it("rejects images that still carry EXIF, XMP or IPTC metadata", async () => {
     const issues = await checkMedia(withMedia("/shots/hub.jpg"), publicDirWith("shots/hub.jpg"), () =>
-      Promise.resolve({ exif: Buffer.from("GPS") })
+      Promise.resolve({ ...SIZE, exif: Buffer.from("GPS") })
     );
     expect(issues[0]?.message).toContain("still has EXIF/XMP/IPTC metadata");
+  });
+
+  it("rejects a size that does not match the file", async () => {
+    const issues = await checkMedia(withMedia("/shots/hub.webp"), publicDirWith("shots/hub.webp"), () =>
+      Promise.resolve({ width: 1200, height: 1600 })
+    );
+    expect(issues[0]?.message).toContain("is 1200x1600, but the content says 1600x1200");
   });
 
   it("checks the setup's photo history too", async () => {
@@ -44,11 +56,13 @@ describe("checkMedia", () => {
           id: "setup",
           updatedAt: "2026-07",
           groups: [{ id: "desk", title: { "en-us": "Desk" }, items: [{ role: { "en-us": "Monitor" }, model: "LG" }] }],
-          photos: [{ src: "/setup/2025.webp", date: "2025-01-27", alt: { "en-us": "The desk" } }],
+          photos: [{ src: "/setup/2025.webp", width: 1600, height: 1200, date: "2025-01-27", alt: { "en-us": "The desk" } }],
         },
       })
     );
-    const issues = await checkMedia(content, publicDirWith("setup/2025.webp"), () => Promise.resolve({ exif: Buffer.from("GPS") }));
+    const issues = await checkMedia(content, publicDirWith("setup/2025.webp"), () =>
+      Promise.resolve({ ...SIZE, exif: Buffer.from("GPS") })
+    );
     expect(issues[0]?.message).toContain("still has EXIF/XMP/IPTC metadata");
   });
 

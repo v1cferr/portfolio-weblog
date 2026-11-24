@@ -60,6 +60,8 @@ pendingReview:
 # showed internal tickets and chats.
 media:
   - src: /career/cultura-inglesa/office.webp
+    width: 1600
+    height: 1200
     alt:
       en-us: Open-plan IT office with rows of desks and monitors and two wall screens; every screen is blurred
       pt-br: Escritório aberto de TI com fileiras de mesas e monitores e duas telas na parede; todas as telas estão desfocadas

@@ -51,6 +51,8 @@ pendingReview:
 # stripped of metadata; the visible ID badges are blurred.
 media:
   - src: /career/amcor/team.webp
+    width: 1280
+    height: 960
     alt:
       en-us: A large group of colleagues posing in an office decorated with festa junina bunting, around a table of food
       pt-br: Um grande grupo de colegas posando em um escritório decorado com bandeirinhas de festa junina, em volta de uma mesa de comida

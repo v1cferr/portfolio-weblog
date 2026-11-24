@@ -120,6 +120,8 @@ pendingReview:
 # stripped of metadata.
 media:
   - src: /career/xmart-solutions/team.webp
+    width: 960
+    height: 1280
     alt:
       en-us: Nine colleagues posing together on the lanes of a bowling alley
       pt-br: Nove colegas posando juntos nas pistas de um boliche
@@ -132,6 +134,8 @@ media:
   # dashboard keeps only aggregate charts, with no customer, team or
   # repository names.
   - src: /career/xmart-solutions/xguardian-marketplace.webp
+    width: 1600
+    height: 979
     alt:
       en-us: Visual Studio Marketplace page of the XGuardian extension by Xmart Solutions, which runs SAST and SCA scans from VS Code
       pt-br: Página do Visual Studio Marketplace da extensão XGuardian, da Xmart Solutions, que faz scans SAST e SCA a partir do VS Code
@@ -139,6 +143,8 @@ media:
       en-us: The XGuardian extension for VS Code on the Visual Studio Marketplace.
       pt-br: A extensão XGuardian para VS Code no Visual Studio Marketplace.
   - src: /career/xmart-solutions/xguardian-dashboard.webp
+    width: 1600
+    height: 979
     alt:
       en-us: XGuardian dashboard with a donut chart of vulnerabilities by severity and a donut chart of the technologies in use
       pt-br: Painel do XGuardian com um gráfico de rosca das vulnerabilidades por severidade e outro das tecnologias utilizadas
@@ -146,6 +152,8 @@ media:
       en-us: The XGuardian dashboard, with vulnerabilities and technologies in use.
       pt-br: O painel do XGuardian, com as vulnerabilidades e as tecnologias utilizadas.
   - src: /career/xmart-solutions/xguardian-login.webp
+    width: 1600
+    height: 788
     alt:
       en-us: XGuardian login page with blurred e-mail and password fields and options for SSO and personal access tokens
       pt-br: Página de login do XGuardian com os campos de e-mail e senha desfocados e opções de SSO e token de acesso pessoal
@@ -153,6 +161,8 @@ media:
       en-us: The XGuardian login page.
       pt-br: A página de login do XGuardian.
   - src: /career/xmart-solutions/xguardian-site.webp
+    width: 1600
+    height: 829
     alt:
       en-us: 'XGuardian''s public website: "Uma solução acessível para analisar a segurança de seu código"'
       pt-br: 'Site público do XGuardian: "Uma solução acessível para analisar a segurança de seu código"'

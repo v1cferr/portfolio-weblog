@@ -160,7 +160,7 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
       {fallback !== undefined && <FallbackNotice requested={locale} actual={fallback.locale} />}
 
       <div className="mb-10">
-        <MediaGallery media={experience.media} placeholder={experience.mediaPlaceholder} />
+        <MediaGallery id={experience.id} media={experience.media} placeholder={experience.mediaPlaceholder} />
       </div>
 
       <div className="space-y-10">

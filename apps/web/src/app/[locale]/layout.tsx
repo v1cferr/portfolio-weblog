@@ -40,7 +40,19 @@ const fontMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", w
 const THEME_SESSION_SCRIPT = `try{if(!sessionStorage.getItem("hub-theme-session")){localStorage.removeItem("theme");sessionStorage.setItem("hub-theme-session","1")}}catch(e){}`;
 
 /** Namespaces read by client components; everything else stays on the server. */
-const CLIENT_NAMESPACES = ["Nav", "Explorer", "Theme", "LocaleSwitcher", "Search", "Ask", "Error", "Projects", "NowPlaying"] as const;
+const CLIENT_NAMESPACES = [
+  "Nav",
+  "Explorer",
+  "Theme",
+  "LocaleSwitcher",
+  "Search",
+  "Ask",
+  "Error",
+  "Projects",
+  "NowPlaying",
+  "Lightbox",
+  "Common",
+] as const;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

@@ -225,6 +225,8 @@ photos:
   # notifications, e-mails, IPs or tokens are on screen (the GitHub Actions
   # panel shows this public repository), so nothing is blurred.
   - src: /setup/20261123-all.webp
+    width: 2000
+    height: 1055
     date: 2026-11-23
     alt:
       en-us: "Both monitors side by side: the vertical one with a clock, weather, energy chart, GitHub Actions runs and system gauges over a spiral galaxy, the main one with fastfetch on NixOS over a starfield"
@@ -233,6 +235,8 @@ photos:
       en-us: "The NixOS desktop in November 2026, across both monitors."
       pt-br: "Desktop no NixOS em novembro de 2026, nos dois monitores."
   - src: /setup/20261123-secondary.webp
+    width: 900
+    height: 1600
     date: 2026-11-23
     alt:
       en-us: "Vertical monitor with Quickshell widgets: clock and weather, CPU and GPU energy use, GitHub Actions runs of portfolio-weblog, CPU, RAM, disk, GPU, temperature and network gauges, and running services, over a spiral galaxy"
@@ -241,6 +245,8 @@ photos:
       en-us: "The secondary monitor, vertical: a Quickshell dashboard."
       pt-br: "O monitor secundário, na vertical: um painel feito no Quickshell."
   - src: /setup/20261123-primary.webp
+    width: 1600
+    height: 900
     date: 2026-11-23
     alt:
       en-us: "Main monitor with a kitty terminal running fastfetch: NixOS 26.05, Hyprland 0.57.2, Quickshell, Intel Core i5-11400 and Intel Arc B580, over a starfield wallpaper"
@@ -253,6 +259,8 @@ photos:
   # 2026-07-23 and 2026-09-15 the LAN IP is blurred; on 2026-09-15 also a
   # video, its suggestions and a calendar notification.
   - src: /setup/20260915.webp
+    width: 1600
+    height: 1200
     date: 2026-09-15
     alt:
       en-us: "A vertical monitor with a coding session beside the main monitor showing fastfetch on NixOS and a blurred video"
@@ -261,6 +269,8 @@ photos:
       en-us: "NixOS on the Kingston NVMe, with the second monitor turned vertical."
       pt-br: "NixOS no NVMe Kingston, com o segundo monitor na vertical."
   - src: /setup/20260723.webp
+    width: 1600
+    height: 1200
     date: 2026-07-23
     alt:
       en-us: "fastfetch on the monitor: NixOS 26.05, Hyprland, Intel Core i5-11400 and Intel Arc B580"
@@ -269,6 +279,8 @@ photos:
       en-us: "fastfetch on one of the first NixOS installs, still on the SanDisk SSD, with the Intel Arc B580."
       pt-br: "fastfetch em uma das primeiras instalações do NixOS, ainda no SSD SanDisk, com a Intel Arc B580."
   - src: /setup/20260619.webp
+    width: 1600
+    height: 846
     date: 2026-06-19
     alt:
       en-us: "Two monitors in the dark: a samurai wallpaper on the left and a lock screen with a large clock on the right"
@@ -281,6 +293,8 @@ photos:
   # the migration plan counted in July). A LinkedIn component key in the
   # devtools and a "now playing" line naming a chat app are blurred.
   - src: /setup/20260507.webp
+    width: 1600
+    height: 450
     date: 2026-05-07
     alt:
       en-us: "Ultrawide screenshot of the Arch desktop: mpv playing music videos, browser devtools and a fastfetch-style summary of Arch Linux with Hyprland on a GeForce RTX 3050"
@@ -289,6 +303,8 @@ photos:
       en-us: "The Arch desktop across both monitors, still with the RTX 3050."
       pt-br: "O desktop do Arch nos dois monitores, ainda com a RTX 3050."
   - src: /setup/20251112.webp
+    width: 1600
+    height: 1200
     date: 2025-11-12
     alt:
       en-us: "A controller held in front of a monitor running Need for Speed: Underground 2 in an emulator, with its button mapping on the second monitor"
@@ -297,6 +313,8 @@ photos:
       en-us: "Mapping a controller to play Need for Speed: Underground 2 on Arch."
       pt-br: "Mapeando um controle para jogar Need for Speed: Underground 2 no Arch."
   - src: /setup/20251022.webp
+    width: 1600
+    height: 1200
     date: 2025-10-22
     alt:
       en-us: "Two monitors on a wooden desk: macOS being installed in a virtual machine on the left, the OSX-KVM repository and a terminal on the right"
@@ -305,6 +323,8 @@ photos:
       en-us: "Installing macOS in a QEMU/KVM virtual machine on Arch."
       pt-br: "Instalando o macOS em uma máquina virtual QEMU/KVM no Arch."
   - src: /setup/20250930.webp
+    width: 1600
+    height: 1200
     date: 2025-09-30
     alt:
       en-us: "Two monitors at night: code in an editor with a sunset wallpaper on the left, documentation and a chat on the right"
@@ -313,6 +333,8 @@ photos:
       en-us: "Late-night coding on Arch with Hyprland."
       pt-br: "Programando de madrugada no Arch com Hyprland."
   - src: /setup/20250127.webp
+    width: 1600
+    height: 1000
     date: 2025-01-27
     alt:
       en-us: "Desk with a World of Warcraft Alliance mousepad and the monitor's lock screen"
@@ -320,6 +342,8 @@ photos:
     caption:
       pt-br: "Troquei o Mousepad pelo da Alliance Azul bonitão (Redragon) e o gabinete pelo Sharkoon VS9 RGB Branco mesmo."
   - src: /setup/20240530.webp
+    width: 1600
+    height: 1200
     date: 2024-05-30
     alt:
       en-us: "White mechanical keyboard with a wrist rest in front of a monitor showing a sound wave wallpaper"
@@ -327,6 +351,8 @@ photos:
     caption:
       pt-br: "Apenas mostrando o teclado com apoio de pulso e o Wallpaper do álbum 'AM' do Arctic Monkeys. Nenhuma outra peça."
   - src: /setup/20231105.webp
+    width: 1305
+    height: 979
     date: 2023-11-05
     alt:
       en-us: "Two monitors on the desk with code on screen and the PC beside them"
@@ -334,6 +360,8 @@ photos:
     caption:
       pt-br: "Tirei o gabinete e coloquei os dois monitores na mesa. Deixei o PC em cima de um apoio."
   - src: /setup/20230928.webp
+    width: 1600
+    height: 1200
     date: 2023-09-28
     alt:
       en-us: "New monitor, RGB keyboard and mouse on the desk"
@@ -341,6 +369,8 @@ photos:
     caption:
       pt-br: "Monitor: 'LG UltraGear 27 144Hz 1ms', Teclado: 'Redragon Magic Wand Pro' e Mouse: 'Razer DeathAdder V2'. Todos novos."
   - src: /setup/20230417.webp
+    width: 1600
+    height: 1200
     date: 2023-04-17
     alt:
       en-us: "Red and black gaming chair next to the desk and the assembled PC"
@@ -348,6 +378,8 @@ photos:
     caption:
       pt-br: "Já estava com o PC montado graças a ajuda do meu pai <3 (inicio de 2022 até meio de 2023). E Comprei a cadeira 'Mymax MX5'."
   - src: /setup/20220308.webp
+    width: 1600
+    height: 1200
     date: 2022-03-08
     alt:
       en-us: "Monitor with a soundbar below it, keyboard, headset and mouse"
@@ -355,6 +387,8 @@ photos:
     caption:
       pt-br: "Apenas a Soundbar 'Redragon Adiemus 6W RMS RGB USB 150Hz/20KHz Botão Touch' em baixo do monitor. O resto é o mesmo."
   - src: /setup/20211102.webp
+    width: 1600
+    height: 1200
     date: 2021-11-02
     alt:
       en-us: "Monitor, red-lit keyboard, headset and a large mousepad"
@@ -362,6 +396,8 @@ photos:
     caption:
       pt-br: 'Peguei o Headset ''Redragon Zeus 7.1 H510'', Monitor ''AOC 21.5" 22B1H'' e um Mousepad descente: ''Havit HV-MP830''.'
   - src: /setup/20191117.webp
+    width: 1600
+    height: 900
     date: 2019-11-17
     alt:
       en-us: "Laptop on a desk with an external keyboard and mouse"
