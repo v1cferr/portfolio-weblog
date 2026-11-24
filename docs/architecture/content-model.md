@@ -26,10 +26,12 @@ or misspelled field fails validation instead of being silently dropped.
   [visibility](visibility.md)).
 - Localized text: `{ en-us?, pt-br?, zh-cn? }`, at least one locale. Lists use
   the same shape with arrays.
-- Media (experiences, projects, studies): `media: [{ src, alt, caption? }]` with
-  `src` under `apps/web/public`, plus `mediaPlaceholder: false` to opt out of
-  the "photos coming" space (switched site-wide in
-  `apps/web/src/config/site.ts`). See [add photos](../guides/add-media.md).
+- Media (experiences, projects, studies):
+  `media: [{ src, width, height, alt, caption? }]` with `src` under
+  `apps/web/public` and its intrinsic size in pixels, plus
+  `mediaPlaceholder: false` to opt out of the "photos coming" space (switched
+  site-wide in `apps/web/src/config/site.ts`). See
+  [add photos](../guides/add-media.md).
 - Dates: `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Unquoted values are fine; use only
   the precision you actually know.
 

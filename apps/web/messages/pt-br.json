@@ -385,6 +385,13 @@
     "label": "Fotos",
     "placeholder": "As fotos desta entrada serão adicionadas em breve."
   },
+  "Lightbox": {
+    "close": "Fechar",
+    "previous": "Imagem anterior",
+    "next": "Próxima imagem",
+    "openOriginal": "Abrir original",
+    "position": "Imagem {index} de {total}"
+  },
   "NowPlaying": {
     "playing": "Ouvindo agora",
     "listening": "Ouvindo agora: {title}, de {artists}",

@@ -93,9 +93,15 @@ export const entityBase = {
 /**
  * An image shown with an entity. Files live under apps/web/public and must be
  * stripped of EXIF metadata (pnpm media:add does it; content:check enforces it).
+ * The intrinsic size is stated rather than read at request time: pages
+ * rendered on demand do not ship apps/web/public, and the lightbox needs the
+ * aspect ratio to size the full view before the large file arrives.
+ * content:check compares it with the file.
  */
 export const Media = z.strictObject({
   src: z.string().regex(/^\/[\w./-]+\.(?:jpe?g|png|webp|avif)$/i, "src is a path under apps/web/public to a jpg, png, webp or avif file"),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
   alt: LocalizedText,
   caption: LocalizedText.optional(),
 });

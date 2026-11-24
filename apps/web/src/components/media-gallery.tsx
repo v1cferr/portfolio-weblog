@@ -4,9 +4,13 @@ import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
+import { galleryId, type LightboxItem } from "@/components/lightbox/photo-param";
 import { siteConfig } from "@/config/site";
 
 interface MediaGalleryProps {
+  /** The entity's id: names the gallery in the lightbox's deep links (`?photo=<id>-<n>`). */
+  id: string;
   media: readonly Media[];
   /** The entity's own opt-out (`mediaPlaceholder` in content). */
   placeholder: boolean;
@@ -18,7 +22,7 @@ interface MediaGalleryProps {
  * Images attached to an entity. With none, it shows a reserved space while the
  * site-wide switch and the entity both allow it, and nothing otherwise.
  */
-export async function MediaGallery({ media, placeholder, compact = false }: MediaGalleryProps) {
+export async function MediaGallery({ id, media, placeholder, compact = false }: MediaGalleryProps) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Media")]);
 
   if (media.length === 0) {
@@ -37,32 +41,52 @@ export async function MediaGallery({ media, placeholder, compact = false }: Medi
     );
   }
 
+  const items = media.map((item): LightboxItem => {
+    const alt = localize(item.alt, locale);
+    const caption = item.caption && localize(item.caption, locale);
+    return {
+      src: item.src,
+      width: item.width,
+      height: item.height,
+      alt: alt.value,
+      altLang: alt.locale,
+      caption: caption?.value,
+      captionLang: caption?.locale,
+    };
+  });
+
   return (
-    <ul aria-label={t("label")} className={cn("grid gap-3", compact ? "grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-3")}>
-      {media.map((item) => {
-        const alt = localize(item.alt, locale);
-        const caption = item.caption && localize(item.caption, locale);
-        return (
-          <li key={item.src}>
-            <figure className="space-y-1.5">
-              <a href={item.src} className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted">
-                <Image
-                  src={item.src}
-                  alt={alt.value}
-                  fill
-                  sizes={compact ? "160px" : "(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"}
-                  className="object-cover transition-transform hover:scale-[1.02]"
-                />
-              </a>
-              {caption && !compact && (
-                <figcaption className="text-sm text-muted-foreground" lang={caption.locale}>
-                  {caption.value}
-                </figcaption>
-              )}
-            </figure>
-          </li>
-        );
-      })}
-    </ul>
+    <Lightbox id={galleryId(id)} items={items}>
+      <ul aria-label={t("label")} className={cn("grid gap-3", compact ? "grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-3")}>
+        {media.map((item, index) => {
+          const alt = localize(item.alt, locale);
+          const caption = item.caption && localize(item.caption, locale);
+          return (
+            <li key={item.src}>
+              <figure className="space-y-1.5">
+                <LightboxTrigger
+                  index={index}
+                  className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted"
+                  frameClassName="absolute inset-0"
+                >
+                  <Image
+                    src={item.src}
+                    alt={alt.value}
+                    fill
+                    sizes={compact ? "160px" : "(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"}
+                    className="object-cover transition-transform hover:scale-[1.02]"
+                  />
+                </LightboxTrigger>
+                {caption && !compact && (
+                  <figcaption className="text-sm text-muted-foreground" lang={caption.locale}>
+                    {caption.value}
+                  </figcaption>
+                )}
+              </figure>
+            </li>
+          );
+        })}
+      </ul>
+    </Lightbox>
   );
 }

@@ -175,7 +175,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
           )}
 
           <div className="mb-10">
-            <MediaGallery media={project.media} placeholder={project.mediaPlaceholder} />
+            <MediaGallery id={project.id} media={project.media} placeholder={project.mediaPlaceholder} />
           </div>
 
           {caseStudy !== undefined ? (
