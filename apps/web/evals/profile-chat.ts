@@ -26,6 +26,8 @@ const EvalSet = z.strictObject({
     .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), grounded: z.boolean() }))
     .min(1),
   injections: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).min(1),
+  /** Questions near the site's topics that it does not answer: the model must say so, never fill the gap. */
+  unknowns: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).default([]),
 });
 export type EvalSet = z.infer<typeof EvalSet>;
 

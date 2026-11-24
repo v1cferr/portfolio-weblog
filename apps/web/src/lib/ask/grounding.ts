@@ -8,7 +8,7 @@ import { z } from "zod";
  * prompt asks for the same, but nothing here trusts it.
  */
 
-export const MAX_SENTENCES = 6;
+export const MAX_SENTENCES = 8;
 export const MAX_SENTENCE_LENGTH = 300;
 
 /**
@@ -23,7 +23,11 @@ export const FAITHFULNESS_THRESHOLD = 0.6;
 export const ANSWER_SCHEMA = {
   type: "object",
   properties: {
-    answerable: { type: "boolean", description: "False when the passages do not answer the question." },
+    answerable: { type: "boolean", description: "False when the passages do not answer the question at all." },
+    incomplete: {
+      type: "boolean",
+      description: "True when the passages answer only part of the question: the sentences cover that part, and the rest is left out.",
+    },
     sentences: {
       type: "array",
       description: `At most ${String(MAX_SENTENCES)} short sentences, each backed by the passages it cites.`,
@@ -38,12 +42,14 @@ export const ANSWER_SCHEMA = {
       },
     },
   },
-  required: ["answerable", "sentences"],
+  required: ["answerable", "incomplete", "sentences"],
   additionalProperties: false,
 } as const;
 
 const ModelAnswer = z.object({
   answerable: z.boolean(),
+  // Free models sometimes leave it out; missing means complete.
+  incomplete: z.boolean().default(false),
   sentences: z.array(z.object({ text: z.string(), sources: z.array(z.number()) })),
 });
 
@@ -57,6 +63,8 @@ export type DropReason = "no-sources" | "bad-source" | "empty" | "unfaithful";
 
 export interface GroundingResult {
   answerable: boolean;
+  /** The model said the passages cover only part of the question. */
+  incomplete: boolean;
   sentences: GroundedSentence[];
   dropped: DropReason[];
 }
@@ -133,5 +141,5 @@ export function groundAnswer(content: string, passages: readonly RetrievedPassag
     }
     sentences.push({ text, passages: cited });
   }
-  return { answerable: answer.answerable, sentences: answer.answerable ? sentences : [], dropped };
+  return { answerable: answer.answerable, incomplete: answer.incomplete, sentences: answer.answerable ? sentences : [], dropped };
 }

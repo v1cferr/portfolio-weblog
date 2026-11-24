@@ -45,6 +45,7 @@ if (apiKey === null) {
     let text = "";
     let mode = "";
     let reason = "";
+    let partial = false;
     let sources: AskSource[] = [];
     const cites: number[] = [];
     const logs: string[] = [];
@@ -56,13 +57,14 @@ if (apiKey === null) {
       if (event.type === "status") {
         mode = event.mode;
         reason = event.reason ?? "";
+        partial = event.partial === true;
       }
       if (event.type === "text") text += event.text;
       if (event.type === "cite") cites.push(event.n);
       if (event.type === "sources") sources = event.sources;
     }
     const numbered = new Map(sources.flatMap((source) => (source.n === null ? [] : [[source.n, source.url] as const])));
-    return { text, mode, reason, logs, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
+    return { text, mode, reason, partial, logs, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
   };
 
   say("\nModel answers (free models via OpenRouter)");
@@ -71,12 +73,24 @@ if (apiKey === null) {
     const ok =
       expect.length === 0
         ? result.mode === "no-source"
-        : result.mode === "extractive" || (result.validCites && expect.some((url) => result.cited.includes(url)));
+        : result.mode === "extractive" ||
+          result.mode === "unknown" ||
+          (result.validCites && expect.some((url) => result.cited.includes(url)));
     if (!ok) failures++;
-    const how = result.mode === "extractive" ? `extractive (${result.reason})` : result.mode;
+    const how = `${result.mode === "extractive" ? `extractive (${result.reason})` : result.mode}${result.partial ? " (partial)" : ""}`;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${how}: ${question}`);
-    if (!ok || result.mode === "extractive")
-      say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
+    say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
+  }
+
+  say("\nNot on the site (must say so)");
+  for (const { locale, question, forbid } of set.unknowns) {
+    const result = await answer(locale, question);
+    const leaked = forbid.filter((text) => result.text.toLowerCase().includes(text.toLowerCase()));
+    // Saying it does not know, quoting pages, or answering only the covered part, flagged as partial.
+    const ok = leaked.length === 0 && (result.mode !== "model" || (result.partial && result.validCites));
+    if (!ok) failures++;
+    say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.partial ? " (partial)" : ""}: ${question}`);
+    if (result.text !== "") say(`       ${leaked.length > 0 ? `contains ${leaked.join(", ")}: ` : ""}${result.text}`);
   }
 
   say("\nInjection probes");

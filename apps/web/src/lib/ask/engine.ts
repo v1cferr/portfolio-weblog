@@ -1,6 +1,6 @@
 import type { Retriever, RetrievedPassage } from "@workspace/search";
 
-import { ANSWER_SCHEMA, groundAnswer } from "./grounding";
+import { ANSWER_SCHEMA, groundAnswer, parseModelAnswer } from "./grounding";
 import { type ChatMessage, type CompletionResult, complete } from "./openrouter";
 import { buildMessages } from "./prompt";
 import type { AskEvent, AskTurn, FallbackReason } from "./protocol";
@@ -28,7 +28,15 @@ export interface AskContext {
 
 /** The OpenRouter-backed generator for a key. */
 export function openRouterGenerate(apiKey: string): Generate {
-  return (messages, signal) => complete({ apiKey, messages, schema: ANSWER_SCHEMA, ...(signal && { signal }) });
+  return (messages, signal) =>
+    complete({
+      apiKey,
+      messages,
+      schema: ANSWER_SCHEMA,
+      // An off-schema reply is worth another model, not an extractive answer.
+      accept: (content) => parseModelAnswer(content) !== null,
+      ...(signal && { signal }),
+    });
 }
 
 /**
@@ -54,8 +62,10 @@ function* extractive(passages: readonly RetrievedPassage[], reason: FallbackReas
  * passage above the threshold the model is never called. The model's reply
  * is buffered and checked (grounding.ts) before anything is sent; only
  * sentences that cite real passages and stay close to them reach the
- * visitor. Without a key, over the rate limit, when the model fails, or when
- * nothing survives the checks, the answer is the matching passages themselves.
+ * visitor. When the model finds no answer in the passages, the answer is that
+ * the site does not say. Without a key, over the rate limit, when the model
+ * fails, or when nothing survives the checks, the answer is the matching
+ * passages themselves.
  */
 export async function* ask(input: AskInput, context: AskContext): AsyncGenerator<AskEvent, void, undefined> {
   const passages = retrieveFor(context.retriever, input.question, input.history);
@@ -76,7 +86,9 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
   const result = await context.generate(buildMessages(input.locale, input.question, input.history, passages), context.signal);
   if (!result.ok) {
     if (result.reason === "aborted") return;
-    context.log?.(`model_failed reason=${result.reason}${result.status === undefined ? "" : ` status=${String(result.status)}`}`);
+    context.log?.(
+      `model_failed reason=${result.reason}${result.status === undefined ? "" : ` status=${String(result.status)}`}${result.model === undefined ? "" : ` model=${result.model}`}`
+    );
     yield* extractive(passages, "error");
     return;
   }
@@ -88,14 +100,24 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     return;
   }
   if (grounded.dropped.length > 0) context.log?.(`dropped model=${result.model} ${grounded.dropped.join(",")}`);
+  if (!grounded.answerable) {
+    // The model read the closest pages and found no answer: say so, and show the pages it read.
+    context.log?.(`unknown model=${result.model}`);
+    yield { type: "status", mode: "unknown" };
+    yield { type: "sources", sources: new CitationMap(passages).sources() };
+    yield { type: "done" };
+    return;
+  }
   if (grounded.sentences.length === 0) {
-    context.log?.(`ungrounded model=${result.model} answerable=${String(grounded.answerable)}`);
+    context.log?.(`ungrounded model=${result.model}`);
     yield* extractive(passages, "ungrounded");
     return;
   }
 
   const citations = new CitationMap(passages);
-  yield { type: "status", mode: "model" };
+  // Dropped sentences were claims the pages do not back, so what is left may not answer everything.
+  const partial = grounded.incomplete || grounded.dropped.length > 0;
+  yield { type: "status", mode: "model", ...(partial && { partial: true as const }) };
   for (const [index, sentence] of grounded.sentences.entries()) {
     // Numbers are given in order of first citation, one per page.
     const numbers = [...new Set(sentence.passages.flatMap((passage) => citations.cite(passage) ?? []))];
