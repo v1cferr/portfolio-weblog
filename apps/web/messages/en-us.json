@@ -345,6 +345,13 @@
     "label": "Photos",
     "placeholder": "Photos for this entry will be added soon."
   },
+  "Lightbox": {
+    "close": "Close",
+    "previous": "Previous image",
+    "next": "Next image",
+    "openOriginal": "Open original",
+    "position": "Image {index} of {total}"
+  },
   "NowPlaying": {
     "playing": "Listening now",
     "listening": "Listening now: {title} by {artists}",

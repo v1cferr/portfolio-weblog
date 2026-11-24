@@ -6,5 +6,12 @@
       "pt-br": "葡萄牙语",
       "zh-cn": "中文"
     }
+  },
+  "Lightbox": {
+    "close": "关闭",
+    "previous": "上一张",
+    "next": "下一张",
+    "openOriginal": "打开原图",
+    "position": "第 {index} 张，共 {total} 张"
   }
 }
