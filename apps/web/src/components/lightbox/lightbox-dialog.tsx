@@ -194,7 +194,9 @@ export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onCl
                   )}
                   {item.caption !== undefined && (
                     <DialogPrimitive.Title asChild>
-                      <p lang={item.captionLang}>{item.caption}</p>
+                      <p lang={item.captionLang} data-testid="lightbox-caption">
+                        {item.caption}
+                      </p>
                     </DialogPrimitive.Title>
                   )}
                 </m.div>
