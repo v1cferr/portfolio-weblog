@@ -80,13 +80,22 @@ responsibilities:
     - Ferramentas internas, extensões de IDE e dashboards interativos
     - Planejamento ágil com Scrumban e Jira, e documentação no Confluence
 
+# The outcomes below come from the v1 career timeline. Its figures (50%, 30%,
+# "50+ bugs") were never documented, so the editorial review of 2026-11-24
+# kept the outcomes and dropped the numbers.
 contributions:
   en-us:
     - Shell and YAML automation for GitHub Actions pipelines
     - A VS Code extension built on the VS Code API with Node.js
+    - Automated SAST and SCA scans in the pipeline, cutting manual configuration
+    - Request optimizations that made the front end faster
+    - GitHub Actions automation that shortened deploys
   pt-br:
     - Automação em Shell e YAML para pipelines no GitHub Actions
     - Uma extensão para o VS Code com a API do VS Code em Node.js
+    - Scans SAST e SCA automatizados no pipeline, reduzindo a configuração manual
+    - Otimizações de requisições que deixaram o front end mais rápido
+    - Automação no GitHub Actions que encurtou o tempo de deploy
 
 learnings:
   en-us:
@@ -105,17 +114,6 @@ skills: [devsecops, ci-cd, web-development]
 
 evidence:
   - { label: XGuardian, url: "https://xguardianplatform.io/", kind: website }
-
-pendingReview:
-  - claim: Automating SAST/SCA scans reduced manual configuration by 50%
-    source: v1 career timeline
-  - claim: Front-end request optimization improved performance by 30%
-    source: v1 career timeline
-  - claim: Fixed 50+ bugs
-    source: v1 career timeline
-  - claim: GitHub Actions automation reduced deploy time
-    source: v1 career timeline (intern position)
-    note: no figure given; keep qualitative or confirm
 
 # Shared by the author on 2026-11-23; everyone in it consented. Resized and
 # stripped of metadata.
