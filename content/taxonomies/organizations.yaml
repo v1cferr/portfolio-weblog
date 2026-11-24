@@ -15,11 +15,16 @@
   url: https://www.culturainglesa.com.br/
   logo: /company-logos/cultura-inglesa.webp
 
+# The VIP Telecom brand later became Giga+, whose site keeps a page for it
+# (owner-provided, 2026-11-23).
 - id: vip-telecom
   name: VIP Telecom (Giga+)
   kind: company
-  url: https://www.viptelecominternet.com.br/
+  url: https://www.gigamaisfibra.com.br/vip-telecom/
   logo: /company-logos/vip-telecom.png
+  description:
+    en-us: A regional internet provider whose brand later became Giga+.
+    pt-br: Um provedor de internet regional cuja marca depois passou a ser Giga+.
 
 - id: xmart-solutions
   name: Xmart Solutions

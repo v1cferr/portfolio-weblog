@@ -1,8 +1,12 @@
-# Sources: v1 career timeline (role, dates, duties) and Jira PWL-33 (learnings).
+# Sources: v1 career timeline (dates, duties) and Jira PWL-33 (learnings).
+# Title, location and the LinkedIn duties come from the author's LinkedIn
+# profile (PDF export), chosen as the reference by the author on 2026-11-23.
 id: amcor-2021
 organization: amcor
+location: Mauá, SP, Brazil
 positions:
-  - title: { en-us: Administrative assistant, pt-br: Auxiliar administrativo }
+  - title: { en-us: Administrative Assistant Apprentice, pt-br: Aprendiz de assistente administrativo }
+    employmentType: apprenticeship
     start: 2021-03
     end: 2022-08
 
@@ -12,13 +16,15 @@ summary:
 
 responsibilities:
   en-us:
-    - Kept industrial reports up to date
-    - Organized and maintained the department's files
-    - Controlled the stock of supplies
+    - Kept industrial reports up to date in Excel, with performance indicators such as OEE, speed and losses
+    - Organized and maintained the department's physical and digital files
+    - Controlled the stock of office supplies
+    - Handled the team's administrative routines
   pt-br:
-    - Atualização de relatórios industriais
-    - Organização e manutenção dos arquivos do setor
-    - Controle de estoque de materiais
+    - Atualização de relatórios industriais no Excel, com indicadores de desempenho como OEE, velocidade e perdas
+    - Organização e manutenção dos arquivos físicos e digitais do setor
+    - Controle de estoque de materiais de escritório
+    - Rotinas administrativas da equipe
 
 learnings:
   en-us:
