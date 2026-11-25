@@ -81,7 +81,7 @@ docs/           architecture, decisions (ADRs), guides, migration
 | [Devicon](https://devicon.dev)                             | Devicon contributors      | MIT                                                       | technology logos, the NixOS logo file         |
 | [Lucide](https://lucide.dev)                               | Lucide contributors       | ISC                                                       | interface icons                               |
 | [circle-flags](https://github.com/HatScripts/circle-flags) | HatScripts                | MIT                                                       | language flags                                |
-| Martian Mono, Geist, Geist Mono                            | their designers           | SIL Open Font License 1.1                                 | type, via Google Fonts                        |
+| Geist, Geist Mono                                          | their designers           | SIL Open Font License 1.1                                 | type, via Google Fonts                        |
 
 ## License
 

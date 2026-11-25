@@ -312,10 +312,11 @@ test.describe("languages", () => {
 });
 
 test.describe("media", () => {
-  test("entries without photos show the reserved space", async ({ page }) => {
+  test("entries without photos show no gallery and no notice", async ({ page }) => {
     await page.goto("/en-us/career/vip-telecom-2023");
-    await expect(page.getByTestId("media-placeholder")).toBeVisible();
-    await expect(page.getByTestId("media-placeholder")).toContainText("Photos for this entry will be added soon.");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByText(/added soon|serão adicionadas/)).toHaveCount(0);
+    await expect(page.getByTestId("media-placeholder")).toHaveCount(0);
   });
 
   test("entries with photos show them lazily, with alt text, in reserved space", async ({ page }) => {

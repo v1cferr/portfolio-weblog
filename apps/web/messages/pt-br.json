@@ -469,8 +469,7 @@
     "howBuilt": "Como este site foi feito"
   },
   "Media": {
-    "label": "Fotos",
-    "placeholder": "As fotos desta entrada serão adicionadas em breve."
+    "label": "Fotos"
   },
   "Lightbox": {
     "close": "Fechar",

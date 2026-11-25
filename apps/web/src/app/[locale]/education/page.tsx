@@ -109,7 +109,7 @@ export default async function EducationPage() {
               </ul>
             </div>
           )}
-          <MediaGallery id={item.id} media={item.media} placeholder={item.mediaPlaceholder} compact />
+          <MediaGallery id={item.id} media={item.media} compact />
           <TechList ids={item.technologies} label={common("technologies")} />
           <SourceLink file={content.getSourceFile(item.id)} />
         </CardContent>

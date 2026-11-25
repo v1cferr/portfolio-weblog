@@ -14,10 +14,10 @@ import { OG_IMAGE_ID } from "./metadata";
 /*
  * Share cards (Open Graph and X) for the opengraph-image routes. One layout in
  * the dark graphite + sage palette: the hex dot grid of the page background, the
- * V1C mark, a Nix store path as the eyebrow, the title in Martian Mono and a
+ * V1C mark, a Nix store path as the eyebrow, the title in Geist and a
  * shell prompt in the lane colour of the section.
  *
- * Fonts: static instances of Martian Mono (400, 600) and Geist (400, 500)
+ * Fonts: static instances of Geist (400, 500, 600) and Geist Mono (400, 600)
  * from Google Fonts, subset to Latin-1 + Latin Extended-A and a few
  * punctuation marks with fonttools' pyftsubset, under assets/fonts with their
  * OFL licences. Satori reads TTF but not WOFF2 or variable fonts, so the files
@@ -60,8 +60,9 @@ async function font(name: string, file: string, weight: 400 | 500 | 600) {
 
 // Read once per server process; the files do not depend on the request.
 const FONTS = await Promise.all([
-  font("Martian Mono", "MartianMono-Regular.ttf", 400),
-  font("Martian Mono", "MartianMono-SemiBold.ttf", 600),
+  font("Geist Mono", "GeistMono-Regular.ttf", 400),
+  font("Geist Mono", "GeistMono-SemiBold.ttf", 600),
+  font("Geist", "Geist-SemiBold.ttf", 600),
   font("Geist", "Geist-Regular.ttf", 400),
   font("Geist", "Geist-Medium.ttf", 500),
 ]);
@@ -110,7 +111,7 @@ function clip(text: string, max: number): string {
   return `${(space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,.;:–-]+$/, "")}…`;
 }
 
-/** Martian Mono is wide; the title steps down as it grows so it stays within three lines. */
+/** The title steps down as it grows so it stays within three lines. */
 function titleSize(title: string): number {
   if (title.length <= 16) return 80;
   if (title.length <= 28) return 64;
@@ -188,7 +189,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <V1cMark size={52} colour={PALETTE.foreground} />
-            <div style={{ display: "flex", fontFamily: "Martian Mono", fontSize: 26, fontWeight: 600 }}>
+            <div style={{ display: "flex", fontFamily: "Geist Mono", fontSize: 26, fontWeight: 600 }}>
               v1cferr<span style={{ color: accent }}>.dev</span>
             </div>
           </div>
@@ -202,7 +203,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
                 borderRadius: 999,
                 border: `1px solid ${PALETTE.border}`,
                 background: "rgba(22, 25, 26, 0.8)",
-                fontFamily: "Martian Mono",
+                fontFamily: "Geist Mono",
                 fontSize: 22,
                 color: PALETTE.foreground,
               }}
@@ -215,13 +216,13 @@ export function renderOgImage(card: OgCard): ImageResponse {
 
         {/* Body: store path, title, subtitle, meta. */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontFamily: "Martian Mono", fontSize: 20, color: PALETTE.faint, marginBottom: 22 }}>
+          <div style={{ display: "flex", fontFamily: "Geist Mono", fontSize: 20, color: PALETTE.faint, marginBottom: 22 }}>
             {shortStorePath(card.storePath)}
           </div>
           <div
             style={{
               display: "flex",
-              fontFamily: "Martian Mono",
+              fontFamily: "Geist",
               fontWeight: 600,
               fontSize: titleSize(title),
               lineHeight: 1.12,
@@ -237,7 +238,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
             </div>
           )}
           {card.meta !== undefined && (
-            <div style={{ display: "flex", marginTop: 18, fontFamily: "Martian Mono", fontSize: 20, color: accent }}>
+            <div style={{ display: "flex", marginTop: 18, fontFamily: "Geist Mono", fontSize: 20, color: accent }}>
               {clip(card.meta, 70)}
             </div>
           )}
@@ -245,7 +246,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
 
         {/* Footer: the shell prompt and the four lanes, this section's lit. */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
-          <div style={{ display: "flex", minWidth: 0, overflow: "hidden", fontFamily: "Martian Mono", fontSize: 22 }}>
+          <div style={{ display: "flex", minWidth: 0, overflow: "hidden", fontFamily: "Geist Mono", fontSize: 22 }}>
             <span style={{ color: LANE_COLOURS.career }}>victor@hub</span>
             <span style={{ color: PALETTE.faint }}>:</span>
             <span style={{ color: LANE_COLOURS.project }}>~</span>

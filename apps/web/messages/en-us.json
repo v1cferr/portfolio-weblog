@@ -469,8 +469,7 @@
     "howBuilt": "How this site is built"
   },
   "Media": {
-    "label": "Photos",
-    "placeholder": "Photos for this entry will be added soon."
+    "label": "Photos"
   },
   "Lightbox": {
     "close": "Close",

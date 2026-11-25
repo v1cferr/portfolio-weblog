@@ -1,45 +1,27 @@
 import { localize, type Media } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
-import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
 import { galleryId, type LightboxItem } from "@/components/lightbox/photo-param";
-import { siteConfig } from "@/config/site";
 
 interface MediaGalleryProps {
   /** The entity's id: names the gallery in the lightbox's deep links (`?photo=<id>-<n>`). */
   id: string;
   media: readonly Media[];
-  /** The entity's own opt-out (`mediaPlaceholder` in content). */
-  placeholder: boolean;
   /** Smaller tiles, for cards. */
   compact?: boolean;
 }
 
 /**
- * Images attached to an entity. With none, it shows a reserved space while the
- * site-wide switch and the entity both allow it, and nothing otherwise.
+ * Images attached to an entity. With none, it renders nothing: photos arrive
+ * over time, and an entry without them does not announce that.
  */
-export async function MediaGallery({ id, media, placeholder, compact = false }: MediaGalleryProps) {
+export async function MediaGallery({ id, media, compact = false }: MediaGalleryProps) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Media")]);
 
-  if (media.length === 0) {
-    if (!siteConfig.mediaPlaceholders || !placeholder) return null;
-    return (
-      <div
-        data-testid="media-placeholder"
-        className={cn(
-          "flex items-center gap-3 rounded-lg border border-dashed bg-card/50 text-sm text-muted-foreground",
-          compact ? "px-3 py-2.5" : "px-4 py-6"
-        )}
-      >
-        <ImageIcon className="size-5 shrink-0" aria-hidden />
-        <span>{t("placeholder")}</span>
-      </div>
-    );
-  }
+  if (media.length === 0) return null;
 
   const items = media.map((item): LightboxItem => {
     const alt = localize(item.alt, locale);
