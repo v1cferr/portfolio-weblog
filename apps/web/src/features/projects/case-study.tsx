@@ -5,6 +5,8 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { ExternalLink } from "@/components/external-link";
+import { Link } from "@/i18n/navigation";
+import { onSiteDecisionPath } from "@/lib/decision-links";
 
 /*
  * A project's case study in two layers (ADR 0014): the TL;DR card on the first
@@ -18,6 +20,38 @@ function text(value: LocalizedText | undefined, locale: Locale) {
 
 function list(value: LocalizedList | undefined, locale: Locale) {
   return localizeList(value, locale);
+}
+
+/**
+ * A link to an ADR. This site's own records open their page in the decision
+ * log; another repository's stay on GitHub, in a new tab.
+ */
+export function AdrLink({
+  href,
+  className,
+  externalIcon = true,
+  children,
+}: {
+  href: string;
+  className?: string;
+  /** The "opens elsewhere" arrow after the text, when the record is on GitHub. */
+  externalIcon?: boolean;
+  children: ReactNode;
+}) {
+  const onSite = onSiteDecisionPath(href);
+  if (onSite !== undefined) {
+    return (
+      <Link href={onSite} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <ExternalLink href={href} className={className}>
+      {children}
+      {externalIcon && <ExternalLinkIcon aria-hidden className="icon-out size-3.5" />}
+    </ExternalLink>
+  );
 }
 
 /** A labelled fact inside the TL;DR card. */
@@ -199,14 +233,13 @@ export async function CaseStudyDeepDive({
                     </p>
                     {decision.adr !== undefined && (
                       <p>
-                        <ExternalLink
+                        <AdrLink
                           href={decision.adr}
                           className="group/link inline-flex items-center gap-1.5 text-sm font-medium text-lane-project underline-offset-4 hover:underline"
                         >
                           <ScrollTextIcon aria-hidden className="size-4" />
                           {t("readAdr")}
-                          <ExternalLinkIcon aria-hidden className="icon-out size-3.5" />
-                        </ExternalLink>
+                        </AdrLink>
                       </p>
                     )}
                   </div>

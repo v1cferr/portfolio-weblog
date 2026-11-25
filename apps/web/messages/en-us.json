@@ -420,6 +420,7 @@
     "builtFrom": "Built from plain content in Git.",
     "repository": "Source code",
     "rss": "RSS",
+    "decisions": "Decisions",
     "elsewhere": "Elsewhere",
     "nixosCredit": "NixOS logo by NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
     "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)",
@@ -461,6 +462,25 @@
     "empty": "No updates are published yet.",
     "next": "What comes next",
     "items": "Now"
+  },
+  "Decisions": {
+    "title": "Decision log",
+    "description": "Every architecture decision behind this site, with its context and trade-offs. Records are not rewritten: a new one supersedes the old and says so.",
+    "number": "ADR {number}",
+    "why": "Why it matters",
+    "status": {
+      "proposed": "Proposed",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "deprecated": "Deprecated",
+      "superseded": "Superseded"
+    },
+    "supersededBy": "Superseded by",
+    "partlySupersededBy": "Partly superseded by",
+    "revisions": "{count, plural, one {# revision} other {# revisions}}, last on {date}",
+    "viewOnGitHub": "View on GitHub",
+    "all": "All decisions",
+    "list": "Decisions, newest first"
   },
   "Next": {
     "title": "Next",

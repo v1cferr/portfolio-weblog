@@ -2,11 +2,12 @@ import type { MetadataRoute } from "next";
 
 import { routing } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
+import { getDecisions } from "@/lib/decisions";
 import { languageTag } from "@/lib/i18n";
 import { getNow } from "@/lib/now";
 import { absoluteUrl } from "@/lib/site";
 
-const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow", "/colophon"];
+const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow", "/colophon", "/decisions"];
 
 /** Every public page in every locale. Posts and job stories list only the locales they are written in. */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...SECTIONS,
     ...content.getExperiences().map((experience) => `/career/${experience.id}`),
     ...content.getProjects().map((project) => `/projects/${project.id}`),
+    ...getDecisions().map((decision) => `/decisions/${decision.number}`),
   ].map(everyLocale);
 
   const posts = content.getPostSlugs().flatMap((slug) => {

@@ -1,4 +1,5 @@
 export * from "./dates";
+export * from "./decisions/decisions";
 export { atkinsonDither, ditherMask } from "./dither";
 export * from "./games/wow";
 export * from "./loaders/errors";
