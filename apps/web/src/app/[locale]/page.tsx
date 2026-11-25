@@ -143,7 +143,7 @@ export default async function HomePage() {
               )}
             </div>
             <AskInput label={t("askLabel")} placeholder={t("askPlaceholder")} submit={t("askSubmit")} />
-            <SocialLinks links={profile.links} label={common("links")} size="sm" className="pt-1" />
+            <SocialLinks links={profile.links} label={common("links")} size="sm" tinted className="pt-1" />
           </div>
           {profile.photo !== undefined && (
             // Shown at every width: phones get the same photo (and its alt text) as desktop, which is

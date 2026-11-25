@@ -110,7 +110,21 @@ function isGitHubRepository(kind: ContentLink["kind"], url: string | undefined) 
  * monochrome (currentColor) as GitHub's brand rules ask, instead of the
  * generic repository folder.
  */
-export function ContentLinkIcon({ link, className }: { link: Pick<ContentLink, "icon" | "kind"> & { url?: string }; className?: string }) {
+export function ContentLinkIcon({
+  link,
+  className,
+  tinted = false,
+}: {
+  link: Pick<ContentLink, "icon" | "kind"> & { url?: string };
+  className?: string;
+  /** Brand logos in their own colour; see Icon. */
+  tinted?: boolean;
+}) {
   const icon = link.icon ?? (isGitHubRepository(link.kind, link.url) ? GITHUB_MARK : undefined);
-  return <Icon icon={icon} fallback={linkIcons[link.kind]} className={className} />;
+  return <Icon icon={icon} fallback={linkIcons[link.kind]} className={className} tinted={tinted} />;
+}
+
+/** True when the link's icon is a brand logo with a colour of its own. */
+export function hasBrandColour(link: Pick<ContentLink, "icon">) {
+  return link.icon !== undefined && (brandIcons[link.icon]?.hex ?? "") !== "";
 }
