@@ -1,0 +1,52 @@
+# Source: the owner, 2026-11-25: at Xmart Solutions they built XGuardian's landing
+# page and its VS Code extension, and made changes to the vulnerability analysis
+# platform (Shield). The problem and the stack come from xmart-solutions-2024.yaml
+# (context, responsibilities, contributions). The screenshots are the public ones
+# already shown on that job (Marketplace page and marketing site).
+id: xguardian
+title: XGuardian
+state: historical
+category: professional
+featured: false
+startedAt: 2024-06
+endedAt: 2025-11
+summary:
+  en-us: >-
+    Xmart Solutions' application security platform. I built its landing page and its VS Code
+    extension, and made changes to the vulnerability analysis platform.
+  pt-br: >-
+    A plataforma de segurança de aplicações da Xmart Solutions. Fiz a landing page e a extensão
+    para VS Code, e fiz alterações na plataforma de análise de vulnerabilidades.
+problem:
+  en-us: >-
+    Security scans tend to live apart from the code. XGuardian brings them into the development
+    workflow: in the pipeline, in the analysis platform and in the editor.
+  pt-br: >-
+    Scans de segurança costumam ficar longe do código. O XGuardian os leva para dentro do fluxo
+    de desenvolvimento: no pipeline, na plataforma de análise e no editor.
+links:
+  - { label: XGuardian, url: "https://www.xguardianplatform.io", kind: website }
+  - { label: VS Code extension, url: "https://marketplace.visualstudio.com/items?itemName=XmartSolutions.xguardian", kind: website }
+  - { label: Shield, url: "https://shield.xguardianplatform.io/", kind: website }
+technologies: [react, vite, typescript, python, fastapi, nodejs, vscode, github-actions]
+skills: [devsecops, ci-cd, web-development]
+experiences: [xmart-solutions-2024]
+media:
+  - src: /career/xmart-solutions/xguardian-site.jpg
+    width: 1877
+    height: 973
+    alt:
+      en-us: 'XGuardian''s public website: "Uma solução acessível para analisar a segurança de seu código"'
+      pt-br: 'Site público do XGuardian: "Uma solução acessível para analisar a segurança de seu código"'
+    caption:
+      en-us: The landing page.
+      pt-br: A landing page.
+  - src: /career/xmart-solutions/xguardian-marketplace.jpg
+    width: 1636
+    height: 1001
+    alt:
+      en-us: Visual Studio Marketplace page of the XGuardian extension by Xmart Solutions, which runs SAST and SCA scans from VS Code
+      pt-br: Página do Visual Studio Marketplace da extensão XGuardian, da Xmart Solutions, que faz scans SAST e SCA a partir do VS Code
+    caption:
+      en-us: The VS Code extension on the Visual Studio Marketplace.
+      pt-br: A extensão para VS Code no Visual Studio Marketplace.

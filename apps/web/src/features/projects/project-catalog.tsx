@@ -41,6 +41,7 @@ const VIEWS = {
   all: () => true,
   active: (project: ProjectCardData) => project.state === "active",
   experimental: (project: ProjectCardData) => project.state === "experimental",
+  professional: (project: ProjectCardData) => project.category === "professional",
   study: (project: ProjectCardData) => project.category === "study",
   challenge: (project: ProjectCardData) => project.category === "challenge",
 } as const;

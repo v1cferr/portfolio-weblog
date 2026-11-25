@@ -1,0 +1,18 @@
+# Source: the owner, 2026-11-25: a use case built at FAI·UFSCar for People
+# Management (Gestão de Pessoas): a report of applications checked against each
+# project's call, to make the analysis easier, always with human review.
+# Stack, dates and state: OWNER to confirm.
+id: inscricoes-vs-editais
+title: Inscrições vs Editais
+state: active
+category: professional
+featured: false
+summary:
+  en-us: >-
+    For FAI·UFSCar's People Management team: a report of the applications checked against each
+    project's call for applications, to make the analysis easier, always with human review.
+  pt-br: >-
+    Para a Gestão de Pessoas da FAI·UFSCar: um relatório das inscrições comparadas com o edital de
+    cada projeto, para facilitar a análise, sempre com revisão humana.
+skills: [ai-systems]
+experiences: [fai-ufscar-2026]
