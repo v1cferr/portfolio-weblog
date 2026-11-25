@@ -5,7 +5,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Martian_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
@@ -25,13 +25,11 @@ import { languageAlternates, languageTag } from "@/lib/i18n";
 import { pageOpenGraph, xHandle } from "@/lib/metadata";
 import { SITE_URL } from "@/lib/site";
 
-// Type (docs/decisions/0016-geist-type.md): Martian Mono for display (the
-// name, page and section titles), a wide monospace that reads like a commit
-// log in print; Geist for everything that is read and Geist Mono for dates,
-// ids and code, one family drawn together. next/font self-hosts all three, so
+// Type (docs/decisions/0016-geist-type.md): Geist, Vercel's typeface, for
+// titles and everything that is read, and Geist Mono for dates, ids and code,
+// one family drawn together. next/font self-hosts both, so
 // the visitor's system fonts never stand in for them (only a metric-matched
 // fallback while they load). CJK text falls back to the system fonts.
-const fontDisplay = Martian_Mono({ subsets: ["latin"], variable: "--font-martian", axes: ["wdth"], weight: "variable" });
 const fontSans = Geist({ subsets: ["latin"], variable: "--font-sans", weight: "variable" });
 const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "500"] });
 
@@ -107,11 +105,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const clientMessages = Object.fromEntries(CLIENT_NAMESPACES.map((namespace) => [namespace, messages[namespace]]));
 
   return (
-    <html
-      lang={languageTag(locale)}
-      suppressHydrationWarning
-      className={cn("antialiased", fontDisplay.variable, fontSans.variable, fontMono.variable)}
-    >
+    <html lang={languageTag(locale)} suppressHydrationWarning className={cn("antialiased", fontSans.variable, fontMono.variable)}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SESSION_SCRIPT }} />
         {/* Entrances start hidden; without JavaScript they would stay that way. */}

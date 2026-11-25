@@ -92,7 +92,7 @@ export default async function HomePage() {
               <MapPinIcon className="size-3.5" aria-hidden />
               {profile.location}
             </p>
-            <h1 className="font-display text-5xl leading-[0.95] font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-5xl leading-[0.95] font-semibold tracking-tighter text-balance sm:text-6xl lg:text-7xl">
               {/* Solid foreground: colour is kept for meaning, not for the name. */}
               <span>{profile.name}</span>
               <span
