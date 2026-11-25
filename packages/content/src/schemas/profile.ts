@@ -32,6 +32,13 @@ export const Profile = z.strictObject({
   photo: z.string().startsWith("/").optional(),
   links: z.array(Link).default([]),
   /**
+   * Whether the owner is open to new work. The home hero shows a badge only when
+   * `open` is true; the owner sets it, never a default.
+   */
+  availability: z.strictObject({ open: z.boolean(), note: LocalizedText.optional() }).optional(),
+  /** Path under apps/web/public to the CV (a PDF). The home links to it only when set. */
+  cv: z.string().startsWith("/").optional(),
+  /**
    * "Curiosities" at the end of the About page: personal facts, each in the owner's
    * own words, optionally with a photo (opens in the lightbox) and a page on this site.
    */
