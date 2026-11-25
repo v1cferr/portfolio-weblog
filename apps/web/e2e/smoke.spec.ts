@@ -318,7 +318,7 @@ test.describe("media", () => {
     await page.goto("/en-us/career/fai-ufscar-2026");
     await expect(page.getByTestId("media-placeholder")).toHaveCount(0);
     const images = page.getByRole("list", { name: "Photos" }).getByRole("img");
-    await expect(images).toHaveCount(3);
+    await expect(images).toHaveCount(4);
     for (const image of await images.all()) {
       expect(await image.getAttribute("alt")).not.toBe("");
       await expect(image).toHaveAttribute("loading", "lazy");
