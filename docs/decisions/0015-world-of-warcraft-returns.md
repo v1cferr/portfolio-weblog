@@ -12,10 +12,10 @@ route, a callback that returned raw tokens, a Supabase table that existed only
 to store them and a Deno edge function to refresh them, six secrets in all. When
 the token expired, the page broke until someone logged in again.
 
-The owner wants the page back. He plays WoW Forever most (Blizzard's Classic+
+The owner wants the page back. They play WoW Forever most (Blizzard's Classic+
 game, out since 2026-11-04: no realms, one mega-realm per ruleset and region,
-characters named "Name Surname"), and has Retail characters he is not playing
-now. He runs 53 add-ons, pinned and packaged with Nix in his dotfiles.
+characters named "Name Surname"), and have Retail characters they are not playing
+now. They run 53 add-ons, pinned and packaged with Nix in their dotfiles.
 
 Battle.net serves public character profiles to any app with **client
 credentials**; only the list of an account's characters (`/profile/user/wow`)
