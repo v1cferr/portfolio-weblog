@@ -41,6 +41,8 @@ export const Organization = z.strictObject({
   url: z.url().optional(),
   /** Path under apps/web/public. */
   logo: z.string().startsWith("/").optional(),
+  /** The logo for the dark theme, when the official one disappears on a dark page (a black mark). */
+  logoDark: z.string().startsWith("/").optional(),
   location: z.string().optional(),
   description: LocalizedText.optional(),
 });

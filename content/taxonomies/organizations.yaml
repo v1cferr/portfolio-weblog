@@ -106,6 +106,8 @@
   kind: school
   url: https://42.fr/
   logo: /company-logos/42.png
+  # The same mark in white for the dark theme, as 42 shows it on dark backgrounds.
+  logoDark: /company-logos/42-dark.png
 
 # Certificate issuers from the author's LinkedIn profile (read 2026-11-23).
 - id: amazon-web-services
@@ -134,4 +136,7 @@
   name: Universidade Cruzeiro do Sul
   kind: school
   url: https://www.cruzeirodosul.edu.br/
-  # No logo yet: the site answers automated requests with 403.
+  # The site answers automated requests with 403, so this is the 256 px icon
+  # cruzeirodosul.edu.br serves as its favicon, fetched through Google's favicon
+  # service (2026-11-24): the gold star.
+  logo: /company-logos/cruzeiro-do-sul.png
