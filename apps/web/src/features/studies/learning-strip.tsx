@@ -1,4 +1,4 @@
-import { type Education, localize, ongoingStudies, selectCredentials } from "@workspace/content";
+import { type Education, localize, ongoingStudies, type Organization, selectCredentials } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { ArrowRightIcon, ArrowUpRightIcon, AwardIcon, BookOpenIcon, GraduationCapIcon, type LucideIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -7,6 +7,7 @@ import { ExternalLink } from "@/components/external-link";
 import { SpineBranch } from "@/components/git-spine";
 import { SectionHeading } from "@/components/page-header";
 import { NAV_SECTION } from "@/components/page-transition";
+import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatPartialDate } from "@/lib/dates";
@@ -14,11 +15,12 @@ import { formatPartialDate } from "@/lib/dates";
 interface Tile {
   key: string;
   href: string;
+  /** Shown when the issuer has no logo. */
   icon: LucideIcon;
+  organization?: Organization | undefined;
   kind: string;
   title: string;
   titleLocale?: string | undefined;
-  issuer?: string | undefined;
   date?: string | undefined;
   verify?: string | undefined;
   ongoing?: boolean;
@@ -30,8 +32,10 @@ const studyIcon = (item: Education): LucideIcon => (item.kind === "degree" ? Gra
  * Two short home sections from the studies: "Studying now" (what is in
  * progress; absent when nothing is) and "Certificates" (up to three: featured
  * certifications, then the latest completed studies). Split on 2026-11-23 at
- * the owner's request: finished work is not "learning". No badge wall: one
- * monochrome icon per tile and a mono date. `onSpine: false` leaves out the
+ * the owner's request: finished work is not "learning". No badge wall: each
+ * tile carries its issuer's official logo (the owner's request, 2026-11-25:
+ * it lends the credential credibility), a monochrome icon only when the
+ * issuer has none, and a mono date. `onSpine: false` leaves out the
  * git-spine branch, for when the strip sits in a column away from the spine.
  */
 export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = {}) {
@@ -43,7 +47,6 @@ export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = 
   ]);
   const content = getContent();
   const studies = content.getEducation();
-  const issuer = (id: string) => content.getOrganization(id)?.name;
 
   const studying: Tile[] = ongoingStudies(studies)
     .slice(0, 1)
@@ -56,7 +59,7 @@ export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = 
         kind: education(`kind.${item.kind}`),
         title: title.value,
         titleLocale: title.locale,
-        issuer: issuer(item.institution),
+        organization: content.getOrganization(item.institution),
         date: item.start,
         ongoing: true,
       };
@@ -71,7 +74,7 @@ export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = 
           icon: AwardIcon,
           kind: kind("certification"),
           title: cert.name,
-          issuer: issuer(cert.issuer),
+          organization: content.getOrganization(cert.issuer),
           date: cert.issuedAt,
           verify: cert.credentialUrl,
         };
@@ -85,7 +88,7 @@ export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = 
         kind: education(`kind.${item.kind}`),
         title: title.value,
         titleLocale: title.locale,
-        issuer: issuer(item.institution),
+        organization: content.getOrganization(item.institution),
         date: item.end ?? item.start,
       };
     }
@@ -136,7 +139,15 @@ export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = 
 function TileItem({ tile, locale, ongoingLabel, verifyLabel }: { tile: Tile; locale: string; ongoingLabel: string; verifyLabel: string }) {
   return (
     <li className="glass group relative flex gap-3 rounded-xl border p-4">
-      <tile.icon aria-hidden className="mt-0.5 size-5 shrink-0 text-muted-foreground" />
+      {tile.organization !== undefined ? (
+        <OrganizationMark
+          organization={tile.organization}
+          size="sm"
+          fallback={<tile.icon aria-hidden className="mt-0.5 size-5 shrink-0 text-muted-foreground" />}
+        />
+      ) : (
+        <tile.icon aria-hidden className="mt-0.5 size-5 shrink-0 text-muted-foreground" />
+      )}
       <div className="min-w-0 flex-1 space-y-1">
         <p className="flex flex-wrap items-center gap-2">
           <span className="font-mono text-[0.7rem] tracking-wide text-lane-study uppercase">{tile.kind}</span>
@@ -156,7 +167,7 @@ function TileItem({ tile, locale, ongoingLabel, verifyLabel }: { tile: Tile; loc
           </Link>
         </h3>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-          {tile.issuer !== undefined && <span>{tile.issuer}</span>}
+          {tile.organization !== undefined && <span>{tile.organization.name}</span>}
           {tile.date !== undefined && (
             <time dateTime={tile.date} className="font-mono text-xs tabular-nums">
               {formatPartialDate(tile.date, locale)}

@@ -82,6 +82,9 @@
   kind: company
   url: https://www.serasaexperian.com.br/
   logo: /company-logos/serasa-experian.png
+  # The navy "s" vanishes on a dark page: the same mark with a white "s", as
+  # the white logo serasaexperian.com.br ships for dark backgrounds.
+  logoDark: /company-logos/serasa-experian-dark.png
 
 # Studies from the author's LinkedIn education entries, confirmed by the
 # author on 2026-11-23.
@@ -100,6 +103,9 @@
   kind: school
   url: https://www.sp.senac.br/
   logo: /company-logos/senac-sp.png
+  # Senac's negative version for the dark theme: the navy wordmark in white,
+  # the orange symbol unchanged.
+  logoDark: /company-logos/senac-sp-dark.png
 
 - id: 42-paris
   name: 42 Paris

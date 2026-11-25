@@ -65,6 +65,49 @@ test.describe("home: now and studies", () => {
   });
 });
 
+test.describe("issuer logos", () => {
+  test("home study and certificate tiles show the issuer's official logo", async ({ page }) => {
+    await page.goto("/en-us");
+    const studying = page.locator('section[aria-labelledby="studying"]').getByRole("listitem").first();
+    await expect(studying.locator('[data-organization="ufscar"] img')).toHaveAttribute("src", "/company-logos/ufscar.png");
+    const tiles = page.locator('section[aria-labelledby="credentials"]').getByRole("listitem");
+    const count = await tiles.count();
+    for (let index = 0; index < count; index++) {
+      const logo = tiles.nth(index).locator("[data-organization] img").first();
+      await expect(logo).toHaveAttribute("src", /^\/company-logos\//);
+      // The image loaded: a broken path would leave it at zero width.
+      expect(await logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    }
+    await expect(tiles.filter({ hasText: "Transforme-se" }).locator('[data-organization="serasa-experian"]')).toHaveCount(1);
+  });
+
+  test("a navy logo switches to its dark-theme variant", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/en-us/education");
+    const mark = page.locator("#transforme-se-2026-certificate [data-organization=serasa-experian]");
+    await expect(mark.locator('img[src="/company-logos/serasa-experian-dark.png"]')).toBeVisible();
+    await expect(mark.locator('img[src="/company-logos/serasa-experian.png"]')).toBeHidden();
+  });
+
+  test("every study and certificate on the Studies page carries a logo", async ({ page }) => {
+    await page.goto("/en-us/education");
+    const entries = page.locator("main [id]").filter({ has: page.locator("[data-organization]") });
+    expect(await entries.count()).toBeGreaterThan(0);
+    for (const id of ["ufscar-special-student", "aws-educate-ml-foundations", "google-ai-essentials"]) {
+      await expect(page.locator(`#${id} [data-organization] img`).first()).toHaveAttribute("src", /^\/company-logos\//);
+    }
+  });
+
+  test("the timeline names each study's institution with its logo", async ({ page }) => {
+    await page.goto("/en-us/timeline");
+    const row = page
+      .getByRole("link", { name: "AWS Educate Machine Learning Foundations" })
+      .locator("xpath=ancestor::*[.//*[@data-organization]][1]");
+    await expect(row.locator('[data-organization="amazon-web-services"] img')).toHaveAttribute("src", "/company-logos/aws.png");
+    await expect(row).toContainText("Amazon Web Services (AWS)");
+  });
+});
+
 test.describe("now and next pages", () => {
   test("/now shows the newest update, dated, with JSON-LD that matches the date", async ({ page }) => {
     await page.goto("/en-us/now");
