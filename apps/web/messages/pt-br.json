@@ -59,9 +59,6 @@
   "Ask": {
     "open": "Perguntar",
     "openLabel": "Perguntar sobre o Victor",
-    "tab": "Perguntar",
-    "searchTab": "Buscar",
-    "modes": "Buscar ou perguntar",
     "close": "Fechar",
     "title": "Pergunte sobre o Victor",
     "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
@@ -112,7 +109,16 @@
       "body": "Li as páginas mais próximas da pergunta e nenhuma responde. Prefiro não inventar. Se for importante, fale com o Victor pela página Sobre.",
       "read": "Páginas que li"
     },
-    "partial": "O site responde só parte da pergunta; o resto não está nas páginas, então ficou de fora."
+    "partial": "O site responde só parte da pergunta; o resto não está nas páginas, então ficou de fora.",
+    "conversation": "Conversa",
+    "unread": "Resposta nova",
+    "expand": "Expandir para um painel lateral",
+    "collapse": "Reduzir para o canto",
+    "minimize": "Minimizar",
+    "pageSuggestion": {
+      "project": "Que problema o {title} resolve?",
+      "career": "O que o Victor fez na {org}?"
+    }
   },
   "Common": {
     "present": "atual",
