@@ -417,6 +417,7 @@
     "builtFrom": "Feito a partir de conteúdo simples em Git.",
     "repository": "Código-fonte",
     "rss": "RSS",
+    "decisions": "Decisões",
     "elsewhere": "Em outros lugares",
     "nixosCredit": "Logo do NixOS: NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
     "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)",
@@ -458,6 +459,25 @@
     "empty": "Nenhuma atualização publicada ainda.",
     "next": "O que vem a seguir",
     "items": "Agora"
+  },
+  "Decisions": {
+    "title": "Registro de decisões",
+    "description": "Cada decisão de arquitetura por trás deste site, com o contexto e os custos. Os registros não são reescritos: um novo substitui o antigo e diz isso.",
+    "number": "ADR {number}",
+    "why": "Por que importa",
+    "status": {
+      "proposed": "Proposta",
+      "accepted": "Aceita",
+      "rejected": "Rejeitada",
+      "deprecated": "Obsoleta",
+      "superseded": "Substituída"
+    },
+    "supersededBy": "Substituída por",
+    "partlySupersededBy": "Substituída em parte por",
+    "revisions": "{count, plural, one {# revisão} other {# revisões}}, a última em {date}",
+    "viewOnGitHub": "Ver no GitHub",
+    "all": "Todas as decisões",
+    "list": "Decisões, da mais recente para a mais antiga"
   },
   "Next": {
     "title": "Próximos passos",

@@ -13,6 +13,7 @@ import {
   findContentRoot,
   formatIssues,
   loadContent,
+  loadDecisionsContent,
   loadNowContent,
   loadPagesContent,
   loadWowContent,
@@ -29,7 +30,8 @@ const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web
 const now = loadNowContent(root);
 const wow = loadWowContent(root);
 const pages = loadPagesContent(root);
-const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...pages.issues];
+const decisions = loadDecisionsContent(root);
+const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...pages.issues, ...decisions.issues];
 
 if (warnings.length > 0) console.warn(`Warnings (${warnings.length}):\n${formatIssues(warnings)}\n`);
 
@@ -54,6 +56,7 @@ console.warn(
     count("now updates", now.log.entries.length, publicNow(now.log).entries.length),
     count("pages", pages.pages.length, publicPages(pages.pages).length),
     count("wow characters", wow.wow?.characters.length ?? 0, publicWow(wow.wow)?.characters.length ?? 0),
+    count("decisions", decisions.decisions.length, decisions.decisions.length),
     count("technologies", everything.getTechnologies().length, publicView.getTechnologies().length),
   ].join("\n")
 );

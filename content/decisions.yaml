@@ -1,0 +1,179 @@
+# Why each architecture decision record (docs/decisions/) matters, in plain
+# language for readers who do not write code. Written only from what each
+# record says; the record itself stays the source. Keyed by the ADR number.
+
+"0001":
+  why:
+    en-us: >-
+      Every fact the site states lives in plain files in Git, checked automatically
+      before publishing, instead of inside the code. The content outlives any rewrite
+      of the site, and nothing unpublished or unverified reaches a public page.
+    pt-br: >-
+      Todo fato que o site afirma fica em arquivos simples no Git, verificados
+      automaticamente antes de publicar, e não dentro do código. O conteúdo sobrevive a
+      qualquer reescrita do site, e nada não publicado ou não verificado chega a uma
+      página pública.
+
+"0002":
+  why:
+    en-us: >-
+      There is no separate server or database: the Next.js app itself reads the content
+      and builds the pages. Fewer parts to deploy and maintain; a separate Python service
+      waits until a real need for one appears.
+    pt-br: >-
+      Não há servidor separado nem banco de dados: o próprio app Next.js lê o conteúdo e
+      monta as páginas. Menos peças para publicar e manter; um serviço separado em Python
+      fica para quando surgir uma necessidade real.
+
+"0003":
+  why:
+    en-us: >-
+      The code is split into a few small packages managed with pnpm alone, without the
+      extra build tool (Turborepo) the template suggested. One less tool to learn and
+      configure, to be revisited if the checks ever get slow.
+    pt-br: >-
+      O código é dividido em alguns pacotes pequenos geridos só com o pnpm, sem a
+      ferramenta de build extra (Turborepo) que o template sugeria. Uma ferramenta a
+      menos para aprender e configurar, a rever se as verificações ficarem lentas.
+
+"0004":
+  why:
+    en-us: >-
+      The old site's personal integrations and its Supabase database were not rebuilt:
+      they needed six secrets and held nothing the new site has to keep. Spotify and the
+      World of Warcraft page came back later, under ADRs 0008 and 0015, still without a
+      database.
+    pt-br: >-
+      As integrações pessoais do site antigo e o banco Supabase não foram refeitos:
+      exigiam seis segredos e não guardavam nada que o novo site precise manter. O
+      Spotify e a página de World of Warcraft voltaram depois, pelos ADRs 0008 e 0015,
+      ainda sem banco de dados.
+
+"0005":
+  why:
+    en-us: >-
+      The site stays on TypeScript 6.0 rather than the newer 7.0, because the tool that
+      checks the code for mistakes does not support 7 yet, and moves to ESLint 10 because
+      9 is out of support. Each upgrade waits for its tools to catch up.
+    pt-br: >-
+      O site fica no TypeScript 6.0, e não no 7.0, porque a ferramenta que procura erros
+      no código ainda não suporta o 7, e passa ao ESLint 10 porque o 9 saiu de suporte.
+      Cada atualização espera as ferramentas acompanharem.
+
+"0006":
+  why:
+    en-us: >-
+      Search runs entirely in the visitor's browser, over a small file built from the
+      published pages only. It needs no server or AI, and it cannot reveal anything that
+      is not published.
+    pt-br: >-
+      A busca roda inteira no navegador do visitante, sobre um arquivo pequeno feito só
+      com as páginas publicadas. Não precisa de servidor nem de IA, e não tem como
+      revelar nada que não esteja publicado.
+
+"0007":
+  why:
+    en-us: >-
+      Records how the site's look was chosen and then changed, revision by revision: the
+      background, the glass surfaces, the colours, the type and the motion, each picked by
+      the owner from side-by-side options. Every colour is checked so text stays readable
+      in both light and dark themes.
+    pt-br: >-
+      Registra como o visual do site foi escolhido e depois mudou, revisão a revisão: o
+      fundo, as superfícies de vidro, as cores, as fontes e o movimento, cada um escolhido
+      pelo dono entre opções lado a lado. Toda cor é verificada para o texto continuar
+      legível nos temas claro e escuro.
+
+"0008":
+  why:
+    en-us: >-
+      The "listening now" Spotify chip came back, with every credential kept on the server
+      and only a small, fixed set of track details sent to the browser. Without Spotify or
+      its keys, the site just shows its usual caption and nothing breaks.
+    pt-br: >-
+      O chip do Spotify com o que está tocando voltou, com todas as credenciais no
+      servidor e só um conjunto pequeno e fixo de dados da faixa indo para o navegador.
+      Sem o Spotify ou as chaves, o site mostra a legenda de sempre e nada quebra.
+
+"0009":
+  why:
+    en-us: >-
+      The site sends security headers that tell browsers what it may load and who may
+      embed it, closing gaps a security review found. The policy is fixed so pages stay
+      static and fast; anything from a new outside source must be allowed on purpose.
+    pt-br: >-
+      O site envia cabeçalhos de segurança que dizem ao navegador o que ele pode carregar
+      e quem pode incorporá-lo, fechando falhas que uma revisão de segurança encontrou. A
+      política é fixa para as páginas continuarem estáticas e rápidas; qualquer origem
+      externa nova precisa ser liberada de propósito.
+
+"0010":
+  why:
+    en-us: >-
+      Every change is checked automatically for known vulnerabilities in the libraries the
+      site depends on and for risky settings in its automation. A new advisory fails the
+      checks even when no code changed.
+    pt-br: >-
+      Toda mudança é verificada automaticamente em busca de vulnerabilidades conhecidas nas
+      bibliotecas de que o site depende e de configurações arriscadas na automação. Um
+      alerta novo reprova as verificações mesmo sem mudança no código.
+
+"0011":
+  why:
+    en-us: >-
+      A chat answers questions about the owner from the site's own pages only, and the
+      server drops any sentence that is not backed by the pages it cites. It uses free AI
+      models; when none answers, or the site does not say, it shows the relevant pages or
+      says it does not know.
+    pt-br: >-
+      Um chat responde perguntas sobre o dono usando só as páginas do próprio site, e o
+      servidor descarta qualquer frase que não se apoie nas páginas que cita. Ele usa
+      modelos de IA gratuitos; quando nenhum responde, ou o site não diz, mostra as
+      páginas relevantes ou diz que não sabe.
+
+"0012":
+  why:
+    en-us: >-
+      Weblog posts are filed in folders by year and month, so the source reads like a
+      timeline, while their web addresses stay the same. An automatic check makes sure
+      each post sits in the folder of its publication date.
+    pt-br: >-
+      Os posts do weblog ficam em pastas por ano e mês, para o código-fonte se ler como
+      uma linha do tempo, sem mudar os endereços na web. Uma verificação automática
+      garante que cada post esteja na pasta da sua data de publicação.
+
+"0013":
+  why:
+    en-us: >-
+      The home page and /now say what the owner is doing these days, as dated updates,
+      with the current role, active projects and latest article filled in from the rest of
+      the content. After 90 days without an update, the page says so instead of passing
+      for the present.
+    pt-br: >-
+      A página inicial e /now dizem o que o dono anda fazendo, em atualizações datadas, com
+      o cargo atual, os projetos ativos e o artigo mais recente puxados do resto do
+      conteúdo. Depois de 90 dias sem atualização, a página avisa em vez de se passar pelo
+      presente.
+
+"0014":
+  why:
+    en-us: >-
+      The flagship projects are told as case studies: a short summary on the first screen
+      and a deeper read below, with each key decision linked to its record. Outcomes
+      nobody stated are left out rather than guessed.
+    pt-br: >-
+      Os projetos principais são contados como estudos de caso: um resumo curto na
+      primeira tela e uma leitura mais funda abaixo, com cada decisão-chave ligada ao seu
+      registro. Resultados que ninguém declarou ficam de fora em vez de adivinhados.
+
+"0015":
+  why:
+    en-us: >-
+      The World of Warcraft page came back without storing any login token: the character
+      list is synced once on the owner's machine, and the site only reads public profiles.
+      When Blizzard's service does not answer, the page shows the last saved snapshot.
+    pt-br: >-
+      A página de World of Warcraft voltou sem guardar nenhum token de login: a lista de
+      personagens é sincronizada uma vez na máquina do dono, e o site só lê perfis
+      públicos. Quando o serviço da Blizzard não responde, a página mostra o último
+      retrato salvo.

@@ -25,7 +25,7 @@ import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { SourceList } from "@/components/source-list";
 import { TechList } from "@/components/tech-list";
-import { CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
+import { AdrLink, CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
 import { ProjectStateBadge } from "@/features/projects/project-state-badge";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -119,9 +119,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
       )}
       {caseStudy?.adrs !== undefined && (
         <Button asChild variant="outline" className="justify-start">
-          <ExternalLink href={caseStudy.adrs}>
+          <AdrLink href={caseStudy.adrs} externalIcon={false}>
             <ScrollTextIcon /> {t("adrs")}
-          </ExternalLink>
+          </AdrLink>
         </Button>
       )}
       {project.links.map((link) => (

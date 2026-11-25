@@ -71,7 +71,13 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: workspaceRoot,
   outputFileTracingIncludes: {
     // assets/fonts: read by the opengraph-image routes (src/lib/og-image.tsx).
-    "/**": ["../../content/**/*", "../../pnpm-workspace.yaml", "./assets/fonts/*.ttf"],
+    // docs/decisions: the decision log reads the records (src/lib/decisions.ts).
+    "/**": [
+      "../../content/**/*",
+      "../../docs/decisions/*.md",
+      "../../pnpm-workspace.yaml",
+      "./assets/fonts/*.ttf",
+    ],
   },
   images: {
     formats: ["image/avif", "image/webp"],

@@ -4,6 +4,11 @@ Each record keeps the context, the decision and its trade-offs. Records are not
 rewritten when a decision changes; a new record supersedes the old one and says
 so.
 
+The records are also published as the site's decision log, at
+[v1cferr.dev/en-us/decisions](https://v1cferr.dev/en-us/decisions), rendered
+from these files as they are. A new record needs a plain-language summary in
+`content/decisions.yaml` (en-us and pt-br), or `pnpm content:check` fails.
+
 | ADR                                                     | Decision                                                    | Status                          |
 | ------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------- |
 | [0001](0001-content-first.md)                           | Structured content in Git is the source of truth            | Accepted                        |
