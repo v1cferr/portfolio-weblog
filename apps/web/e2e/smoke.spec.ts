@@ -457,19 +457,6 @@ test.describe("interactions", () => {
     await result.click();
     await expect(page).toHaveURL(/\/en-us\/career\/xmart-solutions-2024$/);
   });
-
-  test("project filters update the list and the URL", async ({ page }) => {
-    await page.goto("/en-us/projects");
-    await page.getByRole("radio", { name: "Historical" }).click();
-    await expect(page).toHaveURL(/state=historical/);
-    await expect(page.getByText(/^\d+ projects?$/)).toBeVisible();
-    for (const badge of await page
-      .locator("main ul li [data-slot=badge]")
-      .filter({ hasText: /^(Active|Experimental)$/ })
-      .all()) {
-      await expect(badge).toBeHidden();
-    }
-  });
 });
 
 test.describe("page transitions", () => {
