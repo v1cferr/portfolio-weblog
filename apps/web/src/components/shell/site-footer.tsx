@@ -37,6 +37,11 @@ export async function SiteFooter() {
             </Link>
           </li>
           <li>
+            <Link className="hover:text-foreground" href="/colophon" transitionTypes={NAV_SECTION}>
+              {t("colophon")}
+            </Link>
+          </li>
+          <li>
             <a className="hover:text-foreground" href={`/${locale}/weblog/rss.xml`}>
               {t("rss")}
             </a>
