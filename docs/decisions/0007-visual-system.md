@@ -1,6 +1,7 @@
 # 0007. Visual system: Tokyo Night, clear glass, lane backdrop
 
-- Status: accepted (2026-10-23)
+- Status: accepted (2026-10-23); type pairing superseded by
+  [0016](0016-geist-type.md)
 
 ## Context
 
