@@ -82,6 +82,10 @@ test.describe("start here", () => {
     const ai = section.locator('[data-card="ai"]');
     await listenForAsk(page);
     await ai.getByRole("button", { name: "Open the chat" }).click();
+    // The docked panel opens (a full-screen sheet on phones); put it away before using the card again.
+    await expect(page.getByRole("dialog", { name: "Ask about Victor" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog", { name: "Ask about Victor" })).toBeHidden();
     const samples = ai.getByRole("button").filter({ hasNotText: "Open the chat" });
     await expect(samples).toHaveCount(2);
     const question = (await samples.first().textContent())?.trim();

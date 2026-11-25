@@ -14,7 +14,8 @@ export async function SiteFooter() {
   const profile = getContent().getProfile();
   const build = buildInfo();
   return (
-    <footer className="mt-24 border-t">
+    // Room at the bottom on phones, so the Ask launcher floating in the corner never covers the last line.
+    <footer className="mt-24 border-t max-sm:pb-16">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 text-sm text-muted-foreground sm:px-6 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
           <p className="font-medium text-foreground">{profile.name}</p>

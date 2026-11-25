@@ -59,9 +59,6 @@
   "Ask": {
     "open": "Ask",
     "openLabel": "Ask about Victor",
-    "tab": "Ask",
-    "searchTab": "Search",
-    "modes": "Search or ask",
     "close": "Close",
     "title": "Ask about Victor",
     "description": "Answers come only from this site's pages, with links to them.",
@@ -112,7 +109,16 @@
       "body": "I read the pages closest to the question and none of them answers it. I'd rather not make it up. If it matters, reach Victor through the About page.",
       "read": "Pages I read"
     },
-    "partial": "The site answers only part of the question; the rest isn't on its pages, so it was left out."
+    "partial": "The site answers only part of the question; the rest isn't on its pages, so it was left out.",
+    "conversation": "Conversation",
+    "unread": "New answer",
+    "expand": "Expand to a side panel",
+    "collapse": "Shrink to the corner",
+    "minimize": "Minimize",
+    "pageSuggestion": {
+      "project": "What problem does {title} solve?",
+      "career": "What did Victor do at {org}?"
+    }
   },
   "Common": {
     "present": "present",

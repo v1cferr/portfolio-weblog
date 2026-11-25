@@ -16,6 +16,8 @@ import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
 import { Backdrop } from "@/components/backdrop";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { AskDock } from "@/features/ask/ask-dock";
+import { AskProvider } from "@/features/ask/ask-provider";
 import { Spotlight } from "@/components/motion/spotlight";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
@@ -120,14 +122,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           <NextIntlClientProvider messages={clientMessages}>
             <TooltipProvider>
               <MotionProvider>
-                <Backdrop />
-                <Spotlight />
-                <SiteHeader />
-                <SiteLanguageNotice locale={locale} />
-                <main id="content" className="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 sm:px-6 md:pt-16">
-                  {children}
-                </main>
-                <SiteFooter />
+                {/* The profile chat outlives navigations: its state and its dock sit above the pages (ADR 0011). */}
+                <AskProvider>
+                  <Backdrop />
+                  <Spotlight />
+                  <SiteHeader />
+                  <SiteLanguageNotice locale={locale} />
+                  <main id="content" className="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 sm:px-6 md:pt-16">
+                    {children}
+                  </main>
+                  <SiteFooter />
+                  <AskDock />
+                </AskProvider>
               </MotionProvider>
             </TooltipProvider>
           </NextIntlClientProvider>

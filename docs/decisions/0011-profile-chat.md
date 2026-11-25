@@ -190,3 +190,27 @@ don't know" when the site has no source.
   end in "the site does not say", the passages, or a partial answer. On
   2026-11-24 the free models answered 20 of 27 questions, all checks passing,
   and said "I don't know" to every unknown and injection probe.
+
+## Revision (2026-11-25, a docked chat)
+
+The owner wanted to browse and chat at the same time, which a modal tab in the
+search dialog cannot do: following a source closed the dialog.
+
+- **Entry.** The chat moved out of the search dialog into a dock in the
+  bottom-right corner (`features/ask/`): a launcher, and a non-modal panel
+  (`role="dialog"` without `aria-modal`, no focus trap, no backdrop). Esc
+  minimizes it and returns focus to the launcher. It can expand into a drawer on
+  the right that the page makes room for from `lg` up. Phones get a full-screen
+  sheet, which steps aside when a link is followed.
+- **State.** `AskProvider`, mounted in the locale layout, owns the conversation
+  and the streaming request, so a navigation keeps both and minimizing never
+  stops an answer. The conversation is kept in sessionStorage per locale: it
+  survives a reload, and ends with the tab.
+- **Entry points.** The header's Ask button and any page can open the dock with
+  `openAsk({ question })` (`features/ask/open-ask.ts`), which also sends the
+  question. The search dialog keeps only search, and the no-source answer's
+  "Search the site" opens it with the question typed in (`openSearch`).
+- **Suggestions follow the page.** On a project or a career entry, the first
+  suggested question names it, read from the page's heading.
+- **Analytics.** `ask_open` (with where it was opened from) and `ask_question`,
+  as Vercel Web Analytics custom events, with no question text.
