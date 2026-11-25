@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
 import { faithfulness, groundAnswer, parseModelAnswer, plainText } from "../src/lib/ask/grounding";
-import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
+import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, MODEL_REASONING, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
 import { buildMessages, passagesBlock } from "../src/lib/ask/prompt";
 import type { AskEvent } from "../src/lib/ask/protocol";
 import { parseAskRequest } from "../src/lib/ask/schema";
@@ -126,6 +126,7 @@ describe("OpenRouter models", () => {
     expect(FREE_MODELS.length).toBeGreaterThan(0);
     for (const id of FREE_MODELS) expect(id.endsWith(":free") || id === "openrouter/free", id).toBe(true);
     expect(isFreeModel("openai/gpt-5")).toBe(false);
+    for (const id of Object.keys(MODEL_REASONING)) expect(FREE_MODELS as readonly string[]).toContain(id);
   });
 
   it("sends a strict JSON schema, free models only, the attribution headers and no paid fallback", async () => {
@@ -152,7 +153,16 @@ describe("OpenRouter models", () => {
       response_format: { type: "json_schema", json_schema: { strict: true } },
     });
     expect(body).not.toHaveProperty("model");
-    expect((body.models as string[]).every(isFreeModel)).toBe(true);
+    expect(body.models).toEqual([FREE_MODELS[0]]);
+  });
+
+  it("sends each model its own reasoning setting, and none to the others", async () => {
+    const fetchImpl = vi.fn<typeof fetch>(() => Promise.resolve(new Response("{}", { status: 429 })));
+    const off = Object.keys(MODEL_REASONING)[0] ?? "";
+    await complete({ apiKey: "k", messages: [], schema: {}, fetchImpl, models: ["plain:free", off] });
+    const bodies = fetchImpl.mock.calls.map(([, init]) => JSON.parse(init?.body as string) as Record<string, unknown>);
+    expect(bodies[0]).not.toHaveProperty("reasoning");
+    expect(bodies[1]?.reasoning).toEqual(MODEL_REASONING[off]);
   });
 
   it("tries the next free models on 429 and 5xx, and stops on 402", async () => {
@@ -160,7 +170,8 @@ describe("OpenRouter models", () => {
     const fetchImpl = vi.fn<typeof fetch>(() => Promise.resolve(new Response("{}", { status: statuses.shift() ?? 500 })));
     const models = ["a:free", "b:free", "c:free", "d:free", "e:free", "f:free", "g:free"];
     expect(await complete({ apiKey: "k", messages: [], schema: {}, fetchImpl, models })).toMatchObject({ ok: false, status: 500 });
-    expect(fetchImpl).toHaveBeenCalledTimes(3);
+    // One model per request: 429, 503 and every 500 after them move on, through all seven.
+    expect(fetchImpl).toHaveBeenCalledTimes(7);
     const payment = vi.fn<typeof fetch>(() => Promise.resolve(new Response("{}", { status: 402 })));
     expect(await complete({ apiKey: "k", messages: [], schema: {}, fetchImpl: payment, models })).toMatchObject({ ok: false, status: 402 });
     expect(payment).toHaveBeenCalledTimes(1);
