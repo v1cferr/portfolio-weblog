@@ -1,12 +1,12 @@
 "use client";
 
 import { ArrowUpRightIcon, ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react";
-import { AnimatePresence, type PanInfo, useDragControls, useIsPresent } from "motion/react";
+import { AnimatePresence, type PanInfo, useDragControls, usePresence, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
 import Image, { getImageProps } from "next/image";
 import { useTranslations } from "next-intl";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { type KeyboardEvent, useEffect, useState } from "react";
+import { type KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { preload } from "react-dom";
 
 import { ExternalLink } from "@/components/external-link";
@@ -17,15 +17,25 @@ export interface LightboxDialogProps {
   items: readonly LightboxItem[];
   /** The open image, or null when closed. */
   index: number | null;
-  /** The image the large view grows out of (and back into); null fades instead. */
+  /** The image whose thumbnail the large view grows out of; null fades in instead (a deep link). */
   morph: number | null;
-  layoutId: (index: number) => string;
   onNavigate: (index: number) => void;
   onClose: () => void;
+  /** Called once everything has left, the photo back in its thumbnail. */
+  onClosed: () => void;
   anchorFor: (index: number) => HTMLAnchorElement | undefined;
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+/*
+ * The zoom between a thumbnail and the large view, both ways (chosen
+ * 2026-11-25, option B): opening decelerates into place over 320 ms, closing
+ * is quicker, 240 ms, as Material's container transform and PhotoSwipe do.
+ */
+const ZOOM_IN = { duration: 320, easing: "cubic-bezier(0.05, 0.7, 0.1, 1)" } as const;
+const ZOOM_OUT = { duration: 240, easing: "cubic-bezier(0.2, 0, 0, 1)" } as const;
+/** The corner radius of gallery thumbnails (rounded-lg), which the large view shrinks back into. */
+const THUMB_RADIUS = 8;
 const FADE = { duration: 0.2, ease: EASE };
 /** The backdrop and the controls fade in and out with the dialog; only the image moves. */
 const FADE_IN_OUT = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: FADE } as const;
@@ -60,7 +70,7 @@ const control =
  * arrows, swipe and keys to step through the gallery. Loaded on demand by
  * Lightbox (lightbox.tsx).
  */
-export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onClose, anchorFor }: LightboxDialogProps) {
+export function LightboxDialog({ items, index, morph, onNavigate, onClose, onClosed, anchorFor }: LightboxDialogProps) {
   const t = useTranslations("Lightbox");
   const open = index !== null;
   // Keep showing the last image while the dialog animates out.
@@ -102,11 +112,12 @@ export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onCl
         if (!next) onClose();
       }}
     >
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={onClosed}>
         {open && (
           <DialogPrimitive.Portal forceMount>
             <DialogPrimitive.Overlay forceMount asChild>
-              <m.div className="fixed inset-0 z-50 bg-background/75 backdrop-blur-xl backdrop-saturate-150" {...FADE_IN_OUT} />
+              {/* A solid dim, not a blur: an animated backdrop-filter is costly and stutters in Firefox. */}
+              <m.div className="fixed inset-0 z-50 bg-black/90" {...FADE_IN_OUT} />
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content
               forceMount
@@ -118,7 +129,8 @@ export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onCl
                 event.preventDefault();
                 anchorFor(shown)?.focus();
               }}
-              className="fixed inset-0 z-50 flex flex-col pr-[max(0.75rem,env(safe-area-inset-right))] pl-[max(0.75rem,env(safe-area-inset-left))] pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] outline-none"
+              // Always on the dark dim, so the controls use the dark theme's colors in either theme.
+              className="dark fixed inset-0 z-50 flex flex-col pr-[max(0.75rem,env(safe-area-inset-right))] pl-[max(0.75rem,env(safe-area-inset-left))] pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] outline-none"
             >
               {/* The caption names the dialog where there is one (below); otherwise the alt text does, unseen. */}
               {item.caption === undefined && (
@@ -163,7 +175,8 @@ export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onCl
                 <Frame
                   item={item}
                   index={shown}
-                  layoutId={shown === morph ? layoutId(shown) : undefined}
+                  zoomIn={shown === morph}
+                  thumbnail={() => anchorFor(shown)?.querySelector<HTMLElement>("[data-lightbox-frame]") ?? undefined}
                   direction={direction}
                   draggable={count > 1}
                   placeholderSrc={anchorFor(shown)?.querySelector("img")?.currentSrc ?? ""}
@@ -222,19 +235,44 @@ export function LightboxDialog({ items, index, morph, layoutId, onNavigate, onCl
   );
 }
 
-/** How the frame leaves: sideways when the visitor steps (the direction), or in place when the dialog closes. */
-type Exit = number | "close";
+/**
+ * The transform and clip that put the large view exactly over a thumbnail:
+ * scaled to cover it, as the thumbnail's object-cover crop does, and clipped to
+ * its box and corner radius. Both rects are taken without transforms.
+ */
+function overThumbnail(frame: DOMRect, thumbnail: DOMRect) {
+  const scale = Math.max(thumbnail.width / frame.width, thumbnail.height / frame.height);
+  const x = thumbnail.left + thumbnail.width / 2 - (frame.left + frame.width / 2);
+  const y = thumbnail.top + thumbnail.height / 2 - (frame.top + frame.height / 2);
+  const insetX = Math.max(0, (frame.width - thumbnail.width / scale) / 2);
+  const insetY = Math.max(0, (frame.height - thumbnail.height / scale) / 2);
+  return {
+    transform: `translate(${String(x)}px, ${String(y)}px) scale(${String(scale)})`,
+    clipPath: `inset(${String(insetY)}px ${String(insetX)}px round ${String(THUMB_RADIUS / scale)}px)`,
+  };
+}
+
+const RESTING = { transform: "translate(0px, 0px) scale(1)", clipPath: "inset(0px 0px round 8px)" };
+
+/** Whether any part of a rect is on screen: a thumbnail scrolled away gets a fade, not a zoom off the edge. */
+function onScreen(rect: DOMRect) {
+  return rect.width > 0 && rect.bottom > 0 && rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth;
+}
 
 /**
  * The image, sized to fit the stage by its aspect ratio. Its own component so
- * it can tell when the dialog is closing (useIsPresent answers for the
- * dialog's AnimatePresence here, not the frame's): it then leaves at once, so
- * the morph runs backwards, the large view shrinking into its thumbnail.
+ * it can hold the dialog's exit (usePresence answers for the dialog's
+ * AnimatePresence here, not the frame's): when the dialog closes, the frame
+ * shrinks back into its thumbnail, above the dim, and only then lets the
+ * dialog go. Opening runs the same zoom from the thumbnail. Both are Web
+ * Animations on transform and clip-path that start from wherever the frame
+ * is, so closing mid-opening reverses without a jump.
  */
 function Frame({
   item,
   index,
-  layoutId,
+  zoomIn,
+  thumbnail,
   direction,
   draggable,
   placeholderSrc,
@@ -242,16 +280,66 @@ function Frame({
 }: {
   item: LightboxItem;
   index: number;
-  layoutId: string | undefined;
+  /** Grow out of the thumbnail on open (false: a deep link fades in). */
+  zoomIn: boolean;
+  /** The thumbnail's frame, measured when a zoom starts. */
+  thumbnail: () => HTMLElement | undefined;
   direction: number;
   draggable: boolean;
   /** The thumbnail's already-downloaded file, shown under the large one until it arrives. */
   placeholderSrc: string;
   onSwipe: (delta: number) => void;
 }) {
-  const present = useIsPresent();
+  const [present, safeToRemove] = usePresence();
+  const reduceMotion = useReducedMotion() === true;
   const dragControls = useDragControls();
-  const exit: Exit = present ? direction : "close";
+  const frame = useRef<HTMLDivElement>(null);
+  const zoom = useRef<Animation | null>(null);
+
+  // Open: measured before the first paint, so the frame is never seen at its final place first.
+  useLayoutEffect(() => {
+    const element = frame.current;
+    const from = zoomIn && !reduceMotion ? thumbnail() : undefined;
+    if (element === null || from === undefined) return;
+    const target = from.getBoundingClientRect();
+    if (!onScreen(target)) return;
+    zoom.current = element.animate([overThumbnail(element.getBoundingClientRect(), target), RESTING], ZOOM_IN);
+    // Only on mount: later images arrive by stepping, which slides.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Close: back into the thumbnail of the photo on screen, then let the dialog go.
+  useEffect(() => {
+    if (present) return;
+    const element = frame.current;
+    if (element === null) {
+      safeToRemove();
+      return;
+    }
+    const target = reduceMotion ? undefined : thumbnail()?.getBoundingClientRect();
+    if (target === undefined || !onScreen(target)) {
+      const fade = element.animate([{ opacity: getComputedStyle(element).opacity }, { opacity: 0 }], {
+        duration: 200,
+        easing: "ease-out",
+        fill: "forwards",
+      });
+      void fade.finished.then(safeToRemove, safeToRemove);
+      return;
+    }
+    // Start from where the frame is now (mid-zoom, mid-drag), and aim from its untransformed box.
+    const style = getComputedStyle(element);
+    const now = {
+      transform: style.transform === "none" ? RESTING.transform : style.transform,
+      clipPath: style.clipPath === "none" ? RESTING.clipPath : style.clipPath,
+    };
+    zoom.current?.cancel();
+    const inline = element.style.transform;
+    element.style.transform = "none";
+    const resting = element.getBoundingClientRect();
+    element.style.transform = inline;
+    const back = element.animate([now, overThumbnail(resting, target)], { ...ZOOM_OUT, fill: "forwards" });
+    void back.finished.then(safeToRemove, safeToRemove);
+  }, [present, reduceMotion, safeToRemove, thumbnail]);
 
   const onDragEnd = (_: unknown, { offset, velocity }: PanInfo) => {
     if (offset.x < -SWIPE_OFFSET || velocity.x < -SWIPE_VELOCITY) onSwipe(1);
@@ -259,58 +347,57 @@ function Frame({
   };
 
   return (
-    <AnimatePresence initial={false} custom={exit} mode="popLayout">
-      {present && (
-        <m.div
-          key={index}
-          layoutId={layoutId}
-          custom={exit}
-          variants={{
-            enter: (dir: number) => ({ opacity: 0, x: dir * 48 }),
-            center: { opacity: 1, x: 0 },
-            exit: (how: Exit) => (how === "close" ? { opacity: 0, transition: FADE } : { opacity: 0, x: how * -48 }),
-          }}
-          initial={layoutId === undefined ? "enter" : false}
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.3, ease: EASE }}
-          drag={draggable ? "x" : false}
-          dragListener={false}
-          dragControls={dragControls}
-          dragSnapToOrigin
-          dragElastic={0.5}
-          onDragEnd={onDragEnd}
-          onPointerDown={(event) => {
-            // Started by hand (dragListener off) so Motion leaves touch-action alone and pinch-zoom keeps working.
-            if (draggable && event.isPrimary) dragControls.start(event);
-          }}
-          data-testid="lightbox-frame"
-          className="relative touch-pan-y touch-pinch-zoom overflow-hidden rounded-lg bg-muted"
-          style={{
-            aspectRatio: `${String(item.width)} / ${String(item.height)}`,
-            width: `min(100cqw, 100cqh * ${String(item.width / item.height)})`,
-            // Never wider than the file: a small source stretched 3× is only a blur.
-            maxWidth: `${String(item.width)}px`,
-          }}
-        >
-          {placeholderSrc !== "" && (
-            // eslint-disable-next-line @next/next/no-img-element -- the thumbnail's own file, already in the cache; next/image would ask for another size
-            <img src={placeholderSrc} alt="" aria-hidden className="absolute inset-0 size-full object-contain" draggable={false} />
-          )}
-          <Image
-            src={item.src}
-            width={item.width}
-            height={item.height}
-            sizes={LARGE_SIZES}
-            unoptimized={item.document === true}
-            alt={item.alt}
-            lang={item.altLang}
-            loading="eager"
-            draggable={false}
-            className="relative size-full object-contain select-none"
-          />
-        </m.div>
-      )}
+    <AnimatePresence initial={false} custom={direction} mode="popLayout">
+      <m.div
+        key={index}
+        ref={frame}
+        custom={direction}
+        variants={{
+          enter: (dir: number) => ({ opacity: 0, x: dir * 48 }),
+          center: { opacity: 1, x: 0 },
+          exit: (dir: number) => ({ opacity: 0, x: dir * -48 }),
+        }}
+        // A deep link, or reduced motion, fades the first image in; a zoomed one is placed by the zoom.
+        initial={zoomIn && !reduceMotion ? false : "enter"}
+        animate="center"
+        exit="exit"
+        transition={{ duration: 0.3, ease: EASE }}
+        drag={draggable ? "x" : false}
+        dragListener={false}
+        dragControls={dragControls}
+        dragSnapToOrigin
+        dragElastic={0.5}
+        onDragEnd={onDragEnd}
+        onPointerDown={(event) => {
+          // Started by hand (dragListener off) so Motion leaves touch-action alone and pinch-zoom keeps working.
+          if (draggable && event.isPrimary) dragControls.start(event);
+        }}
+        data-testid="lightbox-frame"
+        className="relative touch-pan-y touch-pinch-zoom overflow-hidden rounded-lg bg-muted"
+        style={{
+          aspectRatio: `${String(item.width)} / ${String(item.height)}`,
+          width: `min(100cqw, 100cqh * ${String(item.width / item.height)})`,
+          // Never wider than the file: a small source stretched 3× is only a blur.
+          maxWidth: `${String(item.width)}px`,
+        }}
+      >
+        {placeholderSrc !== "" && (
+          // eslint-disable-next-line @next/next/no-img-element -- the thumbnail's own file, already in the cache; next/image would ask for another size
+          <img src={placeholderSrc} alt="" aria-hidden className="absolute inset-0 size-full object-contain" draggable={false} />
+        )}
+        <Image
+          src={item.src}
+          width={item.width}
+          height={item.height}
+          sizes={LARGE_SIZES}
+          unoptimized={item.document === true}
+          alt={item.alt}
+          lang={item.altLang}
+          loading="eager"
+          draggable={false}
+          className="relative size-full object-contain select-none"
+        />
+      </m.div>
     </AnimatePresence>
   );
 }
