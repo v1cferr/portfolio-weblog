@@ -109,6 +109,8 @@ test.describe("lightbox", () => {
     const opened = context.waitForEvent("page");
     await link.click({ modifiers: ["ControlOrMeta"] });
     const tab = await opened;
+    // The tab starts on about:blank; wait for it to reach the file (a large master takes a moment).
+    await tab.waitForURL((url) => url.pathname === src);
     expect(new URL(tab.url()).pathname).toBe(src);
     await tab.close();
     await expect(dialog(page)).toBeHidden();
