@@ -471,7 +471,10 @@ test.describe("page transitions", () => {
       page.on("pageerror", (error) => errors.push(error.message));
 
       await page.goto("/en-us/projects");
-      const card = page.getByRole("region", { name: "Featured" }).getByRole("heading", { level: 3 }).first();
+      const card = page
+        .getByRole("tabpanel", { name: /Featured/ })
+        .getByRole("heading", { level: 3 })
+        .first();
       const title = (await card.textContent()) ?? "";
       await card.getByRole("link").click();
       await expect(page).toHaveURL(/\/en-us\/projects\/[^/]+$/);
