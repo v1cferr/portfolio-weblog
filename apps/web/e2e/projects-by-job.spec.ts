@@ -14,6 +14,15 @@ test.describe("projects by job", () => {
     await expect(page.getByRole("region", { name: "Related" }).getByRole("link", { name: /ImobOS/ })).toHaveCount(0);
   });
 
+  test("work projects sit under their jobs: FAI Meet and Inscrições vs Editais, XGuardian", async ({ page }) => {
+    await page.goto("/en-us/career/fai-ufscar-2026");
+    const fai = page.getByRole("region", { name: "Projects built here" });
+    await expect(fai.getByRole("link", { name: "FAI Meet" }).first()).toBeVisible();
+    await expect(fai.getByRole("link", { name: "Inscrições vs Editais" }).first()).toBeVisible();
+    await page.goto("/en-us/career/xmart-solutions-2024");
+    await expect(page.getByRole("region", { name: "Projects built here" }).getByRole("link", { name: "XGuardian" }).first()).toBeVisible();
+  });
+
   test("a project names the job it was built at, linking back", async ({ page }) => {
     await page.goto("/en-us/projects/imobos");
     const builtAt = page.getByRole("term").filter({ hasText: "Built at" });
