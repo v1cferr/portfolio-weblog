@@ -23,11 +23,13 @@ import { MediaGallery } from "@/components/media-gallery";
 import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
+import { SourceList } from "@/components/source-list";
 import { TechList } from "@/components/tech-list";
 import { CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
 import { ProjectStateBadge } from "@/features/projects/project-state-badge";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
+import { describeEntity } from "@/lib/entities";
 import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
@@ -60,7 +62,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/projects
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-baseline justify-between gap-4 py-2">
-      <dt className="text-sm text-muted-foreground">{label}</dt>
+      <dt className="shrink-0 text-sm text-muted-foreground">{label}</dt>
       <dd className="text-right text-sm">{children}</dd>
     </div>
   );
@@ -79,6 +81,13 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const description = project.description && localize(project.description, locale);
   const learnings = localizeList(project.learnings, locale);
   const caseStudy = project.caseStudy;
+  // The jobs this project was made in, declared on either side.
+  const builtAt = [...new Set(content.getRelatedContent(id).flatMap((ref) => (ref.type === "experience" ? [ref.id] : [])))].flatMap(
+    (jobId) => {
+      const job = describeEntity(jobId, locale);
+      return job?.href === undefined ? [] : [{ id: jobId, title: [job.subtitle, job.title].filter(Boolean).join(" · "), href: job.href }];
+    }
+  );
   const caseProblem = caseStudy && localize(caseStudy.problem, locale);
   const fallback = [summary, problem, description, learnings, caseProblem].find((text) => text?.isFallback === true);
 
@@ -186,6 +195,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
                 </p>
               )}
               <CaseStudyDeepDive caseStudy={caseStudy} locale={locale} />
+              <SourceList sources={project.sources} />
             </div>
           ) : (
             <div className="space-y-10">
@@ -216,12 +226,24 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
                   <TechList ids={project.technologies} label={common("technologies")} />
                 </section>
               )}
+              <SourceList sources={project.sources} />
             </div>
           )}
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <dl className="divide-y border-y">
+            {builtAt.length > 0 && (
+              <Fact label={t("builtAt")}>
+                <span className="inline-flex flex-col items-end gap-0.5">
+                  {builtAt.map((job) => (
+                    <Link key={job.id} href={job.href} className="underline underline-offset-4 hover:text-lane-career">
+                      {job.title}
+                    </Link>
+                  ))}
+                </span>
+              </Fact>
+            )}
             {caseStudy === undefined && project.startedAt !== undefined && (
               <Fact label={t("started")}>
                 <PartialDate date={project.startedAt} />

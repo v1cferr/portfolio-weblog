@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate } from "./common";
+import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate, Source } from "./common";
 
 /**
  * Editorial lifecycle of a project, set by hand. A quiet repository does not
@@ -81,6 +81,8 @@ export const Project = z.strictObject({
     .regex(/^[\w.-]+\/[\w.-]+$/, "repository is owner/name")
     .optional(),
   links: z.array(Link).default([]),
+  /** Public documents behind the facts on this page, cited as numbered references. */
+  sources: z.array(Source).default([]),
   technologies: z.array(Id).default([]),
   skills: z.array(Id).default([]),
   experiences: z.array(Id).default([]),
