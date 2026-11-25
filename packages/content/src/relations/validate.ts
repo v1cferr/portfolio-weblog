@@ -93,6 +93,26 @@ export function validateContent(content: RawContent): ValidationResult {
     if (set.size > 1) errors.push({ file: dir, message: "translations disagree on visibility" });
   }
 
+  // A story belongs to an experience and stays inside its boundary.
+  const storyVisibility = new Map<string, Set<string>>();
+  for (const story of content.stories) {
+    const fm = story.frontmatter;
+    const target = byId.get(story.experience);
+    if (target?.type !== "experience") {
+      errors.push({ file: story.file, message: `no experience "${story.experience}" for this story (the folder must be named after one)` });
+    } else if (fm.status === "published" && fm.visibility === "public") {
+      if (target.isPrivate) errors.push({ file: story.file, message: "a public story cannot belong to a private experience" });
+      else if (!target.isPublic)
+        warnings.push({ file: story.file, message: "the experience is not published yet, so the story is hidden too" });
+    }
+    const set = storyVisibility.get(story.experience) ?? new Set<string>();
+    set.add(fm.visibility);
+    storyVisibility.set(story.experience, set);
+  }
+  for (const [experience, set] of storyVisibility) {
+    if (set.size > 1) errors.push({ file: `experiences/${experience}`, message: "story translations disagree on visibility" });
+  }
+
   return { errors, warnings };
 }
 

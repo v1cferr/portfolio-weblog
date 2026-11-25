@@ -250,6 +250,59 @@ describe("frontmatter", () => {
   });
 });
 
+describe("job stories", () => {
+  const story = (overrides: Record<string, unknown> = {}) =>
+    post({ title: "Story", summary: "S", status: "published", updatedAt: "2026-11-25", ...overrides }, "## Problem\n\nText.");
+
+  it("accepts a story next to its experience", () => {
+    const result = check({ "experiences/acme-dev.yaml": experience(), "experiences/acme-dev/story.en-us.mdx": story() });
+    expect(result.errors).toEqual([]);
+  });
+
+  it("rejects a story folder without an experience", () => {
+    const result = check({ "experiences/acme-dev.yaml": experience(), "experiences/acme-old/story.en-us.mdx": story() });
+    expect(result.errors.join()).toContain('no experience "acme-old"');
+  });
+
+  it("rejects file names that are not story.<locale>.mdx", () => {
+    const result = check({ "experiences/acme-dev.yaml": experience(), "experiences/acme-dev/story.fr-fr.mdx": story() });
+    expect(result.errors.join()).toContain("expected story.<locale>.mdx");
+  });
+
+  it("requires updatedAt and rejects unknown fields", () => {
+    const missing = check({
+      "experiences/acme-dev.yaml": experience(),
+      "experiences/acme-dev/story.en-us.mdx": story({ updatedAt: undefined }),
+    });
+    expect(missing.errors.join()).toContain("updatedAt");
+    const typo = check({ "experiences/acme-dev.yaml": experience(), "experiences/acme-dev/story.en-us.mdx": story({ draft: true }) });
+    expect(typo.errors.join()).toMatch(/draft/);
+  });
+
+  it("rejects a public story of a private experience and warns for one in review", () => {
+    const hidden = check({
+      "experiences/acme-dev.yaml": experience({ visibility: "private" }),
+      "experiences/acme-dev/story.en-us.mdx": story(),
+    });
+    expect(hidden.errors.join()).toContain("cannot belong to a private experience");
+    const review = check({
+      "experiences/acme-dev.yaml": experience({ status: "review" }),
+      "experiences/acme-dev/story.en-us.mdx": story(),
+    });
+    expect(review.errors).toEqual([]);
+    expect(review.warnings.join()).toContain("story is hidden too");
+  });
+
+  it("rejects translations that disagree on visibility", () => {
+    const result = check({
+      "experiences/acme-dev.yaml": experience(),
+      "experiences/acme-dev/story.en-us.mdx": story(),
+      "experiences/acme-dev/story.pt-br.mdx": story({ visibility: "private" }),
+    });
+    expect(result.errors.join()).toContain("story translations disagree on visibility");
+  });
+});
+
 describe("loadRegistry", () => {
   it("throws with every issue listed", () => {
     const root = makeContent({ "experiences/acme-dev.yaml": experience({ technologies: ["rust", "go"] }) });

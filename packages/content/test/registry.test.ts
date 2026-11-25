@@ -34,6 +34,10 @@ const tree = () =>
       category: "journal",
     }),
     "weblog/2026/10/draft-post/en-us.mdx": post({ title: "Draft", summary: "S", status: "draft", category: "journal" }),
+    "experiences/acme-dev/story.en-us.mdx": post({ title: "Story", summary: "S", status: "published", updatedAt: "2026-11" }),
+    "experiences/acme-dev/story.pt-br.mdx": post({ title: "História", summary: "S", status: "published", updatedAt: "2026-11" }),
+    "experiences/acme-old/story.en-us.mdx": post({ title: "Draft story", summary: "S", status: "draft", updatedAt: "2026-11" }),
+    "experiences/uni-review/story.en-us.mdx": post({ title: "Hidden job", summary: "S", status: "published", updatedAt: "2026-11" }),
   });
 
 describe("public registry", () => {
@@ -78,6 +82,15 @@ describe("public registry", () => {
     expect(hello?.dir).toBe("weblog/2026/10/hello");
     expect(hello?.folderDate).toBe("2026-10");
     expect(hello?.file).toBe("weblog/2026/10/hello/en-us.mdx");
+  });
+
+  it("serves stories of visible jobs only, with fallbacks flagged", () => {
+    expect(registry.getStoryIds()).toEqual(["acme-dev"]);
+    expect(registry.getStory("acme-dev", "pt-br")).toMatchObject({ locale: "pt-br", isFallback: false });
+    expect(registry.getStory("acme-dev", "zh-cn")).toMatchObject({ locale: "en-us", isFallback: true });
+    expect(registry.getStory("acme-dev", "en-us")?.availableLocales.sort()).toEqual(["en-us", "pt-br"]);
+    expect(registry.getStory("acme-old", "en-us")).toBeUndefined();
+    expect(registry.getStory("uni-review", "en-us")).toBeUndefined();
   });
 
   it("orders experiences by their latest position", () => {
