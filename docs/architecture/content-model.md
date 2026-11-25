@@ -29,10 +29,8 @@ or misspelled field fails validation instead of being silently dropped.
   the same shape with arrays.
 - Media (experiences, projects, studies):
   `media: [{ src, width, height, alt, caption? }]` with `src` under
-  `apps/web/public` and its intrinsic size in pixels, plus
-  `mediaPlaceholder: false` to opt out of the "photos coming" space (switched
-  site-wide in `apps/web/src/config/site.ts`). See
-  [add photos](../guides/add-media.md).
+  `apps/web/public` and its intrinsic size in pixels; an entry without photos
+  shows no gallery. See [add photos](../guides/add-media.md).
 - Dates: `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Unquoted values are fine; use only
   the precision you actually know.
 

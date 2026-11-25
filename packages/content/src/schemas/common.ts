@@ -130,12 +130,7 @@ export const Media = z.strictObject({
 });
 export type Media = z.infer<typeof Media>;
 
-/**
- * Media fields shared by entities that can show images: the images, and an
- * opt-out from the site's "photos coming" placeholder for entities that will
- * never have any.
- */
+/** Media fields shared by entities that can show images. */
 export const mediaFields = {
   media: z.array(Media).default([]),
-  mediaPlaceholder: z.boolean().default(true),
 };

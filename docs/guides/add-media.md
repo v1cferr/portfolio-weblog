@@ -41,8 +41,7 @@
 
 Photos of other people need their consent before they are published.
 
-## The placeholder
+## Entries without photos
 
-Entries without photos show a reserved "photos coming" space. Switch it off for
-the whole site in `apps/web/src/config/site.ts` (`mediaPlaceholders: false`), or
-for one entry with `mediaPlaceholder: false` in its file.
+An entry without photos shows no gallery at all: no "photos coming" notice.
+Photos are added over time.
