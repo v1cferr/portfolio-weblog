@@ -70,17 +70,32 @@ const components = {
 };
 
 /**
+ * A wide table scrolls inside its own box instead of the page, and the box
+ * takes focus so the keyboard can scroll it too.
+ */
+function Table(props: ComponentProps<"table">) {
+  return (
+    <div tabIndex={0} className="not-prose my-6 overflow-x-auto rounded-lg border">
+      <table {...props} className="w-full text-left font-mono text-xs [&_td]:px-3 [&_td]:py-1.5 [&_th]:px-3 [&_th]:py-2 [&_tr]:border-b" />
+    </div>
+  );
+}
+
+/**
  * Compiles a post body. Posts are local files reviewed in Git; JS expressions
  * stay blocked (the next-mdx-remote default) so MDX can only compose the
- * components listed above.
+ * components listed above. `format: "md"` reads plain Markdown (the decision
+ * records), where a stray `<` or `{` is text, not JSX; it also scrolls wide
+ * tables in their own box.
  */
-export async function renderMdx(source: string) {
+export async function renderMdx(source: string, { format = "mdx" }: { format?: "mdx" | "md" } = {}) {
   const { content } = await compileMDX({
     source,
-    components,
+    components: format === "md" ? { ...components, table: Table } : components,
     options: {
       blockJS: true,
       mdxOptions: {
+        format,
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
           rehypeSlug,
