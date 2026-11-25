@@ -26,7 +26,8 @@ test.describe("case study page", () => {
     await expect(tldr.getByText("Role", { exact: true })).toBeVisible();
     await expect(tldr.getByText("Outcome", { exact: true })).toHaveCount(0);
     await expect(tldr.getByRole("list", { name: "Technologies" })).toBeVisible();
-    await expect(tldr.getByRole("link", { name: /ADRs/ })).toHaveAttribute("href", /\/docs\/decisions$/);
+    // This site's records open in its own decision log.
+    await expect(tldr.getByRole("link", { name: /ADRs/ })).toHaveAttribute("href", "/en-us/decisions");
   });
 
   test("decisions are <details>: the first open, the others toggle", async ({ page }) => {
@@ -38,7 +39,7 @@ test.describe("case study page", () => {
     await expect(first).toHaveAttribute("open", "");
     await expect(first).toContainText("Chose");
     await expect(first).toContainText("Cost:");
-    await expect(first.getByRole("link", { name: /Read the ADR/ })).toHaveAttribute("href", /docs\/decisions\/0001-content-first\.md$/);
+    await expect(first.getByRole("link", { name: /Read the ADR/ })).toHaveAttribute("href", "/en-us/decisions/0001");
 
     const second = decisions.nth(1);
     await expect(second).not.toHaveAttribute("open");
@@ -80,6 +81,20 @@ test.describe("case study page", () => {
     }
     await context.close();
   });
+});
+
+test("another repository's ADRs stay on GitHub", async ({ page }) => {
+  await page.goto("/en-us/projects/dotfiles");
+  const adr = page
+    .locator("section[aria-labelledby=decisions] details")
+    .first()
+    .getByRole("link", { name: /Read the ADR/ });
+  await expect(adr).toHaveAttribute("href", /^https:\/\/github\.com\/v1cferr\/dotfiles\/blob\/main\/docs\/decisions\//);
+  await expect(adr).toHaveAttribute("target", "_blank");
+  await expect(page.locator("[aria-labelledby=tldr]").getByRole("link", { name: /ADRs/ })).toHaveAttribute(
+    "href",
+    "https://github.com/v1cferr/dotfiles/tree/main/docs/decisions"
+  );
 });
 
 test.describe("projects without a case study", () => {
