@@ -72,6 +72,24 @@ export const Link = z.strictObject({
 export type Link = z.infer<typeof Link>;
 
 /**
+ * A public document that backs facts on a page (an annual report, a press
+ * release, a public page), cited as a numbered reference. Facts about the
+ * organization stay apart from the owner's own contribution.
+ */
+export const Source = z.strictObject({
+  title: z.string().min(1),
+  publisher: z.string().min(1).optional(),
+  year: z.int().min(1900).max(2100).optional(),
+  url: z.url({ protocol: /^https?$/ }),
+  /** A copy that outlives the original link (Wayback Machine, archive.today). */
+  archived: z.url({ protocol: /^https?$/ }).optional(),
+  /** Where in the document: "p. 12", "section 3". */
+  page: z.string().min(1).optional(),
+  note: LocalizedText.optional(),
+});
+export type Source = z.infer<typeof Source>;
+
+/**
  * A claim that exists somewhere (v1 site, notes) but has not been verified for
  * publication. Kept for the editor; no renderer ever reads this field.
  */

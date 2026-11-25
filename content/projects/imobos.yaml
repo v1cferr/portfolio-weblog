@@ -11,6 +11,8 @@ summary:
   pt-br: >-
     Sistema operacional self-hosted para uma imobiliária: CRM, gestão de clientes, fluxos de
     imóveis, comunicação e automação.
+# Made for a client as freelance work ("Solo, for a brokerage"): listed under that job.
+experiences: [freelance-2024]
 technologies: [typescript, nextjs, react, python, fastapi, postgresql, docker, nix]
 # Draft from repo facts on 2026-11-23; owner review pending.
 # Sources: v1cferr/imobos README, docs/adr 0001-0010 (0006, 0007, 0009 and 0010 above all),

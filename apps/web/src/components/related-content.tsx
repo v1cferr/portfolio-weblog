@@ -15,12 +15,14 @@ type Listed = (typeof LISTED)[number];
  * Everything connected to an entity, in both directions: a project lists the
  * experiences it declares and the posts that declare it.
  */
-export async function RelatedContent({ id }: { id: string }) {
+export async function RelatedContent({ id, exclude = [] }: { id: string; exclude?: readonly Listed[] }) {
   const [locale, t, kind] = await Promise.all([getLocale(), getTranslations("Common"), getTranslations("Kind")]);
   const seen = new Set<string>();
   const items = getContent()
     .getRelatedContent(id)
     .filter((ref): ref is typeof ref & { type: Listed } => (LISTED as readonly string[]).includes(ref.type))
+    // A page that already lists some kind in its own section (a job's projects) leaves it out here.
+    .filter((ref) => !exclude.includes(ref.type))
     .filter((ref) => (seen.has(ref.id) ? false : (seen.add(ref.id), true)))
     .map((ref) => describeEntity(ref.id, locale))
     .filter((entity) => entity?.href !== undefined);
