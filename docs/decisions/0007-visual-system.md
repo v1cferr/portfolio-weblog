@@ -166,13 +166,13 @@ The owner picked "t1": the site as a file tree, as a second way to navigate.
 ## Revision (2026-11-23, graphite + sage)
 
 The owner found Tokyo Night too "pinkish": the purple end of the name gradient,
-the purple backdrop glow, the magenta and red accents. He wanted the site darker
-and cleaner, closer to his photo (black jacket, warm skin, grey-green wall), and
-picked **C1, graphite + sage**, with the theme still following the system by
-default. The direction follows what Vercel, Linear and Raycast do and what
-Material's dark theme guidance asks for: neutral greys, one accent, colour only
-where it means something, no pure black, elevation by a lighter surface, and
-desaturated colours on dark.
+the purple backdrop glow, the magenta and red accents. They wanted the site
+darker and cleaner, closer to their photo (black jacket, warm skin, grey-green
+wall), and picked **C1, graphite + sage**, with the theme still following the
+system by default. The direction follows what Vercel, Linear and Raycast do and
+what Material's dark theme guidance asks for: neutral greys, one accent, colour
+only where it means something, no pure black, elevation by a lighter surface,
+and desaturated colours on dark.
 
 - **Neutrals:** warm graphite with a faint green cast. Page, card and muted fill
   step lighter for elevation; borders stay solid tokens.
