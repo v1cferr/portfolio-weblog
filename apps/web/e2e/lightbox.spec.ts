@@ -150,7 +150,7 @@ test.describe("lightbox", () => {
     test(`has no serious axe violations while open (${theme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await openFirst(page);
-      await expect(dialog(page).locator("img[sizes='100vw']")).toBeVisible();
+      await expect(dialog(page).locator("img[sizes='(min-width: 1024px) 80vw, 100vw']")).toBeVisible();
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
       expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
@@ -197,5 +197,22 @@ test.describe("lightbox", () => {
     });
     expect(transforms.length).toBeGreaterThan(0);
     expect(transforms.filter((transform) => transform !== "none")).toEqual([]);
+  });
+});
+
+test.describe("lightbox documents", () => {
+  // A certificate is marked `document` in content: its full view is the file itself, not a re-encoded copy.
+  test("serves a document's own file in the full view", async ({ page }) => {
+    await page.goto("/en-us/education");
+    await page.locator('a[href="/education/transforme-se/certificate.webp"]').first().click();
+    const full = page.getByRole("dialog").locator("img:not([aria-hidden])");
+    await expect(full).toHaveAttribute("src", "/education/transforme-se/certificate.webp");
+  });
+
+  test("asks the optimizer for a photo's full view", async ({ page }) => {
+    await page.goto("/en-us/education");
+    await page.locator('a[href="/education/transforme-se/class.webp"]').first().click();
+    const full = page.getByRole("dialog").locator("img:not([aria-hidden])");
+    await expect(full).toHaveAttribute("src", /\/_next\/image\?url=%2Feducation%2Ftransforme-se%2Fclass\.webp.*q=85/);
   });
 });

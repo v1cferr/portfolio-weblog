@@ -30,6 +30,7 @@ media:
   - src: /education/transforme-se/certificate.webp
     width: 1600
     height: 1136
+    document: true
     alt:
       en-us: Transforme-se certificate awarded to Victor Ferreira for the Technology and Data track of Serasa Experian's program, 280 hours, São Carlos, 20 May 2026
       pt-br: Certificado Transforme-se conferido a Victor Ferreira pela formação em Tecnologia e Dados do programa da Serasa Experian, 280 horas, São Carlos, 20 de maio de 2026

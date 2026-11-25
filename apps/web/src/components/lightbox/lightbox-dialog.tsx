@@ -34,8 +34,21 @@ const SWIPE_OFFSET = 60;
 const SWIPE_VELOCITY = 400;
 
 /** The props next/image gives the large view, so a preload asks for exactly the same files. */
+/**
+ * The full view fills about three quarters of a desktop screen beside the
+ * controls, and the whole width of a phone. A document skips the optimizer.
+ */
+const LARGE_SIZES = "(min-width: 1024px) 80vw, 100vw";
+
 function largeImageProps(item: LightboxItem) {
-  return getImageProps({ src: item.src, width: item.width, height: item.height, alt: "", sizes: "100vw" }).props;
+  return getImageProps({
+    src: item.src,
+    width: item.width,
+    height: item.height,
+    alt: "",
+    sizes: LARGE_SIZES,
+    unoptimized: item.document === true,
+  }).props;
 }
 
 const control =
@@ -276,6 +289,8 @@ function Frame({
           style={{
             aspectRatio: `${String(item.width)} / ${String(item.height)}`,
             width: `min(100cqw, 100cqh * ${String(item.width / item.height)})`,
+            // Never wider than the file: a small source stretched 3× is only a blur.
+            maxWidth: `${String(item.width)}px`,
           }}
         >
           {placeholderSrc !== "" && (
@@ -286,7 +301,8 @@ function Frame({
             src={item.src}
             width={item.width}
             height={item.height}
-            sizes={largeImageProps(item).sizes}
+            sizes={LARGE_SIZES}
+            unoptimized={item.document === true}
             alt={item.alt}
             lang={item.altLang}
             loading="eager"

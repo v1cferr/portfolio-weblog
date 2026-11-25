@@ -79,6 +79,7 @@ media:
   - src: /career/fai-ufscar/selection-result.webp
     width: 710
     height: 533
+    document: true
     alt:
       en-us: FAI·UFSCar document header with the final result text and one table row, Victor Ferreira in 1st place with a score of 9.93
       pt-br: Cabeçalho de documento da FAI·UFSCar com o texto do resultado final e uma linha da tabela, Victor Ferreira em 1º lugar com nota 9,93
