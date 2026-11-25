@@ -21,9 +21,14 @@ import { formatPartialDate } from "@/lib/dates";
 import { languageTag } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 
-/** Only jobs with a published story get this page; every other /career/<id>/story is a 404. */
-export function generateStaticParams({ params }: { params: { id: string } }) {
-  return getContent().getStoryIds().includes(params.id) ? [{ id: params.id }] : [];
+/**
+ * Only jobs with a published story get this page; every other /career/<id>/story
+ * is a 404. [id] has no layout, so this segment generates the id itself.
+ */
+export function generateStaticParams() {
+  return getContent()
+    .getStoryIds()
+    .map((id) => ({ id }));
 }
 
 export const dynamicParams = false;
