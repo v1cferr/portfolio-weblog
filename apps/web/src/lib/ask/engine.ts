@@ -83,6 +83,8 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     return;
   }
 
+  // The model can take a while: show which pages it is reading meanwhile.
+  yield { type: "reading", pages: new CitationMap(passages).sources().map(({ title, url }) => ({ title, url })) };
   const result = await context.generate(buildMessages(input.locale, input.question, input.history, passages), context.signal);
   if (!result.ok) {
     if (result.reason === "aborted") return;

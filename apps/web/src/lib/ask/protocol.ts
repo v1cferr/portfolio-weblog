@@ -3,7 +3,9 @@
  * Ask panel. Safe to import client-side: types and limits only.
  *
  * The response is NDJSON, one event per line, in this order:
- *   status → (text | cite)* → sources → done
+ *   [reading] → status → (text | cite)* → sources → done
+ * `reading` comes only when a model is about to be asked: the pages it reads,
+ * so the panel has something to show while the model thinks.
  * An `error` event may replace the rest when the model fails mid-answer.
  */
 
@@ -51,6 +53,7 @@ export interface AskSource {
 export type AskEvent =
   /** `partial`: a model answer that covers only part of the question, said by the panel, not the model. */
   | { type: "status"; mode: AskMode; reason?: FallbackReason; partial?: true }
+  | { type: "reading"; pages: { title: string; url: string }[] }
   | { type: "text"; text: string }
   | { type: "cite"; n: number }
   | { type: "sources"; sources: AskSource[] }

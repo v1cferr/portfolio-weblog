@@ -83,7 +83,8 @@
       "ready": "Resposta pronta.",
       "noSource": "Nada no site responde a isso.",
       "stopped": "Interrompido.",
-      "error": "Não foi possível carregar a resposta."
+      "error": "Não foi possível carregar a resposta.",
+      "reading": "Lendo {count, plural, one {# página} other {# páginas}} do site e escrevendo a resposta…"
     },
     "extractive": {
       "label": "Das páginas do site, sem IA",

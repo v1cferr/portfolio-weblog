@@ -26,6 +26,8 @@ interface Turn {
   reason?: FallbackReason;
   /** A model answer that covers only part of the question. */
   partial?: boolean;
+  /** The pages the model is reading, shown while it thinks. */
+  reading?: { title: string; url: string }[];
   parts: Part[];
   sources: AskSource[];
   /** The model failed after it had started writing. */
@@ -129,6 +131,9 @@ export function AskPanel({ onNavigate, onSearch }: { onNavigate: () => void; onS
               ...(event.partial && { partial: true }),
             }));
             if (event.mode === "no-source" || event.mode === "unknown") setAnnouncement(t("status.noSource"));
+            break;
+          case "reading":
+            update(id, (turn) => ({ ...turn, reading: event.pages }));
             break;
           case "text":
             update(id, (turn) => {
@@ -272,6 +277,20 @@ function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate: () => 
   const byNumber = new Map(turn.sources.flatMap((source) => (source.n === null ? [] : [[source.n, source] as const])));
 
   if (turn.phase === "searching") {
+    if (turn.reading !== undefined && turn.reading.length > 0) {
+      return (
+        <div aria-busy="true" className="flex flex-col gap-1.5 text-sm text-muted-foreground" data-testid="ask-reading">
+          <p className="motion-safe:animate-pulse">{t("status.reading", { count: turn.reading.length })}</p>
+          <ul className="flex flex-wrap gap-1.5">
+            {turn.reading.map((page) => (
+              <li key={page.url} className="rounded-md border bg-muted/50 px-2 py-0.5 text-xs">
+                {page.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
     return (
       <p aria-busy="true" className="text-sm text-muted-foreground motion-safe:animate-pulse">
         {t("status.searching")}

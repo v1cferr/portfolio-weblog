@@ -48,9 +48,10 @@ function retriever(results: RetrievedPassage[]): Retriever & { calls: string[] }
   };
 }
 
-async function collect(events: AsyncGenerator<AskEvent>) {
+/** The events of an answer; `reading` (progress only) is left out unless asked for. */
+async function collect(events: AsyncGenerator<AskEvent>, withReading = false) {
   const list: AskEvent[] = [];
-  for await (const event of events) list.push(event);
+  for await (const event of events) if (withReading || event.type !== "reading") list.push(event);
   return list;
 }
 
@@ -344,6 +345,16 @@ describe("ask", () => {
       },
       { type: "done" },
     ]);
+  });
+
+  it("tells which pages are being read before asking the model, and only then", async () => {
+    const generate = fakeModel(answer([{ text: "Victor built a RAG over his notes.", sources: [1] }]));
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate }), true);
+    expect(events[0]?.type).toBe("reading");
+    expect(events[0]?.type === "reading" && events[0].pages.every((page) => page.url.startsWith("/en-us/"))).toBe(true);
+    expect(events[1]).toEqual({ type: "status", mode: "model" });
+    const withoutModel = await collect(ask(input, { retriever: retriever(PASSAGES), generate: null }), true);
+    expect(withoutModel.some((event) => event.type === "reading")).toBe(false);
   });
 
   it("marks an answer partial when the model says the passages cover only part of the question", async () => {
