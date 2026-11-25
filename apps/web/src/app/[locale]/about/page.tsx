@@ -22,6 +22,8 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
 import { Avatar } from "@/features/profile/avatar";
+import { AboutNumbers } from "@/features/profile/about-numbers";
+import { Credentials } from "@/features/profile/credentials";
 import { Curiosities } from "@/features/profile/curiosities";
 import { Trajectory } from "@/features/profile/trajectory";
 import { Link } from "@/i18n/navigation";
@@ -135,6 +137,8 @@ export default async function AboutPage() {
               </ol>
             </section>
           )}
+
+          <Credentials />
         </div>
 
         <aside className="space-y-10">
@@ -223,6 +227,7 @@ export default async function AboutPage() {
               </li>
             </ul>
           </section>
+          <AboutNumbers />
           {profile.languages.length > 0 && (
             <section aria-labelledby="languages">
               <h2 id="languages" className="mb-3 flex items-center gap-2 font-mono text-xs tracking-wide text-muted-foreground uppercase">

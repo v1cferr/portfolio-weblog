@@ -179,7 +179,19 @@
     "next": "O que vem a seguir",
     "wow": "Jogando: World of Warcraft",
     "curiosities": "Curiosidades",
-    "curiositiesMore": "Ver mais"
+    "curiositiesMore": "Ver mais",
+    "credentials": "Formação e certificados",
+    "ongoing": "em andamento",
+    "certificate": "Certificado",
+    "allStudies": "Todos os estudos",
+    "numbers": {
+      "title": "Em números",
+      "experiences": "experiências",
+      "projects": "projetos",
+      "posts": "posts no weblog",
+      "certificates": "certificados",
+      "since": "Trabalhando desde {year}, da indústria à IA."
+    }
   },
   "Career": {
     "title": "Carreira",
