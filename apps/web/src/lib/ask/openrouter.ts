@@ -6,29 +6,36 @@
 export const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 /**
- * The models tried, in order. FREE ONLY: every id must end in `:free` or be
- * `openrouter/free` (which itself only routes to free models). A paid id here
- * would be billed whenever the free ones cannot serve a request, so paid ids
- * are forbidden; test/profile-chat.test.ts enforces it. All of these support
- * structured outputs (checked on https://openrouter.ai/api/v1/models,
- * 2026-11-23).
+ * The models tried, in order, one request each. FREE ONLY: every id must end
+ * in `:free` or be `openrouter/free` (which itself only routes to free
+ * models). A paid id here would be billed whenever the free ones cannot serve
+ * a request, so paid ids are forbidden; test/profile-chat.test.ts enforces it.
+ * All of these support structured outputs (checked on
+ * https://openrouter.ai/api/v1/models, 2026-11-24).
+ *
+ * Order from a benchmark of 9 eval questions per model, alone (2026-11-24):
+ * ERNIE answered 8 with a 3.1 s median; Ling, with reasoning off, 5 in 1.6 s
+ * but is often rate limited upstream; Nemotron, with reasoning off, 7 in
+ * 17.9 s, and with reasoning on only 2, at the 30 s limit.
  */
 export const FREE_MODELS = [
-  "nvidia/nemotron-3.5-super-vl:free",
   "baidu/ernie-5.5-flash-preview:free",
   "inclusionai/ling-3.2-flash:free",
+  "nvidia/nemotron-3.5-super-vl:free",
   "openrouter/free",
 ] as const;
 
-/** OpenRouter accepts a short fallback list per request; longer chains are walked by the caller. */
-const MODELS_PER_REQUEST = 3;
-
 /**
- * Room for the answer and any reasoning before it: on most providers the
- * limit covers both, and a reasoning model that spends it all returns an
- * empty message (finish_reason "length"). 700 did that once answers grew
- * longer (2026-11-24).
+ * OpenRouter's `reasoning` setting per model, sent only to that model. Off
+ * where the model allows it: thinking made answers slow or empty, and the
+ * grounding checks, not the model's reasoning, keep answers honest. ERNIE's
+ * reasoning cannot be turned off.
  */
+export const MODEL_REASONING: Readonly<Record<string, Record<string, unknown>>> = {
+  "inclusionai/ling-3.2-flash:free": { enabled: false },
+  "nvidia/nemotron-3.5-super-vl:free": { enabled: false },
+};
+
 export const MAX_TOKENS = 2500;
 /** Time for the whole answer, every attempt included. */
 export const TIMEOUT_MS = 30_000;
@@ -64,12 +71,9 @@ interface ChatCompletionResponse {
 }
 
 /**
- * One structured answer from the first free model that gives one. Each
- * request carries up to three models for OpenRouter's own fallback; when a
- * request still fails with a retryable status, the next models are tried
- * until the time runs out. A reply `accept` refuses (off-schema JSON) also
- * moves on to the next models.
- */
+ * One structured answer from the first free model that gives one, asking
+ * them one at a time in order; a retryable status, an empty reply or one
+ * `accept` refuses moves on to the next, */
 export async function complete(options: {
   apiKey: string;
   messages: ChatMessage[];
@@ -86,7 +90,7 @@ export async function complete(options: {
   const deadline = now() + TIMEOUT_MS;
   let last: CompletionResult = { ok: false, reason: "empty" };
 
-  for (let start = 0; start < free.length; start += MODELS_PER_REQUEST) {
+  for (const model of free) {
     const remaining = deadline - now();
     if (remaining <= 0) return { ok: false, reason: "timeout" };
     const timeout = AbortSignal.timeout(remaining);
@@ -101,9 +105,11 @@ export async function complete(options: {
           "X-Title": "v1cferr.dev",
         },
         body: JSON.stringify({
-          models: free.slice(start, start + MODELS_PER_REQUEST),
+          // One model per request, so each gets its own reasoning setting; `models` (not `model`) keeps OpenRouter from routing elsewhere.
+          models: [model],
           messages,
           max_tokens: MAX_TOKENS,
+          ...(MODEL_REASONING[model] !== undefined && { reasoning: MODEL_REASONING[model] }),
           response_format: { type: "json_schema", json_schema: { name: "grounded_answer", strict: true, schema } },
           // Only endpoints that honour the schema; never a paid fallback.
           provider: { require_parameters: true },

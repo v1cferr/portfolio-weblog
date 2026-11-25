@@ -83,7 +83,8 @@
       "ready": "Answer ready.",
       "noSource": "Nothing on the site answers this.",
       "stopped": "Stopped.",
-      "error": "The answer could not be loaded."
+      "error": "The answer could not be loaded.",
+      "reading": "Reading {count, plural, one {# page} other {# pages}} of the site and writing the answer…"
     },
     "extractive": {
       "label": "From the site's pages, no AI",
