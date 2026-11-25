@@ -1,4 +1,5 @@
 import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +10,7 @@ import {
 } from "@workspace/ui/components/breadcrumb";
 import { Separator } from "@workspace/ui/components/separator";
 import { localize, localizeList, type LocalizedList, type Resolved } from "@workspace/content";
-import { ExternalLinkIcon } from "lucide-react";
+import { BookOpenTextIcon, ExternalLinkIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -97,6 +98,7 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
     (projectId) => content.getProject(projectId) ?? []
   );
   const fallback = texts.find((text) => text.isFallback);
+  const story = content.getStory(id, locale);
 
   return (
     <PageTransition as="article" className="max-w-3xl">
@@ -160,6 +162,14 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
         <p className="text-xl text-pretty" lang={summary.locale}>
           {summary.value}
         </p>
+        {story !== undefined && (
+          <Button asChild size="lg" className="w-full sm:w-auto">
+            <Link href={`/career/${id}/story`}>
+              <BookOpenTextIcon aria-hidden />
+              {t("readStory")}
+            </Link>
+          </Button>
+        )}
         <SourceLink file={content.getSourceFile(id)} />
       </header>
 

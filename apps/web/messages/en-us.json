@@ -217,7 +217,10 @@
       "volunteer": "Volunteer"
     },
     "positionResponsibilities": "As {title}",
-    "projectsHere": "Projects built here"
+    "projectsHere": "Projects built here",
+    "readStory": "Read the full story",
+    "story": "Story",
+    "backToJob": "Back to {organization}"
   },
   "Projects": {
     "title": "Projects",

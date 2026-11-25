@@ -217,7 +217,10 @@
       "volunteer": "Voluntário"
     },
     "positionResponsibilities": "Como {title}",
-    "projectsHere": "Projetos feitos aqui"
+    "projectsHere": "Projetos feitos aqui",
+    "readStory": "Ler a história completa",
+    "story": "História",
+    "backToJob": "Voltar para {organization}"
   },
   "Projects": {
     "title": "Projetos",

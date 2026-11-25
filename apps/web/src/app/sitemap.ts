@@ -8,7 +8,7 @@ import { absoluteUrl } from "@/lib/site";
 
 const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow"];
 
-/** Every public page in every locale. Posts list only the locales they are written in. */
+/** Every public page in every locale. Posts and job stories list only the locales they are written in. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const content = getContent();
   const everyLocale = (path: string): MetadataRoute.Sitemap[number] => ({
@@ -45,5 +45,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(now.next !== undefined ? [{ ...everyLocale("/next"), lastModified: now.next.updatedAt }] : []),
   ];
 
-  return [...pages, ...dated, ...posts];
+  // A job story lists only the locales it is written in, like a post.
+  const stories = content.getStoryIds().flatMap((id) => {
+    const story = content.getStory(id, routing.defaultLocale);
+    if (story === undefined) return [];
+    const path = (locale: string) => absoluteUrl(`/${locale}/career/${id}/story`);
+    const languages = Object.fromEntries(story.availableLocales.map((locale) => [languageTag(locale), path(locale)]));
+    return story.availableLocales.map((locale) => ({
+      url: path(locale),
+      lastModified: story.frontmatter.updatedAt,
+      alternates: { languages },
+    }));
+  });
+
+  return [...pages, ...dated, ...posts, ...stories];
 }
