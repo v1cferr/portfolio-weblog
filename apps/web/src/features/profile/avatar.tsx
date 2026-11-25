@@ -23,10 +23,10 @@ const MASKS = {
  * screens and reduced motion see it. Chosen on 2026-11-24 ("P1a · 1-bit
  * Atkinson") from a side-by-side comparison; it replaces the ASCII art.
  *
- * The photo keeps `priority` although it mostly hides: with the Spotlight on,
- * the lens leaves it at opacity 1 under a mask, and Chrome reports it as the
- * page's LCP (masks do not count; measured 2026-11-24). Demoting it would
- * delay the metric. The masks (about 5 KB each, only the theme's one is
+ * The photo keeps `priority` although it mostly hides: it is painted at
+ * opacity 1 from the start, under a lens mask, and Chrome reports it as the
+ * page's LCP (masks do not count; measured 2026-11-24). Demoting it, or
+ * revealing it only after the Spotlight's script runs, would delay the metric. The masks (about 5 KB each, only the theme's one is
  * fetched) are no LCP candidate, and the stylesheet finds them early enough.
  */
 export function Avatar({

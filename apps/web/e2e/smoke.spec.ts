@@ -257,6 +257,10 @@ test.describe("hero avatar", () => {
     // The box keeps the photo's 580 × 780 ratio before any image arrives.
     expect((box?.width ?? 0) / (box?.height ?? 1)).toBeCloseTo(580 / 780, 2);
     const photo = avatar.getByRole("img", { name: "Victor Ferreira" });
+    // Painted from the first frame, hidden by the lens mask rather than by opacity,
+    // so its LCP does not wait for the Spotlight's script.
+    await expect(photo).toHaveCSS("opacity", "1");
+    expect(await photo.evaluate((el) => getComputedStyle(el).maskImage)).toContain("radial-gradient");
     await avatar.focus();
     await expect(photo).toHaveCSS("opacity", "1");
     await expect(photo).toHaveCSS("mask-image", "none");
