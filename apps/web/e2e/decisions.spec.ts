@@ -80,6 +80,18 @@ test.describe("decision log", () => {
     await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Decisions" })).toHaveCount(0);
   });
 
+  test("the colophon's ADR links open the decision log", async ({ page }) => {
+    for (const [locale, name] of [
+      ["en-us", /^0006 · Local text search/],
+      ["pt-br", /^0006 · Busca local/],
+    ] as const) {
+      await page.goto(`/${locale}/colophon`);
+      const link = page.getByRole("main").getByRole("link", { name });
+      await expect(link).toHaveAttribute("href", `/${locale}/decisions/0006`);
+      await expect(link).not.toHaveAttribute("target");
+    }
+  });
+
   test("an unknown record is a 404", async ({ page }) => {
     const response = await page.goto("/en-us/decisions/9999");
     expect(response?.status()).toBe(404);

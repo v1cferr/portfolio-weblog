@@ -15,6 +15,7 @@ import { Link } from "@/i18n/navigation";
 import { ExternalLink } from "@/components/external-link";
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
 import { galleryId } from "@/components/lightbox/photo-param";
+import { onSiteDecisionPath } from "@/lib/decision-links";
 import { isExternalUrl } from "@/lib/site";
 
 function Callout({ title, tone = "note", children }: { title?: string; tone?: "note" | "warning"; children: ReactNode }) {
@@ -57,6 +58,9 @@ function Figure({ src, alt, caption, width, height }: { src: string; alt: string
 function Anchor({ href = "", ...props }: ComponentProps<"a">) {
   // Internal links go through the i18n Link so they keep the reader's locale.
   if (href.startsWith("/")) return <Link href={href} {...props} />;
+  // This site's own ADRs, written as GitHub URLs, open in its decision log.
+  const decision = onSiteDecisionPath(href);
+  if (decision !== undefined) return <Link href={decision} {...props} />;
   if (isExternalUrl(href)) return <ExternalLink href={href} {...props} />;
   return <a href={href} {...props} />;
 }
