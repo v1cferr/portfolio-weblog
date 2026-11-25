@@ -1,16 +1,17 @@
 "use client";
 
-import type * as React from "react";
 import { Button } from "@workspace/ui/components/button";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@workspace/ui/components/item";
-import { ToggleGroup, ToggleGroupItem } from "@workspace/ui/components/toggle-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
-import { SearchXIcon, SparklesIcon, XIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { cn } from "@workspace/ui/lib/utils";
+import { CheckIcon, SearchXIcon, SparklesIcon, XIcon } from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { useLocale, useTranslations } from "next-intl";
+import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui";
+import { useId, useSyncExternalStore } from "react";
 
 import { NAV_FORWARD } from "@/components/page-transition";
-import { usePathname, useRouter } from "@/i18n/navigation";
 
 import { TechnologyIcon } from "@/components/icon";
 import { EmptyState } from "@/components/empty-state";
@@ -29,54 +30,119 @@ interface Option {
   label: string;
 }
 
-/**
- * Filterable catalogue: the featured projects up top (unfiltered view only),
- * then every project on a newest-first timeline grouped by year, like every
- * dated list on the site. Filters live in the URL (?state=&category=&tech=) so
- * a filtered view can be linked; every entry is in the static HTML.
- */
-export function ProjectCatalog({
-  projects,
-  states,
-  categories,
-  technologies,
-}: {
+interface Filters {
+  state: string;
+  category: string;
+  tech: string;
+}
+
+interface CatalogProps {
   projects: ProjectCardData[];
   states: Option[];
   categories: Option[];
   technologies: Option[];
+}
+
+/** The value of "All" in a facet: no parameter in the URL. */
+const ALL = "all";
+
+const matches = (project: ProjectCardData, { state, category, tech }: Filters) =>
+  (state === "" || project.state === state) &&
+  (category === "" || project.category === category) &&
+  (tech === "" || project.technologies.some((item) => item.id === tech));
+
+/** Fired after the catalogue rewrites the query, so the store below re-reads it (replaceState fires no event). */
+const QUERY_CHANGED = "projects:query";
+
+function subscribe(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  window.addEventListener(QUERY_CHANGED, onChange);
+  return () => {
+    window.removeEventListener("popstate", onChange);
+    window.removeEventListener(QUERY_CHANGED, onChange);
+  };
+}
+
+/**
+ * The catalogue with its filters in the URL (?state=&category=&tech=), so a
+ * filtered view can be linked. Filtering is instant, on the client.
+ *
+ * The query is read straight from the location, not with useSearchParams:
+ * that hook makes a static page render only a Suspense fallback, which the
+ * real catalogue then replaces, losing a click or the focus made meanwhile.
+ * Here the server and the first client render are the unfiltered catalogue
+ * (every entry in the static HTML), hydrated in place, and the filters apply
+ * right after. Writes use history.replaceState, which Next keeps in sync.
+ */
+export function ProjectCatalog(props: CatalogProps) {
+  const search = useSyncExternalStore(
+    subscribe,
+    () => window.location.search,
+    () => ""
+  );
+  const params = new URLSearchParams(search);
+  const filters: Filters = { state: params.get("state") ?? "", category: params.get("category") ?? "", tech: params.get("tech") ?? "" };
+  const write = (next: URLSearchParams) => {
+    const query = next.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${query === "" ? "" : `?${query}`}`);
+    window.dispatchEvent(new Event(QUERY_CHANGED));
+  };
+  return (
+    <ProjectCatalogView
+      {...props}
+      filters={filters}
+      onChange={(key, value) => {
+        const next = new URLSearchParams(search);
+        if (value === "") next.delete(key);
+        else next.set(key, value);
+        write(next);
+      }}
+      onClear={() => {
+        write(new URLSearchParams());
+      }}
+    />
+  );
+}
+
+/**
+ * Filterable catalogue: the featured projects up top (unfiltered view only),
+ * then every project on a newest-first timeline grouped by year, like every
+ * dated list on the site. Pure: it renders from `filters`.
+ *
+ * Status is a segmented control and Type a row of chips (chosen 2026-11-25,
+ * option A): one choice per facet, a count on every option against the other
+ * facet, options with no match dimmed. Year groups are built after filtering,
+ * so a year with no match disappears with its heading.
+ */
+export function ProjectCatalogView({
+  projects,
+  states,
+  categories,
+  technologies,
+  filters,
+  onChange,
+  onClear,
+}: CatalogProps & {
+  filters: Filters;
+  onChange?: (key: keyof Filters, value: string) => void;
+  onClear?: () => void;
 }) {
   const t = useTranslations("Projects");
   const locale = useLocale();
-  const params = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const state = params.get("state") ?? "";
-  const category = params.get("category") ?? "";
-  const tech = params.get("tech") ?? "";
+  const { state, category, tech } = filters;
   const techName = technologies.find((option) => option.value === tech)?.label;
-
-  function update(key: string, value: string) {
-    const next = new URLSearchParams(params.toString());
-    if (value === "") next.delete(key);
-    else next.set(key, value);
-    const query = next.toString();
-    router.replace(query === "" ? pathname : `${pathname}?${query}`, { scroll: false });
-  }
 
   const filtered = state !== "" || category !== "" || tech !== "";
   const featured = projects.filter((project) => project.featured);
-  const visible = projects.filter(
-    (project) =>
-      (state === "" || project.state === state) &&
-      (category === "" || project.category === category) &&
-      (tech === "" || project.technologies.some((item) => item.id === tech))
-  );
+  const visible = projects.filter((project) => matches(project, filters));
   const years = new Map<string, ProjectCardData[]>();
   for (const project of newestFirst(visible, (item) => ({ start: item.date, end: item.date }))) {
     const year = project.date?.slice(0, 4) ?? "";
     years.set(year, [...(years.get(year) ?? []), project]);
   }
+  // How many an option would show, given the other facets.
+  const countFor = (key: keyof Filters, value: string) =>
+    projects.filter((project) => matches(project, { ...filters, [key]: value === ALL ? "" : value })).length;
 
   return (
     <div className="space-y-8">
@@ -96,56 +162,40 @@ export function ProjectCatalog({
         </section>
       )}
 
-      <div className="glass flex flex-col gap-3 rounded-xl border p-3 sm:p-4">
-        <FilterRow label={t("labelState")}>
-          <ToggleGroup
-            type="single"
-            variant="outline"
-            size="sm"
-            value={state}
-            onValueChange={(value) => {
-              update("state", value);
-            }}
-            aria-label={t("filterState")}
-            className="flex-wrap"
-          >
-            {states.map((option) => (
-              <ToggleGroupItem key={option.value} value={option.value}>
-                {option.label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </FilterRow>
-        <FilterRow label={t("labelCategory")}>
-          <ToggleGroup
-            type="single"
-            variant="outline"
-            size="sm"
-            value={category}
-            onValueChange={(value) => {
-              update("category", value);
-            }}
-            aria-label={t("filterCategory")}
-            className="flex-wrap"
-          >
-            {categories.map((option) => (
-              <ToggleGroupItem key={option.value} value={option.value}>
-                {option.label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </FilterRow>
-        <div className="flex min-h-8 flex-wrap items-center gap-3 text-sm text-muted-foreground">
-          <p aria-live="polite">{t("count", { count: visible.length })}</p>
-          {techName !== undefined && <p className="font-medium text-foreground">{t("technology", { name: techName })}</p>}
-          {(state !== "" || category !== "" || tech !== "") && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                router.replace(pathname, { scroll: false });
-              }}
+      <div className="flex flex-col gap-4" data-testid="project-filters">
+        <Segmented
+          label={t("filterState")}
+          value={state === "" ? ALL : state}
+          options={[{ value: ALL, label: t("all") }, ...states].map((option) => ({ ...option, count: countFor("state", option.value) }))}
+          onChange={(value) => onChange?.("state", value === ALL ? "" : value)}
+        />
+        <Chips
+          label={t("filterCategory")}
+          legend={t("labelCategory")}
+          value={category === "" ? ALL : category}
+          options={[{ value: ALL, label: t("all") }, ...categories].map((option) => ({
+            ...option,
+            count: countFor("category", option.value),
+          }))}
+          onChange={(value) => onChange?.("category", value === ALL ? "" : value)}
+        />
+        <div className="flex min-h-9 flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+          <p role="status" className="font-medium text-foreground tabular-nums" data-testid="project-count">
+            {t("count", { count: visible.length })}
+          </p>
+          {techName !== undefined && (
+            <button
+              type="button"
+              onClick={() => onChange?.("tech", "")}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-primary/10 px-3 text-foreground ring-1 ring-primary/25 hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
+              {t("technology", { name: techName })}
+              <XIcon aria-hidden className="size-3.5" />
+              <span className="sr-only">{t("clear")}</span>
+            </button>
+          )}
+          {filtered && (
+            <Button variant="ghost" size="sm" onClick={onClear}>
               <XIcon /> {t("clear")}
             </Button>
           )}
@@ -154,13 +204,7 @@ export function ProjectCatalog({
 
       {visible.length === 0 ? (
         <EmptyState icon={SearchXIcon} title={t("empty")}>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              router.replace(pathname, { scroll: false });
-            }}
-          >
+          <Button variant="outline" size="sm" onClick={onClear}>
             <XIcon /> {t("clear")}
           </Button>
         </EmptyState>
@@ -169,41 +213,172 @@ export function ProjectCatalog({
           <h2 id="all-projects" className="sr-only">
             {t("allProjects")}
           </h2>
-          {[...years].map(([year, items]) => (
-            <section key={year || "undated"} aria-label={year || t("undated")} className="pb-2">
-              <YearHeading as="h3" year={year || t("undated")} count={items.length} label={year || t("undated")} />
-              <RailTimeline
-                lane="project"
-                nodeClassName="top-5"
-                gapClassName="space-y-3"
-                entries={items.map((project) => ({
-                  key: project.id,
-                  node: project.date === undefined || project.dateFromRepository ? "undated" : "past",
-                  children: (
-                    <ProjectRow
-                      project={project}
-                      date={project.date && formatDayMonth(project.date, locale)}
-                      // A featured project already morphs from its card above.
-                      morph={filtered || !project.featured}
-                    />
-                  ),
-                }))}
-              />
-            </section>
-          ))}
+          {/* Groups come and go with the filters: no reveal-on-scroll here, an entry that
+              arrives after its list was revealed would stay invisible. */}
+          <AnimatePresence initial={false} mode="popLayout">
+            {[...years].map(([year, items]) => (
+              <m.section
+                key={year || "undated"}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                aria-label={year || t("undated")}
+                className="pb-2"
+              >
+                <YearHeading as="h3" year={year || t("undated")} count={items.length} label={year || t("undated")} />
+                <RailTimeline
+                  lane="project"
+                  dynamic
+                  nodeClassName="top-5"
+                  gapClassName="space-y-3"
+                  entries={items.map((project) => ({
+                    key: project.id,
+                    node: project.date === undefined || project.dateFromRepository ? "undated" : "past",
+                    children: (
+                      <ProjectRow
+                        project={project}
+                        date={project.date && formatDayMonth(project.date, locale)}
+                        // A featured project already morphs from its card above.
+                        morph={filtered || !project.featured}
+                      />
+                    ),
+                  }))}
+                />
+              </m.section>
+            ))}
+          </AnimatePresence>
         </section>
       )}
     </div>
   );
 }
 
-function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
+interface CountedOption extends Option {
+  count: number;
+}
+
+/** Ignores a choice with nothing behind it, and Radix's empty value (a click on the selected item): one is always chosen. */
+function choose(options: CountedOption[], current: string, next: string, onChange: (value: string) => void) {
+  if (next === "" || next === current) return;
+  if (options.find((option) => option.value === next)?.count === 0) return;
+  onChange(next);
+}
+
+/**
+ * Status: a segmented control. One radio group (Radix: roving focus, arrow
+ * keys), the selection a filled pill that slides to the chosen segment.
+ */
+function Segmented({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: CountedOption[];
+  onChange: (value: string) => void;
+}) {
+  const pill = useId();
   return (
-    <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-3">
-      <span aria-hidden className="w-16 shrink-0 font-mono text-xs text-muted-foreground uppercase">
-        {label}
+    // Scrolls inside itself on narrow phones instead of widening the page.
+    <div className="-mx-1 max-w-full overflow-x-auto px-1 py-0.5">
+      <ToggleGroupPrimitive.Root
+        type="single"
+        value={value}
+        onValueChange={(next) => {
+          choose(options, value, next, onChange);
+        }}
+        aria-label={label}
+        // Full width on phones, the segments sharing it equally; content width from sm up.
+        className="flex w-full items-center gap-1 rounded-full border bg-muted/60 p-1 sm:inline-flex sm:w-auto"
+      >
+        {options.map((option) => {
+          const active = option.value === value;
+          const empty = option.count === 0 && !active;
+          return (
+            <ToggleGroupPrimitive.Item
+              key={option.value}
+              value={option.value}
+              aria-disabled={empty || undefined}
+              className={cn(
+                "relative inline-flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-[0.8rem] whitespace-nowrap transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-none sm:px-3.5 sm:text-sm",
+                active ? "font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
+                empty && "cursor-not-allowed opacity-40 hover:text-muted-foreground"
+              )}
+            >
+              {active && (
+                <m.span
+                  layoutId={pill}
+                  aria-hidden
+                  className="absolute inset-0 rounded-full bg-background shadow-sm ring-1 ring-border"
+                  transition={{ type: "spring", duration: 0.3, bounce: 0 }}
+                />
+              )}
+              <span className="relative">{option.label}</span>
+              {/* Phones keep the four labels on one line; the counts come back from sm up. */}
+              <span className="relative hidden font-mono text-xs text-muted-foreground tabular-nums sm:inline">{option.count}</span>
+            </ToggleGroupPrimitive.Item>
+          );
+        })}
+      </ToggleGroupPrimitive.Root>
+    </div>
+  );
+}
+
+/** Type: a quieter row of chips, the chosen one tinted and checked. */
+function Chips({
+  label,
+  legend,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  legend: string;
+  value: string;
+  options: CountedOption[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+      <span aria-hidden className="font-mono text-xs tracking-wide text-muted-foreground uppercase">
+        {legend}
       </span>
-      {children}
+      <ToggleGroupPrimitive.Root
+        type="single"
+        value={value}
+        onValueChange={(next) => {
+          choose(options, value, next, onChange);
+        }}
+        aria-label={label}
+        className="flex flex-wrap items-center gap-1.5"
+      >
+        {options.map((option) => {
+          const active = option.value === value;
+          const empty = option.count === 0 && !active;
+          return (
+            <ToggleGroupPrimitive.Item
+              key={option.value}
+              value={option.value}
+              aria-disabled={empty || undefined}
+              className={cn(
+                "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                active
+                  ? "bg-primary/10 font-medium text-foreground ring-1 ring-primary/30"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                empty && "cursor-not-allowed opacity-40 hover:bg-transparent hover:text-muted-foreground"
+              )}
+            >
+              {active && <CheckIcon aria-hidden className="size-3.5" />}
+              {option.label}
+              <span className="font-mono text-xs text-muted-foreground tabular-nums">{option.count}</span>
+            </ToggleGroupPrimitive.Item>
+          );
+        })}
+      </ToggleGroupPrimitive.Root>
     </div>
   );
 }

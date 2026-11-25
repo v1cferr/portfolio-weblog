@@ -1,4 +1,6 @@
 import { cn } from "@workspace/ui/lib/utils";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import type { ReactNode } from "react";
 
 import type { Lane } from "@/components/lane";
@@ -53,6 +55,7 @@ export function RailTimeline({
   label,
   nodeClassName = "top-7",
   gapClassName = "space-y-6",
+  dynamic = false,
 }: {
   lane: Lane;
   entries: RailEntry[];
@@ -60,6 +63,13 @@ export function RailTimeline({
   /** Vertical position of the nodes, to line up with the first line of each entry. */
   nodeClassName?: string;
   gapClassName?: string;
+  /**
+   * Entries that come and go (a filtered list): they fade in and out and the
+   * rest slide into place, with no reveal-on-scroll. A reveal list only shows
+   * the children it had when it entered the viewport; one added later stays
+   * hidden.
+   */
+  dynamic?: boolean;
 }) {
   const colors = rail[lane];
   return (
@@ -68,23 +78,54 @@ export function RailTimeline({
       <span aria-hidden className={cn("absolute inset-y-0 left-0 w-0.5", colors.track)}>
         <span className={cn("draw-on-scroll absolute inset-0 block", colors.drawn)} />
       </span>
-      <RevealList aria-label={label} className={cn("pl-6 md:pl-8", gapClassName)}>
-        {entries.map((entry) => (
-          <RevealItem key={entry.key} id={entry.id} className="relative scroll-mt-24">
-            <span
-              aria-hidden
-              className={cn(
-                "absolute -left-[calc(1.5rem+5px)] size-3 rounded-full md:-left-[calc(2rem+5px)]",
-                nodeClassName,
-                entry.node === "current" && "bg-brand ring-4 ring-brand/20",
-                entry.node === "past" && cn("ring-4", colors.past),
-                entry.node === "undated" && cn("border-2 bg-background", colors.undated)
-              )}
-            />
-            <div className="relative">{entry.children}</div>
-          </RevealItem>
-        ))}
-      </RevealList>
+      {dynamic ? (
+        <ol aria-label={label} className={cn("pl-6 md:pl-8", gapClassName)}>
+          <AnimatePresence initial={false} mode="popLayout">
+            {entries.map((entry) => (
+              <m.li
+                key={entry.key}
+                id={entry.id}
+                layout
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="relative scroll-mt-24"
+              >
+                <span
+                  aria-hidden
+                  className={cn(
+                    "absolute -left-[calc(1.5rem+5px)] size-3 rounded-full md:-left-[calc(2rem+5px)]",
+                    nodeClassName,
+                    entry.node === "current" && "bg-brand ring-4 ring-brand/20",
+                    entry.node === "past" && cn("ring-4", colors.past),
+                    entry.node === "undated" && cn("border-2 bg-background", colors.undated)
+                  )}
+                />
+                <div className="relative">{entry.children}</div>
+              </m.li>
+            ))}
+          </AnimatePresence>
+        </ol>
+      ) : (
+        <RevealList aria-label={label} className={cn("pl-6 md:pl-8", gapClassName)}>
+          {entries.map((entry) => (
+            <RevealItem key={entry.key} id={entry.id} className="relative scroll-mt-24">
+              <span
+                aria-hidden
+                className={cn(
+                  "absolute -left-[calc(1.5rem+5px)] size-3 rounded-full md:-left-[calc(2rem+5px)]",
+                  nodeClassName,
+                  entry.node === "current" && "bg-brand ring-4 ring-brand/20",
+                  entry.node === "past" && cn("ring-4", colors.past),
+                  entry.node === "undated" && cn("border-2 bg-background", colors.undated)
+                )}
+              />
+              <div className="relative">{entry.children}</div>
+            </RevealItem>
+          ))}
+        </RevealList>
+      )}
     </div>
   );
 }
