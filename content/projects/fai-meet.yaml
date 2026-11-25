@@ -1,0 +1,35 @@
+# Source: the owner, 2026-11-25: FAI Meet, built at FAI·UFSCar, records meetings and
+# returns the transcript, a summary and the minutes. The flow below is read from
+# the screenshot they shared (v0.8.0). Stack and dates: OWNER to confirm.
+id: fai-meet
+title: FAI Meet
+state: active
+category: professional
+featured: false
+summary:
+  en-us: >-
+    FAI·UFSCar's meeting app: it records a meeting, or takes a recording, and returns the
+    transcript, a summary and the minutes.
+  pt-br: >-
+    O app de reuniões da FAI·UFSCar: grava a reunião, ou recebe uma gravação, e devolve a
+    transcrição, um resumo e a ata.
+description:
+  en-us: >-
+    You name the meeting, choose what to receive (audio and transcript, a summary, the minutes),
+    and can add the agenda and a minutes template, which shape the summary and the minutes.
+  pt-br: >-
+    Você dá nome à reunião, escolhe o que quer receber (áudio e transcrição, resumo, ata) e pode
+    acrescentar a pauta e um modelo de ata, que orientam o resumo e a ata.
+skills: [ai-systems]
+experiences: [fai-ufscar-2026]
+# Shared by the author on 2026-11-25; stripped of metadata.
+media:
+  - src: /projects/fai-meet/app.png
+    width: 701
+    height: 932
+    alt:
+      en-us: 'FAI Meet window: tabs to record, upload a file or see past meetings, and steps for the meeting name, subject, what to receive, agenda and minutes template, above a large "Gravar" button'
+      pt-br: 'Janela do FAI Meet: abas para gravar, enviar arquivo ou ver as reuniões, e etapas de nome da reunião, assunto, o que receber, pauta e modelo da ata, acima de um botão grande "Gravar"'
+    caption:
+      en-us: Setting up a recording (v0.8.0).
+      pt-br: Preparando uma gravação (v0.8.0).

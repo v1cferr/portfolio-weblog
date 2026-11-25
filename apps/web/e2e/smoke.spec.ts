@@ -452,7 +452,7 @@ test.describe("interactions", () => {
     await page.getByRole("button", { name: "Search" }).click();
     const input = page.getByPlaceholder(/Search experiences/);
     await input.fill("fastapi");
-    const result = page.getByRole("option", { name: /Xmart Solutions/ });
+    const result = page.getByRole("option", { name: /· Xmart/ });
     await expect(result).toBeVisible();
     await result.click();
     await expect(page).toHaveURL(/\/en-us\/career\/xmart-solutions-2024$/);

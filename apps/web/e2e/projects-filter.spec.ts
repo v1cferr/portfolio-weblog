@@ -33,6 +33,7 @@ test.describe("projects tabs", () => {
       [/^All/, "all"],
       [/^Active/, "active"],
       [/^Experimental/, "experimental"],
+      [/^Professional/, "professional"],
       [/^Studies/, "study"],
       [/^Challenges/, "challenge"],
       [/^Featured/, null],
