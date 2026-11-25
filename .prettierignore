@@ -19,3 +19,7 @@ apps/web/src/generated/
 
 # Claude Code worktrees: separate checkouts of other branches
 .claude/
+
+# Prettier parses MDX as MDX 1 and mangles {/* comments */}, which hold the
+# owner's review notes in job stories
+content/experiences/*/story.*.mdx
