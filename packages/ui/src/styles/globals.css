@@ -38,16 +38,15 @@
  * backdrop-filter, or with reduced transparency, surfaces fall back to an
  * opaque card with a border.
  *
- * Type: Martian Mono for display (name, page and section titles, used with
- * restraint and set semi-condensed), Geist for everything that is read,
- * Geist Mono for dates, ids, paths and code. The app loads them with
- * next/font as --font-martian, --font-sans and --font-mono.
+ * Type: Geist for titles (set tight) and everything that is read, Geist Mono
+ * for dates, ids, paths and code. The app loads them with next/font as
+ * --font-sans and --font-mono; --font-display points at Geist.
  */
 
 @theme inline {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-display: var(--font-martian);
+  --font-display: var(--font-sans);
   --font-heading: var(--font-sans);
 
   --color-background: var(--background);
@@ -198,12 +197,10 @@
     @apply bg-background text-foreground font-sans;
   }
   /*
-   * Martian Mono is wide; semi-condensed (its wdth axis) and slightly tight
-   * reads as a title, not as code. next/font does not declare a stretch
-   * range, so the axis is set directly.
+   * Titles are Geist too, set tight the way Vercel sets its headings; the
+   * class stays so titles keep one hook if the display face changes again.
    */
   .font-display {
-    font-variation-settings: "wdth" 85;
     letter-spacing: -0.03em;
   }
   :focus-visible {
@@ -536,7 +533,6 @@
   }
   .prose-hub :where(h2) {
     @apply font-display;
-    font-variation-settings: "wdth" 85;
     letter-spacing: -0.03em;
   }
   .prose-hub :where(h3, h4) {
