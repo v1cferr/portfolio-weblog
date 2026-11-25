@@ -39,8 +39,8 @@
  * opaque card with a border.
  *
  * Type: Martian Mono for display (name, page and section titles, used with
- * restraint and set semi-condensed), Hanken Grotesk for everything that is
- * read, JetBrains Mono for dates, ids, paths and code. The app loads them with
+ * restraint and set semi-condensed), Geist for everything that is read,
+ * Geist Mono for dates, ids, paths and code. The app loads them with
  * next/font as --font-martian, --font-sans and --font-mono.
  */
 
