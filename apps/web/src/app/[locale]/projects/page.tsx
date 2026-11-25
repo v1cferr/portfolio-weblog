@@ -1,10 +1,8 @@
 import { FolderGit2Icon } from "lucide-react";
 import { ProjectCategory, ProjectState } from "@workspace/content";
 import type { GitHubRepo } from "@workspace/github";
-import { Skeleton } from "@workspace/ui/components/skeleton";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 
 import { PageTransition } from "@/components/page-transition";
 import { PageHeader, SectionHeading } from "@/components/page-header";
@@ -33,16 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: pageAlternates(locale, "/projects"),
     openGraph: { type: "website", ...pageOpenGraph(locale, "/projects") },
   };
-}
-
-function CatalogSkeleton() {
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 6 }, (_, index) => (
-        <Skeleton key={index} className="h-48 rounded-xl" />
-      ))}
-    </div>
-  );
 }
 
 function UncuratedRow({ repo }: { repo: GitHubRepo }) {
@@ -86,10 +74,7 @@ export default async function ProjectsPage() {
   return (
     <PageTransition>
       <PageHeader source={{ path: "projects" }} icon={FolderGit2Icon} title={t("title")} description={t("description")} />
-      {/* useSearchParams needs a boundary to keep the page static. */}
-      <Suspense fallback={<CatalogSkeleton />}>
-        <ProjectCatalog projects={cards} states={states} categories={categories} technologies={technologies} />
-      </Suspense>
+      <ProjectCatalog projects={cards} states={states} categories={categories} technologies={technologies} />
 
       {uncurated.length > 0 && (
         <section aria-labelledby="uncurated" className="mt-20">
