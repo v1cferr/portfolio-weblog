@@ -53,8 +53,8 @@ export async function StartHere({ email, cv }: { email?: string | undefined; cv?
           <TrackedLink href="/decisions" event="start_here_work" transitionTypes={NAV_SECTION} className={pathLink}>
             {t("work.decisions")}
           </TrackedLink>
-          <TrackedLink href="/colophon" event="start_here_work" transitionTypes={NAV_SECTION} className={pathLink}>
-            {t("work.colophon")}
+          <TrackedLink href="/weblog/how-this-site-is-built" event="start_here_work" transitionTypes={NAV_SECTION} className={pathLink}>
+            {t("work.howBuilt")}
           </TrackedLink>
         </Card>
         <Card icon={MessageCircleIcon} title={t("ai.title")} body={t("ai.body")} label="ai" stack>

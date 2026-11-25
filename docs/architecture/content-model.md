@@ -15,7 +15,7 @@ or misspelled field fails validation instead of being silently dropped.
 | Education     | `content/education/<id>.yaml`                    | course, program, degree...                                 |
 | Certification | `content/education/certifications/<id>.yaml`     | issuer, issue date, credential URL                         |
 | WeblogPost    | `content/weblog/<YYYY>/<MM>/<slug>/<locale>.mdx` | one file per translation; folder = month of `publishedAt`  |
-| Page          | `content/pages/<slug>/<locale>.mdx`              | standalone prose (the colophon); outside the graph         |
+| Page          | `content/pages/<slug>/<locale>.mdx`              | standalone prose; outside the graph                        |
 
 ## Common fields
 

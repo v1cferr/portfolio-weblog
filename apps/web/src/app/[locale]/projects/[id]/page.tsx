@@ -35,7 +35,7 @@ import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
 
-/** This site's own project: its case study links the colophon. */
+/** This site's own project: its case study links the "how this site is built" post. */
 const SITE_PROJECT = "portfolio-weblog";
 
 // Same period as GITHUB_REVALIDATE_SECONDS; Next requires a literal here.
@@ -208,10 +208,10 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
                 howBuiltMore={
                   project.id === SITE_PROJECT ? (
                     <Link
-                      href="/colophon"
+                      href="/weblog/how-this-site-is-built"
                       className="group/link inline-flex min-h-11 items-center gap-1.5 font-medium underline-offset-4 hover:underline"
                     >
-                      {caseStudyT("colophon")} <ArrowRightIcon aria-hidden className="icon-fwd size-4" />
+                      {caseStudyT("howBuiltPost")} <ArrowRightIcon aria-hidden className="icon-fwd size-4" />
                     </Link>
                   ) : undefined
                 }

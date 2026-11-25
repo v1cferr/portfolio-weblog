@@ -187,7 +187,7 @@
         "body": "Projects with their case studies, and how this site was built.",
         "projects": "Projects",
         "decisions": "Decisions",
-        "colophon": "Colophon"
+        "howBuilt": "How this site is built"
       },
       "ai": {
         "title": "Chat with the AI",
@@ -202,7 +202,7 @@
       "since": "working since {year}",
       "projects": "{count, plural, one {# project} other {# projects}}",
       "decisions": "{count, plural, one {# recorded decision} other {# recorded decisions}}",
-      "colophon": "How this site was made"
+      "howBuilt": "How this site was made"
     }
   },
   "About": {
@@ -238,7 +238,7 @@
       "certificates": "certificates",
       "since": "Working since {year}, from industry to AI."
     },
-    "colophon": "How this site is built"
+    "howBuilt": "How this site is built"
   },
   "Career": {
     "title": "Career",
@@ -407,11 +407,6 @@
     "photos": "The desk over the years",
     "present": "present"
   },
-  "Colophon": {
-    "title": "How this site is built",
-    "description": "The colophon: why this site exists, what it runs on, how the content works, how it is checked and what it costs.",
-    "updated": "Last updated"
-  },
   "Wow": {
     "title": "World of Warcraft",
     "description": "The characters I play, the add-ons I run, and a mount I'm still after.",
@@ -470,7 +465,7 @@
     "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)",
     "now": "Now",
     "next": "Next",
-    "colophon": "How this site is built"
+    "howBuilt": "How this site is built"
   },
   "Media": {
     "label": "Photos",
@@ -557,6 +552,6 @@
     "quality": "Every change passes",
     "lessons": "What I would change",
     "next": "Next",
-    "colophon": "The whole story of how this site is built"
+    "howBuiltPost": "The whole story of how this site is built"
   }
 }

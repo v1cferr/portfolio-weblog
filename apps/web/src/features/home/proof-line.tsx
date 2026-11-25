@@ -64,11 +64,11 @@ export async function ProofLine() {
         </li>
         <li>
           <Link
-            href="/colophon"
+            href="/weblog/how-this-site-is-built"
             transitionTypes={NAV_SECTION}
             className="group/link inline-flex min-h-11 items-center gap-1 text-foreground underline-offset-4 hover:underline sm:min-h-0"
           >
-            {t("colophon")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
+            {t("howBuilt")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
           </Link>
         </li>
       </ul>

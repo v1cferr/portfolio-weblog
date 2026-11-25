@@ -74,7 +74,10 @@ test.describe("start here", () => {
     const work = section.locator('[data-card="work"]');
     await expect(work.getByRole("link", { name: "Projects" })).toHaveAttribute("href", "/en-us/projects");
     await expect(work.getByRole("link", { name: "Decisions" })).toHaveAttribute("href", "/en-us/decisions");
-    await expect(work.getByRole("link", { name: "Colophon" })).toHaveAttribute("href", "/en-us/colophon");
+    await expect(work.getByRole("link", { name: "How this site is built" })).toHaveAttribute(
+      "href",
+      "/en-us/weblog/how-this-site-is-built"
+    );
 
     const ai = section.locator('[data-card="ai"]');
     await listenForAsk(page);
@@ -118,7 +121,10 @@ test.describe("proof line", () => {
     expect(projects).toBeGreaterThan(0);
 
     await page.goto("/en-us");
-    await expect(facts.getByRole("link", { name: "How this site was made" })).toHaveAttribute("href", "/en-us/colophon");
+    await expect(facts.getByRole("link", { name: "How this site was made" })).toHaveAttribute(
+      "href",
+      "/en-us/weblog/how-this-site-is-built"
+    );
   });
 });
 

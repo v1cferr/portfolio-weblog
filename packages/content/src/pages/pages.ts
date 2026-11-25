@@ -7,7 +7,7 @@ import { ContentValidationError } from "../loaders/errors";
 import { DEFAULT_LOCALE, LOCALES, type Locale, PageFrontmatter } from "../schemas";
 
 /*
- * Standalone prose pages (the colophon): content/pages/<slug>/<locale>.mdx.
+ * Standalone prose pages: content/pages/<slug>/<locale>.mdx.
  * Like the now log they have no ids or relations, so they load on their own
  * instead of going through the registry; content:check validates them all the
  * same.
@@ -19,7 +19,7 @@ export interface PageSource {
   frontmatter: PageFrontmatter;
   /** Raw MDX body; compiled by the web app, never executed here. */
   body: string;
-  /** Relative to the content root ("pages/colophon/en-us.mdx"). */
+  /** Relative to the content root ("pages/<slug>/en-us.mdx"). */
   file: string;
 }
 

@@ -149,7 +149,7 @@ function Bullets({ items }: { items: { value: string[]; locale: string } }) {
 
 /**
  * The second layer: motivation, constraints, decisions, how it was built, lessons, next.
- * `howBuiltMore` closes the "how it was built" section (this site's own case study links its colophon there).
+ * `howBuiltMore` closes the "how it was built" section (this site's own case study links its "how this site is built" post there).
  */
 export async function CaseStudyDeepDive({
   caseStudy,
