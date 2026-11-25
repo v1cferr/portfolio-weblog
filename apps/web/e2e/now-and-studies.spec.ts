@@ -12,13 +12,13 @@ async function jsonLd(page: Page) {
 }
 
 test.describe("home: now and studies", () => {
-  test("shows the Now card after the hero, with a few bullets and the date of the update", async ({ page }) => {
+  test("shows the Now card after the featured projects, with a few bullets and the date of the update", async ({ page }) => {
     await page.goto("/en-us");
-    const sections = page.locator("main section");
-    // The hero stays first; the Now card follows it, then the study in progress and the certificates.
-    await expect(sections.nth(1)).toHaveAttribute("aria-labelledby", "now");
-    await expect(sections.nth(2)).toHaveAttribute("aria-labelledby", "studying");
-    await expect(sections.nth(3)).toHaveAttribute("aria-labelledby", "credentials");
+    const order = await page.locator("main section").evaluateAll((sections) => sections.map((s) => s.getAttribute("aria-labelledby")));
+    // After the featured projects: the Now card, then the study in progress and the certificates.
+    const now = order.indexOf("now");
+    expect(now).toBeGreaterThan(order.indexOf("featured"));
+    expect(order.slice(now, now + 3)).toEqual(["now", "studying", "credentials"]);
 
     const card = page.locator('section[aria-labelledby="now"]');
     await expect(card.getByRole("heading", { level: 2, name: "Now" })).toBeVisible();
