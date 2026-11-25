@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
 import { FAITHFULNESS_THRESHOLD, faithfulness, groundAnswer, parseModelAnswer, personVariants, plainText } from "../src/lib/ask/grounding";
 import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, MODEL_REASONING, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
-import { buildMessages, passagesBlock } from "../src/lib/ask/prompt";
+import { buildMessages, passagesBlock, systemPrompt } from "../src/lib/ask/prompt";
 import type { AskEvent } from "../src/lib/ask/protocol";
 import { parseAskRequest } from "../src/lib/ask/schema";
 import { CitationMap, excerpt, extractiveSources } from "../src/lib/ask/sources";
@@ -231,6 +231,15 @@ describe("prompt", () => {
     );
     expect(messages.map((message) => message.role)).toEqual(["system", "user", "assistant", "user"]);
     expect(messages.at(-1)?.content).toMatch(/Question: Next\?$/);
+  });
+
+  it("asks for the owner's first person without loosening the grounding rules", () => {
+    const prompt = systemPrompt("pt-br");
+    expect(prompt).toContain("in the first person");
+    expect(prompt).not.toContain("third person");
+    expect(prompt).toContain("Every fact must come from the numbered passages");
+    expect(prompt).toContain("set `answerable` to false");
+    expect(prompt).toContain("Brazilian Portuguese");
   });
 });
 
