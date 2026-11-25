@@ -10,34 +10,55 @@ import { useEffect, useState } from "react";
 import { MotionButton } from "@/components/motion/motion-button";
 import { SearchLensIcon } from "@/components/motion/state-icons";
 
-import type { PanelMode } from "./search-panel";
+import { type AskOpenDetail, openAsk } from "@/features/ask/open-ask";
+import type { AskOpenSource } from "@/features/ask/ask-provider";
 
-// The dialog, cmdk, the search engine and the Ask panel are only downloaded
-// once someone opens them; every page ships just these buttons and the shortcut.
+import { SEARCH_OPEN_EVENT, type SearchOpenDetail } from "./open-search";
+
+// The dialog, cmdk and the search engine are only downloaded once someone
+// opens them; every page ships just these buttons and the shortcut.
 const SearchPanel = dynamic(() => import("./search-panel"), { ssr: false });
 
-/** Search and Ask triggers: two buttons plus the `/` and Ctrl/Cmd+K shortcuts, all opening one dialog. */
+/**
+ * The header's Search and Ask buttons. Search, `/` and Ctrl/Cmd+K open the
+ * search dialog; Ask opens the docked chat (features/ask/ask-dock.tsx).
+ */
 export function SearchDialog() {
   const t = useTranslations("Search");
   const ask = useTranslations("Ask");
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [mode, setMode] = useState<PanelMode>("search");
+  const [query, setQuery] = useState("");
   const [opener, setOpener] = useState<HTMLElement | null>(null);
 
-  function openIn(next: PanelMode, from: HTMLElement) {
+  function openSearch(from: HTMLElement | null, text = "") {
     setOpener(from);
-    setMode(next);
+    setQuery(text);
     setLoaded(true);
     setOpen(true);
   }
+
+  // openSearch() from anywhere, e.g. the Ask dock's "Search the site" with the question typed in.
+  useEffect(() => {
+    function onOpen(event: Event) {
+      const detail = (event as CustomEvent<SearchOpenDetail | null>).detail ?? {};
+      setOpener(document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      setQuery(detail.query ?? "");
+      setLoaded(true);
+      setOpen(true);
+    }
+    window.addEventListener(SEARCH_OPEN_EVENT, onOpen);
+    return () => {
+      window.removeEventListener(SEARCH_OPEN_EVENT, onOpen);
+    };
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if ((event.key === "k" && (event.metaKey || event.ctrlKey)) || (event.key === "/" && !isTyping(event.target))) {
         event.preventDefault();
         setLoaded(true);
-        setMode("search");
+        setQuery("");
         setOpener(document.activeElement instanceof HTMLElement ? document.activeElement : null);
         setOpen((value) => !value);
       }
@@ -56,7 +77,7 @@ export function SearchDialog() {
           variant="outline"
           size="sm"
           onClick={(event) => {
-            openIn("search", event.currentTarget);
+            openSearch(event.currentTarget);
           }}
           className="h-10 gap-2 px-3 text-muted-foreground max-sm:w-[34px] max-sm:rounded-r-none max-sm:px-0 lg:h-7 lg:px-2.5"
           aria-label={t("open")}
@@ -69,18 +90,18 @@ export function SearchDialog() {
         <Button
           variant="outline"
           size="sm"
-          onClick={(event) => {
-            openIn("ask", event.currentTarget);
+          onClick={() => {
+            const detail: AskOpenDetail & { from: AskOpenSource } = { from: "header" };
+            openAsk(detail);
           }}
           className="h-10 gap-2 px-3 text-muted-foreground max-sm:-ml-px max-sm:w-[34px] max-sm:rounded-l-none max-sm:px-0 lg:h-7 lg:px-2.5"
           aria-label={ask("openLabel")}
-          aria-haspopup="dialog"
         >
           <SparklesIcon />
           <span className="hidden sm:inline">{ask("open")}</span>
         </Button>
       </div>
-      {loaded && <SearchPanel open={open} onOpenChange={setOpen} mode={mode} onModeChange={setMode} returnFocus={opener} />}
+      {loaded && <SearchPanel open={open} onOpenChange={setOpen} initialQuery={query} returnFocus={opener} />}
     </>
   );
 }

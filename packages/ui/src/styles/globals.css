@@ -173,6 +173,27 @@
   html {
     scroll-padding-top: 5rem;
   }
+  /*
+   * The Ask dock (apps/web features/ask/ask-dock.tsx) sets data-ask-dock on
+   * <html> while open. The floating panel covers the bottom right, so focused
+   * content scrolls clear of it (WCAG 2.4.11); the drawer gets room on the
+   * right from lg up, so the page is narrower instead of covered. The drawer
+   * starts below the header, which keeps its full width (the negative margin
+   * undoes the padding for it alone).
+   */
+  @media (min-width: 40rem) {
+    html[data-ask-dock="panel"] {
+      scroll-padding-bottom: calc(min(640px, 100dvh - 6.5rem) + 5.5rem);
+    }
+  }
+  @media (min-width: 64rem) {
+    html[data-ask-dock="drawer"] body {
+      padding-right: 440px;
+    }
+    html[data-ask-dock="drawer"] body > header {
+      margin-right: -440px;
+    }
+  }
   body {
     @apply bg-background text-foreground font-sans;
   }
