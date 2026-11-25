@@ -1,6 +1,5 @@
 "use client";
 
-import * as m from "motion/react-m";
 import {
   type ComponentType,
   createContext,
@@ -30,10 +29,8 @@ const loadDialog = () => import("./lightbox-dialog").then((module) => module.Lig
 
 interface LightboxContextValue {
   items: readonly LightboxItem[];
-  /** The open image and the one the dialog morphs from and back into, so the triggers re-render (and Motion measures them) when they change. */
-  current: number | null;
-  morph: number | null;
-  layoutId: (index: number) => string;
+  /** The thumbnail hidden while its photo is out of it: the large view grew from it, or shrinks back into it. */
+  hidden: number | null;
   open: (index: number) => void;
   register: (index: number, anchor: HTMLAnchorElement | null) => void;
 }
@@ -49,16 +46,18 @@ export function Lightbox({ id, items, children }: { id: string; items: readonly 
   const [Dialog, setDialog] = useState<ComponentType<LightboxDialogProps> | null>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [morph, setMorph] = useState<number | null>(null);
+  const [hidden, setHidden] = useState<number | null>(null);
   // Whether this page pushed the history entry the open image lives in; if so, closing goes back to it.
   const pushed = useRef(false);
   const anchors = useRef(new Map<number, HTMLAnchorElement>());
-  // The dialog, the open image and the morph change in one render, after the
-  // chunk has loaded: Motion measures the thumbnail in the same commit the
-  // large view mounts, which is what lets one grow into the other.
+  // The dialog, the open image and the thumbnail it grows from change in one
+  // render, after the chunk has loaded, so the large view measures the
+  // thumbnail the moment it mounts.
   const show = useCallback((next: number | null, from: number | null) => {
     void loadDialog().then((component) => {
       setDialog(() => component);
       setMorph(from);
+      setHidden(from);
       setIndex(next);
     });
   }, []);
@@ -85,9 +84,7 @@ export function Lightbox({ id, items, children }: { id: string; items: readonly 
   const value = useMemo<LightboxContextValue>(
     () => ({
       items,
-      current: index,
-      morph,
-      layoutId: (i) => `lightbox-${id}-${String(i)}`,
+      hidden,
       open: (i) => {
         window.history.pushState(null, "", urlWithPhoto(photoValue(id, i)));
         pushed.current = true;
@@ -98,19 +95,23 @@ export function Lightbox({ id, items, children }: { id: string; items: readonly 
         else anchors.current.set(i, anchor);
       },
     }),
-    [id, items, index, morph, show]
+    [id, items, hidden, show]
   );
 
   const navigate = useCallback(
     (next: number) => {
       window.history.replaceState(null, "", urlWithPhoto(photoValue(id, next)));
       setMorph(null);
+      // The photo on screen is the one that goes back to its thumbnail on close.
+      setHidden((current) => (current === null ? null : next));
       setIndex(next);
     },
     [id]
   );
 
   const close = useCallback(() => {
+    // Whatever opened it, the photo shrinks back into its thumbnail: hide that one until it lands.
+    setHidden((current) => current ?? index);
     // Back removes the entry the click added, so the Back button and the close button leave the same history.
     if (pushed.current) {
       window.history.back();
@@ -118,7 +119,7 @@ export function Lightbox({ id, items, children }: { id: string; items: readonly 
     }
     window.history.replaceState(null, "", urlWithPhoto(null));
     setIndex(null);
-  }, []);
+  }, [index]);
 
   return (
     <LightboxContext value={value}>
@@ -128,9 +129,11 @@ export function Lightbox({ id, items, children }: { id: string; items: readonly 
           items={items}
           index={index}
           morph={morph}
-          layoutId={value.layoutId}
           onNavigate={navigate}
           onClose={close}
+          onClosed={() => {
+            setHidden(null);
+          }}
           anchorFor={(i) => anchors.current.get(i)}
         />
       )}
@@ -150,7 +153,8 @@ const preload = () => {
  * A thumbnail that opens image `index` of the surrounding Lightbox. It stays
  * a link to the file: without JavaScript, or with a modifier key or the middle
  * button, the browser opens the image itself. `frameClassName` sizes the inner
- * frame the large view grows out of (fill images need it absolute).
+ * frame the large view grows out of and shrinks back into (fill images need it
+ * absolute).
  */
 export function LightboxTrigger({
   index,
@@ -167,7 +171,7 @@ export function LightboxTrigger({
   if (context === null) throw new Error("LightboxTrigger must be inside a Lightbox");
   const item = context.items[index];
   if (item === undefined) throw new Error(`Lightbox has no image ${String(index)}`);
-  const { open, register, layoutId } = context;
+  const { open, register, hidden } = context;
   return (
     <a
       href={item.src}
@@ -187,9 +191,11 @@ export function LightboxTrigger({
         open(index);
       }}
     >
-      <m.div layoutId={layoutId(index)} className={frameClassName}>
+      {/* The frame the large view grows out of and lands back on. Hidden with no transition while the
+          photo is out of it, and shown again in the same frame it lands, so it never repaints or fades. */}
+      <div data-lightbox-frame="" className={frameClassName} style={hidden === index ? { opacity: 0 } : undefined}>
         {children}
-      </m.div>
+      </div>
     </a>
   );
 }

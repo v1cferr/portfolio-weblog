@@ -218,3 +218,20 @@ test.describe("lightbox documents", () => {
     await expect(full).toHaveAttribute("src", /\/_next\/image\?url=%2Feducation%2Ftransforme-se%2Fclass\.jpg.*q=85/);
   });
 });
+
+test.describe("lightbox zoom", () => {
+  // Option B (2026-11-25): the photo grows out of its thumbnail and shrinks back into it; the thumbnail
+  // is hidden meanwhile and shown again, never blank, once the photo has landed.
+  test("hides the thumbnail while its photo is open and shows it again after closing", async ({ page }) => {
+    await page.goto("/en-us/career/fai-ufscar-2026");
+    const link = page.locator('a[href="/career/fai-ufscar/desk.jpg"]').first();
+    const frame = link.locator("[data-lightbox-frame]");
+    await link.click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expect(frame).toHaveCSS("opacity", "0");
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toBeHidden();
+    await expect(frame).toHaveCSS("opacity", "1");
+    await expect(link).toBeFocused();
+  });
+});
