@@ -225,6 +225,14 @@ export default async function AboutPage() {
                   {t("wow")} <ArrowRightIcon className="size-3.5" aria-hidden />
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/colophon"
+                  className="group/link inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground"
+                >
+                  {t("colophon")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
+                </Link>
+              </li>
             </ul>
           </section>
           <AboutNumbers />

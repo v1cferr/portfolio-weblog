@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/breadcrumb";
 import { Button } from "@workspace/ui/components/button";
 import { localize, localizeList } from "@workspace/content";
-import { FolderGit2Icon, InfoIcon, ScrollTextIcon } from "lucide-react";
+import { ArrowRightIcon, FolderGit2Icon, InfoIcon, ScrollTextIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -32,6 +32,9 @@ import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
+
+/** This site's own project: its case study links the colophon. */
+const SITE_PROJECT = "portfolio-weblog";
 
 // Same period as GITHUB_REVALIDATE_SECONDS; Next requires a literal here.
 export const revalidate = 86400;
@@ -69,7 +72,12 @@ function Fact({ label, children }: { label: string; children: ReactNode }) {
 export default async function ProjectPage({ params }: PageProps<"/[locale]/projects/[id]">) {
   const { id } = await params;
   const locale = await getLocale();
-  const [t, common, nav] = await Promise.all([getTranslations("Projects"), getTranslations("Common"), getTranslations("Nav")]);
+  const [t, common, nav, caseStudyT] = await Promise.all([
+    getTranslations("Projects"),
+    getTranslations("Common"),
+    getTranslations("Nav"),
+    getTranslations("CaseStudy"),
+  ]);
   const content = getContent();
   const project = content.getProject(id);
   if (project === undefined) notFound();
@@ -185,7 +193,20 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
                   {description.value}
                 </p>
               )}
-              <CaseStudyDeepDive caseStudy={caseStudy} locale={locale} />
+              <CaseStudyDeepDive
+                caseStudy={caseStudy}
+                locale={locale}
+                howBuiltMore={
+                  project.id === SITE_PROJECT ? (
+                    <Link
+                      href="/colophon"
+                      className="group/link inline-flex min-h-11 items-center gap-1.5 font-medium underline-offset-4 hover:underline"
+                    >
+                      {caseStudyT("colophon")} <ArrowRightIcon aria-hidden className="icon-fwd size-4" />
+                    </Link>
+                  ) : undefined
+                }
+              />
             </div>
           ) : (
             <div className="space-y-10">
