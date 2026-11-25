@@ -1,0 +1,128 @@
+---
+title: XGuardian, my first job as a developer
+summary: >-
+  Xmart's application security platform, from front-end intern to full stack
+  developer to remote freelancer: the front end, the back end and the pipelines
+  that run security scans.
+status: published
+updatedAt: 2026-11-25
+---
+
+{/*
+  DRAFT FOR OWNER REVIEW (2026-11-25). Drafted by Claude, published so it can
+  be read in place, to be reviewed by the owner ("Claude drafts, I review").
+  Every claim comes from content/experiences/xmart-solutions-2024.yaml, the
+  owner's LinkedIn notes of 2026-11-23 (positions, dates, places, on-site,
+  full-time, freelance and remote) or the description on the public XGuardian
+  website. Nothing here has a number, a reason or a name the record does not
+  have. Remove this note once reviewed.
+*/}
+
+XGuardian was my first job as a developer. I worked on it from June 2024 to
+November 2025, in three positions.
+
+## The problem
+
+XGuardian is the application security platform of Xmart Solutions. Its public
+website describes it as a place that centralizes AppSec signals (SAST, SCA,
+DAST, containers, IaC, secrets, SBOM and reports) to support visibility and risk
+prioritization.
+
+The part I worked on is bringing those security scans into the development
+workflow.
+
+## My role, in three positions
+
+- **Frontend Developer Intern**, June to September 2024, on-site in Santo André.
+  I built interfaces with React, Vite and TypeScript, helped with front-end
+  improvements to XGuardian products and internal tools, and worked with
+  developers, designers and product people on UI components that were easy to
+  maintain.
+- **Full Stack Developer**, September 2024 to April 2025, on-site and full-time
+  in Santo André.
+- **Software Developer**, April to November 2025, freelance and remote from São
+  Carlos. Back-end development and maintenance of XGuardian products, automation
+  and DevOps tasks for the development and deployment workflows, and technical
+  improvements to internal and external components.
+
+Across all three, planning ran in Scrumban with Jira, and the work was
+documented in Confluence.
+
+## What I worked on
+
+### Pipelines that run the scans
+
+On the CI/CD side, I automated SAST and SCA scans with GitHub Actions, writing
+the automation in Shell and YAML. Running the scans in the pipeline cut the
+manual configuration they needed, and the GitHub Actions automation shortened
+deploys.
+
+I also helped maintain CI/CD pipelines with Jenkins, GitHub and shell scripts,
+including Jenkins pipelines that block on tests, linting and formatting, and
+worked with AWS services for deployment and environment automation.
+
+### The front end
+
+The front end was React, Vite and TypeScript. Besides fixing bugs and building
+new features, I optimized the requests it made, which made it faster. I also
+contributed to internal tools and interactive dashboards.
+
+### The back end
+
+On the back end I built and maintained services in Python with FastAPI, and
+contributed to the vulnerability analysis workflows: SAST, SCA, DAST and
+container analysis.
+
+### A VS Code extension
+
+I built a VS Code extension on the VS Code API with Node.js. The XGuardian
+extension on the Visual Studio Marketplace runs SAST and SCA scans from inside
+the editor.
+
+<Figure
+  src="/career/xmart-solutions/xguardian-marketplace.jpg"
+  alt="Visual Studio Marketplace page of the XGuardian extension by Xmart Solutions, which runs SAST and SCA scans from VS Code"
+  caption="The XGuardian extension for VS Code on the Visual Studio Marketplace."
+  width="1636"
+  height="1001"
+/>
+
+{/*
+  OWNER: decisions and trade-offs. The record lists what was done, not why, so
+  this draft gives no reasons. If you want a "Decisions" section, answer:
+  - Why GitHub Actions for the SAST and SCA automation, and when Jenkins?
+  - What did the request optimization change on the front end (batching,
+    caching, fewer calls)? Say it without numbers unless you can source them.
+  - Why a VS Code extension: what did it give developers that the pipeline
+    scan did not?
+  - Was there a choice you argued for, or against, that the team took?
+*/}
+
+## What I learned
+
+- **Pipelines and CI/CD.** Including Jenkins pipelines that block a change on
+  tests, linting and formatting.
+- **Application security scanning.** SAST, SCA, DAST and container scanning,
+  vulnerability analysis, and dealing with false positives.
+- **DevSecOps as a practice, not a tool.**
+- **Teamwork and agile planning.**
+
+{/*
+  OWNER: "What I would do differently". Not drafted on purpose: only you know.
+  Guiding questions:
+  - Looking back from 2026, what would you automate first, or not at all?
+  - How would you handle false positives now, compared with then?
+  - Anything you would have asked for earlier as an intern (reviews, docs,
+    ownership of a piece of the product)?
+  - Did going freelance and remote change how you worked? What would you set
+    up differently for that?
+  Add it as "## What I would do differently" above "## Sources".
+*/}
+
+## Sources
+
+- [XGuardian website](https://www.xguardianplatform.io/): the description of the
+  platform in "The problem" is a translation of the description on its home page
+  (in Portuguese), read on 2026-11-25.
+- [The Xmart Solutions job page](/career/xmart-solutions-2024): positions,
+  responsibilities, contributions and learnings this story expands on.

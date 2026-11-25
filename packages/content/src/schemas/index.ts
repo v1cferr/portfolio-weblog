@@ -8,5 +8,6 @@ export * from "./post";
 export * from "./profile";
 export * from "./project";
 export * from "./setup";
+export * from "./story";
 export * from "./taxonomy";
 export * from "./wow";

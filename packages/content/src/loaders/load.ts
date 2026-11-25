@@ -16,6 +16,7 @@ import {
   Project,
   Setup,
   Skill,
+  StoryFrontmatter,
   Technology,
 } from "../schemas";
 import type { ContentIssue } from "./errors";
@@ -41,6 +42,16 @@ export interface PostSource {
   file: string;
 }
 
+export interface StorySource {
+  /** Id of the experience the story belongs to (the folder name). */
+  experience: string;
+  locale: Locale;
+  frontmatter: StoryFrontmatter;
+  /** Raw MDX body; compiled by the web app, never executed here. */
+  body: string;
+  file: string;
+}
+
 export interface RawContent {
   profile: Sourced<Profile> | undefined;
   setup: Sourced<Setup> | undefined;
@@ -52,6 +63,7 @@ export interface RawContent {
   education: Sourced<Education>[];
   certifications: Sourced<Certification>[];
   posts: PostSource[];
+  stories: StorySource[];
 }
 
 export interface LoadResult {
@@ -181,6 +193,44 @@ export function loadContent(root: string): LoadResult {
     return out;
   }
 
+  /** Reads an MDX file with frontmatter, reporting problems as issues. */
+  function readMdx<T>(schema: z.ZodType<T>, file: string): { frontmatter: T; body: string } | undefined {
+    let parsed: { data: unknown; content: string };
+    try {
+      parsed = parseFrontmatter(readFileSync(file, "utf8"));
+    } catch (error) {
+      issues.push({ file: rel(file), message: `invalid frontmatter: ${(error as Error).message}` });
+      return undefined;
+    }
+    const frontmatter = parseWith(schema, parsed.data, file);
+    return frontmatter === undefined ? undefined : { frontmatter, body: parsed.content };
+  }
+
+  /**
+   * Long-form stories of jobs: `experiences/<id>/story.<locale>.mdx`. The
+   * folder sits next to `<id>.yaml`; the validator checks that it has one.
+   */
+  function stories(dir: string): StorySource[] {
+    if (!existsSync(dir)) return [];
+    const out: StorySource[] = [];
+    for (const experience of subdirs(dir)) {
+      const storyDir = path.join(dir, experience);
+      for (const name of readdirSync(storyDir).sort()) {
+        const file = path.join(storyDir, name);
+        const match = /^story\.([a-z-]+)\.mdx$/.exec(name);
+        const locale = match?.[1];
+        if (locale === undefined || !(LOCALES as readonly string[]).includes(locale)) {
+          issues.push({ file: rel(file), message: `expected story.<locale>.mdx (${LOCALES.join(", ")})` });
+          continue;
+        }
+        const parsed = readMdx(StoryFrontmatter, file);
+        if (parsed === undefined) continue;
+        out.push({ experience, locale: locale as Locale, ...parsed, file: rel(file) });
+      }
+    }
+    return out;
+  }
+
   /** Every `<locale>.mdx` of one post directory. */
   function translations(postDir: string, slug: string, folderDate: string): PostSource[] {
     const out: PostSource[] = [];
@@ -192,16 +242,9 @@ export function loadContent(root: string): LoadResult {
         issues.push({ file: rel(file), message: `file name must be a locale (${LOCALES.join(", ")})` });
         continue;
       }
-      let parsed: { data: unknown; content: string };
-      try {
-        parsed = parseFrontmatter(readFileSync(file, "utf8"));
-      } catch (error) {
-        issues.push({ file: rel(file), message: `invalid frontmatter: ${(error as Error).message}` });
-        continue;
-      }
-      const frontmatter = parseWith(PostFrontmatter, parsed.data, file);
-      if (frontmatter === undefined) continue;
-      out.push({ slug, folderDate, dir: rel(postDir), locale: locale as Locale, frontmatter, body: parsed.content, file: rel(file) });
+      const parsed = readMdx(PostFrontmatter, file);
+      if (parsed === undefined) continue;
+      out.push({ slug, folderDate, dir: rel(postDir), locale: locale as Locale, ...parsed, file: rel(file) });
     }
     return out;
   }
@@ -217,6 +260,7 @@ export function loadContent(root: string): LoadResult {
     education: directory(Education, path.join(root, "education")),
     certifications: directory(Certification, path.join(root, "education/certifications")),
     posts: posts(path.join(root, "weblog")),
+    stories: stories(path.join(root, "experiences")),
   };
 
   if (content.profile === undefined && !issues.some((issue) => issue.file.startsWith("profile/profile"))) {

@@ -26,3 +26,34 @@
 4. Numbers you cannot back with evidence go to `pendingReview`, not to
    `contributions`.
 5. Run `pnpm content:check`, then switch `status` to `published`.
+
+## Add a long-form story (optional)
+
+A job can have a story: a longer, first-person text read after its page, at
+`/<locale>/career/<id>/story`. The job page links to it ("Read the full story")
+only while a published translation exists.
+
+1. Create `content/experiences/<id>/story.<locale>.mdx`, one file per locale.
+   The folder is named after the experience id and sits next to `<id>.yaml`:
+
+   ```mdx
+   ---
+   title: What the job was about
+   summary: One or two sentences for the page header and search results.
+   status: review # draft, review or published
+   updatedAt: 2027-03-01 # last revision of the text
+   ---
+
+   ## The problem
+   ```
+
+2. Write only what the experience file, a public source or the Git history
+   supports, and cite public sources in a `## Sources` section at the end. Notes
+   for the reviewer go in MDX comments, `{/* OWNER: ... */}`; they never reach
+   the page. Prettier skips these files because it mangles those comments.
+3. A story follows its job across the public boundary: it is shown only when it
+   is `published` and `public` and the experience is too. Translations must
+   agree on `visibility`, and a locale without a translation shows the English
+   one with a notice.
+4. Run `pnpm content:check`; it counts stories and rejects a folder with no
+   matching experience or a file not named `story.<locale>.mdx`.

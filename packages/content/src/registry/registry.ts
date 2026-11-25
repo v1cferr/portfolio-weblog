@@ -1,6 +1,6 @@
 import { compareDesc } from "../dates";
 import { ContentValidationError, type ContentIssue } from "../loaders/errors";
-import { loadContent, type PostSource, type RawContent } from "../loaders/load";
+import { loadContent, type PostSource, type RawContent, type StorySource } from "../loaders/load";
 import { fallbackChain } from "../locale";
 import { collectEdges, collectNodes, type EntityRef, type EntityType } from "../relations/graph";
 import { validateContent } from "../relations/validate";
@@ -9,6 +9,13 @@ import { buildCareerTimeline, buildUnifiedTimeline, type TimelineEnrichment, typ
 
 export interface Post extends PostSource {
   /** Locales with a published translation of this post. */
+  availableLocales: Locale[];
+  /** True when the requested locale has no translation and another one is served. */
+  isFallback: boolean;
+}
+
+export interface Story extends StorySource {
+  /** Locales with a published translation of this story. */
   availableLocales: Locale[];
   /** True when the requested locale has no translation and another one is served. */
   isFallback: boolean;
@@ -41,6 +48,10 @@ export interface ContentRegistry {
   getPosts(locale: Locale): Post[];
   getPost(slug: string, locale: Locale): Post | undefined;
   getPostSlugs(): string[];
+  /** The long-form story of a visible experience: the requested translation, or a fallback flagged as such. */
+  getStory(experienceId: string, locale: Locale): Story | undefined;
+  /** Ids of the visible experiences that have a visible story. */
+  getStoryIds(): string[];
   getCareerTimeline(): TimelineEvent[];
   getUnifiedTimeline(enrichment?: TimelineEnrichment): TimelineEvent[];
   getRelatedContent(id: string): RelatedEntity[];
@@ -155,6 +166,25 @@ export function createRegistry(
     return undefined;
   }
 
+  // A story is visible only with its experience; the experience id is its key.
+  const stories = new Map<string, Map<Locale, StorySource>>();
+  for (const story of content.stories) {
+    if (!visible(story.frontmatter) || !experiences.some((experience) => experience.id === story.experience)) continue;
+    const byLocale = stories.get(story.experience) ?? new Map<Locale, StorySource>();
+    byLocale.set(story.locale, story);
+    stories.set(story.experience, byLocale);
+  }
+
+  function getStory(experienceId: string, locale: Locale): Story | undefined {
+    const byLocale = stories.get(experienceId);
+    if (byLocale === undefined) return undefined;
+    for (const candidate of fallbackChain(locale)) {
+      const story = byLocale.get(candidate);
+      if (story !== undefined) return { ...story, availableLocales: [...byLocale.keys()], isFallback: candidate !== locale };
+    }
+    return undefined;
+  }
+
   const byId = <T extends { id: string }>(items: T[]) => {
     const map = new Map(items.map((item) => [item.id, item]));
     return (id: string) => map.get(id);
@@ -198,6 +228,8 @@ export function createRegistry(
         .sort((a, b) => compareDesc(a.frontmatter.publishedAt ?? "0000", b.frontmatter.publishedAt ?? "0000")),
     getPost,
     getPostSlugs: () => [...translations.keys()],
+    getStory,
+    getStoryIds: () => [...stories.keys()],
     getCareerTimeline: () => buildCareerTimeline(experiences),
     getUnifiedTimeline: (enrichment) =>
       buildUnifiedTimeline({ experiences, projects, education, certifications, posts: publishedAtBySlug() }, enrichment),

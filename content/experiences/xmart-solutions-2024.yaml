@@ -113,7 +113,7 @@ technologies: [github-actions, jenkins, aws, react, vite, typescript, python, fa
 skills: [devsecops, ci-cd, web-development]
 
 evidence:
-  - { label: XGuardian, url: "https://xguardianplatform.io/", kind: website }
+  - { label: XGuardian, url: "https://www.xguardianplatform.io/", kind: website }
 
 # Shared by the author on 2026-11-23; everyone in it consented. Resized and
 # stripped of metadata.

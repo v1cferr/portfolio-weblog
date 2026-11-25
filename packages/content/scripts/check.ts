@@ -53,6 +53,7 @@ console.warn(
     count("education", everything.getEducation().length, publicView.getEducation().length),
     count("certifications", everything.getCertifications().length, publicView.getCertifications().length),
     count("posts", everything.getPostSlugs().length, publicView.getPostSlugs().length),
+    count("job stories", everything.getStoryIds().length, publicView.getStoryIds().length),
     count("now updates", now.log.entries.length, publicNow(now.log).entries.length),
     count("pages", pages.pages.length, publicPages(pages.pages).length),
     count("wow characters", wow.wow?.characters.length ?? 0, publicWow(wow.wow)?.characters.length ?? 0),
