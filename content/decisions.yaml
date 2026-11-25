@@ -177,3 +177,16 @@
       personagens é sincronizada uma vez na máquina do dono, e o site só lê perfis
       públicos. Quando o serviço da Blizzard não responde, a página mostra o último
       retrato salvo.
+
+"0016":
+  why:
+    en-us: >-
+      Text and data moved to Geist and Geist Mono, one family drawn together and the
+      typeface of the stack the site runs on; Martian Mono stays on the titles so the site
+      still looks like itself. The fonts are self-hosted, so the visitor's system fonts
+      never stand in for them, except where the reader chose their own.
+    pt-br: >-
+      Texto e dados passaram para Geist e Geist Mono, uma família desenhada junta e a fonte
+      da stack em que o site roda; a Martian Mono continua nos títulos, para o site seguir
+      com a sua cara. As fontes são hospedadas pelo próprio site, então as do sistema do
+      visitante nunca as substituem, a não ser quando o leitor escolhe as suas.

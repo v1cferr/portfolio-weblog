@@ -17,8 +17,8 @@ import { OG_IMAGE_ID } from "./metadata";
  * V1C mark, a Nix store path as the eyebrow, the title in Martian Mono and a
  * shell prompt in the lane colour of the section.
  *
- * Fonts: static instances of Martian Mono (400, 600) and Hanken Grotesk (400,
- * 500) from Google Fonts, subset to Latin-1 + Latin Extended-A and a few
+ * Fonts: static instances of Martian Mono (400, 600) and Geist (400, 500)
+ * from Google Fonts, subset to Latin-1 + Latin Extended-A and a few
  * punctuation marks with fonttools' pyftsubset, under assets/fonts with their
  * OFL licences. Satori reads TTF but not WOFF2 or variable fonts, so the files
  * next/font ships to the browser cannot be reused here.
@@ -62,8 +62,8 @@ async function font(name: string, file: string, weight: 400 | 500 | 600) {
 const FONTS = await Promise.all([
   font("Martian Mono", "MartianMono-Regular.ttf", 400),
   font("Martian Mono", "MartianMono-SemiBold.ttf", 600),
-  font("Hanken Grotesk", "HankenGrotesk-Regular.ttf", 400),
-  font("Hanken Grotesk", "HankenGrotesk-Medium.ttf", 500),
+  font("Geist", "Geist-Regular.ttf", 400),
+  font("Geist", "Geist-Medium.ttf", 500),
 ]);
 
 /** Graphite + sage (dark), the same values as the .dark tokens in globals.css. */
@@ -165,7 +165,7 @@ export function renderOgImage(card: OgCard): ImageResponse {
         position: "relative",
         background: PALETTE.background,
         color: PALETTE.foreground,
-        fontFamily: "Hanken Grotesk",
+        fontFamily: "Geist",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- Satori renders plain <img>. */}
