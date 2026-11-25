@@ -49,7 +49,7 @@ questions:
     expect: [/en-us/career/amcor-2021]
   - locale: en-us
     question: How is this site built?
-    expect: [/en-us/projects/portfolio-weblog, /en-us/weblog/rebuilding-the-hub-content-first]
+    expect: [/en-us/projects/portfolio-weblog, /en-us/weblog/rebuilding-the-hub-content-first, /en-us/weblog/how-this-site-is-built]
   - locale: en-us
     question: Does Victor build agents with tool calling?
     expect: [/en-us/career/fai-ufscar-2026]
@@ -87,7 +87,7 @@ questions:
     expect: [/pt-br/career/amcor-2021]
   - locale: pt-br
     question: Como este site foi construído?
-    expect: [/pt-br/projects/portfolio-weblog, /pt-br/weblog/rebuilding-the-hub-content-first]
+    expect: [/pt-br/projects/portfolio-weblog, /pt-br/weblog/rebuilding-the-hub-content-first, /pt-br/weblog/how-this-site-is-built]
   - locale: pt-br
     question: O Victor cria agentes com tool calling?
     expect: [/pt-br/career/fai-ufscar-2026]

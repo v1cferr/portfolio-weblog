@@ -53,7 +53,10 @@ test.describe("how this site is built", () => {
 
   test("the About page and this site's case study link to it", async ({ page }) => {
     await page.goto("/en-us/about");
-    await expect(page.getByRole("main").getByRole("link", { name: "How this site is built" })).toHaveAttribute("href", `/en-us${POST}`);
+    // The "more about me" list links it, and so does the latest-writing list now that it is a post.
+    const links = page.getByRole("main").getByRole("link", { name: "How this site is built" });
+    await expect(links.first()).toBeVisible();
+    expect(new Set(await links.evaluateAll((all) => all.map((a) => a.getAttribute("href"))))).toEqual(new Set([`/en-us${POST}`]));
     await page.goto("/en-us/projects/portfolio-weblog");
     await expect(page.getByRole("link", { name: "The whole story of how this site is built" })).toHaveAttribute("href", `/en-us${POST}`);
   });
