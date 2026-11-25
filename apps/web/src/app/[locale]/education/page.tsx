@@ -54,7 +54,8 @@ export default async function EducationPage() {
     const institution = content.getOrganization(item.institution);
     const title = localize(item.title, locale);
     return (
-      <Card variant="glass" className="gap-4 py-5">
+      // The id is the anchor the home's learning strip and the About page link to.
+      <Card id={item.id} variant="glass" className="scroll-mt-24 gap-4 py-5">
         <CardHeader className="flex flex-row items-start gap-3 px-5">
           {institution !== undefined && <OrganizationMark organization={institution} />}
           <div className="min-w-0 space-y-1">
