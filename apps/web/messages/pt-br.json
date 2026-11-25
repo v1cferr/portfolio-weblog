@@ -148,8 +148,6 @@
   },
   "Home": {
     "stack": "Stack do dia a dia",
-    "trajectory": "Como cheguei aqui",
-    "focus": "Trabalhando em",
     "featured": "Projetos selecionados",
     "latest": "Escritos recentes",
     "recent": "Recentemente",
@@ -160,7 +158,46 @@
     "ongoing": "Em andamento",
     "verify": "verificar",
     "credentialsLabel": "Estudos e credenciais",
-    "allStudies": "Todos os estudos"
+    "allStudies": "Todos os estudos",
+    "askAi": "Perguntar à minha IA",
+    "contact": "Contato",
+    "cv": "CV",
+    "available": "Aberto a oportunidades",
+    "askLabel": "Faça uma pergunta sobre o Victor",
+    "askPlaceholder": "Pergunte algo sobre mim…",
+    "askSubmit": "Perguntar",
+    "startHere": {
+      "title": "Comece por aqui",
+      "hiring": {
+        "title": "Contratando?",
+        "body": "Quem eu sou, onde trabalhei e como falar comigo.",
+        "about": "Sobre mim",
+        "career": "Carreira",
+        "contact": "Contato",
+        "cv": "CV"
+      },
+      "work": {
+        "title": "Ver meu trabalho",
+        "body": "Projetos com seus estudos de caso, e como este site foi feito.",
+        "projects": "Projetos",
+        "decisions": "Decisões",
+        "colophon": "Colofão"
+      },
+      "ai": {
+        "title": "Conversar com a IA",
+        "body": "Pergunte sobre o meu trabalho. As respostas vêm só das páginas deste site.",
+        "open": "Abrir o chat"
+      }
+    },
+    "proof": {
+      "label": "Em resumo",
+      "organizations": "Onde trabalhei",
+      "facts": "Fatos do conteúdo deste site",
+      "since": "trabalhando desde {year}",
+      "projects": "{count, plural, one {# projeto} other {# projetos}}",
+      "decisions": "{count, plural, one {# decisão registrada} other {# decisões registradas}}",
+      "colophon": "Como este site foi feito"
+    }
   },
   "About": {
     "title": "Sobre",
