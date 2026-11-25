@@ -227,10 +227,10 @@ export default async function AboutPage() {
               </li>
               <li>
                 <Link
-                  href="/colophon"
+                  href="/weblog/how-this-site-is-built"
                   className="group/link inline-flex min-h-11 items-center gap-1 text-muted-foreground hover:text-foreground"
                 >
-                  {t("colophon")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
+                  {t("howBuilt")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
                 </Link>
               </li>
             </ul>

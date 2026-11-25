@@ -14,6 +14,7 @@ const retiredRoutes = [
   { from: "context", to: "about" },
   { from: "thanks", to: "about" },
   { from: "certifications", to: "education" },
+  { from: "colophon", to: "weblog/how-this-site-is-built" },
 ];
 
 const isDev = process.env.NODE_ENV === "development";

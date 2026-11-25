@@ -181,7 +181,7 @@
         "body": "Projetos com seus estudos de caso, e como este site foi feito.",
         "projects": "Projetos",
         "decisions": "Decisões",
-        "colophon": "Colofão"
+        "howBuilt": "Como este site foi feito"
       },
       "ai": {
         "title": "Conversar com a IA",
@@ -196,7 +196,7 @@
       "since": "trabalhando desde {year}",
       "projects": "{count, plural, one {# projeto} other {# projetos}}",
       "decisions": "{count, plural, one {# decisão registrada} other {# decisões registradas}}",
-      "colophon": "Como este site foi feito"
+      "howBuilt": "Como este site foi feito"
     }
   },
   "About": {
@@ -232,7 +232,7 @@
       "certificates": "certificados",
       "since": "Trabalhando desde {year}, da indústria à IA."
     },
-    "colophon": "Como este site foi feito"
+    "howBuilt": "Como este site foi feito"
   },
   "Career": {
     "title": "Carreira",
@@ -401,11 +401,6 @@
     "photos": "O setup ao longo dos anos",
     "present": "atual"
   },
-  "Colophon": {
-    "title": "Como este site foi feito",
-    "description": "O colofão: por que este site existe, em que roda, como o conteúdo funciona, como é verificado e quanto custa.",
-    "updated": "Última atualização:"
-  },
   "Wow": {
     "title": "World of Warcraft",
     "description": "Os personagens que eu jogo, os addons que eu uso e uma montaria que ainda quero pegar.",
@@ -464,7 +459,7 @@
     "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)",
     "now": "Agora",
     "next": "Próximos passos",
-    "colophon": "Como este site foi feito"
+    "howBuilt": "Como este site foi feito"
   },
   "Media": {
     "label": "Fotos",
@@ -551,6 +546,6 @@
     "quality": "Toda mudança passa por",
     "lessons": "O que eu mudaria",
     "next": "Próximos passos",
-    "colophon": "A história completa de como este site foi feito"
+    "howBuiltPost": "A história completa de como este site foi feito"
   }
 }

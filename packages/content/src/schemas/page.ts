@@ -4,7 +4,7 @@ import { EditorialStatus, PartialDate, Visibility } from "./common";
 
 /**
  * Frontmatter of content/pages/<slug>/<locale>.mdx: a standalone page in
- * prose (the colophon), outside the entity graph. `updatedAt` is required, as
+ * prose, outside the entity graph. `updatedAt` is required, as
  * the page shows it as the date it was last tended.
  */
 export const PageFrontmatter = z.strictObject({
