@@ -94,6 +94,19 @@ media:
     caption:
       en-us: The welcome kit I received at FAI·UFSCar.
       pt-br: O kit de boas-vindas que recebi na FAI·UFSCar.
+  # Team photo shared by the author on 2026-11-24, taken in their first week
+  # as an intern (date from the photo's own metadata), resized and stripped of
+  # metadata; the group keeps everyone (colleagues, consented) and the visible
+  # ID badges are blurred.
+  - src: /career/fai-ufscar/first-week-team.webp
+    width: 1600
+    height: 900
+    alt:
+      en-us: Seven people standing in front of the FAI·UFSCar and UFSCar Innovation Agency building, most wearing ID badges on lanyards, which are blurred; Victor is on the far right, with glasses and a black shirt
+      pt-br: Sete pessoas em pé em frente ao prédio da FAI·UFSCar e da Agência de Inovação da UFSCar, a maioria com crachás no cordão, que estão desfocados; Victor está na ponta direita, de óculos e camisa preta
+    caption:
+      en-us: My first week as an intern at the Superintendence, March 2026.
+      pt-br: Minha primeira semana como estagiário na Superintendência, março de 2026.
   - src: /career/fai-ufscar/desk.webp
     width: 1600
     height: 1200
