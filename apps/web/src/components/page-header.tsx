@@ -2,6 +2,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { InfoTip } from "@/components/info-tip";
 import { storePath } from "@/lib/store-path";
 
 interface PageHeaderProps {
@@ -11,6 +12,8 @@ interface PageHeaderProps {
   icon?: LucideIcon;
   title: ReactNode;
   description?: ReactNode;
+  /** Helper text behind an "i" next to the description (see InfoTip). */
+  info?: ReactNode;
   children?: ReactNode;
 }
 
@@ -19,7 +22,7 @@ interface PageHeaderProps {
  * Nix store path, with a real content hash (see lib/store-path.ts): the hub is
  * a view over versioned content, and says so the way Nix would.
  */
-export function PageHeader({ source, icon: Glyph, title, description, children }: PageHeaderProps) {
+export function PageHeader({ source, icon: Glyph, title, description, info, children }: PageHeaderProps) {
   return (
     <header className="mb-10 space-y-3 border-b pb-8 md:mb-14">
       {source !== undefined && (
@@ -33,7 +36,19 @@ export function PageHeader({ source, icon: Glyph, title, description, children }
         </p>
       )}
       <h1 className="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl">{title}</h1>
-      {description !== undefined && <p className="max-w-2xl text-lg text-pretty text-muted-foreground">{description}</p>}
+      {description !== undefined && (
+        <p className="max-w-2xl text-lg text-pretty text-muted-foreground">
+          {description}
+          {info !== undefined && (
+            <>
+              {" "}
+              <InfoTip className="-mt-0.5" align="start">
+                {info}
+              </InfoTip>
+            </>
+          )}
+        </p>
+      )}
       {children}
     </header>
   );
@@ -43,12 +58,15 @@ export function SectionHeading({
   children,
   id,
   action,
+  info,
   icon: Glyph,
   branch,
 }: {
   children: ReactNode;
   id?: string;
   action?: ReactNode;
+  /** Helper text behind an "i" beside the heading (see InfoTip). */
+  info?: ReactNode;
   icon?: LucideIcon;
   /** On the home page's git spine: the branch drawn to this heading (its node replaces the icon on wide screens). */
   branch?: ReactNode;
@@ -62,6 +80,11 @@ export function SectionHeading({
         )}
         {children}
       </h2>
+      {info !== undefined && (
+        <InfoTip className="mr-auto -ml-2 self-center" align="start">
+          {info}
+        </InfoTip>
+      )}
       {action}
     </div>
   );
