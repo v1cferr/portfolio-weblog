@@ -194,7 +194,8 @@
       "posts": "posts no weblog",
       "certificates": "certificados",
       "since": "Trabalhando desde {year}, da indústria à IA."
-    }
+    },
+    "colophon": "Como este site foi feito"
   },
   "Career": {
     "title": "Carreira",
@@ -359,6 +360,11 @@
     "photos": "O setup ao longo dos anos",
     "present": "atual"
   },
+  "Colophon": {
+    "title": "Como este site foi feito",
+    "description": "O colofão: por que este site existe, em que roda, como o conteúdo funciona, como é verificado e quanto custa.",
+    "updated": "Última atualização:"
+  },
   "Wow": {
     "title": "World of Warcraft",
     "description": "Os personagens que eu jogo, os addons que eu uso e uma montaria que ainda quero pegar.",
@@ -415,7 +421,8 @@
     "nixosCredit": "Logo do NixOS: NixOS contributors, <license>CC BY 4.0</license> · <source>nixos.org/branding</source>",
     "provenance": "Construído a partir de <commit>{sha}</commit> com nixpkgs {ref} de {date} (<nixpkgs>{rev}</nixpkgs>)",
     "now": "Agora",
-    "next": "Próximos passos"
+    "next": "Próximos passos",
+    "colophon": "Como este site foi feito"
   },
   "Media": {
     "label": "Fotos",
@@ -482,6 +489,7 @@
     "howBuilt": "Como foi construído",
     "quality": "Toda mudança passa por",
     "lessons": "O que eu mudaria",
-    "next": "Próximos passos"
+    "next": "Próximos passos",
+    "colophon": "A história completa de como este site foi feito"
   }
 }

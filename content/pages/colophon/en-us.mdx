@@ -1,0 +1,195 @@
+---
+# DRAFT for the owner's review. Written with Claude Code on 2026-11-25 from the
+# repository only: package.json files, flake.nix, docs/ (ADRs, architecture,
+# guides, migration), .github/workflows, git tags and merged PRs, plus the
+# Lighthouse, LCP and chat figures the maintainer verified on 2026-11-24/25.
+# Nothing here is a claim without a source; edit freely, then drop this comment.
+title: How this site is built
+summary: >-
+  The colophon of v1cferr.dev: why it exists, what it runs on, how the content
+  works, how it is checked and what it costs.
+updatedAt: 2026-11-25
+---
+
+## Why this site exists
+
+This is my personal hub: career, projects, studies and an engineering journal,
+meant to last for years and for more than one career.
+
+The first version, started in June 2024, kept all of that inside React
+components and `src/data/*.ts` files. Five of its six projects were
+placeholders, every change of content was a change of code, and nothing checked
+what the site claimed.
+
+Version 2 is a rebuild, not a refactor. The rule was to migrate knowledge,
+content and evidence, and not to carry technical debt just because it existed.
+Work started on 2026-10-09, and v2 replaced v1 at v1cferr.dev on 2026-11-22. I
+wrote about the idea in
+[Rebuilding this hub around content, not components](/weblog/rebuilding-the-hub-content-first).
+
+## Principles
+
+- **Content in Git is the source of truth.** Everything the site says about me
+  lives in `content/` as YAML and MDX files. The web app is one view of them,
+  and every page links to the file it was built from.
+- **Identity, not employer.** The site is about me. The title next to my name
+  comes from my current role in the career data, so it changes with the next job
+  instead of being typed into a component.
+- **Privacy first.** No secret reaches the browser. Only content that is both
+  published and public reaches any page, the sitemap, the feed or the search
+  index. Images must carry no EXIF, XMP or IPTC metadata, or the content check
+  fails. My phone number, birth date and geotagged photos stayed in v1 on
+  purpose.
+- **No invented facts.** Dates keep only the precision I actually know (a year,
+  a month or a day), and claims I have not verified wait in a field no page
+  renders.
+- **Mobile first.** The main pages are tested in CI at 360 pixels wide, with no
+  horizontal scrolling.
+- **Newest first.** Every dated list reads in reverse chronological order:
+  timelines, the now log, my setup and this page's own timeline.
+
+## Stack
+
+Versions as declared in the repository on 2026-11-25:
+
+- **Next.js 16.4.6** (App Router) and **React 19.3.1**, in strict **TypeScript
+  6.0**. Next.js is the only backend: there is no separate API, no database and
+  no login, and nothing changes state at runtime.
+- **Tailwind CSS 4** and **shadcn/ui**, with Lucide icons, in a design system
+  package of its own. **Motion 14.14.0** drives the page transitions.
+- **Zod 4** validates the content. **next-intl 4** serves English, Brazilian
+  Portuguese and Simplified Chinese; pages without a reviewed Chinese
+  translation show the English text and say so.
+- **MDX** for the articles and for this page. **MiniSearch 7** for search.
+- **Vitest 5** for unit tests, **Playwright 1.64.1** with **axe-core** for the
+  end-to-end and accessibility tests.
+- **pnpm 10** workspaces, without Turborepo: one Next.js app and a few small
+  TypeScript packages.
+- A **Nix flake** dev shell with Node 22 (the runtime Vercel builds with), pnpm
+  10 and the Playwright browsers from nixpkgs. The footer names the commit and
+  the nixpkgs revision every build was made from.
+- Hosted on **Vercel**, with Vercel Analytics and Speed Insights. **Cloudflare**
+  serves the DNS in front of it.
+- Type: Martian Mono, Hanken Grotesk and JetBrains Mono.
+
+## How the content works
+
+- Experiences, projects, studies and technologies are YAML files; articles and
+  this page are MDX, one file per language.
+- Every file is checked against a strict Zod schema, so an unknown or misspelled
+  field fails instead of being dropped.
+- `pnpm content:check` runs in CI. It fails when a reference points nowhere, an
+  id is reused, an end date comes before a start date, public content points at
+  private content, or an image still has metadata.
+- A thing is public only when its status is `published` **and** its visibility
+  is `public`. The read API drops everything else and prunes the references to
+  it, and pages, the sitemap, the RSS feed, search and the profile chat all read
+  through it.
+- Timelines are derived from the dates in the content, never written by hand.
+
+Adding a fact means editing a file and passing the check. The
+[content model](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/architecture/content-model.md)
+and the
+[visibility rules](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/architecture/visibility.md)
+have the details.
+
+## Key decisions
+
+Every decision that shaped the site is recorded as an architecture decision
+record (ADR). The ones that matter most:
+
+- [0001 · Structured content in Git is the source of truth](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0001-content-first.md)
+- [0002 · Next.js is the only backend for now](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0002-nextjs-as-backend.md)
+- [0003 · pnpm workspaces, no Turborepo](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0003-pnpm-workspaces-without-turborepo.md)
+- [0006 · Local text search before any AI layer](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0006-local-search-before-ai.md)
+- [0007 · The visual system: graphite and sage, glass, a dot grid](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0007-visual-system.md)
+- [0009 · Security headers with a static CSP](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0009-security-headers.md)
+- [0010 · A security pipeline in CI](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0010-security-pipeline.md)
+- [0011 · A profile chat that answers only from the site's pages](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0011-profile-chat.md)
+- [0013 · A dated now log and next plans](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0013-now-and-next.md)
+- [0014 · Project case studies in two layers](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0014-project-case-studies.md)
+
+The
+[full list](https://github.com/v1cferr/portfolio-weblog/tree/main/docs/decisions)
+has fifteen.
+
+## AI
+
+### The profile chat
+
+The Ask tab in the search dialog answers questions about my work, and only from
+the site's public pages.
+
+- It searches the same public documents as the site search and sends a free
+  model at most six passages. When nothing matches well enough, no model is
+  called at all.
+- It uses only free models on OpenRouter. Paid models are forbidden in the code,
+  and a unit test enforces it.
+- The model must answer in a strict format, and the server keeps a sentence only
+  if it cites the passages it came from and shares enough of their words. Links
+  to the sources are added by the server; the model never writes a URL.
+- When the site has no source, it says "I don't know" and lists the pages it
+  read, instead of guessing.
+- Each IP address can ask 10 questions a minute, a limit set in the Vercel
+  firewall. When the limit is hit or no free model answers, it quotes the best
+  passages instead.
+- Questions are not stored, and the logs keep only reason codes.
+
+### Built with Claude Code
+
+Built with Claude Code. I owned the scope, the architecture and the review, and
+every decision that shaped the site is recorded as an ADR.
+
+## Quality
+
+Every change passes:
+
+- **Before the commit:** Prettier on the staged files.
+- **CI:** format, lint, typecheck, content integrity, icons in sync, unit tests
+  and the production build, then Playwright end-to-end tests with axe
+  accessibility checks (WCAG 2 A and AA) in the light and dark themes.
+- **Security:** `pnpm audit` of the production dependencies on every pull
+  request and weekly, zizmor on the workflows, and CodeQL. Actions are pinned to
+  commit SHAs, and every page is sent with a static Content Security Policy and
+  hardening headers.
+
+Lighthouse, checked on 2026-11-24 and 2026-11-25:
+
+- **Desktop:** 100 for performance, accessibility and best practices on every
+  page audited.
+- **Mobile:** performance between 91 and 95 on the inner pages.
+- **Home page:** the largest contentful paint on a throttled phone went from 3.7
+  s to 1.2 s once the hero photo was painted from the start.
+
+Photos were re-mastered from the originals at up to 2400 pixels.
+
+## Costs
+
+- **The chat costs nothing.** It uses free models only, with no paid fallback.
+- **The domain** was bought through Hostinger, and its DNS runs on Cloudflare.
+- **The site** is hosted on Vercel.
+
+## Timeline
+
+- **2026-11-25:** the home page paints its largest element in 1.2 s instead of
+  3.7 s on a throttled phone, and the photos are re-mastered at up to 2400
+  pixels.
+- **2026-11-24:** the chat answers in its own words, still grounded, and says "I
+  don't know" when the site has no source.
+- **2026-11-23:** the profile chat on free models, the now and next pages, and
+  the project case studies.
+- **2026-11-22:** v2 replaces v1 at v1cferr.dev. v1 is frozen at the signed tag
+  `archive/v1-final`, with a "v1 final" release on GitHub. Security headers and
+  the security pipeline land the same day.
+- **2026-10-09:** work on v2 starts. v1 is frozen at
+  `archive/pre-v2-2026-10-09`, and the first six ADRs are accepted.
+- **2024-06:** the first commit of v1.
+
+## What's next
+
+My plans are on [the next page](/next). Right now: publish a Nix package or
+flake for the community.
+
+The code is on [GitHub](https://github.com/v1cferr/portfolio-weblog), and it may
+be read for reference; the content and the design may not be reused without
+permission.
