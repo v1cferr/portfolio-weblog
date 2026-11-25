@@ -73,22 +73,59 @@ about:
       Este hub é onde guardo essa história e o que construo a seguir: experiências, projetos,
       estudos e um diário de engenharia, tudo versionado como conteúdo em Git.
 
-# About page, in the owner's own words; each section appears only once its
-# text exists. Uncomment and write (en-us and pt-br):
-#
-# motivation:        # "What drives me": why AI, why Nix, what problem you enjoy
-#   en-us:
-#     - >-
-#       ...
-#   pt-br:
-#     - >-
-#       ...
-# principles:        # "How I work": 3 to 5 short principles
-#   en-us: [...]
-#   pt-br: [...]
-# studying:          # "Now" card: what you are studying or reading
-#   en-us: [...]
-#   pt-br: [...]
+# About page sections. DRAFTED BY CLAUDE on 2026-11-24 at the owner's request
+# ("pode ir colocando tudo recomendado"), only from what the owner said or does
+# (their notes, the site's own decisions, their work); the owner will correct
+# anything that does not sound like them.
+motivation:
+  en-us:
+    - >-
+      I like taking a real problem all the way: from a prototype to something that keeps
+      running, that other people use and can trust.
+    - >-
+      With AI, that means answers that cite their sources and outputs that code can validate,
+      not just a good-looking demo. It is what I do in my current role and what I practice in
+      my own projects, like the chat on this site, which says "I don't know" instead of
+      making things up.
+    - >-
+      I also like infrastructure that does not depend on anyone's memory. That is why my whole
+      machine is declared in Nix, and why this site keeps its content as versioned files.
+  pt-br:
+    - >-
+      Gosto de pegar um problema real e ir até o fim: do protótipo a algo que continua rodando,
+      que outras pessoas usam e em que dá para confiar.
+    - >-
+      Com IA, isso quer dizer respostas que citam a fonte e saídas que o código consegue
+      validar, e não só uma demo bonita. É o que faço no meu trabalho atual e o que pratico nos
+      meus projetos, como o chat deste site, que diz "não sei" em vez de inventar.
+    - >-
+      Também gosto de infraestrutura que não depende da memória de ninguém. Por isso a minha
+      máquina inteira é declarada em Nix, e este site guarda o conteúdo como arquivos
+      versionados.
+principles:
+  en-us:
+    - "No source, no answer: what an AI states has to come from something you can check."
+    - Content and data are the source of truth; the interface is one way of showing them.
+    - "Reproducible or not done: Nix, CI and tests before calling it delivered."
+    - Small commits, with the why in the history.
+    - "Private by default: no secrets in the repository, no metadata in the photos."
+    - Mobile first, and still polished on the desktop.
+  pt-br:
+    - "Sem fonte, sem resposta: o que a IA afirma precisa vir de algo que dá para conferir."
+    - Conteúdo e dados são a fonte da verdade; a interface é só uma forma de mostrar.
+    - "Reproduzível ou não está pronto: Nix, CI e testes antes de chamar de entregue."
+    - Commits pequenos, com o porquê no histórico.
+    - "Privacidade por padrão: nada de segredo no repositório, nada de metadado nas fotos."
+    - Mobile-first, sem descuidar do desktop.
+studying:
+  en-us:
+    - Graduate courses in AI, machine learning and deep learning at UFSCar (special student, PPGCC)
+    - Nix and NixOS in depth, with my own packages and flakes
+    - Evaluating LLM and RAG answers that cite their sources
+  pt-br:
+    - Disciplinas de pós em IA, machine learning e deep learning na UFSCar (aluno especial do PPGCC)
+    - Nix e NixOS a fundo, com meus próprios pacotes e flakes
+    - Avaliação de respostas de LLMs e RAG que citam as fontes
 focus:
   en-us:
     - AI engineering and LLMOps, from prototype to a solution that keeps running
