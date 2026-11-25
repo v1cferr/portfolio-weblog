@@ -27,9 +27,9 @@ summary:
     com IA.
 
 media:
-  - src: /education/transforme-se/certificate.webp
-    width: 1600
-    height: 1136
+  - src: /education/transforme-se/certificate.jpg
+    width: 1712
+    height: 1216
     document: true
     alt:
       en-us: Transforme-se certificate awarded to Victor Ferreira for the Technology and Data track of Serasa Experian's program, 280 hours, São Carlos, 20 May 2026
@@ -37,18 +37,18 @@ media:
     caption:
       en-us: The certificate, 280 hours.
       pt-br: O certificado, 280 horas.
-  - src: /education/transforme-se/class.webp
-    width: 1600
-    height: 1200
+  - src: /education/transforme-se/class.jpg
+    width: 2400
+    height: 1800
     alt:
       en-us: The class posing in an auditorium, most of them in blue and purple Transforme-se t-shirts
       pt-br: A turma posando em um auditório, a maioria com camisetas azuis e roxas do Transforme-se
     caption:
       en-us: The class.
       pt-br: A turma.
-  - src: /education/transforme-se/library.webp
-    width: 1200
-    height: 1600
+  - src: /education/transforme-se/library.jpg
+    width: 1800
+    height: 2400
     alt:
       en-us: Victor standing in a library in a blue Serasa Experian Transforme-se t-shirt, between shelves of books and magazines
       pt-br: Victor em pé em uma biblioteca com a camiseta azul do Transforme-se da Serasa Experian, entre estantes de livros e revistas
