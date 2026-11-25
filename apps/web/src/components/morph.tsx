@@ -1,7 +1,7 @@
 import { type ReactNode, ViewTransition } from "react";
 
 /** The kinds of things that have a list entry and a page of their own. */
-export type MorphKind = "project" | "experience" | "post";
+export type MorphKind = "project" | "experience" | "post" | "decision";
 
 /** A view-transition name is a CSS identifier: anything else becomes "_". */
 export function morphName(kind: MorphKind, id: string) {
