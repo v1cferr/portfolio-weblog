@@ -1,5 +1,4 @@
 import { FolderGit2Icon } from "lucide-react";
-import { ProjectCategory, ProjectState } from "@workspace/content";
 import type { GitHubRepo } from "@workspace/github";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -15,10 +14,6 @@ import { getRepoIndex } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
-
-function used<T extends string>(values: readonly T[], present: Set<string>): T[] {
-  return values.filter((value) => present.has(value));
-}
 
 const UNCURATED_VISIBLE = 8;
 
@@ -53,11 +48,6 @@ export default async function ProjectsPage() {
   const content = getContent();
   const projects = content.getProjects();
 
-  const states = used(ProjectState.options, new Set(projects.map((p) => p.state))).map((value) => ({ value, label: t(`state.${value}`) }));
-  const categories = used(ProjectCategory.options, new Set(projects.map((p) => p.category))).map((value) => ({
-    value,
-    label: t(`category.${value}`),
-  }));
   const technologies = content
     .getTechnologies()
     .filter((tech) => projects.some((p) => p.technologies.includes(tech.id)))
@@ -74,7 +64,7 @@ export default async function ProjectsPage() {
   return (
     <PageTransition>
       <PageHeader source={{ path: "projects" }} icon={FolderGit2Icon} title={t("title")} description={t("description")} />
-      <ProjectCatalog projects={cards} states={states} categories={categories} technologies={technologies} />
+      <ProjectCatalog projects={cards} technologies={technologies} />
 
       {uncurated.length > 0 && (
         <section aria-labelledby="uncurated" className="mt-20">

@@ -96,13 +96,14 @@ test.describe("projects without a case study", () => {
 test.describe("projects list", () => {
   test("featured cards show the problem and a case study badge", async ({ page }) => {
     await page.goto("/en-us/projects");
-    const featured = page.getByRole("region", { name: "Featured" });
+    const featured = page.getByRole("tabpanel", { name: /Featured/ });
     const card = featured.locator("[data-slot=card]").filter({ has: page.getByRole("link", { name: "Personal Hub (v1cferr.dev)" }) });
     await expect(card.getByText("Case study", { exact: true })).toBeVisible();
     await expect(card).toContainText("source of truth");
     // obsidian-rag is listed, but no longer featured.
     await expect(featured.getByRole("link", { name: "obsidian-rag" })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "obsidian-rag" }).first()).toBeVisible();
+    await page.getByRole("tab", { name: /^All/ }).click();
+    await expect(page.getByRole("tabpanel", { name: /^All/ }).getByRole("link", { name: "obsidian-rag" })).toBeVisible();
   });
 
   test("acuttis-point is private: no card and no page", async ({ page }) => {

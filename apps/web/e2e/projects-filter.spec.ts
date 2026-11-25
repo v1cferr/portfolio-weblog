@@ -2,98 +2,105 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 
 /*
- * The Projects filter (option A, 2026-11-25): Status as a segmented control,
- * Type as chips, both single-choice radio groups with a count per option. The
- * owner's bug report: at ?category=study&state=historical the chosen options
- * did not look chosen, the count said 4 with 3 cards, and 2024 was an empty group.
+ * The Projects page as single-choice tabs (2026-11-25). The owner's complaint
+ * about the filter before it: the controls moved under the pointer (featured
+ * cards above them came and went), counts changed width, the list jumped.
  */
 
-const status = (page: Page) => page.getByRole("radiogroup", { name: "Filter by status" });
-const type = (page: Page) => page.getByRole("radiogroup", { name: "Filter by category" });
-const cards = (page: Page) => page.locator('section[aria-labelledby="all-projects"] article');
-const count = (page: Page) => page.getByTestId("project-count");
+const tabs = (page: Page) => page.getByRole("tablist", { name: "Show projects" });
+const tab = (page: Page, name: RegExp) => tabs(page).getByRole("tab", { name });
+const panel = (page: Page, name: RegExp) => page.getByRole("tabpanel", { name });
 
-/** The count says N and N cards are on screen, all visible: polled, since the list updates after the URL. */
-async function expectCountMatchesCards(page: Page, expected?: number) {
-  await expect
-    .poll(async () => {
-      const shown = Number(/\d+/.exec((await count(page).textContent()) ?? "")?.[0] ?? "-1");
-      return shown === (await cards(page).count()) ? shown : -1;
-    })
-    .toBe(expected ?? (await cards(page).count()));
-  for (const card of await cards(page).all()) await expect(card).toBeVisible();
-}
+/** The top of the tab bar, which must never move when a tab is chosen. */
+const top = async (page: Page) => (await tabs(page).boundingBox())?.y ?? Number.NaN;
 
-test.describe("projects filter", () => {
-  test("a filtered link shows its choices selected and every counted project", async ({ page }) => {
-    await page.goto("/en-us/projects?category=study&state=historical");
-    await expect(status(page).getByRole("radio", { name: /Historical/ })).toHaveAttribute("aria-checked", "true");
-    await expect(type(page).getByRole("radio", { name: /Study/ })).toHaveAttribute("aria-checked", "true");
-    await expect(count(page)).toHaveText("4 projects");
-    await expectCountMatchesCards(page);
+test.describe("projects tabs", () => {
+  test("Featured is the default and shows the featured cards", async ({ page }) => {
+    await page.goto("/en-us/projects");
+    await expect(tab(page, /^Featured/)).toHaveAttribute("aria-selected", "true");
+    await expect(
+      panel(page, /^Featured/)
+        .locator("[data-slot=card]")
+        .first()
+    ).toBeVisible();
   });
 
-  test("switching facets never leaves a counted project hidden or a year empty", async ({ page }) => {
+  test("every tab sets the URL, shows its count of projects and leaves the tab bar where it was", async ({ page }) => {
     await page.goto("/en-us/projects");
-    await status(page)
-      .getByRole("radio", { name: /Historical/ })
-      .click();
-    await type(page)
-      .getByRole("radio", { name: /Challenge/ })
-      .click();
-    await expect(page).toHaveURL(/category=challenge/);
-    await expectCountMatchesCards(page, 2);
-    await type(page).getByRole("radio", { name: /Study/ }).click();
-    await expect(page).toHaveURL(/state=historical/);
-    await expect(page).toHaveURL(/category=study/);
-    await expectCountMatchesCards(page, 4);
-    for (const group of await page.locator('section[aria-labelledby="all-projects"] > section').all()) {
-      await expect(group.locator("article").first()).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    const before = await top(page);
+    for (const [name, view] of [
+      [/^All/, "all"],
+      [/^Active/, "active"],
+      [/^Experimental/, "experimental"],
+      [/^Studies/, "study"],
+      [/^Challenges/, "challenge"],
+      [/^Featured/, null],
+    ] as const) {
+      const trigger = tab(page, name);
+      await trigger.click();
+      await expect(trigger).toHaveAttribute("aria-selected", "true");
+      if (view === null) await expect(page).not.toHaveURL(/view=/);
+      else {
+        await expect(page).toHaveURL(new RegExp(`view=${view}`));
+        const count = Number(/\d+/.exec((await trigger.textContent()) ?? "")?.[0] ?? "-1");
+        await expect(panel(page, name).locator("article")).toHaveCount(count);
+      }
+      expect(await top(page)).toBe(before);
     }
+  });
+
+  test("old filter links land on the closest tab and become ?view= links", async ({ page }) => {
+    await page.goto("/en-us/projects?category=study&state=historical");
+    await expect(tab(page, /^Studies/)).toHaveAttribute("aria-selected", "true");
+    await expect(page).toHaveURL(/\?view=study$/);
+    await page.goto("/en-us/projects?state=active");
+    await expect(tab(page, /^Active/)).toHaveAttribute("aria-selected", "true");
+  });
+
+  test("a technology link narrows All, with a chip that clears it in place", async ({ page }) => {
+    await page.goto("/en-us/projects?tech=react");
+    await expect(tab(page, /^All/)).toHaveAttribute("aria-selected", "true");
+    const chip = panel(page, /^All/).getByRole("button", { name: /Using React/ });
+    await expect(chip).toBeVisible();
+    const before = await top(page);
+    await chip.click();
+    await expect(page).not.toHaveURL(/tech=/);
+    expect(await top(page)).toBe(before);
   });
 
   test("every project is in the static HTML", async ({ page, request }) => {
     const html = await (await request.get("/en-us/projects")).text();
-    await page.goto("/en-us/projects");
-    const titles = await cards(page).locator("h4").allTextContents();
+    await page.goto("/en-us/projects?view=all");
+    await expect(tab(page, /^All/)).toHaveAttribute("aria-selected", "true");
+    const titles = await panel(page, /^All/).locator("article h4").allTextContents();
     expect(titles.length).toBeGreaterThan(5);
     for (const title of titles) expect(html).toContain(title.trim());
   });
 
-  test("options with no match are disabled but focusable, and the all option clears a facet", async ({ page }) => {
-    await page.goto("/en-us/projects?state=experimental");
-    const disabled = page.locator('[role="radio"][aria-disabled="true"]');
-    if ((await disabled.count()) > 0) {
-      const before = page.url();
-      await disabled.first().click({ force: true });
-      expect(page.url()).toBe(before);
-    }
-    await status(page).getByRole("radio", { name: /^All/ }).click();
-    await expect(page).not.toHaveURL(/state=/);
-  });
-
-  test("arrow keys move within the status control", async ({ page, isMobile }) => {
+  test("arrow keys move between tabs", async ({ page, isMobile }) => {
     test.skip(isMobile, "keyboard navigation is a desktop concern");
     await page.goto("/en-us/projects");
     await page.waitForLoadState("networkidle");
-    await status(page).getByRole("radio", { name: /^All/ }).focus();
+    await tab(page, /^Featured/).focus();
     await page.keyboard.press("ArrowRight");
-    await expect(status(page).getByRole("radio").nth(1)).toBeFocused();
+    await expect(tab(page, /^All/)).toBeFocused();
+    await expect(tab(page, /^All/)).toHaveAttribute("aria-selected", "true");
   });
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations (${theme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
-      await page.goto("/en-us/projects?category=study");
-      const results = await new AxeBuilder({ page }).include('[data-testid="project-filters"]').withTags(["wcag2a", "wcag2aa"]).analyze();
+      await page.goto("/en-us/projects?view=study");
+      const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();
       const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-      expect(serious.map((v) => v.id)).toEqual([]);
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
     });
   }
 
   test("fits a 360px phone without horizontal scroll", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
-    await page.goto("/en-us/projects");
+    await page.goto("/en-us/projects?view=challenge");
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   });
 });

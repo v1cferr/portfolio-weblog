@@ -264,7 +264,16 @@
     "fromGithub": "Do GitHub",
     "notOnGithub": "Sem repositório público.",
     "adrs": "ADRs",
-    "caseStudy": "Estudo de caso"
+    "caseStudy": "Estudo de caso",
+    "tabsLabel": "Mostrar projetos",
+    "tabs": {
+      "featured": "Destaques",
+      "all": "Todos",
+      "active": "Ativos",
+      "experimental": "Experimentais",
+      "study": "Estudos",
+      "challenge": "Desafios"
+    }
   },
   "Timeline": {
     "entries": "{count, plural, one {# entrada} other {# entradas}}",
