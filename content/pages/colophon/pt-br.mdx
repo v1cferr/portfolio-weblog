@@ -1,0 +1,200 @@
+---
+# RASCUNHO para revisão do dono. Escrito com o Claude Code em 2026-11-25 só a
+# partir do repositório: package.json, flake.nix, docs/ (ADRs, arquitetura,
+# guias, migração), .github/workflows, tags do git e PRs mergeados, mais os
+# números de Lighthouse, LCP e do chat que o mantenedor verificou em
+# 2026-11-24/25. Nenhuma afirmação aqui está sem fonte; edite à vontade e depois
+# apague este comentário.
+title: Como este site foi feito
+summary: >-
+  O colofão do v1cferr.dev: por que ele existe, em que roda, como o conteúdo
+  funciona, como é verificado e quanto custa.
+updatedAt: 2026-11-25
+---
+
+## Por que este site existe
+
+Este é o meu personal hub: trajetória, projetos, estudos e um diário de
+engenharia, pensado para durar anos e mais de uma carreira.
+
+A primeira versão, começada em junho de 2024, guardava tudo isso dentro de
+componentes React e de arquivos `src/data/*.ts`. Cinco dos seus seis projetos
+eram placeholders, toda mudança de conteúdo era uma mudança de código e nada
+conferia o que o site afirmava.
+
+A versão 2 é uma reconstrução, não um refactor. A regra foi migrar conhecimento,
+conteúdo e evidências, sem carregar dívida técnica só porque ela existia. O
+trabalho começou em 09/10/2026, e a v2 substituiu a v1 em v1cferr.dev em
+22/11/2026. Escrevi sobre a ideia em
+[Reconstruindo este hub em torno do conteúdo, não dos componentes](/weblog/rebuilding-the-hub-content-first).
+
+## Princípios
+
+- **O conteúdo no Git é a fonte da verdade.** Tudo o que o site diz sobre mim
+  fica em `content/`, em arquivos YAML e MDX. A aplicação web é uma
+  representação deles, e cada página aponta para o arquivo de onde veio.
+- **Identidade, não empregador.** O site é sobre mim. O título ao lado do meu
+  nome vem do meu cargo atual nos dados da carreira, então muda no próximo
+  emprego em vez de ficar escrito num componente.
+- **Privacidade primeiro.** Nenhum segredo chega ao navegador. Só o que está
+  publicado e público chega a uma página, ao sitemap, ao feed ou ao índice de
+  busca. As imagens não podem ter metadados EXIF, XMP ou IPTC, senão a
+  verificação do conteúdo falha. Meu telefone, minha data de nascimento e fotos
+  com localização ficaram na v1 de propósito.
+- **Nenhum fato inventado.** As datas guardam só a precisão que eu de fato sei
+  (ano, mês ou dia), e afirmações que ainda não verifiquei esperam num campo que
+  nenhuma página renderiza.
+- **Mobile first.** As páginas principais são testadas no CI com 360 pixels de
+  largura, sem rolagem horizontal.
+- **Mais recente primeiro.** Toda lista com datas segue a ordem cronológica
+  inversa: as linhas do tempo, o log do agora, o meu setup e a linha do tempo
+  desta página.
+
+## Stack
+
+Versões como declaradas no repositório em 25/11/2026:
+
+- **Next.js 16.4.6** (App Router) e **React 19.3.1**, em **TypeScript 6.0**
+  estrito. O Next.js é o único backend: não há API separada, banco de dados nem
+  login, e nada muda estado em tempo de execução.
+- **Tailwind CSS 4** e **shadcn/ui**, com ícones Lucide, num pacote próprio de
+  design system. O **Motion 14.14.0** faz as transições de página.
+- O **Zod 4** valida o conteúdo. O **next-intl 4** serve inglês, português do
+  Brasil e chinês simplificado; páginas sem tradução revisada para o chinês
+  mostram o texto em inglês e avisam.
+- **MDX** para os artigos e para esta página. **MiniSearch 7** para a busca.
+- **Vitest 5** nos testes unitários, **Playwright 1.64.1** com **axe-core** nos
+  testes end-to-end e de acessibilidade.
+- Workspaces do **pnpm 10**, sem Turborepo: um app Next.js e alguns pacotes
+  TypeScript pequenos.
+- Um dev shell em **flake Nix** com Node 22 (o runtime com que a Vercel faz o
+  build), pnpm 10 e os navegadores do Playwright vindos do nixpkgs. O rodapé
+  mostra o commit e a revisão do nixpkgs de cada build.
+- Hospedado na **Vercel**, com Vercel Analytics e Speed Insights. O DNS fica na
+  **Cloudflare**, na frente dela.
+- Tipografia: Martian Mono, Hanken Grotesk e JetBrains Mono.
+
+## Como o conteúdo funciona
+
+- Experiências, projetos, estudos e tecnologias são arquivos YAML; os artigos e
+  esta página são MDX, um arquivo por idioma.
+- Cada arquivo é conferido contra um schema Zod estrito, então um campo
+  desconhecido ou com erro de digitação falha em vez de ser ignorado.
+- O `pnpm content:check` roda no CI. Ele falha quando uma referência não aponta
+  para nada, um id se repete, uma data de fim vem antes do início, conteúdo
+  público aponta para conteúdo privado ou uma imagem ainda tem metadados.
+- Algo só é público quando o status é `published` **e** a visibilidade é
+  `public`. A API de leitura descarta todo o resto e remove as referências a
+  ele, e as páginas, o sitemap, o feed RSS, a busca e o chat de perfil leem
+  todos por ela.
+- As linhas do tempo são derivadas das datas do conteúdo, nunca escritas à mão.
+
+Acrescentar um fato é editar um arquivo e passar na verificação. O
+[modelo de conteúdo](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/architecture/content-model.md)
+e as
+[regras de visibilidade](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/architecture/visibility.md)
+têm os detalhes (em inglês).
+
+## Decisões principais
+
+Toda decisão que moldou o site está registrada num architecture decision record
+(ADR), em inglês. As que mais pesam:
+
+- [0001 · O conteúdo estruturado no Git é a fonte da verdade](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0001-content-first.md)
+- [0002 · O Next.js é o único backend, por enquanto](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0002-nextjs-as-backend.md)
+- [0003 · Workspaces do pnpm, sem Turborepo](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0003-pnpm-workspaces-without-turborepo.md)
+- [0006 · Busca local de texto antes de qualquer camada de IA](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0006-local-search-before-ai.md)
+- [0007 · O sistema visual: grafite e sálvia, vidro, grade de pontos](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0007-visual-system.md)
+- [0009 · Cabeçalhos de segurança com uma CSP estática](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0009-security-headers.md)
+- [0010 · Um pipeline de segurança no CI](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0010-security-pipeline.md)
+- [0011 · Um chat de perfil que responde só a partir das páginas do site](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0011-profile-chat.md)
+- [0013 · Um log do agora datado e os planos do próximo](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0013-now-and-next.md)
+- [0014 · Estudos de caso de projetos em duas camadas](https://github.com/v1cferr/portfolio-weblog/blob/main/docs/decisions/0014-project-case-studies.md)
+
+A
+[lista completa](https://github.com/v1cferr/portfolio-weblog/tree/main/docs/decisions)
+tem quinze.
+
+## IA
+
+### O chat de perfil
+
+A aba Perguntar da busca responde perguntas sobre o meu trabalho, e só a partir
+das páginas públicas do site.
+
+- Ele busca nos mesmos documentos públicos da busca do site e manda a um modelo
+  gratuito no máximo seis trechos. Quando nada combina o bastante, nenhum modelo
+  é chamado.
+- Usa só modelos gratuitos do OpenRouter. Modelos pagos são proibidos no código,
+  e um teste unitário garante isso.
+- O modelo precisa responder num formato estrito, e o servidor só mantém uma
+  frase se ela citar os trechos de onde veio e compartilhar palavras suficientes
+  com eles. Os links para as fontes são postos pelo servidor; o modelo nunca
+  escreve uma URL.
+- Quando o site não tem fonte, ele diz "não sei" e lista as páginas que leu, em
+  vez de chutar.
+- Cada endereço IP pode fazer 10 perguntas por minuto, um limite configurado no
+  firewall da Vercel. Quando o limite estoura ou nenhum modelo gratuito
+  responde, ele cita os melhores trechos no lugar.
+- As perguntas não são guardadas, e os logs registram só códigos de motivo.
+
+### Feito com o Claude Code
+
+Feito com o Claude Code. O escopo, a arquitetura e a revisão foram meus, e toda
+decisão que moldou o site está registrada num ADR.
+
+## Qualidade
+
+Toda mudança passa por:
+
+- **Antes do commit:** Prettier nos arquivos em stage.
+- **CI:** formatação, lint, typecheck, integridade do conteúdo, ícones em
+  sincronia, testes unitários e o build de produção, depois testes end-to-end
+  com Playwright e verificação de acessibilidade do axe (WCAG 2 A e AA) nos
+  temas claro e escuro.
+- **Segurança:** `pnpm audit` das dependências de produção em todo pull request
+  e toda semana, zizmor nos workflows e CodeQL. As actions são fixadas por SHA
+  de commit, e toda página sai com uma Content Security Policy estática e
+  cabeçalhos de proteção.
+
+Lighthouse, medido em 24/11/2026 e 25/11/2026:
+
+- **Desktop:** 100 em performance, acessibilidade e boas práticas em todas as
+  páginas auditadas.
+- **Celular:** performance entre 91 e 95 nas páginas internas.
+- **Página inicial:** o largest contentful paint num celular com rede limitada
+  caiu de 3,7 s para 1,2 s quando a foto do hero passou a ser pintada desde o
+  início.
+
+As fotos foram remasterizadas a partir dos originais, com até 2400 pixels.
+
+## Custos
+
+- **O chat não custa nada.** Usa só modelos gratuitos, sem fallback pago.
+- **O domínio** foi comprado pela Hostinger, e o DNS dele roda na Cloudflare.
+- **O site** é hospedado na Vercel.
+
+## Linha do tempo
+
+- **25/11/2026:** a página inicial pinta o maior elemento em 1,2 s em vez de 3,7
+  s num celular com rede limitada, e as fotos são remasterizadas com até 2400
+  pixels.
+- **24/11/2026:** o chat responde com as próprias palavras, ainda ancorado nas
+  fontes, e diz "não sei" quando o site não tem fonte.
+- **23/11/2026:** o chat de perfil com modelos gratuitos, as páginas de agora e
+  de próximos passos, e os estudos de caso dos projetos.
+- **22/11/2026:** a v2 substitui a v1 em v1cferr.dev. A v1 fica congelada na tag
+  assinada `archive/v1-final`, com uma release "v1 final" no GitHub. Os
+  cabeçalhos de segurança e o pipeline de segurança entram no mesmo dia.
+- **09/10/2026:** começa o trabalho na v2. A v1 fica congelada em
+  `archive/pre-v2-2026-10-09`, e os seis primeiros ADRs são aceitos.
+- **06/2024:** o primeiro commit da v1.
+
+## O que vem depois
+
+Meus planos ficam na [página de próximos passos](/next). Agora: publicar algo
+(um pacote ou flake Nix) para a comunidade.
+
+O código está no [GitHub](https://github.com/v1cferr/portfolio-weblog) e pode
+ser lido como referência; o conteúdo e o design não podem ser reutilizados sem
+permissão.

@@ -15,8 +15,10 @@ import {
   loadContent,
   loadDecisionsContent,
   loadNowContent,
+  loadPagesContent,
   loadWowContent,
   publicNow,
+  publicPages,
   publicWow,
   validateContent,
 } from "../src";
@@ -27,8 +29,9 @@ const { errors, warnings } = validateContent(content);
 const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web", "public"), (file) => sharp(file).metadata());
 const now = loadNowContent(root);
 const wow = loadWowContent(root);
+const pages = loadPagesContent(root);
 const decisions = loadDecisionsContent(root);
-const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...decisions.issues];
+const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...pages.issues, ...decisions.issues];
 
 if (warnings.length > 0) console.warn(`Warnings (${warnings.length}):\n${formatIssues(warnings)}\n`);
 
@@ -51,6 +54,7 @@ console.warn(
     count("certifications", everything.getCertifications().length, publicView.getCertifications().length),
     count("posts", everything.getPostSlugs().length, publicView.getPostSlugs().length),
     count("now updates", now.log.entries.length, publicNow(now.log).entries.length),
+    count("pages", pages.pages.length, publicPages(pages.pages).length),
     count("wow characters", wow.wow?.characters.length ?? 0, publicWow(wow.wow)?.characters.length ?? 0),
     count("decisions", decisions.decisions.length, decisions.decisions.length),
     count("technologies", everything.getTechnologies().length, publicView.getTechnologies().length),

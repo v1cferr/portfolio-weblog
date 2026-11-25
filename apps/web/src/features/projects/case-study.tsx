@@ -147,8 +147,19 @@ function Bullets({ items }: { items: { value: string[]; locale: string } }) {
   );
 }
 
-/** The second layer: motivation, constraints, decisions, how it was built, lessons, next. */
-export async function CaseStudyDeepDive({ caseStudy, locale }: { caseStudy: CaseStudy; locale: Locale }) {
+/**
+ * The second layer: motivation, constraints, decisions, how it was built, lessons, next.
+ * `howBuiltMore` closes the "how it was built" section (this site's own case study links its colophon there).
+ */
+export async function CaseStudyDeepDive({
+  caseStudy,
+  locale,
+  howBuiltMore,
+}: {
+  caseStudy: CaseStudy;
+  locale: Locale;
+  howBuiltMore?: ReactNode;
+}) {
   const t = await getTranslations("CaseStudy");
   const motivation = text(caseStudy.motivation, locale);
   const constraints = list(caseStudy.constraints, locale);
@@ -251,6 +262,7 @@ export async function CaseStudyDeepDive({ caseStudy, locale }: { caseStudy: Case
               <Bullets items={quality} />
             </>
           )}
+          {howBuiltMore}
         </Section>
       )}
       {lessons !== undefined && (

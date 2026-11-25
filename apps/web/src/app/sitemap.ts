@@ -7,7 +7,7 @@ import { languageTag } from "@/lib/i18n";
 import { getNow } from "@/lib/now";
 import { absoluteUrl } from "@/lib/site";
 
-const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow", "/decisions"];
+const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow", "/colophon", "/decisions"];
 
 /** Every public page in every locale. Posts list only the locales they are written in. */
 export default function sitemap(): MetadataRoute.Sitemap {
