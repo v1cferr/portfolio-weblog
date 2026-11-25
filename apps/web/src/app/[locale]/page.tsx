@@ -1,5 +1,16 @@
-import { localize, localizeList } from "@workspace/content";
-import { ArrowRightIcon, FolderGit2Icon, HistoryIcon, MapPinIcon, PenLineIcon, RouteIcon, TargetIcon } from "lucide-react";
+import { localize } from "@workspace/content";
+import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
+import {
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  FolderGit2Icon,
+  HistoryIcon,
+  MailIcon,
+  MapPinIcon,
+  PenLineIcon,
+  SparklesIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -7,12 +18,14 @@ import { NAV_SECTION, PageTransition } from "@/components/page-transition";
 import { GitSpine, SpineBranch, SpineHead } from "@/components/git-spine";
 import { NixosLogo } from "@/components/nixos-logo";
 import { V1cLogo } from "@/components/v1c-logo";
+import { AskButton, AskInput, TrackedAnchor } from "@/features/home/cta";
+import { ProofLine } from "@/features/home/proof-line";
+import { StartHere } from "@/features/home/start-here";
 import { NowCard } from "@/features/now/now-card";
 import { Avatar } from "@/features/profile/avatar";
 import { StackChips } from "@/features/profile/stack-chips";
 import { SectionHeading, StorePath } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
-import { Trajectory } from "@/features/profile/trajectory";
 import { CommitGraph } from "@/features/timeline/commit-graph";
 import { PostCard } from "@/features/weblog/post-card";
 import { ProjectCard } from "@/features/projects/project-card";
@@ -43,7 +56,9 @@ export default async function HomePage() {
   const profile = content.getProfile();
   const headline = ownerTitle(locale);
   const summary = localize(profile.summary, locale);
-  const focus = localizeList(profile.focus, locale);
+  const email = profile.links.find((link) => link.kind === "email")?.url;
+  const availability = profile.availability?.open === true ? profile.availability : undefined;
+  const availabilityNote = availability?.note === undefined ? undefined : localize(availability.note, locale);
   const featured = content.getProjects().filter((project) => project.featured);
   const posts = content.getPosts(locale).slice(0, 3);
   const index = await getRepoIndex();
@@ -87,7 +102,7 @@ export default async function HomePage() {
                 {headline.value}
               </span>
             </h1>
-            {/* Role, areas and daily stack only; where the owner works shows in the trajectory and career. */}
+            {/* Role, areas and daily stack only; where the owner works shows in the proof line and the career. */}
             {profile.specialties.length > 0 && (
               <p className="max-w-2xl font-mono text-sm text-balance text-muted-foreground" lang="en-us">
                 {profile.specialties.join(" · ")}
@@ -97,7 +112,38 @@ export default async function HomePage() {
             <p className="max-w-2xl text-lg text-pretty" lang={summary.locale}>
               {summary.value}
             </p>
-            <SocialLinks links={profile.links} label={common("links")} />
+            <div className="flex flex-wrap items-center gap-3">
+              <AskButton from="hero" size="lg" className="h-11 rounded-full px-5 text-base">
+                <SparklesIcon aria-hidden className="size-4" />
+                {t("askAi")}
+              </AskButton>
+              {email !== undefined && (
+                <Button asChild variant="outline" size="lg" className="h-11 rounded-full px-5 text-base">
+                  <TrackedAnchor href={email} event="cta_contact">
+                    <MailIcon aria-hidden className="size-4" />
+                    {t("contact")}
+                  </TrackedAnchor>
+                </Button>
+              )}
+              {profile.cv !== undefined && (
+                <TrackedAnchor
+                  href={profile.cv}
+                  event="cta_cv"
+                  target="_blank"
+                  rel="noopener"
+                  className="group/link inline-flex min-h-11 items-center gap-0.5 px-1 font-medium underline-offset-4 hover:underline"
+                >
+                  {t("cv")} <ArrowUpRightIcon aria-hidden className="icon-out size-4" />
+                </TrackedAnchor>
+              )}
+              {availability !== undefined && (
+                <Badge variant="now" data-availability="" className="h-7 px-3 text-sm" lang={availabilityNote?.locale}>
+                  {availabilityNote?.value ?? t("available")}
+                </Badge>
+              )}
+            </div>
+            <AskInput label={t("askLabel")} placeholder={t("askPlaceholder")} submit={t("askSubmit")} />
+            <SocialLinks links={profile.links} label={common("links")} size="sm" className="pt-1" />
           </div>
           {profile.photo !== undefined && (
             // Shown at every width: phones get the same photo (and its alt text) as desktop, which is
@@ -106,32 +152,8 @@ export default async function HomePage() {
           )}
         </section>
 
-        <NowCard />
-        <LearningStrip />
-
-        {profile.trajectory.length > 0 && (
-          <section aria-labelledby="trajectory" className="mb-16">
-            <SectionHeading id="trajectory" icon={RouteIcon} branch={<SpineBranch lane="career" />}>
-              {t("trajectory")}
-            </SectionHeading>
-            <Trajectory steps={profile.trajectory} label={t("trajectory")} />
-          </section>
-        )}
-
-        {focus !== undefined && (
-          <section aria-labelledby="focus" className="mb-16 max-w-3xl">
-            <SectionHeading id="focus" icon={TargetIcon} branch={<SpineBranch lane="study" />}>
-              {t("focus")}
-            </SectionHeading>
-            <ul className="divide-y border-y" lang={focus.locale}>
-              {focus.value.map((item) => (
-                <li key={item} className="py-3 text-lg">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+        <StartHere email={email} cv={profile.cv} />
+        <ProofLine />
 
         {featured.length > 0 && (
           <section aria-labelledby="featured" className="mb-16">
@@ -160,6 +182,14 @@ export default async function HomePage() {
             </ul>
           </section>
         )}
+
+        {/* Side by side on wide screens: the Now card on the spine, the studies beside it. */}
+        <div className="grid items-start gap-x-10 lg:grid-cols-2">
+          <NowCard />
+          <div>
+            <LearningStrip onSpine={false} />
+          </div>
+        </div>
 
         <section aria-labelledby="latest" className="mb-16 max-w-4xl">
           <SectionHeading
