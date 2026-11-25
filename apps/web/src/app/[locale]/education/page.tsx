@@ -155,28 +155,34 @@ export default async function EducationPage() {
             </EmptyState>
           ) : (
             <ul className="divide-y border-y">
-              {certifications.map((cert) => (
-                <li
-                  key={cert.id}
-                  id={cert.id}
-                  className="flex scroll-mt-24 flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between"
-                >
-                  <span className="font-medium">{cert.name}</span>
-                  <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-                    {content.getOrganization(cert.issuer)?.name}
-                    <PartialDate date={cert.issuedAt} />
-                    {cert.credentialUrl !== undefined && (
-                      <ExternalLink
-                        href={cert.credentialUrl}
-                        className="group/link inline-flex min-h-11 items-center gap-1 hover:text-foreground sm:min-h-0"
-                      >
-                        {t("credential")} <span className="sr-only">{cert.name}</span>
-                        <ExternalLinkIcon className="icon-out size-3" aria-hidden />
-                      </ExternalLink>
-                    )}
-                  </span>
-                </li>
-              ))}
+              {certifications.map((cert) => {
+                const issuer = content.getOrganization(cert.issuer);
+                return (
+                  <li
+                    key={cert.id}
+                    id={cert.id}
+                    className="flex scroll-mt-24 flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between"
+                  >
+                    <span className="flex items-center gap-3 font-medium">
+                      {issuer !== undefined && <OrganizationMark organization={issuer} size="sm" />}
+                      {cert.name}
+                    </span>
+                    <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground sm:justify-end">
+                      {issuer?.name}
+                      <PartialDate date={cert.issuedAt} />
+                      {cert.credentialUrl !== undefined && (
+                        <ExternalLink
+                          href={cert.credentialUrl}
+                          className="group/link inline-flex min-h-11 items-center gap-1 hover:text-foreground sm:min-h-0"
+                        >
+                          {t("credential")} <span className="sr-only">{cert.name}</span>
+                          <ExternalLinkIcon className="icon-out size-3" aria-hidden />
+                        </ExternalLink>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>
