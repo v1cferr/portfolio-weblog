@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
-import { InfoIcon, SearchIcon } from "lucide-react";
+import { InfoIcon, SearchIcon, SparklesIcon } from "lucide-react";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment } from "react";
@@ -15,7 +15,8 @@ import type { Turn } from "./turn";
  * text with numbered citations, the site's passages (extractive), "I don't
  * know" (unknown) and "not on the site" (no-source). Links navigate without
  * closing the dock; `onNavigate` lets the dock step aside on phones, where it
- * covers the page.
+ * covers the page. The model's answers speak as the owner, in the first person,
+ * so each one carries a visible label saying AI wrote it on the owner's behalf.
  */
 export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate: () => void; onSearch: (question: string) => void }) {
   const t = useTranslations("Ask");
@@ -82,6 +83,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   if (turn.mode === "unknown") {
     return (
       <div className="flex flex-col gap-2" data-testid="ask-unknown">
+        <AiLabel />
         <div className="flex flex-col gap-1 rounded-lg bg-muted/50 p-3 text-sm">
           <p className="font-medium">{t("unknown.title")}</p>
           <p className="text-muted-foreground">{t("unknown.body")}</p>
@@ -107,6 +109,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
 
   return (
     <div className="flex flex-col gap-3" aria-busy={streaming} data-testid="ask-answer">
+      <AiLabel />
       <p className="text-sm leading-relaxed whitespace-pre-line">
         {turn.parts.map((part, index) =>
           part.type === "text" ? (
@@ -127,6 +130,20 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
       {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("sources")} />}
       {!streaming && <p className="text-xs text-muted-foreground">{t("disclosure")}</p>}
     </div>
+  );
+}
+
+/** Says who wrote the answer: AI, in the owner's voice, so nobody takes it for the owner typing. */
+function AiLabel() {
+  const t = useTranslations("Ask");
+  return (
+    <p
+      className="inline-flex items-center gap-1.5 self-start rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
+      data-testid="ask-ai-label"
+    >
+      <SparklesIcon aria-hidden className="size-3.5 shrink-0 text-primary" />
+      {t("aiLabel")}
+    </p>
   );
 }
 

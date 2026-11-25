@@ -75,6 +75,7 @@
       "What security experience do I have?"
     ],
     "you": "You asked",
+    "aiLabel": "AI, on my behalf",
     "status": {
       "searching": "Searching the site…",
       "ready": "Answer ready.",

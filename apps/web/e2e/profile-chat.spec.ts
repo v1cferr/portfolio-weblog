@@ -76,6 +76,7 @@ test.describe("profile chat dock", () => {
     await input.fill("Qual é a capital da França?");
     await input.press("Enter");
     await expect(dialog.getByTestId("ask-no-source")).toContainText("Isso não está no site");
+    await expect(dialog.getByTestId("ask-no-source")).toContainText("fale comigo pela página Sobre");
     await expect(page.getByTestId("ask-status")).toHaveText("Nada no site responde a isso.");
     await expect(dialog.getByRole("link", { name: "Sobre e contato" })).toHaveAttribute("href", "/pt-br/about");
     await dialog.getByRole("button", { name: "Buscar no site" }).click();
@@ -229,5 +230,53 @@ test.describe("profile chat dock on a 360px phone", () => {
     await dialog.getByRole("button", { name: "Minimize" }).click();
     await expect(dialog).toBeHidden();
     await context.close();
+  });
+});
+
+test.describe("profile chat answers in the owner's voice", () => {
+  /** A model answer as the API streams it (NDJSON), served in place of /api/ask: CI has no model key. */
+  async function serveAnswer(page: Page, events: object[]) {
+    await page.route("**/api/ask", (route) =>
+      route.fulfill({ contentType: "application/x-ndjson", body: events.map((event) => JSON.stringify(event)).join("\n") + "\n" })
+    );
+  }
+
+  test("a model answer carries a visible AI label", async ({ page }) => {
+    await serveAnswer(page, [
+      { type: "status", mode: "model" },
+      { type: "text", text: "I'm an AI Systems Analyst at FAI·UFSCar." },
+      { type: "cite", n: 1 },
+      { type: "sources", sources: [{ n: 1, title: "FAI·UFSCar", url: "/en-us/career/fai-ufscar-2026" }] },
+      { type: "done" },
+    ]);
+    await page.goto("/en-us");
+    const dialog = await openDock(page);
+    await dialog.getByRole("button", { name: "What is my current role?" }).click();
+    const answer = dialog.getByTestId("ask-answer");
+    await expect(answer).toContainText("I'm an AI Systems Analyst at FAI·UFSCar.");
+    await expect(answer.getByTestId("ask-ai-label")).toHaveText("AI, on my behalf");
+  });
+
+  test("'I don't know' carries it too, in Portuguese", async ({ page }) => {
+    await serveAnswer(page, [
+      { type: "status", mode: "unknown" },
+      { type: "sources", sources: [{ n: null, title: "FAI·UFSCar", url: "/pt-br/career/fai-ufscar-2026" }] },
+      { type: "done" },
+    ]);
+    await page.goto("/pt-br");
+    await page.getByTestId("ask-launcher").click();
+    const dialog = dock(page, "Pergunte sobre o meu trabalho");
+    await dialog.getByRole("button", { name: "Qual é o meu cargo atual?" }).click();
+    const unknown = dialog.getByTestId("ask-unknown");
+    await expect(unknown.getByTestId("ask-ai-label")).toHaveText("IA, em meu nome");
+    await expect(unknown).toContainText("fale comigo pela página Sobre");
+  });
+
+  test("the site's own passages carry no AI label", async ({ page }) => {
+    await page.goto("/en-us");
+    const dialog = await openDock(page);
+    await dialog.getByRole("button", { name: "How do I use Nix?" }).click();
+    await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
+    await expect(dialog.getByTestId("ask-ai-label")).toHaveCount(0);
   });
 });

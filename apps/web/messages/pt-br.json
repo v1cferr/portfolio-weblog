@@ -75,6 +75,7 @@
       "Que experiência tenho com segurança?"
     ],
     "you": "Você perguntou",
+    "aiLabel": "IA, em meu nome",
     "status": {
       "searching": "Buscando no site…",
       "ready": "Resposta pronta.",
