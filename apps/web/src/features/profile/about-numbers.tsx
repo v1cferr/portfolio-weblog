@@ -31,16 +31,17 @@ export async function AboutNumbers() {
         <HashIcon className="size-3.5" aria-hidden />
         {t("numbers.title")}
       </h2>
-      <dl className="grid grid-cols-2 gap-2">
+      {/* A list of links, not a <dl>: a definition list may not have links around its terms. */}
+      <ul className="grid grid-cols-2 gap-2">
         {stats.map((stat) => (
-          <div key={stat.href} className="glass rounded-xl border">
-            <Link href={stat.href} className="flex flex-col-reverse gap-0.5 p-3 hover:text-foreground">
-              <dt className="text-xs text-muted-foreground">{stat.label}</dt>
-              <dd className="font-mono text-2xl font-semibold tabular-nums">{stat.value}</dd>
+          <li key={stat.href} className="glass rounded-xl border">
+            <Link href={stat.href} className="flex flex-col gap-0.5 p-3 hover:text-foreground">
+              <span className="font-mono text-2xl font-semibold tabular-nums">{stat.value}</span>
+              <span className="text-xs text-muted-foreground">{stat.label}</span>
             </Link>
-          </div>
+          </li>
         ))}
-      </dl>
+      </ul>
       {firstYear !== undefined && <p className="mt-2 text-xs text-muted-foreground">{t("numbers.since", { year: firstYear })}</p>}
     </section>
   );
