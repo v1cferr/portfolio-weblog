@@ -1,7 +1,9 @@
 import type { Organization } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
+import type { ReactNode } from "react";
 
 const sizes = {
+  xs: "size-4",
   sm: "size-6",
   default: "size-9",
   lg: "size-12",
@@ -12,9 +14,19 @@ const sizes = {
  * brand ships it (the owner's choice, 2026-11-24: no white tile around it).
  * A logo that vanishes on a dark page has a `logoDark` variant. Rendered on the
  * server so it never flashes initials first; initials stand in only when there
- * is no logo.
+ * is no logo, unless the caller passes a `fallback` (e.g. the generic icon a
+ * study tile used before it had logos).
  */
-export function OrganizationMark({ organization, size = "default" }: { organization: Organization; size?: keyof typeof sizes }) {
+export function OrganizationMark({
+  organization,
+  size = "default",
+  fallback,
+}: {
+  organization: Organization;
+  size?: keyof typeof sizes;
+  fallback?: ReactNode;
+}) {
+  if (organization.logo === undefined && fallback !== undefined) return fallback;
   const initials = organization.name
     .split(/\s+/)
     .map((word) => word[0])
@@ -25,7 +37,7 @@ export function OrganizationMark({ organization, size = "default" }: { organizat
     <img src={src} alt="" className={cn("size-full rounded-[22%] object-contain", className)} decoding="async" />
   );
   return (
-    <span className={cn("inline-flex shrink-0 items-center justify-center", sizes[size])}>
+    <span data-organization={organization.id} className={cn("inline-flex shrink-0 items-center justify-center", sizes[size])}>
       {organization.logo === undefined ? (
         <span
           aria-hidden
