@@ -181,7 +181,7 @@ export default async function SetupPage() {
                         src={photo.src}
                         alt={alt.value}
                         fill
-                        sizes="(min-width: 640px) 288px, 100vw"
+                        sizes="(min-width: 640px) 384px, 100vw"
                         className="object-cover transition-transform hover:scale-[1.02]"
                       />
                     </LightboxTrigger>

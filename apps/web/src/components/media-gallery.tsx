@@ -52,6 +52,7 @@ export async function MediaGallery({ id, media, placeholder, compact = false }: 
       altLang: alt.locale,
       caption: caption?.value,
       captionLang: caption?.locale,
+      ...(item.document === true && { document: true }),
     };
   });
 
@@ -73,7 +74,9 @@ export async function MediaGallery({ id, media, placeholder, compact = false }: 
                     src={item.src}
                     alt={alt.value}
                     fill
-                    sizes={compact ? "160px" : "(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"}
+                    // The real tile widths (measured 2026-11-24): compact tiles are 333 px on a desktop
+                    // card and a third of a phone; wide photos cropped into 4:3 need the next size up.
+                    sizes={compact ? "(min-width: 1024px) 340px, 30vw" : "(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"}
                     className="object-cover transition-transform hover:scale-[1.02]"
                   />
                 </LightboxTrigger>

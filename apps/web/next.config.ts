@@ -75,6 +75,16 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    /*
+     * One quality for every image (a second value would double the cached
+     * variants). Next maps it to AVIF quality round(q * 50 / 80): 85 is AVIF 53,
+     * where the default 75 was 47 and smeared keyboards, screen text and hair
+     * (measured 2026-11-24, docs/decisions/0007 revision). Images that ask for
+     * nothing are coerced to it.
+     */
+    qualities: [85],
+    // Photos never change under the same path; 31 days instead of 4 hours means fewer re-encodes.
+    minimumCacheTTL: 2_678_400,
     // Character renders on /wow, from Blizzard's render host only (lib/battlenet.ts checks the URL too).
     remotePatterns: [
       { protocol: "https", hostname: "render.worldofwarcraft.com", pathname: "/**" },
