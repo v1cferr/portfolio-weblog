@@ -58,21 +58,21 @@
   },
   "Ask": {
     "open": "Perguntar",
-    "openLabel": "Perguntar sobre o Victor",
+    "openLabel": "Perguntar sobre o meu trabalho",
     "close": "Fechar",
-    "title": "Pergunte sobre o Victor",
+    "title": "Pergunte sobre o meu trabalho",
     "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
-    "placeholder": "Pergunte sobre o trabalho do Victor…",
+    "placeholder": "Pergunte sobre o meu trabalho…",
     "submit": "Perguntar",
     "stop": "Parar",
     "clear": "Nova conversa",
     "counter": "{count} de {max} caracteres",
     "suggestionsTitle": "Experimente perguntar",
     "suggestions": [
-      "Qual é o cargo atual do Victor?",
-      "Como o Victor usa Nix?",
-      "Quais projetos de RAG o Victor construiu?",
-      "Que experiência o Victor tem com segurança?"
+      "Qual é o meu cargo atual?",
+      "Como uso Nix?",
+      "Quais projetos de RAG construí?",
+      "Que experiência tenho com segurança?"
     ],
     "you": "Você perguntou",
     "status": {
@@ -92,7 +92,7 @@
     },
     "noSource": {
       "title": "Isso não está no site",
-      "body": "Nenhuma página daqui responde a isso, e as respostas vêm só das páginas do próprio site. Tente uma busca, ou fale com o Victor pela página Sobre.",
+      "body": "Nenhuma página daqui responde a isso, e as respostas vêm só das páginas do próprio site. Tente uma busca, ou fale comigo pela página Sobre.",
       "search": "Buscar no site",
       "about": "Sobre e contato"
     },
@@ -106,7 +106,7 @@
     "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais.",
     "unknown": {
       "title": "Não sei: o site não diz isso",
-      "body": "Li as páginas mais próximas da pergunta e nenhuma responde. Prefiro não inventar. Se for importante, fale com o Victor pela página Sobre.",
+      "body": "Li as páginas mais próximas da pergunta e nenhuma responde. Prefiro não inventar. Se for importante, fale comigo pela página Sobre.",
       "read": "Páginas que li"
     },
     "partial": "O site responde só parte da pergunta; o resto não está nas páginas, então ficou de fora.",
@@ -117,7 +117,7 @@
     "minimize": "Minimizar",
     "pageSuggestion": {
       "project": "Que problema o {title} resolve?",
-      "career": "O que o Victor fez na {org}?"
+      "career": "O que fiz na {org}?"
     }
   },
   "Common": {
@@ -169,7 +169,7 @@
     "contact": "Contato",
     "cv": "CV",
     "available": "Aberto a oportunidades",
-    "askLabel": "Faça uma pergunta sobre o Victor",
+    "askLabel": "Faça uma pergunta sobre mim",
     "askPlaceholder": "Pergunte algo sobre mim…",
     "askSubmit": "Perguntar",
     "startHere": {

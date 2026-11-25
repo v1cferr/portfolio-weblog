@@ -8,7 +8,7 @@ import { expect, type Page, test } from "@playwright/test";
  * all take.
  */
 
-function dock(page: Page, name = "Ask about Victor") {
+function dock(page: Page, name = "Ask about my work") {
   return page.getByRole("dialog", { name });
 }
 
@@ -23,13 +23,13 @@ test.describe("profile chat dock", () => {
   test("the launcher opens a non-modal panel, with focus in the question box and the page still usable", async ({ page, isMobile }) => {
     await page.goto("/en-us/projects");
     const launcher = page.getByTestId("ask-launcher");
-    await expect(launcher).toHaveAccessibleName("Ask about Victor");
+    await expect(launcher).toHaveAccessibleName("Ask about my work");
     await expect(launcher).toHaveAttribute("aria-expanded", "false");
     const dialog = await openDock(page);
     await expect(launcher).toHaveAttribute("aria-expanded", "true");
     await expect(dialog).not.toHaveAttribute("aria-modal", /.*/);
-    await expect(dialog.getByRole("textbox", { name: "Ask about Victor" })).toBeFocused();
-    await expect(dialog.getByRole("button", { name: "What is Victor's current role?" })).toBeVisible();
+    await expect(dialog.getByRole("textbox", { name: "Ask about my work" })).toBeFocused();
+    await expect(dialog.getByRole("button", { name: "What is my current role?" })).toBeVisible();
     // The page behind stays clickable: no backdrop, no inert. (On phones the dock is a full-screen sheet.)
     if (!isMobile) {
       await page.getByRole("link", { name: "v1cferr.dev, home page" }).click();
@@ -40,22 +40,22 @@ test.describe("profile chat dock", () => {
 
   test("the header's Ask button opens the dock", async ({ page }) => {
     await page.goto("/en-us");
-    await page.getByRole("banner").getByRole("button", { name: "Ask about Victor" }).click();
+    await page.getByRole("banner").getByRole("button", { name: "Ask about my work" }).click();
     await expect(dock(page)).toBeVisible();
-    await expect(dock(page).getByRole("textbox", { name: "Ask about Victor" })).toBeFocused();
+    await expect(dock(page).getByRole("textbox", { name: "Ask about my work" })).toBeFocused();
   });
 
   test("a suggestion gets the site's passages, and a source opens without closing the dock", async ({ page, isMobile }) => {
     await page.goto("/en-us");
     const dialog = await openDock(page);
-    await dialog.getByRole("button", { name: "Which RAG projects has Victor built?" }).click();
+    await dialog.getByRole("button", { name: "Which RAG projects have I built?" }).click();
     const answer = dialog.getByTestId("ask-extractive");
     await expect(answer).toBeVisible();
     await expect(answer).toContainText("From the site's pages, no AI");
     await expect(page.getByTestId("ask-status")).toHaveText("Answer ready.");
     const source = answer.getByRole("link", { name: /obsidian-rag/ });
     await expect(source).toHaveAttribute("href", "/en-us/projects/obsidian-rag");
-    await expect(dialog.getByRole("textbox", { name: "Ask about Victor" })).toBeFocused();
+    await expect(dialog.getByRole("textbox", { name: "Ask about my work" })).toBeFocused();
 
     await source.click();
     await expect(page).toHaveURL(/\/en-us\/projects\/obsidian-rag$/);
@@ -71,8 +71,8 @@ test.describe("profile chat dock", () => {
   test("a question the site does not answer gets no answer, and a way to search", async ({ page }) => {
     await page.goto("/pt-br");
     await page.getByTestId("ask-launcher").click();
-    const dialog = dock(page, "Pergunte sobre o Victor");
-    const input = dialog.getByRole("textbox", { name: "Pergunte sobre o Victor" });
+    const dialog = dock(page, "Pergunte sobre o meu trabalho");
+    const input = dialog.getByRole("textbox", { name: "Pergunte sobre o meu trabalho" });
     await input.fill("Qual é a capital da França?");
     await input.press("Enter");
     await expect(dialog.getByTestId("ask-no-source")).toContainText("Isso não está no site");
@@ -101,7 +101,7 @@ test.describe("profile chat dock", () => {
     });
     await page.goto("/en-us");
     const dialog = await openDock(page);
-    await dialog.getByRole("button", { name: "How does Victor use Nix?" }).click();
+    await dialog.getByRole("button", { name: "How do I use Nix?" }).click();
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
     await expect(page.getByTestId("ask-unread")).toBeVisible();
@@ -113,7 +113,7 @@ test.describe("profile chat dock", () => {
   test("the conversation survives a navigation and a reload", async ({ page, isMobile }) => {
     await page.goto("/en-us");
     const dialog = await openDock(page);
-    await dialog.getByRole("button", { name: "How does Victor use Nix?" }).click();
+    await dialog.getByRole("button", { name: "How do I use Nix?" }).click();
     await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
     if (!isMobile) {
       await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Projects" }).click();
@@ -122,12 +122,12 @@ test.describe("profile chat dock", () => {
     }
     await page.reload();
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByText("How does Victor use Nix?")).toBeVisible();
+    await expect(dialog.getByText("How do I use Nix?")).toBeVisible();
     await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
     // A new conversation starts over.
     await dialog.getByRole("button", { name: "New conversation" }).click();
     await expect(dialog.getByTestId("ask-extractive")).toBeHidden();
-    await expect(dialog.getByRole("button", { name: "What is Victor's current role?" })).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "What is my current role?" })).toBeVisible();
   });
 
   test("on a project page the first suggestion is about that project", async ({ page }) => {
@@ -143,13 +143,13 @@ test.describe("profile chat dock", () => {
     // Hydrated: a hero button can only call openAsk() from then on, too.
     await expect(page.getByTestId("ask-launcher")).toHaveAttribute("data-ready", "");
     await page.evaluate(() => {
-      window.dispatchEvent(new CustomEvent("v1c:ask-open", { detail: { question: "How does Victor use Nix?" } }));
+      window.dispatchEvent(new CustomEvent("v1c:ask-open", { detail: { question: "How do I use Nix?" } }));
     });
     const dialog = dock(page);
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByText("How does Victor use Nix?")).toBeVisible();
+    await expect(dialog.getByText("How do I use Nix?")).toBeVisible();
     await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
-    await expect(dialog.getByRole("textbox", { name: "Ask about Victor" })).toBeFocused();
+    await expect(dialog.getByRole("textbox", { name: "Ask about my work" })).toBeFocused();
   });
 
   test("expand turns the panel into a drawer the page makes room for, and back", async ({ page, isMobile }) => {
@@ -185,7 +185,7 @@ test.describe("profile chat dock", () => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us");
       const dialog = await openDock(page);
-      await dialog.getByRole("button", { name: "How does Victor use Nix?" }).click();
+      await dialog.getByRole("button", { name: "How do I use Nix?" }).click();
       await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
       const results = await new AxeBuilder({ page })
         .include("#ask-dock")
@@ -208,7 +208,7 @@ test.describe("profile chat dock on a 360px phone", () => {
     const dialog = await openDock(page);
     // Measured once the opening slide has settled.
     await expect.poll(() => dialog.boundingBox()).toEqual({ x: 0, y: 0, width: 360, height: 740 });
-    await dialog.getByRole("button", { name: "What security experience does Victor have?" }).click();
+    await dialog.getByRole("button", { name: "What security experience do I have?" }).click();
     await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, "no horizontal scrolling").toBeLessThanOrEqual(0);

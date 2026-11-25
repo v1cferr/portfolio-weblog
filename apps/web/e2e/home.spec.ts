@@ -50,10 +50,10 @@ test.describe("home hero", () => {
   test("the question field sends its question to the panel", async ({ page }) => {
     await page.goto("/en-us");
     await listenForAsk(page);
-    const field = page.getByRole("textbox", { name: "Ask a question about Victor" });
-    await field.fill("What is Victor working on?");
+    const field = page.getByRole("textbox", { name: "Ask a question about me" });
+    await field.fill("What am I working on?");
     await field.press("Enter");
-    expect(await asks(page)).toEqual([{ question: "What is Victor working on?" }]);
+    expect(await asks(page)).toEqual([{ question: "What am I working on?" }]);
     await expect(field).toHaveValue("");
   });
 });
@@ -83,9 +83,9 @@ test.describe("start here", () => {
     await listenForAsk(page);
     await ai.getByRole("button", { name: "Open the chat" }).click();
     // The docked panel opens (a full-screen sheet on phones); put it away before using the card again.
-    await expect(page.getByRole("dialog", { name: "Ask about Victor" })).toBeVisible();
+    await expect(page.getByRole("dialog", { name: "Ask about my work" })).toBeVisible();
     await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog", { name: "Ask about Victor" })).toBeHidden();
+    await expect(page.getByRole("dialog", { name: "Ask about my work" })).toBeHidden();
     const samples = ai.getByRole("button").filter({ hasNotText: "Open the chat" });
     await expect(samples).toHaveCount(2);
     const question = (await samples.first().textContent())?.trim();
