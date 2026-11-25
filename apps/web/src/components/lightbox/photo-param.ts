@@ -8,6 +8,8 @@ export interface LightboxItem {
   altLang?: string;
   caption?: string;
   captionLang?: string;
+  /** A document: the full view is the file itself, unoptimized, so small text stays sharp. */
+  document?: boolean;
   /** When the photo was taken: an ISO date for `<time>` and its localized label. */
   date?: { iso: string; label: string };
 }

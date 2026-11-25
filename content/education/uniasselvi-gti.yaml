@@ -33,6 +33,7 @@ media:
   - src: /education/uniasselvi/diploma.webp
     width: 1280
     height: 903
+    document: true
     alt:
       en-us: Diploma from Centro Universitário Leonardo da Vinci (UNIASSELVI) conferring on Victor Ferreira the degree of Tecnólogo em Gestão da Tecnologia da Informação, dated Indaial, 10 August 2026; personal data blurred
       pt-br: Diploma do Centro Universitário Leonardo da Vinci (UNIASSELVI) que confere a Victor Ferreira o grau de Tecnólogo em Gestão da Tecnologia da Informação, datado de Indaial, 10 de agosto de 2026; dados pessoais desfocados

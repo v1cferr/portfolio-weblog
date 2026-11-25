@@ -104,6 +104,11 @@ export const Media = z.strictObject({
   height: z.number().int().positive(),
   alt: LocalizedText,
   caption: LocalizedText.optional(),
+  /**
+   * Text that must stay legible (a certificate, a diploma, a printed result):
+   * the lightbox serves the file itself instead of a re-encoded copy.
+   */
+  document: z.boolean().optional(),
 });
 export type Media = z.infer<typeof Media>;
 
