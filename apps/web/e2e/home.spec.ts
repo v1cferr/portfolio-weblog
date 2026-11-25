@@ -165,3 +165,36 @@ test.describe("home layout", () => {
     await expect(photo).not.toHaveAttribute("loading", "lazy");
   });
 });
+
+test.describe("hero social links", () => {
+  for (const theme of ["light", "dark"] as const) {
+    test(`show brand colours, not the muted grey (${theme})`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme });
+      await page.goto("/en-us");
+      const row = page.locator("main section").first().getByRole("list", { name: "Links" });
+      const colour = (name: string) =>
+        row
+          .getByRole("link", { name: new RegExp(`^${name}`) })
+          .locator("svg")
+          .evaluate((svg) => getComputedStyle(svg).color);
+      const muted = await page.evaluate(() => {
+        const probe = document.createElement("span");
+        probe.style.color = "var(--muted-foreground)";
+        document.body.append(probe);
+        const value = getComputedStyle(probe).color;
+        probe.remove();
+        return value;
+      });
+      const linkedIn = await colour("LinkedIn");
+      expect(linkedIn).not.toBe(muted);
+      // Links without a brand colour (email) take the accent.
+      expect(await colour("Email")).not.toBe(muted);
+      // The footer's row stays quiet.
+      const footer = page
+        .getByRole("contentinfo")
+        .getByRole("link", { name: /^LinkedIn/ })
+        .locator("svg");
+      expect(await footer.evaluate((svg) => getComputedStyle(svg).color)).toBe(muted);
+    });
+  }
+});
