@@ -99,18 +99,18 @@ media:
   # as an intern (date from the photo's own metadata), resized and stripped of
   # metadata; the group keeps everyone (colleagues, consented) and the visible
   # ID badges are blurred.
-  - src: /career/fai-ufscar/first-week-team.webp
-    width: 1600
-    height: 900
+  - src: /career/fai-ufscar/first-week-team.jpg
+    width: 2400
+    height: 1350
     alt:
       en-us: Seven people standing in front of the FAI·UFSCar and UFSCar Innovation Agency building, most wearing ID badges on lanyards, which are blurred; Victor is on the far right, with glasses and a black shirt
       pt-br: Sete pessoas em pé em frente ao prédio da FAI·UFSCar e da Agência de Inovação da UFSCar, a maioria com crachás no cordão, que estão desfocados; Victor está na ponta direita, de óculos e camisa preta
     caption:
       en-us: My first week as an intern at the Superintendence, March 2026.
       pt-br: Minha primeira semana como estagiário na Superintendência, março de 2026.
-  - src: /career/fai-ufscar/desk.webp
-    width: 1600
-    height: 1200
+  - src: /career/fai-ufscar/desk.jpg
+    width: 2400
+    height: 1800
     alt:
       en-us: Work desk with a white PC case, a laptop on a stand, a monitor, a keyboard and a FAI·UFSCar mouse pad; the screens are blurred
       pt-br: Mesa de trabalho com gabinete branco, notebook em suporte, monitor, teclado e mousepad da FAI·UFSCar; as telas estão desfocadas

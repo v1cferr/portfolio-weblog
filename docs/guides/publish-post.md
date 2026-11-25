@@ -27,9 +27,9 @@
    <Callout title="...">...</Callout>
 
    <Figure
-     src="/setup/20260723.webp"
-     width="1600"
-     height="1200"
+     src="/setup/20260723.jpg"
+     width="2400"
+     height="1800"
      alt="..."
      caption="..."
    />

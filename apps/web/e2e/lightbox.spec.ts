@@ -109,6 +109,8 @@ test.describe("lightbox", () => {
     const opened = context.waitForEvent("page");
     await link.click({ modifiers: ["ControlOrMeta"] });
     const tab = await opened;
+    // The tab starts on about:blank; wait for it to reach the file (a large master takes a moment).
+    await tab.waitForURL((url) => url.pathname === src);
     expect(new URL(tab.url()).pathname).toBe(src);
     await tab.close();
     await expect(dialog(page)).toBeHidden();
@@ -139,7 +141,7 @@ test.describe("lightbox", () => {
 
   test("a figure in a post opens alone, without the gallery controls", async ({ page }) => {
     await page.goto("/en-us/weblog/from-arch-to-nixos");
-    await page.locator('article figure a[href="/setup/20250930.webp"]').click();
+    await page.locator('article figure a[href="/setup/20250930.jpg"]').click();
     await expect(dialog(page)).toBeVisible();
     await expect(dialog(page)).toHaveAccessibleName("September 2025: the desk in the Arch era, with Hyprland.");
     await expect(counter(page)).toHaveCount(0);
@@ -204,15 +206,15 @@ test.describe("lightbox documents", () => {
   // A certificate is marked `document` in content: its full view is the file itself, not a re-encoded copy.
   test("serves a document's own file in the full view", async ({ page }) => {
     await page.goto("/en-us/education");
-    await page.locator('a[href="/education/transforme-se/certificate.webp"]').first().click();
+    await page.locator('a[href="/education/transforme-se/certificate.jpg"]').first().click();
     const full = page.getByRole("dialog").locator("img:not([aria-hidden])");
-    await expect(full).toHaveAttribute("src", "/education/transforme-se/certificate.webp");
+    await expect(full).toHaveAttribute("src", "/education/transforme-se/certificate.jpg");
   });
 
   test("asks the optimizer for a photo's full view", async ({ page }) => {
     await page.goto("/en-us/education");
-    await page.locator('a[href="/education/transforme-se/class.webp"]').first().click();
+    await page.locator('a[href="/education/transforme-se/class.jpg"]').first().click();
     const full = page.getByRole("dialog").locator("img:not([aria-hidden])");
-    await expect(full).toHaveAttribute("src", /\/_next\/image\?url=%2Feducation%2Ftransforme-se%2Fclass\.webp.*q=85/);
+    await expect(full).toHaveAttribute("src", /\/_next\/image\?url=%2Feducation%2Ftransforme-se%2Fclass\.jpg.*q=85/);
   });
 });
