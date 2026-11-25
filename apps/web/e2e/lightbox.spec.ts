@@ -139,7 +139,7 @@ test.describe("lightbox", () => {
 
   test("a figure in a post opens alone, without the gallery controls", async ({ page }) => {
     await page.goto("/en-us/weblog/from-arch-to-nixos");
-    await page.locator('article figure a[href="/setup/20250930.webp"]').click();
+    await page.locator('article figure a[href="/setup/20250930.jpg"]').click();
     await expect(dialog(page)).toBeVisible();
     await expect(dialog(page)).toHaveAccessibleName("September 2025: the desk in the Arch era, with Hyprland.");
     await expect(counter(page)).toHaveCount(0);

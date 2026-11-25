@@ -221,12 +221,12 @@ groups:
 # home town) are blurred.
 photos:
   # 2026-11-23: screenshots shared by the author, dated by their file names,
-  # re-encoded to webp without metadata. Checked before publishing: no chats,
+  # re-encoded without metadata (lossless PNG masters since 2026-11-25). Checked before publishing: no chats,
   # notifications, e-mails, IPs or tokens are on screen (the GitHub Actions
   # panel shows this public repository), so nothing is blurred.
-  - src: /setup/20261123-all.webp
-    width: 2000
-    height: 1055
+  - src: /setup/20261123-all.png
+    width: 2400
+    height: 1266
     date: 2026-11-23
     alt:
       en-us: "Both monitors side by side: the vertical one with a clock, weather, energy chart, GitHub Actions runs and system gauges over a spiral galaxy, the main one with fastfetch on NixOS over a starfield"
@@ -234,9 +234,9 @@ photos:
     caption:
       en-us: "The NixOS desktop in November 2026, across both monitors."
       pt-br: "Desktop no NixOS em novembro de 2026, nos dois monitores."
-  - src: /setup/20261123-secondary.webp
-    width: 900
-    height: 1600
+  - src: /setup/20261123-secondary.png
+    width: 1080
+    height: 1920
     date: 2026-11-23
     alt:
       en-us: "Vertical monitor with Quickshell widgets: clock and weather, CPU and GPU energy use, GitHub Actions runs of portfolio-weblog, CPU, RAM, disk, GPU, temperature and network gauges, and running services, over a spiral galaxy"
@@ -244,9 +244,9 @@ photos:
     caption:
       en-us: "The secondary monitor, vertical: a Quickshell dashboard."
       pt-br: "O monitor secundário, na vertical: um painel feito no Quickshell."
-  - src: /setup/20261123-primary.webp
-    width: 1600
-    height: 900
+  - src: /setup/20261123-primary.png
+    width: 2400
+    height: 1350
     date: 2026-11-23
     alt:
       en-us: "Main monitor with a kitty terminal running fastfetch: NixOS 26.05, Hyprland 0.57.2, Quickshell, Intel Core i5-11400 and Intel Arc B580, over a starfield wallpaper"
@@ -255,12 +255,13 @@ photos:
       en-us: "The NixOS desktop in November 2026: Hyprland + Quickshell on the main monitor."
       pt-br: "Desktop no NixOS em novembro de 2026: Hyprland + Quickshell no monitor principal."
   # 2025-09 to 2026-09: shared by the author on 2026-11-23; dates are each
-  # photo's EXIF DateTimeOriginal, read before the metadata was stripped. On
+  # photo's EXIF DateTimeOriginal, read before the metadata was stripped.
+  # Re-mastered from the originals on 2026-11-25 (2400 px JPEG, same blurs). On
   # 2026-07-23 and 2026-09-15 the LAN IP is blurred; on 2026-09-15 also a
   # video, its suggestions and a calendar notification.
-  - src: /setup/20260915.webp
-    width: 1600
-    height: 1200
+  - src: /setup/20260915.jpg
+    width: 2400
+    height: 1800
     date: 2026-09-15
     alt:
       en-us: "A vertical monitor with a coding session beside the main monitor showing fastfetch on NixOS and a blurred video"
@@ -268,9 +269,9 @@ photos:
     caption:
       en-us: "NixOS on the Kingston NVMe, with the second monitor turned vertical."
       pt-br: "NixOS no NVMe Kingston, com o segundo monitor na vertical."
-  - src: /setup/20260723.webp
-    width: 1600
-    height: 1200
+  - src: /setup/20260723.jpg
+    width: 2400
+    height: 1800
     date: 2026-07-23
     alt:
       en-us: "fastfetch on the monitor: NixOS 26.05, Hyprland, Intel Core i5-11400 and Intel Arc B580"
@@ -278,9 +279,9 @@ photos:
     caption:
       en-us: "fastfetch on one of the first NixOS installs, still on the SanDisk SSD, with the Intel Arc B580."
       pt-br: "fastfetch em uma das primeiras instalações do NixOS, ainda no SSD SanDisk, com a Intel Arc B580."
-  - src: /setup/20260619.webp
-    width: 1600
-    height: 846
+  - src: /setup/20260619.jpg
+    width: 2400
+    height: 1269
     date: 2026-06-19
     alt:
       en-us: "Two monitors in the dark: a samurai wallpaper on the left and a lock screen with a large clock on the right"
@@ -292,9 +293,9 @@ photos:
   # ("07-05-2026", day first: its 157-day install age matches the 222 days
   # the migration plan counted in July). A LinkedIn component key in the
   # devtools and a "now playing" line naming a chat app are blurred.
-  - src: /setup/20260507.webp
-    width: 1600
-    height: 450
+  - src: /setup/20260507.jpg
+    width: 2400
+    height: 675
     date: 2026-05-07
     alt:
       en-us: "Ultrawide screenshot of the Arch desktop: mpv playing music videos, browser devtools and a fastfetch-style summary of Arch Linux with Hyprland on a GeForce RTX 3050"
@@ -302,9 +303,9 @@ photos:
     caption:
       en-us: "The Arch desktop across both monitors, still with the RTX 3050."
       pt-br: "O desktop do Arch nos dois monitores, ainda com a RTX 3050."
-  - src: /setup/20251112.webp
-    width: 1600
-    height: 1200
+  - src: /setup/20251112.jpg
+    width: 2400
+    height: 1800
     date: 2025-11-12
     alt:
       en-us: "A controller held in front of a monitor running Need for Speed: Underground 2 in an emulator, with its button mapping on the second monitor"
@@ -312,9 +313,9 @@ photos:
     caption:
       en-us: "Mapping a controller to play Need for Speed: Underground 2 on Arch."
       pt-br: "Mapeando um controle para jogar Need for Speed: Underground 2 no Arch."
-  - src: /setup/20251022.webp
-    width: 1600
-    height: 1200
+  - src: /setup/20251022.jpg
+    width: 2400
+    height: 1800
     date: 2025-10-22
     alt:
       en-us: "Two monitors on a wooden desk: macOS being installed in a virtual machine on the left, the OSX-KVM repository and a terminal on the right"
@@ -322,9 +323,9 @@ photos:
     caption:
       en-us: "Installing macOS in a QEMU/KVM virtual machine on Arch."
       pt-br: "Instalando o macOS em uma máquina virtual QEMU/KVM no Arch."
-  - src: /setup/20250930.webp
-    width: 1600
-    height: 1200
+  - src: /setup/20250930.jpg
+    width: 2400
+    height: 1800
     date: 2025-09-30
     alt:
       en-us: "Two monitors at night: code in an editor with a sunset wallpaper on the left, documentation and a chat on the right"

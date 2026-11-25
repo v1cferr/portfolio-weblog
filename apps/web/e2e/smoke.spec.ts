@@ -338,8 +338,8 @@ test.describe("media", () => {
       .first();
     const image = figure.getByRole("img");
     await expect(image).toHaveAttribute("loading", "lazy");
-    await expect(image).toHaveAttribute("width", "1600");
-    await expect(image).toHaveAttribute("height", "1200");
+    await expect(image).toHaveAttribute("width", "2400");
+    await expect(image).toHaveAttribute("height", "1800");
     expect(await image.getAttribute("alt")).toContain("Arch");
     await expect(figure.locator("figcaption")).toContainText("September 2025");
   });
