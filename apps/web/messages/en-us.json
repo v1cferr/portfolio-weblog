@@ -148,8 +148,6 @@
   },
   "Home": {
     "stack": "Daily stack",
-    "trajectory": "How I got here",
-    "focus": "Working on",
     "featured": "Selected projects",
     "latest": "Latest writing",
     "recent": "Recently",
@@ -160,7 +158,46 @@
     "ongoing": "In progress",
     "verify": "verify",
     "credentialsLabel": "Studies and credentials",
-    "allStudies": "All studies"
+    "allStudies": "All studies",
+    "askAi": "Ask my AI",
+    "contact": "Contact",
+    "cv": "CV",
+    "available": "Open to work",
+    "askLabel": "Ask a question about Victor",
+    "askPlaceholder": "Ask me anything about Victor…",
+    "askSubmit": "Ask",
+    "startHere": {
+      "title": "Start here",
+      "hiring": {
+        "title": "Hiring?",
+        "body": "Who I am, where I've worked and how to reach me.",
+        "about": "About me",
+        "career": "Career",
+        "contact": "Contact",
+        "cv": "CV"
+      },
+      "work": {
+        "title": "See my work",
+        "body": "Projects with their case studies, and how this site was built.",
+        "projects": "Projects",
+        "decisions": "Decisions",
+        "colophon": "Colophon"
+      },
+      "ai": {
+        "title": "Chat with the AI",
+        "body": "Ask about my work. Answers come only from this site's pages.",
+        "open": "Open the chat"
+      }
+    },
+    "proof": {
+      "label": "At a glance",
+      "organizations": "Where I've worked",
+      "facts": "Facts from this site's content",
+      "since": "working since {year}",
+      "projects": "{count, plural, one {# project} other {# projects}}",
+      "decisions": "{count, plural, one {# recorded decision} other {# recorded decisions}}",
+      "colophon": "How this site was made"
+    }
   },
   "About": {
     "title": "About",

@@ -31,9 +31,10 @@ const studyIcon = (item: Education): LucideIcon => (item.kind === "degree" ? Gra
  * progress; absent when nothing is) and "Certificates" (up to three: featured
  * certifications, then the latest completed studies). Split on 2026-11-23 at
  * the owner's request: finished work is not "learning". No badge wall: one
- * monochrome icon per tile and a mono date.
+ * monochrome icon per tile and a mono date. `onSpine: false` leaves out the
+ * git-spine branch, for when the strip sits in a column away from the spine.
  */
-export async function LearningStrip() {
+export async function LearningStrip({ onSpine = true }: { onSpine?: boolean } = {}) {
   const [locale, t, education, kind] = await Promise.all([
     getLocale(),
     getTranslations("Home"),
@@ -100,6 +101,8 @@ export async function LearningStrip() {
       {t("allStudies")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
     </Link>
   );
+  // Beside the Now card on wide screens, a branch would cross it; the heading keeps its icon instead.
+  const branch = onSpine ? <SpineBranch lane="study" /> : undefined;
   const tileList = (tiles: Tile[], label: string) => (
     <ul aria-label={label} className="grid gap-3 sm:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
       {tiles.map((tile) => (
@@ -112,12 +115,7 @@ export async function LearningStrip() {
     <>
       {studying.length > 0 && (
         <section aria-labelledby="studying" className="mb-16 max-w-3xl">
-          <SectionHeading
-            id="studying"
-            icon={BookOpenIcon}
-            branch={<SpineBranch lane="study" />}
-            action={credentials.length === 0 ? allStudies : undefined}
-          >
+          <SectionHeading id="studying" icon={BookOpenIcon} branch={branch} action={credentials.length === 0 ? allStudies : undefined}>
             {t("studyingNow")}
           </SectionHeading>
           {tileList(studying, t("studyingNow"))}
@@ -125,7 +123,7 @@ export async function LearningStrip() {
       )}
       {credentials.length > 0 && (
         <section aria-labelledby="credentials" className="mb-16 max-w-3xl">
-          <SectionHeading id="credentials" icon={AwardIcon} branch={<SpineBranch lane="study" />} action={allStudies}>
+          <SectionHeading id="credentials" icon={AwardIcon} branch={branch} action={allStudies}>
             {t("certificates")}
           </SectionHeading>
           {tileList(credentials, t("credentialsLabel"))}

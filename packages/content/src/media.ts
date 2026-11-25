@@ -51,5 +51,9 @@ export async function checkMedia(
       });
     }
   }
+  const cv = content.profile?.value.cv;
+  if (cv !== undefined && !existsSync(path.join(publicDir, cv))) {
+    issues.push({ file: content.profile?.file ?? "profile/profile.yaml", message: `cv "${cv}" does not exist under apps/web/public` });
+  }
   return issues;
 }
