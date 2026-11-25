@@ -1,4 +1,4 @@
-import { type TimelineEvent, localize } from "@workspace/content";
+import { localize, type Organization, type TimelineEvent } from "@workspace/content";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/components/tooltip";
 import { cn } from "@workspace/ui/lib/utils";
 import { CircleDashedIcon } from "lucide-react";
@@ -9,6 +9,7 @@ import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane
 import { Morph, type MorphKind } from "@/components/morph";
 import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { YearHeading } from "@/components/year-heading";
+import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatDayMonth } from "@/lib/dates";
@@ -22,6 +23,8 @@ interface Row {
   title: string;
   subtitle?: string | undefined;
   href?: string | undefined;
+  /** A study's institution or a certificate's issuer, shown with its logo. */
+  issuer?: Organization | undefined;
   /** Set on the first row of an entity with a page of its own, when the graph morphs. */
   morph?: MorphKind | undefined;
 }
@@ -59,7 +62,16 @@ export async function CommitGraph({
       const position = content.getExperience(event.entity.id)?.positions[event.positionIndex];
       return [{ event, lane, title: entity.title, subtitle: position && localize(position.title, locale).value, href: entity.href }];
     }
-    return [{ event, lane, title: entity.title, subtitle: event.kind === "project" ? undefined : entity.subtitle, href: entity.href }];
+    const issuerId =
+      event.kind === "education"
+        ? content.getEducation().find((item) => item.id === event.entity.id)?.institution
+        : event.kind === "certification"
+          ? content.getCertifications().find((cert) => cert.id === event.entity.id)?.issuer
+          : undefined;
+    const issuer = issuerId === undefined ? undefined : content.getOrganization(issuerId);
+    return [
+      { event, lane, title: entity.title, subtitle: event.kind === "project" ? undefined : entity.subtitle, href: entity.href, issuer },
+    ];
   });
 
   // A view-transition name must be unique: an experience with several
@@ -159,6 +171,12 @@ export async function CommitGraph({
                         )}
                       </p>
                     </Morph>
+                    {row.issuer !== undefined && (
+                      <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <OrganizationMark organization={row.issuer} size="xs" />
+                        <span className="truncate">{row.issuer.name}</span>
+                      </p>
+                    )}
                     {row.subtitle !== undefined && <p className="line-clamp-1 text-sm text-muted-foreground">{row.subtitle}</p>}
                     {end !== undefined && (
                       <p className="font-mono text-xs text-muted-foreground tabular-nums">
