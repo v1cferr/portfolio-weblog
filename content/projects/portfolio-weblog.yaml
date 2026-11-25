@@ -24,8 +24,11 @@ technologies: [nextjs, react, typescript, tailwindcss, nix, vercel, github-actio
 skills: [web-development]
 # Draft from repo facts on 2026-11-23; owner review pending.
 # Sources: docs/decisions 0001-0013, docs/migration/README.md, docs/architecture/ai-roadmap.md,
-# .github/workflows (ci, security, codeql), .husky/pre-commit. outcome and lessons stay
-# empty until the owner answers.
+# .github/workflows (ci, security, codeql), .husky/pre-commit.
+# outcome: facts checked on 2026-11-25 (gh: 65 merged PRs; docs/decisions: 15 ADRs;
+# apps/web/e2e: 121 tests; the Lighthouse audit of 2026-11-24; PRs #55, #59).
+# lessons: DRAFTED BY CLAUDE on 2026-11-25 from incidents on record (#62/#63, #69/#70,
+# #64/#66); the owner will correct what does not sound like them.
 caseStudy:
   problem:
     en-us: >-
@@ -165,6 +168,28 @@ caseStudy:
     pt-br: >-
       Feito com o Claude Code. O escopo, a arquitetura e a revisão foram meus, e toda decisão que
       moldou o site está registrada num ADR.
+  outcome:
+    en-us: >-
+      Live at v1cferr.dev since the v2 promotion on 2026-11-22, with v1 kept under archive tags.
+      By 2026-11-25: 65 merged pull requests, 15 ADRs and 121 end-to-end tests. Lighthouse gives 100
+      for performance, accessibility and best practices on desktop, and the profile chat answers
+      from the site's own pages, citing them, or says it does not know.
+    pt-br: >-
+      No ar em v1cferr.dev desde a promoção da v2 em 22/11/2026, com a v1 guardada em tags de
+      arquivo. Até 25/11/2026: 65 pull requests mesclados, 15 ADRs e 121 testes ponta a ponta. O
+      Lighthouse dá 100 em performance, acessibilidade e boas práticas no desktop, e o chat do perfil
+      responde a partir das páginas do próprio site, citando-as, ou diz que não sabe.
+  lessons:
+    en-us:
+      - Merging in a hurry put a failing check in production once; now nothing merges until CI is green.
+      - An entrance animation tied to when a list first appeared hid items that arrived later. Lists that change need their own treatment.
+      - Controls must never move under the pointer. The projects filter took three versions to become simple tabs.
+      - Compressing a photo twice costs sharpness. Masters are now kept at high quality and only the site compresses them.
+    pt-br:
+      - A pressa de mesclar levou um teste falhando para produção uma vez; agora nada entra sem o CI verde.
+      - Uma animação de entrada presa ao momento em que a lista apareceu escondeu itens que chegaram depois. Listas que mudam pedem outro tratamento.
+      - Controles não podem se mover debaixo do cursor. O filtro de projetos precisou de três versões até virar abas simples.
+      - Comprimir a foto duas vezes custa nitidez. Os originais agora ficam em alta qualidade e só o site comprime.
   quality:
     en-us:
       - "Pre-commit: Prettier on staged files"

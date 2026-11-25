@@ -68,6 +68,17 @@ responsibilities:
     - Estudar restrições técnicas, de privacidade e de governança no uso de IA em ambientes institucionais
     - Contribuir para a modernização de processos com IA aplicada, experimentação técnica, documentação e prototipação iterativa
 
+# DRAFTED BY CLAUDE on 2026-11-25 from this entry's responsibilities; the owner
+# will correct what does not sound like them.
+learnings:
+  en-us:
+    - Taking an AI initiative from proof of concept to evaluation, with the criteria set before building
+    - Privacy and data governance as requirements from the start, not a review at the end, in an institutional setting
+    - Turning other teams' processes into the requirements of an AI solution, with them in the room
+  pt-br:
+    - Levar uma iniciativa de IA da prova de conceito à avaliação, com os critérios definidos antes de construir
+    - Privacidade e governança de dados como requisitos desde o início, e não uma revisão no fim, num ambiente institucional
+    - Transformar os processos de outras equipes em requisitos de uma solução de IA, com elas junto
 technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
 skills: [ai-systems, api-development, automation, technical-documentation, software-development]
 

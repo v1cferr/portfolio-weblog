@@ -18,13 +18,13 @@ test.describe("case study page", () => {
     expect(headings.indexOf("Key decisions")).toBeGreaterThan(0);
     expect(headings.indexOf("Why I built it")).toBeLessThan(headings.indexOf("Key decisions"));
     expect(headings.indexOf("How it was built")).toBeGreaterThan(headings.indexOf("Key decisions"));
-    // Fields the owner has not written yet leave no empty section.
-    expect(headings).not.toContain("What I would change");
+    // Lessons come last of the written sections, after the decisions.
+    expect(headings.indexOf("What I would change")).toBeGreaterThan(headings.indexOf("Key decisions"));
 
     const tldr = main.locator("[aria-labelledby=tldr]");
     await expect(tldr.getByText("Problem", { exact: true })).toBeVisible();
     await expect(tldr.getByText("Role", { exact: true })).toBeVisible();
-    await expect(tldr.getByText("Outcome", { exact: true })).toHaveCount(0);
+    await expect(tldr.getByText("Outcome", { exact: true })).toBeVisible();
     await expect(tldr.getByRole("list", { name: "Technologies" })).toBeVisible();
     await expect(tldr.getByRole("link", { name: /ADRs/ })).toHaveAttribute("href", /\/docs\/decisions$/);
   });

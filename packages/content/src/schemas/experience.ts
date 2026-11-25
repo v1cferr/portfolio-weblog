@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate } from "./common";
+import { entityBase, Id, Link, LocalizedList, LocalizedText, mediaFields, PartialDate, Source } from "./common";
 
 export const EmploymentType = z.enum(["full-time", "part-time", "internship", "contract", "freelance", "apprenticeship", "volunteer"]);
 
@@ -43,6 +43,8 @@ export const Experience = z.strictObject({
   skills: z.array(Id).default([]),
   projects: z.array(Id).default([]),
   evidence: z.array(Link).default([]),
+  /** Public documents behind the facts on this page, cited as numbered references. */
+  sources: z.array(Source).default([]),
   ...mediaFields,
 });
 export type Experience = z.infer<typeof Experience>;

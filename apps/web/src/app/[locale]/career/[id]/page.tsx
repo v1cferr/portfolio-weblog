@@ -23,6 +23,8 @@ import { MediaGallery } from "@/components/media-gallery";
 import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
+import { SourceList } from "@/components/source-list";
+import { ProjectCard } from "@/features/projects/project-card";
 import { TechList } from "@/components/tech-list";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
@@ -90,6 +92,10 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
   const hindsight = experience.hindsight && localize(experience.hindsight, locale);
   const impact = experience.impact && localize(experience.impact, locale);
   for (const text of [context, hindsight, impact]) if (text) texts.push(text);
+  // Projects made in this job, declared on either side (experience.projects or project.experiences).
+  const projects = [...new Set(content.getRelatedContent(id).flatMap((ref) => (ref.type === "project" ? [ref.id] : [])))].flatMap(
+    (projectId) => content.getProject(projectId) ?? []
+  );
   const fallback = texts.find((text) => text.isFallback);
 
   return (
@@ -198,6 +204,21 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
           </section>
         )}
 
+        {projects.length > 0 && (
+          <section aria-labelledby="projects-here" className="space-y-3">
+            <h2 id="projects-here" className="text-xl font-semibold">
+              {t("projectsHere")}
+            </h2>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {projects.map((project) => (
+                <li key={project.id}>
+                  <ProjectCard project={project} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {experience.technologies.length > 0 && (
           <section className="space-y-3">
             <h2 className="text-xl font-semibold">{common("technologies")}</h2>
@@ -224,10 +245,11 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
             </ul>
           </section>
         )}
+        <SourceList sources={experience.sources} />
       </div>
 
       <Separator className="my-12" />
-      <RelatedContent id={id} />
+      <RelatedContent id={id} exclude={["project"]} />
     </PageTransition>
   );
 }
