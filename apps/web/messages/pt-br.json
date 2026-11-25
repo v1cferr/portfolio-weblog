@@ -131,7 +131,10 @@
     "seeAll": "Ver tudo",
     "back": "Voltar para {section}",
     "siteFallbackNotice": "Este site ainda não está disponível em {requested}, então é exibido em {actual}.",
-    "opensInNewTab": "abre em uma nova aba"
+    "opensInNewTab": "abre em uma nova aba",
+    "sources": "Fontes",
+    "sourcesNote": "Documentos públicos que embasam os fatos desta página. Números da instituição são da instituição, não contribuição minha.",
+    "archived": "cópia arquivada"
   },
   "Kind": {
     "experience": "Carreira",
@@ -214,7 +217,8 @@
       "apprenticeship": "Aprendiz",
       "volunteer": "Voluntário"
     },
-    "positionResponsibilities": "Como {title}"
+    "positionResponsibilities": "Como {title}",
+    "projectsHere": "Projetos feitos aqui"
   },
   "Projects": {
     "title": "Projetos",
@@ -274,7 +278,8 @@
       "experimental": "Experimentais",
       "study": "Estudos",
       "challenge": "Desafios"
-    }
+    },
+    "builtAt": "Feito em"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entrada} other {# entradas}}",

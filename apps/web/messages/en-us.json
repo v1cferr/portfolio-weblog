@@ -131,7 +131,10 @@
     "seeAll": "See all",
     "back": "Back to {section}",
     "siteFallbackNotice": "This site is not available in {requested} yet, so it is shown in {actual}.",
-    "opensInNewTab": "opens in a new tab"
+    "opensInNewTab": "opens in a new tab",
+    "sources": "Sources",
+    "sourcesNote": "Public documents behind the facts on this page. An organization's figures are the organization's, not my contribution.",
+    "archived": "archived copy"
   },
   "Kind": {
     "experience": "Career",
@@ -214,7 +217,8 @@
       "apprenticeship": "Apprenticeship",
       "volunteer": "Volunteer"
     },
-    "positionResponsibilities": "As {title}"
+    "positionResponsibilities": "As {title}",
+    "projectsHere": "Projects built here"
   },
   "Projects": {
     "title": "Projects",
@@ -274,7 +278,8 @@
       "experimental": "Experimental",
       "study": "Studies",
       "challenge": "Challenges"
-    }
+    },
+    "builtAt": "Built at"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entry} other {# entries}}",
