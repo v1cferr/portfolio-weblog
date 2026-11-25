@@ -2,14 +2,17 @@ import type { Organization } from "@workspace/content";
 import { cn } from "@workspace/ui/lib/utils";
 
 const sizes = {
-  sm: "size-6 rounded-full",
-  default: "size-9 rounded-md",
-  lg: "size-12 rounded-lg",
+  sm: "size-6",
+  default: "size-9",
+  lg: "size-12",
 } as const;
 
 /**
- * The organization's logo on a white tile, rendered on the server so it never
- * flashes initials first. Initials only stand in when there is no logo.
+ * The organization's official logo on its own transparent background, as the
+ * brand ships it (the owner's choice, 2026-11-24: no white tile around it).
+ * A logo that vanishes on a dark page has a `logoDark` variant. Rendered on the
+ * server so it never flashes initials first; initials stand in only when there
+ * is no logo.
  */
 export function OrganizationMark({ organization, size = "default" }: { organization: Organization; size?: keyof typeof sizes }) {
   const initials = organization.name
@@ -17,15 +20,26 @@ export function OrganizationMark({ organization, size = "default" }: { organizat
     .map((word) => word[0])
     .join("")
     .slice(0, 2);
+  const logo = (src: string, className?: string) => (
+    // eslint-disable-next-line @next/next/no-img-element -- tiny static logos; next/image adds nothing here
+    <img src={src} alt="" className={cn("size-full rounded-[22%] object-contain", className)} decoding="async" />
+  );
   return (
-    <span className={cn("inline-flex shrink-0 items-center justify-center overflow-hidden border bg-white", sizes[size])}>
-      {organization.logo !== undefined ? (
-        // eslint-disable-next-line @next/next/no-img-element -- tiny static logos; next/image adds nothing here
-        <img src={organization.logo} alt="" className="size-full object-contain p-0.5" decoding="async" />
-      ) : (
-        <span aria-hidden className="font-mono text-xs text-[#2a2f30]">
+    <span className={cn("inline-flex shrink-0 items-center justify-center", sizes[size])}>
+      {organization.logo === undefined ? (
+        <span
+          aria-hidden
+          className="flex size-full items-center justify-center rounded-md border bg-muted font-mono text-xs text-muted-foreground"
+        >
           {initials}
         </span>
+      ) : organization.logoDark === undefined ? (
+        logo(organization.logo)
+      ) : (
+        <>
+          {logo(organization.logo, "dark:hidden")}
+          {logo(organization.logoDark, "hidden dark:block")}
+        </>
       )}
     </span>
   );
