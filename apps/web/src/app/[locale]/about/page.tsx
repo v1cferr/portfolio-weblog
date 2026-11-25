@@ -99,10 +99,9 @@ export default async function AboutPage() {
 
           {stack.length > 0 && (
             <section aria-labelledby="stack">
-              <SectionHeading id="stack" icon={LayersIcon}>
+              <SectionHeading id="stack" icon={LayersIcon} info={t("stackNote")}>
                 {t("stack")}
               </SectionHeading>
-              <p className="mb-4 text-muted-foreground">{t("stackNote")}</p>
               <TechList ids={stack} label={common("technologies")} />
             </section>
           )}

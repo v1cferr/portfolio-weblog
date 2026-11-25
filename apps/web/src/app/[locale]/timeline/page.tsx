@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Timeline");
   return {
     title: t("title"),
-    description: t("description"),
+    description: `${t("description")} ${t("descriptionInfo")}`,
     alternates: pageAlternates(locale, "/timeline"),
     openGraph: { type: "website", ...pageOpenGraph(locale, "/timeline") },
   };
@@ -33,7 +33,13 @@ export default async function TimelinePage() {
   });
   return (
     <PageTransition>
-      <PageHeader source={{ path: "", name: "timeline" }} icon={GitCommitVerticalIcon} title={t("title")} description={t("description")}>
+      <PageHeader
+        source={{ path: "", name: "timeline" }}
+        icon={GitCommitVerticalIcon}
+        title={t("title")}
+        description={t("description")}
+        info={t("descriptionInfo")}
+      >
         <LaneLegend />
       </PageHeader>
       {events.length === 0 ? (

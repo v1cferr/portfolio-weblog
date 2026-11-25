@@ -140,7 +140,8 @@
     "opensInNewTab": "opens in a new tab",
     "sources": "Sources",
     "sourcesNote": "Public documents behind the facts on this page. An organization's figures are the organization's, not my contribution.",
-    "archived": "archived copy"
+    "archived": "archived copy",
+    "moreInfo": "More information"
   },
   "Kind": {
     "experience": "Career",
@@ -157,7 +158,6 @@
     "featured": "Selected projects",
     "latest": "Latest writing",
     "recent": "Recently",
-    "noPosts": "No articles are published yet. The first ones are being written.",
     "now": "Now",
     "studyingNow": "Studying now",
     "certificates": "Certificates",
@@ -191,7 +191,7 @@
       },
       "ai": {
         "title": "Chat with the AI",
-        "body": "Ask about my work. Answers come only from this site's pages.",
+        "body": "Ask about my work.",
         "open": "Open the chat"
       }
     },
@@ -268,7 +268,8 @@
   },
   "Projects": {
     "title": "Projects",
-    "description": "Personal, professional and study projects. Status is an editorial call, not a guess from commit activity.",
+    "description": "Personal, professional and study projects.",
+    "descriptionInfo": "Status is an editorial call, not a guess from commit activity.",
     "filterState": "Filter by status",
     "filterCategory": "Filter by category",
     "all": "All",
@@ -332,7 +333,8 @@
     "entries": "{count, plural, one {# entry} other {# entries}}",
     "repositoryLegend": "Hollow node: repository creation date",
     "title": "Timeline",
-    "description": "Career, projects, studies and writing on one axis, derived from the content itself.",
+    "description": "Career, projects, studies and writing on one axis.",
+    "descriptionInfo": "Everything here is derived from the site's own content.",
     "legend": "Lanes",
     "repositoryCreated": "repository created",
     "repositoryCreatedHint": "No start date is recorded for this project, so the repository creation date is shown instead.",
@@ -416,7 +418,6 @@
     "retailNote": "Not playing right now",
     "charactersLabel": "Characters in {game}",
     "emptyTitle": "No characters mapped yet",
-    "emptyDescription": "They show up here after the first Battle.net sync.",
     "level": "Level {level}",
     "main": "Main",
     "live": "Live from Battle.net, {date}",
@@ -504,7 +505,8 @@
   },
   "Decisions": {
     "title": "Decision log",
-    "description": "Every architecture decision behind this site, with its context and trade-offs. Records are not rewritten: a new one supersedes the old and says so.",
+    "description": "Every architecture decision behind this site, with its context and trade-offs.",
+    "descriptionInfo": "Records are not rewritten: a new one supersedes the old and says so.",
     "number": "ADR {number}",
     "why": "Why it matters",
     "status": {

@@ -191,33 +191,31 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <section aria-labelledby="latest" className="mb-16 max-w-4xl">
-          <SectionHeading
-            id="latest"
-            icon={PenLineIcon}
-            branch={<SpineBranch lane="writing" />}
-            action={
-              <Link
-                href="/weblog"
-                transitionTypes={NAV_SECTION}
-                className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-              >
-                {common("seeAll")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
-              </Link>
-            }
-          >
-            {t("latest")}
-          </SectionHeading>
-          {posts.length === 0 ? (
-            <p className="text-muted-foreground">{t("noPosts")}</p>
-          ) : (
+        {posts.length > 0 && (
+          <section aria-labelledby="latest" className="mb-16 max-w-4xl">
+            <SectionHeading
+              id="latest"
+              icon={PenLineIcon}
+              branch={<SpineBranch lane="writing" />}
+              action={
+                <Link
+                  href="/weblog"
+                  transitionTypes={NAV_SECTION}
+                  className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  {common("seeAll")} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
+                </Link>
+              }
+            >
+              {t("latest")}
+            </SectionHeading>
             <div className="border-t">
               {posts.map((post) => (
                 <PostCard key={post.slug} post={post} />
               ))}
             </div>
-          )}
-        </section>
+          </section>
+        )}
 
         {recent.length > 0 && (
           <section aria-labelledby="recent" className="mb-16">

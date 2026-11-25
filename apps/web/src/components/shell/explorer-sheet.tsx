@@ -7,6 +7,7 @@ import { ChevronRightIcon, FileIcon, FileTextIcon, FolderIcon, FolderOpenIcon } 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import { InfoTip } from "@/components/info-tip";
 import { NAV_SECTION } from "@/components/page-transition";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ExplorerFolder, ExplorerNode } from "@/lib/explorer-tree";
@@ -65,8 +66,12 @@ export function ExplorerSheet({ tree }: { tree: ExplorerFolder }) {
         className="glass-float gap-0 bg-(--glass-tint) motion-reduce:animate-none data-[side=left]:w-[min(22rem,calc(100vw-2.5rem))] data-[side=left]:border-r-0 [&>[data-slot=sheet-close]]:size-10 lg:[&>[data-slot=sheet-close]]:size-8"
       >
         <SheetHeader className="pr-14">
-          <SheetTitle className="font-mono text-base">~/</SheetTitle>
-          <SheetDescription>{t("description")}</SheetDescription>
+          <div className="flex items-center gap-1">
+            <SheetTitle className="font-mono text-base">~/</SheetTitle>
+            <InfoTip align="start">{t("description")}</InfoTip>
+          </div>
+          {/* The dialog keeps its description for screen readers; on screen it is behind the "i". */}
+          <SheetDescription className="sr-only">{t("description")}</SheetDescription>
         </SheetHeader>
         <nav aria-label={t("label")} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-6">
           <ExplorerTree

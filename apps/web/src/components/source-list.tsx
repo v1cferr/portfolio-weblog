@@ -3,6 +3,7 @@ import { ArchiveIcon, ExternalLinkIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { ExternalLink } from "@/components/external-link";
+import { InfoTip } from "@/components/info-tip";
 
 /**
  * The public documents behind a page, as numbered references: title,
@@ -15,10 +16,12 @@ export async function SourceList({ sources }: { sources: readonly Source[] }) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Common")]);
   return (
     <section aria-labelledby="sources" className="space-y-3">
-      <h2 id="sources" className="text-xl font-semibold">
-        {t("sources")}
-      </h2>
-      <p className="text-sm text-muted-foreground">{t("sourcesNote")}</p>
+      <div className="flex items-center gap-1">
+        <h2 id="sources" className="text-xl font-semibold">
+          {t("sources")}
+        </h2>
+        <InfoTip align="start">{t("sourcesNote")}</InfoTip>
+      </div>
       <ol className="list-decimal space-y-2 pl-6 text-sm marker:font-mono marker:text-muted-foreground">
         {sources.map((source) => {
           const note = source.note && localize(source.note, locale);

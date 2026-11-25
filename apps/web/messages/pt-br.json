@@ -140,7 +140,8 @@
     "opensInNewTab": "abre em uma nova aba",
     "sources": "Fontes",
     "sourcesNote": "Documentos públicos que embasam os fatos desta página. Números da instituição são da instituição, não contribuição minha.",
-    "archived": "cópia arquivada"
+    "archived": "cópia arquivada",
+    "moreInfo": "Mais informações"
   },
   "Kind": {
     "experience": "Carreira",
@@ -157,7 +158,6 @@
     "featured": "Projetos selecionados",
     "latest": "Escritos recentes",
     "recent": "Recentemente",
-    "noPosts": "Nenhum artigo publicado ainda. Os primeiros estão sendo escritos.",
     "now": "Agora",
     "studyingNow": "Estudando agora",
     "certificates": "Certificados",
@@ -191,7 +191,7 @@
       },
       "ai": {
         "title": "Conversar com a IA",
-        "body": "Pergunte sobre o meu trabalho. As respostas vêm só das páginas deste site.",
+        "body": "Pergunte sobre o meu trabalho.",
         "open": "Abrir o chat"
       }
     },
@@ -268,7 +268,8 @@
   },
   "Projects": {
     "title": "Projetos",
-    "description": "Projetos pessoais, profissionais e de estudo. O status é uma decisão editorial, não um palpite a partir de commits.",
+    "description": "Projetos pessoais, profissionais e de estudo.",
+    "descriptionInfo": "O status é uma decisão editorial, não um palpite a partir de commits.",
     "filterState": "Filtrar por status",
     "filterCategory": "Filtrar por categoria",
     "all": "Todos",
@@ -332,7 +333,8 @@
     "entries": "{count, plural, one {# entrada} other {# entradas}}",
     "repositoryLegend": "Nó vazado: data de criação do repositório",
     "title": "Linha do tempo",
-    "description": "Carreira, projetos, estudos e escrita em um único eixo, derivados do próprio conteúdo.",
+    "description": "Carreira, projetos, estudos e escrita em um único eixo.",
+    "descriptionInfo": "Tudo aqui é derivado do próprio conteúdo do site.",
     "legend": "Trilhas",
     "repositoryCreated": "repositório criado",
     "repositoryCreatedHint": "Não há data de início registrada para este projeto, então é exibida a data de criação do repositório.",
@@ -416,7 +418,6 @@
     "retailNote": "Não estou jogando no momento",
     "charactersLabel": "Personagens em {game}",
     "emptyTitle": "Nenhum personagem mapeado ainda",
-    "emptyDescription": "Eles aparecem aqui depois da primeira sincronização com a Battle.net.",
     "level": "Nível {level}",
     "main": "Principal",
     "live": "Ao vivo da Battle.net, {date}",
@@ -504,7 +505,8 @@
   },
   "Decisions": {
     "title": "Registro de decisões",
-    "description": "Cada decisão de arquitetura por trás deste site, com o contexto e os custos. Os registros não são reescritos: um novo substitui o antigo e diz isso.",
+    "description": "Cada decisão de arquitetura por trás deste site, com o contexto e os custos.",
+    "descriptionInfo": "Os registros não são reescritos: um novo substitui o antigo e diz isso.",
     "number": "ADR {number}",
     "why": "Por que importa",
     "status": {
