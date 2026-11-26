@@ -39,6 +39,12 @@ timeline, project pages, catalogue) revalidate daily. Client components are
 limited to interaction: navigation state, the mobile menu, theme and locale
 switchers, the search dialog and the project filters.
 
+Shareable elements carry stable ids derived from content ids, so any of them can
+be linked with a URL fragment (`/setup#mousepad-redragon-alianca`); a small
+client component re-applies the `:target` highlight after client-side
+navigations, which the browser does not do for history.pushState. See
+[deep links](../guides/deep-links.md).
+
 ## Quality gates
 
 `pnpm validate` runs Prettier, ESLint (type-aware, strict), TypeScript,
