@@ -4,13 +4,14 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { DateRange } from "@/components/date-range";
 import { InfoTip } from "@/components/info-tip";
+import { MediaGallery } from "@/components/media-gallery";
 import { SectionHeading } from "@/components/page-header";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { getContent } from "@/lib/content";
 
 /**
  * Volunteering on the About page, newest first: role, organization, dates and
- * cause, with what I did behind an "i". It is kept apart from the career, so
+ * cause, with what I did behind an "i" and its photos, when there are any. It is kept apart from the career, so
  * it has no page of its own.
  */
 export async function Volunteering() {
@@ -54,6 +55,11 @@ export async function Volunteering() {
                   <p className="text-sm text-muted-foreground" lang={cause.locale}>
                     {cause.value}
                   </p>
+                )}
+                {item.media.length > 0 && (
+                  <div className="pt-2">
+                    <MediaGallery id={item.id} media={item.media} compact />
+                  </div>
                 )}
               </div>
             </li>

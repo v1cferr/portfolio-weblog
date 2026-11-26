@@ -20,3 +20,17 @@ summary:
     Fui voluntário em iniciativas locais de apoio social em São Carlos, ajudando a organizar e
     entregar itens essenciais e cestas de alimentos para a comunidade: logística das doações,
     montagem das cestas e distribuição.
+
+# From the owner's LinkedIn volunteering entry ("Food Donation and Community
+# Support Activity"), downloaded 2026-11-26 with the owner's go-ahead; no
+# people in it. Re-encoded and stripped of metadata (pnpm media:add).
+media:
+  - src: /career/sao-carlos-volunteer/food-packages.jpg
+    width: 1280
+    height: 960
+    alt:
+      en-us: Dozens of food packages in clear plastic bags tied with red ribbon, piled on a tiled floor, with rice, beans, oil, milk and toilet paper inside
+      pt-br: Dezenas de cestas em sacos plásticos transparentes amarrados com fita vermelha, empilhadas num piso de cerâmica, com arroz, feijão, óleo, leite e papel higiênico
+    caption:
+      en-us: Food packages ready for delivery.
+      pt-br: Cestas prontas para a entrega.
