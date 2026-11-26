@@ -1,7 +1,7 @@
 # Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
 # LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
-# Published with the recommender's permission. A photo, when the owner adds one, goes to
-# apps/web/public/recommendations/leonardo-galis-noronha.jpg and is referenced as `photo`.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
 id: leonardo-galis-noronha
 name: Leonardo Galis Noronha
 jobTitle: Estágio em desenvolvimento Back-end
@@ -16,6 +16,7 @@ relation:
 date: "2025-05-28"
 language: pt-br
 url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/leonardo-galis-noronha.jpg
 featured: 2
 excerpt:
   pt-br: >-

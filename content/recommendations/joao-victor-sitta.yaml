@@ -1,7 +1,7 @@
 # Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
 # LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
-# Published with the recommender's permission. A photo, when the owner adds one, goes to
-# apps/web/public/recommendations/joao-victor-sitta.jpg and is referenced as `photo`.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
 id: joao-victor-sitta
 name: João Victor Sitta
 jobTitle: Desenvolvedor Full Stack Jr
@@ -16,6 +16,7 @@ relation:
 date: "2026-06-21"
 language: pt-br
 url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/joao-victor-sitta.jpg
 excerpt:
   pt-br: "Victor possui uma característica que admiro muito: sabe liderar sem deixar de ouvir."
   en-us: "Victor has a trait I really admire: he knows how to lead without ceasing to listen."

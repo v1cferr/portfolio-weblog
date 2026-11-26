@@ -1,7 +1,7 @@
 # Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
 # LinkedIn members). The pt-br text is the recommender's, verbatim (typos included); en-us is a
-# translation. Published with the recommender's permission. A photo, when the owner adds one,
-# goes to apps/web/public/recommendations/marcius-leandro.jpg and is referenced as `photo`.
+# translation. Published with the recommender's permission, photo included (their LinkedIn
+# photo, shared by the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
 # The course is Transforme-se (Serasa Experian with Senac, with Gerando Falcões), the
 # senac-systems-programmer entry.
 id: marcius-leandro
@@ -18,6 +18,7 @@ relation:
 date: "2026-05-11"
 language: pt-br
 url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/marcius-leandro.jpg
 featured: 3
 excerpt:
   pt-br: >-
