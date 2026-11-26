@@ -163,3 +163,17 @@
   name: SENAI
   kind: school
   url: https://www.senai.portaldaindustria.com.br/
+
+# DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
+# volunteered. No logo yet: the city's site only declares a 16 px favicon and a
+# wide "Cidade de São Carlos" wordmark that does not fit a square mark; MAPS
+# S.A.'s site is not confirmed, so neither its URL nor a logo is set.
+- id: prefeitura-sao-carlos
+  name: Prefeitura Municipal de São Carlos
+  kind: government
+  url: https://www.saocarlos.sp.gov.br/
+  location: São Carlos, SP, Brazil
+
+- id: maps-sa
+  name: MAPS S.A.
+  kind: company
