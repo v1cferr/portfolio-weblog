@@ -27,3 +27,4 @@ from these files as they are. A new record needs a plain-language summary in
 | [0014](0014-project-case-studies.md)                    | Project case studies in two layers                          | Accepted                        |
 | [0015](0015-world-of-warcraft-returns.md)               | World of Warcraft returns (server-only, client credentials) | Accepted                        |
 | [0016](0016-geist-type.md)                              | Geist and Geist Mono for the whole site                     | Accepted                        |
+| [0017](0017-live-github-data-on-project-pages.md)       | Live GitHub data (languages) on project pages               | Accepted                        |

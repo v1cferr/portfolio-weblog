@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { githubGet, type GitHubRequestOptions } from "./http";
+
 /** The fields this hub uses from GET /users/{user}/repos. Unknown fields are ignored. */
 export const GitHubRepo = z.object({
   name: z.string(),
@@ -21,20 +23,11 @@ export type GitHubRepo = z.infer<typeof GitHubRepo>;
 
 export type ReposResult = { ok: true; repos: GitHubRepo[] } | { ok: false; error: string; status?: number };
 
-export interface FetchReposOptions {
+export interface FetchReposOptions extends GitHubRequestOptions {
   user: string;
-  /** Optional token; raises the rate limit. Server-side only, never sent to the browser. */
-  token?: string | undefined;
-  /** Injected for tests and for Next's cache options. */
-  fetch?: typeof fetch;
-  /** Extra RequestInit merged into every request (e.g. `{ next: { revalidate } }`). */
-  init?: RequestInit & Record<string, unknown>;
   perPage?: number;
   /** Upper bound on pages, so a pagination bug can never loop forever. */
   maxPages?: number;
-  timeoutMs?: number;
-  /** Retries for network errors and 5xx responses (not for 4xx or rate limits). */
-  retries?: number;
 }
 
 /** A repository counts as public only when GitHub says so explicitly. */
@@ -51,22 +44,13 @@ function nextPageUrl(link: string | null): string | undefined {
   return undefined;
 }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 /**
  * Every public repository owned by `user`, following pagination. Private
  * repositories are dropped even if the token could see them. Failures are
  * returned, not thrown: callers render their own content without GitHub.
  */
 export async function fetchPublicRepos(options: FetchReposOptions): Promise<ReposResult> {
-  const { user, token, perPage = 100, maxPages = 10, timeoutMs = 8000, retries = 2 } = options;
-  const doFetch = options.fetch ?? fetch;
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "v1cferr.dev",
-  };
-  if (token !== undefined && token !== "") headers.Authorization = `Bearer ${token}`;
+  const { user, perPage = 100, maxPages = 10 } = options;
 
   const repos: GitHubRepo[] = [];
   let url: string | undefined =
@@ -75,21 +59,9 @@ export async function fetchPublicRepos(options: FetchReposOptions): Promise<Repo
   for (let page = 0; url !== undefined; page++) {
     if (page >= maxPages) return { ok: false, error: `stopped after ${String(maxPages)} pages` };
 
-    let response: Response | undefined;
-    for (let attempt = 0; ; attempt++) {
-      try {
-        response = await doFetch(url, { ...options.init, headers, signal: AbortSignal.timeout(timeoutMs) });
-        if (response.status < 500 || attempt >= retries) break;
-      } catch (error) {
-        if (attempt >= retries) return { ok: false, error: `request failed: ${(error as Error).message}` };
-      }
-      await sleep(250 * 2 ** attempt);
-    }
-
-    if (!response.ok) {
-      const limited = response.headers.get("x-ratelimit-remaining") === "0";
-      return { ok: false, status: response.status, error: limited ? "rate limited" : `GitHub answered ${String(response.status)}` };
-    }
+    const result = await githubGet(url, options);
+    if (!result.ok) return result;
+    const { response } = result;
 
     const parsed = z.array(z.unknown()).safeParse(await response.json());
     if (!parsed.success) return { ok: false, error: "unexpected response shape" };

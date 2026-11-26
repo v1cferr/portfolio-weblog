@@ -2,8 +2,10 @@ import { localize, type Project } from "@workspace/content";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { getContent } from "@/lib/content";
+import { getRepoLanguages } from "@/lib/github";
 import { storePath } from "@/lib/store-path";
 
+import { describeLanguages } from "./languages";
 import { type ProjectCardData, ProjectCardView } from "./project-card-view";
 
 /** /nix/store/abcdefg…-name, shortened the way the page eyebrows and share cards show it. */
@@ -17,7 +19,16 @@ export async function toCardData(
   project: Project,
   repositoryCreatedAt?: (repository: string) => string | undefined
 ): Promise<ProjectCardData> {
-  const [locale, t] = await Promise.all([getLocale(), getTranslations("Projects")]);
+  const [locale, t, repoLanguages] = await Promise.all([
+    getLocale(),
+    getTranslations("Projects"),
+    project.repository !== undefined ? getRepoLanguages(project.repository) : undefined,
+  ]);
+  const languages = repoLanguages?.languages.map(({ name, percent, color, other }) => ({
+    name: other === true ? t("otherLanguages") : name,
+    percent,
+    color,
+  }));
   const content = getContent();
   const summary = localize(project.summary, locale);
   const hook = project.hook && localize(project.hook, locale);
@@ -41,6 +52,9 @@ export async function toCardData(
     featured: project.featured,
     caseStudyLabel: project.caseStudy !== undefined ? t("caseStudy") : undefined,
     ...dateOf(project, repositoryCreatedAt),
+    languages,
+    // The top three are enough to name the bar; the project page has the full legend.
+    languagesLabel: languages && t("languagesBar", { list: describeLanguages(languages, locale, 3) }),
     technologies: project.technologies.flatMap((id) => {
       const tech = content.getTechnology(id);
       return tech === undefined ? [] : [{ id, name: tech.name, icon: tech.icon, category: tech.category }];

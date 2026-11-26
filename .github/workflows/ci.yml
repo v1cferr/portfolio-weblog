@@ -50,8 +50,12 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
+      # GitHub data comes from a committed snapshot (apps/web/src/lib/github-fixture.ts):
+      # no network, no rate limit, the same pages on every run.
       - name: Production build
         run: pnpm build
+        env:
+          GITHUB_FIXTURES: "1"
 
       # Same version as @playwright/test in apps/web (pinned to nixpkgs').
       - name: Install Playwright Chromium
@@ -59,6 +63,8 @@ jobs:
 
       - name: End-to-end smoke tests
         run: pnpm --filter web test:e2e
+        env:
+          GITHUB_FIXTURES: "1"
 
       - name: Upload Playwright report
         if: failure()
