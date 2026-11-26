@@ -8,6 +8,8 @@ handle: v1cferr
 # The owner's professional nickname and mark, as they named it on 2026-11-22.
 aliases: [V1C]
 location: São Carlos, SP, Brazil
+# As the owner states them on their LinkedIn profile ("He/Him"), read 2026-11-26.
+pronouns: { en-us: he/him, pt-br: ele/dele }
 photo: /images/profile.jpg
 
 # From the author's LinkedIn profile (PDF export), confirmed on 2026-11-23. English

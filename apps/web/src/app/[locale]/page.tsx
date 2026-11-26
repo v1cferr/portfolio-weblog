@@ -58,6 +58,7 @@ export default async function HomePage() {
   const profile = content.getProfile();
   const headline = ownerTitle(locale);
   const summary = localize(profile.summary, locale);
+  const pronouns = profile.pronouns === undefined ? undefined : localize(profile.pronouns, locale);
   const email = profile.links.find((link) => link.kind === "email")?.url;
   const availability = profile.availability?.open === true ? profile.availability : undefined;
   const availabilityNote = availability?.note === undefined ? undefined : localize(availability.note, locale);
@@ -90,8 +91,16 @@ export default async function HomePage() {
               className="spotlight-reveal pointer-events-none absolute right-0 bottom-0 -z-10 size-40 lg:size-44 xl:size-60"
             />
             <SpineHead />
-            <p className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+            <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-mono text-xs text-muted-foreground">
               <StorePath path="profile/profile.yaml" name={profile.handle} />
+              {pronouns !== undefined && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span data-testid="pronouns" lang={pronouns.locale}>
+                    {pronouns.value}
+                  </span>
+                </>
+              )}
               <span aria-hidden>·</span>
               <MapPinIcon className="size-3.5" aria-hidden />
               {profile.location}
