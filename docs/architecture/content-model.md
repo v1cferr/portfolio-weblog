@@ -46,6 +46,8 @@ in that order. `relation` names the organization (its logo is shown) and, when
 the site has them, the shared job (`experience`) or course (`education`); its
 `label` is the relation in the owner's words. `photo` is optional, a file under
 `apps/web/public/recommendations/`; without it the card shows initials.
+`pnpm linkedin:import` keeps the LinkedIn-owned fields in step with a data
+export ([guide](../guides/linkedin-recommendations.md)).
 
 ## Relations
 

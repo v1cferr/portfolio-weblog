@@ -13,6 +13,7 @@
     "test": "vitest run",
     "eval:chat": "tsx scripts/eval-chat.ts",
     "icons:sync": "tsx scripts/sync-icons.ts",
+    "linkedin:import": "tsx scripts/linkedin-import.ts",
     "icons:check": "tsx scripts/sync-icons.ts --check",
     "spotify:token": "tsx scripts/spotify-token.ts",
     "wow:addons": "tsx scripts/wow-addons.ts",
