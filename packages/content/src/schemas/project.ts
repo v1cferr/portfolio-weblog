@@ -58,11 +58,28 @@ export const CaseStudy = z.strictObject({
 });
 export type CaseStudy = z.infer<typeof CaseStudy>;
 
+/** A localized line that fits a card: at most 120 characters per locale. */
+const CardLine = LocalizedText.refine(
+  (value) => Object.values(value).every((text) => text.length <= 120),
+  "a card line is at most 120 characters"
+);
+
 export const Project = z.strictObject({
   ...entityBase,
   title: z.string().min(1),
   summary: LocalizedText,
   description: LocalizedText.optional(),
+  /**
+   * The card's one line: what the project is for, in the first person and
+   * plain words. Short enough for one or two lines on a phone; without it the
+   * card falls back to the summary.
+   */
+  hook: CardLine.optional(),
+  /**
+   * Hard numbers the card can show under the hook, only when the content
+   * already states them (the case study's outcome, for instance).
+   */
+  proof: CardLine.optional(),
   /** What the project solves; PWL-96 asks every project to make this explicit. */
   problem: LocalizedText.optional(),
   learnings: LocalizedList.default({}),

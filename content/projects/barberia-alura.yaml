@@ -6,6 +6,10 @@ category: study
 summary:
   en-us: Project built during the ONE program (Oracle Next Education), in partnership with Alura.
   pt-br: Projeto realizado durante o programa ONE (Oracle Next Education) em parceria com a Alura.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "A project I built in the ONE program (Oracle Next Education), in partnership with Alura."
+  pt-br: "Um projeto que fiz no programa ONE (Oracle Next Education), em parceria com a Alura."
 links:
   - { label: GitHub Pages, url: "https://v1cferr.github.io/barberia-alura/", kind: demo }
 technologies: [html, css]

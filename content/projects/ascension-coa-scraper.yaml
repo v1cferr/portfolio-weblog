@@ -10,4 +10,8 @@ summary:
   pt-br: >-
     Extrai e normaliza as árvores de talentos do Project Ascension (Conquest of Azeroth) em um
     dataset JSON estruturado, só com HTTP e sem automação de navegador.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "I turn Project Ascension's talent trees into a structured JSON dataset, with plain HTTP only."
+  pt-br: "Transformo as árvores de talentos do Project Ascension em um dataset JSON estruturado, só com HTTP."
 technologies: [python]

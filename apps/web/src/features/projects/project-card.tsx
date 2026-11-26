@@ -2,8 +2,15 @@ import { localize, type Project } from "@workspace/content";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { getContent } from "@/lib/content";
+import { storePath } from "@/lib/store-path";
 
 import { type ProjectCardData, ProjectCardView } from "./project-card-view";
+
+/** /nix/store/abcdefg…-name, shortened the way the page eyebrows and share cards show it. */
+function shortStorePath(id: string): string {
+  const { hash } = storePath(`projects/${id}.yaml`);
+  return `/nix/store/${hash.slice(0, 7)}…-${id}`;
+}
 
 /** `repositoryCreatedAt` resolves the fallback date for projects without `startedAt`. */
 export async function toCardData(
@@ -13,21 +20,25 @@ export async function toCardData(
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Projects")]);
   const content = getContent();
   const summary = localize(project.summary, locale);
-  // Featured cards lead with the problem, from the case study when there is one.
-  const problemText = project.featured ? (project.caseStudy?.problem ?? project.problem) : undefined;
-  const problem = problemText && localize(problemText, locale);
+  const hook = project.hook && localize(project.hook, locale);
+  const proof = project.proof && localize(project.proof, locale);
+  const [first] = project.media;
   return {
     id: project.id,
     title: project.title,
     summary: summary.value,
     summaryLocale: summary.locale,
+    hook: hook?.value,
+    hookLocale: hook?.locale,
+    proof: proof?.value,
+    proofLocale: proof?.locale,
+    cover: first && { src: first.src, width: first.width, height: first.height },
+    storePath: shortStorePath(project.id),
     state: project.state,
     stateLabel: t(`state.${project.state}`),
     category: project.category,
     categoryLabel: t(`category.${project.category}`),
     featured: project.featured,
-    problem: problem?.value,
-    problemLocale: problem?.locale,
     caseStudyLabel: project.caseStudy !== undefined ? t("caseStudy") : undefined,
     ...dateOf(project, repositoryCreatedAt),
     technologies: project.technologies.flatMap((id) => {
@@ -43,6 +54,6 @@ function dateOf(project: Project, repositoryCreatedAt?: (repository: string) => 
   return created !== undefined ? { date: created.slice(0, 10), dateFromRepository: true } : { dateFromRepository: false };
 }
 
-export async function ProjectCard({ project }: { project: Project }) {
-  return <ProjectCardView project={await toCardData(project)} />;
+export async function ProjectCard({ project, eager = false }: { project: Project; eager?: boolean }) {
+  return <ProjectCardView project={await toCardData(project)} eager={eager} />;
 }

@@ -109,7 +109,7 @@ test.describe("projects without a case study", () => {
 });
 
 test.describe("projects list", () => {
-  test("featured cards show the problem and a case study badge", async ({ page }) => {
+  test("featured cards show the hook and a case study badge", async ({ page }) => {
     await page.goto("/en-us/projects");
     const featured = page.getByRole("tabpanel", { name: /Featured/ });
     const card = featured.locator("[data-slot=card]").filter({ has: page.getByRole("link", { name: "Personal Hub (v1cferr.dev)" }) });
