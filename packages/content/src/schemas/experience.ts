@@ -31,6 +31,8 @@ export const Experience = z.strictObject({
   workMode: z.enum(["on-site", "hybrid", "remote"]).optional(),
   positions: z.array(Position).min(1),
   summary: LocalizedText,
+  /** The cause a volunteering experience served ("Poverty alleviation"), as LinkedIn names it. */
+  cause: LocalizedText.optional(),
   context: LocalizedText.optional(),
   responsibilities: LocalizedList.default({}),
   contributions: LocalizedList.default({}),
@@ -48,3 +50,12 @@ export const Experience = z.strictObject({
   ...mediaFields,
 });
 export type Experience = z.infer<typeof Experience>;
+
+/**
+ * Volunteering: every position is `volunteer`. It is not career, so the
+ * registry keeps it out of the experiences (career page, years of experience,
+ * current role) and serves it apart.
+ */
+export function isVolunteering(experience: Pick<Experience, "positions">): boolean {
+  return experience.positions.every((position) => position.employmentType === "volunteer");
+}

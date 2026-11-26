@@ -1,0 +1,23 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn volunteering entry "IT Support Volunteer",
+# MAPS S.A., Jul 2016 – Aug 2016 (2 months), cause Science and Technology.
+# Volunteering: kept out of the career (isVolunteering), so it does not move
+# the start of the owner's years in IT.
+id: maps-volunteer-2016
+organization: maps-sa
+positions:
+  - title: { en-us: IT Support Volunteer, pt-br: Voluntário de suporte de TI }
+    employmentType: volunteer
+    start: 2016-07
+    end: 2016-08
+cause: { en-us: Science and technology, pt-br: Ciência e tecnologia }
+summary:
+  en-us: >-
+    I supported IT technicians in cabling, cleaning, assembling and disassembling computers,
+    formatting systems, organizing files and basic maintenance in data center and server
+    environments. One of my earliest exposures to IT, hardware maintenance and infrastructure work.
+  pt-br: >-
+    Apoiei técnicos de TI em cabeamento, limpeza, montagem e desmontagem de computadores,
+    formatação de sistemas, organização de arquivos e manutenção básica em ambientes de data center
+    e servidores. Um dos meus primeiros contatos com TI, manutenção de hardware e rotinas de
+    infraestrutura.

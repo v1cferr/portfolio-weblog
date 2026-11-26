@@ -26,6 +26,7 @@ import { AboutNumbers } from "@/features/profile/about-numbers";
 import { Credentials } from "@/features/profile/credentials";
 import { Curiosities } from "@/features/profile/curiosities";
 import { Trajectory } from "@/features/profile/trajectory";
+import { Volunteering } from "@/features/profile/volunteering";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { ownerTitle } from "@/lib/current-role";
@@ -138,6 +139,8 @@ export default async function AboutPage() {
           )}
 
           <Credentials />
+
+          <Volunteering />
         </div>
 
         <aside className="space-y-10">

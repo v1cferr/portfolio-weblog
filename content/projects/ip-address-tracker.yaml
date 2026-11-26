@@ -1,0 +1,26 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn project "IP Address Tracker" (Nov 2024). It may
+# be a Frontend Mentor challenge, but nothing here says so yet, so the category
+# is `study`; no repository or demo link is known. Owner to confirm both.
+id: ip-address-tracker
+title: IP Address Tracker
+state: historical
+category: study
+startedAt: 2024-11
+endedAt: 2024-11
+summary:
+  en-us: >-
+    A responsive web app I built to look up an IP address and show its geolocation, ISP, timezone
+    and local time on an interactive map.
+  pt-br: >-
+    Uma aplicação web responsiva que construí para consultar um endereço IP e mostrar sua
+    geolocalização, provedor, fuso horário e hora local em um mapa interativo.
+description:
+  en-us: >-
+    It consumes external IP data APIs and draws the result on an interactive map. The focus was
+    front-end practice: API consumption, responsive design and UX.
+  pt-br: >-
+    Consome APIs externas de dados de IP e desenha o resultado em um mapa interativo. O foco foi a
+    prática de front end: consumo de APIs, design responsivo e UX.
+technologies: [react, vite, leaflet, tailwindcss]
+skills: [web-development]

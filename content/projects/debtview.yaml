@@ -1,0 +1,32 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn project "DebtView — Debt Management Platform"
+# (Jan 2026 – Apr 2026, associated with Senac São Paulo, a team of six) and the
+# Senac education entry for the role. Linked from
+# education/senac-systems-programmer.yaml. State `historical` (delivered
+# school project) and category `academic`: owner to confirm.
+id: debtview
+title: DebtView
+state: historical
+category: academic
+startedAt: 2026-01
+endedAt: 2026-04
+summary:
+  en-us: >-
+    A debt management platform, the final integrative project of my Systems Programmer training at
+    Senac São Paulo, built in a team of six.
+  pt-br: >-
+    Uma plataforma de gestão de dívidas, o projeto integrador final da minha formação de
+    Programador de Sistemas no Senac São Paulo, feita em uma equipe de seis pessoas.
+description:
+  en-us: >-
+    DebtView helps users organize debts, track payment status, monitor financial obligations and
+    see their finances more clearly through a structured web application. I worked on the front
+    end, the database integration, tests and fixes, and the implementation of an AI-powered chatbot
+    module, using Git and agile project workflows.
+  pt-br: >-
+    O DebtView ajuda o usuário a organizar dívidas, acompanhar o status dos pagamentos, monitorar
+    obrigações financeiras e enxergar melhor as próprias finanças por meio de uma aplicação web
+    estruturada. Trabalhei no front end, na integração com o banco de dados, em testes e correções
+    e na implementação de um módulo de chatbot com IA, usando Git e fluxos ágeis de projeto.
+technologies: [react, typescript, nextjs, postgresql, supabase, git]
+skills: [web-development, software-development]
