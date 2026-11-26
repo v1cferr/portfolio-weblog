@@ -17,7 +17,8 @@
     "icons:check": "tsx scripts/sync-icons.ts --check",
     "spotify:token": "tsx scripts/spotify-token.ts",
     "wow:addons": "tsx scripts/wow-addons.ts",
-    "wow:sync": "tsx scripts/wow-sync.ts"
+    "wow:sync": "tsx scripts/wow-sync.ts",
+    "linguist:colors": "tsx scripts/linguist-colors.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
