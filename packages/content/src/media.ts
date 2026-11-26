@@ -51,6 +51,19 @@ export async function checkMedia(
       });
     }
   }
+  // Recommenders' photos are cropped to a circle, so only their presence and metadata are checked.
+  for (const { value, file } of content.recommendations) {
+    if (value.photo === undefined) continue;
+    const absolute = path.join(publicDir, value.photo);
+    if (!existsSync(absolute)) {
+      issues.push({ file, message: `photo "${value.photo}" does not exist under apps/web/public` });
+      continue;
+    }
+    const metadata = await readMetadata(absolute);
+    if (metadata.exif !== undefined || metadata.xmp !== undefined || metadata.iptc !== undefined) {
+      issues.push({ file, message: `photo "${value.photo}" still has EXIF/XMP/IPTC metadata; strip it before committing` });
+    }
+  }
   const cv = content.profile?.value.cv;
   if (cv !== undefined && !existsSync(path.join(publicDir, cv))) {
     issues.push({ file: content.profile?.file ?? "profile/profile.yaml", message: `cv "${cv}" does not exist under apps/web/public` });

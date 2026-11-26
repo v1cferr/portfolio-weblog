@@ -8,6 +8,7 @@ export * from "./page";
 export * from "./post";
 export * from "./profile";
 export * from "./project";
+export * from "./recommendation";
 export * from "./setup";
 export * from "./story";
 export * from "./taxonomy";

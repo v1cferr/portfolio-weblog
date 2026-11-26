@@ -1,0 +1,60 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
+id: leonardo-galis-noronha
+name: Leonardo Galis Noronha
+jobTitle: Estágio em desenvolvimento Back-end
+company: Xmart Solutions
+relation:
+  kind: teammate
+  label:
+    pt-br: trabalhamos juntos na Xmart
+    en-us: we worked together at Xmart
+  organization: xmart-solutions
+  experience: xmart-solutions-2024
+date: "2025-05-28"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/leonardo-galis-noronha.jpg
+featured: 2
+excerpt:
+  pt-br: >-
+    Era comum vê-lo propondo melhorias e participando ativamente das decisões técnicas. … Victor é o
+    tipo de profissional que faz diferença real em uma equipe — tanto pelo lado técnico quanto pelo
+    humano.
+  en-us: >-
+    It was common to see him proposing improvements and taking an active part in technical decisions.
+    … Victor is the kind of professional who makes a real difference on a team — on the technical side
+    as much as on the human one.
+text:
+  pt-br:
+    - >-
+      Victor é um excelente desenvolvedor com quem tive o privilégio de trabalhar na Xmart Solutions,
+      e posso dizer com tranquilidade que ele foi um dos melhores profissionais com quem já colaborei.
+    - >-
+      Contribuía de forma extremamente profissional no desenvolvimento dos projetos, demonstrando
+      grande versatilidade e domínio nas tecnologias como um todo. Era comum vê-lo propondo melhorias e
+      participando ativamente das decisões técnicas.
+    - >-
+      Muito organizado, detalhista e com um forte senso de responsabilidade, fazia questão de
+      documentar tudo de forma clara, o que garantia a continuidade e a qualidade do projeto. Sua
+      postura colaborativa e seu olhar crítico foram fundamentais para o avanço das entregas.
+    - >-
+      Victor é o tipo de profissional que faz diferença real em uma equipe — tanto pelo lado técnico
+      quanto pelo humano.
+  en-us:
+    - >-
+      Victor is an excellent developer I had the privilege of working with at Xmart Solutions, and I
+      can safely say he was one of the best professionals I have ever collaborated with.
+    - >-
+      He contributed in an extremely professional way to the development of the projects, showing great
+      versatility and command of the technologies as a whole. It was common to see him proposing
+      improvements and taking an active part in technical decisions.
+    - >-
+      Very organized, detail-oriented and with a strong sense of responsibility, he made a point of
+      documenting everything clearly, which ensured the project's continuity and quality. His
+      collaborative attitude and critical eye were key to moving the deliveries forward.
+    - >-
+      Victor is the kind of professional who makes a real difference on a team — on the technical side
+      as much as on the human one.

@@ -53,7 +53,8 @@
       "post": "Article",
       "education": "Studies",
       "technology": "Technology",
-      "page": "Page"
+      "page": "Page",
+      "recommendation": "Recommendation"
     }
   },
   "Ask": {
@@ -254,6 +255,16 @@
       "since": "Working since {year}, from industry to AI."
     },
     "howBuilt": "How this site is built"
+  },
+  "Recommendations": {
+    "title": "Recommendations",
+    "seeAll": "See all {count}",
+    "onLinkedIn": "See on LinkedIn",
+    "readAll": "Read all",
+    "showLess": "Show less",
+    "translated": "Translated from {language, select, pt_br {Portuguese} other {the original}}",
+    "fromThisPeriod": "Recommendations from this period",
+    "info": "Written on LinkedIn by people I worked or studied with, published here with their permission."
   },
   "Career": {
     "title": "Career",

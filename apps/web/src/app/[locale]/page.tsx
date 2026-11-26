@@ -8,6 +8,7 @@ import {
   HistoryIcon,
   MailIcon,
   MapPinIcon,
+  MessageSquareQuoteIcon,
   PenLineIcon,
   SparklesIcon,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import { ProofLine } from "@/features/home/proof-line";
 import { StartHere } from "@/features/home/start-here";
 import { NowCard } from "@/features/now/now-card";
 import { Avatar } from "@/features/profile/avatar";
+import { featuredRecommendations, RecommendationCard } from "@/features/profile/recommendations";
 import { StackChips } from "@/features/profile/stack-chips";
 import { SectionHeading, StorePath } from "@/components/page-header";
 import { SocialLinks } from "@/components/social-links";
@@ -51,7 +53,7 @@ export function generateMetadata(): Metadata {
 
 export default async function HomePage() {
   const locale = await getLocale();
-  const [t, common] = await Promise.all([getTranslations("Home"), getTranslations("Common")]);
+  const [t, common, recs] = await Promise.all([getTranslations("Home"), getTranslations("Common"), getTranslations("Recommendations")]);
   const content = getContent();
   const profile = content.getProfile();
   const headline = ownerTitle(locale);
@@ -60,6 +62,8 @@ export default async function HomePage() {
   const availability = profile.availability?.open === true ? profile.availability : undefined;
   const availabilityNote = availability?.note === undefined ? undefined : localize(availability.note, locale);
   const featured = content.getProjects().filter((project) => project.featured);
+  const recommendations = featuredRecommendations();
+  const recommendationCount = content.getRecommendations().length;
   const posts = content.getPosts(locale).slice(0, 3);
   const index = await getRepoIndex();
   const recent = content
@@ -154,6 +158,34 @@ export default async function HomePage() {
 
         <StartHere email={email} cv={profile.cv} />
         <ProofLine />
+
+        {/* Social proof early: what the people I worked and studied with wrote, before the projects. */}
+        {recommendations.length > 0 && (
+          <section aria-labelledby="recommendations" className="mb-16">
+            <SectionHeading
+              id="recommendations"
+              icon={MessageSquareQuoteIcon}
+              branch={<SpineBranch lane="career" />}
+              action={
+                <Link
+                  href="/about#recommendations"
+                  className="group/link inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  {recs("seeAll", { count: recommendationCount })} <ArrowRightIcon className="icon-fwd size-3.5" aria-hidden />
+                </Link>
+              }
+            >
+              {recs("title")}
+            </SectionHeading>
+            <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {recommendations.map((item) => (
+                <li key={item.id}>
+                  <RecommendationCard item={item} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {featured.length > 0 && (
           <section aria-labelledby="featured" className="mb-16">

@@ -125,6 +125,30 @@ export function buildSearchDocuments(content: ContentRegistry, locale: Locale): 
     });
   }
 
+  // What others wrote about the owner: their full text, so "what do people say about me?" finds it.
+  const recommendation =
+    locale === "pt-br"
+      ? { label: "Recomendação", keywords: "recomendação recomendações depoimento dizem LinkedIn" }
+      : { label: "Recommendation", keywords: "recommendation recommendations testimonial say LinkedIn" };
+  for (const item of content.getRecommendations()) {
+    const text = localizeList(item.text, locale);
+    const relation = localize(item.relation.label, locale).value;
+    const org = content.getOrganization(item.relation.organization)?.name;
+    docs.push({
+      id: `recommendation:${item.id}:${locale}`,
+      entityId: item.id,
+      type: "recommendation",
+      locale: text?.locale ?? item.language,
+      section: "about",
+      title: `${recommendation.label} · ${item.name}`,
+      // Not the recommender's job title: it says nothing about the owner and would answer the wrong questions.
+      keywords: join(org, relation, recommendation.keywords),
+      text: join(`${item.name}, ${relation}:`, text?.value),
+      excerpt: item.excerpt === undefined ? (text?.value[0] ?? "") : localize(item.excerpt, locale).value,
+      url: `${prefix}/about#recommendation-${item.id}`,
+    });
+  }
+
   for (const tech of content.getTechnologies()) {
     docs.push({
       id: `technology:${tech.id}:${locale}`,
