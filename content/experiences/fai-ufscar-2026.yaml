@@ -79,7 +79,8 @@ learnings:
     - Levar uma iniciativa de IA da prova de conceito à avaliação, com os critérios definidos antes de construir
     - Privacidade e governança de dados como requisitos desde o início, e não uma revisão no fim, num ambiente institucional
     - Transformar os processos de outras equipes em requisitos de uma solução de IA, com elas junto
-technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
+# Computer vision: OCR at FAI, per the owner (2026-11-26).
+technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops, computer-vision, ocr]
 skills: [ai-systems, api-development, automation, technical-documentation, software-development]
 
 # The owner's LinkedIn post announcing the selection (2026-04-10, read 2026-11-26).

@@ -68,6 +68,8 @@
 - { id: llmops, name: LLMOps, category: practice, icon: "lucide:activity" }
 - { id: machine-learning, name: Machine learning, category: ai, icon: "lucide:brain-circuit" }
 - { id: deep-learning, name: Deep learning, category: ai, icon: "lucide:layers" }
+- { id: computer-vision, name: Computer vision, category: ai, icon: "lucide:scan-eye" }
+- { id: ocr, name: OCR, category: ai, icon: "lucide:scan-text" }
 
 # Practices
 - { id: scrumban, name: Scrumban, category: practice, icon: "lucide:kanban" }
