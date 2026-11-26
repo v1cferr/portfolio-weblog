@@ -242,6 +242,16 @@
     },
     "howBuilt": "How this site is built"
   },
+  "Recommendations": {
+    "title": "Recommendations",
+    "seeAll": "See all {count}",
+    "onLinkedIn": "See on LinkedIn",
+    "readAll": "Read all",
+    "showLess": "Show less",
+    "translated": "Translated from {language, select, pt-br {Portuguese} other {the original}}",
+    "fromThisPeriod": "Recommendations from this period",
+    "info": "Written on LinkedIn by people I worked or studied with, published here with their permission."
+  },
   "Career": {
     "title": "Career",
     "description": "Every position, newest first, with what I did and what I learned there.",
