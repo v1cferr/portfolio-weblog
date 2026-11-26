@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { Morph } from "@/components/morph";
 import { PageHeader } from "@/components/page-header";
+import { CopyLink } from "@/components/anchor/copy-link";
 import { NAV_FORWARD, PageTransition } from "@/components/page-transition";
 import { DecisionMeta } from "@/features/decisions/decision-meta";
 import { Link } from "@/i18n/navigation";
@@ -44,20 +45,31 @@ export default async function DecisionsPage() {
         {decisions.map((decision) => {
           const why = decision.why === undefined ? undefined : localize(decision.why, locale);
           return (
-            <li key={decision.number} className="glass glass-hover space-y-3 rounded-2xl border p-5 sm:p-6">
+            <li
+              key={decision.number}
+              id={`adr-${decision.number}`}
+              data-anchor=""
+              className="group/anchor glass glass-hover space-y-3 rounded-2xl border p-5 sm:p-6"
+            >
               <DecisionMeta decision={decision} />
-              <h2 className="font-display text-xl leading-snug font-semibold tracking-tight text-balance">
-                <Morph kind="decision" id={decision.number}>
-                  <Link
-                    href={decisionPath(decision.number)}
-                    transitionTypes={NAV_FORWARD}
-                    className="w-fit underline-offset-4 hover:underline"
-                    lang="en-us"
-                  >
-                    {decision.title}
-                  </Link>
-                </Morph>
-              </h2>
+              <div className="flex items-start gap-1">
+                <h2
+                  id={`adr-${decision.number}-title`}
+                  className="font-display text-xl leading-snug font-semibold tracking-tight text-balance"
+                >
+                  <Morph kind="decision" id={decision.number}>
+                    <Link
+                      href={decisionPath(decision.number)}
+                      transitionTypes={NAV_FORWARD}
+                      className="w-fit underline-offset-4 hover:underline"
+                      lang="en-us"
+                    >
+                      {decision.title}
+                    </Link>
+                  </Morph>
+                </h2>
+                <CopyLink id={`adr-${decision.number}`} nameId={`adr-${decision.number}-title`} className="mt-0.5" />
+              </div>
               {why !== undefined && (
                 <p className="leading-relaxed text-pretty text-muted-foreground" lang={why.locale}>
                   {why.value}

@@ -2,6 +2,7 @@ import "server-only";
 
 import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert";
 import { Separator } from "@workspace/ui/components/separator";
+import { cn } from "@workspace/ui/lib/utils";
 import { InfoIcon, TriangleAlertIcon } from "lucide-react";
 import Image from "next/image";
 import { compileMDX } from "next-mdx-remote/rsc";
@@ -12,6 +13,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
 import { Link } from "@/i18n/navigation";
+import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
 import { galleryId } from "@/components/lightbox/photo-param";
@@ -65,9 +67,32 @@ function Anchor({ href = "", ...props }: ComponentProps<"a">) {
   return <a href={href} {...props} />;
 }
 
+/**
+ * h2 and h3 carry rehype-slug ids (`/weblog/<slug>#<heading>`): each gets the
+ * deep-link highlight and a copy-link button. The button sits beside the
+ * heading, not in it, so the heading's name stays its text; the wrapper is a
+ * plain block, so the prose margins still collapse as before. It hangs in the
+ * left margin from md up and at the right end of the line below that.
+ */
+function linkableHeading(Tag: "h2" | "h3") {
+  return function LinkableHeading({ id, className, children, ...props }: ComponentProps<"h2">) {
+    if (id === undefined) return <Tag {...props}>{children}</Tag>;
+    return (
+      <div className="group/anchor relative">
+        <Tag id={id} data-anchor="" className={cn("max-md:pr-8", className)} {...props}>
+          {children}
+        </Tag>
+        <CopyLink id={id} nameId={id} className="absolute top-[0.35em] right-0 md:right-auto md:-left-8" />
+      </div>
+    );
+  };
+}
+
 /** Elements and components an article may use. Everything maps onto the design system. */
 const components = {
   a: Anchor,
+  h2: linkableHeading("h2"),
+  h3: linkableHeading("h3"),
   hr: () => <Separator className="my-10" />,
   Callout,
   Figure,
