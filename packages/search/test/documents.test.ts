@@ -25,6 +25,7 @@ const registry = loadRegistry(
       jobTitle: "Engineering Manager",
       relation: { kind: "manager", label: { "en-us": "my manager at Acme", "pt-br": "minha gestora na Acme" }, organization: "acme" },
       date: "2025-05-20",
+      rank: 4,
       language: "pt-br",
       url: "https://www.linkedin.com/in/tester/details/recommendations/",
       text: { "pt-br": ["Organizado e detalhista."], "en-us": ["Organized and detail-oriented."] },
