@@ -14,6 +14,7 @@ import {
   PostFrontmatter,
   Profile,
   Project,
+  Recommendation,
   Setup,
   Skill,
   StoryFrontmatter,
@@ -62,6 +63,7 @@ export interface RawContent {
   projects: Sourced<Project>[];
   education: Sourced<Education>[];
   certifications: Sourced<Certification>[];
+  recommendations: Sourced<Recommendation>[];
   posts: PostSource[];
   stories: StorySource[];
 }
@@ -259,6 +261,7 @@ export function loadContent(root: string): LoadResult {
     projects: directory(Project, path.join(root, "projects")),
     education: directory(Education, path.join(root, "education")),
     certifications: directory(Certification, path.join(root, "education/certifications")),
+    recommendations: directory(Recommendation, path.join(root, "recommendations")),
     posts: posts(path.join(root, "weblog")),
     stories: stories(path.join(root, "experiences")),
   };

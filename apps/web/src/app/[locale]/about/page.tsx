@@ -8,6 +8,7 @@ import {
   LanguagesIcon,
   LayersIcon,
   ListChecksIcon,
+  MessageSquareQuoteIcon,
   PenLineIcon,
   SparklesIcon,
   UserRoundIcon,
@@ -25,6 +26,7 @@ import { Avatar } from "@/features/profile/avatar";
 import { AboutNumbers } from "@/features/profile/about-numbers";
 import { Credentials } from "@/features/profile/credentials";
 import { Curiosities } from "@/features/profile/curiosities";
+import { RecommendationCard } from "@/features/profile/recommendations";
 import { Trajectory } from "@/features/profile/trajectory";
 import { Volunteering } from "@/features/profile/volunteering";
 import { Link } from "@/i18n/navigation";
@@ -56,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AboutPage() {
   const locale = await getLocale();
-  const [t, common] = await Promise.all([getTranslations("About"), getTranslations("Common")]);
+  const [t, common, recs] = await Promise.all([getTranslations("About"), getTranslations("Common"), getTranslations("Recommendations")]);
   const content = getContent();
   const profile = content.getProfile();
   const about = localizeList(profile.about, locale);
@@ -77,6 +79,7 @@ export default async function AboutPage() {
     }));
   const stack = [...new Set(current.flatMap(({ experience }) => experience.technologies))];
   const latestPost = content.getPosts(locale)[0];
+  const recommendations = content.getRecommendations();
 
   return (
     <PageTransition>
@@ -284,6 +287,22 @@ export default async function AboutPage() {
           </section>
         </aside>
       </div>
+
+      {recommendations.length > 0 && (
+        <section aria-labelledby="recommendations" className="mt-16 scroll-mt-24">
+          <SectionHeading id="recommendations" icon={MessageSquareQuoteIcon} info={recs("info")}>
+            {recs("title")}
+          </SectionHeading>
+          {/* Columns, not a grid: texts of very different lengths stack without gaps. */}
+          <ul className="gap-4 md:columns-2">
+            {recommendations.map((item) => (
+              <li key={item.id} className="mb-4 break-inside-avoid">
+                <RecommendationCard item={item} full />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {profile.trajectory.length > 0 && (
         <section aria-labelledby="trajectory" className="mt-16">
