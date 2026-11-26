@@ -293,9 +293,10 @@ export default async function AboutPage() {
           <SectionHeading id="recommendations" icon={MessageSquareQuoteIcon} info={recs("info")}>
             {recs("title")}
           </SectionHeading>
-          <ul className="grid items-start gap-4 md:grid-cols-2">
+          {/* Columns, not a grid: texts of very different lengths stack without gaps. */}
+          <ul className="gap-4 md:columns-2">
             {recommendations.map((item) => (
-              <li key={item.id}>
+              <li key={item.id} className="mb-4 break-inside-avoid">
                 <RecommendationCard item={item} full />
               </li>
             ))}

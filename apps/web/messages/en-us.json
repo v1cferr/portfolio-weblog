@@ -250,7 +250,7 @@
     "onLinkedIn": "See on LinkedIn",
     "readAll": "Read all",
     "showLess": "Show less",
-    "translated": "Translated from {language, select, pt-br {Portuguese} other {the original}}",
+    "translated": "Translated from {language, select, pt_br {Portuguese} other {the original}}",
     "fromThisPeriod": "Recommendations from this period",
     "info": "Written on LinkedIn by people I worked or studied with, published here with their permission."
   },

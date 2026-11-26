@@ -12,8 +12,19 @@ import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { formatPartialDate } from "@/lib/dates";
 
-/** Texts longer than this, in more than one paragraph, open on the first paragraph with "Read all". */
+/** Texts longer than this, in more than one paragraph, open on their first paragraphs with "Read all". */
 const COLLAPSE_AFTER = 1000;
+
+/** How much a collapsed text shows: whole paragraphs, until at least this many characters. */
+const LEAD_LENGTH = 280;
+
+/** The opening paragraphs of a collapsed text, and the rest. */
+export function splitLead(paragraphs: readonly string[], min = LEAD_LENGTH): [string[], string[]] {
+  let length = 0;
+  let count = 0;
+  while (count < paragraphs.length - 1 && length < min) length += paragraphs[count++]?.length ?? 0;
+  return [paragraphs.slice(0, Math.max(count, 1)), paragraphs.slice(Math.max(count, 1))];
+}
 
 /** The anchor of a recommendation's card on the About page. */
 export const recommendationAnchor = (id: string) => `recommendation-${id}`;
@@ -71,7 +82,7 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
   const quoteLocale = excerpt?.locale ?? text.locale;
   const translated = quoteLocale !== item.language;
   const collapsible = full && text.value.length > 1 && text.value.join("").length > COLLAPSE_AFTER;
-  const [first = "", ...rest] = text.value;
+  const [lead, rest] = splitLead(text.value);
 
   const paragraph = (value: string) => <p key={value}>{value}</p>;
   const quoteClass = cn("space-y-3 text-pretty", full ? "text-base leading-relaxed" : "text-lg leading-snug");
@@ -81,13 +92,13 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
       variant="glass"
       id={full ? recommendationAnchor(item.id) : undefined}
       data-recommendation={item.id}
-      className="h-full scroll-mt-24 gap-5 rounded-2xl pb-0"
+      className={cn("scroll-mt-24 gap-5 rounded-2xl pb-0", !full && "h-full")}
     >
       <CardContent className="flex flex-1 flex-col gap-3">
         {collapsible ? (
           <Collapsible className="group/text space-y-1">
             <blockquote lang={quoteLocale} className={quoteClass}>
-              {paragraph(first)}
+              {lead.map(paragraph)}
               <CollapsibleContent forceMount className="space-y-3 data-[state=closed]:hidden">
                 {rest.map(paragraph)}
               </CollapsibleContent>
@@ -114,7 +125,7 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
         {translated && (
           <p data-translated="" className="mt-auto flex items-center gap-1.5 text-xs text-muted-foreground">
             <LanguagesIcon aria-hidden className="size-3.5" />
-            {t("translated", { language: item.language })}
+            {t("translated", { language: item.language.replace("-", "_") })}
           </p>
         )}
       </CardContent>
@@ -130,11 +141,15 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-muted-foreground">
-          <p className="flex items-center gap-1.5">
-            {organization !== undefined && <OrganizationMark organization={organization} size="xs" />}
-            <span lang={relation.locale}>{relation.value}</span>
+          <p className="flex flex-wrap items-center gap-x-1.5">
+            <span className="flex items-center gap-1.5">
+              {organization !== undefined && <OrganizationMark organization={organization} size="xs" />}
+              <span lang={relation.locale}>{relation.value}</span>
+            </span>
             <span aria-hidden>·</span>
-            <time dateTime={item.date}>{formatPartialDate(item.date, locale)}</time>
+            <time dateTime={item.date} className="whitespace-nowrap">
+              {formatPartialDate(item.date, locale)}
+            </time>
           </p>
           <ExternalLink
             href={item.url}
