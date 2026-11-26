@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
+import { InfoTip } from "@/components/info-tip";
 import { openSearch } from "@/features/search/open-search";
 
 import { useAsk } from "./ask-provider";
@@ -142,9 +143,17 @@ export function AskDock() {
       >
         <div className="flex items-center gap-1 border-b border-border/60 py-1.5 pr-1.5 pl-4">
           <SparklesIcon aria-hidden className="size-4 shrink-0 text-primary" />
-          <h2 id="ask-dock-title" className="ml-1 min-w-0 flex-1 truncate text-sm font-medium">
+          <h2 id="ask-dock-title" className="ml-1 min-w-0 truncate text-sm font-medium">
             {t("title")}
           </h2>
+          {/* Where answers come from and the privacy note: one gesture away, not in the way. */}
+          <InfoTip label={t("aboutLabel")} align="start" className="max-sm:size-11">
+            <span className="flex flex-col gap-2" data-testid="ask-about">
+              <span>{t("description")}</span>
+              <span>{t("privacy")}</span>
+            </span>
+          </InfoTip>
+          <span className="flex-1" />
           <Button
             type="button"
             variant="ghost"

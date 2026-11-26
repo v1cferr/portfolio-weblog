@@ -6,6 +6,7 @@ import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment } from "react";
 
+import { InfoTip } from "@/components/info-tip";
 import type { AskSource } from "@/lib/ask/protocol";
 
 import { PendingSteps, StepsSummary } from "./steps";
@@ -111,22 +112,30 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
       {turn.phase === "stopped" && <p className="text-xs text-muted-foreground">{t("stoppedNote")}</p>}
       {turn.interrupted === true && <p className="text-xs text-destructive">{t("interrupted")}</p>}
       {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("sources")} />}
-      {!streaming && <p className="text-xs text-muted-foreground">{t("disclosure")}</p>}
     </div>
   );
 }
 
-/** Says who wrote the answer: AI, in the owner's voice, so nobody takes it for the owner typing. */
+/**
+ * Says who wrote the answer: AI, in the owner's voice, so nobody takes it for
+ * the owner typing. The "may be wrong, check the sources" note is behind the
+ * "i" next to it.
+ */
 function AiLabel() {
   const t = useTranslations("Ask");
   return (
-    <p
-      className="inline-flex items-center gap-1.5 self-start rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
-      data-testid="ask-ai-label"
-    >
-      <SparklesIcon aria-hidden className="size-3.5 shrink-0 text-primary" />
-      {t("aiLabel")}
-    </p>
+    <div className="flex items-center gap-1 self-start">
+      <p
+        className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
+        data-testid="ask-ai-label"
+      >
+        <SparklesIcon aria-hidden className="size-3.5 shrink-0 text-primary" />
+        {t("aiLabel")}
+      </p>
+      <InfoTip label={t("aiInfoLabel")} side="top" align="start" className="max-sm:size-11">
+        <span data-testid="ask-disclosure">{t("disclosure")}</span>
+      </InfoTip>
+    </div>
   );
 }
 

@@ -62,6 +62,7 @@
     "close": "Fechar",
     "title": "Pergunte sobre o meu trabalho",
     "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
+    "aboutLabel": "Sobre estas respostas",
     "placeholder": "Pergunte sobre o meu trabalho…",
     "submit": "Perguntar",
     "stop": "Parar",
@@ -76,6 +77,7 @@
     ],
     "you": "Você perguntou",
     "aiLabel": "IA, em meu nome",
+    "aiInfoLabel": "Sobre esta resposta por IA",
     "status": {
       "searching": "Buscando no site…",
       "ready": "Resposta pronta.",

@@ -62,6 +62,7 @@
     "close": "Close",
     "title": "Ask about my work",
     "description": "Answers come only from this site's pages, with links to them.",
+    "aboutLabel": "About these answers",
     "placeholder": "Ask about my work…",
     "submit": "Ask",
     "stop": "Stop",
@@ -76,6 +77,7 @@
     ],
     "you": "You asked",
     "aiLabel": "AI, on my behalf",
+    "aiInfoLabel": "About this AI answer",
     "status": {
       "searching": "Searching the site…",
       "ready": "Answer ready.",
