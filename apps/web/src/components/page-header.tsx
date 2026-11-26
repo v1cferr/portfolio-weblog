@@ -2,6 +2,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { InfoTip } from "@/components/info-tip";
 import { storePath } from "@/lib/store-path";
 
@@ -61,8 +62,10 @@ export function SectionHeading({
   info,
   icon: Glyph,
   branch,
+  anchor = true,
 }: {
   children: ReactNode;
+  /** Anchor id: the heading can be linked to (`/page#id`) and gets a copy-link button. */
   id?: string;
   action?: ReactNode;
   /** Helper text behind an "i" beside the heading (see InfoTip). */
@@ -70,16 +73,24 @@ export function SectionHeading({
   icon?: LucideIcon;
   /** On the home page's git spine: the branch drawn to this heading (its node replaces the icon on wide screens). */
   branch?: ReactNode;
+  /** False for a heading that is only a label (no copy-link button). */
+  anchor?: boolean;
 }) {
+  const linkable = anchor && id !== undefined;
   return (
-    <div className="relative mb-5 flex items-baseline justify-between gap-4">
+    <div className={cn("relative mb-5 flex items-baseline justify-between gap-4", linkable && "group/anchor")}>
       {branch}
-      <h2 id={id} className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-tight">
+      <h2
+        id={id}
+        data-anchor={linkable ? "" : undefined}
+        className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-tight"
+      >
         {Glyph !== undefined && (
           <Glyph aria-hidden className={cn("size-5 self-center text-muted-foreground", branch !== undefined && "lg:hidden")} />
         )}
         {children}
       </h2>
+      {linkable && <CopyLink id={id} nameId={id} className={cn("-ml-2 self-center", info === undefined && "mr-auto")} />}
       {info !== undefined && (
         <InfoTip className="mr-auto -ml-2 self-center" align="start">
           {info}

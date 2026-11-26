@@ -152,7 +152,8 @@ links:
   - { label: Frontend Mentor, url: "https://www.frontendmentor.io/profile/v1cferr", kind: profile, icon: "si:frontendmentor" }
   - { label: Monkeytype, url: "https://monkeytype.com/profile/v1cferr", kind: profile, icon: "si:monkeytype" }
 
-# Personal facts for the end of the About page. The tattoo's meaning is the owner's
+# Personal facts for the end of the About page. `href` points at the exact element when
+# there is one (`/setup#<item id>`, see docs/guides/deep-links.md). The tattoo's meaning is the owner's
 # own description (2026-11-23); the photo was cropped out of their screenshot,
 # resized and stripped of metadata.
 curiosities:
@@ -180,12 +181,12 @@ curiosities:
       pt-br: >-
         Ainda jogo World of Warcraft, e os meus add-ons são empacotados com Nix nos meus
         dotfiles, como todo o resto da minha máquina.
-    href: /wow
+    href: /wow#wow-addons
   - id: alliance-mousepad
     text:
       en-us: Even the mousepad on my desk is the Alliance one.
       pt-br: Até o mousepad da minha mesa é o da Aliança.
-    href: /setup
+    href: /setup#mousepad-redragon-alianca
 
 quotes:
   - text: Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta.

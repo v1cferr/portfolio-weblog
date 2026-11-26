@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { InfoTip } from "@/components/info-tip";
 import { NAV_FORWARD } from "@/components/page-transition";
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
@@ -12,6 +13,7 @@ import { RevealItem, RevealList } from "@/components/motion/reveal";
 import { YearHeading } from "@/components/year-heading";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
+import { anchorId } from "@/lib/anchors";
 import { getContent } from "@/lib/content";
 import { formatDayMonth } from "@/lib/dates";
 import { describeEntity } from "@/lib/entities";
@@ -43,6 +45,7 @@ export async function CommitGraph({
   events,
   groupByYear = true,
   morph = false,
+  anchors = false,
   label,
 }: {
   events: TimelineEvent[];
@@ -52,6 +55,12 @@ export async function CommitGraph({
    * morph from elsewhere on the page (the home page's cards and trajectory).
    */
   morph?: boolean;
+  /**
+   * Entries are deep links (`/timeline#project-<id>`, `#position-<id>-<n>`)
+   * with a copy-link button. Only on the timeline page: elsewhere the same
+   * entities have anchors of their own.
+   */
+  anchors?: boolean;
   label: string;
 }) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Timeline")]);
@@ -158,10 +167,13 @@ export async function CommitGraph({
                 row.event.kind === "position" || row.event.kind === "volunteering" || row.event.kind === "career-break"
                   ? row.event.end
                   : undefined;
+              const id = anchors ? anchorId(...row.event.key.split(":")) : undefined;
               return (
                 <RevealItem
                   key={row.event.key}
-                  className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[var(--date-col)_6rem_minmax(0,1fr)] sm:gap-x-4"
+                  id={id}
+                  data-anchor={id === undefined ? undefined : ""}
+                  className="group/anchor grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[var(--date-col)_6rem_minmax(0,1fr)] sm:gap-x-4"
                 >
                   <div className="hidden pt-3.5 text-right font-mono text-xs text-muted-foreground tabular-nums sm:block">
                     {short(row.event.date)}
@@ -207,26 +219,33 @@ export async function CommitGraph({
                         </Tooltip>
                       )}
                     </p>
-                    <Morph kind={row.morph ?? "project"} id={row.event.entity.id} enabled={row.morph !== undefined}>
-                      <p className={cn("font-medium", row.info === undefined ? "w-fit" : "flex items-start justify-between gap-2")}>
-                        {row.href !== undefined ? (
-                          <Link href={row.href} transitionTypes={NAV_FORWARD} className="hover:underline hover:underline-offset-4">
-                            {row.title}
-                          </Link>
-                        ) : (
-                          <span>{row.title}</span>
-                        )}
-                        {row.info !== undefined && (
-                          <InfoTip label={row.info.label} align="end" className="-mt-0.5">
-                            {row.info.paragraphs.map((paragraph) => (
-                              <span key={paragraph.value} lang={paragraph.locale} className="block not-first:mt-2">
-                                {paragraph.value}
-                              </span>
-                            ))}
-                          </InfoTip>
-                        )}
-                      </p>
-                    </Morph>
+                    <div className="flex items-start gap-1">
+                      <Morph kind={row.morph ?? "project"} id={row.event.entity.id} enabled={row.morph !== undefined}>
+                        <p
+                          className={cn("font-medium", row.info === undefined ? "w-fit" : "flex flex-1 items-start justify-between gap-2")}
+                        >
+                          {row.href !== undefined ? (
+                            <Link href={row.href} transitionTypes={NAV_FORWARD} className="hover:underline hover:underline-offset-4">
+                              {row.title}
+                            </Link>
+                          ) : (
+                            <span>{row.title}</span>
+                          )}
+                          {row.info !== undefined && (
+                            <InfoTip label={row.info.label} align="end" className="-mt-0.5">
+                              {row.info.paragraphs.map((paragraph) => (
+                                <span key={paragraph.value} lang={paragraph.locale} className="block not-first:mt-2">
+                                  {paragraph.value}
+                                </span>
+                              ))}
+                            </InfoTip>
+                          )}
+                        </p>
+                      </Morph>
+                      {id !== undefined && (
+                        <CopyLink id={id} name={[row.title, row.subtitle].filter(Boolean).join(" · ")} className="mt-0.5" />
+                      )}
+                    </div>
                     {row.issuer !== undefined && (
                       <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
                         <OrganizationMark organization={row.issuer} size="xs" />

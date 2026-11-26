@@ -75,10 +75,10 @@ test.describe("projects from LinkedIn", () => {
 test.describe("studies and languages from LinkedIn", () => {
   test("the Studies page lists the Hackers do Bem program, the LGPD course and the GTI score", async ({ page }) => {
     await page.goto("/en-us/education");
-    await expect(page.locator("li#hackers-do-bem-cybersecurity")).toContainText("Federal Cybersecurity Program");
-    await expect(page.locator("li#hackers-do-bem-cybersecurity")).toContainText("Hackers do Bem");
-    await expect(page.locator("li#senai-privacy-data-protection")).toContainText("Privacy and Data Protection (LGPD)");
-    await expect(page.locator("li#uniasselvi-gti")).toContainText("9.5/10");
+    await expect(page.locator("#hackers-do-bem-cybersecurity")).toContainText("Federal Cybersecurity Program");
+    await expect(page.locator("#hackers-do-bem-cybersecurity")).toContainText("Hackers do Bem");
+    await expect(page.locator("#senai-privacy-data-protection")).toContainText("Privacy and Data Protection (LGPD)");
+    await expect(page.locator("#uniasselvi-gti")).toContainText("9.5/10");
   });
 
   test("About shows English at a professional level", async ({ page }) => {

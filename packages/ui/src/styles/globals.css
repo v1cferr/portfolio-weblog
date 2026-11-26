@@ -169,8 +169,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /*
+   * Fragment targets, focused elements and scrollIntoView all stop below the
+   * floating header (12px gap + 52px pill), with room to breathe and the notch
+   * on top (deep links, docs/guides/deep-links.md).
+   */
   html {
-    scroll-padding-top: 5rem;
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top));
   }
   /*
    * The Ask dock (apps/web features/ask/ask-dock.tsx) sets data-ask-dock on
@@ -529,6 +534,45 @@
     to {
       transform: scaleY(1);
     }
+  }
+}
+
+/*
+ * Deep links (docs/guides/deep-links.md). The element a URL fragment names
+ * gets a brief sage glow: `:target` on a page load, `data-anchor-hit` after a
+ * client-side navigation or a copied link (components/anchor/hash-target.tsx),
+ * since the browser does not update `:target` for history.pushState. With
+ * reduced motion the glow is a static, subtle outline instead.
+ */
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    :is([data-anchor]:target, [data-anchor-hit]) {
+      animation: anchor-glow 1.6s ease-out;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :is([data-anchor]:target, [data-anchor-hit]) {
+      outline: 2px solid color-mix(in oklab, var(--brand) 45%, transparent);
+      outline-offset: 4px;
+    }
+  }
+  @keyframes anchor-glow {
+    from,
+    35% {
+      outline: 3px solid color-mix(in oklab, var(--brand) 70%, transparent);
+      outline-offset: 4px;
+    }
+    to {
+      outline: 3px solid transparent;
+      outline-offset: 4px;
+    }
+  }
+  /* An entrance animation never leaves the linked element hidden. */
+  :is([data-anchor]:target, [data-anchor-hit]):is([data-reveal]),
+  :is([data-anchor]:target, [data-anchor-hit]) [data-reveal],
+  [data-reveal]:has(:is([data-anchor]:target, [data-anchor-hit])) {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

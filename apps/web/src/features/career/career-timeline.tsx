@@ -11,8 +11,10 @@ export function CareerTimeline({ experiences }: { experiences: Experience[] }) {
       lane="career"
       entries={experiences.map((experience) => ({
         key: experience.id,
+        // The deep link: /career#<experience id>.
+        id: experience.id,
         node: experience.positions.at(-1)?.end === undefined ? "current" : "past",
-        children: <ExperienceCard experience={experience} />,
+        children: <ExperienceCard experience={experience} anchor />,
       }))}
     />
   );

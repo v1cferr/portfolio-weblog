@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { AnchorHeading } from "@/components/anchor/anchor-heading";
 import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { DateRange } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
@@ -31,6 +32,7 @@ import { TechList } from "@/components/tech-list";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { anchorId } from "@/lib/anchors";
 import { getContent } from "@/lib/content";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
@@ -61,12 +63,14 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/career/[
   };
 }
 
-function ListSection({ title, list, locale }: { title: string; list: LocalizedList; locale: Locale }): ReactNode {
+function ListSection({ id, title, list, locale }: { id: string; title: string; list: LocalizedList; locale: Locale }): ReactNode {
   const items = localizeList(list, locale);
   if (items === undefined) return null;
   return (
-    <section className="space-y-3">
-      <h2 className="text-xl font-semibold">{title}</h2>
+    <section aria-labelledby={id} className="space-y-3">
+      <AnchorHeading id={id} className="text-xl font-semibold">
+        {title}
+      </AnchorHeading>
       <ul className="list-disc space-y-1.5 pl-5 marker:text-lane-career">
         {items.value.map((item) => (
           <li key={item} lang={items.locale}>
@@ -182,44 +186,51 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
 
       <div className="space-y-10">
         {context && (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">{t("context")}</h2>
+          <section aria-labelledby="context" className="space-y-3">
+            <AnchorHeading id="context" className="text-xl font-semibold">
+              {t("context")}
+            </AnchorHeading>
             <p lang={context.locale}>{context.value}</p>
           </section>
         )}
-        <ListSection title={t("responsibilities")} list={experience.responsibilities} locale={locale} />
+        <ListSection id="responsibilities" title={t("responsibilities")} list={experience.responsibilities} locale={locale} />
         {[...experience.positions]
           .reverse()
           .map((position) =>
             position.responsibilities === undefined ? null : (
               <ListSection
                 key={`responsibilities-${position.start ?? ""}`}
+                id={anchorId("responsibilities", position.start ?? localize(position.title, "en-us").value)}
                 title={t("positionResponsibilities", { title: localize(position.title, locale).value })}
                 list={position.responsibilities}
                 locale={locale}
               />
             )
           )}
-        <ListSection title={t("contributions")} list={experience.contributions} locale={locale} />
-        <ListSection title={t("learnings")} list={experience.learnings} locale={locale} />
+        <ListSection id="contributions" title={t("contributions")} list={experience.contributions} locale={locale} />
+        <ListSection id="learnings" title={t("learnings")} list={experience.learnings} locale={locale} />
         {hindsight && (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">{t("hindsight")}</h2>
+          <section aria-labelledby="hindsight" className="space-y-3">
+            <AnchorHeading id="hindsight" className="text-xl font-semibold">
+              {t("hindsight")}
+            </AnchorHeading>
             <p lang={hindsight.locale}>{hindsight.value}</p>
           </section>
         )}
         {impact && (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">{t("impact")}</h2>
+          <section aria-labelledby="impact" className="space-y-3">
+            <AnchorHeading id="impact" className="text-xl font-semibold">
+              {t("impact")}
+            </AnchorHeading>
             <p lang={impact.locale}>{impact.value}</p>
           </section>
         )}
 
         {projects.length > 0 && (
           <section aria-labelledby="projects-here" className="space-y-3">
-            <h2 id="projects-here" className="text-xl font-semibold">
+            <AnchorHeading id="projects-here" className="text-xl font-semibold">
               {t("projectsHere")}
-            </h2>
+            </AnchorHeading>
             <ul className="grid gap-4 sm:grid-cols-2">
               {projects.map((project) => (
                 <li key={project.id}>
@@ -233,15 +244,19 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
         <RecommendationLinks items={content.getRecommendations().filter((item) => item.relation.experience === experience.id)} />
 
         {experience.technologies.length > 0 && (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">{common("technologies")}</h2>
+          <section aria-labelledby="technologies" className="space-y-3">
+            <AnchorHeading id="technologies" className="text-xl font-semibold">
+              {common("technologies")}
+            </AnchorHeading>
             <TechList ids={experience.technologies} label={common("technologies")} />
           </section>
         )}
 
         {experience.evidence.length > 0 && (
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">{common("evidence")}</h2>
+          <section aria-labelledby="evidence" className="space-y-3">
+            <AnchorHeading id="evidence" className="text-xl font-semibold">
+              {common("evidence")}
+            </AnchorHeading>
             <ul className="space-y-1">
               {experience.evidence.map((link) => (
                 <li key={link.url}>

@@ -154,7 +154,11 @@
     "sources": "Fontes",
     "sourcesNote": "Documentos públicos que embasam os fatos desta página. Números da instituição são da instituição, não contribuição minha.",
     "archived": "cópia arquivada",
-    "moreInfo": "Mais informações"
+    "moreInfo": "Mais informações",
+    "copyLink": "Copiar link",
+    "copyLinkTo": "Copiar link para",
+    "linkCopied": "Link copiado",
+    "linkInAddressBar": "O link está na barra de endereço"
   },
   "Kind": {
     "experience": "Carreira",

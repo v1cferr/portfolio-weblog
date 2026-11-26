@@ -45,7 +45,7 @@ export default async function TimelinePage() {
       {events.length === 0 ? (
         <p className="text-muted-foreground">{t("empty")}</p>
       ) : (
-        <CommitGraph events={events} morph label={t("title")} />
+        <CommitGraph events={events} morph anchors label={t("title")} />
       )}
     </PageTransition>
   );

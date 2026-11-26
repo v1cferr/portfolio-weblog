@@ -289,7 +289,7 @@ export default async function AboutPage() {
       </div>
 
       {recommendations.length > 0 && (
-        <section aria-labelledby="recommendations" className="mt-16 scroll-mt-24">
+        <section aria-labelledby="recommendations" className="mt-16">
           <SectionHeading id="recommendations" icon={MessageSquareQuoteIcon} info={recs("info")}>
             {recs("title")}
           </SectionHeading>

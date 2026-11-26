@@ -6,6 +6,8 @@ import { cn } from "@workspace/ui/lib/utils";
 import { ArrowUpRightIcon, ChevronDownIcon, LanguagesIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { AnchorHeading } from "@/components/anchor/anchor-heading";
+import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
@@ -91,8 +93,9 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
     <Card
       variant="glass"
       id={full ? recommendationAnchor(item.id) : undefined}
+      data-anchor={full ? "" : undefined}
       data-recommendation={item.id}
-      className={cn("scroll-mt-24 gap-5 rounded-2xl pb-0", !full && "h-full")}
+      className={cn("gap-5 rounded-2xl pb-0", full ? "group/anchor" : "h-full")}
     >
       <CardContent className="flex flex-1 flex-col gap-3">
         {collapsible ? (
@@ -139,6 +142,7 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
               {item.company !== undefined && ` · ${item.company}`}
             </p>
           </div>
+          {full && <CopyLink id={recommendationAnchor(item.id)} name={item.name} />}
         </div>
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-muted-foreground">
           <p className="flex flex-wrap items-center gap-x-1.5">
@@ -179,9 +183,9 @@ export async function RecommendationLinks({ items }: { items: readonly Published
   const t = await getTranslations("Recommendations");
   return (
     <section aria-labelledby="recommendations-here" className="space-y-3">
-      <h2 id="recommendations-here" className="text-xl font-semibold">
+      <AnchorHeading id="recommendations-here" className="text-xl font-semibold">
         {t("fromThisPeriod")}
-      </h2>
+      </AnchorHeading>
       <ul className="grid gap-2 sm:grid-cols-2">
         {items.map((item) => {
           const relation = localize(item.relation.label, locale);

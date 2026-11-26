@@ -3,6 +3,7 @@ import { ArrowRightIcon, LightbulbIcon } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
 import { galleryId, type LightboxItem } from "@/components/lightbox/photo-param";
 import { SectionHeading } from "@/components/page-header";
@@ -11,7 +12,8 @@ import { Link } from "@/i18n/navigation";
 /**
  * The end of the About page: personal facts in the owner's words. A photo opens
  * in the lightbox (`?photo=curiosities-<n>`), and a link points at the page on
- * this site that tells more.
+ * this site that tells more, down to the element (`/setup#<item>`). Each card
+ * is a deep link itself: `/about#curiosity-<id>`.
  */
 export async function Curiosities({ items }: { items: Profile["curiosities"] }) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("About")]);
@@ -46,7 +48,9 @@ export async function Curiosities({ items }: { items: Profile["curiosities"] }) 
             return (
               <li
                 key={item.id}
-                className={`glass flex flex-col overflow-hidden rounded-xl border ${item.media === undefined ? "" : "sm:col-span-2 sm:flex-row"}`}
+                id={`curiosity-${item.id}`}
+                data-anchor=""
+                className={`group/anchor glass relative flex flex-col overflow-hidden rounded-xl border ${item.media === undefined ? "" : "sm:col-span-2 sm:flex-row"}`}
               >
                 {item.media !== undefined && alt !== undefined && (
                   <LightboxTrigger
@@ -64,13 +68,16 @@ export async function Curiosities({ items }: { items: Profile["curiosities"] }) 
                   </LightboxTrigger>
                 )}
                 <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
-                  <p id={`curiosity-${item.id}`} lang={text.locale}>
-                    {text.value}
-                  </p>
+                  <div className="flex items-start gap-1">
+                    <p id={`curiosity-${item.id}-text`} lang={text.locale} className="flex-1">
+                      {text.value}
+                    </p>
+                    <CopyLink id={`curiosity-${item.id}`} nameId={`curiosity-${item.id}-text`} className="-mr-1" />
+                  </div>
                   {item.href !== undefined && (
                     <Link
                       href={item.href}
-                      aria-describedby={`curiosity-${item.id}`}
+                      aria-describedby={`curiosity-${item.id}-text`}
                       className="group/link mt-auto inline-flex min-h-11 items-center gap-1 self-start text-sm text-muted-foreground hover:text-foreground"
                     >
                       {t("curiositiesMore")}

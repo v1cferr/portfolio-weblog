@@ -5,6 +5,7 @@ import { AwardIcon, BookOpenIcon, ExternalLinkIcon, GraduationCapIcon } from "lu
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { PageTransition } from "@/components/page-transition";
 import { DateRange, PartialDate } from "@/components/date-range";
 import { EmptyState } from "@/components/empty-state";
@@ -54,11 +55,11 @@ export default async function EducationPage() {
     const institution = content.getOrganization(item.institution);
     const title = localize(item.title, locale);
     return (
-      // The id is the anchor the home's learning strip and the About page link to.
-      <Card id={item.id} variant="glass" className="scroll-mt-24 gap-4 py-5">
+      // The id is the anchor the home's learning strip, the About page and search link to (the rail item has none).
+      <Card id={item.id} data-anchor="" variant="glass" className="group/anchor gap-4 py-5">
         <CardHeader className="flex flex-row items-start gap-3 px-5">
           {institution !== undefined && <OrganizationMark organization={institution} />}
-          <div className="min-w-0 space-y-1">
+          <div className="min-w-0 flex-1 space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono text-[0.7rem] tracking-wide text-lane-study uppercase">{t(`kind.${item.kind}`)}</span>
               {item.state !== undefined && (
@@ -67,9 +68,12 @@ export default async function EducationPage() {
                 </Badge>
               )}
             </div>
-            <h3 className="text-xl leading-tight font-semibold" lang={title.locale}>
-              {title.value}
-            </h3>
+            <div className="flex items-start gap-1">
+              <h3 id={`${item.id}-title`} className="text-xl leading-tight font-semibold" lang={title.locale}>
+                {title.value}
+              </h3>
+              <CopyLink id={item.id} nameId={`${item.id}-title`} />
+            </div>
             {institution !== undefined && (
               <p className="text-sm text-muted-foreground">
                 {institution.url !== undefined ? (
@@ -119,7 +123,7 @@ export default async function EducationPage() {
 
   const group = (id: string, icon: typeof GraduationCapIcon, heading: string, items: Education[]) =>
     items.length > 0 && (
-      <section aria-labelledby={id} className="mb-16 scroll-mt-24">
+      <section aria-labelledby={id} className="mb-16">
         <SectionHeading id={id} icon={icon}>
           {heading}
         </SectionHeading>
@@ -128,7 +132,6 @@ export default async function EducationPage() {
           label={heading}
           entries={items.map((item) => ({
             key: item.id,
-            id: item.id,
             node: item.start === undefined ? "undated" : item.end === undefined ? "current" : "past",
             children: studyCard(item),
           }))}
@@ -145,7 +148,7 @@ export default async function EducationPage() {
       {group("degrees", GraduationCapIcon, t("degrees"), degrees)}
 
       {showCertifications && (
-        <section aria-labelledby="certifications-heading" id="certifications" className="mb-16 scroll-mt-24">
+        <section aria-labelledby="certifications-heading" id="certifications" className="mb-16">
           <SectionHeading id="certifications-heading" icon={AwardIcon}>
             {t("certifications")}
           </SectionHeading>
@@ -161,11 +164,13 @@ export default async function EducationPage() {
                   <li
                     key={cert.id}
                     id={cert.id}
-                    className="flex scroll-mt-24 flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between"
+                    data-anchor=""
+                    className="group/anchor flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between"
                   >
                     <span className="flex items-center gap-3 font-medium">
                       {issuer !== undefined && <OrganizationMark organization={issuer} size="sm" />}
                       {cert.name}
+                      <CopyLink id={cert.id} name={cert.name} className="-ml-2" />
                     </span>
                     <span className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground sm:justify-end">
                       {issuer?.name}

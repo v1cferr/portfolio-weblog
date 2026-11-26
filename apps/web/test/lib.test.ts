@@ -129,11 +129,15 @@ describe("setupToMarkdown", () => {
             id: "desk",
             title: { "pt-br": "Componentes" },
             items: [
-              { role: { "pt-br": "Monitor" }, model: "LG 27GN65R", url: "https://lg.com" },
-              { role: { "pt-br": "Mouse" }, model: "Old mouse", since: "2018", until: "2024" },
+              { id: "monitor-lg", role: { "pt-br": "Monitor" }, model: "LG 27GN65R", url: "https://lg.com" },
+              { id: "mouse-old", role: { "pt-br": "Mouse" }, model: "Old mouse", since: "2018", until: "2024" },
             ],
           },
-          { id: "retired", title: { "pt-br": "Aposentadas" }, items: [{ role: { "pt-br": "GPU" }, model: "RTX", until: "2026-07" }] },
+          {
+            id: "retired",
+            title: { "pt-br": "Aposentadas" },
+            items: [{ id: "gpu-rtx", role: { "pt-br": "GPU" }, model: "RTX", until: "2026-07" }],
+          },
         ],
       },
       "pt-br",

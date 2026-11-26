@@ -154,7 +154,11 @@
     "sources": "Sources",
     "sourcesNote": "Public documents behind the facts on this page. An organization's figures are the organization's, not my contribution.",
     "archived": "archived copy",
-    "moreInfo": "More information"
+    "moreInfo": "More information",
+    "copyLink": "Copy link",
+    "copyLinkTo": "Copy link to",
+    "linkCopied": "Link copied",
+    "linkInAddressBar": "Link is in the address bar"
   },
   "Kind": {
     "experience": "Career",

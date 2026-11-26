@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { PageTransition } from "@/components/page-transition";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
@@ -84,7 +85,8 @@ export default async function SetupPage() {
                     const role = localize(item.role, locale);
                     const note = item.note && localize(item.note, locale);
                     return {
-                      key: `${item.model}${item.since ?? ""}`,
+                      key: item.id,
+                      id: item.id,
                       node: item.until === undefined ? "current" : "past",
                       children: (
                         <article className="glass space-y-1 rounded-xl border px-4 py-3">
@@ -98,7 +100,7 @@ export default async function SetupPage() {
                               </span>
                             )}
                           </p>
-                          <p className="font-medium">
+                          <p className="flex items-start gap-1 font-medium">
                             {item.url !== undefined ? (
                               <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
                                 {item.model}
@@ -107,6 +109,7 @@ export default async function SetupPage() {
                             ) : (
                               item.model
                             )}
+                            <CopyLink id={item.id} name={item.model} />
                           </p>
                           {note && (
                             <p className="max-w-3xl text-sm text-pretty text-muted-foreground" lang={note.locale}>
@@ -124,19 +127,27 @@ export default async function SetupPage() {
                     const role = localize(item.role, locale);
                     const note = item.note && localize(item.note, locale);
                     return (
-                      <div key={`${item.model}${item.since ?? ""}`} className="grid gap-1 py-3 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-6">
+                      <div
+                        key={item.id}
+                        id={item.id}
+                        data-anchor=""
+                        className="group/anchor grid gap-1 py-3 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-6"
+                      >
                         <dt className="text-sm text-muted-foreground" lang={role.locale}>
                           {role.value}
                         </dt>
                         <dd className="space-y-1">
-                          {item.url !== undefined ? (
-                            <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
-                              {item.model}
-                              <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                            </ExternalLink>
-                          ) : (
-                            <span>{item.model}</span>
-                          )}
+                          <p className="flex items-start gap-1">
+                            {item.url !== undefined ? (
+                              <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
+                                {item.model}
+                                <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                              </ExternalLink>
+                            ) : (
+                              <span>{item.model}</span>
+                            )}
+                            <CopyLink id={item.id} name={item.model} />
+                          </p>
                           {item.since !== undefined && (
                             <p className="font-mono text-xs text-muted-foreground">
                               {item.until !== undefined

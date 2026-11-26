@@ -12,7 +12,7 @@ export type RailNode = "current" | "past" | "undated";
 export interface RailEntry {
   key: string;
   node: RailNode;
-  /** Anchor id, so other pages can link to the entry. */
+  /** Anchor id, so other pages can link to the entry (deep links: highlight, copy-link group). */
   id?: string;
   children: ReactNode;
 }
@@ -85,12 +85,13 @@ export function RailTimeline({
               <m.li
                 key={entry.key}
                 id={entry.id}
+                data-anchor={entry.id === undefined ? undefined : ""}
                 layout
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="relative scroll-mt-24"
+                className={cn("relative", entry.id !== undefined && "group/anchor")}
               >
                 <span
                   aria-hidden
@@ -110,7 +111,12 @@ export function RailTimeline({
       ) : (
         <RevealList aria-label={label} className={cn("pl-6 md:pl-8", gapClassName)}>
           {entries.map((entry) => (
-            <RevealItem key={entry.key} id={entry.id} className="relative scroll-mt-24">
+            <RevealItem
+              key={entry.key}
+              id={entry.id}
+              data-anchor={entry.id === undefined ? undefined : ""}
+              className={cn("relative", entry.id !== undefined && "group/anchor")}
+            >
               <span
                 aria-hidden
                 className={cn(

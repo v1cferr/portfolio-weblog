@@ -10,35 +10,43 @@ groups:
     title:
       pt-br: Componentes
     items:
-      - role:
+      - id: cpu-intel-core-i5-11400
+        role:
           pt-br: Processador (CPU)
         model: Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200
         url: https://www.intel.com.br/content/www/br/pt/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html
-      - role:
+      - id: mobo-asus-ex-b560m-v5
+        role:
           pt-br: Placa-mãe (MOBO)
         model: Asus EX-B560M-V5, Intel B560 LGA 1200, DDR4, ATX
         url: https://www.asus.com/br/motherboards-components/motherboards/expedition/ex-b560m-v5/
-      - role:
+      - id: gpu-asrock-arc-b580-steel-legend
+        role:
           pt-br: Placa de vídeo (GPU)
         model: ASRock Intel Arc B580 Steel Legend 12GB OC, 12GB GDDR6, 192-bit, XeSS, Ray Tracing
         url: https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20B580%20Steel%20Legend%2012GB%20OC/index.asp
-      - role:
+      - id: ram-teamgroup-t-force-vulcan
+        role:
           pt-br: Memória (RAM)
         model: (2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA
         url: https://www.pichau.com.br/memoria-team-group-t-force-vulcan-pichau-8gb-1x8-ddr4-3200mhz-c16-vermelha-tlprd48g3200hc16f01
-      - role:
+      - id: ssd-kingston-kc3000
+        role:
           pt-br: Armazenamento (M2 Gen 4)
         model: "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s"
         url: https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive
-      - role:
+      - id: ssd-kingspec-1tb
+        role:
           pt-br: Armazenamento (M2 Gen 3)
         model: "KingSpec 1TB M.2 NMVe 2280 PCIe 3x4 Leitura: 2400Mbps, Escrita: 1800Mbps"
         url: https://pt.aliexpress.com/item/32847169083.html
-      - role:
+      - id: psu-sharkoon-wpm-gold-zero
+        role:
           pt-br: Fonte de alimentação (PSU)
         model: Sharkoon WPM Gold Zero, 550W, 80 Plus Gold, Semi-Modular
         url: https://pt.sharkoon.com/product/GoldZERO
-      - role:
+      - id: case-sharkoon-vs9-rgb
+        role:
           pt-br: Gabinete (CASE)
         model: Gabinete Gamer Sharkoon VS9 RGB, Mid Tower, ATX, Lateral em Vidro Temperado, 3x Cooler Fan, Branco - VS9 RGB
         url: https://www.kabum.com.br/produto/508876/gabinete-gamer-sharkoon-vs9-rgb-mid-tower-atx-lateral-em-vidro-temperado-3x-cooler-fan-branco-vs9-rgb
@@ -46,60 +54,74 @@ groups:
     title:
       pt-br: Periféricos
     items:
-      - role:
+      - id: cooler-deepcool-ak400
+        role:
           pt-br: Air Cooler
         model: DeepCool High Performance AK400, 120mm, Intel-AMD, R-AK400-BKNNMN-G-1
         url: https://www.terabyteshop.com.br/produto/21648/cooler-para-processador-deepcool-ak400-120mm-intel-amd-r-ak400-bknnmn-g-1
-      - role:
+      - id: thermal-paste-snowdog-husky
+        role:
           pt-br: Pasta Térmica
         model: Snowdog Husky 1g 12.8w/mk - Alta Performance
         url: https://www.mercadolivre.com.br/pasta-termica-snowdog-husky-1g-128wmk-alta-performance/p/MLB27050357
-      - role:
+      - id: wifi-dlink-dwa-182
+        role:
           pt-br: Adaptador de Rede
         model: Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182
         url: https://www.kabum.com.br/produto/135247/adaptador-wifi-d-link-ac1200-dual-band-5ghz-802-11ac-usb-3-0-dwa-182
-      - role:
+      - id: speakers-edifier-g1500-max
+        role:
           pt-br: Caixa de Som
         model: Subwoofer 30W RMS EDIFIER G1500 MAX - Preto
         url: https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html
-      - role:
+      - id: chair-pichau-omega-s
+        role:
           pt-br: Cadeira
         model: Cadeira Gamer Pichau Omega S, Espuma Moldada, Braço 3D, Frog, Preta e Cinza - PG-OMGS-BG01
         url: https://www.pichau.com.br/cadeira-gamer-pichau-omega-s-espuma-moldada-braco-3d-preta-e-cinza-pg-omgs-bg01
-      - role:
+      - id: mouse-razer-deathadder-v2
+        role:
           pt-br: Mouse
         model: Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis
         url: https://www.razer.com/br-pt/gaming-mice/razer-deathadder-v2
-      - role:
+      - id: mousepad-redragon-alianca
+        role:
           pt-br: Mousepad
         model: Redragon World of Warcraft Aliança 300x800x3mm Azul
         url: https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul
-      - role:
+      - id: gamepad-machenike-g5-pro
+        role:
           pt-br: Controle Joystick
         model: Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS
         url: https://pt.aliexpress.com/item/1005006251691728.html
-      - role:
+      - id: keyboard-redragon-magic-wand-pro
+        role:
           pt-br: Teclado Mecânico
         model: Redragon TECLADO OPTICO GAMER MAGIC-WAND PRO RGB BRANCO SWITCH VERMELHO ABNT2
         url: https://www.redragon.com.br/magicwandpro-lunarwhite
-      - role:
+      - id: webcam-redragon-fobos
+        role:
           pt-br: Webcam
         model: Webcam Redragon Streaming Fobos, 720p
         url: https://www.redragon.com.br/fobos
-      - role:
+      - id: headset-baseus-gh02
+        role:
           pt-br: Headset over-ear
         model: Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable
           RGB
         url: https://pt.aliexpress.com/item/1005005875379717.html
-      - role:
+      - id: earphones-baseus-bowie-ma10-pro
+        role:
           pt-br: Fone in-ear
         model: Baseus Bowie MA10 Pro ANC Earphones
         url: https://pt.aliexpress.com/item/1005006079931969.html
-      - role:
+      - id: monitor-asus-rog-strix-xg27acs
+        role:
           pt-br: Monitor principal
         model: ASUS ROG Strix XG27ACS 27" QHD (2560x1440), 180Hz, Fast IPS
         url: https://rog.asus.com/monitors/27-to-31-5-inches/rog-strix-xg27acs/
-      - role:
+      - id: monitor-lg-ultragear-27gn65r
+        role:
           pt-br: Monitor secundário (na vertical)
         model: Monitor Gamer LG UltraGear 27 Full HD, 144Hz, 1ms, IPS, HDMI e DisplayPort, HDR 10, 99% sRGB, FreeSync Premium,
           VESA - 27GN65R
@@ -108,7 +130,8 @@ groups:
     title:
       pt-br: Possíveis upgrades
     items:
-      - role:
+      - id: ups-attiv-seno-700
+        role:
           pt-br: Nobreak Senoidal
         model: ATTIV SENO 700 VA BI
         url: https://www.intelbras.com/pt-br/energia/nobreaks/senoidal
@@ -116,12 +139,14 @@ groups:
     title:
       pt-br: Peças aposentadas
     items:
-      - role:
+      - id: monitor-aoc-22b1h
+        role:
           pt-br: Monitor secundário
         model: Monitor AOC 21.5" 22B1H Led Full HD
         url: https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ
         since: 2021-11
-      - role:
+      - id: water-cooler-pichau-aqua-x100
+        role:
           pt-br: Water Cooler
         model: Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB
         url: https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb
@@ -130,7 +155,8 @@ groups:
             mesma que antes e por ser AIO é mais dificil de realizar manutenção.
         since: 2022-08
         until: 2025-11
-      - role:
+      - id: keyboard-redragon-kumara-k552
+        role:
           pt-br: Teclado Mecânico
         model: Redragon Kumara Switch Blue ABNT2 K552
         url: https://www.redragon.com.br/kumarargbabnt2blue
@@ -140,7 +166,8 @@ groups:
             reserva.
         since: 2018-06
         until: 2024-05
-      - role:
+      - id: earbuds-razer-hammerhead
+        role:
           pt-br: Fone de Ouvido
         model: Razer Hammerhead
         url: https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x
@@ -149,7 +176,8 @@ groups:
             de ruído. Troquei por um fone in-ear com cancelamento de ruído e sem LED.
         since: 2022-01
         until: 2024-04
-      - role:
+      - id: case-sharkoon-vg6
+        role:
           pt-br: Gabinete
         model: Sharkoon VG6
         url: https://pt.sharkoon.com/product/VG6W
@@ -158,7 +186,8 @@ groups:
             para leitor de CD/DVD. Troquei por um gabinete com airflow melhor e suporte para fans em cima.
         since: 2021-03
         until: 2024-01
-      - role:
+      - id: mouse-redragon-cobra-m711
+        role:
           pt-br: Mouse
         model: Redragon Cobra M711
         url: https://www.redragon.com.br/cobra
@@ -167,7 +196,8 @@ groups:
             pelo preço, compensa bastante, muito custo-beneficio. Troquei por um Razer DeathAdder V2.
         since: 2018-06
         until: 2024-03
-      - role:
+      - id: mousepad-havit-hv-mp830
+        role:
           pt-br: Mousepad
         model: Havit HV-MP830
         url: https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261
@@ -176,7 +206,8 @@ groups:
             Troquei por um mousepad da Redragon com tema de WoW.
         since: 2019-11
         until: 2024-05
-      - role:
+      - id: headset-redragon-zeus-h510
+        role:
           pt-br: Headset over-ear
         model: Redragon Zeus 7.1 H510
         url: https://www.redragon.com.br/zeus
@@ -185,7 +216,8 @@ groups:
             e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.
         since: 2020-08
         until: 2024-03
-      - role:
+      - id: soundbar-redragon-adiemus
+        role:
           pt-br: Soundbar
         model: Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560
         url: https://www.redragon.com.br/adiemus
@@ -195,7 +227,8 @@ groups:
             Substituída pela Edifier G1500 Max com subwoofer dedicado.
         since: 2022-03
         until: 2025-08
-      - role:
+      - id: chair-mymax-mx5
+        role:
           pt-br: Cadeira
         model: Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho
         url: https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/
@@ -204,7 +237,8 @@ groups:
             a ceder e senti falta de ajustes mais precisos (como braços 3D). Substituída pela Pichau Omega S.
         since: 2023-04
         until: 2026-05
-      - role:
+      - id: gpu-gigabyte-rtx-3050
+        role:
           pt-br: Placa de vídeo (GPU)
         model: Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing
         url: https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD

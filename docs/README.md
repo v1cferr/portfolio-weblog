@@ -11,7 +11,7 @@
   [publish an article](guides/publish-post.md) ·
   [add photos](guides/add-media.md) · [deploy and preview](guides/deploy.md) ·
   [repository settings](guides/repository-settings.md) ·
-  [World of Warcraft page](guides/wow.md)
+  [World of Warcraft page](guides/wow.md) · [deep links](guides/deep-links.md)
 - [Decisions (ADRs)](decisions/README.md)
 - [Migration from v1](migration/README.md) · [inventory](migration/inventory.md)
   · [editorial review](migration/editorial-review.md)

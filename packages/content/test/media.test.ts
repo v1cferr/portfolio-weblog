@@ -55,7 +55,7 @@ describe("checkMedia", () => {
         "profile/setup.yaml": {
           id: "setup",
           updatedAt: "2026-07",
-          groups: [{ id: "desk", title: { "en-us": "Desk" }, items: [{ role: { "en-us": "Monitor" }, model: "LG" }] }],
+          groups: [{ id: "desk", title: { "en-us": "Desk" }, items: [{ id: "monitor-lg", role: { "en-us": "Monitor" }, model: "LG" }] }],
           photos: [{ src: "/setup/2025.webp", width: 1600, height: 1200, date: "2025-01-27", alt: { "en-us": "The desk" } }],
         },
       })
