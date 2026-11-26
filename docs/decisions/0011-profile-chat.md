@@ -214,3 +214,31 @@ search dialog cannot do: following a source closed the dialog.
   suggested question names it, read from the page's heading.
 - **Analytics.** `ask_open` (with where it was opened from) and `ask_question`,
   as Vercel Web Analytics custom events, with no question text.
+
+## Revision (2026-11-25, the owner's voice, labeled as AI)
+
+The owner decided that the whole site speaks in their first person, in every
+locale, and the chat with it.
+
+- **Voice.** Answers speak as the owner, in the first person ("I'm an AI Systems
+  Analyst at FAI·UFSCar [1]"), replacing the third person in the Context and
+  Decision above. The dock's copy follows: "Ask about my work", "How do I use
+  Nix?", "reach me through the About page". SEO metadata, JSON-LD and photo alt
+  text stay in the third person: they describe the owner to search engines and
+  screen readers, they are not the owner talking.
+- **AI label.** Every model answer, and every "I don't know", shows a visible
+  label, "AI, on my behalf" ("IA, em meu nome"), so nobody takes it for the
+  owner typing. Quoted passages keep their "without AI" label, since they are
+  the site's own text.
+- **Grounding unchanged.** Every sentence still cites passages and must pass the
+  faithfulness threshold (0.6), or it is dropped; "I don't know" when the
+  passages do not answer. The check is lexical, so the first person needed two
+  changes for it to judge facts and not grammar: first-person pronouns and
+  auxiliaries (my, mine, meu, minha, sou, tenho, fiz, uso) are stop words, and a
+  word also matches its other grammatical person by ending only (works and work,
+  usa and uso, deu and dei). With the eval set in the first person, grounded
+  sentences still score 0.88 and up and invented ones 0.38 and below.
+- **Evals.** The suggested questions are asked in the owner's voice, the
+  faithfulness cases are mostly first person (third-person pairs remain and must
+  still pass), and the pt-br injection probe that asked for the first person now
+  asks for another persona, since the first person is the intended voice.

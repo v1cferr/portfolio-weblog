@@ -2,9 +2,9 @@ import type { RetrievedPassage, Retriever } from "@workspace/search";
 import { describe, expect, it, vi } from "vitest";
 
 import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
-import { faithfulness, groundAnswer, parseModelAnswer, plainText } from "../src/lib/ask/grounding";
+import { FAITHFULNESS_THRESHOLD, faithfulness, groundAnswer, parseModelAnswer, personVariants, plainText } from "../src/lib/ask/grounding";
 import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, MODEL_REASONING, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
-import { buildMessages, passagesBlock } from "../src/lib/ask/prompt";
+import { buildMessages, passagesBlock, systemPrompt } from "../src/lib/ask/prompt";
 import type { AskEvent } from "../src/lib/ask/protocol";
 import { parseAskRequest } from "../src/lib/ask/schema";
 import { CitationMap, excerpt, extractiveSources } from "../src/lib/ask/sources";
@@ -232,6 +232,15 @@ describe("prompt", () => {
     expect(messages.map((message) => message.role)).toEqual(["system", "user", "assistant", "user"]);
     expect(messages.at(-1)?.content).toMatch(/Question: Next\?$/);
   });
+
+  it("asks for the owner's first person without loosening the grounding rules", () => {
+    const prompt = systemPrompt("pt-br");
+    expect(prompt).toContain("in the first person");
+    expect(prompt).not.toContain("third person");
+    expect(prompt).toContain("Every fact must come from the numbered passages");
+    expect(prompt).toContain("set `answerable` to false");
+    expect(prompt).toContain("Brazilian Portuguese");
+  });
 });
 
 describe("grounding", () => {
@@ -286,6 +295,40 @@ describe("grounding", () => {
     expect(faithfulness("Victor works at NASA on rockets", [{ title: "x", keywords: "", text: "Victor works with Nix." }])).toBeLessThan(
       0.5
     );
+  });
+
+  it("accepts first-person answers over first- or third-person passages", () => {
+    const third = [
+      {
+        title: "Career",
+        keywords: "",
+        text: "Victor works as an AI Systems Analyst and uses Nix daily. Ele deu suporte técnico e usa Nix.",
+      },
+    ];
+    const first = [{ title: "Career", keywords: "", text: "I work as an AI Systems Analyst. Dei suporte técnico e construí um RAG." }];
+    expect(faithfulness("I work as an AI Systems Analyst and I use Nix daily.", third)).toBe(1);
+    expect(faithfulness("Dei suporte técnico e uso Nix.", third)).toBe(1);
+    expect(faithfulness("Sou eu quem deu suporte técnico com meu Nix.", third)).toBe(1);
+    expect(faithfulness("Victor works as an AI Systems Analyst.", first)).toBe(1);
+    expect(faithfulness("O Victor deu suporte técnico e construiu um RAG.", first)).toBe(1);
+  });
+
+  it("does not let the first person carry invented claims", () => {
+    const passages = [{ title: "Career", keywords: "", text: "Victor works as an AI Systems Analyst at FAI·UFSCar." }];
+    expect(faithfulness("I'm a principal engineer at Google in Zurich.", passages)).toBeLessThan(FAITHFULNESS_THRESHOLD);
+    expect(faithfulness("Sou engenheiro principal no Google em Zurique.", passages)).toBeLessThan(FAITHFULNESS_THRESHOLD);
+  });
+
+  it("maps a verb to its other grammatical person by its ending only", () => {
+    expect(personVariants("work")).toContain("works");
+    expect(personVariants("works")).toContain("work");
+    expect(personVariants("study")).toContain("studies");
+    expect(personVariants("uso")).toContain("usa");
+    expect(personVariants("escrevo")).toContain("escreve");
+    expect(personVariants("dei")).toContain("deu");
+    expect(personVariants("automatizei")).toContain("automatizou");
+    expect(personVariants("construi")).toContain("construiu");
+    expect(personVariants("construiu")).toContain("construi");
   });
 });
 

@@ -15,7 +15,9 @@ export const MAX_SENTENCE_LENGTH = 300;
  * Share of a sentence's content words that must appear in the passages it
  * cites. Tuned with the `faithfulness` cases of apps/web/evals/profile-chat.yaml
  * (2026-11-23): grounded paraphrases score 0.88 and up, invented claims 0.38
- * and below; 0.6 leaves room on both sides.
+ * and below; 0.6 leaves room on both sides. Re-checked on 2026-11-25 with
+ * answers in the owner's first person: the same margins hold, since pronouns
+ * are stop words and verbs meet across persons (`personVariants`).
  */
 export const FAITHFULNESS_THRESHOLD = 0.6;
 
@@ -95,9 +97,38 @@ export function plainText(text: string): string {
     .trim();
 }
 
+/**
+ * The same verb in the other grammatical person (ADR 0011, 2026-11-25
+ * revision): answers speak as the owner ("I work", "uso", "dei"), while a
+ * passage may say it either way ("works", "usa", "deu"). Only endings change,
+ * so a variant never brings in a fact the word did not carry. Short words need
+ * it most: longer ones already meet through the 5-letter stem.
+ */
+export function personVariants(word: string): string[] {
+  const variants = [`${word}s`, `${word}es`];
+  if (word.endsWith("s")) variants.push(word.slice(0, -1));
+  if (word.endsWith("es")) variants.push(word.slice(0, -2));
+  if (word.endsWith("y")) variants.push(`${word.slice(0, -1)}ies`);
+  if (word.endsWith("ies")) variants.push(`${word.slice(0, -3)}y`);
+  // Portuguese present ("uso"/"usa", "escrevo"/"escreve") and preterite ("dei"/"deu", "automatizei"/"automatizou", "construi"/"construiu").
+  if (word.endsWith("o")) variants.push(`${word.slice(0, -1)}a`, `${word.slice(0, -1)}e`);
+  if (word.endsWith("a") || word.endsWith("e")) variants.push(`${word.slice(0, -1)}o`);
+  if (word.endsWith("ei")) variants.push(`${word.slice(0, -2)}ou`, `${word.slice(0, -1)}u`);
+  if (word.endsWith("ou")) variants.push(`${word.slice(0, -2)}ei`);
+  if (word.endsWith("eu")) variants.push(`${word.slice(0, -1)}i`);
+  if (word.endsWith("i")) variants.push(`${word}u`);
+  if (word.endsWith("iu")) variants.push(word.slice(0, -1));
+  return variants;
+}
+
 /** Two words match when equal, or when they share a 5-letter stem ("build" and "built" do not; "projeto" and "projetos" do). */
-function matches(word: string, vocabulary: Set<string>, stems: Set<string>): boolean {
+function matchesForm(word: string, vocabulary: Set<string>, stems: Set<string>): boolean {
   return vocabulary.has(word) || (word.length >= 5 && stems.has(word.slice(0, 5)));
+}
+
+/** A word matches in its own form or in another grammatical person (`personVariants`). */
+function matches(word: string, vocabulary: Set<string>, stems: Set<string>): boolean {
+  return matchesForm(word, vocabulary, stems) || personVariants(word).some((variant) => matchesForm(variant, vocabulary, stems));
 }
 
 /** Share of the sentence's content words found in the passages (1 when it has none to check). */

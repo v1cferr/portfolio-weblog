@@ -34,11 +34,14 @@ const STOP_WORDS = new Set(
     "me my of on or our she so than that the their them then there these they this those to too us was we were what when " +
     "where which while who whom why will with would you your about any some tell know there's what's he's victor ferreira v1cferr " +
     "use uses used using did done does doing has have having get got " +
+    // The owner's own voice: the chat's suggestions and answers speak in the first person (ADR 0011).
+    "mine myself am " +
     // Portuguese (accents already stripped)
     "o os as um uma uns umas de do da dos das no na nos nas em ao aos por pelo pela pelos pelas para pra com sem sob " +
     "e ou mas que qual quais quem quando onde como porque por que se ele ela eles elas seu sua seus suas dele dela " +
     "eu voce voces nos me te lhe isso isto esse essa este esta aquele aquela ja ate mais muito muita ser estar foi " +
-    "era sao esta estao tem ter teve fez faz sobre algum alguma alguns algumas qualquer usa usou usar fala diga sabe"
+    "era sao esta estao tem ter teve fez faz sobre algum alguma alguns algumas qualquer usa usou usar fala diga sabe " +
+    "meu minha meus minhas mim comigo sou estou tenho tive fiz faco fui estive uso usei"
   ).split(/\s+/)
 );
 

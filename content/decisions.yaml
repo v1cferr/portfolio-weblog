@@ -76,12 +76,12 @@
     en-us: >-
       Records how the site's look was chosen and then changed, revision by revision: the
       background, the glass surfaces, the colours, the type and the motion, each picked by
-      the owner from side-by-side options. Every colour is checked so text stays readable
+      me from side-by-side options. Every colour is checked so text stays readable
       in both light and dark themes.
     pt-br: >-
       Registra como o visual do site foi escolhido e depois mudou, revisão a revisão: o
       fundo, as superfícies de vidro, as cores, as fontes e o movimento, cada um escolhido
-      pelo dono entre opções lado a lado. Toda cor é verificada para o texto continuar
+      por mim entre opções lado a lado. Toda cor é verificada para o texto continuar
       legível nos temas claro e escuro.
 
 "0008":
@@ -121,15 +121,15 @@
 "0011":
   why:
     en-us: >-
-      A chat answers questions about the owner from the site's own pages only, and the
-      server drops any sentence that is not backed by the pages it cites. It uses free AI
-      models; when none answers, or the site does not say, it shows the relevant pages or
-      says it does not know.
+      A chat answers questions about my work from the site's own pages only, in my voice
+      and labeled as AI, and the server drops any sentence that is not backed by the pages
+      it cites. It uses free AI models; when none answers, or the site does not say, it
+      shows the relevant pages or says it does not know.
     pt-br: >-
-      Um chat responde perguntas sobre o dono usando só as páginas do próprio site, e o
-      servidor descarta qualquer frase que não se apoie nas páginas que cita. Ele usa
-      modelos de IA gratuitos; quando nenhum responde, ou o site não diz, mostra as
-      páginas relevantes ou diz que não sabe.
+      Um chat responde perguntas sobre o meu trabalho usando só as páginas do próprio site,
+      na minha voz e identificado como IA, e o servidor descarta qualquer frase que não se
+      apoie nas páginas que cita. Ele usa modelos de IA gratuitos; quando nenhum responde,
+      ou o site não diz, mostra as páginas relevantes ou diz que não sabe.
 
 "0012":
   why:
@@ -145,12 +145,12 @@
 "0013":
   why:
     en-us: >-
-      The home page and /now say what the owner is doing these days, as dated updates,
+      The home page and /now say what I am doing these days, as dated updates,
       with the current role, active projects and latest article filled in from the rest of
       the content. After 90 days without an update, the page says so instead of passing
       for the present.
     pt-br: >-
-      A página inicial e /now dizem o que o dono anda fazendo, em atualizações datadas, com
+      A página inicial e /now dizem o que eu ando fazendo, em atualizações datadas, com
       o cargo atual, os projetos ativos e o artigo mais recente puxados do resto do
       conteúdo. Depois de 90 dias sem atualização, a página avisa em vez de se passar pelo
       presente.
@@ -170,11 +170,11 @@
   why:
     en-us: >-
       The World of Warcraft page came back without storing any login token: the character
-      list is synced once on the owner's machine, and the site only reads public profiles.
+      list is synced once on my machine, and the site only reads public profiles.
       When Blizzard's service does not answer, the page shows the last saved snapshot.
     pt-br: >-
       A página de World of Warcraft voltou sem guardar nenhum token de login: a lista de
-      personagens é sincronizada uma vez na máquina do dono, e o site só lê perfis
+      personagens é sincronizada uma vez na minha máquina, e o site só lê perfis
       públicos. Quando o serviço da Blizzard não responde, a página mostra o último
       retrato salvo.
 

@@ -58,23 +58,24 @@
   },
   "Ask": {
     "open": "Ask",
-    "openLabel": "Ask about Victor",
+    "openLabel": "Ask about my work",
     "close": "Close",
-    "title": "Ask about Victor",
+    "title": "Ask about my work",
     "description": "Answers come only from this site's pages, with links to them.",
-    "placeholder": "Ask about Victor's work…",
+    "placeholder": "Ask about my work…",
     "submit": "Ask",
     "stop": "Stop",
     "clear": "New conversation",
     "counter": "{count} of {max} characters",
     "suggestionsTitle": "Try asking",
     "suggestions": [
-      "What is Victor's current role?",
-      "How does Victor use Nix?",
-      "Which RAG projects has Victor built?",
-      "What security experience does Victor have?"
+      "What is my current role?",
+      "How do I use Nix?",
+      "Which RAG projects have I built?",
+      "What security experience do I have?"
     ],
     "you": "You asked",
+    "aiLabel": "AI, on my behalf",
     "status": {
       "searching": "Searching the site…",
       "ready": "Answer ready.",
@@ -92,7 +93,7 @@
     },
     "noSource": {
       "title": "That isn't on the site",
-      "body": "No page here answers it, and answers only come from the site's own pages. Try a search, or reach Victor through the About page.",
+      "body": "No page here answers it, and answers only come from the site's own pages. Try a search, or reach me through the About page.",
       "search": "Search the site",
       "about": "About and contact"
     },
@@ -106,7 +107,7 @@
     "privacy": "AI answers come from free third-party models via OpenRouter and are checked against this site's pages. Don't type personal data.",
     "unknown": {
       "title": "I don't know: the site doesn't say",
-      "body": "I read the pages closest to the question and none of them answers it. I'd rather not make it up. If it matters, reach Victor through the About page.",
+      "body": "I read the pages closest to the question and none of them answers it. I'd rather not make it up. If it matters, reach me through the About page.",
       "read": "Pages I read"
     },
     "partial": "The site answers only part of the question; the rest isn't on its pages, so it was left out.",
@@ -117,7 +118,7 @@
     "minimize": "Minimize",
     "pageSuggestion": {
       "project": "What problem does {title} solve?",
-      "career": "What did Victor do at {org}?"
+      "career": "What did I do at {org}?"
     }
   },
   "Common": {
@@ -169,8 +170,8 @@
     "contact": "Contact",
     "cv": "CV",
     "available": "Open to work",
-    "askLabel": "Ask a question about Victor",
-    "askPlaceholder": "Ask me anything about Victor…",
+    "askLabel": "Ask a question about me",
+    "askPlaceholder": "Ask anything about me…",
     "askSubmit": "Ask",
     "startHere": {
       "title": "Start here",
