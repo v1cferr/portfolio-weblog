@@ -20,6 +20,10 @@ export function markAnchorTarget(): void {
   const element = document.getElementById(id);
   // Only shareable elements glow; the skip link's #content target does not.
   if (element === null || !element.hasAttribute("data-anchor")) return;
+  // A linked entry folded in a <details> (the /now archive) opens, and so does any it sits in.
+  for (let details = element.closest("details"); details !== null; details = details.parentElement?.closest("details") ?? null) {
+    details.open = true;
+  }
   // A reflow between removing and setting the attribute restarts the animation.
   element.getBoundingClientRect();
   element.setAttribute(ATTRIBUTE, "");

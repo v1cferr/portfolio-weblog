@@ -3,6 +3,7 @@ import { ArrowRightIcon, ChevronRightIcon, CompassIcon, MapPinIcon } from "lucid
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
@@ -10,6 +11,7 @@ import { SourceLink } from "@/components/source-link";
 import { NowList } from "@/features/now/now-list";
 import { NowStamp } from "@/features/now/now-stamp";
 import { Link } from "@/i18n/navigation";
+import { anchorId } from "@/lib/anchors";
 import { formatPartialDate } from "@/lib/dates";
 import { InfoTip } from "@/components/info-tip";
 import { pageAlternates } from "@/lib/i18n";
@@ -57,9 +59,11 @@ export default async function NowPage() {
         <div className="max-w-3xl space-y-12">
           <article
             aria-labelledby="latest-update"
+            id={anchorId("now", latest.entry.date)}
+            data-anchor=""
             data-stale={latest.age.stale || undefined}
             className={cn(
-              "space-y-5 rounded-2xl border p-5 sm:p-7",
+              "group/anchor space-y-5 rounded-2xl border p-5 sm:p-7",
               latest.age.stale ? "border-dashed bg-transparent text-muted-foreground" : "glass"
             )}
           >
@@ -69,6 +73,7 @@ export default async function NowPage() {
                   <time dateTime={latest.entry.date}>{formatPartialDate(latest.entry.date, locale)}</time>
                 </h2>
                 <InfoTip align="start">{t("derived")}</InfoTip>
+                <CopyLink id={anchorId("now", latest.entry.date)} nameId="latest-update" />
               </div>
               {latest.age.stale && <NowStamp date={latest.entry.date} age={latest.age} />}
             </header>
@@ -95,14 +100,22 @@ export default async function NowPage() {
                 {earlier.map((entry) => {
                   const written = writtenNow(entry, locale);
                   return (
-                    <li key={entry.date}>
-                      <details className="group">
+                    <li key={entry.date} className="group/anchor flex items-start gap-2">
+                      {/* The deep link opens the entry (components/anchor/hash-target.tsx). */}
+                      <details
+                        id={anchorId("now", entry.date)}
+                        data-anchor=""
+                        aria-labelledby={anchorId("now", entry.date, "date")}
+                        className="group min-w-0 flex-1"
+                      >
                         <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 py-3 font-mono text-sm tabular-nums [&::-webkit-details-marker]:hidden">
                           <ChevronRightIcon
                             aria-hidden
                             className="size-4 text-muted-foreground transition-transform group-open:rotate-90 motion-reduce:transition-none"
                           />
-                          <time dateTime={entry.date}>{formatPartialDate(entry.date, locale)}</time>
+                          <time id={anchorId("now", entry.date, "date")} dateTime={entry.date}>
+                            {formatPartialDate(entry.date, locale)}
+                          </time>
                         </summary>
                         <div className="space-y-3 pb-5 pl-6">
                           {written.note !== undefined && (
@@ -119,6 +132,7 @@ export default async function NowPage() {
                           )}
                         </div>
                       </details>
+                      <CopyLink id={anchorId("now", entry.date)} nameId={anchorId("now", entry.date, "date")} className="mt-3" />
                     </li>
                   );
                 })}
