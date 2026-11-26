@@ -11,6 +11,10 @@ summary:
   pt-br: >-
     Sistema operacional self-hosted para uma imobiliária: CRM, gestão de clientes, fluxos de
     imóveis, comunicação e automação.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "One place that tells a real estate broker who needs attention today, why, and the next action."
+  pt-br: "Um lugar só que diz a uma corretora quem precisa de atenção hoje, por quê, e qual é a próxima ação."
 # Made for a client as freelance work ("Solo, for a brokerage"): listed under that job.
 experiences: [freelance-2024]
 technologies: [typescript, nextjs, react, python, fastapi, postgresql, docker, nix]

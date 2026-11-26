@@ -14,5 +14,9 @@ summary:
   pt-br: >-
     Para a Gestão de Pessoas da FAI·UFSCar: um relatório das inscrições comparadas com o edital de
     cada projeto, para facilitar a análise, sempre com revisão humana.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "Checks each application against its project's call, for People Management, always with human review."
+  pt-br: "Confere cada inscrição com o edital do projeto, para a Gestão de Pessoas, sempre com revisão humana."
 skills: [ai-systems]
 experiences: [fai-ufscar-2026]

@@ -11,6 +11,10 @@ summary:
   pt-br: >-
     Infraestrutura pessoal como código: uma estação de trabalho NixOS declarativa, reproduzível e
     versionada, que gerencia sistema, Home Manager, segredos, armazenamento e serviços.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "One NixOS flake describes my machines, so putting exactly my system on another one is easy."
+  pt-br: "Um flake NixOS descreve as minhas máquinas, então colocar exatamente o meu sistema em outra é fácil."
 links:
   - { label: dotfiles.v1cferr.dev, url: "https://dotfiles.v1cferr.dev", kind: website }
 technologies: [nix, nixos]

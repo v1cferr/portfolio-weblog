@@ -16,6 +16,10 @@ summary:
   pt-br: >-
     Uma plataforma de finanças pessoais com IA que construo com um colaborador, focada em clareza
     financeira, automação e controle sobre os próprios dados de gastos.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "AI-powered personal finance I build with a collaborator, for clarity and control over my spending data."
+  pt-br: "Finanças pessoais com IA que construo com um colaborador, para ter clareza e controle sobre os meus gastos."
 description:
   en-us: >-
     SpendFlow imports financial statements, processes and categorizes transactions, generates

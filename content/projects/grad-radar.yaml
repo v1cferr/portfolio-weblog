@@ -10,6 +10,10 @@ summary:
   pt-br: >-
     Sistema self-hosted para descobrir, comparar e acompanhar programas de pós-graduação gratuitos e
     presenciais, editais, grupos de pesquisa, docentes, bolsas e prazos.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "A self-hosted radar to find, compare and track tuition-free graduate programs, calls and deadlines."
+  pt-br: "Um radar self-hosted para descobrir, comparar e acompanhar pós-graduações gratuitas, editais e prazos."
 links:
   - { label: pos.v1cferr.dev, url: "https://pos.v1cferr.dev", kind: website }
 technologies: [python]

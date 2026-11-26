@@ -11,4 +11,8 @@ summary:
   pt-br: >-
     Radar pessoal para monitorar, comparar e ranquear apartamentos próximos à UFSCar com base em
     preço, distância, condomínio, segurança e critérios de viabilidade.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "My radar that ranks apartments near UFSCar by price, distance, condo fee, safety and feasibility."
+  pt-br: "Meu radar que ranqueia apartamentos perto da UFSCar por preço, distância, condomínio, segurança e viabilidade."
 technologies: [python]

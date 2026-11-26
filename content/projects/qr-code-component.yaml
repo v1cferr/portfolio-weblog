@@ -6,6 +6,10 @@ category: challenge
 summary:
   en-us: Solution to the Frontend Mentor "QR code component" challenge.
   pt-br: Solução do desafio "QR code component" do Frontend Mentor.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "My solution to Frontend Mentor's QR code component challenge."
+  pt-br: "Minha solução do desafio QR code component do Frontend Mentor."
 links:
   - { label: Challenge, url: "https://www.frontendmentor.io/challenges/qr-code-component-iux_sIO_H", kind: other }
   - { label: GitHub Pages, url: "https://v1cferr.github.io/qr-code-component/", kind: demo }

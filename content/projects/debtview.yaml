@@ -17,6 +17,10 @@ summary:
   pt-br: >-
     Uma plataforma de gestão de dívidas, o projeto integrador final da minha formação de
     Programador de Sistemas no Senac São Paulo, feita em uma equipe de seis pessoas.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "A debt management platform: my final Senac project, built in a team of six."
+  pt-br: "Uma plataforma de gestão de dívidas: meu projeto final no Senac, feito em uma equipe de seis."
 description:
   en-us: >-
     DebtView helps users organize debts, track payment status, monitor financial obligations and

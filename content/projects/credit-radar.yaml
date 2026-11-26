@@ -10,4 +10,8 @@ summary:
   pt-br: >-
     Sistema pessoal de inteligência de crédito para acompanhar scores, dívidas, exposição de
     crédito, condições de mercado e prontidão para grandes decisões financeiras no Brasil.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "My personal radar for credit scores, debts and readiness for big financial decisions in Brazil."
+  pt-br: "Meu radar pessoal de scores, dívidas e prontidão para grandes decisões financeiras no Brasil."
 technologies: [typescript]
