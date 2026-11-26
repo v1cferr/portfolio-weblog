@@ -188,7 +188,7 @@ test.describe("deep links across pages", () => {
     await page.goto("/pt-br/timeline");
     const entry = page.locator("main li[data-anchor]").nth(3);
     const id = (await entry.getAttribute("id")) ?? "";
-    expect(id).toMatch(/^(position|project|education|certification|post|volunteering)-/);
+    expect(id).toMatch(/^(position|project|education|certification|post|volunteering|career-break)-/);
     await page.goto(`/pt-br/timeline#${id}`);
     await expectBelowHeader(page, id);
     await expect(page.locator(`#${id}`)).toHaveCSS("opacity", "1");

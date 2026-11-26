@@ -1,6 +1,7 @@
 import type { RawContent } from "../loaders/load";
 
-export type EntityType = "organization" | "technology" | "skill" | "experience" | "project" | "education" | "certification" | "post";
+export type EntityType =
+  "organization" | "technology" | "skill" | "experience" | "career-break" | "project" | "education" | "certification" | "post";
 
 export interface EntityRef {
   type: EntityType;
@@ -39,6 +40,7 @@ export function collectNodes(content: RawContent): EntityNode[] {
   add("technology", content.technologies);
   add("skill", content.skills);
   add("experience", content.experiences);
+  add("career-break", content.careerBreaks);
   add("project", content.projects);
   add("education", content.education);
   add("certification", content.certifications);
@@ -80,6 +82,9 @@ export function collectEdges(content: RawContent): Edge[] {
     link(from, "technologies", "technology", value.technologies, file);
     link(from, "skills", "skill", value.skills, file);
     link(from, "projects", "project", value.projects, file);
+  }
+  for (const { value, file } of content.careerBreaks) {
+    link({ type: "career-break", id: value.id }, "overlaps", "experience", value.overlaps, file);
   }
   for (const { value, file } of content.projects) {
     const from = { type: "project", id: value.id } as const;

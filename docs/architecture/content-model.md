@@ -11,6 +11,7 @@ or misspelled field fails validation instead of being silently dropped.
 | Technology     | `content/taxonomies/technologies.yaml`           | name, category, URL                                        |
 | Skill          | `content/taxonomies/skills.yaml`                 | broader capabilities, linked to technologies               |
 | Experience     | `content/experiences/<id>.yaml`                  | one organization, one or more positions                    |
+| CareerBreak    | `content/career-breaks/<id>.yaml`                | a move or pause; no organization, timeline only            |
 | Project        | `content/projects/<id>.yaml`                     | curated metadata + optional `owner/name` repository        |
 | Education      | `content/education/<id>.yaml`                    | course, program, degree...                                 |
 | Certification  | `content/education/certifications/<id>.yaml`     | issuer, issue date, credential URL                         |
@@ -61,6 +62,7 @@ Declared on one side and indexed in both directions by the registry:
 | Certification | `issuer`, `technologies`                             | Organization, Technology                 |
 | WeblogPost    | `projects`, `experiences`, `technologies`            | Project, Experience, Technology          |
 | Skill         | `technologies`                                       | Technology                               |
+| CareerBreak   | `overlaps`                                           | Experience                               |
 | Profile       | `trajectory[].ref`                                   | any entity                               |
 
 `pnpm content:check` fails on: images that are missing or still carry
@@ -75,8 +77,13 @@ only warn; the registry hides them.
 ## Registry API (`@workspace/content`)
 
 `loadRegistry(root)` returns the public view: `getProfile`, `getExperiences`,
-`getExperience`, `getProjects`, `getProject`, `getEducation`,
-`getCertifications`, `getRecommendations`, `getPosts(locale)`,
-`getPost(slug, locale)`, `getCareerTimeline`, `getUnifiedTimeline(enrichment?)`,
-`getRelatedContent(id)`, `getSourceFile(id)`, plus taxonomy getters.
-`{ includeUnpublished: true }` exists for tooling only.
+`getExperience`, `getVolunteering`, `getCareerBreaks`, `getProjects`,
+`getProject`, `getEducation`, `getCertifications`, `getRecommendations`,
+`getPosts(locale)`, `getPost(slug, locale)`, `getCareerTimeline`,
+`getUnifiedTimeline(enrichment?)`, `getRelatedContent(id)`, `getSourceFile(id)`,
+plus taxonomy getters. `{ includeUnpublished: true }` exists for tooling only.
+
+Volunteering (every position `volunteer`) and career breaks are kept out of
+`getExperiences`, so they never count as jobs, never move the years in IT and
+never show on the career page. Both appear on the unified timeline under their
+own label.

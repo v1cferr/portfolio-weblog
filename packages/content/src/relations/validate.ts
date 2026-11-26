@@ -63,6 +63,7 @@ export function validateContent(content: RawContent): ValidationResult {
       }
     });
   }
+  for (const { value, file } of content.careerBreaks) order(file, "career break", value.start, value.end);
   for (const { value, file } of content.projects) order(file, "project", value.startedAt, value.endedAt);
   for (const { value, file } of content.education) order(file, "education", value.start, value.end);
   for (const { value, file } of content.certifications) order(file, "certification", value.issuedAt, value.expiresAt);

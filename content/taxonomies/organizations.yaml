@@ -165,15 +165,19 @@
   url: https://www.senai.portaldaindustria.com.br/
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
-# volunteered. No logo yet: the city's site only declares a 16 px favicon and a
-# wide "Cidade de São Carlos" wordmark that does not fit a square mark; MAPS
-# S.A.'s site is not confirmed, so neither its URL nor a logo is set.
+# volunteered. No logo yet for the city: its site only declares a 16 px favicon
+# and a wide "Cidade de São Carlos" wordmark that does not fit a square mark.
 - id: prefeitura-sao-carlos
   name: Prefeitura Municipal de São Carlos
   kind: government
   url: https://www.saocarlos.sp.gov.br/
   location: São Carlos, SP, Brazil
 
+# URL confirmed by the owner on 2026-11-25. The logo is the symbol maps.com.br
+# declares as its favicon (an SVG on a transparent background); it stays
+# visible on dark pages, so there is no dark variant.
 - id: maps-sa
   name: MAPS S.A.
   kind: company
+  url: https://www.maps.com.br/
+  logo: /company-logos/maps-sa.svg
