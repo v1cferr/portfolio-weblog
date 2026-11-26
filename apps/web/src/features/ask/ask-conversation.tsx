@@ -11,6 +11,9 @@ import { MAX_QUESTION } from "@/lib/ask/protocol";
 import { Answer } from "./answer";
 import { useAsk } from "./ask-provider";
 
+/** The character counter shows only near the limit. */
+const COUNTER_FROM = MAX_QUESTION - 50;
+
 /**
  * The dock's body (loaded on the first open, see ask-dock.tsx): the
  * conversation or, before the first question, suggestions that follow the
@@ -23,6 +26,7 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
   const input = useRef<HTMLInputElement>(null);
   const latest = useRef<HTMLLIElement>(null);
   const suggestions = usePageSuggestions();
+  const nearLimit = question.length >= COUNTER_FROM;
 
   // Loaded after an open: the dock held focus on itself meanwhile (ask-dock.tsx), so hand it to the question box.
   useEffect(() => {
@@ -53,7 +57,6 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4">
         {turns.length === 0 ? (
           <div className="flex flex-col gap-3">
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
             <h3 className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{t("suggestionsTitle")}</h3>
             <ul className="flex flex-col gap-2">
               {suggestions.map((suggestion) => (
@@ -103,7 +106,7 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
               setQuestion(event.target.value);
             }}
             placeholder={t("placeholder")}
-            aria-describedby="ask-privacy ask-counter"
+            aria-describedby={nearLimit ? "ask-counter" : undefined}
             className="h-11 min-w-0 flex-1 rounded-lg border border-input bg-input/30 px-3 text-base outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:text-sm"
           />
           {busy ? (
@@ -126,12 +129,11 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
             </Button>
           )}
         </div>
-        <div className="flex items-start justify-between gap-3 px-1 text-xs text-muted-foreground">
-          <p id="ask-privacy">{t("privacy")}</p>
-          <p id="ask-counter" className="shrink-0 tabular-nums">
+        {nearLimit && (
+          <p id="ask-counter" className="self-end px-1 text-xs text-muted-foreground tabular-nums" data-testid="ask-counter">
             {t("counter", { count: question.length, max: MAX_QUESTION })}
           </p>
-        </div>
+        )}
       </form>
     </div>
   );

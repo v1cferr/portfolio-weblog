@@ -499,6 +499,29 @@
       transform: scaleY(1);
     }
   }
+  /* TextShimmer (text-shimmer.tsx): a light band sweeping across the text; plain text with reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .text-shimmer {
+      background-image: linear-gradient(
+        to right,
+        var(--muted-foreground) var(--shimmer-from, 30%),
+        var(--foreground) 50%,
+        var(--muted-foreground) var(--shimmer-to, 70%)
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer var(--shimmer-duration, 4s) linear infinite;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 200% 50%;
+    }
+    to {
+      background-position: -200% 50%;
+    }
+  }
   @keyframes draw-on-scroll {
     from {
       transform: scaleY(0);
