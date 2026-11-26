@@ -30,6 +30,7 @@ test.describe("volunteering", () => {
     await page.goto("/en-us/about");
     const items = page.getByTestId("about-volunteering").locator(":scope > ul > li");
     await expect(items.nth(0).getByRole("img", { name: /food packages/i })).toBeVisible();
+    await expect(items.nth(0).getByRole("img", { name: /volunteers standing together/i })).toBeVisible();
     await expect(items.nth(1).getByRole("img")).toHaveCount(0); // its logo is decorative
   });
 

@@ -24,4 +24,11 @@ test.describe("study milestones", () => {
       /urn:li:activity:7448425848514453504/
     );
   });
+
+  test("the FAI role lists computer vision and OCR", async ({ page }) => {
+    await page.goto("/en-us/career/fai-ufscar-2026");
+    const technologies = page.locator("section[aria-labelledby=technologies]");
+    await expect(technologies).toContainText("Computer vision");
+    await expect(technologies).toContainText("OCR");
+  });
 });
