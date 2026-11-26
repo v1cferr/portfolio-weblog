@@ -2,10 +2,11 @@ import "server-only";
 
 import { getTranslations } from "next-intl/server";
 
-import type { Locale } from "@/i18n/routing";
+import { type Locale, routing } from "@/i18n/routing";
 
 import { getContent } from "./content";
 import { languageTag } from "./i18n";
+import { getNow } from "./now";
 
 export const SITE_NAME = "v1cferr.dev";
 
@@ -61,4 +62,28 @@ export function xHandle(): string | undefined {
     if (match?.[1] !== undefined) return `@${match[1]}`;
   }
   return undefined;
+}
+
+/**
+ * The date the site last changed: the newest now-log entry or post date.
+ * Link previews (LinkedIn's above all) otherwise guess a "published" date
+ * from the first <time> on the page, which on the home is a 2025
+ * recommendation. Posts declare their own date instead.
+ */
+export function siteUpdatedAt(): string | undefined {
+  const content = getContent();
+  const dates = content.getPostSlugs().flatMap((slug) => {
+    const fm = content.getPost(slug, routing.defaultLocale)?.frontmatter;
+    return [fm?.updatedAt, fm?.publishedAt].filter((date): date is string => date !== undefined);
+  });
+  const latest = getNow().entries[0];
+  if (latest !== undefined) dates.push(latest.date);
+  return dates.sort().at(-1);
+}
+
+/**
+ * The date LinkedIn's link preview reads (publish_date / og:publish_date).
+ */
+export function publishDateMeta(date: string | undefined): Record<string, string> {
+  return date === undefined ? {} : { publish_date: date, "og:publish_date": date };
 }
