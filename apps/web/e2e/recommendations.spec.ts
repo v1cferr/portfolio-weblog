@@ -2,12 +2,21 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 /*
- * LinkedIn recommendations (content/recommendations): three featured quotes on
- * the home page, all six in full on About, and the ones from a job on its page.
+ * LinkedIn recommendations (content/recommendations), in the owner's rank: the
+ * first three quoted on the home page, all six in full on About, and the ones from a job on its page.
  */
 
 const LINKEDIN = "https://www.linkedin.com/in/v1cferr/details/recommendations/";
-const FEATURED = ["julio-cesar-raveli", "leonardo-galis-noronha", "marcius-leandro"];
+/** The owner's order of importance (rank in the YAML). */
+const RANKED = [
+  "julio-cesar-raveli",
+  "rian-ramos-gomes",
+  "marcius-leandro",
+  "leonardo-galis-noronha",
+  "mateus-lima-bispo",
+  "joao-victor-sitta",
+];
+const FEATURED = RANKED.slice(0, 3);
 
 test.describe("recommendations", () => {
   test("the home page features three, in the owner's order, linking to LinkedIn and to all of them", async ({ page }) => {
@@ -26,6 +35,8 @@ test.describe("recommendations", () => {
     const linkedin = first.getByRole("link", { name: /Ver no LinkedIn/ });
     await expect(linkedin).toHaveAttribute("href", LINKEDIN);
     await expect(linkedin).toHaveAttribute("target", "_blank");
+    // The official LinkedIn logo, in its colour, before the text.
+    await expect(linkedin.locator(".brand-tint")).toBeVisible();
 
     await section.getByRole("link", { name: /Ver as 6/ }).click();
     await expect(page).toHaveURL(/\/pt-br\/about#recommendations$/);
@@ -40,10 +51,11 @@ test.describe("recommendations", () => {
     await expect(first.locator("[data-translated]")).toHaveText("Translated from Portuguese");
   });
 
-  test("About has all six in full, long ones behind Read all", async ({ page }) => {
+  test("About has all six in full, in the owner's order, long ones behind Read all", async ({ page }) => {
     await page.goto("/pt-br/about");
     const cards = page.locator("[data-recommendation]");
     await expect(cards).toHaveCount(6);
+    expect(await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("data-recommendation")))).toEqual(RANKED);
     for (const card of await cards.all()) await expect(card.locator("[data-slot=avatar]")).toBeVisible();
 
     const marcius = page.locator("#recommendation-marcius-leandro");
@@ -56,6 +68,16 @@ test.describe("recommendations", () => {
 
     // A short one is shown whole, with no "Read all" (only its copy-link button).
     await expect(page.locator("#recommendation-julio-cesar-raveli").getByRole("button", { name: "Ler tudo" })).toHaveCount(0);
+  });
+
+  test("About reads by rows on wide screens: the first two side by side", async ({ page, isMobile }) => {
+    test.skip(isMobile, "one column on phones");
+    await page.goto("/pt-br/about");
+    const [first, second] = await Promise.all(RANKED.slice(0, 2).map((id) => page.locator(`#recommendation-${id}`).boundingBox()));
+    expect(first).not.toBeNull();
+    expect(second).not.toBeNull();
+    expect(Math.abs((first?.y ?? 0) - (second?.y ?? 1))).toBeLessThan(2);
+    expect(second?.x ?? 0).toBeGreaterThan(first?.x ?? 0);
   });
 
   test("a job page lists the recommendations from that period", async ({ page }) => {
