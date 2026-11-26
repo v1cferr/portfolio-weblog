@@ -1,7 +1,8 @@
-# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Copy from LinkedIn (2026-11-25).
 # Source: the owner's LinkedIn project "IP Address Tracker" (Nov 2024). It may
-# be a Frontend Mentor challenge, but nothing here says so yet, so the category
-# is `study`; no repository or demo link is known. Owner to confirm both.
+# be a Frontend Mentor challenge, but nothing here says so yet. State
+# `historical` and category `study`, confirmed by the owner on 2026-11-25; no
+# repository or demo link is known.
 id: ip-address-tracker
 title: IP Address Tracker
 state: historical

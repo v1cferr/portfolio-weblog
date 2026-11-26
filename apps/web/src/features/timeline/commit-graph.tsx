@@ -4,6 +4,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { CircleDashedIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { InfoTip } from "@/components/info-tip";
 import { NAV_FORWARD } from "@/components/page-transition";
 import { type Lane, laneBg, LaneIcon, laneOf, laneText } from "@/components/lane";
 import { Morph, type MorphKind } from "@/components/morph";
@@ -27,6 +28,8 @@ interface Row {
   issuer?: Organization | undefined;
   /** Set on the first row of an entity with a page of its own, when the graph morphs. */
   morph?: MorphKind | undefined;
+  /** Details behind an "i" next to the title, for entries with no page of their own. */
+  info?: { label: string; paragraphs: { value: string; locale: string }[] } | undefined;
 }
 
 const MORPH_KINDS: Partial<Record<TimelineEvent["kind"], MorphKind>> = { position: "experience", project: "project", post: "post" };
@@ -62,6 +65,39 @@ export async function CommitGraph({
       if (item === undefined || position === undefined) return [];
       const organization = content.getOrganization(item.organization);
       return [{ event, lane: "career", title: organization?.name ?? item.id, subtitle: localize(position.title, locale).value }];
+    }
+    // A career break (a move) has no page either: what it was, with the details behind an "i".
+    if (event.kind === "career-break") {
+      const item = content.getCareerBreaks().find((entry) => entry.id === event.entity.id);
+      if (item === undefined) return [];
+      const title = localize(item.title, locale).value;
+      // The work that went on during the break: the positions whose dates overlap it.
+      const work = item.overlaps.flatMap((id) => {
+        const experience = content.getExperience(id);
+        if (experience === undefined) return [];
+        const organization = content.getOrganization(experience.organization)?.name ?? id;
+        return experience.positions
+          .filter(
+            (position) =>
+              (position.end === undefined || position.end > item.start) && (item.end === undefined || (position.start ?? "") < item.end)
+          )
+          .map((position) => `${localize(position.title, locale).value} · ${organization}`);
+      });
+      return [
+        {
+          event,
+          lane: "career",
+          title,
+          subtitle: item.move === undefined ? undefined : `${item.move.from} → ${item.move.to}`,
+          info: {
+            label: t("careerBreakMore", { title }),
+            paragraphs: [
+              localize(item.summary, locale),
+              ...(work.length > 0 ? [{ value: t("careerBreakAlongside", { work: work.join("; ") }), locale }] : []),
+            ],
+          },
+        },
+      ];
     }
     const entity = describeEntity(event.entity.id, locale);
     if (entity === undefined) return [];
@@ -118,7 +154,10 @@ export async function CommitGraph({
             {items.map((row) => {
               const laneIndex = LANES.indexOf(row.lane);
               const fromRepository = row.event.dateSource === "repository-created";
-              const end = row.event.kind === "position" || row.event.kind === "volunteering" ? row.event.end : undefined;
+              const end =
+                row.event.kind === "position" || row.event.kind === "volunteering" || row.event.kind === "career-break"
+                  ? row.event.end
+                  : undefined;
               return (
                 <RevealItem
                   key={row.event.key}
@@ -169,13 +208,22 @@ export async function CommitGraph({
                       )}
                     </p>
                     <Morph kind={row.morph ?? "project"} id={row.event.entity.id} enabled={row.morph !== undefined}>
-                      <p className="w-fit font-medium">
+                      <p className={cn("font-medium", row.info === undefined ? "w-fit" : "flex items-start justify-between gap-2")}>
                         {row.href !== undefined ? (
                           <Link href={row.href} transitionTypes={NAV_FORWARD} className="hover:underline hover:underline-offset-4">
                             {row.title}
                           </Link>
                         ) : (
-                          row.title
+                          <span>{row.title}</span>
+                        )}
+                        {row.info !== undefined && (
+                          <InfoTip label={row.info.label} align="end" className="-mt-0.5">
+                            {row.info.paragraphs.map((paragraph) => (
+                              <span key={paragraph.value} lang={paragraph.locale} className="block not-first:mt-2">
+                                {paragraph.value}
+                              </span>
+                            ))}
+                          </InfoTip>
                         )}
                       </p>
                     </Morph>

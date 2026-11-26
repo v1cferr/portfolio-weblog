@@ -1,9 +1,9 @@
-# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Copy from LinkedIn (2026-11-25).
 # Source: the owner's LinkedIn project "SpendFlow — AI-Powered Personal Finance
 # Platform" (Apr 2025 – Present), which lists one other contributor. The v1
 # site pointed at a private repository (docs/migration/inventory.md), so no
-# repository or link here. State `experimental` is a guess for "Present";
-# owner to confirm (active?).
+# repository or link here. State `experimental` for "Present", confirmed by
+# the owner on 2026-11-25.
 id: spendflow
 title: SpendFlow
 state: experimental
