@@ -19,6 +19,16 @@ const registry = loadRegistry(
       { title: "Hello", summary: "First post", status: "published", publishedAt: "2026-10-01", category: "journal", tags: ["intro"] },
       "# Heading\n\n```ts\nconst hidden = 1;\n```\n\nVisible prose."
     ),
+    "recommendations/ana.yaml": {
+      id: "ana",
+      name: "Ana Souza",
+      headline: { "en-us": "Engineering Manager" },
+      relation: { kind: "manager", label: { "en-us": "my manager at Acme", "pt-br": "minha gestora na Acme" }, organization: "acme" },
+      date: "2025-05-20",
+      language: "pt-br",
+      url: "https://www.linkedin.com/in/tester/details/recommendations/",
+      text: { "pt-br": ["Organizado e detalhista."], "en-us": ["Organized and detail-oriented."] },
+    },
     "weblog/2026/10/draft/en-us.mdx": post({ title: "Draft thoughts", summary: "S", status: "draft", category: "journal" }),
   })
 );
@@ -28,7 +38,13 @@ describe("buildSearchDocuments", () => {
   const ids = docs.map((doc) => doc.entityId);
 
   it("indexes every public entity type", () => {
-    expect(new Set(docs.map((doc) => doc.type))).toEqual(new Set(["experience", "project", "post", "technology"]));
+    expect(new Set(docs.map((doc) => doc.type))).toEqual(new Set(["experience", "project", "post", "recommendation", "technology"]));
+  });
+
+  it("indexes recommendations in the visitor's language, pointing at the About page", () => {
+    const doc = docs.find((each) => each.type === "recommendation");
+    expect(doc).toMatchObject({ locale: "pt-br", url: "/pt-br/about#recommendation-ana", title: "Recomendação · Ana Souza" });
+    expect(doc?.text).toContain("Organizado e detalhista.");
   });
 
   it("never indexes drafts or private content", () => {

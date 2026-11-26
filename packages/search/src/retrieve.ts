@@ -23,6 +23,15 @@ export const MAX_PER_DOCUMENT = 2;
  */
 export const MIN_SCORE = 3;
 
+/**
+ * Weight of a recommendation's passages: other people's words about the owner
+ * rank below the owner's own pages, so a common word in a long testimonial
+ * ("experience", "segurança" as in confidence) does not push out the job that
+ * answers the question. A question about what people say still finds them:
+ * nothing else matches it.
+ */
+export const RECOMMENDATION_WEIGHT = 0.6;
+
 /** Other passages must score at least this share of the best one, so a stray common word does not ride along. */
 export const RELATIVE_FLOOR = 0.15;
 
@@ -91,6 +100,7 @@ export function createRetriever(passages: readonly Passage[]): Retriever {
       // Short words are matched exactly; fuzzy and prefix matching on them turns noise into hits.
       prefix: (term) => term.length >= 4,
       fuzzy: (term) => (term.length >= 5 ? 0.2 : false),
+      boostDocument: (id) => (byId.get(id as string)?.type === "recommendation" ? RECOMMENDATION_WEIGHT : 1),
     },
   });
   index.addAll([...passages]);

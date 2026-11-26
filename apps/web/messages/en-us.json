@@ -53,7 +53,8 @@
       "post": "Article",
       "education": "Studies",
       "technology": "Technology",
-      "page": "Page"
+      "page": "Page",
+      "recommendation": "Recommendation"
     }
   },
   "Ask": {

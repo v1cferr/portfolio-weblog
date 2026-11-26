@@ -123,6 +123,19 @@ questions:
   - locale: pt-br
     question: O que fiz na Xmart Solutions?
     expect: [/pt-br/career/xmart-solutions-2024]
+  # Recommendations (2026-11-25): what others wrote, on the About page
+  - locale: pt-br
+    question: O que dizem de mim?
+    expect:
+      - /pt-br/about#recommendation-julio-cesar-raveli
+      - /pt-br/about#recommendation-leonardo-galis-noronha
+      - /pt-br/about#recommendation-rian-ramos-gomes
+      - /pt-br/about#recommendation-marcius-leandro
+      - /pt-br/about#recommendation-joao-victor-sitta
+      - /pt-br/about#recommendation-mateus-lima-bispo
+  - locale: en-us
+    question: What did my manager at Xmart say about me?
+    expect: [/en-us/about#recommendation-julio-cesar-raveli]
   - locale: pt-br
     question: Qual é a capital da França?
     expect: []
