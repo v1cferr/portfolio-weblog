@@ -38,6 +38,16 @@ function readCsv(file: string): string {
   }
 }
 
+/** The file's text, or undefined when there is none (read directly, no exists-then-read race). */
+function readIfPresent(file: string): string | undefined {
+  try {
+    return readFileSync(file, "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
+    throw error;
+  }
+}
+
 const root = findContentRoot();
 const dir = path.join(root, "recommendations");
 mkdirSync(dir, { recursive: true });
@@ -52,9 +62,10 @@ const defaults = { url: `${profileUrl.replace(/\/$/, "")}/details/recommendation
 const results: Record<ImportChange, string[]> = { added: [], updated: [], unchanged: [] };
 for (const item of readRecommendations(readCsv(input))) {
   const file = path.join(dir, `${item.id}.yaml`);
-  const source = existsSync(file) ? readFileSync(file, "utf8") : undefined;
+  const source = readIfPresent(file);
   const { yaml, change } = mergeRecommendation(source, item, defaults);
-  if (change !== "unchanged") writeFileSync(file, yaml);
+  // A new file is created only if it still does not exist ("wx"), so a file that appeared meanwhile is never overwritten.
+  if (change !== "unchanged") writeFileSync(file, yaml, { flag: change === "added" ? "wx" : "w" });
   results[change].push(item.id);
 }
 
