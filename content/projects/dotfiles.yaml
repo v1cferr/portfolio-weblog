@@ -17,7 +17,9 @@ hook:
   pt-br: "Um flake NixOS descreve as minhas máquinas, então colocar exatamente o meu sistema em outra é fácil."
 links:
   - { label: dotfiles.v1cferr.dev, url: "https://dotfiles.v1cferr.dev", kind: website }
-technologies: [nix, nixos]
+# Arch Linux is where the repository started (Feb 2025, docs/arch-linux.md) before the
+# migration told in the from-arch-to-nixos post.
+technologies: [nix, nixos, linux, arch-linux]
 skills: [infrastructure-as-code]
 # Draft from repo facts on 2026-11-23; owner review pending.
 # Sources: v1cferr/dotfiles README, docs/rules.md, docs/arch-linux.md, docs/decisions 0006, 0009,
