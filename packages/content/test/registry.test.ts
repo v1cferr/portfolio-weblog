@@ -165,3 +165,53 @@ describe("volunteering", () => {
     });
   });
 });
+
+describe("career breaks", () => {
+  const registry = loadRegistry(
+    makeContent({
+      "experiences/acme-dev.yaml": experience({
+        positions: [{ title: { "en-us": "Developer" }, employmentType: "freelance", start: "2025-04", end: "2025-11" }],
+      }),
+      "career-breaks/move-2025.yaml": {
+        id: "move-2025",
+        kind: "relocation",
+        title: { "en-us": "Moved" },
+        start: "2025-04",
+        end: "2025-12",
+        move: { from: "Town A", to: "Town B" },
+        summary: { "en-us": "Moved and studied." },
+        overlaps: ["acme-dev"],
+      },
+    })
+  );
+
+  it("is served apart and never counted as career", () => {
+    expect(registry.getExperiences().map((e) => e.id)).toEqual(["acme-dev"]);
+    expect(registry.getCareerBreaks().map((b) => b.id)).toEqual(["move-2025"]);
+    expect(registry.getCareerBreaks()[0]?.overlaps).toEqual(["acme-dev"]);
+    expect(registry.getCareerTimeline().map((e) => e.entity.id)).not.toContain("move-2025");
+    expect(registry.getEntityType("move-2025")).toBe("career-break");
+  });
+
+  it("shows on the unified timeline as its own kind", () => {
+    expect(registry.getUnifiedTimeline().find((e) => e.entity.id === "move-2025")).toMatchObject({
+      kind: "career-break",
+      date: "2025-04",
+      end: "2025-12",
+    });
+  });
+
+  it("rejects an overlap with something that is not an experience", () => {
+    const root = makeContent({
+      "career-breaks/move-2025.yaml": {
+        id: "move-2025",
+        kind: "relocation",
+        title: { "en-us": "Moved" },
+        start: "2025-04",
+        summary: { "en-us": "Moved." },
+        overlaps: ["nowhere"],
+      },
+    });
+    expect(() => loadRegistry(root)).toThrow(/overlaps → "nowhere"/);
+  });
+});

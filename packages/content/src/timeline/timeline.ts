@@ -1,8 +1,8 @@
 import { compareDesc } from "../dates";
 import type { EntityRef } from "../relations/graph";
-import type { Certification, Education, Experience, PartialDate, Project } from "../schemas";
+import type { CareerBreak, Certification, Education, Experience, PartialDate, Project } from "../schemas";
 
-export type TimelineKind = "position" | "volunteering" | "project" | "education" | "certification" | "post";
+export type TimelineKind = "position" | "volunteering" | "career-break" | "project" | "education" | "certification" | "post";
 
 export interface TimelineEvent {
   /** Unique within one timeline. */
@@ -24,6 +24,8 @@ export interface TimelineInput {
   experiences: readonly Experience[];
   /** Volunteering experiences, drawn on the career lane but labeled apart. */
   volunteering?: readonly Experience[];
+  /** Career breaks, drawn on the career lane as markers. */
+  careerBreaks?: readonly CareerBreak[];
   projects: readonly Project[];
   education: readonly Education[];
   certifications: readonly Certification[];
@@ -67,6 +69,17 @@ export function buildCareerTimeline(experiences: readonly Experience[]): Timelin
 /** Career, projects, studies and writing on one axis, newest first. */
 export function buildUnifiedTimeline(input: TimelineInput, enrichment: TimelineEnrichment = {}): TimelineEvent[] {
   const events = [...positionEvents(input.experiences), ...positionEvents(input.volunteering ?? [], "volunteering")];
+
+  for (const item of input.careerBreaks ?? []) {
+    events.push({
+      key: `career-break:${item.id}`,
+      kind: "career-break",
+      entity: { type: "career-break", id: item.id },
+      date: item.start,
+      end: item.end,
+      dateSource: "content",
+    });
+  }
 
   for (const project of input.projects) {
     let date: PartialDate | undefined = project.startedAt;

@@ -5,6 +5,7 @@ import { fallbackChain } from "../locale";
 import { collectEdges, collectNodes, type EntityRef, type EntityType } from "../relations/graph";
 import { validateContent } from "../relations/validate";
 import {
+  type CareerBreak,
   type Certification,
   type Education,
   type Experience,
@@ -54,6 +55,8 @@ export interface ContentRegistry {
   getExperience(id: string): Experience | undefined;
   /** Volunteering, kept out of the experiences above. Newest first. */
   getVolunteering(): Experience[];
+  /** Career breaks (a move, a study period): no organization, no page, never counted as career. Newest first. */
+  getCareerBreaks(): CareerBreak[];
   /** Featured first, then newest first. */
   getProjects(): Project[];
   getProject(id: string): Project | undefined;
@@ -138,6 +141,9 @@ export function createRegistry(
     .sort((a, b) => compareDesc(latestStart(a), latestStart(b)));
   const experiences = allExperiences.filter((experience) => !isVolunteering(experience));
   const volunteering = allExperiences.filter(isVolunteering);
+  const careerBreaks = pick(content.careerBreaks)
+    .map((item) => ({ ...item, overlaps: keep(item.overlaps) }))
+    .sort((a, b) => compareDesc(a.start, b.start));
   const projects = pick(content.projects)
     .map((project) => ({
       ...project,
@@ -255,6 +261,7 @@ export function createRegistry(
     getExperiences: () => experiences,
     getExperience: byId(experiences),
     getVolunteering: () => volunteering,
+    getCareerBreaks: () => careerBreaks,
     getProjects: () => projects,
     getProject: byId(projects),
     getEducation: () => education,
@@ -271,7 +278,10 @@ export function createRegistry(
     getStoryIds: () => [...stories.keys()],
     getCareerTimeline: () => buildCareerTimeline(experiences),
     getUnifiedTimeline: (enrichment) =>
-      buildUnifiedTimeline({ experiences, volunteering, projects, education, certifications, posts: publishedAtBySlug() }, enrichment),
+      buildUnifiedTimeline(
+        { experiences, volunteering, careerBreaks, projects, education, certifications, posts: publishedAtBySlug() },
+        enrichment
+      ),
     getRelatedContent: (id) => [
       ...edges.filter((edge) => edge.from.id === id).map((edge) => ({ ...edge.to, field: edge.field, direction: "outgoing" as const })),
       ...edges.filter((edge) => edge.to.id === id).map((edge) => ({ ...edge.from, field: edge.field, direction: "incoming" as const })),

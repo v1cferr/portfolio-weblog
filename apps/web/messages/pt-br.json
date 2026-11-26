@@ -164,7 +164,8 @@
     "post": "Artigo",
     "organization": "Organização",
     "technology": "Tecnologia",
-    "skill": "Competência"
+    "skill": "Competência",
+    "career-break": "Pausa na carreira"
   },
   "Home": {
     "stack": "Stack do dia a dia",
@@ -374,8 +375,11 @@
       "education": "Estudos",
       "certification": "Certificação",
       "post": "Artigo",
-      "volunteering": "Voluntariado"
-    }
+      "volunteering": "Voluntariado",
+      "career-break": "Pausa na carreira"
+    },
+    "careerBreakMore": "Mais sobre {title}",
+    "careerBreakAlongside": "Ao mesmo tempo: {work}."
   },
   "Weblog": {
     "title": "Weblog",

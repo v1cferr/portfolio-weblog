@@ -1,0 +1,20 @@
+# Source: the owner's LinkedIn entry "Relocation — Career break", Apr 2025 –
+# Dec 2025 (9 months), São Carlos, São Paulo, Brazil, confirmed by the owner on
+# 2026-11-25, who added that the Xmart freelance position went on during it.
+# Copy shortened from LinkedIn into the owner's first person.
+id: relocation-sao-carlos-2025
+kind: relocation
+title: { en-us: Moved to São Carlos, pt-br: Mudança para São Carlos }
+start: 2025-04
+end: 2025-12
+move: { from: "Ribeirão Pires, SP", to: "São Carlos, SP" }
+summary:
+  en-us: >-
+    I moved from the São Paulo metropolitan area to São Carlos and used the transition to steer my
+    career toward software development, applied AI and institutional technology: technical studies,
+    portfolio work and job applications, while settling into a new city.
+  pt-br: >-
+    Saí da região metropolitana de São Paulo para São Carlos e usei a transição para direcionar a
+    carreira para desenvolvimento de software, IA aplicada e ambientes institucionais de tecnologia:
+    estudos técnicos, portfólio e candidaturas, enquanto me adaptava a uma cidade nova.
+overlaps: [xmart-solutions-2024]
