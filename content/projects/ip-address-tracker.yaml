@@ -16,6 +16,10 @@ summary:
   pt-br: >-
     Uma aplicação web responsiva que construí para consultar um endereço IP e mostrar sua
     geolocalização, provedor, fuso horário e hora local em um mapa interativo.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "Look up an IP address and see its location, ISP and local time on an interactive map."
+  pt-br: "Consulte um IP e veja a localização, o provedor e a hora local em um mapa interativo."
 description:
   en-us: >-
     It consumes external IP data APIs and draws the result on an interactive map. The focus was

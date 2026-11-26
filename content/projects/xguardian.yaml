@@ -17,6 +17,10 @@ summary:
   pt-br: >-
     A plataforma de segurança de aplicações da Xmart Solutions. Fiz a landing page e a extensão
     para VS Code, e fiz alterações na plataforma de análise de vulnerabilidades.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "Security scans inside the development workflow; I built the landing page and the VS Code extension."
+  pt-br: "Scans de segurança dentro do fluxo de desenvolvimento; fiz a landing page e a extensão para VS Code."
 problem:
   en-us: >-
     Security scans tend to live apart from the code. XGuardian brings them into the development

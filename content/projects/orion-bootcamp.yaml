@@ -6,6 +6,10 @@ category: study
 summary:
   en-us: Exercises and projects from my participation in New Rizon's bootcamp.
   pt-br: Exercícios e projetos da minha participação no bootcamp da New Rizon.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "Exercises and projects from my time in New Rizon's bootcamp."
+  pt-br: "Exercícios e projetos da minha participação no bootcamp da New Rizon."
 links:
   - { label: GitHub Pages, url: "https://v1cferr.github.io/orion-bootcamp/", kind: demo }
 technologies: [typescript]

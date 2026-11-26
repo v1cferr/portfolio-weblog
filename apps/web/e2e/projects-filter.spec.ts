@@ -105,3 +105,80 @@ test.describe("projects tabs", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   });
 });
+
+/*
+ * The cards (option A, 2026-11-25): a cover, the meta row, the title, one
+ * line, an optional proof line and the stack as icons. One link per card.
+ */
+test.describe("project cards", () => {
+  const card = (page: Page, title: string) =>
+    panel(page, /^Featured/)
+      .getByTestId("project-card")
+      .filter({ has: page.getByRole("link", { name: title, exact: true }) });
+
+  test("each card has a 16:9 cover and one line", async ({ page }) => {
+    await page.goto("/en-us/projects");
+    const cards = panel(page, /^Featured/).getByTestId("project-card");
+    expect(await cards.count()).toBeGreaterThan(0);
+    for (const item of await cards.all()) {
+      const box = await item.getByTestId("project-cover").boundingBox();
+      expect(box).not.toBeNull();
+      if (box !== null) expect(Math.abs(box.height - (box.width * 9) / 16)).toBeLessThan(2);
+      await expect(item.getByTestId("project-hook")).toBeVisible();
+    }
+  });
+
+  test("a screenshot cover loads first in the first row; the hub shows its proof line", async ({ page }) => {
+    await page.goto("/en-us/projects");
+    const hub = card(page, "Personal Hub (v1cferr.dev)");
+    const cover = hub.getByTestId("project-cover").locator("img");
+    await expect(cover).toHaveAttribute("fetchpriority", "high");
+    await expect(cover).not.toHaveAttribute("loading", "lazy");
+    await expect(hub.getByTestId("project-hook")).toContainText("source of truth");
+    await expect(hub.getByTestId("project-proof")).toContainText("65 merged PRs");
+  });
+
+  test("the stack is icons with names, each with a tooltip", async ({ page, isMobile }) => {
+    test.skip(isMobile, "tooltips open on hover");
+    await page.goto("/en-us/projects");
+    await page.waitForLoadState("networkidle");
+    const stack = card(page, "imobos").getByRole("list", { name: "Technologies" });
+    const icon = stack.getByTestId("project-tech").first();
+    const name = await icon.getAttribute("aria-label");
+    expect(name).toBeTruthy();
+    await expect(stack.getByRole("listitem")).toHaveCount(5);
+    await expect(stack).toContainText(/\+\d+/);
+    await icon.hover();
+    await expect(page.getByRole("tooltip")).toHaveText(name ?? "");
+  });
+
+  test("the whole card is one link to the project", async ({ page }) => {
+    await page.goto("/en-us/projects", { waitUntil: "networkidle" });
+    const imobos = card(page, "imobos");
+    await expect(imobos.getByRole("link")).toHaveCount(1);
+    // A click on the text lands on the title's link, stretched over the card: `force` clicks the
+    // point (once scrolled and stable) without asking the text itself to receive it.
+    // Centred first: at the bottom edge the chat button floats over it on a phone.
+    await imobos.evaluate((element) => {
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
+    await imobos.getByTestId("project-hook").click({ force: true });
+    await expect(page).toHaveURL(/\/en-us\/projects\/imobos$/);
+  });
+
+  for (const theme of ["light", "dark"] as const) {
+    test(`the featured cards have no serious axe violations (${theme})`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+      await page.goto("/en-us/projects", { waitUntil: "networkidle" });
+      const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();
+      const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
+    });
+  }
+
+  test("the featured cards fit a 360px phone", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto("/pt-br/projects", { waitUntil: "networkidle" });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
+  });
+});

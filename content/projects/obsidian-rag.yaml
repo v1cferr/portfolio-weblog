@@ -11,5 +11,9 @@ summary:
   pt-br: >-
     Chatbot RAG pessoal sobre um vault do Obsidian. As respostas citam a nota de origem e nada sai
     da máquina: Ollama, LightRAG e RAG-Anything indexam Markdown, PDFs e imagens localmente.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "A chatbot over my Obsidian vault that cites the source note, and nothing leaves the machine."
+  pt-br: "Um chatbot sobre o meu vault do Obsidian que cita a nota de origem, e nada sai da máquina."
 technologies: [python, ollama, lightrag, rag]
 skills: [ai-systems]

@@ -151,6 +151,15 @@ test.describe("home layout", () => {
     });
   }
 
+  test("selected projects are cover cards whose screenshots wait until scrolled to", async ({ page }) => {
+    await page.goto("/en-us");
+    const cards = page.locator("section[aria-labelledby=featured]").getByTestId("project-card");
+    expect(await cards.count()).toBeGreaterThan(0);
+    await expect(cards.getByTestId("project-cover")).toHaveCount(await cards.count());
+    for (const image of await cards.locator("[data-testid=project-cover] img").all())
+      await expect(image).toHaveAttribute("loading", "lazy");
+  });
+
   test("fits a 360 px screen without horizontal scroll", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
     await page.goto("/en-us", { waitUntil: "networkidle" });

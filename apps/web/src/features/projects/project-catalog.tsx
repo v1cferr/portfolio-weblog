@@ -181,9 +181,10 @@ export function ProjectCatalog({ projects, technologies }: CatalogProps) {
             {key === "featured" ? (
               <div className="space-y-4">
                 <ul className="grid gap-4 md:grid-cols-3">
-                  {shown.map((project) => (
+                  {shown.map((project, index) => (
                     <li key={project.id}>
-                      <ProjectCardView project={project} />
+                      {/* The first row is on screen at load: its covers come first; the rest wait. */}
+                      <ProjectCardView project={project} eager={index < 3} />
                     </li>
                   ))}
                 </ul>
@@ -288,7 +289,7 @@ function Timeline({
   );
 }
 
-/** One project on the timeline: name, status and summary, with its stack and date. */
+/** One project on the timeline: name, status and its one line, with its stack and date. */
 function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?: string | undefined; morph: boolean }) {
   return (
     <Item variant="glass" asChild className="glass-hover relative">
@@ -311,8 +312,11 @@ function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?:
             <ProjectStateBadge state={project.state} label={project.stateLabel} />
             <span className="font-mono text-[0.7rem] font-normal text-muted-foreground">{project.categoryLabel}</span>
           </ItemTitle>
-          <ItemDescription className="line-clamp-2 sm:line-clamp-1" lang={project.summaryLocale}>
-            {project.summary}
+          <ItemDescription
+            className="line-clamp-2 sm:line-clamp-1"
+            lang={project.hook !== undefined ? project.hookLocale : project.summaryLocale}
+          >
+            {project.hook ?? project.summary}
           </ItemDescription>
         </ItemContent>
         <ItemActions className="relative z-10 gap-3 max-sm:w-full max-sm:justify-between">

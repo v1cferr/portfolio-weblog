@@ -13,6 +13,10 @@ summary:
   pt-br: >-
     O app de reuniões da FAI·UFSCar: grava a reunião, ou recebe uma gravação, e devolve a
     transcrição, um resumo e a ata.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "Record a meeting, or send a recording, and get back the transcript, a summary and the minutes."
+  pt-br: "Grave a reunião, ou envie uma gravação, e receba a transcrição, um resumo e a ata."
 description:
   en-us: >-
     You name the meeting, choose what to receive (audio and transcript, a summary, the minutes),

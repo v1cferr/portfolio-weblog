@@ -11,6 +11,14 @@ summary:
   pt-br: >-
     Este site: um personal hub de longo prazo para trajetória profissional, projetos, estudos e
     um diário de engenharia, com todo o conteúdo versionado em Git.
+# hook drafted from the existing text (2026-11-25); owner to review
+hook:
+  en-us: "My personal hub, where versioned, validated content is the source of truth and the site is one view of it."
+  pt-br: "Meu personal hub, em que o conteúdo versionado e validado é a fonte da verdade e o site, uma representação dele."
+# proof taken from caseStudy.outcome (numbers as of 2026-11-25); owner to review
+proof:
+  en-us: "65 merged PRs · 15 ADRs · 121 e2e tests · Lighthouse 100 on desktop"
+  pt-br: "65 PRs mesclados · 15 ADRs · 121 testes e2e · Lighthouse 100 no desktop"
 problem:
   en-us: >-
     A portfolio that hard-codes its data in components has to be rebuilt every time a career
