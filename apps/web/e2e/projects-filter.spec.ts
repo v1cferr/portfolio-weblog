@@ -153,14 +153,16 @@ test.describe("project cards", () => {
   });
 
   test("the whole card is one link to the project", async ({ page }) => {
-    await page.goto("/en-us/projects");
+    await page.goto("/en-us/projects", { waitUntil: "networkidle" });
     const imobos = card(page, "imobos");
     await expect(imobos.getByRole("link")).toHaveCount(1);
-    // A click on the text lands on the title's link, stretched over the card.
-    await imobos.scrollIntoViewIfNeeded();
-    const box = await imobos.getByTestId("project-hook").boundingBox();
-    if (box === null) throw new Error("no hook");
-    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    // A click on the text lands on the title's link, stretched over the card: `force` clicks the
+    // point (once scrolled and stable) without asking the text itself to receive it.
+    // Centred first: at the bottom edge the chat button floats over it on a phone.
+    await imobos.evaluate((element) => {
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+    });
+    await imobos.getByTestId("project-hook").click({ force: true });
     await expect(page).toHaveURL(/\/en-us\/projects\/imobos$/);
   });
 
