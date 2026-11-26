@@ -152,6 +152,19 @@ test.describe("project cards", () => {
     await expect(page.getByRole("tooltip")).toHaveText(name ?? "");
   });
 
+  test("technologies that share a logo show it once, naming them all", async ({ page, isMobile }) => {
+    await page.goto("/en-us/projects");
+    // dotfiles lists Nix and NixOS, both drawn with the NixOS snowflake.
+    const stack = card(page, "dotfiles").getByRole("list", { name: "Technologies" });
+    await expect(stack.getByTestId("project-tech")).toHaveCount(1);
+    const icon = stack.getByRole("img", { name: "Nix · NixOS" });
+    await expect(icon).toBeVisible();
+    if (isMobile) return; // tooltips open on hover
+    await page.waitForLoadState("networkidle");
+    await icon.hover();
+    await expect(page.getByRole("tooltip")).toHaveText("Nix · NixOS");
+  });
+
   test("the whole card is one link to the project", async ({ page }) => {
     await page.goto("/en-us/projects", { waitUntil: "networkidle" });
     const imobos = card(page, "imobos");
