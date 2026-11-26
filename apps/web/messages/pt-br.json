@@ -81,8 +81,17 @@
       "ready": "Resposta pronta.",
       "noSource": "Nada no site responde a isso.",
       "stopped": "Interrompido.",
-      "error": "Não foi possível carregar a resposta.",
-      "reading": "Lendo {count, plural, one {# página} other {# páginas}} do site e escrevendo a resposta…"
+      "error": "Não foi possível carregar a resposta."
+    },
+    "steps": {
+      "label": "Como cheguei à resposta",
+      "searching": "Buscando no site…",
+      "searched": "Busquei no site",
+      "read": "Li {count, plural, one {# página} other {# páginas}}",
+      "writing": "Escrevendo a resposta…",
+      "wrote": "Escrevi a resposta",
+      "checked": "Conferi as fontes",
+      "seconds": "{seconds} s"
     },
     "extractive": {
       "label": "Das páginas do site, sem IA",

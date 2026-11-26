@@ -13,6 +13,12 @@ export interface Turn {
   partial?: boolean;
   /** The pages the model is reading, shown while it thinks. */
   reading?: { title: string; url: string }[];
+  /** The model replied and its answer was checked against the pages (the `checking` event). */
+  checked?: boolean;
+  /** When the question was sent (epoch ms), for the elapsed time while the answer is written. */
+  startedAt?: number;
+  /** How long the answer took to arrive, in ms; kept so a restored turn still shows its summary. */
+  elapsedMs?: number;
   parts: Part[];
   sources: AskSource[];
   /** The model failed after it had started writing. */

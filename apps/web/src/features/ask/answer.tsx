@@ -8,6 +8,7 @@ import { Fragment } from "react";
 
 import type { AskSource } from "@/lib/ask/protocol";
 
+import { PendingSteps, StepsSummary } from "./steps";
 import type { Turn } from "./turn";
 
 /**
@@ -24,27 +25,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   const streaming = turn.phase === "searching" || turn.phase === "streaming";
   const byNumber = new Map(turn.sources.flatMap((source) => (source.n === null ? [] : [[source.n, source] as const])));
 
-  if (turn.phase === "searching") {
-    if (turn.reading !== undefined && turn.reading.length > 0) {
-      return (
-        <div aria-busy="true" className="flex flex-col gap-1.5 text-sm text-muted-foreground" data-testid="ask-reading">
-          <p className="motion-safe:animate-pulse">{t("status.reading", { count: turn.reading.length })}</p>
-          <ul className="flex flex-wrap gap-1.5">
-            {turn.reading.map((page) => (
-              <li key={page.url} className="rounded-md border bg-muted/50 px-2 py-0.5 text-xs">
-                {page.title}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-    return (
-      <p aria-busy="true" className="text-sm text-muted-foreground motion-safe:animate-pulse">
-        {t("status.searching")}
-      </p>
-    );
-  }
+  if (turn.phase === "searching") return <PendingSteps turn={turn} onNavigate={onNavigate} />;
   if (turn.phase === "failed") {
     return (
       <p role="alert" className="text-sm text-destructive">
@@ -83,6 +64,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   if (turn.mode === "unknown") {
     return (
       <div className="flex flex-col gap-2" data-testid="ask-unknown">
+        <StepsSummary turn={turn} onNavigate={onNavigate} />
         <AiLabel />
         <div className="flex flex-col gap-1 rounded-lg bg-muted/50 p-3 text-sm">
           <p className="font-medium">{t("unknown.title")}</p>
@@ -109,6 +91,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
 
   return (
     <div className="flex flex-col gap-3" aria-busy={streaming} data-testid="ask-answer">
+      <StepsSummary turn={turn} onNavigate={onNavigate} />
       <AiLabel />
       <p className="text-sm leading-relaxed whitespace-pre-line">
         {turn.parts.map((part, index) =>
