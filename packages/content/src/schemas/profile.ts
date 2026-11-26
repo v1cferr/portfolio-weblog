@@ -26,6 +26,8 @@ export const Profile = z.strictObject({
   /** The career arc in a few steps, each pointing at the entity that shows it. */
   trajectory: z.array(z.strictObject({ label: LocalizedText, ref: Id.optional() })).default([]),
   location: z.string().optional(),
+  /** The owner's pronouns, as they state them on LinkedIn; shown next to the handle on the home hero. */
+  pronouns: LocalizedText.optional(),
   /** Spoken languages and the level in each, for the About page. */
   languages: z.array(z.strictObject({ name: LocalizedText, level: LocalizedText })).default([]),
   /** Path under apps/web/public; must be stripped of EXIF metadata. */
