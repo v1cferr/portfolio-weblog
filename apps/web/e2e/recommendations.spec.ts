@@ -54,8 +54,8 @@ test.describe("recommendations", () => {
     await marcius.getByRole("button", { name: "Mostrar menos" }).click();
     await expect(marcius.getByText(late)).toBeHidden();
 
-    // A short one is shown whole, with no button.
-    await expect(page.locator("#recommendation-julio-cesar-raveli").getByRole("button")).toHaveCount(0);
+    // A short one is shown whole, with no "Read all" (only its copy-link button).
+    await expect(page.locator("#recommendation-julio-cesar-raveli").getByRole("button", { name: "Ler tudo" })).toHaveCount(0);
   });
 
   test("a job page lists the recommendations from that period", async ({ page }) => {
