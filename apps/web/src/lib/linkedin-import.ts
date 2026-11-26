@@ -1,4 +1,4 @@
-import { type Document, isMap, parseDocument } from "yaml";
+import { Document, isMap, parseDocument } from "yaml";
 
 /*
  * The pure half of `pnpm linkedin:import` (scripts/linkedin-import.ts):
@@ -36,7 +36,7 @@ export function parseCsv(source: string): string[][] {
   let field = "";
   let quoted = false;
   for (let i = 0; i < text.length; i++) {
-    const char = text[i];
+    const char = text.charAt(i);
     if (quoted) {
       if (char !== '"') field += char;
       else if (text[i + 1] === '"') {
@@ -143,8 +143,7 @@ export function mergeRecommendation(
   defaults: ImportDefaults
 ): { yaml: string; change: ImportChange } {
   if (source === undefined) {
-    const doc = parseDocument("{}");
-    doc.contents = doc.createNode({
+    const doc = new Document({
       id: item.id,
       status: "draft",
       visibility: item.visibility,
@@ -160,7 +159,7 @@ export function mergeRecommendation(
     return { yaml: doc.toString({ lineWidth: 100 }), change: "added" };
   }
 
-  const doc: Document = parseDocument(source);
+  const doc = parseDocument(source);
   if (!isMap(doc.contents)) throw new Error(`${item.id}.yaml is not a mapping`);
   const current = doc.toJS() as Record<string, unknown> & { language?: string; text?: Record<string, unknown> };
   const language = current.language ?? defaults.language;
