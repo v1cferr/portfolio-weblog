@@ -22,8 +22,9 @@ summary:
     montagem das cestas e distribuição.
 
 # From the owner's LinkedIn volunteering entry ("Food Donation and Community
-# Support Activity"), downloaded 2026-11-26 with the owner's go-ahead; no
-# people in it. Re-encoded and stripped of metadata (pnpm media:add).
+# Support Activity" and "Community Delivery Activity"), downloaded 2026-11-26
+# with the owner's go-ahead; the owner confirmed the group photo can be
+# published. Re-encoded and stripped of metadata (pnpm media:add).
 media:
   - src: /career/sao-carlos-volunteer/food-packages.jpg
     width: 1280
@@ -34,3 +35,12 @@ media:
     caption:
       en-us: Food packages ready for delivery.
       pt-br: Cestas prontas para a entrega.
+  - src: /career/sao-carlos-volunteer/volunteers.jpg
+    width: 1280
+    height: 960
+    alt:
+      en-us: The volunteers standing together on the stage of a community hall, with bags and boxes of donations piled on the floor in front of them
+      pt-br: Os voluntários juntos no palco de um salão comunitário, com sacolas e caixas de doações empilhadas no chão à frente
+    caption:
+      en-us: The volunteer team on delivery day.
+      pt-br: A equipe de voluntários no dia da entrega.
