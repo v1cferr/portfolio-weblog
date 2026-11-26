@@ -18,9 +18,9 @@ summary:
 description:
   en-us: >-
     It consumes external IP data APIs and draws the result on an interactive map. The focus was
-    front-end practice: API consumption, responsive design and user experience.
+    front-end practice: API consumption, responsive design and UX.
   pt-br: >-
     Consome APIs externas de dados de IP e desenha o resultado em um mapa interativo. O foco foi a
-    prática de front end: consumo de APIs, design responsivo e experiência do usuário.
+    prática de front end: consumo de APIs, design responsivo e UX.
 technologies: [react, vite, leaflet, tailwindcss]
 skills: [web-development]
