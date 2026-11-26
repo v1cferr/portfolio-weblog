@@ -8,7 +8,7 @@ import { expect, type Page, test } from "@playwright/test";
  */
 
 const row = (page: Page, title: string, region = "Timeline") =>
-  page.getByRole("region", { name: region }).locator("li, div").filter({ hasText: title }).last();
+  page.getByRole("region", { name: region }).locator("li").filter({ hasText: title }).last();
 
 test.describe("career break", () => {
   test("shows on the timeline with its own label, the move and no link", async ({ page }) => {
