@@ -80,7 +80,12 @@ export function useNowPlaying(): { snapshot: Snapshot | undefined; elapsed: numb
 export function Cover({ id, className }: { id: string; className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element -- Spotify's own cover, already sized and cached by its CDN
-    <img src={`https://i.scdn.co/image/${id}`} alt="" loading="lazy" className={cn("shrink-0 rounded-lg object-cover", className)} />
+    <img
+      src={`https://i.scdn.co/image/${id}`}
+      alt=""
+      loading="lazy"
+      className={cn("shrink-0 rounded-lg bg-muted object-cover", className)}
+    />
   );
 }
 
