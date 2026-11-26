@@ -12,7 +12,7 @@ test.describe("volunteering", () => {
     await page.goto("/en-us/about");
     const section = page.getByTestId("about-volunteering");
     await expect(section.getByRole("heading", { level: 2, name: "Volunteering" })).toBeVisible();
-    const items = section.getByRole("listitem");
+    const items = section.locator(":scope > ul > li");
     await expect(items).toHaveCount(2);
     await expect(items.nth(0)).toContainText("Community Volunteer");
     await expect(items.nth(0)).toContainText("Prefeitura Municipal de São Carlos");
@@ -20,10 +20,17 @@ test.describe("volunteering", () => {
     await expect(items.nth(1)).toContainText("IT Support Volunteer");
     await expect(items.nth(1)).toContainText("MAPS S.A.");
 
-    const note = "food packages";
+    const note = "donation logistics";
     await expect(section.getByText(note, { exact: false })).toHaveCount(0);
     await items.nth(0).getByRole("button", { name: "What I did as Community Volunteer" }).click();
     await expect(page.getByText(note, { exact: false })).toBeVisible();
+  });
+
+  test("shows the photos an entry has, and none for one without", async ({ page }) => {
+    await page.goto("/en-us/about");
+    const items = page.getByTestId("about-volunteering").locator(":scope > ul > li");
+    await expect(items.nth(0).getByRole("img", { name: /food packages/i })).toBeVisible();
+    await expect(items.nth(1).getByRole("img")).toHaveCount(0); // its logo is decorative
   });
 
   test("is translated", async ({ page }) => {
