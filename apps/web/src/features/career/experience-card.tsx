@@ -5,6 +5,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { ArrowRightIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { NAV_FORWARD } from "@/components/page-transition";
 import { DateRange } from "@/components/date-range";
 import { Morph } from "@/components/morph";
@@ -22,7 +23,14 @@ const TECH_LIMIT = 6;
  * position on top, linked by a short rail so promotions read as a path. The
  * current position is marked in the sage accent, as on the trajectory.
  */
-export async function ExperienceCard({ experience }: { experience: Experience }) {
+export async function ExperienceCard({
+  experience,
+  anchor = false,
+}: {
+  experience: Experience;
+  /** The card's rail entry carries the experience id as its anchor: show the copy-link button. */
+  anchor?: boolean;
+}) {
   const [locale, t, common] = await Promise.all([getLocale(), getTranslations("Career"), getTranslations("Common")]);
   const organization = getContent().getOrganization(experience.organization);
   if (organization === undefined) return null;
@@ -53,6 +61,8 @@ export async function ExperienceCard({ experience }: { experience: Experience })
             </p>
           )}
         </div>
+        {/* Above the stretched link that covers the card. */}
+        {anchor && <CopyLink id={experience.id} name={organization.name} className="z-10" />}
         <ArrowRightIcon aria-hidden className="icon-fwd mt-1 size-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="relative z-10 space-y-4 px-5">
