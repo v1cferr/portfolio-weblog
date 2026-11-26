@@ -5,6 +5,7 @@ import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 
 import {
+  CareerBreak,
   Certification,
   Education,
   Experience,
@@ -59,6 +60,7 @@ export interface RawContent {
   technologies: Sourced<Technology>[];
   skills: Sourced<Skill>[];
   experiences: Sourced<Experience>[];
+  careerBreaks: Sourced<CareerBreak>[];
   projects: Sourced<Project>[];
   education: Sourced<Education>[];
   certifications: Sourced<Certification>[];
@@ -256,6 +258,7 @@ export function loadContent(root: string): LoadResult {
     technologies: list(Technology, path.join(root, "taxonomies/technologies.yaml")),
     skills: list(Skill, path.join(root, "taxonomies/skills.yaml")),
     experiences: directory(Experience, path.join(root, "experiences")),
+    careerBreaks: directory(CareerBreak, path.join(root, "career-breaks")),
     projects: directory(Project, path.join(root, "projects")),
     education: directory(Education, path.join(root, "education")),
     certifications: directory(Certification, path.join(root, "education/certifications")),

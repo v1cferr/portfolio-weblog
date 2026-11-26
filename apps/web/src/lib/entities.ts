@@ -33,6 +33,11 @@ export function describeEntity(id: string, locale: Locale): EntitySummary | unde
         href: `/career/${id}`,
       };
     }
+    case "career-break": {
+      // No page of its own: it shows on the timeline only.
+      const item = content.getCareerBreaks().find((entry) => entry.id === id);
+      return item && { id, type, title: localize(item.title, locale).value };
+    }
     case "project": {
       const project = content.getProject(id);
       return project && { id, type, title: project.title, subtitle: localize(project.summary, locale).value, href: `/projects/${id}` };
