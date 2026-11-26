@@ -1,5 +1,6 @@
 import { getContent } from "@/lib/content";
 import { TechnologyIcon } from "@/components/icon";
+import { groupByIcon } from "@/lib/tech-icons";
 
 /**
  * The owner's daily stack on the home hero, from `stack` in profile.yaml: one
@@ -11,10 +12,7 @@ export function StackChips({ stack, label }: { stack: readonly { label: string; 
   if (stack.length === 0) return null;
   // One logo per distinct icon: Nix and NixOS share the snowflake, so that chip shows it once.
   const icons = (ids: readonly string[]) =>
-    ids
-      .map((id) => content.getTechnology(id))
-      .filter((tech) => tech !== undefined)
-      .filter((tech, index, all) => all.findIndex((other) => (other.icon ?? other.id) === (tech.icon ?? tech.id)) === index);
+    groupByIcon(ids.map((id) => content.getTechnology(id)).filter((tech) => tech !== undefined)).map((group) => group.lead);
   return (
     <ul aria-label={label} className="flex flex-wrap gap-2">
       {stack.map((chip) => (

@@ -12,6 +12,7 @@ import { NAV_FORWARD } from "@/components/page-transition";
 import { TechnologyIcon } from "@/components/icon";
 import { Morph } from "@/components/morph";
 import { Link } from "@/i18n/navigation";
+import { groupByIcon } from "@/lib/tech-icons";
 
 import { LanguageBar, type LanguageSliceData } from "./languages";
 import { ProjectStateBadge } from "./project-state-badge";
@@ -68,8 +69,11 @@ export function ProjectCardView({
   eager?: boolean;
 }) {
   const t = useTranslations("Common");
-  const shown = project.technologies.slice(0, techLimit);
-  const rest = project.technologies.slice(techLimit);
+  // One icon per distinct logo (Nix and NixOS share one); the limit and "+N" count icons.
+  const icons = groupByIcon(project.technologies);
+  const shown = icons.slice(0, techLimit);
+  const rest = icons.slice(techLimit);
+  const restLabel = rest.flatMap((group) => group.techs.map((tech) => tech.name));
   const line = project.hook ?? project.summary;
   return (
     <Card
@@ -130,15 +134,15 @@ export function ProjectCardView({
         )}
         {shown.length > 0 && (
           <ul aria-label={t("technologies")} className="relative z-10 mt-auto flex w-fit items-center gap-2.5 pt-2">
-            {shown.map((tech) => (
-              <li key={tech.id} className="flex">
+            {shown.map((group) => (
+              <li key={group.key} className="flex">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span role="img" aria-label={tech.name} data-testid="project-tech" className="inline-flex">
-                      <TechnologyIcon icon={tech.icon} category={tech.category} className="size-4" />
+                    <span role="img" aria-label={group.label} data-testid="project-tech" className="inline-flex">
+                      <TechnologyIcon icon={group.lead.icon} category={group.lead.category} className="size-4" />
                     </span>
                   </TooltipTrigger>
-                  <TooltipContent>{tech.name}</TooltipContent>
+                  <TooltipContent>{group.label}</TooltipContent>
                 </Tooltip>
               </li>
             ))}
@@ -146,15 +150,11 @@ export function ProjectCardView({
               <li className="flex">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span
-                      role="img"
-                      aria-label={rest.map((tech) => tech.name).join(", ")}
-                      className="font-mono text-xs text-muted-foreground tabular-nums"
-                    >
+                    <span role="img" aria-label={restLabel.join(", ")} className="font-mono text-xs text-muted-foreground tabular-nums">
                       +{rest.length}
                     </span>
                   </TooltipTrigger>
-                  <TooltipContent>{rest.map((tech) => tech.name).join(" · ")}</TooltipContent>
+                  <TooltipContent>{restLabel.join(" · ")}</TooltipContent>
                 </Tooltip>
               </li>
             )}
