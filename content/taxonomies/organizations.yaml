@@ -148,13 +148,19 @@
   logo: /company-logos/cruzeiro-do-sul.png
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Issuers of the Hackers do
-# Bem program and the LGPD course. No logo yet: hackersdobem.org.br only
-# declares a 16 px favicon, and the favicon of SENAI's national portal is the
-# "Si" mark of the whole Sistema Indústria, not SENAI's own.
+# Bem program and the LGPD course.
 - id: hackers-do-bem
   name: Hackers do Bem
   kind: program
   url: https://hackersdobem.org.br/
+  # The symbol of the official SVG logo the site header loads, without the
+  # wordmark, as its 16 px favicon shows it (fetched 2026-11-26):
+  # https://hackersdobem.org.br/assets/json/uploads/HACKERSDOBEM_LOGO_RGB_PRINCIPAL_POSITIVA_1_8c655bcacf.svg
+  logo: /company-logos/hackers-do-bem.svg
+  # The navy figures vanish on a dark page: the same symbol from the white logo
+  # the site footer loads.
+  # https://hackersdobem.org.br/assets/json/uploads/HACKERSDOBEM_LOGO_RGB_PRINCIPAL_BRANCA_f99e0f8384.svg
+  logoDark: /company-logos/hackers-do-bem-dark.svg
   description:
     en-us: A Brazilian federal cybersecurity education program.
     pt-br: Um programa federal brasileiro de formação em cibersegurança.
@@ -163,15 +169,29 @@
   name: SENAI
   kind: school
   url: https://www.senai.portaldaindustria.com.br/
+  # SENAI's own wordmark, the inline SVG symbol "ds-logo-senai" of its national
+  # portal (fetched 2026-11-26), not the portal's favicon, which is the "Si"
+  # mark of the whole Sistema Indústria. SENAI has no separate square symbol.
+  # https://www.senai.portaldaindustria.com.br/para-voce
+  logo: /company-logos/senai.svg
+  # The navy letters vanish on a dark page: its negative version, white letters
+  # with the orange accent kept.
+  logoDark: /company-logos/senai-dark.svg
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
-# volunteered. No logo yet for the city: its site only declares a 16 px favicon
-# and a wide "Cidade de São Carlos" wordmark that does not fit a square mark.
+# volunteered.
 - id: prefeitura-sao-carlos
   name: Prefeitura Municipal de São Carlos
   kind: government
   url: https://www.saocarlos.sp.gov.br/
   location: São Carlos, SP, Brazil
+  # The waving city flag of the "Cidade de São Carlos" logo, cropped from the
+  # 5999 px PNG on the city's site (fetched 2026-11-26) without the wordmark:
+  # the same mark the city uses as its LinkedIn logo
+  # (https://www.linkedin.com/company/prefeiturasaocarlos/). The violet flag
+  # stays visible on dark pages, so there is no dark variant.
+  # https://www.saocarlos.sp.gov.br/images/BrasaoPMSC-h.png
+  logo: /company-logos/prefeitura-sao-carlos.png
 
 # URL confirmed by the owner on 2026-11-25. The logo is the symbol maps.com.br
 # declares as its favicon (an SVG on a transparent background); it stays
