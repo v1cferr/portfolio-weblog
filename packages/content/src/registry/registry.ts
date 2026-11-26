@@ -4,7 +4,19 @@ import { loadContent, type PostSource, type RawContent, type StorySource } from 
 import { fallbackChain } from "../locale";
 import { collectEdges, collectNodes, type EntityRef, type EntityType } from "../relations/graph";
 import { validateContent } from "../relations/validate";
-import type { Certification, Education, Experience, Locale, Organization, Profile, Project, Setup, Skill, Technology } from "../schemas";
+import {
+  type Certification,
+  type Education,
+  type Experience,
+  isVolunteering,
+  type Locale,
+  type Organization,
+  type Profile,
+  type Project,
+  type Setup,
+  type Skill,
+  type Technology,
+} from "../schemas";
 import { buildCareerTimeline, buildUnifiedTimeline, type TimelineEnrichment, type TimelineEvent } from "../timeline/timeline";
 
 export interface Post extends PostSource {
@@ -39,6 +51,8 @@ export interface ContentRegistry {
   /** Newest first, by the most recent position. */
   getExperiences(): Experience[];
   getExperience(id: string): Experience | undefined;
+  /** Volunteering, kept out of the experiences above. Newest first. */
+  getVolunteering(): Experience[];
   /** Featured first, then newest first. */
   getProjects(): Project[];
   getProject(id: string): Project | undefined;
@@ -111,7 +125,7 @@ export function createRegistry(
   const organizations = pick(content.organizations);
   const technologies = pick(content.technologies);
   const skills = pick(content.skills).map((skill) => ({ ...skill, technologies: keep(skill.technologies) }));
-  const experiences = pick(content.experiences)
+  const allExperiences = pick(content.experiences)
     .map((experience) => ({
       ...experience,
       technologies: keep(experience.technologies),
@@ -119,6 +133,8 @@ export function createRegistry(
       projects: keep(experience.projects),
     }))
     .sort((a, b) => compareDesc(latestStart(a), latestStart(b)));
+  const experiences = allExperiences.filter((experience) => !isVolunteering(experience));
+  const volunteering = allExperiences.filter(isVolunteering);
   const projects = pick(content.projects)
     .map((project) => ({
       ...project,
@@ -217,6 +233,7 @@ export function createRegistry(
     getSkill: byId(skills),
     getExperiences: () => experiences,
     getExperience: byId(experiences),
+    getVolunteering: () => volunteering,
     getProjects: () => projects,
     getProject: byId(projects),
     getEducation: () => education,
@@ -232,7 +249,7 @@ export function createRegistry(
     getStoryIds: () => [...stories.keys()],
     getCareerTimeline: () => buildCareerTimeline(experiences),
     getUnifiedTimeline: (enrichment) =>
-      buildUnifiedTimeline({ experiences, projects, education, certifications, posts: publishedAtBySlug() }, enrichment),
+      buildUnifiedTimeline({ experiences, volunteering, projects, education, certifications, posts: publishedAtBySlug() }, enrichment),
     getRelatedContent: (id) => [
       ...edges.filter((edge) => edge.from.id === id).map((edge) => ({ ...edge.to, field: edge.field, direction: "outgoing" as const })),
       ...edges.filter((edge) => edge.to.id === id).map((edge) => ({ ...edge.from, field: edge.field, direction: "incoming" as const })),

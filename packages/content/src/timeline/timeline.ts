@@ -2,7 +2,7 @@ import { compareDesc } from "../dates";
 import type { EntityRef } from "../relations/graph";
 import type { Certification, Education, Experience, PartialDate, Project } from "../schemas";
 
-export type TimelineKind = "position" | "project" | "education" | "certification" | "post";
+export type TimelineKind = "position" | "volunteering" | "project" | "education" | "certification" | "post";
 
 export interface TimelineEvent {
   /** Unique within one timeline. */
@@ -11,7 +11,7 @@ export interface TimelineEvent {
   entity: EntityRef;
   date: PartialDate;
   end?: PartialDate | undefined;
-  /** Index into experience.positions for "position" events. */
+  /** Index into experience.positions for "position" and "volunteering" events. */
   positionIndex?: number;
   /**
    * Where the date came from. A repository's creation date is not when a
@@ -22,6 +22,8 @@ export interface TimelineEvent {
 
 export interface TimelineInput {
   experiences: readonly Experience[];
+  /** Volunteering experiences, drawn on the career lane but labeled apart. */
+  volunteering?: readonly Experience[];
   projects: readonly Project[];
   education: readonly Education[];
   certifications: readonly Certification[];
@@ -37,15 +39,15 @@ function sortEvents(events: TimelineEvent[]): TimelineEvent[] {
   return events.sort((a, b) => compareDesc(a.date, b.date) || a.key.localeCompare(b.key));
 }
 
-export function positionEvents(experiences: readonly Experience[]): TimelineEvent[] {
+export function positionEvents(experiences: readonly Experience[], kind: "position" | "volunteering" = "position"): TimelineEvent[] {
   return experiences.flatMap((experience) =>
     experience.positions.flatMap((position, index) =>
       position.start === undefined
         ? []
         : [
             {
-              key: `position:${experience.id}:${index}`,
-              kind: "position" as const,
+              key: `${kind}:${experience.id}:${index}`,
+              kind,
               entity: { type: "experience" as const, id: experience.id },
               date: position.start,
               end: position.end,
@@ -64,7 +66,7 @@ export function buildCareerTimeline(experiences: readonly Experience[]): Timelin
 
 /** Career, projects, studies and writing on one axis, newest first. */
 export function buildUnifiedTimeline(input: TimelineInput, enrichment: TimelineEnrichment = {}): TimelineEvent[] {
-  const events = positionEvents(input.experiences);
+  const events = [...positionEvents(input.experiences), ...positionEvents(input.volunteering ?? [], "volunteering")];
 
   for (const project of input.projects) {
     let date: PartialDate | undefined = project.startedAt;

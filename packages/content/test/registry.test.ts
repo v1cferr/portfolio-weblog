@@ -136,3 +136,32 @@ describe("tooling registry", () => {
     expect(registry.getExperience("uni-review")).toBeDefined();
   });
 });
+
+describe("volunteering", () => {
+  const registry = loadRegistry(
+    makeContent({
+      "experiences/acme-dev.yaml": experience(),
+      "experiences/acme-volunteer.yaml": experience({
+        id: "acme-volunteer",
+        positions: [{ title: { "en-us": "Volunteer" }, employmentType: "volunteer", start: "2016-07", end: "2016-08" }],
+        cause: { "en-us": "Science and technology" },
+      }),
+    })
+  );
+
+  it("is served apart and never counted as career", () => {
+    expect(registry.getExperiences().map((e) => e.id)).toEqual(["acme-dev"]);
+    expect(registry.getExperience("acme-volunteer")).toBeUndefined();
+    expect(registry.getVolunteering().map((e) => e.id)).toEqual(["acme-volunteer"]);
+    expect(registry.getCareerTimeline().map((e) => e.entity.id)).not.toContain("acme-volunteer");
+  });
+
+  it("shows on the unified timeline as its own kind", () => {
+    expect(registry.getUnifiedTimeline().find((e) => e.entity.id === "acme-volunteer")).toMatchObject({
+      kind: "volunteering",
+      date: "2016-07",
+      end: "2016-08",
+      positionIndex: 0,
+    });
+  });
+});
