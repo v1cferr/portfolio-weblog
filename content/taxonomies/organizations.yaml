@@ -148,13 +148,19 @@
   logo: /company-logos/cruzeiro-do-sul.png
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Issuers of the Hackers do
-# Bem program and the LGPD course. No logo yet: hackersdobem.org.br only
-# declares a 16 px favicon, and the favicon of SENAI's national portal is the
-# "Si" mark of the whole Sistema Indústria, not SENAI's own.
+# Bem program and the LGPD course.
 - id: hackers-do-bem
   name: Hackers do Bem
   kind: program
   url: https://hackersdobem.org.br/
+  # The symbol of the official SVG logo the site header loads, without the
+  # wordmark, as its 16 px favicon shows it (fetched 2026-11-26):
+  # https://hackersdobem.org.br/assets/json/uploads/HACKERSDOBEM_LOGO_RGB_PRINCIPAL_POSITIVA_1_8c655bcacf.svg
+  logo: /company-logos/hackers-do-bem.svg
+  # The navy figures vanish on a dark page: the same symbol from the white logo
+  # the site footer loads.
+  # https://hackersdobem.org.br/assets/json/uploads/HACKERSDOBEM_LOGO_RGB_PRINCIPAL_BRANCA_f99e0f8384.svg
+  logoDark: /company-logos/hackers-do-bem-dark.svg
   description:
     en-us: A Brazilian federal cybersecurity education program.
     pt-br: Um programa federal brasileiro de formação em cibersegurança.
