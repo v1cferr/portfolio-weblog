@@ -1,0 +1,120 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim (typos included); en-us is a
+# translation. Published with the recommender's permission. A photo, when the owner adds one,
+# goes to apps/web/public/recommendations/marcius-leandro.jpg and is referenced as `photo`.
+# The course is Transforme-se (Serasa Experian with Senac, with Gerando Falcões), the
+# senac-systems-programmer entry.
+id: marcius-leandro
+name: Marcius Leandro
+headline:
+  pt-br: Fundador e CEO da Shinier · Professor de Tecnologia
+  en-us: Founder and CEO of Shinier · Technology Teacher
+relation:
+  kind: teacher
+  label:
+    pt-br: meu professor no Senac
+    en-us: my teacher at Senac
+  organization: senac-sp
+  education: senac-systems-programmer
+date: "2026-05-11"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+featured: 3
+excerpt:
+  pt-br: >-
+    …indo além do conteúdo programado, principalmente no que compete a inovação e organização de
+    projeto… assumindo responsabilidades de correções e implementação do modulo de dúvidas com a IA
+    via chatbot…
+  en-us: >-
+    …going beyond the planned content, especially when it came to innovation and project
+    organization… taking on responsibility for fixes and for implementing the module for questions
+    to the AI via chatbot…
+text:
+  pt-br:
+    - >-
+      É com grande satisfação que recomendo o aluno Victor, participante do curso realizado em
+      parceria com o Serasa, Gerando Falcões e SENAC. Ao longo do curso, demonstrou habilidades
+      excepcionais, destacando-se em diversas áreas, contribuindo significativamente para o ambiente de
+      aprendizado, em diversas situações superando expectativas e indo além do conteúdo programado,
+      principalmente no que compete a inovação e organização de projeto, muito devido ao seu
+      conhecimento prévio e autodidata queria sempre aprender coisas novas e ir além.
+    - >-
+      Na disciplina de Educação Financeira, exibiu um profundo conhecimento sobre planejamento
+      financeiro e visão de carreira, sempre trazendo contribuições e dúvidas relevantes e participando
+      ativamente das discussões. Sua capacidade de conectar conceitos teóricos com a prática foi um
+      diferencial, beneficiando tanto seu próprio aprendizado e decisões que realizou durante o curso
+      quanto o de seus colegas.
+    - >-
+      Em Informática Básica, apesar de já possuir conhecimentos prévios, manteve uma postura exemplar.
+      Ele não apenas ampliou suas competências, como também se mostrou disposto a ajudar seus colegas,
+      contribuindo para um ambiente de aprendizado colaborativo. Seu engajamento e dedicação foram além
+      das expectativas.
+    - >-
+      Nas aulas de Lógica Digital, destacou-se por sua habilidade de raciocínio lógico. Ele rapidamente
+      compreendeu os conceitos apresentados e os aplicou de forma eficiente, mostrando grande potencial
+      para áreas que demandam pensamento estruturado e resolução de problemas. Aproveitando o tempo
+      extra de cada dia para trabalhar em projetos pessoais e ir além do básico apresentado no momento.
+    - >-
+      Victor é um aluno comprometido, participativo e com grande capacidade de aprendizado,
+      características que o tornam altamente recomendado para projetos, cursos ou oportunidades que
+      exijam dedicação, trabalho em equipe e habilidades técnicas.
+    - >-
+      Na última etapa no curso de desenvolvimento de sistemas o aluno contribuiu para construção do
+      projeto do grupo assumindo responsabilidades de correções e implementação do modulo de dúvidas
+      com a IA via chatbot, manteve a postura de ajudar os colegas do grupo, mesmo quando migrou para o
+      turma da noite, superou desafios de trabalho em grupo a distancia realizando o componentes,
+      utilizados por todos os colegas do projeto e aprendizados valiosos para a carreira de
+      programador, demonstrou que tinha conhecimento em desenvolvimento frontend (html, css e js)
+      fazendo um trabalho exemplar, realizou as com facilidade a integração de banco de dados, e
+      demonstrou primorosidade e excelência ao realizar os testes nas partes dos colegas e as poucas
+      correções que forma apontas na sua parte sempre recebendo muito bem o feedback dos colegas.
+    - >-
+      Estou certo de que ele será um ativo valioso em qualquer jornada que venha a trilhar. Por isso o
+      recomendo para trabalhar na sua empresa.
+    - |-
+      Att,
+      Marcius CEO Shinier
+      Prof Senac
+  en-us:
+    - >-
+      It is with great satisfaction that I recommend the student Victor, a participant in the course
+      run in partnership with Serasa, Gerando Falcões and SENAC. Throughout the course, he showed
+      exceptional skills, standing out in several areas, contributing significantly to the learning
+      environment, in many situations exceeding expectations and going beyond the planned content,
+      especially when it came to innovation and project organization, largely thanks to his prior
+      knowledge; self-taught, he always wanted to learn new things and go further.
+    - >-
+      In the Financial Education subject, he showed deep knowledge of financial planning and career
+      vision, always bringing relevant contributions and questions and taking an active part in the
+      discussions. His ability to connect theoretical concepts with practice set him apart, benefiting
+      his own learning and the decisions he made during the course as well as his classmates'
+      learning.
+    - >-
+      In Basic Computing, despite already having prior knowledge, he kept an exemplary attitude. He not
+      only broadened his skills but also showed himself willing to help his classmates, contributing to
+      a collaborative learning environment. His engagement and dedication went beyond expectations.
+    - >-
+      In the Digital Logic classes, he stood out for his logical reasoning. He quickly grasped the
+      concepts presented and applied them efficiently, showing great potential for areas that demand
+      structured thinking and problem solving. He used the extra time each day to work on personal
+      projects and go beyond the basics presented at the time.
+    - >-
+      Victor is a committed, participative student with a great capacity for learning, traits that
+      make him highly recommended for projects, courses or opportunities that require dedication,
+      teamwork and technical skills.
+    - >-
+      In the last stage of the systems development course, the student contributed to building the
+      group project, taking on responsibility for fixes and for implementing the module for questions
+      to the AI via chatbot. He kept helping his group mates, even after moving to the evening class,
+      overcame the challenges of remote group work by building components used by all his colleagues
+      on the project, and gained valuable lessons for a programmer's career. He showed he knew
+      front-end development (HTML, CSS and JS), doing exemplary work, handled the database integration
+      with ease, and showed thoroughness and excellence when testing his colleagues' parts, always
+      taking the few fixes pointed out in his own part well as feedback from his colleagues.
+    - >-
+      I am sure he will be a valuable asset on whatever path he takes. That is why I recommend him to
+      work at your company.
+    - |-
+      Regards,
+      Marcius, CEO of Shinier
+      Teacher at Senac

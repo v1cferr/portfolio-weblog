@@ -1,0 +1,48 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
+# Published with the recommender's permission. A photo, when the owner adds one, goes to
+# apps/web/public/recommendations/julio-cesar-raveli.jpg and is referenced as `photo`.
+id: julio-cesar-raveli
+name: Júlio César Raveli
+headline:
+  pt-br: Líder de Tecnologia & Engenharia
+  en-us: Technology & Engineering Lead
+relation:
+  kind: manager
+  label:
+    pt-br: meu gestor direto na Xmart
+    en-us: my direct manager at Xmart
+  organization: xmart-solutions
+  experience: xmart-solutions-2024
+date: "2025-05-20"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+featured: 1
+excerpt:
+  pt-br: >-
+    Extremamente organizado com as tarefas e fazia questão de documentar todos os itens com vídeos
+    de demonstrações e imagens… Extremamente ágil nas entregas e um pesquisador nato.
+  en-us: >-
+    Extremely organized with his tasks, he made a point of documenting every item with demo videos
+    and images… Extremely quick in his deliveries and a born researcher.
+text:
+  pt-br:
+    - >-
+      Victor foi um dos melhores desenvolvedores que participou da equipe durante o desenvolvimento
+      do nosso produto interno. Extremamente organizado com as tarefas e fazia questão de documentar
+      todos os itens com vídeos de demonstrações e imagens além da descrição de tudo o que havia
+      feito em cada uma de suas micro tarefas. Extremamente ágil nas entregas e um pesquisador nato.
+      Trouxe múltiplos benefícios e ideias inovadoras ao produto, mostrando que além de um
+      desenvolvedor fullstack, também é um ótimo profissional na área de P&D. Trabalha super bem em
+      equipe sempre dando feedbacks constantes e apoiando a todos. Victor sem dúvida foi um dos
+      melhores profissionais que tive o prazer de trabalhar.
+  en-us:
+    - >-
+      Victor was one of the best developers who joined the team during the development of our
+      internal product. Extremely organized with his tasks, he made a point of documenting every item
+      with demo videos and images, on top of describing everything he had done in each of his
+      micro-tasks. Extremely quick in his deliveries and a born researcher. He brought multiple
+      benefits and innovative ideas to the product, showing that besides being a full stack developer,
+      he is also a great professional in R&D. He works superbly in a team, always giving constant
+      feedback and supporting everyone. Victor was without a doubt one of the best professionals I have
+      had the pleasure of working with.

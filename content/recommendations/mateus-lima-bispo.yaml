@@ -1,0 +1,87 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
+# Published with the recommender's permission. A photo, when the owner adds one, goes to
+# apps/web/public/recommendations/mateus-lima-bispo.jpg and is referenced as `photo`.
+id: mateus-lima-bispo
+name: Mateus Lima Bispo
+headline:
+  pt-br: Desenvolvedor full-stack
+  en-us: Full-Stack Developer
+relation:
+  kind: classmate
+  label:
+    pt-br: estudamos juntos no Transforme-se
+    en-us: we studied together at Transforme-se
+  organization: serasa-experian
+  education: senac-systems-programmer
+date: "2026-06-19"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+excerpt:
+  pt-br: >-
+    Ele ajudava os colegas, supervisionava códigos, compartilhava conhecimento e sempre orientava o
+    grupo para alcançar os melhores resultados possíveis.
+  en-us: >-
+    He helped his classmates, supervised code, shared knowledge and always guided the group toward
+    the best possible results.
+text:
+  pt-br:
+    - >-
+      Tive a grande oportunidade de participar do programa Transforme-se, da Serasa Experian, ao lado
+      do Victor Ferreira.
+    - >-
+      Desde o início do programa, o Victor me ajudou bastante, apresentando termos técnicos, conceitos
+      de programação e compartilhando conhecimentos que contribuíram para o meu desenvolvimento. Além
+      disso, também me auxiliou na criação do meu portfólio e currículo, sempre demonstrando
+      disposição para ajudar quem estava ao seu redor.
+    - >-
+      O Victor possui uma grande facilidade de aprendizado e, sem dúvidas, era um dos programadores
+      mais avançados da turma. Durante uma das dinâmicas propostas pelo professor, tive a oportunidade
+      de convidá-lo para integrar a equipe da qual eu era líder. Nesse período, pude observar de perto
+      sua capacidade de organização, liderança e trabalho em equipe.
+    - >-
+      Ele ajudava os colegas, supervisionava códigos, compartilhava conhecimento e sempre orientava o
+      grupo para alcançar os melhores resultados possíveis. Sua forma lógica de pensar, aliada à
+      capacidade de ouvir, aplicar feedbacks e contribuir com sugestões relevantes, faz dele um
+      profissional diferenciado.
+    - >-
+      Além de ser um excelente desenvolvedor, Victor é um ótimo líder e uma pessoa que qualquer equipe
+      gostaria de ter. Sua dedicação, conhecimento técnico e disposição para ajudar os outros fazem com
+      que ele agregue valor por onde passa.
+    - >-
+      Também sou grato pela motivação que sua trajetória me trouxe durante o programa. Seu
+      comprometimento com os estudos e sua busca constante por evolução foram inspiradores para mim e
+      para muitos colegas.
+    - >-
+      Sem dúvidas, recomendo o Victor para oportunidades na área de tecnologia. Seu conhecimento
+      técnico, capacidade de liderança, colaboração e dedicação fazem dele uma peça valiosa para
+      qualquer equipe. Tenho certeza de que continuará gerando impacto positivo e entregando excelentes
+      resultados por onde passar.
+  en-us:
+    - >-
+      I had the great opportunity to take part in Serasa Experian's Transforme-se program alongside
+      Victor Ferreira.
+    - >-
+      From the start of the program, Victor helped me a lot, introducing me to technical terms and
+      programming concepts and sharing knowledge that contributed to my development. He also helped me
+      put together my portfolio and résumé, always showing willingness to help those around him.
+    - >-
+      Victor learns with great ease and was, without a doubt, one of the most advanced programmers in
+      the class. During one of the exercises proposed by the teacher, I had the opportunity to invite
+      him to join the team I was leading. In that period, I could see up close his capacity for
+      organization, leadership and teamwork.
+    - >-
+      He helped his classmates, supervised code, shared knowledge and always guided the group toward
+      the best possible results. His logical way of thinking, combined with the ability to listen,
+      apply feedback and contribute relevant suggestions, makes him a standout professional.
+    - >-
+      Besides being an excellent developer, Victor is a great leader and a person any team would want
+      to have. His dedication, technical knowledge and willingness to help others make him add value
+      wherever he goes.
+    - >-
+      I am also grateful for the motivation his path gave me during the program. His commitment to his
+      studies and his constant drive to improve were inspiring to me and to many classmates.
+    - >-
+      Without a doubt, I recommend Victor for opportunities in technology. His technical knowledge,
+      leadership, collaboration and dedication make him a valuable asset to any team. I am sure he will
+      keep making a positive impact and delivering excellent results wherever he goes.
