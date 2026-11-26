@@ -422,6 +422,8 @@
     "issued": "Emitida em {date}",
     "credential": "Credencial",
     "projects": "Projetos deste programa",
+    "milestones": "Etapas",
+    "milestonePost": "Post no LinkedIn",
     "state": {
       "ongoing": "Em andamento",
       "completed": "Concluído",
