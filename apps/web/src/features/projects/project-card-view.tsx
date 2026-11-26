@@ -13,6 +13,7 @@ import { TechnologyIcon } from "@/components/icon";
 import { Morph } from "@/components/morph";
 import { Link } from "@/i18n/navigation";
 
+import { LanguageBar, type LanguageSliceData } from "./languages";
 import { ProjectStateBadge } from "./project-state-badge";
 
 /** Everything a card shows, already localized; serializable for the client catalogue. */
@@ -41,6 +42,10 @@ export interface ProjectCardData {
   /** When the work started: from the content, else the repository's creation date. */
   date?: string | undefined;
   dateFromRepository: boolean;
+  /** The repository's languages as GitHub lists them, when it is public and has code. */
+  languages?: LanguageSliceData[] | undefined;
+  /** The language bar's accessible name ("Languages: TypeScript 92.5%, …"). */
+  languagesLabel?: string | undefined;
   technologies: { id: string; name: string; icon?: string | undefined; category: (typeof TechnologyCategory.options)[number] }[];
 }
 
@@ -72,7 +77,17 @@ export function ProjectCardView({
       data-testid="project-card"
       className="glass-hover relative h-full gap-0 py-0 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring motion-safe:[@media(hover:hover)]:hover:-translate-y-0.5"
     >
-      <ProjectCover project={project} eager={eager} />
+      <div className="relative">
+        <ProjectCover project={project} eager={eager} />
+        {project.languages !== undefined && project.languages.length > 0 && (
+          // A thin strip along the cover's bottom edge, GitHub's bar without labels.
+          <LanguageBar
+            languages={project.languages}
+            label={project.languagesLabel}
+            className="absolute inset-x-0 bottom-0 h-[3px] opacity-90"
+          />
+        )}
+      </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <ProjectStateBadge state={project.state} label={project.stateLabel} />

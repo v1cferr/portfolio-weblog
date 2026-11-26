@@ -27,10 +27,11 @@ import { SourceList } from "@/components/source-list";
 import { TechList } from "@/components/tech-list";
 import { AdrLink, CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
 import { ProjectStateBadge } from "@/features/projects/project-state-badge";
+import { RepoLanguagesSection } from "@/features/projects/repo-languages";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { describeEntity } from "@/lib/entities";
-import { getRepoIndex } from "@/lib/github";
+import { getRepoIndex, getRepoLanguages } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
@@ -103,6 +104,8 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   // as public right now; if GitHub is unreachable, the page says so.
   const index = project.repository !== undefined ? await getRepoIndex() : undefined;
   const repo = index?.ok === true && project.repository !== undefined ? index.get(project.repository) : undefined;
+  // Live from GitHub too; a private, missing or empty repository simply has no block.
+  const languages = repo !== undefined ? await getRepoLanguages(repo.full_name) : undefined;
 
   // With a case study, its TL;DR card carries the dates, the stack and the
   // links, so the side column keeps only what GitHub adds.
@@ -277,7 +280,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
             )}
             {repo !== undefined && (
               <>
-                {repo.language !== null && <Fact label={t("language")}>{repo.language}</Fact>}
+                {repo.language !== null && languages === undefined && <Fact label={t("language")}>{repo.language}</Fact>}
                 <Fact label={t("repositoryCreated")}>
                   <PartialDate date={repo.created_at.slice(0, 10)} />
                 </Fact>
@@ -292,6 +295,8 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
               <Fact label={t("collaborators")}>{project.collaborators.map((person) => person.name).join(", ")}</Fact>
             )}
           </dl>
+
+          {languages !== undefined && <RepoLanguagesSection data={languages} />}
 
           {index?.ok === false && (
             <Alert>
