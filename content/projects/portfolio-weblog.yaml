@@ -216,9 +216,20 @@ caseStudy:
       - Um chat de perfil que responde só a partir das páginas públicas do site e as cita, sem virar fonte de fatos.
   adrs: https://github.com/v1cferr/portfolio-weblog/tree/main/docs/decisions
 
-# Screenshot of v1 shared by the author on 2026-11-23, resized and stripped of
-# metadata: the site this project rebuilt.
+# v2-home: the live home page (https://v1cferr.dev/pt-br, light theme, 1600x900)
+# captured on 2026-11-26, with the floating Ask launcher hidden for the capture.
+# v1-home: screenshot of v1 shared by the author on 2026-11-23, resized and
+# stripped of metadata: the site this project rebuilt.
 media:
+  - src: /projects/portfolio-weblog/v2-home.jpg
+    width: 1600
+    height: 900
+    alt:
+      en-us: 'Home page of v2 of this site, light themed: "Victor Ferreira", "Analista de Sistemas de IA", the stack chips, the "Perguntar à minha IA" and "Contato" buttons and a dithered black-and-white portrait'
+      pt-br: 'Página inicial da v2 deste site, no tema claro: "Victor Ferreira", "Analista de Sistemas de IA", os chips da stack, os botões "Perguntar à minha IA" e "Contato" e um retrato pontilhado em preto e branco'
+    caption:
+      en-us: The v2 home page, the one you are browsing now.
+      pt-br: A página inicial da v2, a que você está navegando agora.
   - src: /projects/portfolio-weblog/v1-home.jpg
     width: 1637
     height: 798
@@ -226,5 +237,5 @@ media:
       en-us: 'Home page of v1 of this site, dark themed: the author''s round photo, "Oi, sou o Victor.", "Software-AI Engineer in Progress", social links and three quotes'
       pt-br: 'Página inicial da v1 deste site, no tema escuro: a foto redonda do autor, "Oi, sou o Victor.", "Software-AI Engineer in Progress", links sociais e três citações'
     caption:
-      en-us: v1 of this site, the starting point of the rebuild.
-      pt-br: A v1 deste site, o ponto de partida da reconstrução.
+      en-us: The v1 home page, the starting point of the rebuild.
+      pt-br: A página inicial da v1, o ponto de partida da reconstrução.
