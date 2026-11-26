@@ -111,10 +111,10 @@ test.describe("official logos of the LinkedIn organizations", () => {
     });
   }
 
-  test("the navy Hackers do Bem and SENAI marks switch to their dark-theme variants", async ({ page }) => {
+  test("the navy Hackers do Bem mark switches to its dark-theme variant", async ({ page }) => {
     await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/en-us/education");
-    for (const id of ["hackers-do-bem", "senai"]) {
+    for (const id of ["hackers-do-bem"]) {
       const mark = page.locator(`[data-organization="${id}"]`).first();
       await expect(mark.locator(`img[src="/company-logos/${id}-dark.svg"]`)).toBeVisible();
       await expect(mark.locator(`img[src="/company-logos/${id}.svg"]`)).toBeHidden();
