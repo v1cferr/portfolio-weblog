@@ -13,6 +13,7 @@ import {
   type Organization,
   type Profile,
   type Project,
+  type PublishedRecommendation,
   type Setup,
   type Skill,
   type Technology,
@@ -58,6 +59,8 @@ export interface ContentRegistry {
   getProject(id: string): Project | undefined;
   getEducation(): Education[];
   getCertifications(): Certification[];
+  /** Newest first. A relation to a hidden job or course is dropped; a hidden organization hides the recommendation. */
+  getRecommendations(): PublishedRecommendation[];
   /** One entry per post: the requested translation, or a fallback flagged as such. Newest first. */
   getPosts(locale: Locale): Post[];
   getPost(slug: string, locale: Locale): Post | undefined;
@@ -155,6 +158,24 @@ export function createRegistry(
     .map((cert) => ({ ...cert, technologies: keep(cert.technologies) }))
     .sort((a, b) => compareDesc(a.issuedAt, b.issuedAt));
 
+  const recommendations = content.recommendations
+    .map((item) => item.value)
+    .filter(
+      (value): value is PublishedRecommendation =>
+        visible(value) && value.relation !== undefined && visibleIds.get(value.relation.organization) === "organization"
+    )
+    .map((value): PublishedRecommendation => ({
+      ...value,
+      relation: {
+        ...value.relation,
+        experience:
+          value.relation.experience !== undefined && visibleIds.has(value.relation.experience) ? value.relation.experience : undefined,
+        education:
+          value.relation.education !== undefined && visibleIds.has(value.relation.education) ? value.relation.education : undefined,
+      },
+    }))
+    .sort((a, b) => compareDesc(a.date, b.date) || a.name.localeCompare(b.name));
+
   const prunePost = (post: PostSource): PostSource => ({
     ...post,
     frontmatter: {
@@ -238,6 +259,7 @@ export function createRegistry(
     getProject: byId(projects),
     getEducation: () => education,
     getCertifications: () => certifications,
+    getRecommendations: () => recommendations,
     getPosts: (locale) =>
       [...translations.keys()]
         .map((slug) => getPost(slug, locale))

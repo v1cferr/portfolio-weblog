@@ -18,7 +18,8 @@
     "media:add": "pnpm --filter @workspace/content media:add",
     "icons:sync": "pnpm --filter web icons:sync",
     "avatar:build": "pnpm --filter @workspace/content avatar:build",
-    "wow:sync": "pnpm --filter web wow:sync"
+    "wow:sync": "pnpm --filter web wow:sync",
+    "linkedin:import": "pnpm --filter web linkedin:import"
   },
   "devDependencies": {
     "husky": "^9.1.7",

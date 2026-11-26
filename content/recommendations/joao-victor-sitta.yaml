@@ -1,0 +1,53 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
+id: joao-victor-sitta
+name: João Victor Sitta
+jobTitle: Desenvolvedor Full Stack Jr
+company: Entende.ai
+relation:
+  kind: classmate
+  label:
+    pt-br: estudamos juntos no Transforme-se
+    en-us: we studied together at Transforme-se
+  organization: serasa-experian
+  education: senac-systems-programmer
+date: "2026-06-21"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/joao-victor-sitta.jpg
+excerpt:
+  pt-br: "Victor possui uma característica que admiro muito: sabe liderar sem deixar de ouvir."
+  en-us: "Victor has a trait I really admire: he knows how to lead without ceasing to listen."
+text:
+  pt-br:
+    - >-
+      Tive a satisfação de estudar com o Victor no programa Transforme-se e posso dizer que foi uma das
+      pessoas com quem mais aprendi durante essa jornada. Sua inteligência, capacidade de análise e
+      visão estratégica se destacam naturalmente em qualquer atividade ou projeto.
+    - >-
+      Victor possui uma característica que admiro muito: sabe liderar sem deixar de ouvir. Ele
+      valoriza diferentes pontos de vista, incentiva a participação de todos e, quando necessário, sabe
+      se posicionar com segurança e tomar decisões. Essa combinação de escuta, respeito e liderança faz
+      com que seja uma referência para quem trabalha ao seu lado.
+    - >-
+      Além de ser extremamente competente no que faz, é uma pessoa dedicada, confiável e comprometida
+      com a excelência. Gostei muito de conhecê-lo e de compartilhar essa experiência de aprendizado.
+      Tenho certeza de que continuará alcançando grandes resultados e contribuindo positivamente por
+      onde passar. Recomendo o Victor com total confiança.
+  en-us:
+    - >-
+      I had the satisfaction of studying with Victor in the Transforme-se program and can say he was
+      one of the people I learned the most from on that journey. His intelligence, analytical skills and
+      strategic vision stand out naturally in any activity or project.
+    - >-
+      Victor has a trait I really admire: he knows how to lead without ceasing to listen. He values
+      different points of view, encourages everyone to take part and, when needed, knows how to take a
+      stand with confidence and make decisions. This combination of listening, respect and leadership
+      makes him a reference for those who work alongside him.
+    - >-
+      Besides being extremely competent at what he does, he is a dedicated, reliable person committed
+      to excellence. I really enjoyed meeting him and sharing this learning experience. I am sure he
+      will keep achieving great results and contributing positively wherever he goes. I recommend
+      Victor with full confidence.

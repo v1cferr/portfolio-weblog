@@ -1,0 +1,57 @@
+# Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
+# LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
+id: rian-ramos-gomes
+name: Rian Ramos Gomes
+jobTitle: Analista de segurança da informação Pleno
+company: Keeggo
+relation:
+  kind: teammate
+  label:
+    pt-br: trabalhamos juntos na Xmart
+    en-us: we worked together at Xmart
+  organization: xmart-solutions
+  experience: xmart-solutions-2024
+date: "2025-06-04"
+language: pt-br
+url: https://www.linkedin.com/in/v1cferr/details/recommendations/
+photo: /recommendations/rian-ramos-gomes.jpg
+excerpt:
+  pt-br: >-
+    No front-end, demonstrou profundo conhecimento em React e teve papel fundamental na migração para
+    Tailwind, trazendo mais eficiência, padronização e escalabilidade ao código.
+  en-us: >-
+    On the front end, he showed deep knowledge of React and played a key role in the migration to
+    Tailwind, bringing more efficiency, standardization and scalability to the code.
+text:
+  pt-br:
+    - >-
+      Tive o prazer de trabalhar com o Victor na área de desenvolvimento full stack e posso afirmar que
+      ele é um profissional extremamente comprometido, organizado e detalhista. Suas entregas sempre
+      foram pontuais, com excelente qualidade e documentação clara, o que contribuía diretamente para a
+      fluidez dos projetos.
+    - >-
+      No front-end, demonstrou profundo conhecimento em React e teve papel fundamental na migração para
+      Tailwind, trazendo mais eficiência, padronização e escalabilidade ao código. Além disso, mantinha
+      uma postura proativa, constantemente estudando e propondo melhorias para otimizar a experiência
+      do usuário.
+    - >-
+      Victor também se destaca pelo seu espírito colaborativo. Está sempre disposto a ajudar, ouvir
+      sugestões e contribuir para o crescimento do time. Profissional íntegro, acessível e
+      tecnicamente muito bem preparado. Recomendo fortemente.
+  en-us:
+    - >-
+      I had the pleasure of working with Victor in full stack development and can say he is an
+      extremely committed, organized and detail-oriented professional. His deliveries were always on
+      time, of excellent quality and with clear documentation, which contributed directly to the flow
+      of the projects.
+    - >-
+      On the front end, he showed deep knowledge of React and played a key role in the migration to
+      Tailwind, bringing more efficiency, standardization and scalability to the code. He also kept a
+      proactive attitude, constantly studying and proposing improvements to optimize the user
+      experience.
+    - >-
+      Victor also stands out for his collaborative spirit. He is always willing to help, listen to
+      suggestions and contribute to the team's growth. A professional of integrity, approachable and
+      technically very well prepared. I strongly recommend him.
