@@ -16,7 +16,7 @@ import { localeNames } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
 import { formatPartialDate } from "@/lib/dates";
 import { languageTag } from "@/lib/i18n";
-import { pageOpenGraph } from "@/lib/metadata";
+import { pageOpenGraph, publishDateMeta } from "@/lib/metadata";
 import { absoluteUrl } from "@/lib/site";
 import { PERSON_ID } from "@/lib/structured-data";
 
@@ -50,6 +50,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/weblog/[
       ...(post.frontmatter.updatedAt !== undefined && { modifiedTime: post.frontmatter.updatedAt }),
       tags: post.frontmatter.tags,
     },
+    other: publishDateMeta(post.frontmatter.publishedAt),
   };
 }
 

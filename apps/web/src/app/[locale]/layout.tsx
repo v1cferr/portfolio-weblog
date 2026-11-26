@@ -23,7 +23,7 @@ import { Spotlight } from "@/components/motion/spotlight";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { languageAlternates, languageTag } from "@/lib/i18n";
-import { pageOpenGraph, xHandle } from "@/lib/metadata";
+import { pageOpenGraph, publishDateMeta, siteUpdatedAt, xHandle } from "@/lib/metadata";
 import { SITE_URL } from "@/lib/site";
 
 // Type (docs/decisions/0016-geist-type.md): Geist, Vercel's typeface, for
@@ -86,6 +86,8 @@ export async function generateMetadata(): Promise<Metadata> {
     // The site card comes from opengraph-image.tsx next to this layout.
     openGraph: { type: "website", ...pageOpenGraph(locale, "/") },
     // X falls back to the Open Graph title, description and image.
+    // Pages inherit the site's date; a post replaces it with its own.
+    other: publishDateMeta(siteUpdatedAt()),
     twitter: { card: "summary_large_image", ...(handle !== undefined && { site: handle, creator: handle }) },
     // icon.svg switches its own colour (black on light themes, white on dark);
     // favicon.ico and the Apple icon are opaque tiles for clients without SVG.
