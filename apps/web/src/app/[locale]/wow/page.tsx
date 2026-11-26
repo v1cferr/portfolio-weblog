@@ -1,6 +1,6 @@
 import { localize, type LocalizedText, type WowRuleset } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
-import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@workspace/ui/components/empty";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@workspace/ui/components/empty";
 import { BirdIcon, ExternalLinkIcon, Gamepad2Icon, PuzzleIcon, SwordsIcon, UserRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -160,7 +160,6 @@ export default async function WowPage() {
             <SwordsIcon aria-hidden />
           </EmptyMedia>
           <EmptyTitle>{t("emptyTitle")}</EmptyTitle>
-          <EmptyDescription>{t("emptyDescription")}</EmptyDescription>
         </EmptyHeader>
       </Empty>
     ) : (
@@ -182,10 +181,9 @@ export default async function WowPage() {
 
       <div className="space-y-14">
         <section aria-labelledby="wow-forever">
-          <SectionHeading id="wow-forever" icon={SwordsIcon}>
+          <SectionHeading id="wow-forever" icon={SwordsIcon} info={t("foreverNote")}>
             {t("forever")}
           </SectionHeading>
-          <p className="mb-5 max-w-3xl text-pretty text-muted-foreground">{t("foreverNote")}</p>
           {characters(forever, t("forever"))}
         </section>
 
@@ -232,11 +230,10 @@ export default async function WowPage() {
 
         {addons !== undefined && wow.addons !== undefined && (
           <section aria-labelledby="wow-addons">
-            <SectionHeading id="wow-addons" icon={PuzzleIcon}>
-              {t("addons")}
-            </SectionHeading>
-            <p className="mb-2 max-w-3xl text-pretty text-muted-foreground">
-              {t.rich("addonsNote", {
+            <SectionHeading
+              id="wow-addons"
+              icon={PuzzleIcon}
+              info={t.rich("addonsNote", {
                 count: addons.total,
                 nix: (chunks) => (
                   <ExternalLink href={wow.addons?.package} className="text-foreground underline underline-offset-4 hover:text-lane-project">
@@ -244,7 +241,9 @@ export default async function WowPage() {
                   </ExternalLink>
                 ),
               })}
-            </p>
+            >
+              {t("addons")}
+            </SectionHeading>
             {addons.source === "snapshot" && <p className="mb-2 text-sm text-muted-foreground">{t("addonsSnapshot")}</p>}
             <div className="mt-6 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
               {addons.groups.map((group) => {

@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Decisions");
   return {
     title: t("title"),
-    description: t("description"),
+    description: `${t("description")} ${t("descriptionInfo")}`,
     alternates: pageAlternates(locale, "/decisions"),
     openGraph: { type: "website", ...pageOpenGraph(locale, "/decisions"), images: await siteOpenGraphImages(locale) },
   };
@@ -37,6 +37,7 @@ export default async function DecisionsPage() {
         icon={ScrollTextIcon}
         title={t("title")}
         description={t("description")}
+        info={t("descriptionInfo")}
       />
 
       <ol aria-label={t("list")} className="max-w-3xl space-y-4">

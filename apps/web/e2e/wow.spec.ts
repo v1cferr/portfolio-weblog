@@ -35,7 +35,9 @@ test.describe("/wow", () => {
     await page.goto("/en-us/wow");
     const addons = page.locator('section[aria-labelledby="wow-addons"]');
     await expect(addons.getByRole("heading", { level: 2, name: "Add-ons" })).toBeVisible();
-    await expect(addons.getByRole("link", { name: /Nix derivation/ })).toHaveAttribute(
+    // The note with the derivation link sits behind the section's "i".
+    await addons.getByRole("button", { name: "More information" }).click();
+    await expect(page.locator("[data-info-tip-content]").getByRole("link", { name: /Nix derivation/ })).toHaveAttribute(
       "href",
       /^https:\/\/github\.com\/v1cferr\/dotfiles\/.*wow-addons/
     );

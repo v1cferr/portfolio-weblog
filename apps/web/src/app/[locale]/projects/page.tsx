@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Projects");
   return {
     title: t("title"),
-    description: t("description"),
+    description: `${t("description")} ${t("descriptionInfo")}`,
     alternates: pageAlternates(locale, "/projects"),
     openGraph: { type: "website", ...pageOpenGraph(locale, "/projects") },
   };
@@ -63,13 +63,20 @@ export default async function ProjectsPage() {
 
   return (
     <PageTransition>
-      <PageHeader source={{ path: "projects" }} icon={FolderGit2Icon} title={t("title")} description={t("description")} />
+      <PageHeader
+        source={{ path: "projects" }}
+        icon={FolderGit2Icon}
+        title={t("title")}
+        description={t("description")}
+        info={t("descriptionInfo")}
+      />
       <ProjectCatalog projects={cards} technologies={technologies} />
 
       {uncurated.length > 0 && (
         <section aria-labelledby="uncurated" className="mt-20">
-          <SectionHeading id="uncurated">{t("uncurated")}</SectionHeading>
-          <p className="mb-6 max-w-2xl text-sm text-muted-foreground">{t("uncuratedDescription")}</p>
+          <SectionHeading id="uncurated" info={t("uncuratedDescription")}>
+            {t("uncurated")}
+          </SectionHeading>
           {/* The first few stay in view; the rest fold away, newest first either way. */}
           <ul className="divide-y border-y">
             {uncurated.slice(0, UNCURATED_VISIBLE).map((repo) => (

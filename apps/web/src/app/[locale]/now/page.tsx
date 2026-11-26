@@ -11,6 +11,7 @@ import { NowList } from "@/features/now/now-list";
 import { NowStamp } from "@/features/now/now-stamp";
 import { Link } from "@/i18n/navigation";
 import { formatPartialDate } from "@/lib/dates";
+import { InfoTip } from "@/components/info-tip";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { getNow, latestNow, writtenNow } from "@/lib/now";
@@ -63,9 +64,12 @@ export default async function NowPage() {
             )}
           >
             <header className="space-y-1.5">
-              <h2 id="latest-update" className="font-display text-2xl font-semibold tracking-tight">
-                <time dateTime={latest.entry.date}>{formatPartialDate(latest.entry.date, locale)}</time>
-              </h2>
+              <div className="flex items-center gap-1">
+                <h2 id="latest-update" className="font-display text-2xl font-semibold tracking-tight">
+                  <time dateTime={latest.entry.date}>{formatPartialDate(latest.entry.date, locale)}</time>
+                </h2>
+                <InfoTip align="start">{t("derived")}</InfoTip>
+              </div>
               {latest.age.stale && <NowStamp date={latest.entry.date} age={latest.age} />}
             </header>
             {latest.note !== undefined && (
@@ -74,15 +78,14 @@ export default async function NowPage() {
               </p>
             )}
             <NowList items={[...latest.written, ...latest.derived]} label={t("items")} className="text-lg" />
-            <footer className="space-y-2 border-t pt-4 text-sm text-muted-foreground">
-              {latest.entry.place !== undefined && (
+            {latest.entry.place !== undefined && (
+              <footer className="border-t pt-4 text-sm text-muted-foreground">
                 <p className="flex items-center gap-1.5">
                   <MapPinIcon aria-hidden className="size-3.5" />
                   {t("place", { place: latest.entry.place })}
                 </p>
-              )}
-              <p>{t("derived")}</p>
-            </footer>
+              </footer>
+            )}
           </article>
 
           {earlier.length > 0 && (
