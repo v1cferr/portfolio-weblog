@@ -95,3 +95,38 @@ test.describe("studies and languages from LinkedIn", () => {
     await expect(languages).not.toContainText("Intermediário");
   });
 });
+
+test.describe("official logos of the LinkedIn organizations", () => {
+  for (const [path, entry, id, src] of [
+    ["/en-us/education", "#hackers-do-bem-cybersecurity", "hackers-do-bem", "/company-logos/hackers-do-bem.svg"],
+    ["/en-us/education", "#senai-privacy-data-protection", "senai", "/company-logos/senai.svg"],
+    ["/en-us/about", '[data-testid="about-volunteering"]', "prefeitura-sao-carlos", "/company-logos/prefeitura-sao-carlos.png"],
+  ] as const) {
+    test(`${id} shows its logo, not initials`, async ({ page }) => {
+      await page.goto(path);
+      const logo = page.locator(`${entry} [data-organization="${id}"] img`).first();
+      await expect(logo).toHaveAttribute("src", src);
+      // The image loaded: a broken path would leave it at zero width.
+      expect(await logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    });
+  }
+
+  test("the navy Hackers do Bem and SENAI marks switch to their dark-theme variants", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/en-us/education");
+    for (const id of ["hackers-do-bem", "senai"]) {
+      const mark = page.locator(`[data-organization="${id}"]`).first();
+      await expect(mark.locator(`img[src="/company-logos/${id}-dark.svg"]`)).toBeVisible();
+      await expect(mark.locator(`img[src="/company-logos/${id}.svg"]`)).toBeHidden();
+    }
+  });
+
+  // Freelance work has no organization, so no logo: its initials are expected.
+  test("no organization mark falls back to initials", async ({ page }) => {
+    for (const path of ["/en-us/education", "/en-us/about", "/en-us/career", "/en-us/timeline"]) {
+      await page.goto(path);
+      await expect(page.locator("[data-organization]").first()).toBeAttached();
+      await expect(page.locator('[data-organization]:not([data-organization="independent"]):not(:has(img))'), path).toHaveCount(0);
+    }
+  });
+});

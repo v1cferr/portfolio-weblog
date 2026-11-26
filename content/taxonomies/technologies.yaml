@@ -39,6 +39,8 @@
 - { id: docker, name: Docker, category: infrastructure, icon: "si:docker" }
 - { id: aws, name: AWS, category: infrastructure, icon: "lucide:cloud" }
 - { id: nixos, name: NixOS, category: infrastructure, url: "https://nixos.org/", icon: "si:nixos" }
+- { id: linux, name: Linux, category: infrastructure, url: "https://kernel.org/", icon: "si:linux" }
+- { id: arch-linux, name: Arch Linux, category: infrastructure, url: "https://archlinux.org/", icon: "si:archlinux" }
 - { id: vercel, name: Vercel, category: platform, icon: "si:vercel" }
 - { id: vscode, name: VS Code, category: tool, icon: "dv:vscode" }
 - { id: figma, name: Figma, category: tool, icon: "si:figma" }
@@ -64,6 +66,8 @@
 - { id: ai-agents, name: AI agents, category: ai, icon: "lucide:bot" }
 - { id: tool-calling, name: Tool calling, category: ai, icon: "lucide:wrench" }
 - { id: llmops, name: LLMOps, category: practice, icon: "lucide:activity" }
+- { id: machine-learning, name: Machine learning, category: ai, icon: "lucide:brain-circuit" }
+- { id: deep-learning, name: Deep learning, category: ai, icon: "lucide:layers" }
 
 # Practices
 - { id: scrumban, name: Scrumban, category: practice, icon: "lucide:kanban" }

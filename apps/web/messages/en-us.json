@@ -422,6 +422,8 @@
     "issued": "Issued {date}",
     "credential": "Credential",
     "projects": "Projects from this program",
+    "milestones": "Milestones",
+    "milestonePost": "LinkedIn post",
     "state": {
       "ongoing": "Ongoing",
       "completed": "Completed",

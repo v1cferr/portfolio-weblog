@@ -82,6 +82,13 @@ learnings:
 technologies: [python, fastapi, rag, llm, local-llms, prompt-engineering, ai-agents, tool-calling, llmops]
 skills: [ai-systems, api-development, automation, technical-documentation, software-development]
 
+# The owner's LinkedIn post announcing the selection (2026-04-10, read 2026-11-26).
+evidence:
+  - label: LinkedIn
+    url: https://www.linkedin.com/feed/update/urn:li:activity:7448425848514453504/
+    kind: article
+    icon: "dv:linkedin"
+
 # Photos shared by the author on 2026-11-23, resized and stripped of metadata;
 # screens on the desk and the ID badge are blurred; the selection result keeps
 # only the header and the author's own row (other candidates and the

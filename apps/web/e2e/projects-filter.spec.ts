@@ -154,11 +154,13 @@ test.describe("project cards", () => {
 
   test("technologies that share a logo show it once, naming them all", async ({ page, isMobile }) => {
     await page.goto("/en-us/projects");
-    // dotfiles lists Nix and NixOS, both drawn with the NixOS snowflake.
+    // dotfiles lists Nix and NixOS, both drawn with the NixOS snowflake, then Linux and Arch Linux.
     const stack = card(page, "dotfiles").getByRole("list", { name: "Technologies" });
-    await expect(stack.getByTestId("project-tech")).toHaveCount(1);
+    await expect(stack.getByTestId("project-tech")).toHaveCount(3);
     const icon = stack.getByRole("img", { name: "Nix · NixOS" });
+    await expect(icon).toHaveCount(1);
     await expect(icon).toBeVisible();
+    await expect(stack.getByRole("img", { name: "NixOS", exact: true })).toHaveCount(0);
     if (isMobile) return; // tooltips open on hover
     await page.waitForLoadState("networkidle");
     await icon.hover();

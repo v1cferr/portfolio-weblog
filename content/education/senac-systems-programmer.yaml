@@ -28,6 +28,30 @@ summary:
 # DRAFT from LinkedIn (2026-11-25); owner to review: the DebtView project page.
 projects: [debtview]
 
+# The owner's own LinkedIn posts, read 2026-11-26; each date is the post's
+# (decoded from its activity id), not necessarily the day the step ended.
+milestones:
+  - date: 2025-10-30
+    title:
+      en-us: Finished Basic Computing, in person at Senac São Carlos
+      pt-br: Concluí Informática Básica, presencial no Senac São Carlos
+    post: https://www.linkedin.com/feed/update/urn:li:activity:7389722092432261121/
+  - date: 2025-12-12
+    title:
+      en-us: Finished Programming Logic
+      pt-br: Concluí Lógica de Programação
+    post: https://www.linkedin.com/feed/update/urn:li:activity:7405252239398768640/
+  - date: 2026-01-26
+    title:
+      en-us: Finished Financial Education and passed to the program's second phase
+      pt-br: Concluí Educação Financeira e passei para a segunda fase do programa
+    post: https://www.linkedin.com/feed/update/urn:li:activity:7421361665142652928/
+  - date: 2026-02-20
+    title:
+      en-us: Started the second phase
+      pt-br: Comecei a segunda fase
+    post: https://www.linkedin.com/feed/update/urn:li:activity:7430650420630274048/
+
 media:
   - src: /education/transforme-se/certificate.jpg
     width: 1712
