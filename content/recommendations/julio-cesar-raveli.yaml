@@ -1,7 +1,7 @@
 # Source: the owner's LinkedIn recommendations page, read on 2026-11-25 (visible to all
 # LinkedIn members). The pt-br text is the recommender's, verbatim; en-us is a translation.
-# Published with the recommender's permission. A photo, when the owner adds one, goes to
-# apps/web/public/recommendations/julio-cesar-raveli.jpg and is referenced as `photo`.
+# Published with the recommender's permission, photo included (their LinkedIn photo, shared by
+# the owner on 2026-11-25, resized to 256x256 and stripped of metadata).
 id: julio-cesar-raveli
 name: Júlio César Raveli
 jobTitle: Líder de Tecnologia
@@ -17,6 +17,7 @@ date: "2025-05-20"
 language: pt-br
 url: https://www.linkedin.com/in/v1cferr/details/recommendations/
 featured: 1
+photo: /recommendations/julio-cesar-raveli.jpg
 excerpt:
   pt-br: >-
     Extremamente organizado com as tarefas e fazia questão de documentar todos os itens com vídeos
