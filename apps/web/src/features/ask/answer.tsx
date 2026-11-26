@@ -6,8 +6,10 @@ import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Fragment } from "react";
 
+import { InfoTip } from "@/components/info-tip";
 import type { AskSource } from "@/lib/ask/protocol";
 
+import { PendingSteps, StepsSummary } from "./steps";
 import type { Turn } from "./turn";
 
 /**
@@ -24,27 +26,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   const streaming = turn.phase === "searching" || turn.phase === "streaming";
   const byNumber = new Map(turn.sources.flatMap((source) => (source.n === null ? [] : [[source.n, source] as const])));
 
-  if (turn.phase === "searching") {
-    if (turn.reading !== undefined && turn.reading.length > 0) {
-      return (
-        <div aria-busy="true" className="flex flex-col gap-1.5 text-sm text-muted-foreground" data-testid="ask-reading">
-          <p className="motion-safe:animate-pulse">{t("status.reading", { count: turn.reading.length })}</p>
-          <ul className="flex flex-wrap gap-1.5">
-            {turn.reading.map((page) => (
-              <li key={page.url} className="rounded-md border bg-muted/50 px-2 py-0.5 text-xs">
-                {page.title}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    }
-    return (
-      <p aria-busy="true" className="text-sm text-muted-foreground motion-safe:animate-pulse">
-        {t("status.searching")}
-      </p>
-    );
-  }
+  if (turn.phase === "searching") return <PendingSteps turn={turn} onNavigate={onNavigate} />;
   if (turn.phase === "failed") {
     return (
       <p role="alert" className="text-sm text-destructive">
@@ -83,6 +65,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   if (turn.mode === "unknown") {
     return (
       <div className="flex flex-col gap-2" data-testid="ask-unknown">
+        <StepsSummary turn={turn} onNavigate={onNavigate} />
         <AiLabel />
         <div className="flex flex-col gap-1 rounded-lg bg-muted/50 p-3 text-sm">
           <p className="font-medium">{t("unknown.title")}</p>
@@ -109,6 +92,7 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
 
   return (
     <div className="flex flex-col gap-3" aria-busy={streaming} data-testid="ask-answer">
+      <StepsSummary turn={turn} onNavigate={onNavigate} />
       <AiLabel />
       <p className="text-sm leading-relaxed whitespace-pre-line">
         {turn.parts.map((part, index) =>
@@ -128,22 +112,30 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
       {turn.phase === "stopped" && <p className="text-xs text-muted-foreground">{t("stoppedNote")}</p>}
       {turn.interrupted === true && <p className="text-xs text-destructive">{t("interrupted")}</p>}
       {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("sources")} />}
-      {!streaming && <p className="text-xs text-muted-foreground">{t("disclosure")}</p>}
     </div>
   );
 }
 
-/** Says who wrote the answer: AI, in the owner's voice, so nobody takes it for the owner typing. */
+/**
+ * Says who wrote the answer: AI, in the owner's voice, so nobody takes it for
+ * the owner typing. The "may be wrong, check the sources" note is behind the
+ * "i" next to it.
+ */
 function AiLabel() {
   const t = useTranslations("Ask");
   return (
-    <p
-      className="inline-flex items-center gap-1.5 self-start rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
-      data-testid="ask-ai-label"
-    >
-      <SparklesIcon aria-hidden className="size-3.5 shrink-0 text-primary" />
-      {t("aiLabel")}
-    </p>
+    <div className="flex items-center gap-1 self-start">
+      <p
+        className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-xs font-medium text-muted-foreground"
+        data-testid="ask-ai-label"
+      >
+        <SparklesIcon aria-hidden className="size-3.5 shrink-0 text-primary" />
+        {t("aiLabel")}
+      </p>
+      <InfoTip label={t("aiInfoLabel")} side="top" align="start" className="max-sm:size-11">
+        <span data-testid="ask-disclosure">{t("disclosure")}</span>
+      </InfoTip>
+    </div>
   );
 }
 
