@@ -166,17 +166,15 @@
     pt-br: Um programa federal brasileiro de formação em cibersegurança.
 
 - id: senai
-  name: SENAI
+  name: SENAI-SP
   kind: school
-  url: https://www.senai.portaldaindustria.com.br/
-  # SENAI's own wordmark, the inline SVG symbol "ds-logo-senai" of its national
-  # portal (fetched 2026-11-26), not the portal's favicon, which is the "Si"
-  # mark of the whole Sistema Indústria. SENAI has no separate square symbol.
-  # https://www.senai.portaldaindustria.com.br/para-voce
+  url: https://www.sp.senai.br/
+  # The preferred mark (white SENAI on the red #e30613 block) from SENAI-SP's
+  # visual identity manual, "Revisão marketing 2021", page 5, exported as vector
+  # (fetched 2026-11-26; pointed out by the owner):
+  # https://www.sp.senai.br/noticia/manual-de-identidade-visual
+  # The manual uses this same red mark on dark backgrounds, so it has no dark variant.
   logo: /company-logos/senai.svg
-  # The navy letters vanish on a dark page: its negative version, white letters
-  # with the orange accent kept.
-  logoDark: /company-logos/senai-dark.svg
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
 # volunteered.
