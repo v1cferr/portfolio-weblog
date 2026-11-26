@@ -21,6 +21,13 @@ async function listenForAsk(page: Page) {
 const asks = (page: Page) => page.evaluate(() => (window as unknown as { __asks: unknown[] }).__asks);
 
 test.describe("home hero", () => {
+  test("shows the owner's pronouns next to the handle, in the page's language", async ({ page }) => {
+    await page.goto("/en-us");
+    await expect(page.getByTestId("pronouns")).toHaveText("he/him");
+    await page.goto("/pt-br");
+    await expect(page.getByTestId("pronouns")).toHaveText("ele/dele");
+  });
+
   test("has Ask and Contact buttons, and no CV link or availability badge while the profile sets none", async ({ page }) => {
     await page.goto("/en-us");
     const hero = page.locator("main section").first();
