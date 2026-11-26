@@ -95,6 +95,8 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     return;
   }
 
+  // The model has replied: what is left is checking its answer against the pages.
+  yield { type: "checking" };
   const grounded = groundAnswer(result.content, passages);
   if (grounded === null) {
     context.log?.(`invalid_answer model=${result.model}`);

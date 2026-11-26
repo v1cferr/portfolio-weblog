@@ -63,6 +63,7 @@
     "close": "Close",
     "title": "Ask about my work",
     "description": "Answers come only from this site's pages, with links to them.",
+    "aboutLabel": "About these answers",
     "placeholder": "Ask about my work…",
     "submit": "Ask",
     "stop": "Stop",
@@ -77,13 +78,23 @@
     ],
     "you": "You asked",
     "aiLabel": "AI, on my behalf",
+    "aiInfoLabel": "About this AI answer",
     "status": {
       "searching": "Searching the site…",
       "ready": "Answer ready.",
       "noSource": "Nothing on the site answers this.",
       "stopped": "Stopped.",
-      "error": "The answer could not be loaded.",
-      "reading": "Reading {count, plural, one {# page} other {# pages}} of the site and writing the answer…"
+      "error": "The answer could not be loaded."
+    },
+    "steps": {
+      "label": "How I got to the answer",
+      "searching": "Searching the site…",
+      "searched": "Searched the site",
+      "read": "Read {count, plural, one {# page} other {# pages}}",
+      "writing": "Writing the answer…",
+      "wrote": "Wrote the answer",
+      "checked": "Checked the sources",
+      "seconds": "{seconds} s"
     },
     "extractive": {
       "label": "From the site's pages, no AI",

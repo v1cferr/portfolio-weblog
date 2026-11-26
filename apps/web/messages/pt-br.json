@@ -63,6 +63,7 @@
     "close": "Fechar",
     "title": "Pergunte sobre o meu trabalho",
     "description": "As respostas vêm apenas das páginas deste site, com links para elas.",
+    "aboutLabel": "Sobre estas respostas",
     "placeholder": "Pergunte sobre o meu trabalho…",
     "submit": "Perguntar",
     "stop": "Parar",
@@ -77,13 +78,23 @@
     ],
     "you": "Você perguntou",
     "aiLabel": "IA, em meu nome",
+    "aiInfoLabel": "Sobre esta resposta por IA",
     "status": {
       "searching": "Buscando no site…",
       "ready": "Resposta pronta.",
       "noSource": "Nada no site responde a isso.",
       "stopped": "Interrompido.",
-      "error": "Não foi possível carregar a resposta.",
-      "reading": "Lendo {count, plural, one {# página} other {# páginas}} do site e escrevendo a resposta…"
+      "error": "Não foi possível carregar a resposta."
+    },
+    "steps": {
+      "label": "Como cheguei à resposta",
+      "searching": "Buscando no site…",
+      "searched": "Busquei no site",
+      "read": "Li {count, plural, one {# página} other {# páginas}}",
+      "writing": "Escrevendo a resposta…",
+      "wrote": "Escrevi a resposta",
+      "checked": "Conferi as fontes",
+      "seconds": "{seconds} s"
     },
     "extractive": {
       "label": "Das páginas do site, sem IA",
