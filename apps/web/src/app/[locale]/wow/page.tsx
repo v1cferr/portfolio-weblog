@@ -7,12 +7,14 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
 import { SourceLink } from "@/components/source-link";
 import type { Locale } from "@/i18n/routing";
 import { type CharacterView, getCharacterViews, getPlayableNames } from "@/lib/blizzard";
+import { anchorId } from "@/lib/anchors";
 import { formatPartialDate } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
@@ -44,6 +46,11 @@ const RULESET_KEY: Record<WowRuleset, "normal" | "pvp" | "rp" | "rpPvp" | "hardc
 
 /** Wowhead's own locale prefixes. */
 const WOWHEAD_LOCALE: Record<Locale, string> = { "en-us": "", "pt-br": "pt/", "zh-cn": "cn/" };
+
+/** A character's anchor on /wow: game, name and realm (or surname), e.g. `wow-retail-viictororc-gallywix`. */
+function characterId({ character }: CharacterView): string {
+  return anchorId("wow", character.game, character.name, character.game === "forever" ? character.surname : character.realm);
+}
 
 async function CharacterCard({
   view,
@@ -80,7 +87,7 @@ async function CharacterCard({
   const faction = live?.faction ?? character.faction;
   const note = character.note && localize(character.note, locale);
   return (
-    <article className="glass flex h-full min-w-0 gap-4 rounded-xl border p-4">
+    <article id={characterId(view)} data-anchor="" className="group/anchor glass flex h-full min-w-0 gap-4 rounded-xl border p-4">
       {live?.renderUrl !== undefined ? (
         <Image src={live.renderUrl} alt="" width={64} height={64} className="size-16 shrink-0 rounded-lg border bg-muted object-cover" />
       ) : (
@@ -88,11 +95,14 @@ async function CharacterCard({
           <UserRoundIcon className="size-6" />
         </span>
       )}
-      <div className="min-w-0 space-y-1">
-        <h3 className="flex flex-wrap items-center gap-2 font-medium">
-          {fullName}
-          {character.main && <Badge variant="now">{t("main")}</Badge>}
-        </h3>
+      <div className="min-w-0 flex-1 space-y-1">
+        <div className="flex items-start gap-1">
+          <h3 id={`${characterId(view)}-name`} className="flex flex-1 flex-wrap items-center gap-2 font-medium">
+            {fullName}
+            {character.main && <Badge variant="now">{t("main")}</Badge>}
+          </h3>
+          <CopyLink id={characterId(view)} nameId={`${characterId(view)}-name`} />
+        </div>
         <p className="text-sm text-muted-foreground">
           {[level !== undefined ? t("level", { level }) : undefined, raceClass || undefined].filter(Boolean).join(" · ")}
         </p>
@@ -165,10 +175,7 @@ export default async function WowPage() {
     ) : (
       <ul className="grid gap-3 sm:grid-cols-2" aria-label={t("charactersLabel", { game })}>
         {list.map((view) => (
-          <li
-            className="min-w-0"
-            key={`${view.character.region}:${view.character.name}:${view.character.game === "forever" ? view.character.surname : view.character.realm}`}
-          >
+          <li className="min-w-0" key={characterId(view)}>
             <CharacterCard view={view} locale={locale} syncedAt={wow.syncedAt} names={names} />
           </li>
         ))}
@@ -207,7 +214,13 @@ export default async function WowPage() {
                 const name = localize(wish.name, locale);
                 const note = wish.note && localize(wish.note, locale);
                 return (
-                  <li key={wish.wowheadItem} className="glass space-y-1 rounded-xl border p-4">
+                  <li
+                    key={wish.wowheadItem}
+                    id={anchorId("wow-wish", wish.wowheadItem)}
+                    data-anchor=""
+                    className="group/anchor glass relative space-y-1 rounded-xl border p-4 pr-10"
+                  >
+                    <CopyLink id={anchorId("wow-wish", wish.wowheadItem)} name={name.value} className="absolute top-4 right-3" />
                     <ExternalLink
                       href={`https://www.wowhead.com/${WOWHEAD_LOCALE[locale]}item=${String(wish.wowheadItem)}`}
                       className="inline-flex items-start gap-1.5 font-medium hover:text-lane-project"
@@ -249,14 +262,18 @@ export default async function WowPage() {
               {addons.groups.map((group) => {
                 const title = group.title === undefined ? undefined : localize(group.title, locale);
                 return (
-                  <section key={group.id} aria-labelledby={`addons-${group.id}`}>
-                    <h3
-                      id={`addons-${group.id}`}
-                      className="mb-2 flex items-baseline justify-between gap-3 border-b pb-1.5 font-mono text-xs tracking-wide text-muted-foreground uppercase"
-                    >
-                      <span lang={title?.locale}>{title?.value ?? t("otherGroup")}</span>
-                      <span className="tabular-nums normal-case">{t("addonCount", { count: group.addons.length })}</span>
-                    </h3>
+                  <section key={group.id} aria-labelledby={`addons-${group.id}`} className="group/anchor">
+                    <div className="mb-2 flex items-center gap-1 border-b pb-1.5">
+                      <h3
+                        id={`addons-${group.id}`}
+                        data-anchor=""
+                        className="flex flex-1 items-baseline justify-between gap-3 font-mono text-xs tracking-wide text-muted-foreground uppercase"
+                      >
+                        <span lang={title?.locale}>{title?.value ?? t("otherGroup")}</span>
+                        <span className="tabular-nums normal-case">{t("addonCount", { count: group.addons.length })}</span>
+                      </h3>
+                      <CopyLink id={`addons-${group.id}`} name={title?.value ?? t("otherGroup")} />
+                    </div>
                     <ul className="text-sm">
                       {group.addons.map((addon) => (
                         <li key={addon.id}>
