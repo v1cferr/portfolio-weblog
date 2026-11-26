@@ -48,10 +48,10 @@ function retriever(results: RetrievedPassage[]): Retriever & { calls: string[] }
   };
 }
 
-/** The events of an answer; `reading` (progress only) is left out unless asked for. */
-async function collect(events: AsyncGenerator<AskEvent>, withReading = false) {
+/** The events of an answer; `reading` and `checking` (progress only) are left out unless asked for. */
+async function collect(events: AsyncGenerator<AskEvent>, withProgress = false) {
   const list: AskEvent[] = [];
-  for await (const event of events) if (withReading || event.type !== "reading") list.push(event);
+  for await (const event of events) if (withProgress || (event.type !== "reading" && event.type !== "checking")) list.push(event);
   return list;
 }
 
@@ -395,9 +395,32 @@ describe("ask", () => {
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate }), true);
     expect(events[0]?.type).toBe("reading");
     expect(events[0]?.type === "reading" && events[0].pages.every((page) => page.url.startsWith("/en-us/"))).toBe(true);
-    expect(events[1]).toEqual({ type: "status", mode: "model" });
+    expect(events[1]).toEqual({ type: "checking" });
+    expect(events[2]).toEqual({ type: "status", mode: "model" });
     const withoutModel = await collect(ask(input, { retriever: retriever(PASSAGES), generate: null }), true);
     expect(withoutModel.some((event) => event.type === "reading")).toBe(false);
+  });
+
+  it("says it is checking the answer once the model has replied, and only then", async () => {
+    // Checked against the pages: sent right before the grounding check, whatever the check decides.
+    for (const generate of [
+      fakeModel(answer([{ text: "Victor built a RAG over his notes.", sources: [1] }])),
+      fakeModel(answer([], false)),
+      fakeModel(answer([{ text: "Victor lives on the Moon with penguins.", sources: [1] }])),
+    ]) {
+      const events = await collect(ask(input, { retriever: retriever(PASSAGES), generate }), true);
+      expect(events.map((event) => event.type).slice(0, 3)).toEqual(["reading", "checking", "status"]);
+      expect(events.filter((event) => event.type === "checking")).toHaveLength(1);
+    }
+    // No reply to check: the model failed, there is no model, or nothing matched.
+    for (const context of [
+      { retriever: retriever(PASSAGES), generate: fakeModel(null) },
+      { retriever: retriever(PASSAGES), generate: null },
+      { retriever: retriever([]), generate: fakeModel(answer([])) },
+    ]) {
+      const events = await collect(ask(input, context), true);
+      expect(events.some((event) => event.type === "checking")).toBe(false);
+    }
   });
 
   it("marks an answer partial when the model says the passages cover only part of the question", async () => {
