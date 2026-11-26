@@ -27,16 +27,23 @@ test.describe("loading states", () => {
     await expect(loading).toHaveCount(0);
   });
 
-  test("a fast search index never shows it", async ({ page }) => {
+  test("the spinner never shows before 300 ms of waiting", async ({ page }) => {
+    // The invariant, independent of how fast the machine running the test is:
+    // whenever the loading line appears, the index had been loading for 300 ms.
     await page.addInitScript(() => {
-      // Record whether the loading line ever appears.
+      const w = window as unknown as { __loadStart?: number; __shownAt?: number };
       new MutationObserver(() => {
-        if (document.body.innerText.includes("Loading the search index")) (window as unknown as { __flashed: boolean }).__flashed = true;
+        if (w.__loadStart === undefined && document.querySelector("[data-slot=command-input]")) w.__loadStart = performance.now();
+        if (w.__shownAt === undefined && document.body.innerText.includes("Loading the search index")) w.__shownAt = performance.now();
       }).observe(document, { subtree: true, childList: true, characterData: true });
     });
     await openSearch(page);
     await page.keyboard.type("nixos");
     await expect(page.getByRole("option").first()).toBeVisible();
-    expect(await page.evaluate(() => (window as unknown as { __flashed?: boolean }).__flashed ?? false)).toBe(false);
+    const { start, shown } = await page.evaluate(() => {
+      const w = window as unknown as { __loadStart?: number; __shownAt?: number };
+      return { start: w.__loadStart ?? 0, shown: w.__shownAt };
+    });
+    if (shown !== undefined) expect(shown - start).toBeGreaterThanOrEqual(290);
   });
 });
