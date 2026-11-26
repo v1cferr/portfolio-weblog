@@ -23,6 +23,7 @@ locale. They are lowercase kebab-case ASCII, unique on their page.
 | `/setup`         | Item, current or retired   | `id` of the item in `setup.yaml`       | `mousepad-redragon-alianca`          |
 | `/about`         | Section heading            | Fixed name                             | `stack`, `principles`, `curiosities` |
 | `/about`         | Curiosity                  | `curiosity-<id>`                       | `curiosity-alliance-mousepad`        |
+| `/about`         | Recommendation             | `recommendation-<id>`                  | `recommendation-julio-cesar-raveli`  |
 | `/career`        | Experience                 | Experience id                          | `fai-ufscar-2026`                    |
 | `/career/<id>`   | Section heading            | Fixed name                             | `responsibilities`, `evidence`       |
 | `/education`     | Study, certificate         | Entry id                               | `hackers-do-bem-cybersecurity`       |

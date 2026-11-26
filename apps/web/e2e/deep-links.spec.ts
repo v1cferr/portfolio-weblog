@@ -198,4 +198,10 @@ test.describe("deep links across pages", () => {
     await page.goto("/pt-br/decisions#adr-0001");
     await expectBelowHeader(page, "adr-0001");
   });
+
+  test("a recommendation is linkable on About", async ({ page }) => {
+    await page.goto("/pt-br/about#recommendation-julio-cesar-raveli");
+    await expectBelowHeader(page, "recommendation-julio-cesar-raveli");
+    await expect(page.getByRole("button", { name: /^Copiar link para Júlio César Raveli$/ })).toHaveCount(1);
+  });
 });
