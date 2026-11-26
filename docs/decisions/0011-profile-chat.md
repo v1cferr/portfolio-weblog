@@ -242,3 +242,26 @@ locale, and the chat with it.
   faithfulness cases are mostly first person (third-person pairs remain and must
   still pass), and the pt-br injection probe that asked for the first person now
   asks for another persona, since the first person is the intended voice.
+
+## Revision (2026-11-25, real steps while the model writes)
+
+The model takes 5 to 30 seconds and its reply is buffered, so a pulsing "Reading
+N pages and writing the answer…" left the visitor guessing. The panel now shows
+the steps the server actually reports, never a made-up progress.
+
+- **Protocol.** A `checking` event joins `reading`: it is sent once the model
+  has replied, right before the grounding check. The order is now
+  `[reading → [checking]] → status → (text | cite)* → sources → done`. The check
+  takes milliseconds, so the panel only ever shows it as done.
+- **Step list.** While pending: "Searched the site" ✓, "Read N pages" ✓ with the
+  pages as links, and the live step "Writing the answer…" with a spinner, a
+  shimmering label (prompt-kit's Text Shimmer, CSS only, so LazyMotion strict is
+  untouched) and the elapsed seconds after 3 s. Nothing shows in the first 300
+  ms. The spinner is hidden from assistive technology: the dock's status line
+  already announces the wait. With reduced motion nothing spins or shimmers.
+- **Summary.** When the answer arrives, the steps fold into one line, "Read 3
+  pages · 14 s", that opens to the steps and pages. The turn keeps its start
+  time and duration, so a conversation restored from sessionStorage keeps it.
+- **Notes behind an "i".** Where answers come from and the privacy note moved
+  into one toggletip next to the dock's title; the "may be wrong, check the
+  sources" disclosure into one next to each answer's AI label.
