@@ -86,7 +86,7 @@ test.describe("share cards", () => {
       expect((await meta('property="og:description"'))?.length).toBeGreaterThanOrEqual(100);
       const date = await meta('name="publish_date"');
       expect(date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      expect(date! >= "2026-11-01").toBe(true);
+      expect((date ?? "") >= "2026-11-01").toBe(true);
       expect(await meta('name="og:publish_date"')).toBe(date);
     });
   }
