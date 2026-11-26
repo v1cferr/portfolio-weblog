@@ -11,6 +11,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { HashTarget } from "@/components/anchor/hash-target";
 import { SiteLanguageNotice } from "@/components/fallback-notice";
 import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
@@ -128,6 +129,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
                     {children}
                   </main>
                   <SiteFooter />
+                  <HashTarget />
                   <AskDock />
                 </AskProvider>
               </MotionProvider>
