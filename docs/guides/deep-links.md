@@ -32,6 +32,7 @@ locale. They are lowercase kebab-case ASCII, unique on their page.
 | `/decisions/<n>` | Heading of the record      | Heading slug (rehype-slug)             | `consequences`                       |
 | `/weblog/<slug>` | h2 and h3 of the post      | Heading slug (rehype-slug)             | `content-is-the-source-of-truth`     |
 | `/now`           | Update                     | `now-<date>`                           | `now-2026-11-23`                     |
+| `/projects/<id>` | Repository languages       | Fixed name                             | `languages`                          |
 | `/wow`           | Section heading            | `wow-<section>`                        | `wow-addons`                         |
 | `/wow`           | Character                  | `wow-<game>-<name>-<realm or surname>` | `wow-retail-viictororc-gallywix`     |
 | `/wow`           | Add-on group, wished item  | `addons-<group>`, `wow-wish-<item>`    | `addons-interface`                   |

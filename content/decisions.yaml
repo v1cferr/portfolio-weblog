@@ -190,3 +190,16 @@
       desenhada junta e a fonte da stack em que o site roda. As fontes são hospedadas pelo
       próprio site, então as do sistema do visitante nunca as substituem, a não ser quando o
       leitor escolhe as suas.
+
+"0017":
+  why:
+    en-us: >-
+      Each project shows its repository's languages the way GitHub counts them, read
+      live from GitHub and refreshed once a day, so I never keep that list by hand. A
+      private or deleted repository simply has none, and when GitHub does not answer,
+      the page renders without it.
+    pt-br: >-
+      Cada projeto mostra as linguagens do repositório do jeito que o GitHub conta,
+      lidas ao vivo do GitHub e atualizadas uma vez por dia, então eu nunca mantenho
+      essa lista à mão. Um repositório privado ou apagado simplesmente não tem a seção,
+      e quando o GitHub não responde, a página aparece sem ela.
