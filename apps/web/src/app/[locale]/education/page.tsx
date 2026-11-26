@@ -9,6 +9,7 @@ import { CopyLink } from "@/components/anchor/copy-link";
 import { PageTransition } from "@/components/page-transition";
 import { DateRange, PartialDate } from "@/components/date-range";
 import { EmptyState } from "@/components/empty-state";
+import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
@@ -111,6 +112,39 @@ export default async function EducationPage() {
                   );
                 })}
               </ul>
+            </div>
+          )}
+          {item.milestones.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-medium">{t("milestones")}</h4>
+              <ol className="space-y-1.5 text-sm">
+                {newestFirst(item.milestones, (milestone) => ({ start: milestone.date, end: milestone.date })).map((milestone) => {
+                  // Stable, locale-free anchor: the entry plus the milestone's date.
+                  const anchor = `${item.id}-${milestone.date}`;
+                  const label = localize(milestone.title, locale);
+                  return (
+                    <li key={anchor} id={anchor} data-anchor="" className="group/anchor flex items-baseline gap-3">
+                      <PartialDate date={milestone.date} />
+                      <span className="min-w-0 flex-1">
+                        <span id={`${anchor}-title`} lang={label.locale}>
+                          {label.value}
+                        </span>
+                        {milestone.post !== undefined && (
+                          <ExternalLink
+                            href={milestone.post}
+                            className="group/link ml-1.5 inline-flex items-center gap-1 align-middle text-muted-foreground hover:text-foreground"
+                          >
+                            <ContentLinkIcon link={{ kind: "article", icon: "dv:linkedin", url: milestone.post }} className="size-3.5" />
+                            <span className="sr-only">{t("milestonePost")}</span>
+                            <ExternalLinkIcon className="icon-out size-3" aria-hidden />
+                          </ExternalLink>
+                        )}
+                        <CopyLink id={anchor} nameId={`${anchor}-title`} className="align-middle" />
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
           )}
           <MediaGallery id={item.id} media={item.media} compact />
