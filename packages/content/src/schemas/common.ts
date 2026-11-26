@@ -72,6 +72,18 @@ export const Link = z.strictObject({
 export type Link = z.infer<typeof Link>;
 
 /**
+ * A dated step inside a longer entry (a module finished, a phase passed),
+ * optionally linked to where the owner announced it.
+ */
+export const Milestone = z.strictObject({
+  date: PartialDate,
+  title: LocalizedText,
+  /** The owner's own public post about it. */
+  post: z.url({ protocol: /^https$/ }).optional(),
+});
+export type Milestone = z.infer<typeof Milestone>;
+
+/**
  * A public document that backs facts on a page (an annual report, a press
  * release, a public page), cited as a numbered reference. Facts about the
  * organization stay apart from the owner's own contribution.
