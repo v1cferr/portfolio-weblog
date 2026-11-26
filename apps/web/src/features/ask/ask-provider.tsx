@@ -147,7 +147,8 @@ export function AskProvider({ children }: { children: ReactNode }) {
         .filter((turn) => turn.mode === "model" && turn.phase === "done")
         .slice(-MAX_HISTORY)
         .map((turn) => ({ question: turn.question, answer: answerText(turn) }));
-      const pending: Turn = { id, question: asked, phase: "searching", parts: [], sources: [] };
+      const startedAt = Date.now();
+      const pending: Turn = { id, question: asked, phase: "searching", parts: [], sources: [], startedAt };
       turnsRef.current = [...turnsRef.current, pending];
       setTurns((list) => [...list, pending]);
       setAnnouncement(t("status.searching"));
@@ -173,6 +174,7 @@ export function AskProvider({ children }: { children: ReactNode }) {
                 update(id, (turn) => ({
                   ...turn,
                   phase: "streaming",
+                  elapsedMs: Date.now() - startedAt,
                   mode: event.mode,
                   ...(event.reason && { reason: event.reason }),
                   ...(event.partial && { partial: true }),
@@ -181,6 +183,9 @@ export function AskProvider({ children }: { children: ReactNode }) {
                 break;
               case "reading":
                 update(id, (turn) => ({ ...turn, reading: event.pages }));
+                break;
+              case "checking":
+                update(id, (turn) => ({ ...turn, checked: true }));
                 break;
               case "text":
                 update(id, (turn) => {

@@ -82,6 +82,7 @@ docs/           architecture, decisions (ADRs), guides, migration
 | [Lucide](https://lucide.dev)                               | Lucide contributors       | ISC                                                       | interface icons                               |
 | [circle-flags](https://github.com/HatScripts/circle-flags) | HatScripts                | MIT                                                       | language flags                                |
 | Geist, Geist Mono                                          | their designers           | SIL Open Font License 1.1                                 | type, via Google Fonts                        |
+| [prompt-kit](https://www.prompt-kit.com) Text Shimmer      | ibelick                   | MIT                                                       | the chat's "writing the answer" label         |
 
 ## License
 
