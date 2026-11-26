@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { Maximize2Icon, Minimize2Icon, MinusIcon, SparklesIcon, SquarePenIcon } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -10,12 +11,13 @@ import { flushSync } from "react-dom";
 
 import { InfoTip } from "@/components/info-tip";
 import { openSearch } from "@/features/search/open-search";
+import { useDelayed } from "@/hooks/use-delayed";
 
 import { useAsk } from "./ask-provider";
 
 // The conversation, the answers and their links are only downloaded on the first open; every page ships the launcher.
 const loadConversation = () => import("./ask-conversation");
-const AskConversation = dynamic(loadConversation, { ssr: false });
+const AskConversation = dynamic(loadConversation, { ssr: false, loading: () => <ConversationSkeleton /> });
 
 function preload() {
   void loadConversation();
@@ -203,5 +205,32 @@ export function AskDock() {
         )}
       </div>
     </>
+  );
+}
+
+/**
+ * The dock's body while its code downloads, in the shape of what comes: the
+ * suggestions heading, three suggestions and the question box. Only after
+ * 300 ms, so a fast load (or a cached one) shows nothing.
+ */
+function ConversationSkeleton() {
+  const shown = useDelayed(true);
+  return (
+    <div aria-busy="true" className="flex min-h-0 flex-1 flex-col" data-testid="ask-skeleton">
+      {shown && (
+        <>
+          <div aria-hidden className="flex flex-1 flex-col gap-3 px-3 py-3 sm:px-4">
+            <Skeleton className="h-3 w-28 motion-reduce:animate-none" />
+            {[0, 1, 2].map((row) => (
+              <Skeleton key={row} className="h-11 w-full rounded-lg motion-reduce:animate-none" />
+            ))}
+          </div>
+          <div aria-hidden className="flex items-center gap-2 border-t border-border/60 p-2 sm:p-3">
+            <Skeleton className="h-11 flex-1 rounded-lg motion-reduce:animate-none" />
+            <Skeleton className="h-11 w-24 rounded-lg motion-reduce:animate-none" />
+          </div>
+        </>
+      )}
+    </div>
   );
 }
