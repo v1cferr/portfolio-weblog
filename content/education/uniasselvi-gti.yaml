@@ -1,6 +1,8 @@
 # Source: the author's LinkedIn education entry, shared on 2026-10-10. The
 # course name (Information Technology Management, "GTI") was confirmed by the
 # author on 2026-10-22; the LinkedIn header's "Project Management" is wrong.
+# DRAFT from LinkedIn (2026-11-25); owner to review: the 9.5/10 test score
+# ("Information Technology Project Management", Mar 2025) in the summary.
 id: uniasselvi-gti
 institution: uniasselvi
 kind: degree
@@ -14,11 +16,17 @@ summary:
   en-us: >-
     Higher education technology degree focused on technology management, business processes,
     information systems, IT governance and the strategic use of technology in organizations.
-    Coursework completed in July 2026; degree conferred in August 2026.
+    Coursework completed in July 2026; degree conferred in August 2026. In March 2025 I scored
+    9.5/10 on the Information Technology Project Management assessment: planning, estimation,
+    scheduling, cost control, budgeting, resource allocation, communication, quality management,
+    decision-making and documentation of IT projects.
   pt-br: >-
     Graduação tecnológica com foco em gestão da tecnologia, processos de negócio, sistemas de
     informação, governança de TI e uso estratégico da tecnologia nas organizações. Curso
-    concluído em julho de 2026; diploma conferido em agosto de 2026.
+    concluído em julho de 2026; diploma conferido em agosto de 2026. Em março de 2025 tirei 9,5/10
+    na avaliação de Gestão de Projetos de Tecnologia da Informação: planejamento, estimativas,
+    cronograma, controle de custos, orçamento, alocação de recursos, comunicação, gestão da
+    qualidade, tomada de decisão e documentação de projetos de TI.
 skills: [software-development, automation]
 learnings:
   en-us:

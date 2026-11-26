@@ -37,7 +37,7 @@ export type Skill = z.infer<typeof Skill>;
 export const Organization = z.strictObject({
   ...entityBase,
   name: z.string().min(1),
-  kind: z.enum(["company", "university", "school", "program", "community", "platform", "self-employed"]),
+  kind: z.enum(["company", "university", "school", "program", "community", "government", "platform", "self-employed"]),
   url: z.url().optional(),
   /** Path under apps/web/public. */
   logo: z.string().startsWith("/").optional(),

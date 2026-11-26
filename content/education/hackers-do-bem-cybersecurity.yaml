@@ -1,0 +1,28 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn entry "Federal Cybersecurity Program — Hackers
+# do Bem" (Jan 2024 – Apr 2024). "Completed" follows its text ("I completed
+# foundational cybersecurity training").
+id: hackers-do-bem-cybersecurity
+institution: hackers-do-bem
+kind: course
+title:
+  en-us: Federal Cybersecurity Program
+  pt-br: Programa Federal de Cibersegurança
+state: completed
+start: 2024-01
+end: 2024-04
+summary:
+  en-us: >-
+    I took part in Hackers do Bem, a Brazilian federal cybersecurity education program focused on
+    developing cybersecurity talent and strengthening the national cyber defense ecosystem. I
+    completed foundational cybersecurity training, studied core security concepts and got exposure
+    to digital protection, cyber risk and professional opportunities in the field. It became part
+    of my foundation in information security and shaped my interest in secure software
+    development, DevSecOps and privacy-conscious technology.
+  pt-br: >-
+    Participei do Hackers do Bem, um programa federal brasileiro de formação em cibersegurança
+    voltado a desenvolver talentos na área e fortalecer o ecossistema nacional de defesa
+    cibernética. Concluí a formação básica em cibersegurança, estudei conceitos centrais de
+    segurança e tive contato com proteção digital, risco cibernético e oportunidades profissionais
+    na área. Isso entrou na minha base em segurança da informação e moldou meu interesse por
+    desenvolvimento de software seguro, DevSecOps e tecnologia atenta à privacidade.

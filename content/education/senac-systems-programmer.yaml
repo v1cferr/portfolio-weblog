@@ -25,6 +25,8 @@ summary:
     São Paulo: a trilha de Tecnologia e Dados, de 280 horas. No projeto integrador final, o DebtView,
     trabalhei no front end, na integração com o banco, em testes e correções e num módulo de chatbot
     com IA.
+# DRAFT from LinkedIn (2026-11-25); owner to review: the DebtView project page.
+projects: [debtview]
 
 media:
   - src: /education/transforme-se/certificate.jpg

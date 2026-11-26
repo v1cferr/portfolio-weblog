@@ -1,0 +1,12 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn course "Privacy and Data Protection (LGPD)",
+# SENAI, 2020. LinkedIn gives only the year, so start and end are both 2020 and
+# the state is left out until the owner confirms it.
+id: senai-privacy-data-protection
+institution: senai
+kind: course
+title:
+  en-us: Privacy and Data Protection (LGPD)
+  pt-br: Privacidade e Proteção de Dados (LGPD)
+start: 2020
+end: 2020

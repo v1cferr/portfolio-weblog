@@ -23,6 +23,7 @@
 - { id: astro, name: Astro, category: framework, url: "https://astro.build/", icon: "si:astro" }
 - { id: fastapi, name: FastAPI, category: framework, url: "https://fastapi.tiangolo.com/", icon: "si:fastapi" }
 - { id: vite, name: Vite, category: tool, url: "https://vite.dev/", icon: "si:vite" }
+- { id: leaflet, name: Leaflet, category: library, url: "https://leafletjs.com/", icon: "si:leaflet" }
 - { id: playwright, name: Playwright, category: tool, url: "https://playwright.dev/", icon: "dv:playwright" }
 
 # Data

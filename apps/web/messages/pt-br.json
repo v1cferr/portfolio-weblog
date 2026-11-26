@@ -232,6 +232,8 @@
     "ongoing": "em andamento",
     "certificate": "Certificado",
     "allStudies": "Todos os estudos",
+    "volunteering": "Voluntariado",
+    "volunteeringMore": "O que fiz como {role}",
     "numbers": {
       "title": "Em números",
       "experiences": "experiências",
@@ -360,7 +362,8 @@
       "project": "Projeto",
       "education": "Estudos",
       "certification": "Certificação",
-      "post": "Artigo"
+      "post": "Artigo",
+      "volunteering": "Voluntariado"
     }
   },
   "Weblog": {

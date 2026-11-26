@@ -232,6 +232,8 @@
     "ongoing": "ongoing",
     "certificate": "Certificate",
     "allStudies": "All studies",
+    "volunteering": "Volunteering",
+    "volunteeringMore": "What I did as {role}",
     "numbers": {
       "title": "In numbers",
       "experiences": "experiences",
@@ -360,7 +362,8 @@
       "project": "Project",
       "education": "Studies",
       "certification": "Certification",
-      "post": "Article"
+      "post": "Article",
+      "volunteering": "Volunteering"
     }
   },
   "Weblog": {

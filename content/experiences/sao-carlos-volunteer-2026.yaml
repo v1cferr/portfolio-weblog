@@ -1,0 +1,22 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn volunteering entry "Community Volunteer",
+# Prefeitura Municipal de São Carlos, Jan 2026 – Jul 2026 (7 months), cause
+# Poverty Alleviation. Volunteering: kept out of the career (isVolunteering).
+id: sao-carlos-volunteer-2026
+organization: prefeitura-sao-carlos
+location: São Carlos, SP, Brazil
+positions:
+  - title: { en-us: Community Volunteer, pt-br: Voluntário comunitário }
+    employmentType: volunteer
+    start: 2026-01
+    end: 2026-07
+cause: { en-us: Poverty alleviation, pt-br: Combate à pobreza }
+summary:
+  en-us: >-
+    I volunteered in local social support initiatives in São Carlos, helping organize and deliver
+    essential goods and food packages to community members: donation logistics, preparing packages
+    and distribution.
+  pt-br: >-
+    Fui voluntário em iniciativas locais de apoio social em São Carlos, ajudando a organizar e
+    entregar itens essenciais e cestas de alimentos para a comunidade: logística das doações,
+    montagem das cestas e distribuição.

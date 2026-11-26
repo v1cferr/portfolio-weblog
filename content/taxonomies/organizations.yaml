@@ -146,3 +146,34 @@
   # cruzeirodosul.edu.br serves as its favicon, fetched through Google's favicon
   # service (2026-11-24): the gold star.
   logo: /company-logos/cruzeiro-do-sul.png
+
+# DRAFT from LinkedIn (2026-11-25); owner to review. Issuers of the Hackers do
+# Bem program and the LGPD course. No logo yet: hackersdobem.org.br only
+# declares a 16 px favicon, and the favicon of SENAI's national portal is the
+# "Si" mark of the whole Sistema Indústria, not SENAI's own.
+- id: hackers-do-bem
+  name: Hackers do Bem
+  kind: program
+  url: https://hackersdobem.org.br/
+  description:
+    en-us: A Brazilian federal cybersecurity education program.
+    pt-br: Um programa federal brasileiro de formação em cibersegurança.
+
+- id: senai
+  name: SENAI
+  kind: school
+  url: https://www.senai.portaldaindustria.com.br/
+
+# DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
+# volunteered. No logo yet: the city's site only declares a 16 px favicon and a
+# wide "Cidade de São Carlos" wordmark that does not fit a square mark; MAPS
+# S.A.'s site is not confirmed, so neither its URL nor a logo is set.
+- id: prefeitura-sao-carlos
+  name: Prefeitura Municipal de São Carlos
+  kind: government
+  url: https://www.saocarlos.sp.gov.br/
+  location: São Carlos, SP, Brazil
+
+- id: maps-sa
+  name: MAPS S.A.
+  kind: company

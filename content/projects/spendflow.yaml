@@ -1,0 +1,36 @@
+# DRAFT from LinkedIn (2026-11-25); owner to review.
+# Source: the owner's LinkedIn project "SpendFlow — AI-Powered Personal Finance
+# Platform" (Apr 2025 – Present), which lists one other contributor. The v1
+# site pointed at a private repository (docs/migration/inventory.md), so no
+# repository or link here. State `experimental` is a guess for "Present";
+# owner to confirm (active?).
+id: spendflow
+title: SpendFlow
+state: experimental
+category: personal
+startedAt: 2025-04
+summary:
+  en-us: >-
+    An AI-powered personal finance platform I build with a collaborator, focused on financial
+    clarity, automation and control over my own spending data.
+  pt-br: >-
+    Uma plataforma de finanças pessoais com IA que construo com um colaborador, focada em clareza
+    financeira, automação e controle sobre os próprios dados de gastos.
+description:
+  en-us: >-
+    SpendFlow imports financial statements, processes and categorizes transactions, generates
+    dashboards and offers insights into spending habits. With it I explore transaction ingestion,
+    data cleaning, AI-assisted categorization, user feedback loops, dynamic dashboards and, next,
+    natural language queries over personal financial data. The technical directions are Next.js,
+    Python, FastAPI, PostgreSQL/Supabase, API development, financial data modeling, automation,
+    AI/LLM integration, RAG-based search and a privacy-conscious architecture.
+  pt-br: >-
+    O SpendFlow importa extratos financeiros, processa e categoriza transações, gera dashboards e
+    oferece insights sobre os hábitos de gasto. Nele exploro ingestão de transações, limpeza de
+    dados, categorização assistida por IA, ciclos de feedback do usuário, dashboards dinâmicos e,
+    adiante, consultas em linguagem natural sobre dados financeiros pessoais. As direções técnicas
+    são Next.js, Python, FastAPI, PostgreSQL/Supabase, desenvolvimento de APIs, modelagem de dados
+    financeiros, automação, integração com IA/LLMs, busca baseada em RAG e uma arquitetura atenta à
+    privacidade.
+technologies: [nextjs, python, fastapi, postgresql, supabase, llm, rag]
+skills: [api-development, automation, ai-systems]

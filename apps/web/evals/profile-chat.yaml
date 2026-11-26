@@ -34,7 +34,7 @@ questions:
     expect: [/en-us/projects/obsidian-rag]
   - locale: en-us
     question: What security experience does Victor have?
-    expect: [/en-us/career/xmart-solutions-2024]
+    expect: [/en-us/career/xmart-solutions-2024, /en-us/education#hackers-do-bem-cybersecurity]
   - locale: en-us
     question: What did Victor do at Xmart Solutions?
     expect: [/en-us/career/xmart-solutions-2024]
@@ -65,7 +65,7 @@ questions:
     expect: [/en-us/projects/obsidian-rag]
   - locale: en-us
     question: What security experience do I have?
-    expect: [/en-us/career/xmart-solutions-2024]
+    expect: [/en-us/career/xmart-solutions-2024, /en-us/education#hackers-do-bem-cybersecurity]
   - locale: en-us
     question: What did I do at Xmart Solutions?
     expect: [/en-us/career/xmart-solutions-2024]
@@ -88,7 +88,8 @@ questions:
     expect: [/pt-br/projects/obsidian-rag]
   - locale: pt-br
     question: Que experiência o Victor tem com segurança?
-    expect: [/pt-br/career/xmart-solutions-2024]
+    # The cybersecurity course answers it too; "com segurança" (with confidence) in a recommendation takes a slot.
+    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/education#hackers-do-bem-cybersecurity]
   - locale: pt-br
     question: O que o Victor fez na Xmart Solutions?
     expect: [/pt-br/career/xmart-solutions-2024]
@@ -119,7 +120,8 @@ questions:
     expect: [/pt-br/projects/obsidian-rag]
   - locale: pt-br
     question: Que experiência tenho com segurança?
-    expect: [/pt-br/career/xmart-solutions-2024]
+    # The cybersecurity course answers it too; "com segurança" (with confidence) in a recommendation takes a slot.
+    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/education#hackers-do-bem-cybersecurity]
   - locale: pt-br
     question: O que fiz na Xmart Solutions?
     expect: [/pt-br/career/xmart-solutions-2024]

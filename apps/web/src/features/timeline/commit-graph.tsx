@@ -54,7 +54,15 @@ export async function CommitGraph({
   const [locale, t] = await Promise.all([getLocale(), getTranslations("Timeline")]);
   const content = getContent();
 
-  const rows: Row[] = events.flatMap((event) => {
+  const rows: Row[] = events.flatMap((event): Row[] => {
+    // Volunteering has no page of its own: the organization, the role and the dates.
+    if (event.kind === "volunteering") {
+      const item = content.getVolunteering().find((entry) => entry.id === event.entity.id);
+      const position = event.positionIndex === undefined ? undefined : item?.positions[event.positionIndex];
+      if (item === undefined || position === undefined) return [];
+      const organization = content.getOrganization(item.organization);
+      return [{ event, lane: "career", title: organization?.name ?? item.id, subtitle: localize(position.title, locale).value }];
+    }
     const entity = describeEntity(event.entity.id, locale);
     if (entity === undefined) return [];
     const lane = laneOf[event.kind === "position" ? "experience" : event.kind];
@@ -110,7 +118,7 @@ export async function CommitGraph({
             {items.map((row) => {
               const laneIndex = LANES.indexOf(row.lane);
               const fromRepository = row.event.dateSource === "repository-created";
-              const end = row.event.kind === "position" ? row.event.end : undefined;
+              const end = row.event.kind === "position" || row.event.kind === "volunteering" ? row.event.end : undefined;
               return (
                 <RevealItem
                   key={row.event.key}

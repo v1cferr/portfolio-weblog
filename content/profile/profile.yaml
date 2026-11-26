@@ -10,12 +10,13 @@ aliases: [V1C]
 location: São Carlos, SP, Brazil
 photo: /images/profile.jpg
 
-# From the author's LinkedIn profile (PDF export), confirmed on 2026-11-23.
+# From the author's LinkedIn profile (PDF export), confirmed on 2026-11-23. English
+# updated on 2026-11-25 to the LinkedIn level "Professional working proficiency".
 languages:
   - name: { en-us: Portuguese, pt-br: Português }
     level: { en-us: Native, pt-br: Nativo }
   - name: { en-us: English, pt-br: Inglês }
-    level: { en-us: Intermediate, pt-br: Intermediário }
+    level: { en-us: Professional, pt-br: Profissional }
 
 # Home hero, chosen by the owner on 2026-11-23 from their LinkedIn headline ("AI Systems
 # Analyst | AI Engineering • LLMOps • RAG/GraphRAG • Agents | Python/FastAPI •
