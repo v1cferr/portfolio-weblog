@@ -3,12 +3,14 @@
 import { Button } from "@workspace/ui/components/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@workspace/ui/components/command";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@workspace/ui/components/dialog";
+import { Spinner } from "@workspace/ui/components/spinner";
 import { type SearchDocument, type SearchEntityType, searchOptions } from "@workspace/search/options";
 import { XIcon } from "lucide-react";
 import MiniSearch from "minisearch";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
+import { useDelayed } from "@/hooks/use-delayed";
 import { useRouter } from "@/i18n/navigation";
 
 type Hit = Pick<SearchDocument, "id" | "entityId" | "type" | "title" | "url" | "excerpt">;
@@ -48,6 +50,8 @@ export default function SearchPanel({
     if (open) setQuery(initialQuery);
   }
   const [state, setState] = useState<State>({ status: "loading" });
+  // The index usually loads in a blink; only a slow one shows the spinner.
+  const slow = useDelayed(state.status === "loading");
 
   useEffect(() => {
     let cancelled = false;
@@ -113,7 +117,12 @@ export default function SearchPanel({
             </DialogClose>
           </div>
           <CommandList className="max-h-none flex-1 sm:max-h-[60vh]">
-            {state.status === "loading" && <p className="p-4 text-sm text-muted-foreground">{t("loading")}</p>}
+            {slow && (
+              <p role="status" className="flex items-center gap-2 p-4 text-sm text-muted-foreground">
+                <Spinner aria-hidden role="presentation" />
+                {t("loading")}
+              </p>
+            )}
             {state.status === "error" && (
               <p role="alert" className="p-4 text-sm text-destructive">
                 {t("error")}
