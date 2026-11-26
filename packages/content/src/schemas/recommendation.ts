@@ -6,6 +6,10 @@ import { entityBase, Id, LOCALES, LocalizedList, LocalizedText, PartialDate } fr
  * Recommendations other people wrote about the owner (content/recommendations/<id>.yaml),
  * published with their permission. The text in the language it was written in is
  * kept verbatim; other languages are translations and are labelled as such.
+ *
+ * `pnpm linkedin:import <export.zip>` keeps the synced fields (name, jobTitle,
+ * company, date, the original text, visibility) in step with LinkedIn; the rest
+ * is the owner's and the import never touches it (docs/guides/linkedin-recommendations.md).
  */
 
 /** How the recommender knows the owner, from the owner's side ("my manager", "my teacher"). */
@@ -30,9 +34,12 @@ export const Recommendation = z
     ...entityBase,
     /** The recommender's name, as on their profile. */
     name: z.string().min(1),
-    /** A short form of the recommender's headline when the recommendation was read. */
-    headline: LocalizedText,
-    relation: RecommendationRelation,
+    /** The recommender's current position, as LinkedIn exports it (in their language). */
+    jobTitle: z.string().min(1),
+    /** Where they hold it, when LinkedIn names a company. */
+    company: z.string().min(1).optional(),
+    /** Required to publish; an imported recommendation waits as a draft until the owner sets it. */
+    relation: RecommendationRelation.optional(),
     /** The day the recommendation was given. */
     date: PartialDate,
     /** The language the recommender wrote in; that text is verbatim, the others are translations. */
@@ -41,6 +48,8 @@ export const Recommendation = z
     url: z.url({ protocol: /^https$/ }),
     /** The full text, one paragraph per entry. */
     text: LocalizedList,
+    /** Set by the import when the original text changed: the translations still follow the old one. */
+    translationStale: z.boolean().optional(),
     /**
      * A short quote for the home page: verbatim pieces of `text` in the same
      * locale, joined by "…" where something was cut. content:check holds it to that.
@@ -61,11 +70,18 @@ export const Recommendation = z
     message: "the text must include the original language",
     path: ["text"],
   })
+  .refine((value) => value.status !== "published" || value.relation !== undefined, {
+    message: "a published recommendation needs a relation",
+    path: ["relation"],
+  })
   .refine((value) => value.featured === undefined || value.excerpt !== undefined, {
     message: "a featured recommendation needs an excerpt",
     path: ["excerpt"],
   });
 export type Recommendation = z.infer<typeof Recommendation>;
+
+/** A recommendation as public pages get it: published, so its relation is known. */
+export type PublishedRecommendation = Recommendation & { relation: RecommendationRelation };
 
 /**
  * The pieces of an excerpt that must appear word for word in the text: the

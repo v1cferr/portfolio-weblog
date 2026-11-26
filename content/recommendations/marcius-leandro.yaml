@@ -6,9 +6,8 @@
 # senac-systems-programmer entry.
 id: marcius-leandro
 name: Marcius Leandro
-headline:
-  pt-br: Fundador e CEO da Shinier · Professor de Tecnologia
-  en-us: Founder and CEO of Shinier · Technology Teacher
+jobTitle: Mentor de Startups e Negócios Digitais
+company: Shinier Soluções Tecnológicas
 relation:
   kind: teacher
   label:
@@ -71,10 +70,9 @@ text:
     - >-
       Estou certo de que ele será um ativo valioso em qualquer jornada que venha a trilhar. Por isso o
       recomendo para trabalhar na sua empresa.
-    - |-
-      Att,
-      Marcius CEO Shinier
-      Prof Senac
+    - Att,
+    - Marcius CEO Shinier
+    - Prof Senac
   en-us:
     - >-
       It is with great satisfaction that I recommend the student Victor, a participant in the course
@@ -114,7 +112,6 @@ text:
     - >-
       I am sure he will be a valuable asset on whatever path he takes. That is why I recommend him to
       work at your company.
-    - |-
-      Regards,
-      Marcius, CEO of Shinier
-      Teacher at Senac
+    - Regards,
+    - Marcius, CEO of Shinier
+    - Teacher at Senac

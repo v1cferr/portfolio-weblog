@@ -12,7 +12,7 @@ import type {
   Organization,
   Profile,
   Project,
-  Recommendation,
+  PublishedRecommendation,
   Setup,
   Skill,
   Technology,
@@ -57,7 +57,7 @@ export interface ContentRegistry {
   getEducation(): Education[];
   getCertifications(): Certification[];
   /** Newest first. A relation to a hidden job or course is dropped; a hidden organization hides the recommendation. */
-  getRecommendations(): Recommendation[];
+  getRecommendations(): PublishedRecommendation[];
   /** One entry per post: the requested translation, or a fallback flagged as such. Newest first. */
   getPosts(locale: Locale): Post[];
   getPost(slug: string, locale: Locale): Post | undefined;
@@ -155,8 +155,11 @@ export function createRegistry(
 
   const recommendations = content.recommendations
     .map((item) => item.value)
-    .filter((value) => visible(value) && visibleIds.get(value.relation.organization) === "organization")
-    .map((value) => ({
+    .filter(
+      (value): value is PublishedRecommendation =>
+        visible(value) && value.relation !== undefined && visibleIds.get(value.relation.organization) === "organization"
+    )
+    .map((value): PublishedRecommendation => ({
       ...value,
       relation: {
         ...value.relation,

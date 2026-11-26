@@ -6,7 +6,8 @@ import { experience, makeContent } from "./fixture";
 const recommendation = (overrides: Record<string, unknown> = {}) => ({
   id: "ana",
   name: "Ana",
-  headline: { "pt-br": "Gerente", "en-us": "Manager" },
+  jobTitle: "Gerente",
+  company: "Acme",
   relation: { kind: "manager", label: { "pt-br": "minha gestora", "en-us": "my manager" }, organization: "acme", experience: "acme-dev" },
   date: "2025-05-20",
   language: "pt-br",
@@ -53,6 +54,13 @@ describe("recommendations", () => {
       "recommendations/ana.yaml": recommendation({ featured: 1, excerpt: undefined }),
     });
     expect(featured.errors.join()).toContain("needs an excerpt");
+  });
+
+  it("lets a draft wait without a relation, but not a published one", () => {
+    const draft = check({ "recommendations/ana.yaml": recommendation({ status: "draft", relation: undefined, excerpt: undefined }) });
+    expect(draft.errors).toEqual([]);
+    const published = check({ "recommendations/ana.yaml": recommendation({ relation: undefined, excerpt: undefined }) });
+    expect(published.errors.join()).toContain("needs a relation");
   });
 
   it("checks the relation's references", () => {

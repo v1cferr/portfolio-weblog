@@ -4,9 +4,7 @@
 # apps/web/public/recommendations/mateus-lima-bispo.jpg and is referenced as `photo`.
 id: mateus-lima-bispo
 name: Mateus Lima Bispo
-headline:
-  pt-br: Desenvolvedor full-stack
-  en-us: Full-Stack Developer
+jobTitle: Desenvolvedor de Software Autônomo
 relation:
   kind: classmate
   label:

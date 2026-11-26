@@ -4,9 +4,8 @@
 # apps/web/public/recommendations/rian-ramos-gomes.jpg and is referenced as `photo`.
 id: rian-ramos-gomes
 name: Rian Ramos Gomes
-headline:
-  pt-br: Analista de cibersegurança
-  en-us: Cybersecurity Analyst
+jobTitle: Analista de segurança da informação Pleno
+company: Keeggo
 relation:
   kind: teammate
   label:

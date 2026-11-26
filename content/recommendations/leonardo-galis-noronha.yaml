@@ -4,9 +4,8 @@
 # apps/web/public/recommendations/leonardo-galis-noronha.jpg and is referenced as `photo`.
 id: leonardo-galis-noronha
 name: Leonardo Galis Noronha
-headline:
-  pt-br: Desenvolvedor back-end
-  en-us: Back-end Developer
+jobTitle: Estágio em desenvolvimento Back-end
+company: Xmart Solutions
 relation:
   kind: teammate
   label:

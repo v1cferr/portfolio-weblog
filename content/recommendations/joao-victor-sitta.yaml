@@ -4,9 +4,8 @@
 # apps/web/public/recommendations/joao-victor-sitta.jpg and is referenced as `photo`.
 id: joao-victor-sitta
 name: João Victor Sitta
-headline:
-  pt-br: Desenvolvedor full stack
-  en-us: Full Stack Developer
+jobTitle: Desenvolvedor Full Stack Jr
+company: Entende.ai
 relation:
   kind: classmate
   label:

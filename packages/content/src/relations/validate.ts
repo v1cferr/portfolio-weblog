@@ -127,9 +127,9 @@ function checkRecommendations(content: RawContent, byId: Map<string, EntityNode>
   for (const { value, file } of content.recommendations) {
     const isPublic = value.status === "published" && value.visibility === "public";
     const refs: [string, EntityNode["type"], string | undefined][] = [
-      ["relation.organization", "organization", value.relation.organization],
-      ["relation.experience", "experience", value.relation.experience],
-      ["relation.education", "education", value.relation.education],
+      ["relation.organization", "organization", value.relation?.organization],
+      ["relation.experience", "experience", value.relation?.experience],
+      ["relation.education", "education", value.relation?.education],
     ];
     for (const [field, type, id] of refs) {
       if (id === undefined) continue;

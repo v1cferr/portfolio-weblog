@@ -141,7 +141,7 @@ export function buildSearchDocuments(content: ContentRegistry, locale: Locale): 
       locale: text?.locale ?? item.language,
       section: "about",
       title: `${recommendation.label} · ${item.name}`,
-      // Not the recommender's headline: their job title says nothing about the owner and would answer the wrong questions.
+      // Not the recommender's job title: it says nothing about the owner and would answer the wrong questions.
       keywords: join(org, relation, recommendation.keywords),
       text: join(`${item.name}, ${relation}:`, text?.value),
       excerpt: item.excerpt === undefined ? (text?.value[0] ?? "") : localize(item.excerpt, locale).value,

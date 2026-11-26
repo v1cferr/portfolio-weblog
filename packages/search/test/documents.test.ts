@@ -22,7 +22,7 @@ const registry = loadRegistry(
     "recommendations/ana.yaml": {
       id: "ana",
       name: "Ana Souza",
-      headline: { "en-us": "Engineering Manager" },
+      jobTitle: "Engineering Manager",
       relation: { kind: "manager", label: { "en-us": "my manager at Acme", "pt-br": "minha gestora na Acme" }, organization: "acme" },
       date: "2025-05-20",
       language: "pt-br",

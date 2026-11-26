@@ -4,9 +4,8 @@
 # apps/web/public/recommendations/julio-cesar-raveli.jpg and is referenced as `photo`.
 id: julio-cesar-raveli
 name: Júlio César Raveli
-headline:
-  pt-br: Líder de Tecnologia & Engenharia
-  en-us: Technology & Engineering Lead
+jobTitle: Líder de Tecnologia
+company: Redbelt Security
 relation:
   kind: manager
   label:
