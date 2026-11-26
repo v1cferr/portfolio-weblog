@@ -1,7 +1,7 @@
 import { isOrdered } from "../dates";
 import type { ContentIssue } from "../loaders/errors";
 import type { RawContent } from "../loaders/load";
-import type { PartialDate } from "../schemas";
+import { excerptPieces, type PartialDate } from "../schemas";
 import { collectEdges, collectNodes, type Edge, type EntityNode } from "./graph";
 
 export interface ValidationResult {
@@ -113,7 +113,51 @@ export function validateContent(content: RawContent): ValidationResult {
     if (set.size > 1) errors.push({ file: `experiences/${experience}`, message: "story translations disagree on visibility" });
   }
 
+  checkRecommendations(content, byId, errors, warnings);
+
   return { errors, warnings };
+}
+
+/**
+ * A recommendation points at the organization, job and course it comes from,
+ * and its excerpt quotes the text: every piece between "…" must appear word
+ * for word in the same locale's text, so a quote is never a paraphrase.
+ */
+function checkRecommendations(content: RawContent, byId: Map<string, EntityNode>, errors: ContentIssue[], warnings: ContentIssue[]) {
+  for (const { value, file } of content.recommendations) {
+    const isPublic = value.status === "published" && value.visibility === "public";
+    const refs: [string, EntityNode["type"], string | undefined][] = [
+      ["relation.organization", "organization", value.relation.organization],
+      ["relation.experience", "experience", value.relation.experience],
+      ["relation.education", "education", value.relation.education],
+    ];
+    for (const [field, type, id] of refs) {
+      if (id === undefined) continue;
+      const target = byId.get(id);
+      const where = `${field} → "${id}"`;
+      if (target?.type !== type) errors.push({ file, message: `${where}: no ${type} with this id` });
+      else if (isPublic && target.isPrivate) errors.push({ file, message: `${where}: public content cannot reference private content` });
+      else if (isPublic && !target.isPublic) warnings.push({ file, message: `${where}: target is not published yet and is hidden` });
+    }
+    for (const [locale, excerpt] of Object.entries(value.excerpt ?? {})) {
+      const paragraphs = value.text[locale as keyof typeof value.text];
+      if (paragraphs === undefined) {
+        errors.push({ file, message: `excerpt.${locale}: there is no ${locale} text to quote from` });
+        continue;
+      }
+      const text = paragraphs.join("\n");
+      for (const piece of excerptPieces(excerpt)) {
+        if (!text.includes(piece))
+          errors.push({ file, message: `excerpt.${locale}: "${piece}" is not in the ${locale} text word for word` });
+      }
+    }
+  }
+  const featured = content.recommendations.flatMap(({ value, file }) =>
+    value.featured === undefined ? [] : [{ n: value.featured, file }]
+  );
+  for (const { n, file } of featured) {
+    if (featured.filter((other) => other.n === n).length > 1) errors.push({ file, message: `featured: ${String(n)} is used twice` });
+  }
 }
 
 function checkEdge(edge: Edge, byId: Map<string, EntityNode>, errors: ContentIssue[], warnings: ContentIssue[]) {
