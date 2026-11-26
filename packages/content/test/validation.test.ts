@@ -30,6 +30,12 @@ describe("schemas", () => {
     expect(result.errors.join()).toMatch(/techs/);
   });
 
+  it("keeps a project's card lines short", () => {
+    expect(check({ "projects/hub.yaml": project({ hook: { "en-us": "I keep it short." } }) }).errors).toEqual([]);
+    const result = check({ "projects/hub.yaml": project({ proof: { "en-us": "x".repeat(121) } }) });
+    expect(result.errors.join()).toContain("a card line is at most 120 characters");
+  });
+
   it("requires the file name to match the id", () => {
     const result = check({ "projects/other-name.yaml": project() });
     expect(result.errors.join()).toContain('must match the file name "other-name"');
