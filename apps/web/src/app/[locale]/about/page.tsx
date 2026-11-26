@@ -293,10 +293,14 @@ export default async function AboutPage() {
           <SectionHeading id="recommendations" icon={MessageSquareQuoteIcon} info={recs("info")}>
             {recs("title")}
           </SectionHeading>
-          {/* Columns, not a grid: texts of very different lengths stack without gaps. */}
-          <ul className="gap-4 md:columns-2">
+          {/*
+           * A grid read by rows (1|2, 3|4…), so the owner's order holds on screen and
+           * for screen readers; .masonry-lanes closes the gaps where the browser has
+           * native masonry (display: grid-lanes) and stays a plain grid elsewhere.
+           */}
+          <ul className="masonry-lanes grid items-start gap-4 md:grid-cols-2">
             {recommendations.map((item) => (
-              <li key={item.id} className="mb-4 break-inside-avoid">
+              <li key={item.id}>
                 <RecommendationCard item={item} full />
               </li>
             ))}

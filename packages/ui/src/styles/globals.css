@@ -737,3 +737,16 @@
     animation-delay: 0s !important;
   }
 }
+
+/*
+ * Native masonry where the browser has it (CSS Grid Level 3 "grid lanes"):
+ * the items keep their DOM order, row by row, and the gaps under short cards
+ * close. Elsewhere the element stays the plain grid its utilities define.
+ */
+@layer components {
+  @supports (display: grid-lanes) {
+    .masonry-lanes {
+      display: grid-lanes;
+    }
+  }
+}
