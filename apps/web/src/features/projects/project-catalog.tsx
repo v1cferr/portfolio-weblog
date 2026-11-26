@@ -17,6 +17,7 @@ import { RailTimeline } from "@/components/rail-timeline";
 import { YearHeading } from "@/components/year-heading";
 import { Link } from "@/i18n/navigation";
 import { formatDayMonth, newestFirst } from "@/lib/dates";
+import { groupByIcon } from "@/lib/tech-icons";
 
 import { type ProjectCardData, ProjectCardView } from "./project-card-view";
 import { ProjectStateBadge } from "./project-state-badge";
@@ -321,19 +322,21 @@ function ProjectRow({ project, date, morph }: { project: ProjectCardData; date?:
         </ItemContent>
         <ItemActions className="relative z-10 gap-3 max-sm:w-full max-sm:justify-between">
           <ul className="flex items-center gap-1.5">
-            {project.technologies.slice(0, 4).map((tech) => (
-              <li key={tech.id}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="inline-flex">
-                      <TechnologyIcon icon={tech.icon} category={tech.category} className="size-4" />
-                      <span className="sr-only">{tech.name}</span>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>{tech.name}</TooltipContent>
-                </Tooltip>
-              </li>
-            ))}
+            {groupByIcon(project.technologies)
+              .slice(0, 4)
+              .map((group) => (
+                <li key={group.key}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="inline-flex">
+                        <TechnologyIcon icon={group.lead.icon} category={group.lead.category} className="size-4" />
+                        <span className="sr-only">{group.label}</span>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>{group.label}</TooltipContent>
+                  </Tooltip>
+                </li>
+              ))}
           </ul>
           {date !== undefined && date !== "" && (
             <time
