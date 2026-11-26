@@ -75,4 +75,24 @@ test.describe("share cards", () => {
     expect(new URL((await meta('property="og:image"')) ?? "").pathname).toBe("/pt-br/opengraph-image/card");
     expect(await meta('property="og:image:alt"')).toBe("Victor Ferreira (v1cferr), personal hub em v1cferr.dev");
   });
+
+  // LinkedIn wants a description of at least 100 characters, and without a
+  // declared date it takes the first <time> on the page (a 2025 recommendation
+  // on the home) as the publish date.
+  for (const path of ["/pt-br", "/en-us"]) {
+    test(`${path} has a long enough description and declares the site's date`, async ({ page }) => {
+      await page.goto(path);
+      const meta = metaOf(page);
+      expect((await meta('property="og:description"'))?.length).toBeGreaterThanOrEqual(100);
+      const date = await meta('name="publish_date"');
+      expect(date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(date! >= "2026-11-01").toBe(true);
+      expect(await meta('name="og:publish_date"')).toBe(date);
+    });
+  }
+
+  test("a post declares its own publish date", async ({ page }) => {
+    await page.goto("/en-us/weblog/from-arch-to-nixos");
+    await expect(page.locator('head meta[name="publish_date"]')).toHaveAttribute("content", "2026-11-23");
+  });
 });
