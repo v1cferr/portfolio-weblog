@@ -179,13 +179,19 @@
   logoDark: /company-logos/senai-dark.svg
 
 # DRAFT from LinkedIn (2026-11-25); owner to review. Where the owner
-# volunteered. No logo yet for the city: its site only declares a 16 px favicon
-# and a wide "Cidade de São Carlos" wordmark that does not fit a square mark.
+# volunteered.
 - id: prefeitura-sao-carlos
   name: Prefeitura Municipal de São Carlos
   kind: government
   url: https://www.saocarlos.sp.gov.br/
   location: São Carlos, SP, Brazil
+  # The waving city flag of the "Cidade de São Carlos" logo, cropped from the
+  # 5999 px PNG on the city's site (fetched 2026-11-26) without the wordmark:
+  # the same mark the city uses as its LinkedIn logo
+  # (https://www.linkedin.com/company/prefeiturasaocarlos/). The violet flag
+  # stays visible on dark pages, so there is no dark variant.
+  # https://www.saocarlos.sp.gov.br/images/BrasaoPMSC-h.png
+  logo: /company-logos/prefeitura-sao-carlos.png
 
 # URL confirmed by the owner on 2026-11-25. The logo is the symbol maps.com.br
 # declares as its favicon (an SVG on a transparent background); it stays
