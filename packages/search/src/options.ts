@@ -16,7 +16,7 @@ export const searchOptions = {
   },
 };
 
-export type SearchEntityType = "experience" | "project" | "education" | "certification" | "post" | "technology" | "page";
+export type SearchEntityType = "experience" | "project" | "education" | "certification" | "post" | "technology" | "page" | "recommendation";
 
 /**
  * One public, citable unit of content. This is also the corpus a future

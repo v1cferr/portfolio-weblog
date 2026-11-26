@@ -24,6 +24,7 @@ import { ContentLinkIcon } from "@/components/icon";
 import { MediaGallery } from "@/components/media-gallery";
 import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
+import { RecommendationLinks } from "@/features/profile/recommendations";
 import { SourceLink } from "@/components/source-link";
 import { SourceList } from "@/components/source-list";
 import { ProjectCard } from "@/features/projects/project-card";
@@ -239,6 +240,8 @@ export default async function ExperiencePage({ params }: PageProps<"/[locale]/ca
             </ul>
           </section>
         )}
+
+        <RecommendationLinks items={content.getRecommendations().filter((item) => item.relation.experience === experience.id)} />
 
         {experience.technologies.length > 0 && (
           <section aria-labelledby="technologies" className="space-y-3">

@@ -88,7 +88,8 @@ questions:
     expect: [/pt-br/projects/obsidian-rag]
   - locale: pt-br
     question: Que experiência o Victor tem com segurança?
-    expect: [/pt-br/career/xmart-solutions-2024]
+    # The cybersecurity course answers it too; "com segurança" (with confidence) in a recommendation takes a slot.
+    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/education#hackers-do-bem-cybersecurity]
   - locale: pt-br
     question: O que o Victor fez na Xmart Solutions?
     expect: [/pt-br/career/xmart-solutions-2024]
@@ -119,10 +120,24 @@ questions:
     expect: [/pt-br/projects/obsidian-rag]
   - locale: pt-br
     question: Que experiência tenho com segurança?
-    expect: [/pt-br/career/xmart-solutions-2024]
+    # The cybersecurity course answers it too; "com segurança" (with confidence) in a recommendation takes a slot.
+    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/education#hackers-do-bem-cybersecurity]
   - locale: pt-br
     question: O que fiz na Xmart Solutions?
     expect: [/pt-br/career/xmart-solutions-2024]
+  # Recommendations (2026-11-25): what others wrote, on the About page
+  - locale: pt-br
+    question: O que dizem de mim?
+    expect:
+      - /pt-br/about#recommendation-julio-cesar-raveli
+      - /pt-br/about#recommendation-leonardo-galis-noronha
+      - /pt-br/about#recommendation-rian-ramos-gomes
+      - /pt-br/about#recommendation-marcius-leandro
+      - /pt-br/about#recommendation-joao-victor-sitta
+      - /pt-br/about#recommendation-mateus-lima-bispo
+  - locale: en-us
+    question: What did my manager at Xmart say about me?
+    expect: [/en-us/about#recommendation-julio-cesar-raveli]
   - locale: pt-br
     question: Qual é a capital da França?
     expect: []
