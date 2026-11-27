@@ -1,21 +1,24 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
+import { Markdown } from "@workspace/ui/components/markdown";
 import { InfoIcon, SearchIcon, SparklesIcon } from "lucide-react";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Fragment } from "react";
+import { type ComponentProps, useMemo } from "react";
 
 import { InfoTip } from "@/components/info-tip";
 import type { AskSource } from "@/lib/ask/protocol";
 
+import { useAsk } from "./ask-provider";
 import { PendingSteps, StepsSummary } from "./steps";
-import type { Turn } from "./turn";
+import { CITE_HREF, toMarkdown, type Turn } from "./turn";
 
 /**
  * One answer of the profile chat (ADR 0011), in each of its modes: the model's
- * text with numbered citations, the site's passages (extractive), "I don't
- * know" (unknown) and "not on the site" (no-source). Links navigate without
+ * text (light Markdown) with numbered citations, the site's passages
+ * (extractive), "I don't know" (unknown), "not on the site" (no-source) and
+ * the fixed small-talk reply. Links navigate without
  * closing the dock; `onNavigate` lets the dock step aside on phones, where it
  * covers the page. The model's answers speak as the owner, in the first person,
  * so each one carries a visible label saying AI wrote it on the owner's behalf.
@@ -24,7 +27,10 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
   const t = useTranslations("Ask");
   const locale = useLocale();
   const streaming = turn.phase === "searching" || turn.phase === "streaming";
-  const byNumber = new Map(turn.sources.flatMap((source) => (source.n === null ? [] : [[source.n, source] as const])));
+  const byNumber = useMemo(
+    () => new Map(turn.sources.flatMap((source) => (source.n === null ? [] : [[source.n, source] as const]))),
+    [turn.sources]
+  );
 
   if (turn.phase === "searching") return <PendingSteps turn={turn} onNavigate={onNavigate} />;
   if (turn.phase === "failed") {
@@ -90,19 +96,21 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
     );
   }
 
+  if (turn.mode === "small-talk") {
+    return (
+      <div className="flex flex-col gap-3" data-testid="ask-small-talk">
+        <p className="text-sm leading-relaxed">{turn.parts.map((part) => (part.type === "text" ? part.text : "")).join("")}</p>
+        {/* A fixed reply, then what the visitor could ask: the same suggestions as an empty conversation. */}
+        <FollowUps questions={(t.raw("suggestions") as string[]).slice(0, 3)} heading={t("suggestionsTitle")} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-3" aria-busy={streaming} data-testid="ask-answer">
       <StepsSummary turn={turn} onNavigate={onNavigate} />
       <AiLabel />
-      <p className="text-sm leading-relaxed whitespace-pre-line">
-        {turn.parts.map((part, index) =>
-          part.type === "text" ? (
-            <Fragment key={index}>{part.text}</Fragment>
-          ) : (
-            <Citation key={index} n={part.n} source={byNumber.get(part.n)} onNavigate={onNavigate} />
-          )
-        )}
-      </p>
+      <AnswerText turn={turn} byNumber={byNumber} onNavigate={onNavigate} />
       {turn.partial === true && !streaming && (
         <p className="flex items-start gap-2 text-xs text-muted-foreground" data-testid="ask-partial">
           <InfoIcon aria-hidden className="mt-0.5 size-3.5 shrink-0" />
@@ -111,8 +119,65 @@ export function Answer({ turn, onNavigate, onSearch }: { turn: Turn; onNavigate:
       )}
       {turn.phase === "stopped" && <p className="text-xs text-muted-foreground">{t("stoppedNote")}</p>}
       {turn.interrupted === true && <p className="text-xs text-destructive">{t("interrupted")}</p>}
+      {!streaming && turn.suggestions !== undefined && turn.suggestions.length > 0 && <FollowUps questions={turn.suggestions} />}
       {turn.sources.length > 0 && <SourceList sources={turn.sources} onNavigate={onNavigate} heading={t("sources")} />}
     </div>
+  );
+}
+
+/**
+ * The model's text as Markdown (prompt-kit's Markdown: no raw HTML, lists and
+ * emphasis kept), with each citation as a small numbered link to its page.
+ * The only links in it are the citation markers (turn.ts); anything else that
+ * looks like a link is shown as its text.
+ */
+function AnswerText({ turn, byNumber, onNavigate }: { turn: Turn; byNumber: Map<number, AskSource>; onNavigate: () => void }) {
+  const markdown = toMarkdown(turn.parts);
+  const components = useMemo(
+    () => ({
+      a: ({ href, children }: ComponentProps<"a">) => {
+        const n = CITE_HREF.exec(href ?? "")?.[1];
+        return n === undefined ? <>{children}</> : <Citation n={Number(n)} source={byNumber.get(Number(n))} onNavigate={onNavigate} />;
+      },
+      p: ({ children }: ComponentProps<"p">) => <p className="leading-relaxed">{children}</p>,
+      ul: ({ children }: ComponentProps<"ul">) => <ul className="list-disc space-y-1 pl-5">{children}</ul>,
+      ol: ({ children }: ComponentProps<"ol">) => <ol className="list-decimal space-y-1 pl-5">{children}</ol>,
+      strong: ({ children }: ComponentProps<"strong">) => <strong className="font-semibold">{children}</strong>,
+    }),
+    [byNumber, onNavigate]
+  );
+  return (
+    <Markdown className="flex flex-col gap-2 text-sm break-words" components={components}>
+      {markdown}
+    </Markdown>
+  );
+}
+
+/** "Want to know more?": the related pages as one-tap questions, asked like any other. */
+function FollowUps({ questions, heading }: { questions: string[]; heading?: string }) {
+  const t = useTranslations("Ask");
+  const { ask, busy } = useAsk();
+  return (
+    <section className="flex flex-col gap-2" data-testid="ask-follow-ups">
+      <h3 className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{heading ?? t("more")}</h3>
+      <ul className="flex flex-wrap gap-2">
+        {questions.map((question) => (
+          <li key={question} className="max-w-full">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              className="h-auto min-h-11 max-w-full rounded-full px-3 py-2 text-left text-sm font-normal whitespace-normal"
+              onClick={() => {
+                ask(question);
+              }}
+            >
+              {question}
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
