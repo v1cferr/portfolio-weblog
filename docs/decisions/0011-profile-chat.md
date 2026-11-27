@@ -406,3 +406,27 @@ Trade-offs:
   checked, and the answer is marked cut.
 - Claude is billed per token; the free models and the extractive answer keep the
   chat working without it.
+
+## Revision (2026-11-27, saying what the site does not cover)
+
+The 2026-11-27 eval found an answer to "What is Victor's salary at FAI·UFSCar?"
+that listed the roles and never said the salary is not on the site. The free
+models mark such an answer with `incomplete` in their JSON; Claude had no way
+to, because citations rule out structured outputs.
+
+- **Marker.** Claude's system prompt asks it to end an answer that covers only
+  part of the question with a last line holding exactly `[[incomplete]]`. The
+  server strips the marker from each text block before the sentence buffer, so
+  it never reaches the checks or the visitor, and keeps the signal (`gap.ts`).
+- **The site's sentence.** For either model, a partial answer then ends with a
+  fixed sentence in the answer's language ("Sobre o resto da pergunta, o site
+  não diz nada." / "The site doesn't say anything about the rest of the
+  question.") and the `partial` event. The sentence is the site's, not the
+  model's: it names nothing, so it cannot carry a fact past the checks. Both
+  prompts now ask the model not to word the gap itself.
+- **Eval.** `eval:chat` counts the `partial` event, not only `status.partial`,
+  when it judges an answer to a question the site cannot fully answer.
+
+Trade-offs: the marker relies on the model writing it; when it does not, the
+answer reads as complete, as before. The closing sentence is generic: it says
+the rest is missing, not which part.

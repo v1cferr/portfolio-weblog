@@ -12,6 +12,7 @@ import {
   type MessagesClient,
 } from "../src/lib/ask/anthropic";
 import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
+import { GAP_MARKER, siteDoesNotSay, takeGapMarker } from "../src/lib/ask/gap";
 import {
   checkSentence,
   type Corpus,
@@ -985,5 +986,86 @@ describe("ask, list lead-ins", () => {
     );
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
     expect(texts(events)).not.toContain("things it does");
+  });
+});
+
+describe("partial answers (gap marker)", () => {
+  const input = { locale: "en-us", question: "What RAG has he built, and what is his salary?", history: [] };
+  const texts = (events: AskEvent[]) => events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+
+  it("finds and strips the marker, tolerant of spacing and case, and leaves other text alone", () => {
+    expect(takeGapMarker("I built X.\n\n[[incomplete]]")).toEqual({ text: "I built X.\n\n", found: true });
+    expect(takeGapMarker("\n[[ Incomplete ]]\n")).toEqual({ text: "\n\n", found: true });
+    expect(takeGapMarker("I built X. [[incomplete]] [[INCOMPLETE]]").text).toBe("I built X.  ");
+    expect(takeGapMarker("Arrays like [[1, 2]] stay.")).toEqual({ text: "Arrays like [[1, 2]] stay.", found: false });
+  });
+
+  it("says the site does not cover the rest in the answer's language", () => {
+    expect(siteDoesNotSay("pt-br")).toBe("Sobre o resto da pergunta, o site não diz nada.");
+    expect(siteDoesNotSay("en-us")).toBe("The site doesn't say anything about the rest of the question.");
+    // zh-cn answers are in English (prompt.ts), so is their closing sentence.
+    expect(siteDoesNotSay("zh-cn")).toBe(siteDoesNotSay("en-us"));
+  });
+
+  it("asks Claude for the marker on partial answers only, and both models not to word the gap themselves", () => {
+    const claude = systemPrompt("en-us");
+    expect(claude).toContain(`exactly ${GAP_MARKER}`);
+    expect(claude).toContain("Do not write it when the documents answer the whole question, or when they answer none of it.");
+    expect(claude).toContain("do not mention what is missing");
+    // An eval answer gave the roles for a salary question and never said the salary is missing.
+    expect(claude).toContain("Offering a related fact instead of the one asked for");
+    expect(jsonSystemPrompt("en-us")).not.toContain(GAP_MARKER);
+  });
+
+  it("turns Claude's marker into the site's closing sentence and a partial answer, without the marker", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ".\n\n" },
+      { text: GAP_MARKER },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    const text = texts(events);
+    expect(text).toBe(`I built a personal RAG chatbot over an Obsidian vault.\n\n\n\n${siteDoesNotSay("en-us")}`);
+    expect(text).not.toContain("incomplete");
+    expect(events).toContainEqual({ type: "partial" });
+    // The closing sentence comes before the partial notice, and both before the sources.
+    const order = events.map((event) => event.type);
+    expect(order.indexOf("partial")).toBeGreaterThan(order.lastIndexOf("text"));
+    expect(order.indexOf("sources")).toBeGreaterThan(order.indexOf("partial"));
+  });
+
+  it("closes in Portuguese for a pt-br visitor", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". [[incomplete]]" },
+    ]);
+    const events = await collect(ask({ ...input, locale: "pt-br" }, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toContain(siteDoesNotSay("pt-br"));
+  });
+
+  it("still drops an invented fact next to the marker", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". My salary is R$ 9.000 per month at Microsoft.\n[[incomplete]]" },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    const text = texts(events);
+    expect(text).not.toMatch(/R\$|9\.000|Microsoft|salary is/);
+    expect(text).toContain(siteDoesNotSay("en-us"));
+    expect(events).toContainEqual({ type: "partial" });
+  });
+
+  it("adds no closing sentence to a complete answer", async () => {
+    const claude = fakeClaude([{ text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] }, { text: "." }]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).not.toContain(siteDoesNotSay("en-us"));
+    expect(events).not.toContainEqual({ type: "partial" });
+  });
+
+  it("closes the free models' incomplete answers the same way", async () => {
+    const generate = fakeModel(answer([{ text: "I built a personal RAG chatbot over an Obsidian vault.", sources: [3] }], true, true));
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
+    expect(texts(events)).toContain(siteDoesNotSay("en-us"));
+    expect(events).toContainEqual({ type: "partial" });
   });
 });
