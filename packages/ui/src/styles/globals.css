@@ -178,6 +178,18 @@
     scroll-padding-top: calc(5rem + env(safe-area-inset-top));
   }
   /*
+   * In-page jumps (anchors, the "#" copy link, scrollIntoView) glide instead of
+   * cutting, unless the reader asks for less motion. Wheel and touch scrolling
+   * stay native. <html data-scroll-behavior="smooth"> tells Next.js to switch
+   * this off while it scrolls to the top on a route change, and the scroll
+   * keeper restores a place with behavior: "instant" (docs/guides/ui-state.md).
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  /*
    * The Ask dock (apps/web features/ask/ask-dock.tsx) sets data-ask-dock on
    * <html> while open. The floating panel covers the bottom right, so focused
    * content scrolls clear of it (WCAG 2.4.11); the drawer gets room on the
