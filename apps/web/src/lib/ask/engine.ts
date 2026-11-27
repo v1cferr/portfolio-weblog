@@ -216,9 +216,14 @@ class Emitter {
     this.dropLeadIn();
   }
 
-  /** Nothing cited: a short reply is "the site doesn't say"; a long one cited nothing it claimed. */
+  /**
+   * Nothing cited. A short reply ("the site doesn't say", "I only answer
+   * about my work"), even one whose wording did not pass, is "the site doesn't
+   * say": an off-topic question reaches Claude now that it reads the whole
+   * site. A dropped claim, or a long uncited reply, is ungrounded.
+   */
   noAnswer(): Outcome {
-    return this.held.length > 0 && this.held.length <= 2 && !this.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
+    return this.held.length <= 2 && !this.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
   }
 
   /**
