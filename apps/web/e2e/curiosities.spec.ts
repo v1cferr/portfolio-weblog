@@ -12,7 +12,10 @@ test.describe("about curiosities", () => {
     const section = page.getByTestId("curiosities");
     await expect(section.getByRole("heading", { name: "Curiosidades" })).toBeVisible();
     await expect(section.getByText(/Minha única tatuagem/)).toBeVisible();
-    await expect(section.getByRole("link", { name: /Ver mais/ }).first()).toHaveAttribute("href", "/pt-br/wow");
+    await expect(section.locator("#curiosity-wow-on-nix").getByRole("link", { name: /Ver mais/ })).toHaveAttribute(
+      "href",
+      "/pt-br/wow#wow-addons"
+    );
 
     await page.goto("/en-us/about");
     await expect(page.getByTestId("curiosities").getByRole("heading", { name: "Curiosities" })).toBeVisible();
