@@ -70,8 +70,10 @@ if (anthropicKey === null && apiKey === null) {
       if (event.type === "status") {
         mode = event.mode;
         reason = event.reason ?? "";
-        partial = event.partial === true;
+        partial ||= event.partial === true;
       }
+      // A model answer says it covers only part of the question with its own event, after the text.
+      if (event.type === "partial") partial = true;
       if (event.type === "text") text += event.text;
       if (event.type === "cite") cites.push(event.n);
       if (event.type === "sources") sources = event.sources;
