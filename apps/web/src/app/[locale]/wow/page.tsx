@@ -1,7 +1,7 @@
 import { localize, type LocalizedText, type WowRuleset } from "@workspace/content";
 import { Badge } from "@workspace/ui/components/badge";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@workspace/ui/components/empty";
-import { BirdIcon, ExternalLinkIcon, Gamepad2Icon, PuzzleIcon, SwordsIcon, UserRoundIcon } from "lucide-react";
+import { BirdIcon, CameraIcon, ExternalLinkIcon, Gamepad2Icon, PuzzleIcon, SwordsIcon, UserRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -9,6 +9,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
+import { MediaGallery } from "@/components/media-gallery";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
 import { SourceLink } from "@/components/source-link";
@@ -291,6 +292,16 @@ export default async function WowPage() {
                 );
               })}
             </div>
+          </section>
+        )}
+
+        {/* Screenshots arrive over time: with none, there is no section at all. */}
+        {wow.screenshots.length > 0 && (
+          <section aria-labelledby="wow-screenshots">
+            <SectionHeading id="wow-screenshots" icon={CameraIcon}>
+              {t("screenshots")}
+            </SectionHeading>
+            <MediaGallery id="wow-screenshots" media={wow.screenshots} />
           </section>
         )}
       </div>

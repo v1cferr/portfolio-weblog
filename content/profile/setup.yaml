@@ -249,6 +249,152 @@ groups:
         since: 2022-08
         until: 2026-07
 
+# VS Code: the extensions installed, copied from the dotfiles' mirror (`code --list-extensions`,
+# rewritten by vscode-extensions-dump on every update). Names are the Marketplace's; the groups
+# are mine. To refresh: copy the new list, keep each id in one group.
+vscodeExtensions:
+  source: https://github.com/v1cferr/dotfiles/blob/main/modules/home/apps/vscode/extensions.txt
+  syncedAt: 2026-11-20
+  groups:
+    - id: ai
+      title: { en-us: "AI and assistants", pt-br: "IA e assistentes" }
+      items:
+        - { id: anthropic.claude-code, name: "Claude Code for VS Code", icon: "si:claude" }
+        - { id: upstash.context7-mcp, name: "Context7 MCP Server" }
+        - { id: ms-vscode.vscode-chat-customizations-evaluations, name: "Chat Customizations Evaluations" }
+    - id: web
+      title: { en-us: "Web and TypeScript", pt-br: "Web e TypeScript" }
+      items:
+        - { id: angular.ng-template, name: "Angular Language Service", icon: "si:angular" }
+        - { id: astro-build.astro-vscode, name: "Astro", icon: "si:astro" }
+        - { id: bradlc.vscode-tailwindcss, name: "Tailwind CSS IntelliSense", icon: "si:tailwindcss" }
+        - { id: csstools.postcss, name: "PostCSS Language Support", icon: "si:postcss" }
+        - { id: denoland.vscode-deno, name: "Deno", icon: "si:deno" }
+        - { id: ms-playwright.playwright, name: "Playwright Test for VSCode", icon: "dv:playwright" }
+        - { id: christian-kohler.npm-intellisense, name: "npm Intellisense", icon: "si:npm" }
+        - { id: christian-kohler.path-intellisense, name: "Path Intellisense" }
+        - { id: formulahendry.auto-rename-tag, name: "Auto Rename Tag" }
+        - { id: bradgashler.htmltagwrap, name: "htmltagwrap" }
+        - { id: george-alisson.html-preview-vscode, name: "HTML Preview" }
+        - { id: steoates.autoimport, name: "Auto Import" }
+        - { id: pmneo.tsimporter, name: "TypeScript Importer" }
+        - { id: stringham.move-ts, name: "Move TS - Move TypeScript files and update relative imports" }
+        - { id: wix.vscode-import-cost, name: "Import Cost" }
+        - { id: yoavbls.pretty-ts-errors, name: "Pretty TypeScript Errors" }
+        - { id: antfu.file-nesting, name: "File Nesting Updater" }
+    - id: quality
+      title: { en-us: "Quality and formatting", pt-br: "Qualidade e formatação" }
+      items:
+        - { id: dbaeumer.vscode-eslint, name: "ESLint", icon: "si:eslint" }
+        - { id: esbenp.prettier-vscode, name: "Prettier - Code formatter", icon: "si:prettier" }
+        - { id: editorconfig.editorconfig, name: "EditorConfig", icon: "si:editorconfig" }
+        - { id: davidanson.vscode-markdownlint, name: "markdownlint", icon: "si:markdown" }
+        - { id: usernamehw.errorlens, name: "Error Lens" }
+        - { id: foxundermoon.shell-format, name: "shell-format" }
+        - { id: cardinal90.multi-cursor-case-preserve, name: "Multiple cursor case preserve" }
+        - { id: tgosystems.togglebracketguides, name: "Toggle Bracket Guides" }
+    - id: git
+      title: { en-us: "Git and GitHub", pt-br: "Git e GitHub" }
+      items:
+        - { id: github.vscode-pull-request-github, name: "GitHub Pull Requests", icon: "si:github" }
+        - { id: github.vscode-github-actions, name: "GitHub Actions", icon: "si:githubactions" }
+        - { id: eamodio.gitlens, name: "GitLens — Git supercharged" }
+        - { id: mhutchie.git-graph, name: "Git Graph" }
+        - { id: donjayamanne.githistory, name: "Git History" }
+    - id: python
+      title: { en-us: "Python, data and notebooks", pt-br: "Python, dados e notebooks" }
+      items:
+        - { id: ms-python.python, name: "Python", icon: "si:python" }
+        - { id: ms-python.vscode-pylance, name: "Pylance" }
+        - { id: ms-python.debugpy, name: "Python Debugger" }
+        - { id: ms-python.vscode-python-envs, name: "Python Environments" }
+        - { id: ms-python.black-formatter, name: "Black Formatter" }
+        - { id: ms-python.isort, name: "isort" }
+        - { id: njpwerner.autodocstring, name: "autoDocstring - Python Docstring Generator" }
+        - { id: ms-toolsai.jupyter, name: "Jupyter", icon: "si:jupyter" }
+        - { id: ms-toolsai.jupyter-keymap, name: "Jupyter Keymap", icon: "si:jupyter" }
+        - { id: ms-toolsai.jupyter-renderers, name: "Jupyter Notebook Renderers", icon: "si:jupyter" }
+        - { id: ms-toolsai.vscode-jupyter-cell-tags, name: "Jupyter Cell Tags", icon: "si:jupyter" }
+        - { id: ms-toolsai.vscode-jupyter-slideshow, name: "Jupyter Slide Show", icon: "si:jupyter" }
+        - { id: qwtel.sqlite-viewer, name: "SQLite Viewer", icon: "si:sqlite" }
+        - { id: mechatroner.rainbow-csv, name: "Rainbow CSV" }
+        - { id: khaeransori.json2csv, name: "JSON to CSV" }
+    - id: nix
+      title: { en-us: "Nix, shell and servers", pt-br: "Nix, shell e servidores" }
+      items:
+        - { id: jnoortheen.nix-ide, name: "Nix IDE", icon: "si:nixos" }
+        - {
+            id: v1cferr.nix-embedded-shell,
+            name: "Nix embedded shell",
+            icon: "si:nixos",
+            url: https://github.com/v1cferr/dotfiles/tree/main/modules/home/apps/vscode/nix-embedded-shell,
+          }
+        - { id: mkhl.direnv, name: "direnv" }
+        - { id: mikestead.dotenv, name: "DotENV" }
+        - { id: nefrob.vscode-just-syntax, name: "vscode-just" }
+        - { id: matthewpi.caddyfile-support, name: "Caddyfile Support", icon: "si:caddy" }
+        - { id: william-voyek.vscode-nginx, name: "NGINX Configuration", icon: "si:nginx" }
+        - { id: redhat.vscode-yaml, name: "YAML", icon: "si:yaml" }
+        - { id: tamasfe.even-better-toml, name: "Even Better TOML", icon: "si:toml" }
+        - { id: redhat.vscode-xml, name: "XML" }
+        - { id: ms-azuretools.vscode-containers, name: "Container Tools" }
+        - { id: ms-vscode-remote.remote-containers, name: "Dev Containers" }
+        - { id: ms-vscode-remote.remote-ssh, name: "Remote - SSH" }
+        - { id: ms-vscode-remote.remote-ssh-edit, name: "Remote - SSH: Editing Configuration Files" }
+        - { id: ms-vscode-remote.remote-wsl, name: "WSL" }
+        - { id: ms-vscode.remote-explorer, name: "Remote Explorer" }
+        - { id: ms-vscode.powershell, name: "PowerShell" }
+        - { id: ms-azuretools.vscode-bicep, name: "Bicep" }
+    - id: java
+      title: { en-us: "Java and Spring", pt-br: "Java e Spring" }
+      items:
+        - { id: redhat.java, name: "Language Support for Java(TM) by Red Hat", icon: "si:openjdk" }
+        - { id: vscjava.vscode-java-pack, name: "Extension Pack for Java", icon: "si:openjdk" }
+        - { id: vscjava.vscode-java-debug, name: "Debugger for Java" }
+        - { id: vscjava.vscode-java-dependency, name: "Project Manager for Java" }
+        - { id: vscjava.vscode-java-test, name: "Test Runner for Java" }
+        - { id: vscjava.vscode-maven, name: "Maven for Java", icon: "si:apachemaven" }
+        - { id: vscjava.vscode-gradle, name: "Gradle for Java", icon: "si:gradle" }
+        - { id: vmware.vscode-boot-dev-pack, name: "Spring Boot Extension Pack", icon: "si:spring" }
+        - { id: vmware.vscode-spring-boot, name: "Spring Boot Tools", icon: "si:spring" }
+        - { id: vscjava.vscode-spring-boot-dashboard, name: "Spring Boot Dashboard", icon: "si:spring" }
+        - { id: vscjava.vscode-spring-initializr, name: "Spring Initializr Java Support", icon: "si:spring" }
+    - id: languages
+      title: { en-us: "C/C++, .NET, Rust and other languages", pt-br: "C/C++, .NET, Rust e outras linguagens" }
+      items:
+        - { id: ms-vscode.cpptools, name: "C/C++", icon: "si:cplusplus" }
+        - { id: ms-vscode.cpptools-extension-pack, name: "C/C++ Extension Pack", icon: "si:cplusplus" }
+        - { id: ms-vscode.cpptools-themes, name: "C/C++ Themes", icon: "si:cplusplus" }
+        - { id: ms-vscode.cpp-devtools, name: "C/C++ DevTools", icon: "si:cplusplus" }
+        - { id: ms-vscode.cmake-tools, name: "CMake Tools", icon: "si:cmake" }
+        - { id: ms-dotnettools.csharp, name: "C#", icon: "si:dotnet" }
+        - { id: ms-dotnettools.csdevkit, name: "C# Dev Kit", icon: "si:dotnet" }
+        - { id: ms-dotnettools.vscode-dotnet-runtime, name: ".NET Install Tool", icon: "si:dotnet" }
+        - { id: theqtcompany.qt-core, name: "Qt Core", icon: "si:qt" }
+        - { id: theqtcompany.qt-qml, name: "Qt QML", icon: "si:qt" }
+        - { id: rust-lang.rust-analyzer, name: "rust-analyzer", icon: "si:rust" }
+        - { id: sumneko.lua, name: "Lua", icon: "si:lua" }
+        - { id: gleam.gleam, name: "Gleam", icon: "si:gleam" }
+    - id: writing
+      title: { en-us: "Writing and documents", pt-br: "Escrita e documentos" }
+      items:
+        - { id: yzhang.markdown-all-in-one, name: "Markdown All in One", icon: "si:markdown" }
+        - { id: bierner.markdown-mermaid, name: "Markdown Preview Mermaid Support", icon: "si:mermaid" }
+        - { id: unifiedjs.vscode-mdx, name: "MDX", icon: "si:mdx" }
+        - { id: james-yu.latex-workshop, name: "LaTeX Workshop", icon: "si:latex" }
+        - { id: tomoki1207.pdf, name: "vscode-pdf" }
+        - { id: shahilkumar.docxreader, name: "Docx/ODT Viewer" }
+        - { id: shubhamprajapati1202.office-editor, name: "Office Editor (Docx, Xlsx)" }
+        - { id: adpyke.codesnap, name: "CodeSnap" }
+        - { id: aslamanver.vsc-export, name: "VSC Export & Import" }
+    - id: look
+      title: { en-us: "Look and utilities", pt-br: "Aparência e utilidades" }
+      items:
+        - { id: enkia.tokyo-night, name: "Tokyo Night" }
+        - { id: vscode-icons-team.vscode-icons, name: "vscode-icons" }
+        - { id: zh9528.file-size, name: "file-size" }
+        - { id: neverdh.fah-meme, name: "Fah MEME" }
+
 # Photo history from v1 (public/pictures/setup), re-encoded with pnpm media:add
 # so no metadata survives. The 2019-12-09 photo is left out (it shows a family
 # member), and the 2025-01-27 lock screen widgets (weather and traffic for the

@@ -32,7 +32,7 @@ export async function checkMedia(
   content: RawContent,
   publicDir: string,
   readMetadata: (file: string) => Promise<{ width?: number; height?: number; exif?: unknown; xmp?: unknown; iptc?: unknown }>,
-  /** Images of content loaded outside the registry (the tattoos page). */
+  /** Images of content loaded outside the registry (the tattoos and WoW pages). */
   extra: readonly MediaReference[] = []
 ): Promise<ContentIssue[]> {
   const issues: ContentIssue[] = [];

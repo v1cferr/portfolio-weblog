@@ -455,7 +455,13 @@
     "copied": "Copied",
     "markdownHeading": "My setup",
     "photos": "The desk over the years",
-    "present": "present"
+    "present": "present",
+    "extensions": "VS Code extensions",
+    "extensionsInfo": "The {count} extensions I have installed, copied from my dotfiles' automatic mirror (code --list-extensions), updated {date}. Names are the Marketplace's; the groups are mine.",
+    "extensionsSource": "List in the dotfiles",
+    "extensionsMore": "Show all {count} extensions",
+    "extensionsLess": "Show fewer",
+    "extensionsList": "{group} extensions"
   },
   "Wow": {
     "title": "World of Warcraft",
@@ -492,7 +498,8 @@
     "addonsNote": "{count} add-ons for WoW Forever, each pinned to its latest stable release and installed as one <nix>Nix derivation</nix> from my dotfiles.",
     "addonsSnapshot": "The list could not be read today; this is the copy kept in the site's repository.",
     "otherGroup": "Other",
-    "addonCount": "{count, plural, one {# add-on} other {# add-ons}}"
+    "addonCount": "{count, plural, one {# add-on} other {# add-ons}}",
+    "screenshots": "Screenshots"
   },
   "Tattoos": {
     "title": "Personal architecture",

@@ -5,6 +5,7 @@ import { parse as parseYaml } from "yaml";
 
 import type { ContentIssue } from "../loaders/errors";
 import { ContentValidationError } from "../loaders/errors";
+import type { MediaReference } from "../media";
 import { Wow } from "../schemas";
 
 /** Where the World of Warcraft page's content lives, relative to the content root. */
@@ -58,4 +59,9 @@ export function loadWow(root: string): Wow | undefined {
   const { wow, issues } = loadWowContent(root);
   if (issues.length > 0) throw new ContentValidationError(issues);
   return publicWow(wow);
+}
+
+/** The screenshots on /wow, for the media check (existence, size, no metadata). */
+export function wowMedia(wow: Wow | undefined): MediaReference[] {
+  return (wow?.screenshots ?? []).map(({ src, width, height }) => ({ src, width, height, file: WOW_FILE }));
 }
