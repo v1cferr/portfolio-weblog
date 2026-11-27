@@ -215,8 +215,26 @@ export function dateWords(text: string): string[] {
 function knownMonth(month: number, sentenceYears: readonly string[], haystack: string): boolean {
   const mm = String(month).padStart(2, "0");
   const years = new Set([...haystack.matchAll(YEAR_MONTH)].filter(([, , m]) => m === mm).map(([, year]) => year));
+  for (const year of spelledYears(month, haystack)) years.add(year);
   if (sentenceYears.length === 0 ? years.size > 0 : sentenceYears.some((year) => years.has(year))) return true;
   return (MONTHS[month - 1] ?? []).some((name) => name.length > 3 && new RegExp(`\\b${name}\\b`).test(haystack));
+}
+
+/**
+ * Years the corpus dates a month in words ("agosto de 2026", "august 2026";
+ * the haystack is normalized, so "março" reads "marco"). Passages spell their
+ * dates out, so this is how "2026-08" or "August 2026" in an answer is known.
+ */
+function spelledYears(month: number, haystack: string): string[] {
+  const names = (MONTHS[month - 1] ?? []).filter((name) => name.length > 3 || name === "may");
+  return names.flatMap((name) => [...haystack.matchAll(new RegExp(`\\b${name}(?: de)? (\\d{4})\\b`, "g"))].map(([, year = ""]) => year));
+}
+
+/** Whether "YYYY-MM" names a month the corpus dates, as "YYYY-MM" or in words. */
+function knownYearMonth(value: string, haystack: string): boolean {
+  if (haystack.includes(value)) return true;
+  const [year = "", month = ""] = value.split("-");
+  return spelledYears(Number(month), haystack).includes(year);
 }
 
 /**
@@ -231,7 +249,10 @@ export function newFacts(sentence: string, corpus: string): string[] {
   const haystack = normalizeTerm(corpus);
   const text = plainText(sentence);
   const facts = new Set<string>();
-  for (const number of text.match(/\d+(?:[.,:/-]\d+)*/g) ?? []) if (!haystack.includes(normalizeTerm(number))) facts.add(number);
+  for (const number of text.match(/\d+(?:[.,:/-]\d+)*/g) ?? []) {
+    const known = /^\d{4}-\d{2}$/.test(number) ? knownYearMonth(number, haystack) : haystack.includes(normalizeTerm(number));
+    if (!known) facts.add(number);
+  }
   const years = text.match(/\b\d{4}\b/g) ?? [];
   const tokens = text.split(/\s+/);
   tokens.forEach((raw, index) => {

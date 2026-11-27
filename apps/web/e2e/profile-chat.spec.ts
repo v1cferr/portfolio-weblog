@@ -73,7 +73,8 @@ test.describe("profile chat dock", () => {
     await page.getByTestId("ask-launcher").click();
     const dialog = dock(page, "Pergunte sobre o meu trabalho");
     const input = dialog.getByRole("textbox", { name: "Pergunte sobre o meu trabalho" });
-    await input.fill("Qual é a capital da França?");
+    // About me, so not off topic, but no page answers it (and e2e builds have no model key).
+    await input.fill("o Victor tem cachorro?");
     await input.press("Enter");
     await expect(dialog.getByTestId("ask-no-source")).toContainText("Isso não está no site");
     await expect(dialog.getByTestId("ask-no-source")).toContainText("fale comigo pela página Sobre");
@@ -82,7 +83,20 @@ test.describe("profile chat dock", () => {
     await dialog.getByRole("button", { name: "Buscar no site" }).click();
     const search = page.getByRole("dialog", { name: "Buscar no hub" });
     await expect(search).toBeVisible();
-    await expect(search.getByPlaceholder(/Buscar experiências/)).toHaveValue("Qual é a capital da França?");
+    await expect(search.getByPlaceholder(/Buscar experiências/)).toHaveValue("o Victor tem cachorro?");
+  });
+
+  test("an off-topic question gets a fixed reply and the suggested questions, with no model", async ({ page }) => {
+    await page.goto("/pt-br");
+    await page.getByTestId("ask-launcher").click();
+    const dialog = dock(page, "Pergunte sobre o meu trabalho");
+    const input = dialog.getByRole("textbox", { name: "Pergunte sobre o meu trabalho" });
+    await input.fill("Qual é a capital da França?");
+    await input.press("Enter");
+    const reply = dialog.getByTestId("ask-small-talk");
+    await expect(reply).toContainText("só falo sobre mim e o meu trabalho");
+    await expect(dialog.getByTestId("ask-ai-label")).toHaveCount(0);
+    await expect(reply.getByRole("button", { name: "Qual é o meu cargo atual?" })).toBeVisible();
   });
 
   test("Escape minimizes the dock and returns focus to the launcher", async ({ page }) => {

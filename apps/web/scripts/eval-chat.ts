@@ -12,7 +12,16 @@
  */
 import type { Locale } from "@workspace/content";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited, runVague, siteFor } from "../evals/profile-chat";
+import {
+  loadEvalSet,
+  retrieverFor,
+  runFaithfulness,
+  runOffTopic,
+  runRetrieval,
+  runUncited,
+  runVague,
+  siteFor,
+} from "../evals/profile-chat";
 import { claudeAnswer, createClaudeClient, getAnthropicKey } from "../src/lib/ask/anthropic";
 import { ask, openRouterGenerate } from "../src/lib/ask/engine";
 import { getApiKey } from "../src/lib/ask/openrouter";
@@ -36,6 +45,12 @@ for (const result of runVague(set)) {
   if (!result.ok) failures++;
   say(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.question}`);
   if (!result.ok) say(`       expected ${result.expect.join(" | ")}; got ${result.retrieved.join(", ") || "nothing"}`);
+}
+
+say("\nOff-topic first questions (fixed reply, no model)");
+for (const result of runOffTopic(set)) {
+  if (!result.ok) failures++;
+  say(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.offTopic ? "off topic" : "about me"}: ${result.question}`);
 }
 
 say("\nFaithfulness check");
@@ -94,8 +109,8 @@ if (anthropicKey === null && apiKey === null) {
     const result = await answer(locale, question);
     const ok =
       expect.length === 0
-        ? // Off topic: nothing found, or (Claude reads the whole site) the site doesn't say.
-          result.mode === "no-source" || result.mode === "unknown"
+        ? // Off topic: the fixed reply, nothing found, or (Claude reads the whole site) the site doesn't say.
+          result.mode === "small-talk" || result.mode === "no-source" || result.mode === "unknown"
         : result.mode === "extractive" ||
           result.mode === "unknown" ||
           (result.validCites && expect.some((url) => result.cited.includes(url)));

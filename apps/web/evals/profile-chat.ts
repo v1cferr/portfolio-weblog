@@ -8,6 +8,7 @@ import { parse } from "yaml";
 
 import { asRetrieved, focusPassages } from "../src/lib/ask/engine";
 import { checkSentence, FAITHFULNESS_THRESHOLD, faithfulness } from "../src/lib/ask/grounding";
+import { isOffTopic } from "../src/lib/ask/off-topic";
 import { z } from "zod";
 
 /**
@@ -40,6 +41,12 @@ const EvalSet = z.strictObject({
     .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), allowed: z.boolean() }))
     .default([]),
   injections: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).min(1),
+  /**
+   * First questions and whether they are off topic (off-topic.ts): an off-topic
+   * one gets a fixed reply with no model call, so a vague question about the
+   * owner must never be one.
+   */
+  offTopic: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), offTopic: z.boolean() })).default([]),
   /** Questions near the site's topics that it does not answer: the model must say so, never fill the gap. */
   unknowns: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).default([]),
 });
@@ -77,6 +84,21 @@ export function runVague(set: EvalSet): RetrievalResult[] {
     const focus = focusPassages(retrieverFor(locale).retrieve(question, { limit: MAX_PASSAGES }), siteFor(locale).map(asRetrieved));
     const retrieved = [...new Set(focus.map((passage) => passage.url))];
     return { locale, question, expect, retrieved, ok: expect.some((url) => retrieved.includes(url)) };
+  });
+}
+
+export interface OffTopicResult {
+  locale: Locale;
+  question: string;
+  offTopic: boolean;
+  ok: boolean;
+}
+
+/** Each first question is classified with the production retriever, as the chat route does before calling a model. */
+export function runOffTopic(set: EvalSet): OffTopicResult[] {
+  return set.offTopic.map(({ locale, question, offTopic }) => {
+    const found = retrieverFor(locale).retrieve(question);
+    return { locale, question, offTopic, ok: isOffTopic(question, found, 0) === offTopic };
   });
 }
 

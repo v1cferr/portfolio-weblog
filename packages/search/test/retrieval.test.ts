@@ -2,7 +2,7 @@ import { loadRegistry } from "@workspace/content";
 import { describe, expect, it } from "vitest";
 
 import { experience, makeContent, post, project } from "../../content/test/fixture";
-import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, splitByHeading, splitParagraphs } from "../src";
+import { buildRetrievalPassages, createRetriever, dateInWords, MAX_PASSAGES, splitByHeading, splitParagraphs } from "../src";
 
 const registry = loadRegistry(
   makeContent({
@@ -35,8 +35,23 @@ describe("buildRetrievalPassages", () => {
     expect(new Set(passages.map((passage) => passage.id)).size).toBe(passages.length);
   });
 
-  it("dates experiences, so 'when' questions can be answered", () => {
-    expect(passages.find((passage) => passage.entityId === "acme-dev")?.text).toContain("2023-01 – present");
+  it("dates experiences in words, so 'when' questions can be answered", () => {
+    expect(passages.find((passage) => passage.entityId === "acme-dev")?.text).toContain("since January 2023");
+  });
+
+  it("writes the About passage as sentences, not field lines", () => {
+    const about = passages.find((passage) => passage.type === "profile")?.text ?? "";
+    expect(about).not.toMatch(/Current role:|Location:|\d{4}-\d{2} –/);
+  });
+});
+
+describe("dateInWords", () => {
+  it("spells partial dates out in each language", () => {
+    expect(dateInWords("2026-08", "pt-br")).toBe("agosto de 2026");
+    expect(dateInWords("2026-08", "en-us")).toBe("August 2026");
+    expect(dateInWords("2026-03-05", "pt-br")).toBe("5 de março de 2026");
+    expect(dateInWords("2026-03-05", "en-us")).toBe("March 5, 2026");
+    expect(dateInWords("2024", "en-us")).toBe("2024");
   });
 });
 

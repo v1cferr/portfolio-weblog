@@ -43,8 +43,9 @@ export interface AskRequest {
  * - `unknown`: related pages were found, but the model read them and they do
  *   not answer the question, so the answer is "the site does not say";
  * - `no-source`: nothing on the site matches, so nothing is answered;
- * - `small-talk`: a greeting, a thanks or "what can you do": a fixed reply
- *   from the site, no model and no retrieval, and the suggested questions.
+ * - `small-talk`: a greeting, a thanks or "what can you do", or an off-topic
+ *   question ("the capital of France"): a fixed reply from the site, no
+ *   model, and the suggested questions.
  */
 export type AskMode = "model" | "extractive" | "unknown" | "no-source" | "small-talk";
 export type FallbackReason = "unavailable" | "rate-limited" | "error" | "ungrounded";

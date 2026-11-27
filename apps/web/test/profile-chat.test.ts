@@ -36,6 +36,7 @@ import {
   passagesBlock,
   systemPrompt,
 } from "../src/lib/ask/prompt";
+import { isOffTopic, offTopicReply } from "../src/lib/ask/off-topic";
 import { smallTalk, smallTalkReply } from "../src/lib/ask/small-talk";
 import { toMarkdown } from "../src/features/ask/turn";
 import type { AskEvent } from "../src/lib/ask/protocol";
@@ -607,6 +608,42 @@ describe("small talk", () => {
   });
 });
 
+describe("off-topic questions", () => {
+  const noise = [{ score: 5.8, terms: ["quanto"], keywords: "personal-hub\nNext.js" }];
+
+  it("are first questions with only word-noise hits that name neither the owner nor the site", () => {
+    expect(isOffTopic("Qual é a capital da França?", [], 0)).toBe(true);
+    expect(isOffTopic("What is the capital of France?", [], 0)).toBe(true);
+    expect(isOffTopic("Quanto é 17 vezes 23?", noise, 0)).toBe(true);
+    expect(isOffTopic("Tell me a joke about cats", [], 0)).toBe(true);
+    expect(isOffTopic("asdf qwerty zxcv", [], 0)).toBe(true);
+  });
+
+  it("never catch a vague question about the owner, a follow-up or anything the search found", () => {
+    for (const question of [
+      "quem é o victor?",
+      "me fala de você",
+      "o que ele faz?",
+      "vale a pena contratar?",
+      "who is victor?",
+      "tell me about yourself",
+      "is he a good fit for frontend?",
+      "What is my current role?",
+      "Quais projetos estão no site?",
+    ])
+      expect(isOffTopic(question, noise, 0), question).toBe(false);
+    expect(isOffTopic("e antes disso?", [], 1)).toBe(false);
+    expect(isOffTopic("Vai chover amanhã em São Paulo?", [{ score: 17.2, terms: ["paulo"], keywords: "" }], 0)).toBe(false);
+    // A keyword of the page (a technology) is the site's topic even when it scores like noise.
+    expect(isOffTopic("Como uso Nix?", [{ score: 7.9, terms: ["nix"], keywords: "nixos\nNix\nNixOS" }], 0)).toBe(false);
+  });
+
+  it("get a fixed reply in the page's language", () => {
+    expect(offTopicReply("pt-br")).toContain("só falo sobre mim e o meu trabalho");
+    expect(offTopicReply("zh-cn")).toBe(offTopicReply("en-us"));
+  });
+});
+
 describe("ask", () => {
   const input = { locale: "en-us", question: "What RAG has he built?", history: [] };
 
@@ -621,6 +658,22 @@ describe("ask", () => {
     ]);
     expect(r.calls).toEqual([]);
     expect(claude.calls).toHaveLength(0);
+  });
+
+  it("answers an off-topic first question with a fixed reply and never calls a model", async () => {
+    const generate = fakeModel(answer([]));
+    const claude = fakeClaude([]);
+    const logs: string[] = [];
+    const events = await collect(
+      ask(
+        { ...input, question: "What is the capital of France?" },
+        { retriever: retriever([]), claude, generate, log: (line) => logs.push(line) }
+      )
+    );
+    expect(events).toEqual([{ type: "status", mode: "small-talk" }, { type: "text", text: offTopicReply("en-us") }, { type: "done" }]);
+    expect(claude.calls).toHaveLength(0);
+    expect(generate).not.toHaveBeenCalled();
+    expect(logs).toEqual(["off-topic"]);
   });
 
   it("answers nothing and never calls a model when no passage matches", async () => {
@@ -714,11 +767,17 @@ describe("ask", () => {
       expect(last).not.toContain("[2]");
     });
 
-    it("says the site doesn't cover an off-topic question, even when Claude's refusal is not worded like the pages", async () => {
+    it("says the site doesn't cover an off-topic follow-up, even when Claude's refusal is not worded like the pages", async () => {
+      // A first off-topic question never reaches Claude (off-topic.ts); a follow-up does.
       const claude = fakeClaude([{ text: "Posso responder só sobre o meu trabalho, e a capital da França não aparece aqui." }]);
       const events = await collect(
         ask(
-          { ...input, locale: "pt-br", question: "Qual é a capital da França?" },
+          {
+            ...input,
+            locale: "pt-br",
+            question: "Qual é a capital da França?",
+            history: [{ question: "quem é você?", answer: "Sou analista de sistemas de IA." }],
+          },
           { retriever: retriever([]), site: SITE, claude, generate: null }
         )
       );
@@ -1033,6 +1092,13 @@ describe("grounding, dates in words and possessives", () => {
       reason: "new-fact",
     });
     expect(newFacts("I joined in March.", role.text)).toEqual(["March"]);
+    // Passages spell their dates out (2026-11-27): an answer may still name the month either way, in either language.
+    const spelled = "Trabalho como Analista de Sistemas de IA em FAI·UFSCar desde agosto de 2026.";
+    expect(newFacts("Desde agosto de 2026 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
+    expect(newFacts("Since August 2026 I've worked at FAI·UFSCar.", spelled)).toEqual([]);
+    expect(newFacts("Desde 2026-08 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
+    expect(newFacts("Desde 2027-08 sou Analista de Sistemas de IA.", spelled)).toEqual(["2027-08"]);
+    expect(newFacts("Since August 2019 I've worked at FAI·UFSCar.", spelled)).toEqual(["2019"]);
   });
 
   it("reads a possessive as the name it is attached to, and still catches an invented one", () => {
