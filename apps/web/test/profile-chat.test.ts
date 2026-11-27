@@ -1198,6 +1198,15 @@ describe("partial answers (gap marker)", () => {
     expect(siteDoesNotSay("zh-cn")).toBe(siteDoesNotSay("en-us"));
   });
 
+  it("asks both models to keep roles in their tense and say each fact once", () => {
+    // An answer said "Antes disso, trabalho como…" for a parallel role, and another stated the same role twice (2026-11-27).
+    for (const prompt of [systemPrompt("pt-br"), jsonSystemPrompt("pt-br")]) {
+      expect(prompt).toContain("Keep each role in its tense");
+      expect(prompt).toContain('never "before" one another');
+      expect(prompt).toContain("Say each fact once.");
+    }
+  });
+
   it("asks Claude for the marker on partial answers only, and both models not to word the gap themselves", () => {
     const claude = systemPrompt("en-us");
     expect(claude).toContain(`exactly ${GAP_MARKER}`);
