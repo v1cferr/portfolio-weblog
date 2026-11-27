@@ -27,10 +27,10 @@ const REST = [
 
 type StubWindow = { __askRelease: () => void; __askReleased: Promise<void> };
 
-/** Streams `reading` after 400 ms, then waits for release() before the answer. */
-async function streamAnswer(page: Page) {
+/** Streams `first` (by default `reading`) after 400 ms, then waits for release() before the rest. */
+async function streamAnswer(page: Page, first: object[] = [READING], rest: object[] = REST) {
   await page.addInitScript(
-    ({ reading, rest }) => {
+    ({ first, rest }) => {
       const target = window as unknown as StubWindow;
       target.__askReleased = new Promise<void>((resolve) => {
         target.__askRelease = resolve;
@@ -44,7 +44,7 @@ async function streamAnswer(page: Page) {
         const body = new ReadableStream<Uint8Array>({
           async start(controller) {
             await new Promise((resolve) => setTimeout(resolve, 400));
-            controller.enqueue(line(reading));
+            for (const event of first) controller.enqueue(line(event));
             await target.__askReleased;
             for (const event of rest) controller.enqueue(line(event));
             controller.close();
@@ -53,7 +53,7 @@ async function streamAnswer(page: Page) {
         return Promise.resolve(new Response(body, { headers: { "Content-Type": "application/x-ndjson" } }));
       };
     },
-    { reading: READING, rest: REST }
+    { first, rest }
   );
 }
 
@@ -79,6 +79,36 @@ const animationName = (page: Page, selector: string) =>
     .locator(selector)
     .first()
     .evaluate((element) => getComputedStyle(element).animationName);
+
+test.describe("profile chat streaming", () => {
+  test("checked sentences show as they arrive, before the answer is complete", async ({ page }) => {
+    await streamAnswer(
+      page,
+      [
+        READING,
+        { type: "checking" },
+        { type: "status", mode: "model" },
+        { type: "text", text: "I'm an AI Systems Analyst at FAI·UFSCar. " },
+        { type: "cite", n: 1 },
+      ],
+      [
+        { type: "text", text: "I build RAG and agents there." },
+        { type: "cite", n: 1 },
+        { type: "sources", sources: [{ n: 1, title: "FAI·UFSCar", url: "/en-us/career/fai-ufscar-2026" }] },
+        { type: "done" },
+      ]
+    );
+    const dialog = await askCurrentRole(page);
+    const answer = dialog.getByTestId("ask-answer");
+    await expect(answer).toContainText("I'm an AI Systems Analyst at FAI·UFSCar.");
+    await expect(answer).toHaveAttribute("aria-busy", "true");
+    await expect(answer).not.toContainText("I build RAG and agents there.");
+    await release(page);
+    await expect(answer).toContainText("I build RAG and agents there.");
+    await expect(answer).toHaveAttribute("aria-busy", "false");
+    await expect(page.getByTestId("ask-status")).toHaveText("Answer ready.");
+  });
+});
 
 test.describe("profile chat steps", () => {
   test("a pending answer shows the real steps, then folds them into one line that survives a reload", async ({ page }) => {
@@ -182,7 +212,7 @@ test.describe("profile chat notes behind an i", () => {
     await dialog.getByRole("button", { name: "About these answers" }).click();
     const tip = page.locator("[data-info-tip-content]");
     await expect(tip).toContainText("Answers come only from this site's pages, with links to them.");
-    await expect(tip).toContainText("free third-party models via OpenRouter");
+    await expect(tip).toContainText("Claude (Anthropic) or, when it is unavailable, free models via OpenRouter");
     await expect(tip).toContainText("Don't type personal data.");
   });
 
