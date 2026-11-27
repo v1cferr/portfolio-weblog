@@ -601,6 +601,9 @@
     --tw-prose-bold: var(--foreground);
     --tw-prose-quotes: var(--muted-foreground);
     --tw-prose-code: var(--foreground);
+    /* Plain-text blocks (```text) have no Shiki colour per token, so they inherit
+       this: typography's default is a light grey meant for a dark block. */
+    --tw-prose-pre-code: var(--foreground);
     --tw-prose-hr: var(--border);
     --tw-prose-bullets: var(--lane-writing);
     --tw-prose-counters: var(--muted-foreground);
@@ -609,6 +612,7 @@
     --tw-prose-invert-links: var(--lane-writing);
     --tw-prose-invert-bold: var(--foreground);
     --tw-prose-invert-code: var(--foreground);
+    --tw-prose-invert-pre-code: var(--foreground);
   }
   .prose-hub :where(h2) {
     @apply font-display;
@@ -627,10 +631,10 @@
   .prose-hub pre {
     @apply rounded-lg border bg-white font-mono text-sm leading-relaxed dark:bg-popover;
   }
-  .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+  .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span[style*="--shiki-light"] {
     color: var(--shiki-light);
   }
-  .dark .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span {
+  .dark .prose-hub [data-rehype-pretty-code-figure] code[data-theme] span[style*="--shiki-dark"] {
     color: var(--shiki-dark);
   }
 }
