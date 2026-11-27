@@ -5,30 +5,22 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { cn } from "@workspace/ui/lib/utils";
 import { ChevronRightIcon, FileIcon, FileTextIcon, FolderIcon, FolderOpenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { InfoTip } from "@/components/info-tip";
 import { NAV_SECTION } from "@/components/page-transition";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useSessionState } from "@/hooks/use-session-state";
 import type { ExplorerFolder, ExplorerNode } from "@/lib/explorer-tree";
 
-const STORAGE_KEY = "explorer:open";
+/** The old key, from when open folders outlived the visit (localStorage); dropped on sight. */
+const LEGACY_KEY = "explorer:open";
 
-/** Folders the visitor opened or closed, by path. Storage can be blocked (private windows), so every access is guarded. */
-function readStored(): Record<string, boolean> {
+function dropLegacy() {
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "{}") as unknown;
-    return typeof parsed === "object" && parsed !== null ? (parsed as Record<string, boolean>) : {};
+    window.localStorage.removeItem(LEGACY_KEY);
   } catch {
-    return {};
-  }
-}
-
-function writeStored(value: Record<string, boolean>) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
-  } catch {
-    // Remembering is a convenience; without storage every visit starts from the defaults.
+    // Blocked storage holds nothing to drop.
   }
 }
 
@@ -87,9 +79,7 @@ export function ExplorerSheet({ tree }: { tree: ExplorerFolder }) {
 }
 
 /**
- * The tree itself, for the "~/" panel and for the phone menu. Mount it only
- * inside an open sheet: it reads storage while rendering, which the server
- * render never sees.
+ * The tree itself, for the "~/" panel and for the phone menu.
  */
 export function ExplorerTree({
   tree,
@@ -102,7 +92,9 @@ export function ExplorerTree({
   rootOpen?: boolean;
 }) {
   const pathname = usePathname();
-  const [stored, setStored] = useState(readStored);
+  // Folders the visitor opened or closed, by path, for the tab (docs/guides/ui-state.md).
+  const [stored, setStored] = useSessionState<Record<string, boolean>>("explorer:open", {});
+  useEffect(dropLegacy, []);
 
   function isOpen(folder: ExplorerFolder) {
     // What the visitor chose wins; otherwise the way to the current page is open, and the root as asked.
@@ -111,9 +103,7 @@ export function ExplorerTree({
 
   function toggle(folder: ExplorerFolder, next: boolean) {
     if (next === isOpen(folder)) return;
-    const value = { ...stored, [folder.path]: next };
-    setStored(value);
-    writeStored(value);
+    setStored({ ...stored, [folder.path]: next });
   }
 
   function renderNode(node: ExplorerNode) {
