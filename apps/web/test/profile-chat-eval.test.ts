@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runOffTopic, runRetrieval, runUncited, runVague } from "../evals/profile-chat";
+import {
+  loadEvalSet,
+  retrieverFor,
+  runFaithfulness,
+  runOffTopic,
+  runRetrieval,
+  runUncited,
+  runVague,
+  wordingIssues,
+} from "../evals/profile-chat";
 
 const set = loadEvalSet();
 
@@ -47,5 +56,25 @@ describe("profile chat eval set: retrieval", () => {
   it("finds passages for every injection probe, so the model's rules are what is tested", () => {
     for (const probe of set.injections)
       expect(retrieverFor(probe.locale).retrieve(probe.question).length, probe.question).toBeGreaterThan(0);
+  });
+});
+
+describe("profile chat eval: wording checks", () => {
+  it("flags a role said twice and a past role in the present tense", () => {
+    expect(
+      wordingIssues("Sou Analista de Sistemas de IA. Trabalho como Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026.", "pt-br")
+    ).toContain('repeats "Analista de Sistemas de IA"');
+    expect(wordingIssues("Antes disso, trabalho como Estagiário de desenvolvimento front-end na Xmart Solutions.", "pt-br")).toContain(
+      'present tense for past "Estagiário de desenvolvimento front-end"'
+    );
+  });
+
+  it("passes a natural answer", () => {
+    expect(
+      wordingIssues(
+        "Sou Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026. Antes, fui Estagiário de desenvolvimento front-end na Xmart Solutions.",
+        "pt-br"
+      )
+    ).toEqual([]);
   });
 });

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { type Locale, loadRegistry } from "@workspace/content";
+import { type Locale, loadRegistry, localize } from "@workspace/content";
 import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, type Passage, type Retriever } from "@workspace/search";
 import { parse } from "yaml";
 
@@ -156,4 +156,37 @@ export function runUncited(set: EvalSet): UncitedResult[] {
     const check = checkSentence(sentence, [], { passages: retrieverFor(locale).retrieve(question), conversation: question });
     return { locale, sentence, allowed, outcome: check.ok ? "kept" : check.reason, ok: check.ok === allowed };
   });
+}
+
+/** Every position's title in one locale, and whether it has ended. */
+function positionTitles(locale: Locale): { title: string; past: boolean }[] {
+  return loadRegistry(CONTENT_ROOT)
+    .getExperiences()
+    .flatMap((experience) =>
+      experience.positions.map((position) => ({ title: localize(position.title, locale).value, past: position.end !== undefined }))
+    );
+}
+
+/** Lower case, no accents: "Analista" and "analista" are the same title. */
+const fold = (text: string) => text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+
+/**
+ * Deterministic wording checks on a model answer (2026-11-27, after answers
+ * said the same role twice and put a past role in the present):
+ * - a position title written more than once;
+ * - in Portuguese, an ended position introduced with "trabalho como"
+ *   ("Antes disso, trabalho como Estagiário…").
+ * Titles are matched whole and case-insensitively, so a shared word ("Desenvolvedor") never counts.
+ */
+export function wordingIssues(text: string, locale: Locale): string[] {
+  const answer = fold(text);
+  const issues: string[] = [];
+  for (const { title, past } of positionTitles(locale)) {
+    const needle = fold(title);
+    if (needle.length < 8) continue;
+    const count = answer.split(needle).length - 1;
+    if (count > 1) issues.push(`repeats "${title}"`);
+    if (locale === "pt-br" && past && answer.includes(`trabalho como ${needle}`)) issues.push(`present tense for past "${title}"`);
+  }
+  return [...new Set(issues)];
 }

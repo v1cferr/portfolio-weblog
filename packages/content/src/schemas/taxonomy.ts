@@ -45,5 +45,11 @@ export const Organization = z.strictObject({
   logoDark: z.string().startsWith("/").optional(),
   location: z.string().optional(),
   description: LocalizedText.optional(),
+  /**
+   * The Portuguese article the name takes ("a FAI·UFSCar", "o Senac"), for the
+   * sentences the profile chat reads ("na FAI·UFSCar", "no Senac"). Most names
+   * here are feminine ("a empresa", "a universidade"), so "a" is the default.
+   */
+  article: z.enum(["a", "o"]).default("a"),
 });
 export type Organization = z.infer<typeof Organization>;

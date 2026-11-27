@@ -2,7 +2,16 @@ import { loadRegistry } from "@workspace/content";
 import { describe, expect, it } from "vitest";
 
 import { experience, makeContent, post, project } from "../../content/test/fixture";
-import { buildRetrievalPassages, createRetriever, dateInWords, MAX_PASSAGES, splitByHeading, splitParagraphs } from "../src";
+import {
+  buildRetrievalPassages,
+  createRetriever,
+  dateInWords,
+  MAX_PASSAGES,
+  profileIntro,
+  roleSentence,
+  splitByHeading,
+  splitParagraphs,
+} from "../src";
 
 const registry = loadRegistry(
   makeContent({
@@ -52,6 +61,69 @@ describe("dateInWords", () => {
     expect(dateInWords("2026-03-05", "pt-br")).toBe("5 de março de 2026");
     expect(dateInWords("2026-03-05", "en-us")).toBe("March 5, 2026");
     expect(dateInWords("2024", "en-us")).toBe("2024");
+  });
+});
+
+describe("roleSentence", () => {
+  const fai = { title: "Analista de Sistemas de IA", org: "FAI·UFSCar", article: "a" as const, selfEmployed: false };
+
+  it("puts a current role in the present and a past one in the past", () => {
+    expect(roleSentence({ ...fai, start: "2026-08", end: undefined }, "pt-br")).toBe(
+      "Trabalho como Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026."
+    );
+    expect(roleSentence({ ...fai, title: "Estagiário", start: "2026-03", end: "2026-07" }, "pt-br")).toBe(
+      "Fui Estagiário na FAI·UFSCar de março de 2026 a julho de 2026."
+    );
+    expect(roleSentence({ ...fai, title: "Intern", start: "2026-03", end: "2026-07" }, "en-us")).toBe(
+      "I was Intern at FAI·UFSCar from March 2026 to July 2026."
+    );
+    expect(roleSentence({ ...fai, title: "AI Systems Analyst", start: "2026-08", end: undefined }, "en-us")).toBe(
+      "I have worked as AI Systems Analyst at FAI·UFSCar since August 2026."
+    );
+  });
+
+  it("uses the organization's article in Portuguese, and says self-employed roles plainly", () => {
+    expect(roleSentence({ ...fai, org: "Senac São Paulo", article: "o", start: "2025-01", end: "2025-06" }, "pt-br")).toBe(
+      "Fui Analista de Sistemas de IA no Senac São Paulo de janeiro de 2025 a junho de 2025."
+    );
+    expect(roleSentence({ ...fai, title: "Dev", org: "Freelance", selfEmployed: true, start: "2024-04", end: undefined }, "pt-br")).toBe(
+      "Trabalho como Dev por conta própria (Freelance) desde abril de 2024."
+    );
+  });
+});
+
+describe("profileIntro", () => {
+  const fai = {
+    title: "Analista de Sistemas de IA",
+    org: "FAI·UFSCar",
+    article: "a" as const,
+    selfEmployed: false,
+    start: "2026-08",
+    end: undefined,
+  };
+  const freelance = { title: "Dev", org: "Freelance", article: "a" as const, selfEmployed: true, start: "2024-04", end: undefined };
+
+  it("says the headline role once, joined to where and since when", () => {
+    const intro = profileIntro("Victor Ferreira", "v1cferr", "Analista de Sistemas de IA", [fai, freelance], "pt-br");
+    expect(intro).toEqual([
+      "Sou Victor Ferreira (v1cferr), Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026.",
+      "Também trabalho como Dev por conta própria (Freelance) desde abril de 2024.",
+    ]);
+    expect(intro.join(" ").match(/Analista de Sistemas de IA/g)).toHaveLength(1);
+  });
+
+  it("recognizes a headline left in another language and says the role in the page's", () => {
+    const role = { ...fai, titles: ["AI Systems Analyst", "Analista de Sistemas de IA"] };
+    expect(profileIntro("Victor", "v1cferr", "AI Systems Analyst", [role], "pt-br")).toEqual([
+      "Sou Victor (v1cferr), Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026.",
+    ]);
+  });
+
+  it("keeps the headline apart when it names no current role", () => {
+    expect(profileIntro("Victor", "v1cferr", "Developer", [{ ...fai, title: "AI Systems Analyst" }], "en-us")).toEqual([
+      "I'm Victor (v1cferr): Developer.",
+      "I have worked as AI Systems Analyst at FAI·UFSCar since August 2026.",
+    ]);
   });
 });
 

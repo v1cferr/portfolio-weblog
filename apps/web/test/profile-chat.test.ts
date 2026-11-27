@@ -1093,7 +1093,7 @@ describe("grounding, dates in words and possessives", () => {
     });
     expect(newFacts("I joined in March.", role.text)).toEqual(["March"]);
     // Passages spell their dates out (2026-11-27): an answer may still name the month either way, in either language.
-    const spelled = "Trabalho como Analista de Sistemas de IA em FAI·UFSCar desde agosto de 2026.";
+    const spelled = "Sou Victor Ferreira (v1cferr), Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026.";
     expect(newFacts("Desde agosto de 2026 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
     expect(newFacts("Since August 2026 I've worked at FAI·UFSCar.", spelled)).toEqual([]);
     expect(newFacts("Desde 2026-08 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
@@ -1196,6 +1196,17 @@ describe("partial answers (gap marker)", () => {
     expect(siteDoesNotSay("en-us")).toBe("The site doesn't say anything about the rest of the question.");
     // zh-cn answers are in English (prompt.ts), so is their closing sentence.
     expect(siteDoesNotSay("zh-cn")).toBe(siteDoesNotSay("en-us"));
+  });
+
+  it("asks both models to keep roles in their tense and say each fact once", () => {
+    // An answer said "Antes disso, trabalho como…" for a parallel role, and another stated the same role twice (2026-11-27).
+    for (const prompt of [systemPrompt("pt-br"), jsonSystemPrompt("pt-br")]) {
+      expect(prompt).toContain("Keep each role in its tense");
+      expect(prompt).toContain('never "before" one another');
+      expect(prompt).toContain("Say each fact once.");
+      // An English answer summed up the roles uncited, then repeated each one with its citation.
+      expect(prompt).toContain("Do not open with a summary of facts you then state again");
+    }
   });
 
   it("asks Claude for the marker on partial answers only, and both models not to word the gap themselves", () => {
