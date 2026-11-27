@@ -10,6 +10,9 @@
 - Every other branch and every pull request gets a preview deployment, behind
   Vercel deployment protection, so only someone logged in to the Vercel team
   sees it. `robots.txt` disallows indexing on previews.
+- Content with `status: review` renders on previews only, with an "In review"
+  notice, so the owner can read it in place before approving it (ADR 0019). To
+  see it locally, build with `CONTENT_PREVIEW=1 pnpm build`.
 - Environment variables (all server-only): `SPOTIFY_CLIENT_ID`,
   `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` (rotate with
   `pnpm --filter web spotify:token --vercel`), `BATTLENET_CLIENT_ID` and

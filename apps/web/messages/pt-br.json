@@ -158,7 +158,8 @@
     "copyLink": "Copiar link",
     "copyLinkTo": "Copiar link para",
     "linkCopied": "Link copiado",
-    "linkInAddressBar": "O link está na barra de endereço"
+    "linkInAddressBar": "O link está na barra de endereço",
+    "reviewNotice": "Em revisão: esta página só aparece nas prévias e ainda não está no ar."
   },
   "Kind": {
     "experience": "Carreira",

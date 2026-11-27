@@ -3,42 +3,42 @@ import { describe, expect, it } from "vitest";
 import { loadRegistry } from "../src";
 import { experience, makeContent, post, project } from "./fixture";
 
-const tree = () =>
-  makeContent({
-    "experiences/acme-dev.yaml": experience({ projects: ["hub", "wip"] }),
-    "experiences/acme-old.yaml": experience({
-      id: "acme-old",
-      positions: [
-        { title: { "en-us": "Intern" }, start: "2021-03", end: "2021-09" },
-        { title: { "en-us": "Junior" }, start: "2021-09", end: "2022-12" },
-      ],
-    }),
-    "experiences/uni-review.yaml": experience({ id: "uni-review", organization: "uni", status: "review" }),
-    "projects/hub.yaml": project({ featured: true, experiences: ["acme-dev"], repository: "tester/hub" }),
-    "projects/wip.yaml": project({ id: "wip", title: "WIP", status: "draft" }),
-    "projects/hidden.yaml": project({ id: "hidden", title: "Hidden", visibility: "private" }),
-    "projects/dated.yaml": project({ id: "dated", title: "Dated", startedAt: "2020-02" }),
-    "weblog/2026/10/hello/en-us.mdx": post({
-      title: "Hello",
-      summary: "S",
-      status: "published",
-      publishedAt: "2026-10-01",
-      category: "journal",
-      projects: ["hub", "wip"],
-    }),
-    "weblog/2026/10/hello/pt-br.mdx": post({
-      title: "Olá",
-      summary: "S",
-      status: "published",
-      publishedAt: "2026-10-01",
-      category: "journal",
-    }),
-    "weblog/2026/10/draft-post/en-us.mdx": post({ title: "Draft", summary: "S", status: "draft", category: "journal" }),
-    "experiences/acme-dev/story.en-us.mdx": post({ title: "Story", summary: "S", status: "published", updatedAt: "2026-11" }),
-    "experiences/acme-dev/story.pt-br.mdx": post({ title: "História", summary: "S", status: "published", updatedAt: "2026-11" }),
-    "experiences/acme-old/story.en-us.mdx": post({ title: "Draft story", summary: "S", status: "draft", updatedAt: "2026-11" }),
-    "experiences/uni-review/story.en-us.mdx": post({ title: "Hidden job", summary: "S", status: "published", updatedAt: "2026-11" }),
-  });
+const files = (): Record<string, unknown> => ({
+  "experiences/acme-dev.yaml": experience({ projects: ["hub", "wip"] }),
+  "experiences/acme-old.yaml": experience({
+    id: "acme-old",
+    positions: [
+      { title: { "en-us": "Intern" }, start: "2021-03", end: "2021-09" },
+      { title: { "en-us": "Junior" }, start: "2021-09", end: "2022-12" },
+    ],
+  }),
+  "experiences/uni-review.yaml": experience({ id: "uni-review", organization: "uni", status: "review" }),
+  "projects/hub.yaml": project({ featured: true, experiences: ["acme-dev"], repository: "tester/hub" }),
+  "projects/wip.yaml": project({ id: "wip", title: "WIP", status: "draft" }),
+  "projects/hidden.yaml": project({ id: "hidden", title: "Hidden", visibility: "private" }),
+  "projects/dated.yaml": project({ id: "dated", title: "Dated", startedAt: "2020-02" }),
+  "weblog/2026/10/hello/en-us.mdx": post({
+    title: "Hello",
+    summary: "S",
+    status: "published",
+    publishedAt: "2026-10-01",
+    category: "journal",
+    projects: ["hub", "wip"],
+  }),
+  "weblog/2026/10/hello/pt-br.mdx": post({
+    title: "Olá",
+    summary: "S",
+    status: "published",
+    publishedAt: "2026-10-01",
+    category: "journal",
+  }),
+  "weblog/2026/10/draft-post/en-us.mdx": post({ title: "Draft", summary: "S", status: "draft", category: "journal" }),
+  "experiences/acme-dev/story.en-us.mdx": post({ title: "Story", summary: "S", status: "published", updatedAt: "2026-11" }),
+  "experiences/acme-dev/story.pt-br.mdx": post({ title: "História", summary: "S", status: "published", updatedAt: "2026-11" }),
+  "experiences/acme-old/story.en-us.mdx": post({ title: "Draft story", summary: "S", status: "draft", updatedAt: "2026-11" }),
+  "experiences/uni-review/story.en-us.mdx": post({ title: "Hidden job", summary: "S", status: "published", updatedAt: "2026-11" }),
+});
+const tree = () => makeContent(files());
 
 describe("public registry", () => {
   const registry = loadRegistry(tree());
@@ -134,6 +134,33 @@ describe("tooling registry", () => {
     const registry = loadRegistry(tree(), { includeUnpublished: true });
     expect(registry.getProject("wip")).toBeDefined();
     expect(registry.getExperience("uni-review")).toBeDefined();
+  });
+});
+
+describe("preview registry", () => {
+  const registry = loadRegistry(
+    makeContent({
+      ...files(),
+      "weblog/2026/11/in-review/pt-br.mdx": post({ title: "Revisão", summary: "S", status: "review", category: "journal" }),
+    }),
+    { includeReview: true }
+  );
+
+  it("shows entities and posts in review, with their stories", () => {
+    expect(registry.getExperience("uni-review")).toBeDefined();
+    expect(registry.getStory("uni-review", "en-us")).toBeDefined();
+    expect(registry.getPost("in-review", "pt-br")?.frontmatter.status).toBe("review");
+  });
+
+  it("still hides drafts and private entities, and the references to them", () => {
+    expect(registry.getProject("wip")).toBeUndefined();
+    expect(registry.getProject("hidden")).toBeUndefined();
+    expect(registry.getPost("draft-post", "en-us")).toBeUndefined();
+    expect(registry.getExperience("acme-dev")?.projects).not.toContain("wip");
+  });
+
+  it("is off by default", () => {
+    expect(loadRegistry(tree()).getExperience("uni-review")).toBeUndefined();
   });
 });
 

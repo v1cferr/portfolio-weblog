@@ -26,7 +26,10 @@ publishable.
    device, time); `pnpm content:check` fails otherwise and `pnpm media:add`
    prepares them.
 10. Preview deployments answer `robots.txt` with `Disallow: /`.
-11. Spotify "now playing" (ADR 0008) shows what the owner is listening to, by
+11. Content in `review` (public, not yet approved) renders only on preview
+    deployments, with a notice, for the owner to read before approving it (ADR
+    0019); production never shows it.
+12. Spotify "now playing" (ADR 0008) shows what the owner is listening to, by
     their choice: only a fixed, small payload leaves the server, podcasts are
     skipped, and Spotify's Private Session hides it.
 

@@ -158,7 +158,8 @@
     "copyLink": "Copy link",
     "copyLinkTo": "Copy link to",
     "linkCopied": "Link copied",
-    "linkInAddressBar": "Link is in the address bar"
+    "linkInAddressBar": "Link is in the address bar",
+    "reviewNotice": "In review: this page shows only on preview deployments and is not live yet."
   },
   "Kind": {
     "experience": "Career",

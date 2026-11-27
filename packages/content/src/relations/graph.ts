@@ -19,6 +19,8 @@ export interface Edge {
 export interface EntityNode extends EntityRef {
   file: string;
   isPublic: boolean;
+  /** Public and waiting for the owner's review: shown only on preview deployments (ADR 0019). */
+  inReview: boolean;
   isPrivate: boolean;
 }
 
@@ -32,6 +34,7 @@ export function collectNodes(content: RawContent): EntityNode[] {
         id: value.id,
         file,
         isPublic: value.status === "published" && value.visibility === "public",
+        inReview: value.status === "review" && value.visibility === "public",
         isPrivate: value.visibility === "private",
       });
     }
@@ -49,6 +52,7 @@ export function collectNodes(content: RawContent): EntityNode[] {
   const bySlug = new Map<string, EntityNode>();
   for (const post of content.posts) {
     const isPublic = post.frontmatter.status === "published" && post.frontmatter.visibility === "public";
+    const inReview = post.frontmatter.status === "review" && post.frontmatter.visibility === "public";
     const existing = bySlug.get(post.slug);
     if (existing === undefined) {
       bySlug.set(post.slug, {
@@ -56,10 +60,12 @@ export function collectNodes(content: RawContent): EntityNode[] {
         id: post.slug,
         file: post.file,
         isPublic,
+        inReview,
         isPrivate: post.frontmatter.visibility === "private",
       });
     } else {
       existing.isPublic ||= isPublic;
+      existing.inReview ||= inReview;
     }
   }
   nodes.push(...bySlug.values());
