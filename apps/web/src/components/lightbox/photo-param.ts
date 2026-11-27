@@ -12,6 +12,8 @@ export interface LightboxItem {
   document?: boolean;
   /** When the photo was taken: an ISO date for `<time>` and its localized label. */
   date?: { iso: string; label: string };
+  /** Who made the image when it is not the owner's: localized text and the link to its source or terms. */
+  credit?: { text: string; url: string };
 }
 
 /** The search parameter that deep-links an open image: `?photo=<gallery>-<n>`, n from 1. */
