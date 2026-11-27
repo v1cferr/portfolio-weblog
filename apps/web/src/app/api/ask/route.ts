@@ -1,3 +1,4 @@
+import { claudeAnswer, createClaudeClient, getAnthropicKey } from "@/lib/ask/anthropic";
 import { ask, openRouterGenerate } from "@/lib/ask/engine";
 import { getApiKey } from "@/lib/ask/openrouter";
 import { parseAskRequest } from "@/lib/ask/schema";
@@ -6,16 +7,17 @@ import { getRetriever, isRateLimited } from "@/lib/ask/server";
 /**
  * The profile chat (ADR 0011): answers a question about the owner from the
  * site's own pages, sent as NDJSON (lib/ask/protocol.ts). Questions are
- * never stored or logged; logs carry reason codes only.
+ * never stored or logged; logs carry reason codes and token counts only.
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 /**
  * Seconds Vercel lets the function run. The default (10) cut longer answers
- * with a 504; the model gets up to TIMEOUT_MS (30 s, lib/ask/openrouter.ts),
- * plus retrieval and the stream.
+ * with a 504. Claude gets up to CLAUDE_TIMEOUT_MS (25 s, lib/ask/anthropic.ts)
+ * and, when it fails, the free models up to TIMEOUT_MS (30 s,
+ * lib/ask/openrouter.ts), plus retrieval and the stream.
  */
-export const maxDuration = 45;
+export const maxDuration = 60;
 
 /** Largest body accepted, in bytes: a 300-character question and three short turns fit with room to spare. */
 const MAX_BODY = 16_384;
@@ -41,12 +43,14 @@ export async function POST(request: Request) {
   if (!parsed.success) return Response.json({ error: "invalid_request" }, { status: 400 });
 
   const { locale, question, history } = parsed.data;
-  const apiKey = getApiKey();
+  const anthropicKey = getAnthropicKey();
+  const openRouterKey = getApiKey();
   const events = ask(
     { locale, question, history },
     {
       retriever: getRetriever(locale),
-      generate: apiKey === null ? null : openRouterGenerate(apiKey),
+      claude: anthropicKey === null ? null : claudeAnswer(createClaudeClient(anthropicKey)),
+      generate: openRouterKey === null ? null : openRouterGenerate(openRouterKey),
       isRateLimited: () => isRateLimited(request),
       signal: request.signal,
       log,
