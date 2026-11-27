@@ -65,6 +65,17 @@ groups:
           pt-br: Armazenamento (M2 Gen 4)
         model: "SSD 1TB Kingston KC3000, M.2 2280 PCIe, NVMe, Leitura: 7000MB/s e Gravação: 6000MB/s"
         url: https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive
+        # Official image: https://media.kingston.com/kingston/product/ktc-product-ssd-kc3000-1024gb-1-zm-lg.jpg
+        media:
+          src: /setup/parts/ssd-kingston-kc3000.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: Kingston KC3000 PCIe 4.0 NVMe M.2 SSD, black with white circuit lines
+            pt-br: SSD Kingston KC3000 PCIe 4.0 NVMe M.2, preto com linhas brancas de circuito
+          credit:
+            label: Kingston
+            url: https://www.kingston.com/br/ssd/kc3000-nvme-m2-solid-state-drive
       - id: ssd-kingspec-1tb
         role:
           pt-br: Armazenamento (M2 Gen 3)
@@ -184,6 +195,17 @@ groups:
           pt-br: Mouse
         model: Razer DeathAdder V2 Gaming Mouse 20000 DPI Sensor óptico-Iluminação Chroma RGB-8 botões programáveis
         url: https://www.razer.com/br-pt/gaming-mice/razer-deathadder-v2
+        # Official image: https://dl.razerzone.com/src/2061-1-EN-v1.png
+        media:
+          src: /setup/parts/mouse-razer-deathadder-v2.png
+          width: 583
+          height: 583
+          alt:
+            en-us: Razer DeathAdder V2 wired mouse, black, seen from above with the green Razer logo lit
+            pt-br: Mouse com fio Razer DeathAdder V2, preto, visto de cima com o logo verde da Razer aceso
+          credit:
+            label: Razer
+            url: https://mysupport.razer.com/app/answers/detail/a_id/2061
       - id: mousepad-redragon-alianca
         role:
           pt-br: Mousepad
@@ -204,6 +226,17 @@ groups:
           pt-br: Controle Joystick
         model: Gamepad Machenike G5 Pro Elite Hall Gatilho Joystick Botões Mecha-Táteis Para Switch PC Android IOS
         url: https://pt.aliexpress.com/item/1005006251691728.html
+        # Official image: https://cdn.shopify.com/s/files/1/0576/4110/7626/files/15_45de413e-6620-43a2-8115-2e97e8a2932a.jpg (global.machenike.com store image)
+        media:
+          src: /setup/parts/gamepad-machenike-g5-pro.png
+          width: 613
+          height: 613
+          alt:
+            en-us: Machenike G5 Pro wireless gamepad, translucent grey
+            pt-br: Controle sem fio Machenike G5 Pro, cinza translúcido
+          credit:
+            label: Machenike
+            url: https://global.machenike.com/products/g5pro
       - id: keyboard-redragon-magic-wand-pro
         role:
           pt-br: Teclado Mecânico
@@ -316,12 +349,36 @@ groups:
           pt-br: Monitor secundário
         model: Monitor AOC 21.5" 22B1H Led Full HD
         url: https://www.amazon.com.br/Monitor-AOC-22B1H-21-5-Polegadas/dp/B07Q6YJFYZ
+        # Official image: https://cdn.sanity.io/images/hf5b3axp/production/dd59ac29edfce8dca8056544f0607543039cb661-4000x4000.png (aoc.com product page)
+        media:
+          src: /setup/parts/monitor-aoc-22b1h.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: AOC 22B1H 21.5-inch monitor, front view
+            pt-br: Monitor AOC 22B1H de 21,5 polegadas, visto de frente
+          credit:
+            label: AOC
+            url: https://www.aoc.com/bg/monitors/22b1h
         since: 2021-11
       - id: water-cooler-pichau-aqua-x100
         role:
           pt-br: Water Cooler
         model: Pichau Gaming Aqua X100 RTB RGB, PG-AQX100-RTB
+        # Checked 2026-11-27: this page now redirects to the water-cooler listing; Pichau no
+        # longer has a page for the X100, so the link stays until there is a better one.
         url: https://www.pichau.com.br/water-cooler-pichau-gaming-aqua-x100-rtb-rgb-pg-aqx100-rtb
+        # Official image: https://media.pichau.com.br/media/catalog/product/p/g/pg-aqx100-rtb.jpg (the product page is gone)
+        media:
+          src: /setup/parts/water-cooler-pichau-aqua-x100.png
+          width: 745
+          height: 745
+          alt:
+            en-us: Pichau Gaming Aqua X100 water cooler with a blue-lit fan and pump
+            pt-br: Water cooler Pichau Gaming Aqua X100, com ventoinha e bomba de iluminação azul
+          credit:
+            label: Pichau
+            url: https://www.pichau.com.br/
         note:
           pt-br: Utilizei de 2022 até +/- final de 2025. Ele ainda funciona normalmente, mas a perfomance dele já não é mais a
             mesma que antes e por ser AIO é mais dificil de realizar manutenção.
@@ -332,6 +389,17 @@ groups:
           pt-br: Teclado Mecânico
         model: Redragon Kumara Switch Blue ABNT2 K552
         url: https://www.redragon.com.br/kumarargbabnt2blue
+        # Official image: https://static.wixstatic.com/media/71a6c2_21d63cfd052e4b68886cd102c320f77a~mv2.jpg (redragon.com.br gallery)
+        media:
+          src: /setup/parts/keyboard-redragon-kumara-k552.png
+          width: 1043
+          height: 1043
+          alt:
+            en-us: Redragon Kumara K552 tenkeyless mechanical keyboard, black, with RGB backlight
+            pt-br: Teclado mecânico Redragon Kumara K552 sem teclado numérico, preto, com iluminação RGB
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/kumarargbabnt2blue
         note:
           pt-br: Utilizei de 2018 até meados de 2024. Teclado bom demais, mas o switch azul é bem barulhento e depois de um tempo
             começou a dar double click. Troquei por um switch purple e continua funcionando até hoje. Está guardado como teclado
@@ -353,6 +421,17 @@ groups:
           pt-br: Gabinete
         model: Sharkoon VG6
         url: https://pt.sharkoon.com/product/VG6W
+        # Official image: https://www.sharkoon.com/ImgSrv/1600/VG6_W/gallery/Cases_and_Power/Midi_ATX/VG6-W/VG6 Blue/VG6_Blue_01.jpg
+        media:
+          src: /setup/parts/case-sharkoon-vg6.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: Sharkoon VG6-W case, black, with a glass side and blue-lit front fans
+            pt-br: Gabinete Sharkoon VG6-W, preto, com lateral de vidro e ventoinhas frontais de luz azul
+          credit:
+            label: Sharkoon
+            url: https://pt.sharkoon.com/product/VG6W
         note:
           pt-br: Utilizei de 2021 até 2024. Quebrou muito o galho, mas não tem suporte para fans superiores e ainda tinha espaço
             para leitor de CD/DVD. Troquei por um gabinete com airflow melhor e suporte para fans em cima.
@@ -363,6 +442,17 @@ groups:
           pt-br: Mouse
         model: Redragon Cobra M711
         url: https://www.redragon.com.br/cobra
+        # Official image: https://static.wixstatic.com/media/71a6c2_8828e12dc0f240cdb6d21df6502f241d~mv2.png (redragon.com.br)
+        media:
+          src: /setup/parts/mouse-redragon-cobra-m711.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: Redragon Cobra M711 mouse, black, seen from above with its RGB strip
+            pt-br: Mouse Redragon Cobra M711, preto, visto de cima com a faixa RGB
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/cobra
         note:
           pt-br: Utilizei de 2018 até 2024. Mouse bom demais, depois de anos de uso intenso ele começou a dar double click. Mas
             pelo preço, compensa bastante, muito custo-beneficio. Troquei por um Razer DeathAdder V2.
@@ -372,6 +462,8 @@ groups:
         role:
           pt-br: Mousepad
         model: Havit HV-MP830
+        # Checked 2026-11-27: this store no longer resolves, and Havit's official site
+        # (havitsmart.com) does not list the HV-MP830, so there is no official page to link.
         url: https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261
         note:
           pt-br: Utilizei de 2019 até 2024. Mousepad bom demais, costura muito boa, não rasgou até hoje e deixo como reserva.
@@ -383,6 +475,17 @@ groups:
           pt-br: Headset over-ear
         model: Redragon Zeus 7.1 H510
         url: https://www.redragon.com.br/zeus
+        # Official image: https://static.wixstatic.com/media/71a6c2_4bf365fc40bd4deaa3330abc962b08c9~mv2.png (redragon.com.br gallery)
+        media:
+          src: /setup/parts/headset-redragon-zeus-h510.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: Redragon Zeus H510 headset, black and bronze with a red headband
+            pt-br: Headset Redragon Zeus H510, preto e bronze com arco vermelho
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/zeus
         note:
           pt-br: Utilizei de 2020 até 2024. Melhor headset que já tive, som ótimo, drivers e configuração de software com 7.1
             e microfone bom. O único problema foi começar a descascar e não ser sem fio. Troquei por um headset sem fio.
@@ -393,6 +496,17 @@ groups:
           pt-br: Soundbar
         model: Redragon Adiemus, 6W RMS, RGB, USB, 150Hz/20KHz, Botão Touch, Preto - GS560
         url: https://www.redragon.com.br/adiemus
+        # Official image: https://static.wixstatic.com/media/71a6c2_76e334c8294f477e8aa97a72091066d3~mv2.png (redragon.com.br)
+        media:
+          src: /setup/parts/soundbar-redragon-adiemus.png
+          width: 1188
+          height: 1188
+          alt:
+            en-us: Redragon Adiemus GS560 soundbar, black, with an RGB strip along the base
+            pt-br: Soundbar Redragon Adiemus GS560, preta, com faixa RGB na base
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/adiemus
         note:
           pt-br: Utilizei de 2022 até 2025. Excelente custo-benefício para desktop, som claro para uso geral e iluminação discreta.
             Limitação principal foi a ausência de subwoofer e potência reduzida para músicas/filmes com grave mais encorpado.
@@ -404,6 +518,17 @@ groups:
           pt-br: Cadeira
         model: Cadeira Gamer Mymax MX5, Giratória, Preto/Vermelho
         url: https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/
+        # Official image: https://www.mymax.ind.br/wp-content/uploads/2019/01/009174_1.jpg
+        media:
+          src: /setup/parts/chair-mymax-mx5.png
+          width: 1021
+          height: 1021
+          alt:
+            en-us: Mymax MX5 gaming chair, black and red
+            pt-br: Cadeira gamer Mymax MX5, preta e vermelha
+          credit:
+            label: Mymax
+            url: https://www.mymax.ind.br/produto/cadeira-gamer-mx5-giratoria-preto-vermelho/
         note:
           pt-br: Utilizei de 2023 até meados de 2026. Cadeira de entrada que quebrou muito o galho, mas com o tempo a espuma começou
             a ceder e senti falta de ajustes mais precisos (como braços 3D). Substituída pela Pichau Omega S.
@@ -414,6 +539,17 @@ groups:
           pt-br: Placa de vídeo (GPU)
         model: Gigabyte NVIDIA GeForce RTX 3050 Gaming OC, LHR, 8GB, GDDR6, DLSS, Ray Tracing
         url: https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD
+        # Official image: https://static.gigabyte.com/StaticFile/Image/Global/b967c8e2d3c9f60d902905f154934478/ProductRemoveBg/30760
+        media:
+          src: /setup/parts/gpu-gigabyte-rtx-3050.png
+          width: 1052
+          height: 1052
+          alt:
+            en-us: Gigabyte GeForce RTX 3050 Gaming OC 8G graphics card with its box
+            pt-br: Placa de vídeo Gigabyte GeForce RTX 3050 Gaming OC 8G com a caixa
+          credit:
+            label: Gigabyte
+            url: https://www.gigabyte.com/br/Graphics-Card/GV-N3050GAMING-OC-8GD
         note:
           pt-br: Utilizei de 2022 até meados de 2026. Deu conta do recado em 1080p, mas os 8GB de VRAM começaram a apertar e o
             driver proprietário sempre foi o ponto de atrito no Linux. Vendida para bancar a troca pela Arc B580, que tem 12GB
