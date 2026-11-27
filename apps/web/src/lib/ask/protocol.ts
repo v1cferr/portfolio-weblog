@@ -4,8 +4,9 @@
  *
  * The response is NDJSON, one event per line, in this order:
  *   [reading → [checking]] → status → (text | cite)* → [partial] → [suggestions] → sources → done
- * `reading` comes only when a model is about to be asked: the pages it reads,
- * so the panel has something to show while the model thinks. `checking` comes
+ * `reading` comes only when a model is about to be asked: the pages it reads
+ * (with `site`, it reads the whole site and these are the ones the question is
+ * most about), so the panel has something to show while the model thinks. `checking` comes
  * right before the first checked sentence: every sentence is checked against
  * the pages before it is sent, so text arrives sentence by sentence and
  * unchecked text never does. `text` may carry light Markdown; `cite` follows
@@ -61,7 +62,8 @@ export interface AskSource {
 export type AskEvent =
   /** `partial`: a model answer that covers only part of the question, said by the panel, not the model. */
   | { type: "status"; mode: AskMode; reason?: FallbackReason; partial?: true }
-  | { type: "reading"; pages: { title: string; url: string }[] }
+  /** `site`: the model reads the whole site; `pages` are the ones the question is most about. */
+  | { type: "reading"; pages: { title: string; url: string }[]; site?: true }
   | { type: "checking" }
   | { type: "text"; text: string }
   | { type: "cite"; n: number }

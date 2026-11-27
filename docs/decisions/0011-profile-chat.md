@@ -430,3 +430,53 @@ to, because citations rule out structured outputs.
 Trade-offs: the marker relies on the model writing it; when it does not, the
 answer reads as complete, as before. The closing sentence is generic: it says
 the rest is missing, not which part.
+
+## Revision (2026-11-27, the whole site as context, first-person synthesis)
+
+"quem é o victor?" answered "Isso não está no site". The owner's names are stop
+words in the search (every question has them), so a vague question ("who is
+Victor?", "tell me about yourself", "what does he do?") matched no page, and the
+engine returned `no-source` before any model was called. The owner wants free
+text grounded in the site, and questions that do not have to be precise.
+
+- **Claude reads the whole site.** Every public passage of the locale (about 93,
+  some 14k tokens of text) goes to Claude as cited plain-text documents, in the
+  passage builder's fixed order, at the start of the first user message, with a
+  cache breakpoint on the last document; the conversation follows. Every
+  question and follow-up in a locale reads the same cached prefix (Haiku 5.5:
+  $0.10/MTok input, cache reads about a tenth of that), so an answer costs about
+  $0.002 cold and a fraction of that warm. A vague question now has something to
+  answer from, and an answer can combine pages the search would not pair.
+- **The search still matters.** Its pages are the ones the answer is "about":
+  the `reading` event lists them (with `site: true`, shown as "Li o site
+  inteiro"), the uncited "related" cards come from them, and they bound what an
+  uncited sentence may name (below). When it finds fewer than two passages, the
+  profile passage (who Victor is, his current role) joins them.
+- **Free models and extractive.** The OpenRouter fallback and the extractive
+  answer read the search's pages plus the profile, not the whole site.
+  `no-source` remains only when no model can answer and the search found
+  nothing.
+- **First-person synthesis.** The prompt says questions need not be precise, and
+  allows summaries, comparisons and Victor's own view of the facts ("I think my
+  profile fits a frontend role because…"), never praise beyond them. Framing
+  words of such a view (think, fit, profile, acho, encaixa, perfil…) do not
+  count in the faithfulness check; the facts it names still do.
+- **Uncited scope.** With the whole site sent, an uncited sentence could stitch
+  together names from pages the answer is not about. So an uncited sentence may
+  name only what the conversation, the search's pages (plus the profile) or the
+  passages cited so far in this answer name. A cited sentence is still checked
+  against the passages it cites.
+- **Eval.** A `vague` section: offline, the fallback's pages must include one of
+  the expected pages; with a model, the answer must be a model answer citing one
+  of them. Off-topic questions ("capital of France") may now end as "the site
+  doesn't say" instead of `no-source`, since Claude is asked.
+
+- **Cards.** An answer can cite more pages than before; every cited page gets
+  its card (the five-card cap now applies to uncited related pages only), so a
+  citation number never points at a missing card.
+
+Trade-offs: every question, off topic included, now calls Claude (the rate limit
+and the spend cap bound it). The first question in a locale after five quiet
+minutes pays the cache write. An uncited view can still be wrong in tone while
+naming only true things; the prompt asks for no praise beyond the facts, and the
+names it uses are checked.

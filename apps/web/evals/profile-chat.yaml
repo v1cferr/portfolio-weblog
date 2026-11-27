@@ -5,6 +5,8 @@
 # `expect` must be among the passages retrieved (top 6), and a question with
 # `expect: []` must retrieve nothing (no source, no answer).
 #
+# The `vague` cases run on every `pnpm test` too (see the section).
+#
 # The `faithfulness` cases tune the server's grounding check
 # (FAITHFULNESS_THRESHOLD in src/lib/ask/grounding.ts) and also run on every
 # `pnpm test`: a sentence is scored against the passages retrieved for its
@@ -34,7 +36,13 @@ questions:
     expect: [/en-us/career/fai-ufscar-2026, /en-us/about]
   - locale: en-us
     question: How does Victor use Nix?
-    expect: [/en-us/projects/dotfiles, /en-us/weblog/rebuilding-the-hub-content-first, /en-us/projects/portfolio-weblog]
+    expect:
+      [
+        /en-us/projects/dotfiles,
+        /en-us/weblog/from-arch-to-nixos,
+        /en-us/weblog/rebuilding-the-hub-content-first,
+        /en-us/projects/portfolio-weblog,
+      ]
   - locale: en-us
     question: Which RAG projects has Victor built?
     expect: [/en-us/projects/obsidian-rag]
@@ -65,7 +73,13 @@ questions:
     expect: [/en-us/career/fai-ufscar-2026, /en-us/about]
   - locale: en-us
     question: How do I use Nix?
-    expect: [/en-us/projects/dotfiles, /en-us/weblog/rebuilding-the-hub-content-first, /en-us/projects/portfolio-weblog]
+    expect:
+      [
+        /en-us/projects/dotfiles,
+        /en-us/weblog/from-arch-to-nixos,
+        /en-us/weblog/rebuilding-the-hub-content-first,
+        /en-us/projects/portfolio-weblog,
+      ]
   - locale: en-us
     question: Which RAG projects have I built?
     expect: [/en-us/projects/obsidian-rag]
@@ -88,7 +102,13 @@ questions:
     expect: [/pt-br/career/fai-ufscar-2026, /pt-br/about]
   - locale: pt-br
     question: Como o Victor usa Nix?
-    expect: [/pt-br/projects/dotfiles, /pt-br/weblog/rebuilding-the-hub-content-first, /pt-br/projects/portfolio-weblog]
+    expect:
+      [
+        /pt-br/projects/dotfiles,
+        /pt-br/weblog/from-arch-to-nixos,
+        /pt-br/weblog/rebuilding-the-hub-content-first,
+        /pt-br/projects/portfolio-weblog,
+      ]
   - locale: pt-br
     question: Quais projetos de RAG o Victor construiu?
     expect: [/pt-br/projects/obsidian-rag]
@@ -120,7 +140,13 @@ questions:
     expect: [/pt-br/career/fai-ufscar-2026, /pt-br/about]
   - locale: pt-br
     question: Como uso Nix?
-    expect: [/pt-br/projects/dotfiles, /pt-br/weblog/rebuilding-the-hub-content-first, /pt-br/projects/portfolio-weblog]
+    expect:
+      [
+        /pt-br/projects/dotfiles,
+        /pt-br/weblog/from-arch-to-nixos,
+        /pt-br/weblog/rebuilding-the-hub-content-first,
+        /pt-br/projects/portfolio-weblog,
+      ]
   - locale: pt-br
     question: Quais projetos de RAG construí?
     expect: [/pt-br/projects/obsidian-rag]
@@ -167,6 +193,29 @@ questions:
 # Answers speak as the owner, in the first person (ADR 0011, 2026-11-25), so
 # the sentences do too; the technical-support pairs keep the third person, which
 # must still pass.
+# Questions that name nothing the search can match: the owner's names are
+# stop words (every question has them), so these retrieve no page. Claude
+# reads the whole site and answers them; the free models get the profile.
+vague:
+  - locale: pt-br
+    question: quem é o victor?
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026]
+  - locale: pt-br
+    question: me fala de você
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026]
+  - locale: pt-br
+    question: o que ele faz?
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026, /pt-br/career/freelance-2024]
+  - locale: en-us
+    question: who is victor?
+    expect: [/en-us/about, /en-us/career/fai-ufscar-2026]
+  - locale: en-us
+    question: tell me about yourself
+    expect: [/en-us/about, /en-us/career/fai-ufscar-2026]
+  - locale: en-us
+    question: is he a good fit for a frontend role?
+    expect: [/en-us/about, /en-us/career/xmart-solutions-2024, /en-us/career/freelance-2024, /en-us/projects/learning-react-next]
+
 faithfulness:
   - locale: en-us
     question: Which RAG projects has Victor built?

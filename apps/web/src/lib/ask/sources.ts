@@ -2,20 +2,25 @@ import { normalizeTerm, type RetrievedPassage } from "@workspace/search";
 
 import type { AskSource } from "./protocol";
 
-/** Source cards under an answer: at least this many when there are, at most the other. */
+/** Source cards under an answer: at least this many when there are; uncited ones only up to the other. */
 export const MIN_CARDS = 3;
 export const MAX_CARDS = 5;
 
 /**
- * Turns citations into numbered source cards. Passages go to the model in
- * retrieval order (Claude's documents, the free models' numbered passages),
- * so a citation's passage index is its position here; several passages of one
- * page share one number, in the order the answer first cites them.
+ * Turns citations into numbered source cards. A citation's passage index is
+ * its position in what the model was sent (Claude's documents, the free
+ * models' numbered passages); several passages of one page share one number,
+ * in the order the answer first cites them. `related` are the pages offered
+ * uncited under the answer, best first: the search's, since Claude's
+ * documents are the whole site in a fixed order.
  */
 export class CitationMap {
   private readonly numbers = new Map<string, number>();
 
-  constructor(private readonly passages: readonly RetrievedPassage[]) {}
+  constructor(
+    private readonly passages: readonly RetrievedPassage[],
+    private readonly related: readonly RetrievedPassage[] = passages
+  ) {}
 
   /** The card number for a cited passage (0-based), or undefined when the index is unknown. */
   cite(passageIndex: number): number | undefined {
@@ -30,8 +35,9 @@ export class CitationMap {
   }
 
   /**
-   * Cited pages first, by number; then the best uncited pages as related
-   * (n: null) until there are MIN_CARDS; never more than MAX_CARDS.
+   * Cited pages first, by number, every one of them: a citation number never
+   * points at a missing card. Then the best uncited pages as related (n: null)
+   * until there are MIN_CARDS, never past MAX_CARDS.
    */
   sources(): AskSource[] {
     const byUrl = uniqueByUrl(this.passages);
@@ -41,11 +47,11 @@ export class CitationMap {
         const passage = byUrl.get(url);
         return passage ? [{ n, title: pageTitle(passage), url }] : [];
       });
-    const related = [...byUrl.values()]
+    const related = [...uniqueByUrl(this.related).values()]
       .filter((passage) => !this.numbers.has(passage.url))
-      .slice(0, Math.max(0, MIN_CARDS - cited.length))
+      .slice(0, Math.max(0, Math.min(MIN_CARDS, MAX_CARDS) - cited.length))
       .map((passage) => ({ n: null, title: pageTitle(passage), url: passage.url }));
-    return [...cited, ...related].slice(0, MAX_CARDS);
+    return [...cited, ...related];
   }
 }
 

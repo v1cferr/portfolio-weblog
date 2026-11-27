@@ -92,6 +92,7 @@
       "searching": "Buscando no site…",
       "searched": "Busquei no site",
       "read": "Li {count, plural, one {# página} other {# páginas}}",
+      "readSite": "Li o site inteiro",
       "writing": "Escrevendo a resposta…",
       "wrote": "Escrevi a resposta",
       "checked": "Conferi as fontes",

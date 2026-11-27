@@ -18,6 +18,11 @@ const ELAPSED_FROM_MS = 3000;
 
 type Page = { title: string; url: string };
 
+/** "Read the whole site" when the model did, else "Read 3 pages". */
+function readLabel(t: ReturnType<typeof useTranslations<"Ask">>, turn: Turn): string {
+  return turn.readSite === true ? t("steps.readSite") : t("steps.read", { count: turn.reading?.length ?? 0 });
+}
+
 /** Whole seconds, at least 1, for "14 s". */
 const toSeconds = (ms: number) => Math.max(1, Math.round(ms / 1000));
 
@@ -36,14 +41,14 @@ export function PendingSteps({ turn, onNavigate }: { turn: Turn; onNavigate: () 
   if (!shown) return <div aria-busy="true" />;
 
   const reading = turn.reading ?? [];
-  const read = reading.length > 0;
+  const read = reading.length > 0 || turn.readSite === true;
   return (
     <div aria-busy="true" data-testid="ask-steps">
       <ol aria-label={t("steps.label")} className="flex flex-col gap-1.5 text-sm text-muted-foreground">
         {read ? <Step>{t("steps.searched")}</Step> : <ActiveStep>{t("steps.searching")}</ActiveStep>}
         {read && (
           <Step>
-            {t("steps.read", { count: reading.length })}
+            {readLabel(t, turn)}
             <PageBadges pages={reading} onNavigate={onNavigate} />
           </Step>
         )}
@@ -71,7 +76,7 @@ export function PendingSteps({ turn, onNavigate }: { turn: Turn; onNavigate: () 
 export function StepsSummary({ turn, onNavigate }: { turn: Turn; onNavigate: () => void }) {
   const t = useTranslations("Ask");
   const reading = turn.reading ?? [];
-  if (reading.length === 0) return null;
+  if (reading.length === 0 && turn.readSite !== true) return null;
   return (
     <Collapsible className="group/steps flex flex-col gap-1.5 text-xs text-muted-foreground" data-testid="ask-summary">
       <CollapsibleTrigger
@@ -83,7 +88,7 @@ export function StepsSummary({ turn, onNavigate }: { turn: Turn; onNavigate: () 
           className="size-3.5 shrink-0 transition-transform group-data-[state=open]/steps:rotate-90 motion-reduce:transition-none"
         />
         <span>
-          {t("steps.read", { count: reading.length })}
+          {readLabel(t, turn)}
           {turn.elapsedMs !== undefined && (
             <>
               {" "}
@@ -96,7 +101,7 @@ export function StepsSummary({ turn, onNavigate }: { turn: Turn; onNavigate: () 
         <ol aria-label={t("steps.label")} className="flex flex-col gap-1.5 pb-1 pl-1">
           <Step>{t("steps.searched")}</Step>
           <Step>
-            {t("steps.read", { count: reading.length })}
+            {readLabel(t, turn)}
             <PageBadges pages={reading} onNavigate={onNavigate} />
           </Step>
           {turn.checked === true && <Step>{t("steps.checked")}</Step>}

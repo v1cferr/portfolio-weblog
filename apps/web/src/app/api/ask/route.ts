@@ -2,7 +2,7 @@ import { claudeAnswer, createClaudeClient, getAnthropicKey } from "@/lib/ask/ant
 import { ask, openRouterGenerate } from "@/lib/ask/engine";
 import { getApiKey } from "@/lib/ask/openrouter";
 import { parseAskRequest } from "@/lib/ask/schema";
-import { getRetriever, isRateLimited } from "@/lib/ask/server";
+import { getRetriever, getSitePassages, isRateLimited } from "@/lib/ask/server";
 
 /**
  * The profile chat (ADR 0011): answers a question about the owner from the
@@ -49,6 +49,7 @@ export async function POST(request: Request) {
     { locale, question, history },
     {
       retriever: getRetriever(locale),
+      site: getSitePassages(locale),
       claude: anthropicKey === null ? null : claudeAnswer(createClaudeClient(anthropicKey)),
       generate: openRouterKey === null ? null : openRouterGenerate(openRouterKey),
       isRateLimited: () => isRateLimited(request),

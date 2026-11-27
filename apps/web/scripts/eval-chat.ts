@@ -12,7 +12,7 @@
  */
 import type { Locale } from "@workspace/content";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited } from "../evals/profile-chat";
+import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited, runVague, siteFor } from "../evals/profile-chat";
 import { claudeAnswer, createClaudeClient, getAnthropicKey } from "../src/lib/ask/anthropic";
 import { ask, openRouterGenerate } from "../src/lib/ask/engine";
 import { getApiKey } from "../src/lib/ask/openrouter";
@@ -29,6 +29,13 @@ for (const result of runRetrieval(set)) {
   if (!result.ok) failures++;
   say(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.question}`);
   if (!result.ok) say(`       expected ${result.expect.join(" | ") || "no source"}; got ${result.retrieved.join(", ") || "nothing"}`);
+}
+
+say("\nVague questions offline (the free models' pages include one of the expected)");
+for (const result of runVague(set)) {
+  if (!result.ok) failures++;
+  say(`  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.question}`);
+  if (!result.ok) say(`       expected ${result.expect.join(" | ")}; got ${result.retrieved.join(", ") || "nothing"}`);
 }
 
 say("\nFaithfulness check");
@@ -64,7 +71,7 @@ if (anthropicKey === null && apiKey === null) {
     const logs: string[] = [];
     const events: AsyncGenerator<AskEvent> = ask(
       { locale, question, history: [] },
-      { retriever: retrieverFor(locale), claude, generate, log: (line) => logs.push(line) }
+      { retriever: retrieverFor(locale), site: siteFor(locale), claude, generate, log: (line) => logs.push(line) }
     );
     for await (const event of events) {
       if (event.type === "status") {
@@ -87,13 +94,24 @@ if (anthropicKey === null && apiKey === null) {
     const result = await answer(locale, question);
     const ok =
       expect.length === 0
-        ? result.mode === "no-source"
+        ? // Off topic: nothing found, or (Claude reads the whole site) the site doesn't say.
+          result.mode === "no-source" || result.mode === "unknown"
         : result.mode === "extractive" ||
           result.mode === "unknown" ||
           (result.validCites && expect.some((url) => result.cited.includes(url)));
     if (!ok) failures++;
     const how = `${result.mode === "extractive" ? `extractive (${result.reason})` : result.mode}${result.partial ? " (partial)" : ""}`;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${how}: ${question}`);
+    say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
+  }
+
+  say("\nVague questions (Claude reads the whole site: must answer, citing one of the pages)");
+  for (const { locale, question, expect } of set.vague) {
+    const result = await answer(locale, question);
+    // Without Claude, the free models read the search's pages plus the profile; a page-quoting fallback is no answer.
+    const ok = result.mode === "model" && result.validCites && expect.some((url) => result.cited.includes(url));
+    if (!ok) failures++;
+    say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.partial ? " (partial)" : ""}: ${question}`);
     say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
   }
 
