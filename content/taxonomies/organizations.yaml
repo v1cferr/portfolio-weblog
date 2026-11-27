@@ -65,6 +65,7 @@
 - id: oracle-next-education
   name: Oracle Next Education (ONE)
   kind: program
+  article: o
   url: https://www.oracle.com/br/education/oracle-next-education/
   logo: /company-logos/oracle.png
 
@@ -101,6 +102,7 @@
 - id: senac-sp
   name: Senac São Paulo
   kind: school
+  article: o
   url: https://www.sp.senac.br/
   logo: /company-logos/senac-sp.png
   # Senac's negative version for the dark theme: the navy wordmark in white,
@@ -126,6 +128,7 @@
 - id: google
   name: Google
   kind: company
+  article: o
   url: https://grow.google/
   # The 180 px apple-touch-icon grow.google declares, the "G" (google.com
   # itself only declares a 32 px favicon).
@@ -152,6 +155,7 @@
 - id: hackers-do-bem
   name: Hackers do Bem
   kind: program
+  article: o
   url: https://hackersdobem.org.br/
   # The symbol of the official SVG logo the site header loads, without the
   # wordmark, as its 16 px favicon shows it (fetched 2026-11-26):
@@ -168,6 +172,7 @@
 - id: senai
   name: SENAI-SP
   kind: school
+  article: o
   url: https://www.sp.senai.br/
   # The preferred mark (white SENAI on the red #e30613 block) from SENAI-SP's
   # visual identity manual, "Revisão marketing 2021", page 5, exported as vector
