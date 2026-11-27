@@ -62,6 +62,23 @@ Client-side navigations scroll to the element after the page transition and
 highlight it too. A language switch keeps the fragment and the reader's place
 without highlighting it again ([UI state](ui-state.md#the-language-switch)).
 
+### Smooth jumps
+
+In-page jumps glide: `html { scroll-behavior: smooth }` in
+`packages/ui/src/styles/globals.css` covers fragment links, the `#` button and
+`scrollIntoView`. It sits inside
+`@media (prefers-reduced-motion: no-preference)`, so a reader who reduces motion
+gets instant jumps. Wheel and touch scrolling stay native.
+
+A route change must not glide from the footer to the top of the next page.
+`<html data-scroll-behavior="smooth">` (the `[locale]` layout) tells Next.js the
+document scrolls smoothly, and it switches smoothness off while it resets the
+scroll on a navigation. Code that corrects the position, like the
+`ScrollKeeper`, passes `behavior: "instant"`, which overrides the CSS. The e2e
+suite (`apps/web/e2e/smooth-scroll.spec.ts`) checks all three: smooth by
+default, instant with reduced motion, and a route change that jumps to the top
+without passing through the positions in between.
+
 ## Make a new element linkable
 
 - A section heading: give `SectionHeading` an `id`. It gets the button and the

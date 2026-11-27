@@ -109,7 +109,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const clientMessages = Object.fromEntries(CLIENT_NAMESPACES.map((namespace) => [namespace, messages[namespace]]));
 
   return (
-    <html lang={languageTag(locale)} suppressHydrationWarning className={cn("antialiased", fontSans.variable, fontMono.variable)}>
+    <html
+      lang={languageTag(locale)}
+      // Smooth in-page jumps (globals.css), never on route changes.
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+      className={cn("antialiased", fontSans.variable, fontMono.variable)}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SESSION_SCRIPT }} />
         {/* Entrances start hidden; without JavaScript they would stay that way. */}
