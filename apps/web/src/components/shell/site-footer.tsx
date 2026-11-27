@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { NixosLogo } from "@/components/nixos-logo";
 import { buildInfo } from "@/lib/build-info";
 import { getContent } from "@/lib/content";
+import { getTattoos } from "@/lib/tattoos";
 import { REPOSITORY_URL } from "@/lib/site";
 import { ExternalLink } from "@/components/external-link";
 
@@ -42,6 +43,13 @@ export async function SiteFooter() {
               {nav("setup")}
             </Link>
           </li>
+          {getTattoos() !== undefined && (
+            <li>
+              <Link className="hover:text-foreground" href="/tattoos" transitionTypes={NAV_SECTION}>
+                {nav("tattoos")}
+              </Link>
+            </li>
+          )}
           <li>
             <Link className="hover:text-foreground" href="/weblog/how-this-site-is-built" transitionTypes={NAV_SECTION}>
               {t("howBuilt")}

@@ -5,6 +5,7 @@ import { getContent } from "@/lib/content";
 import { getDecisions } from "@/lib/decisions";
 import { languageTag } from "@/lib/i18n";
 import { getNow } from "@/lib/now";
+import { getTattoos } from "@/lib/tattoos";
 import { absoluteUrl } from "@/lib/site";
 
 const SECTIONS = ["", "/about", "/career", "/projects", "/timeline", "/education", "/weblog", "/setup", "/wow", "/decisions"];
@@ -19,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const pages = [
     ...SECTIONS,
+    ...(getTattoos() === undefined ? [] : ["/tattoos"]),
     ...content.getExperiences().map((experience) => `/career/${experience.id}`),
     ...content.getProjects().map((project) => `/projects/${project.id}`),
     ...getDecisions().map((decision) => `/decisions/${decision.number}`),
