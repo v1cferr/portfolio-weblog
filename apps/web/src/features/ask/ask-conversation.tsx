@@ -137,7 +137,8 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
             maxLength={MAX_QUESTION}
             placeholder={t("placeholder")}
             aria-describedby={nearLimit ? "ask-counter" : undefined}
-            className="text-base sm:text-sm"
+            // A long placeholder stays on one line instead of spilling under the box.
+            className="text-base placeholder:truncate sm:text-sm"
           />
           <PromptInputActions className="shrink-0">
             {busy ? (
@@ -148,15 +149,16 @@ export default function AskConversation({ onNavigate, onSearch }: { onNavigate: 
                   stop();
                   input.current?.focus({ preventScroll: true });
                 }}
-                className="h-11 gap-1.5 px-3"
+                className="h-11 gap-1.5 px-3 max-sm:w-11 max-sm:px-0"
               >
                 <SquareIcon aria-hidden className="fill-current" />
-                {t("stop")}
+                {/* Icon only on phones, where the question box needs the width; the name stays for assistive technology. */}
+                <span className="max-sm:sr-only">{t("stop")}</span>
               </Button>
             ) : (
-              <Button type="submit" disabled={question.trim().length < 2} className="h-11 gap-1.5 px-3">
+              <Button type="submit" disabled={question.trim().length < 2} className="h-11 gap-1.5 px-3 max-sm:w-11 max-sm:px-0">
                 <ArrowUpIcon aria-hidden />
-                {t("submit")}
+                <span className="max-sm:sr-only">{t("submit")}</span>
               </Button>
             )}
           </PromptInputActions>
