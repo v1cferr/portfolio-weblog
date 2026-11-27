@@ -265,3 +265,36 @@ the steps the server actually reports, never a made-up progress.
 - **Notes behind an "i".** Where answers come from and the privacy note moved
   into one toggletip next to the dock's title; the "may be wrong, check the
   sources" disclosure into one next to each answer's AI label.
+
+## Revision (2026-11-26, a bottom sheet on phones)
+
+On phones the whole panel scrolled inside itself: a new question called
+`scrollIntoView`, which scrolls every scrollable ancestor, and the panel was
+`overflow-hidden`, which can still be scrolled. The header slid away and empty
+space opened below it.
+
+- **Only the message list scrolls.** It is prompt-kit's ChatContainer
+  (`use-stick-to-bottom`, copied into `packages/ui`): it sets `scrollTop` on
+  itself, follows an answer as it grows but never past the latest question's
+  top, and lets go when the reader scrolls up. The panel clips
+  (`overflow-clip`), the list is `relative`, and focus never scrolls
+  (`preventScroll`). Not a live region: the status line still announces state
+  changes only.
+- **Phones get a modal bottom sheet** (shadcn Drawer, vaul), replacing the
+  full-screen sheet. It covers the page anyway, so it is modal there: the page
+  is locked and hidden from assistive technology, focus stays inside, and a drag
+  down, Esc or Minimize closes it, returning focus to the launcher. It starts
+  below the notch, keeps clear of the home indicator and side insets, and sits
+  above the on-screen keyboard (`interactiveWidget: "resizes-content"` in the
+  viewport, plus a `visualViewport` fallback for iOS). From `sm` up the
+  non-modal panel and the expanded drawer stay as they were.
+- **The question box** is prompt-kit's PromptInput: a textarea that grows to a
+  few lines, Enter sends, Shift+Enter starts a line.
+- **44px targets** for every header button, the page badges (on phones) and the
+  citation numbers (an invisible padded hit area).
+- **A language switch stops an answer still streaming**, which used to write
+  into the other locale's conversation.
+- `e2e/ask-mobile.spec.ts` asks three questions at 360×740 and 390×844 in an
+  emulated phone and checks that only the list scrolled, the header and input
+  stay in view, nothing overflows sideways, targets are 44px, Esc and a drag
+  close the sheet, reduced motion is respected and axe passes in both themes.

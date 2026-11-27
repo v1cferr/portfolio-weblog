@@ -30,7 +30,7 @@ test.describe("profile chat dock", () => {
     await expect(dialog).not.toHaveAttribute("aria-modal", /.*/);
     await expect(dialog.getByRole("textbox", { name: "Ask about my work" })).toBeFocused();
     await expect(dialog.getByRole("button", { name: "What is my current role?" })).toBeVisible();
-    // The page behind stays clickable: no backdrop, no inert. (On phones the dock is a full-screen sheet.)
+    // The page behind stays clickable: no backdrop, no inert. (On phones the dock is a modal bottom sheet.)
     if (!isMobile) {
       await page.getByRole("link", { name: "v1cferr.dev, home page" }).click();
       await expect(page).toHaveURL(/\/en-us$/);
@@ -60,7 +60,7 @@ test.describe("profile chat dock", () => {
     await source.click();
     await expect(page).toHaveURL(/\/en-us\/projects\/obsidian-rag$/);
     if (isMobile) {
-      // The full-screen sheet steps aside so the page can be read; the conversation is still there.
+      // The bottom sheet steps aside so the page can be read; the conversation is still there.
       await expect(dialog).toBeHidden();
       await page.getByTestId("ask-launcher").click();
     }
@@ -154,7 +154,7 @@ test.describe("profile chat dock", () => {
   });
 
   test("expand turns the panel into a drawer the page makes room for, and back", async ({ page, isMobile }) => {
-    test.skip(isMobile, "the drawer is a desktop layout; phones get a full-screen sheet");
+    test.skip(isMobile, "the drawer is a desktop layout; phones get a bottom sheet");
     await page.goto("/en-us");
     const dialog = await openDock(page);
     const viewport = page.viewportSize() ?? { width: 0, height: 0 };
@@ -202,13 +202,13 @@ test.describe("profile chat dock", () => {
 test.describe("profile chat dock on a 360px phone", () => {
   test.skip(({ isMobile }) => isMobile, "sets its own viewport; runs once, in the desktop project");
 
-  test("fills the screen, has no horizontal scroll and keeps 44px targets", async ({ browser }) => {
+  test("is a bottom sheet near full height, has no horizontal scroll and keeps 44px targets", async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: false });
     const page = await context.newPage();
     await page.goto("/en-us");
     const dialog = await openDock(page);
-    // Measured once the opening slide has settled.
-    await expect.poll(() => dialog.boundingBox()).toEqual({ x: 0, y: 0, width: 360, height: 740 });
+    // Measured once the opening slide has settled: full width, down to the bottom, a 12px gap at the top (no notch here).
+    await expect.poll(() => dialog.boundingBox()).toEqual({ x: 0, y: 12, width: 360, height: 728 });
     await dialog.getByRole("button", { name: "What security experience do I have?" }).click();
     await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
