@@ -39,7 +39,8 @@ test.describe("decision log", () => {
     const main = page.getByRole("main");
     await expect(main.getByRole("heading", { level: 1, name: "A profile chat that answers only from the site's pages" })).toBeVisible();
     await expect(main.getByRole("heading", { level: 2, name: "Why it matters" })).toBeVisible();
-    await expect(main.getByRole("heading", { level: 2, name: "Context" })).toBeVisible();
+    // Exact: a revision title may say "context" too.
+    await expect(main.getByRole("heading", { level: 2, name: "Context", exact: true })).toBeVisible();
     await expect(main.getByRole("heading", { level: 2, name: /Revision \(2026-11-23/ })).toBeVisible();
     await expect(main.getByRole("table")).toBeVisible();
     await expect(main.getByRole("link", { name: /View on GitHub/ })).toHaveAttribute(
