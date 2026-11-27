@@ -353,6 +353,10 @@ describe("grounding", () => {
       "**Victor** built obsidian-rag xa "
     );
     expect(sanitizeMarkdown("- I use `nix`\n- and *Python*")).toBe("- I use `nix`\n- and *Python*");
+    // A tag split by another one cannot survive the removal, and a stray "<" cannot open one.
+    expect(sanitizeMarkdown("<scr<b>ipt>alert(1)</script>")).toBe("alert(1)");
+    expect(sanitizeMarkdown("a <<i>img src=x> b")).not.toMatch(/<[a-z]/i);
+    expect(sanitizeMarkdown("x < y and a<b")).toBe("x < y and a< b");
   });
 
   it("reads plain text without mangling C#, snake_case or comparisons", () => {

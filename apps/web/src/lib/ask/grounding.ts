@@ -113,11 +113,15 @@ export function parseModelAnswer(content: string): z.infer<typeof ModelAnswer> |
  * tags and bracketed numbers go, since citations come from the server alone.
  */
 export function sanitizeMarkdown(text: string): string {
-  return text
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
-    .replace(/<\/?[a-z][a-z0-9-]*(?:\s[^<>]*)?\/?>/gi, "")
-    .replace(/\[\d+(?:\s*,\s*\d+)*\]/g, "");
+  let markdown = text.replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1");
+  // Until nothing changes: removing one tag can join the pieces of another ("<scr<b>ipt>").
+  let previous: string;
+  do {
+    previous = markdown;
+    markdown = markdown.replace(/<\/?[a-z][a-z0-9-]*(?:\s[^<>]*)?\/?>/gi, "");
+  } while (markdown !== previous);
+  // Whatever "<" is left cannot open a tag: a space after it keeps "a < b" and breaks "<script".
+  return markdown.replace(/<(?=[a-z/!?])/gi, "< ").replace(/\[\d+(?:\s*,\s*\d+)*\]/g, "");
 }
 
 /**
