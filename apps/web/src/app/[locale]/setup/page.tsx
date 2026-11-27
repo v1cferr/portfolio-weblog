@@ -14,6 +14,8 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
 import { SetupCopyButton } from "@/features/setup/copy-button";
+import { partLightboxItems, PARTS_GALLERY } from "@/features/setup/part-gallery";
+import { PartPhoto } from "@/features/setup/part-photo";
 import { VscodeExtensions } from "@/features/setup/vscode-extensions";
 import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
@@ -40,6 +42,8 @@ export default async function SetupPage() {
   if (setup === undefined) notFound();
 
   const firstTitle = setup.groups[0] && localize(setup.groups[0].title, locale);
+  // Every part with a photo, in page order: one gallery, so the lightbox steps through them all.
+  const parts = partLightboxItems(setup, locale, (label) => t("credit", { label }));
   const photos = newestFirst(setup.photos, (photo) => ({ start: photo.date, end: photo.date })).map((photo) => ({
     photo,
     alt: localize(photo.alt, locale),
@@ -68,111 +72,125 @@ export default async function SetupPage() {
 
       {firstTitle?.isFallback === true && <FallbackNotice requested={locale} actual={firstTitle.locale} />}
 
-      <div className="space-y-14">
-        {setup.groups.map((group) => {
-          const title = localize(group.title, locale);
-          return (
-            <section key={group.id} aria-labelledby={`setup-${group.id}`}>
-              <SectionHeading id={`setup-${group.id}`}>
-                <span lang={title.locale}>{title.value}</span>
-              </SectionHeading>
-              {group.items.some((item) => item.until !== undefined) ? (
-                // Retired parts are dated: a newest-first timeline, by retirement date.
-                <RailTimeline
-                  lane="project"
-                  nodeClassName="top-5"
-                  gapClassName="space-y-3"
-                  entries={newestFirst(group.items, (item) => ({ start: item.since, end: item.until })).map((item) => {
-                    const role = localize(item.role, locale);
-                    const note = item.note && localize(item.note, locale);
-                    return {
-                      key: item.id,
-                      id: item.id,
-                      node: item.until === undefined ? "current" : "past",
-                      children: (
-                        <article className="glass space-y-1 rounded-xl border px-4 py-3">
-                          <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <span className="text-sm text-muted-foreground" lang={role.locale}>
+      <Lightbox id={PARTS_GALLERY} items={parts.items}>
+        <div className="space-y-14">
+          {setup.groups.map((group) => {
+            const title = localize(group.title, locale);
+            return (
+              <section key={group.id} aria-labelledby={`setup-${group.id}`}>
+                <SectionHeading id={`setup-${group.id}`}>
+                  <span lang={title.locale}>{title.value}</span>
+                </SectionHeading>
+                {group.items.some((item) => item.until !== undefined) ? (
+                  // Retired parts are dated: a newest-first timeline, by retirement date.
+                  <RailTimeline
+                    lane="project"
+                    nodeClassName="top-5"
+                    gapClassName="space-y-3"
+                    entries={newestFirst(group.items, (item) => ({ start: item.since, end: item.until })).map((item) => {
+                      const role = localize(item.role, locale);
+                      const note = item.note && localize(item.note, locale);
+                      return {
+                        key: item.id,
+                        id: item.id,
+                        node: item.until === undefined ? "current" : "past",
+                        children: (
+                          <article className="glass flex gap-3 rounded-xl border px-4 py-3">
+                            <PartPhoto item={item} parts={parts} locale={locale} />
+                            <div className="min-w-0 flex-1 space-y-1">
+                              <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                                <span className="text-sm text-muted-foreground" lang={role.locale}>
+                                  {role.value}
+                                </span>
+                                {item.since !== undefined && (
+                                  <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                                    {formatMonthRange(item.since, item.until, locale, t("present"))}
+                                  </span>
+                                )}
+                              </p>
+                              <p className="flex items-start gap-1 font-medium">
+                                {item.url !== undefined ? (
+                                  <ExternalLink
+                                    href={item.url}
+                                    className="group/link inline-flex items-start gap-1.5 hover:text-lane-project"
+                                  >
+                                    {item.model}
+                                    <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                                  </ExternalLink>
+                                ) : (
+                                  item.model
+                                )}
+                                <CopyLink id={item.id} name={item.model} />
+                              </p>
+                              {note && (
+                                <p className="max-w-3xl text-sm text-pretty text-muted-foreground" lang={note.locale}>
+                                  {note.value}
+                                </p>
+                              )}
+                            </div>
+                          </article>
+                        ),
+                      };
+                    })}
+                  />
+                ) : (
+                  // Current parts: one card each, a single column on phones.
+                  <ul className="grid gap-3 sm:grid-cols-2">
+                    {group.items.map((item) => {
+                      const role = localize(item.role, locale);
+                      const note = item.note && localize(item.note, locale);
+                      return (
+                        <li
+                          key={item.id}
+                          id={item.id}
+                          data-anchor=""
+                          className="group/anchor glass flex min-w-0 gap-3 rounded-xl border px-4 py-3"
+                        >
+                          <PartPhoto item={item} parts={parts} locale={locale} />
+                          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                            <p className="text-xs tracking-wide text-muted-foreground uppercase" lang={role.locale}>
                               {role.value}
-                            </span>
-                            {item.since !== undefined && (
-                              <span className="font-mono text-xs text-muted-foreground tabular-nums">
-                                {formatMonthRange(item.since, item.until, locale, t("present"))}
-                              </span>
-                            )}
-                          </p>
-                          <p className="flex items-start gap-1 font-medium">
-                            {item.url !== undefined ? (
-                              <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
-                                {item.model}
-                                <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                              </ExternalLink>
-                            ) : (
-                              item.model
-                            )}
-                            <CopyLink id={item.id} name={item.model} />
-                          </p>
-                          {note && (
-                            <p className="max-w-3xl text-sm text-pretty text-muted-foreground" lang={note.locale}>
-                              {note.value}
                             </p>
-                          )}
-                        </article>
-                      ),
-                    };
-                  })}
-                />
-              ) : (
-                // Current parts: one card each, a single column on phones.
-                <ul className="grid gap-3 sm:grid-cols-2">
-                  {group.items.map((item) => {
-                    const role = localize(item.role, locale);
-                    const note = item.note && localize(item.note, locale);
-                    return (
-                      <li
-                        key={item.id}
-                        id={item.id}
-                        data-anchor=""
-                        className="group/anchor glass flex min-w-0 flex-col gap-1.5 rounded-xl border px-4 py-3"
-                      >
-                        <p className="text-xs tracking-wide text-muted-foreground uppercase" lang={role.locale}>
-                          {role.value}
-                        </p>
-                        <p className="flex items-start gap-1 font-medium">
-                          {item.url !== undefined ? (
-                            <ExternalLink
-                              href={item.url}
-                              className="group/link inline-flex min-w-0 items-start gap-1.5 break-words hover:text-lane-project"
-                            >
-                              <span className="min-w-0">{item.model}</span>
-                              <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                            </ExternalLink>
-                          ) : (
-                            <span className="min-w-0 break-words">{item.model}</span>
-                          )}
-                          <CopyLink id={item.id} name={item.model} />
-                        </p>
-                        {item.since !== undefined && (
-                          <p className="font-mono text-xs text-muted-foreground">
-                            {item.until !== undefined
-                              ? t("period", { start: formatPartialDate(item.since, locale), end: formatPartialDate(item.until, locale) })
-                              : t("since", { date: formatPartialDate(item.since, locale) })}
-                          </p>
-                        )}
-                        {note && (
-                          <p className="text-sm text-pretty text-muted-foreground" lang={note.locale}>
-                            {note.value}
-                          </p>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </section>
-          );
-        })}
-      </div>
+                            <p className="flex items-start gap-1 font-medium">
+                              {item.url !== undefined ? (
+                                <ExternalLink
+                                  href={item.url}
+                                  className="group/link inline-flex min-w-0 items-start gap-1.5 break-words hover:text-lane-project"
+                                >
+                                  <span className="min-w-0">{item.model}</span>
+                                  <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                                </ExternalLink>
+                              ) : (
+                                <span className="min-w-0 break-words">{item.model}</span>
+                              )}
+                              <CopyLink id={item.id} name={item.model} />
+                            </p>
+                            {item.since !== undefined && (
+                              <p className="font-mono text-xs text-muted-foreground">
+                                {item.until !== undefined
+                                  ? t("period", {
+                                      start: formatPartialDate(item.since, locale),
+                                      end: formatPartialDate(item.until, locale),
+                                    })
+                                  : t("since", { date: formatPartialDate(item.since, locale) })}
+                              </p>
+                            )}
+                            {note && (
+                              <p className="text-sm text-pretty text-muted-foreground" lang={note.locale}>
+                                {note.value}
+                              </p>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      </Lightbox>
       {setup.vscodeExtensions !== undefined && <VscodeExtensions extensions={setup.vscodeExtensions} />}
       {photos.length > 0 && (
         <section aria-labelledby="setup-photos" className="mt-14">

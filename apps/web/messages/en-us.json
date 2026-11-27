@@ -462,6 +462,7 @@
     "extensionsSource": "List in the dotfiles",
     "extensionsMore": "Show all {count} extensions",
     "extensionsLess": "Show fewer",
+    "credit": "Image: {label}",
     "extensionsList": "{group} extensions"
   },
   "Wow": {

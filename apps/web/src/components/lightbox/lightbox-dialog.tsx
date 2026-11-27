@@ -211,7 +211,7 @@ export function LightboxDialog({ items, index, morph, onNavigate, onClose, onClo
                 )}
               </div>
 
-              {(item.caption !== undefined || item.date !== undefined) && (
+              {(item.caption !== undefined || item.date !== undefined || item.credit !== undefined) && (
                 <m.div className="mx-auto max-w-prose space-y-1 text-center text-sm text-pretty text-foreground" {...FADE_IN_OUT}>
                   {item.date !== undefined && (
                     <time dateTime={item.date.iso} className="block font-mono text-xs text-muted-foreground tabular-nums">
@@ -224,6 +224,17 @@ export function LightboxDialog({ items, index, morph, onNavigate, onClose, onClo
                         {item.caption}
                       </p>
                     </DialogPrimitive.Title>
+                  )}
+                  {item.credit !== undefined && (
+                    <a
+                      href={item.credit.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                      data-testid="lightbox-credit"
+                    >
+                      {item.credit.text}
+                    </a>
                   )}
                 </m.div>
               )}

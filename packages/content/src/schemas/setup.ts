@@ -16,6 +16,15 @@ export const SetupItem = z.strictObject({
   note: LocalizedText.optional(),
   since: PartialDate.optional(),
   until: PartialDate.optional(),
+  /**
+   * A photo of the part: the owner's own, or the manufacturer's when its press
+   * terms allow reuse, with `credit`. Shown as a thumbnail that opens the
+   * lightbox; a part without one shows just its card.
+   */
+  media: Media.extend({
+    /** Who made the image when it is not the owner's, linked to where its terms are. */
+    credit: z.strictObject({ label: z.string().min(1), url: z.url({ protocol: /^https$/ }) }).optional(),
+  }).optional(),
 });
 
 /** A VS Code extension, as `code --list-extensions` names it (`publisher.name`). */
