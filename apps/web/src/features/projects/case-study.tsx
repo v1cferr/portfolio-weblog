@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { ExternalLink } from "@/components/external-link";
+import { SessionDetails } from "@/components/session-disclosure";
 import { Link } from "@/i18n/navigation";
 import { onSiteDecisionPath } from "@/lib/decision-links";
 
@@ -207,7 +208,7 @@ export async function CaseStudyDeepDive({
             const cost = localize(decision.cost, locale);
             return (
               <li key={title.value}>
-                <details open={index === 0} className="group glass rounded-xl border">
+                <SessionDetails stateId={`decision:${String(index)}`} defaultOpen={index === 0} className="group glass rounded-xl border">
                   <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 font-semibold focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none [&::-webkit-details-marker]:hidden">
                     <span lang={title.locale}>{title.value}</span>
                     <ChevronDownIcon
@@ -243,7 +244,7 @@ export async function CaseStudyDeepDive({
                       </p>
                     )}
                   </div>
-                </details>
+                </SessionDetails>
               </li>
             );
           })}

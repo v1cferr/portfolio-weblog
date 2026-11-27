@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { useLocale, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 
+import { savePlace } from "@/components/anchor/scroll-keeper";
 import { Flag } from "@/components/flag";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { type Locale, localeNames, routing } from "@/i18n/routing";
@@ -25,9 +26,13 @@ export function LocaleSwitcher() {
   const [open, setOpen] = useState(false);
 
   function change(next: string) {
+    if (next === locale) return;
+    // The same place on the same page in the other locale (docs/guides/ui-state.md): the query (a projects tab,
+    // an open photo) and the fragment come along, and the ScrollKeeper puts the reader back where they were.
+    savePlace(pathname);
+    const href = `${pathname}${window.location.search}${window.location.hash}`;
     startTransition(() => {
-      // Same page in the other locale; the pathname is already resolved.
-      router.replace(pathname, { locale: next as Locale });
+      router.replace(href, { locale: next as Locale, scroll: false });
     });
   }
 
@@ -36,7 +41,15 @@ export function LocaleSwitcher() {
       <Tooltip>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" aria-label={t("label")} disabled={pending} className="h-10 gap-1.5 px-2 lg:h-7">
+            <Button
+              // The ScrollKeeper gives the focus back here after the switch.
+              data-locale-switcher=""
+              variant="ghost"
+              size="sm"
+              aria-label={t("label")}
+              disabled={pending}
+              className="h-10 gap-1.5 px-2 lg:h-7"
+            >
               <Flag locale={locale} />
               {/* The language code next to the flag: a flag names a country, not a language. */}
               <span aria-hidden className="font-mono text-xs uppercase">

@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
+import { takeQuietHash } from "./scroll-keeper";
+
 /** Set on the element the URL fragment points at (see the deep-link rules in globals.css). */
 const ATTRIBUTE = "data-anchor-hit";
 
@@ -36,7 +38,8 @@ export function markAnchorTarget(): void {
 export function HashTarget() {
   const pathname = usePathname();
   useEffect(() => {
-    markAnchorTarget();
+    // After a language switch the reader is put back where they were, not sent to the fragment again.
+    if (!takeQuietHash()) markAnchorTarget();
     // Same-page fragment links without a pathname change: native ones fire hashchange; next/link only
     // pushes a history entry, which the Navigation API reports where it exists.
     let last = window.location.href;

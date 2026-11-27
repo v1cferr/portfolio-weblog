@@ -7,6 +7,7 @@ import { CopyLink } from "@/components/anchor/copy-link";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { PageTransition } from "@/components/page-transition";
+import { SessionDetails } from "@/components/session-disclosure";
 import { SourceLink } from "@/components/source-link";
 import { NowList } from "@/features/now/now-list";
 import { NowStamp } from "@/features/now/now-stamp";
@@ -102,7 +103,8 @@ export default async function NowPage() {
                   return (
                     <li key={entry.date} className="group/anchor flex items-start gap-2">
                       {/* The deep link opens the entry (components/anchor/hash-target.tsx). */}
-                      <details
+                      <SessionDetails
+                        stateId={`now:${entry.date}`}
                         id={anchorId("now", entry.date)}
                         data-anchor=""
                         aria-labelledby={anchorId("now", entry.date, "date")}
@@ -131,7 +133,7 @@ export default async function NowPage() {
                             </p>
                           )}
                         </div>
-                      </details>
+                      </SessionDetails>
                       <CopyLink id={anchorId("now", entry.date)} nameId={anchorId("now", entry.date, "date")} className="mt-3" />
                     </li>
                   );

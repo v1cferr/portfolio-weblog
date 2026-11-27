@@ -84,7 +84,7 @@ export default async function ProjectsPage() {
             ))}
           </ul>
           {uncurated.length > UNCURATED_VISIBLE && (
-            <ShowMore more={t("showAll", { count: uncurated.length })} less={t("showLess")}>
+            <ShowMore stateId="uncurated" more={t("showAll", { count: uncurated.length })} less={t("showLess")}>
               <ul className="divide-y border-b">
                 {uncurated.slice(UNCURATED_VISIBLE).map((repo) => (
                   <UncuratedRow key={repo.full_name} repo={repo} />

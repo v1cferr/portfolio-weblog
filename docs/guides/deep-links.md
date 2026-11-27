@@ -59,7 +59,8 @@ My [mousepad](/setup#mousepad-redragon-alianca) is the Alliance one.
 ```
 
 Client-side navigations scroll to the element after the page transition and
-highlight it too.
+highlight it too. A language switch keeps the fragment and the reader's place
+without highlighting it again ([UI state](ui-state.md#the-language-switch)).
 
 ## Make a new element linkable
 
