@@ -3,9 +3,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { type Locale, loadRegistry } from "@workspace/content";
-import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, type Retriever } from "@workspace/search";
+import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, type Passage, type Retriever } from "@workspace/search";
 import { parse } from "yaml";
 
+import { asRetrieved, focusPassages } from "../src/lib/ask/engine";
 import { checkSentence, FAITHFULNESS_THRESHOLD, faithfulness } from "../src/lib/ask/grounding";
 import { z } from "zod";
 
@@ -22,6 +23,15 @@ const Locales = z.enum(["en-us", "pt-br"]);
 
 const EvalSet = z.strictObject({
   questions: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), expect: z.array(z.string().startsWith("/")) })).min(1),
+  /**
+   * Questions that name nothing the search can match ("who is Victor?").
+   * Claude reads the whole site, so the model must answer and cite one of
+   * `expect`; offline, the free models' pages (the search's, plus the
+   * profile when it finds too little) must include one of `expect`.
+   */
+  vague: z
+    .array(z.strictObject({ locale: Locales, question: z.string().min(2), expect: z.array(z.string().startsWith("/")).min(1) }))
+    .default([]),
   faithfulness: z
     .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), grounded: z.boolean() }))
     .min(1),
@@ -39,16 +49,35 @@ export function loadEvalSet(): EvalSet {
   return EvalSet.parse(parse(readFileSync(path.join(here, "profile-chat.yaml"), "utf8")));
 }
 
-const retrievers = new Map<Locale, Retriever>();
+const sites = new Map<Locale, { passages: readonly Passage[]; retriever: Retriever }>();
+
+function site(locale: Locale) {
+  let built = sites.get(locale);
+  if (built === undefined) {
+    const passages = buildRetrievalPassages(loadRegistry(CONTENT_ROOT), locale);
+    built = { passages, retriever: createRetriever(passages) };
+    sites.set(locale, built);
+  }
+  return built;
+}
 
 /** The production retriever over the real, public content of one locale. */
 export function retrieverFor(locale: Locale): Retriever {
-  let retriever = retrievers.get(locale);
-  if (retriever === undefined) {
-    retriever = createRetriever(buildRetrievalPassages(loadRegistry(CONTENT_ROOT), locale));
-    retrievers.set(locale, retriever);
-  }
-  return retriever;
+  return site(locale).retriever;
+}
+
+/** Every public passage of one locale, as the chat route hands them to Claude. */
+export function siteFor(locale: Locale): readonly Passage[] {
+  return site(locale).passages;
+}
+
+/** The pages a vague question's free-model answer would read: the search's, plus the profile when it finds too little. */
+export function runVague(set: EvalSet): RetrievalResult[] {
+  return set.vague.map(({ locale, question, expect }) => {
+    const focus = focusPassages(retrieverFor(locale).retrieve(question, { limit: MAX_PASSAGES }), siteFor(locale).map(asRetrieved));
+    const retrieved = [...new Set(focus.map((passage) => passage.url))];
+    return { locale, question, expect, retrieved, ok: expect.some((url) => retrieved.includes(url)) };
+  });
 }
 
 export interface RetrievalResult {

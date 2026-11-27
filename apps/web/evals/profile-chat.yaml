@@ -5,6 +5,8 @@
 # `expect` must be among the passages retrieved (top 6), and a question with
 # `expect: []` must retrieve nothing (no source, no answer).
 #
+# The `vague` cases run on every `pnpm test` too (see the section).
+#
 # The `faithfulness` cases tune the server's grounding check
 # (FAITHFULNESS_THRESHOLD in src/lib/ask/grounding.ts) and also run on every
 # `pnpm test`: a sentence is scored against the passages retrieved for its
@@ -167,6 +169,29 @@ questions:
 # Answers speak as the owner, in the first person (ADR 0011, 2026-11-25), so
 # the sentences do too; the technical-support pairs keep the third person, which
 # must still pass.
+# Questions that name nothing the search can match: the owner's names are
+# stop words (every question has them), so these retrieve no page. Claude
+# reads the whole site and answers them; the free models get the profile.
+vague:
+  - locale: pt-br
+    question: quem é o victor?
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026]
+  - locale: pt-br
+    question: me fala de você
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026]
+  - locale: pt-br
+    question: o que ele faz?
+    expect: [/pt-br/about, /pt-br/career/fai-ufscar-2026, /pt-br/career/freelance-2024]
+  - locale: en-us
+    question: who is victor?
+    expect: [/en-us/about, /en-us/career/fai-ufscar-2026]
+  - locale: en-us
+    question: tell me about yourself
+    expect: [/en-us/about, /en-us/career/fai-ufscar-2026]
+  - locale: en-us
+    question: is he a good fit for a frontend role?
+    expect: [/en-us/about, /en-us/career/xmart-solutions-2024, /en-us/career/freelance-2024, /en-us/projects/learning-react-next]
+
 faithfulness:
   - locale: en-us
     question: Which RAG projects has Victor built?
