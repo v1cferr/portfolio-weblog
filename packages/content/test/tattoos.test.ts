@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ContentValidationError, loadTattoos, loadTattoosContent, Tattoos, tattooMedia } from "../src";
+import { ContentValidationError, findContentRoot, loadTattoos, loadTattoosContent, Tattoos, tattooMedia } from "../src";
 import { makeContent } from "./fixture";
 
 const done = {
@@ -69,5 +69,15 @@ describe("tattoos page content", () => {
     expect(() => loadTattoos(bad)).toThrow(ContentValidationError);
     const { tattoos } = loadTattoosContent(makeContent({ "profile/tattoos.yaml": page([done, idea]) }));
     expect(tattooMedia(tattoos)).toEqual([{ src: "/tattoos/usb.jpg", width: 3, height: 4, file: "profile/tattoos.yaml" }]);
+  });
+});
+
+describe("the real tattoos file", () => {
+  it("is valid, and the golden ratio is only an idea", () => {
+    const { tattoos, issues } = loadTattoosContent(findContentRoot());
+    expect(issues).toEqual([]);
+    const golden = tattoos?.tattoos.find((tattoo) => tattoo.id === "golden-ratio");
+    expect(golden?.state).toBe("idea");
+    expect(golden?.date).toBeUndefined();
   });
 });
