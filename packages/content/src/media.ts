@@ -31,10 +31,12 @@ export function collectMedia(content: RawContent): MediaReference[] {
 export async function checkMedia(
   content: RawContent,
   publicDir: string,
-  readMetadata: (file: string) => Promise<{ width?: number; height?: number; exif?: unknown; xmp?: unknown; iptc?: unknown }>
+  readMetadata: (file: string) => Promise<{ width?: number; height?: number; exif?: unknown; xmp?: unknown; iptc?: unknown }>,
+  /** Images of content loaded outside the registry (the tattoos page). */
+  extra: readonly MediaReference[] = []
 ): Promise<ContentIssue[]> {
   const issues: ContentIssue[] = [];
-  for (const { src, width, height, file } of collectMedia(content)) {
+  for (const { src, width, height, file } of [...collectMedia(content), ...extra]) {
     const absolute = path.join(publicDir, src);
     if (!existsSync(absolute)) {
       issues.push({ file, message: `media "${src}" does not exist under apps/web/public` });

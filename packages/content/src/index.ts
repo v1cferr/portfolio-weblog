@@ -9,6 +9,7 @@ export { checkMedia, collectMedia, type MediaReference } from "./media";
 export * from "./now/now";
 export * from "./pages/pages";
 export * from "./studies";
+export * from "./tattoos/tattoos";
 export type { EntityRef, EntityType } from "./relations/graph";
 export { validateContent, type ValidationResult } from "./relations/validate";
 export * from "./registry/registry";
