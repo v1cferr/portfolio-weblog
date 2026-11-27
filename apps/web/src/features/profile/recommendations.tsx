@@ -1,7 +1,7 @@
 import { HOME_RECOMMENDATIONS, localize, localizeList, type Locale, type PublishedRecommendation } from "@workspace/content";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Card, CardContent, CardFooter } from "@workspace/ui/components/card";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible";
+import { CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible";
 import { cn } from "@workspace/ui/lib/utils";
 import { ArrowUpRightIcon, ChevronDownIcon, LanguagesIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -9,6 +9,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { AnchorHeading } from "@/components/anchor/anchor-heading";
 import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
+import { SessionCollapsible } from "@/components/session-disclosure";
 import { ContentLinkIcon } from "@/components/icon";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
@@ -100,7 +101,8 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
     >
       <CardContent className="flex flex-1 flex-col gap-3">
         {collapsible ? (
-          <Collapsible className="group/text space-y-1">
+          // Opened stays open for the tab, across reloads and languages (docs/guides/ui-state.md).
+          <SessionCollapsible stateId={`read-all:${item.id}`} className="group/text space-y-1">
             <blockquote lang={quoteLocale} className={quoteClass}>
               {lead.map(paragraph)}
               <CollapsibleContent forceMount className="space-y-3 data-[state=closed]:hidden">
@@ -112,7 +114,7 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
               <span className="hidden group-data-[state=open]/text:inline">{t("showLess")}</span>
               <ChevronDownIcon aria-hidden className="size-4 transition-transform group-data-[state=open]/text:rotate-180" />
             </CollapsibleTrigger>
-          </Collapsible>
+          </SessionCollapsible>
         ) : (
           <blockquote lang={quoteLocale} className={quoteClass}>
             {excerpt !== undefined ? (
