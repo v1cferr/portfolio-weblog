@@ -24,7 +24,8 @@
    master itself, and check a zoomed crop of each blurred area before
    committing.
 
-2. Reference it in the entry's YAML (experience, project or study):
+2. Reference it in the entry's YAML (experience, project or study; WoW
+   screenshots go in `content/games/wow.yaml`, see [WoW](wow.md#screenshots)):
 
    ```yaml
    media:

@@ -498,7 +498,8 @@
     "addonsNote": "{count} add-ons for WoW Forever, each pinned to its latest stable release and installed as one <nix>Nix derivation</nix> from my dotfiles.",
     "addonsSnapshot": "The list could not be read today; this is the copy kept in the site's repository.",
     "otherGroup": "Other",
-    "addonCount": "{count, plural, one {# add-on} other {# add-ons}}"
+    "addonCount": "{count, plural, one {# add-on} other {# add-ons}}",
+    "screenshots": "Screenshots"
   },
   "Tattoos": {
     "title": "Personal architecture",

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ContentValidationError, findContentRoot, loadWow, loadWowContent, slugifyRealm, Wow, wowCharacterKey } from "../src";
+import { ContentValidationError, findContentRoot, loadWow, loadWowContent, slugifyRealm, Wow, wowCharacterKey, wowMedia } from "../src";
 import { makeContent } from "./fixture";
 
 const forever = { game: "forever", name: "Judgement", surname: "Judy", region: "us", ruleset: "normal", level: 60 };
@@ -8,7 +8,7 @@ const retail = { game: "retail", name: "Fearvy", realm: "Stormrage", region: "us
 
 describe("wow page content", () => {
   it("accepts an empty page, with defaults", () => {
-    expect(Wow.parse({})).toEqual({ status: "published", visibility: "public", characters: [], wishlist: [] });
+    expect(Wow.parse({})).toEqual({ status: "published", visibility: "public", characters: [], wishlist: [], screenshots: [] });
   });
 
   it("tells Forever and Retail characters apart and defaults live to on", () => {
@@ -81,5 +81,13 @@ describe("wow page content", () => {
     const { wow, issues } = loadWowContent(findContentRoot());
     expect(issues).toEqual([]);
     expect(wow?.addons?.groups.length).toBeGreaterThan(0);
+  });
+
+  it("takes screenshots as media and hands them to the media check", () => {
+    const shot = { src: "/wow/screenshots/stormwind.jpg", width: 1920, height: 1080, alt: { "en-us": "Stormwind at night" } };
+    const wow = Wow.parse({ screenshots: [shot] });
+    expect(wowMedia(wow)).toEqual([{ src: shot.src, width: 1920, height: 1080, file: "games/wow.yaml" }]);
+    expect(wowMedia(undefined)).toEqual([]);
+    expect(Wow.safeParse({ screenshots: [{ ...shot, src: "https://example.com/a.jpg" }] }).success).toBe(false);
   });
 });

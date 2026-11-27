@@ -23,6 +23,7 @@ import {
   publicTattoos,
   publicWow,
   tattooMedia,
+  wowMedia,
   validateContent,
 } from "../src";
 
@@ -30,14 +31,12 @@ const root = findContentRoot();
 const { content, issues } = loadContent(root);
 const { errors, warnings } = validateContent(content);
 const tattoos = loadTattoosContent(root);
-const mediaIssues = await checkMedia(
-  content,
-  path.join(root, "..", "apps", "web", "public"),
-  (file) => sharp(file).metadata(),
-  tattooMedia(tattoos.tattoos)
-);
-const now = loadNowContent(root);
 const wow = loadWowContent(root);
+const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web", "public"), (file) => sharp(file).metadata(), [
+  ...tattooMedia(tattoos.tattoos),
+  ...wowMedia(wow.wow),
+]);
+const now = loadNowContent(root);
 const pages = loadPagesContent(root);
 const decisions = loadDecisionsContent(root);
 const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...tattoos.issues, ...pages.issues, ...decisions.issues];

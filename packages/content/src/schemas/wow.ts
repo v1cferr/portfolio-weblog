@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { EditorialStatus, Id, LocalizedText, Visibility } from "./common";
+import { EditorialStatus, Id, LocalizedText, Media, Visibility } from "./common";
 import { Day } from "./now";
 
 /*
@@ -128,6 +128,11 @@ export const Wow = z
     characters: z.array(WowCharacter).default([]),
     wishlist: z.array(WowWish).default([]),
     addons: WowAddons.optional(),
+    /**
+     * In-game screenshots, prepared with `pnpm media:add` (no metadata). The
+     * page shows a gallery only when there is at least one.
+     */
+    screenshots: z.array(Media).default([]),
   })
   .superRefine((value, ctx) => {
     const seen = new Set<string>();

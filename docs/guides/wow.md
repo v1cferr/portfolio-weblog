@@ -77,6 +77,30 @@ group instead of "Other", add its key to a group in `addons.groups`; to fix how
 its name reads, add it to `addons.names`. Refresh the vendored fallback with
 `pnpm --filter web wow:addons` now and then.
 
+## Screenshots
+
+The page shows a "Screenshots" gallery only when `screenshots` in
+`content/games/wow.yaml` has at least one image; with none there is no section
+and no placeholder. Prepare each screenshot from the original, so no metadata
+survives, then list it:
+
+```sh
+pnpm media:add ~/Pictures/wow/stormwind.png wow/screenshots/stormwind.png
+```
+
+```yaml
+screenshots:
+  - src: /wow/screenshots/stormwind.png
+    width: 2560
+    height: 1440
+    alt: { en-us: What the screenshot shows, pt-br: O que a captura mostra }
+    caption: { pt-br: Optional caption }
+```
+
+Check a screenshot for other players' names, chat and guild messages before
+publishing; blur them on the master if needed. `pnpm content:check` fails if the
+file is missing, still has metadata or has a different size.
+
 ## Refreshing on demand
 
 Live data is cached for a day under the tag `wow`. To refresh sooner, redeploy,
