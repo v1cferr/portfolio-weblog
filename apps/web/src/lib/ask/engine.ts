@@ -14,6 +14,7 @@ import {
   type PendingSentence,
   SentenceBuffer,
 } from "./grounding";
+import { siteDoesNotSay, takeGapMarker } from "./gap";
 import { type ChatMessage, type CompletionResult, complete } from "./openrouter";
 import { buildMessages } from "./prompt";
 import type { AskEvent, AskTurn, FallbackReason } from "./protocol";
@@ -205,8 +206,16 @@ class Emitter {
     return this.held.length > 0 && this.held.length <= 2 && !this.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
   }
 
-  *finish(locale: string, partial: boolean): Generator<AskEvent, void, undefined> {
-    if (partial || this.truncated || this.claimDropped) yield { type: "partial" };
+  /**
+   * The answer's end. `gap`: the model said the site covers only part of the
+   * question, so the answer ends with the site's own sentence saying so (gap.ts).
+   */
+  *finish(
+    locale: string,
+    { partial = false, gap = false }: { partial?: boolean; gap?: boolean } = {}
+  ): Generator<AskEvent, void, undefined> {
+    if (gap) yield { type: "text", text: `\n\n${siteDoesNotSay(locale)}` };
+    if (partial || gap || this.truncated || this.claimDropped) yield { type: "partial" };
     const sources = this.citations.sources();
     const related = sources.filter((source) => source.n === null).slice(0, MAX_SUGGESTIONS);
     if (related.length > 0) yield { type: "suggestions", questions: related.map((source) => moreAbout(locale, source.title)) };
@@ -226,6 +235,8 @@ async function* fromClaude(
   const emitter = new Emitter(corpus, new CitationMap(passages));
   const buffer = new SentenceBuffer();
   let stopReason: string | null = null;
+  /** Claude ended with the marker: the pages cover only part of the question. */
+  let gap = false;
   try {
     for await (const event of claude({ ...input, passages }, context.signal)) {
       if (event.type === "end") {
@@ -237,7 +248,10 @@ async function* fromClaude(
         break;
       }
       // A refusal ends the turn; whatever came before it is discarded below, not shown.
-      buffer.push({ text: event.block.text, cited: event.block.cited });
+      // The marker is a signal, not text: it never reaches the checks or the visitor.
+      const { text, found } = takeGapMarker(event.block.text);
+      gap ||= found;
+      buffer.push({ text, cited: event.block.cited });
       for (const sentence of buffer.drain()) yield* emitter.accept(sentence);
     }
   } catch (error) {
@@ -247,7 +261,7 @@ async function* fromClaude(
     if (!emitter.sent) return { kind: "fallback", reason: failure.reason };
     // Sentences already went out: say the answer was cut, keep what was checked.
     yield { type: "error" };
-    yield* emitter.finish(input.locale, true);
+    yield* emitter.finish(input.locale, { partial: true });
     return { kind: "answered" };
   }
 
@@ -255,7 +269,7 @@ async function* fromClaude(
     context.log?.("claude_refused");
     if (!emitter.sent) return { kind: "fallback", reason: "refusal" };
     yield { type: "error" };
-    yield* emitter.finish(input.locale, true);
+    yield* emitter.finish(input.locale, { partial: true });
     return { kind: "answered" };
   }
   for (const sentence of buffer.drain(true)) yield* emitter.accept(sentence);
@@ -266,7 +280,8 @@ async function* fromClaude(
     return outcome;
   }
   if (emitter.dropped.length > 0) context.log?.(`dropped provider=anthropic ${emitter.dropped.join(",")}`);
-  yield* emitter.finish(input.locale, stopReason === "max_tokens");
+  if (gap) context.log?.("incomplete provider=anthropic");
+  yield* emitter.finish(input.locale, { partial: stopReason === "max_tokens", gap });
   return { kind: "answered" };
 }
 
@@ -309,7 +324,7 @@ async function* fromOpenRouter(
     return emitter.heldCount > 0 && emitter.heldCount <= 2 && !emitter.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
   }
   if (emitter.dropped.length > 0) context.log?.(`dropped model=${result.model} ${emitter.dropped.join(",")}`);
-  yield* emitter.finish(input.locale, grounded.incomplete);
+  yield* emitter.finish(input.locale, { gap: grounded.incomplete });
   return { kind: "answered" };
 }
 
