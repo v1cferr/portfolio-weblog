@@ -10,6 +10,7 @@ const recommendation = (overrides: Record<string, unknown> = {}) => ({
   company: "Acme",
   relation: { kind: "manager", label: { "pt-br": "minha gestora", "en-us": "my manager" }, organization: "acme", experience: "acme-dev" },
   date: "2025-05-20",
+  rank: 1,
   language: "pt-br",
   url: "https://www.linkedin.com/in/tester/details/recommendations/",
   text: {
@@ -43,7 +44,7 @@ describe("recommendations", () => {
     expect(result.errors.join()).toContain("is not in the pt-br text word for word");
   });
 
-  it("requires the original language in the text and an excerpt when featured", () => {
+  it("requires the original language in the text, and an excerpt in the home page's top three", () => {
     const original = check({
       "experiences/acme-dev.yaml": experience(),
       "recommendations/ana.yaml": recommendation({ language: "zh-cn" }),
@@ -51,14 +52,23 @@ describe("recommendations", () => {
     expect(original.errors.join()).toContain("original language");
     const featured = check({
       "experiences/acme-dev.yaml": experience(),
-      "recommendations/ana.yaml": recommendation({ featured: 1, excerpt: undefined }),
+      "recommendations/ana.yaml": recommendation({ rank: 3, excerpt: undefined }),
     });
-    expect(featured.errors.join()).toContain("needs an excerpt");
+    expect(featured.errors.join()).toContain("need an excerpt");
+    const below = check({
+      "experiences/acme-dev.yaml": experience(),
+      "recommendations/ana.yaml": recommendation({ rank: 4, excerpt: undefined }),
+    });
+    expect(below.errors).toEqual([]);
   });
 
   it("lets a draft wait without a relation, but not a published one", () => {
-    const draft = check({ "recommendations/ana.yaml": recommendation({ status: "draft", relation: undefined, excerpt: undefined }) });
+    const draft = check({
+      "recommendations/ana.yaml": recommendation({ status: "draft", relation: undefined, rank: undefined, excerpt: undefined }),
+    });
     expect(draft.errors).toEqual([]);
+    const unranked = check({ "experiences/acme-dev.yaml": experience(), "recommendations/ana.yaml": recommendation({ rank: undefined }) });
+    expect(unranked.errors.join()).toContain("needs a rank");
     const published = check({ "recommendations/ana.yaml": recommendation({ relation: undefined, excerpt: undefined }) });
     expect(published.errors.join()).toContain("needs a relation");
   });
@@ -73,22 +83,22 @@ describe("recommendations", () => {
     expect(result.errors.join()).toContain('relation.education → "acme-dev"');
   });
 
-  it("rejects two recommendations in the same featured slot", () => {
+  it("rejects two recommendations with the same rank", () => {
     const result = check({
       "experiences/acme-dev.yaml": experience(),
-      "recommendations/ana.yaml": recommendation({ featured: 1 }),
-      "recommendations/bia.yaml": recommendation({ id: "bia", name: "Bia", featured: 1 }),
+      "recommendations/ana.yaml": recommendation({ rank: 1 }),
+      "recommendations/bia.yaml": recommendation({ id: "bia", name: "Bia", rank: 1 }),
     });
-    expect(result.errors.join()).toContain("featured: 1 is used twice");
+    expect(result.errors.join()).toContain("rank: 1 is used twice");
   });
 
-  it("serves public ones newest first and drops links to hidden entities", () => {
+  it("serves public ones in the owner's rank, not by date, and drops links to hidden entities", () => {
     const registry = loadRegistry(
       makeContent({
         "experiences/acme-dev.yaml": experience({ status: "review" }),
-        "recommendations/ana.yaml": recommendation(),
-        "recommendations/bia.yaml": recommendation({ id: "bia", name: "Bia", date: "2026-01-02" }),
-        "recommendations/cid.yaml": recommendation({ id: "cid", name: "Cid", status: "draft" }),
+        "recommendations/ana.yaml": recommendation({ rank: 2 }),
+        "recommendations/bia.yaml": recommendation({ id: "bia", name: "Bia", date: "2024-01-02", rank: 1 }),
+        "recommendations/cid.yaml": recommendation({ id: "cid", name: "Cid", status: "draft", rank: undefined }),
       })
     );
     const shown = registry.getRecommendations();

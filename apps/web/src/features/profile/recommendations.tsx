@@ -1,4 +1,4 @@
-import { localize, localizeList, type Locale, type PublishedRecommendation } from "@workspace/content";
+import { HOME_RECOMMENDATIONS, localize, localizeList, type Locale, type PublishedRecommendation } from "@workspace/content";
 import { Avatar, AvatarFallback, AvatarImage } from "@workspace/ui/components/avatar";
 import { Card, CardContent, CardFooter } from "@workspace/ui/components/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible";
@@ -9,6 +9,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { AnchorHeading } from "@/components/anchor/anchor-heading";
 import { CopyLink } from "@/components/anchor/copy-link";
 import { ExternalLink } from "@/components/external-link";
+import { ContentLinkIcon } from "@/components/icon";
 import { OrganizationMark } from "@/features/career/organization-mark";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
@@ -159,6 +160,7 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
             href={item.url}
             className="group/link inline-flex min-h-11 items-center gap-0.5 font-medium text-foreground underline-offset-4 hover:underline"
           >
+            <ContentLinkIcon link={{ kind: "profile", icon: "dv:linkedin" }} tinted className="mr-1 size-4" />
             {t("onLinkedIn")}
             <ArrowUpRightIcon aria-hidden className="icon-out size-3.5" />
           </ExternalLink>
@@ -168,12 +170,9 @@ export async function RecommendationCard({ item, full = false }: { item: Publish
   );
 }
 
-/** The home page's few, in the order the owner chose. */
+/** The home page's few: the first by the owner's rank (content:check holds them to an excerpt). */
 export function featuredRecommendations(): PublishedRecommendation[] {
-  return getContent()
-    .getRecommendations()
-    .filter((item) => item.featured !== undefined)
-    .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0));
+  return getContent().getRecommendations().slice(0, HOME_RECOMMENDATIONS);
 }
 
 /** "Recommendations from this period" on a job page: who, linking to the full card on About. */

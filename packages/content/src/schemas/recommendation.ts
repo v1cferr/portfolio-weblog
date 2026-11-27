@@ -29,6 +29,9 @@ export const RecommendationRelation = z.strictObject({
 });
 export type RecommendationRelation = z.infer<typeof RecommendationRelation>;
 
+/** How many recommendations the home page shows: the first ones by rank. */
+export const HOME_RECOMMENDATIONS = 3;
+
 export const Recommendation = z
   .strictObject({
     ...entityBase,
@@ -55,8 +58,12 @@ export const Recommendation = z
      * locale, joined by "…" where something was cut. content:check holds it to that.
      */
     excerpt: LocalizedText.optional(),
-    /** Position on the home page (1 first); unset keeps it to the About page. */
-    featured: z.int().min(1).optional(),
+    /**
+     * The owner's order of importance (1 first), unique: About lists every
+     * recommendation in this order and the home page shows the first three.
+     * Required to publish; an imported draft has none yet.
+     */
+    rank: z.int().min(1).optional(),
     /**
      * The recommender's photo, a path under apps/web/public/recommendations/.
      * Without it the card shows their initials.
@@ -74,8 +81,12 @@ export const Recommendation = z
     message: "a published recommendation needs a relation",
     path: ["relation"],
   })
-  .refine((value) => value.featured === undefined || value.excerpt !== undefined, {
-    message: "a featured recommendation needs an excerpt",
+  .refine((value) => value.status !== "published" || value.rank !== undefined, {
+    message: "a published recommendation needs a rank",
+    path: ["rank"],
+  })
+  .refine((value) => value.rank === undefined || value.rank > HOME_RECOMMENDATIONS || value.excerpt !== undefined, {
+    message: `the first ${String(HOME_RECOMMENDATIONS)} by rank show on the home page and need an excerpt`,
     path: ["excerpt"],
   });
 export type Recommendation = z.infer<typeof Recommendation>;

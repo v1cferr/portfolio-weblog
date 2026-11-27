@@ -153,11 +153,9 @@ function checkRecommendations(content: RawContent, byId: Map<string, EntityNode>
       }
     }
   }
-  const featured = content.recommendations.flatMap(({ value, file }) =>
-    value.featured === undefined ? [] : [{ n: value.featured, file }]
-  );
-  for (const { n, file } of featured) {
-    if (featured.filter((other) => other.n === n).length > 1) errors.push({ file, message: `featured: ${String(n)} is used twice` });
+  const ranked = content.recommendations.flatMap(({ value, file }) => (value.rank === undefined ? [] : [{ n: value.rank, file }]));
+  for (const { n, file } of ranked) {
+    if (ranked.filter((other) => other.n === n).length > 1) errors.push({ file, message: `rank: ${String(n)} is used twice` });
   }
 }
 

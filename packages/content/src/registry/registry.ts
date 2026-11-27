@@ -180,7 +180,8 @@ export function createRegistry(
           value.relation.education !== undefined && visibleIds.has(value.relation.education) ? value.relation.education : undefined,
       },
     }))
-    .sort((a, b) => compareDesc(a.date, b.date) || a.name.localeCompare(b.name));
+    // The owner's order of importance; a published recommendation always has a rank.
+    .sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity) || a.name.localeCompare(b.name));
 
   const prunePost = (post: PostSource): PostSource => ({
     ...post,

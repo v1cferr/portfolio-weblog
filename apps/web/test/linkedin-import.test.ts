@@ -74,7 +74,7 @@ describe("merging into content", () => {
     'date: "2025-05-20"',
     "language: pt-br",
     "url: https://www.linkedin.com/in/tester/details/recommendations/",
-    "featured: 1",
+    "rank: 1",
     "excerpt: { pt-br: Ótima., en-us: Great. }",
     "text:",
     "  pt-br:",
@@ -90,7 +90,7 @@ describe("merging into content", () => {
     expect(yaml).toContain("TODO (owner)");
     const value = Recommendation.parse(parse(yaml));
     expect(value).toMatchObject({ status: "draft", text: { "pt-br": ["Ótima."] } });
-    expect(value.featured).toBeUndefined();
+    expect(value.rank).toBeUndefined();
     expect(value.relation).toBeUndefined();
   });
 
@@ -107,7 +107,7 @@ describe("merging into content", () => {
       jobTitle: "Lead",
       visibility: "private",
       translationStale: true,
-      featured: 1,
+      rank: 1,
       relation: { kind: "manager", organization: "acme" },
       text: { "pt-br": ["Ótima, mesmo."], "en-us": ["Great."] },
     });

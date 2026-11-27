@@ -32,16 +32,16 @@ The export holds personal data: keep it out of the repository.
 | `text.<language>`      | import | The original, verbatim; paragraphs split at double spaces        |
 | `visibility`           | import | `VISIBLE` is `public`, `HIDDEN` is `private`                     |
 | `relation`             | owner  | Kind, the label in the owner's words, organization, job          |
-| `excerpt`, `featured`  | owner  | The home page quote and its position                             |
+| `excerpt`, `rank`      | owner  | The home page quote; the order of importance (first 3 on home)   |
 | `text.<other locales>` | owner  | Translations; `translationStale: true` when the original changed |
 | `photo`, `status`      | owner  | See below                                                        |
 
 A new recommendation arrives as `status: draft` with a TODO comment: fill in
-`relation`, an `excerpt`, the `en-us` translation, then set `status: published`.
-When an original text changes, the import sets `translationStale: true`: update
-the translation (and the excerpt, which `content:check` holds to the text word
-for word), then delete the flag. A recommendation missing from the export is
-left as it is.
+`relation`, a `rank`, an `excerpt`, the `en-us` translation, then set
+`status: published`. When an original text changes, the import sets
+`translationStale: true`: update the translation (and the excerpt, which
+`content:check` holds to the text word for word), then delete the flag. A
+recommendation missing from the export is left as it is.
 
 ## Photos
 

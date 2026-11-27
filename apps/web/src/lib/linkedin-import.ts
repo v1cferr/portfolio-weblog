@@ -126,7 +126,7 @@ export interface ImportDefaults {
 
 const TODO = [
   " Imported by pnpm linkedin:import. TODO (owner): set relation (kind, label, organization,",
-  " experience or education), an excerpt, the en-us translation and, when ready, status: published.",
+  " experience or education), a rank, an excerpt, the en-us translation and, when ready, status: published.",
 ].join("\n");
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
