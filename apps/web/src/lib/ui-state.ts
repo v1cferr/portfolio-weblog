@@ -73,6 +73,9 @@ export function scrollRatio(scrollY: number, scrollHeight: number, viewportHeigh
   return room <= 0 ? 0 : Math.min(1, Math.max(0, scrollY / room));
 }
 
+/** How far below the line an element still counts as at it. */
+const LINE_SLACK = 16;
+
 /**
  * The element that names where the reader is: of candidates in document order,
  * the one whose top is closest above `line` (the header's scroll-padding), the
@@ -82,7 +85,8 @@ export function scrollRatio(scrollY: number, scrollHeight: number, viewportHeigh
 export function pickAnchor<T extends { top: number }>(candidates: readonly T[], line: number): T | undefined {
   let picked: T | undefined;
   for (const candidate of candidates) {
-    if (candidate.top <= line + 1 && (picked === undefined || candidate.top >= picked.top)) picked = candidate;
+    // A few pixels of slack: an element scrolled exactly to the line can measure just below it.
+    if (candidate.top <= line + LINE_SLACK && (picked === undefined || candidate.top >= picked.top)) picked = candidate;
   }
   return picked;
 }

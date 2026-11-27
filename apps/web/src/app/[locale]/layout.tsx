@@ -12,6 +12,7 @@ import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import { HashTarget } from "@/components/anchor/hash-target";
+import { ScrollKeeper } from "@/components/anchor/scroll-keeper";
 import { SiteLanguageNotice } from "@/components/fallback-notice";
 import { SiteFooter } from "@/components/shell/site-footer";
 import { SiteHeader } from "@/components/shell/site-header";
@@ -132,6 +133,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
                   </main>
                   <SiteFooter />
                   <HashTarget />
+                  {/* A language switch keeps the reader's place (docs/guides/ui-state.md). */}
+                  <ScrollKeeper />
                   <AskDock />
                 </AskProvider>
               </MotionProvider>
