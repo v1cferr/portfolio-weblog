@@ -137,11 +137,19 @@ function PageBadges({ pages, onNavigate }: { pages: Page[]; onNavigate: () => vo
     <ul className="flex flex-wrap gap-1.5">
       {pages.map((page) => (
         <li key={page.url} className="min-w-0">
-          <Badge asChild variant="outline" className="h-6 max-w-full font-normal text-muted-foreground">
-            <NextLink href={page.url} onClick={onNavigate}>
+          {/* The pill stays small; the link around it is 44px tall on phones, where it is tapped. */}
+          <NextLink
+            href={page.url}
+            onClick={onNavigate}
+            className="group/page flex max-w-full items-center rounded-full focus-visible:outline-none max-sm:min-h-11"
+          >
+            <Badge
+              variant="outline"
+              className="h-6 max-w-full font-normal text-muted-foreground transition-colors group-hover/page:bg-muted group-focus-visible/page:ring-[3px] group-focus-visible/page:ring-ring/50"
+            >
               <span className="truncate">{page.title}</span>
-            </NextLink>
-          </Badge>
+            </Badge>
+          </NextLink>
         </li>
       ))}
     </ul>

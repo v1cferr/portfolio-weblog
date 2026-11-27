@@ -149,7 +149,8 @@ function Citation({ n, source, onNavigate }: { n: number; source: AskSource | un
         href={source.url}
         onClick={onNavigate}
         aria-label={`${t("citation", { n })}: ${source.title}`}
-        className="rounded px-0.5 text-xs font-medium underline underline-offset-2 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+        // The number stays small in the line; an invisible padding around it makes it a 44px target.
+        className="relative rounded px-0.5 text-xs font-medium underline underline-offset-2 before:absolute before:-inset-x-2 before:-inset-y-3.5 before:content-[''] focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         {label}
       </NextLink>

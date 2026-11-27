@@ -57,7 +57,8 @@ test.describe("home hero", () => {
   test("the question field sends its question to the panel", async ({ page }) => {
     await page.goto("/en-us");
     await listenForAsk(page);
-    const field = page.getByRole("textbox", { name: "Ask a question about me" });
+    // includeHidden: on phones the Ask sheet opens modal, hiding the page (and this field) from the accessibility tree.
+    const field = page.getByRole("textbox", { name: "Ask a question about me", includeHidden: true });
     await field.fill("What am I working on?");
     await field.press("Enter");
     expect(await asks(page)).toEqual([{ question: "What am I working on?" }]);
@@ -89,7 +90,7 @@ test.describe("start here", () => {
     const ai = section.locator('[data-card="ai"]');
     await listenForAsk(page);
     await ai.getByRole("button", { name: "Open the chat" }).click();
-    // The docked panel opens (a full-screen sheet on phones); put it away before using the card again.
+    // The docked panel opens (a bottom sheet on phones); put it away before using the card again.
     await expect(page.getByRole("dialog", { name: "Ask about my work" })).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog", { name: "Ask about my work" })).toBeHidden();

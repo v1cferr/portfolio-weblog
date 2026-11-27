@@ -63,6 +63,8 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
+  // The on-screen keyboard shrinks the layout (Android Chrome), so a bottom sheet such as the Ask dock stays above it.
+  interactiveWidget: "resizes-content",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f6f7f6" },
     { media: "(prefers-color-scheme: dark)", color: "#0f1112" },
