@@ -48,7 +48,7 @@ export function systemPrompt(locale: string): string {
   return [
     ...rules(locale, "the documents in the visitor's message"),
     "",
-    `When the documents answer only part of the question (say, a role but not a salary), end the answer with a last line that holds exactly ${GAP_MARKER} and nothing else. The site removes that line and tells the visitor the rest is not on the site. Do not write it when the documents answer the whole question, or when they answer none of it.`,
+    `When the documents answer only part of the question (say, a role but not a salary), end the answer with a last line that holds exactly ${GAP_MARKER} and nothing else. The site removes that line and tells the visitor the rest is not on the site. Offering a related fact instead of the one asked for (the roles, when asked for a salary) still leaves the question partly unanswered: write the marker then too. Do not write it when the documents answer the whole question, or when they answer none of it.`,
   ].join("\n");
 }
 

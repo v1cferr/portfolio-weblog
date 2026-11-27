@@ -1012,6 +1012,8 @@ describe("partial answers (gap marker)", () => {
     expect(claude).toContain(`exactly ${GAP_MARKER}`);
     expect(claude).toContain("Do not write it when the documents answer the whole question, or when they answer none of it.");
     expect(claude).toContain("do not mention what is missing");
+    // An eval answer gave the roles for a salary question and never said the salary is missing.
+    expect(claude).toContain("Offering a related fact instead of the one asked for");
     expect(jsonSystemPrompt("en-us")).not.toContain(GAP_MARKER);
   });
 
