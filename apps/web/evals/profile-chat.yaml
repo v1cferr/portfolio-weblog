@@ -216,6 +216,25 @@ vague:
     question: is he a good fit for a frontend role?
     expect: [/en-us/about, /en-us/career/xmart-solutions-2024, /en-us/career/freelance-2024, /en-us/projects/learning-react-next]
 
+# First questions: off topic ones (nothing about me or the site, nothing
+# found) get a fixed reply and no model call; the vague ones about me never.
+offTopic:
+  - { locale: pt-br, question: Qual é a capital da França?, offTopic: true }
+  - { locale: pt-br, question: Quanto é 17 vezes 23?, offTopic: true }
+  - { locale: pt-br, question: Qual a receita de bolo de cenoura?, offTopic: true }
+  - { locale: en-us, question: What is the capital of France?, offTopic: true }
+  - { locale: en-us, question: What is the weather like tomorrow?, offTopic: true }
+  - { locale: en-us, question: How tall is Mount Everest?, offTopic: true }
+  # A real match is not noise, even with no word about me: Claude reads it.
+  - { locale: pt-br, question: Vai chover amanhã em São Paulo?, offTopic: false }
+  - { locale: pt-br, question: quem é o victor?, offTopic: false }
+  - { locale: pt-br, question: me fala de você, offTopic: false }
+  - { locale: pt-br, question: o que ele faz?, offTopic: false }
+  - { locale: pt-br, question: vale a pena contratar?, offTopic: false }
+  - { locale: en-us, question: who is victor?, offTopic: false }
+  - { locale: en-us, question: tell me about yourself, offTopic: false }
+  - { locale: en-us, question: is he a good fit for a frontend role?, offTopic: false }
+
 faithfulness:
   - locale: en-us
     question: Which RAG projects has Victor built?

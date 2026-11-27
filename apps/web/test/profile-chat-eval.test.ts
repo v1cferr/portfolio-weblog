@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited, runVague } from "../evals/profile-chat";
+import { loadEvalSet, retrieverFor, runFaithfulness, runOffTopic, runRetrieval, runUncited, runVague } from "../evals/profile-chat";
 
 const set = loadEvalSet();
 
@@ -23,6 +23,12 @@ describe("profile chat eval set: retrieval", () => {
   for (const result of runVague(set)) {
     it(`vague ${result.locale}: ${result.question}`, () => {
       expect(result.retrieved, `one of ${result.expect.join(", ")}`).toSatisfy(() => result.ok);
+    });
+  }
+
+  for (const result of runOffTopic(set)) {
+    it(`off topic ${result.locale} (${result.offTopic ? "off topic" : "about me"}): ${result.question}`, () => {
+      expect(result.ok).toBe(true);
     });
   }
 
