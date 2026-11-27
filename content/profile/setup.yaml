@@ -244,6 +244,8 @@ groups:
           src: /setup/parts/headset-baseus-gh02.png
           width: 977
           height: 977
+          # White on white: no clean cutout, so it keeps its background on a light tile.
+          surface: light
           alt:
             en-us: White Baseus AeQur GH02 wireless gaming headset with its microphone
             pt-br: Headset sem fio Baseus AeQur GH02 branco, com microfone

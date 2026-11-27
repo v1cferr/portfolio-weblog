@@ -14,7 +14,7 @@ import { parse } from "yaml";
 
 interface Item {
   id: string;
-  media?: unknown;
+  media?: { surface?: string };
 }
 const setup = parse(readFileSync(path.join(import.meta.dirname, "../../../content/profile/setup.yaml"), "utf8")) as {
   groups: { items: Item[] }[];

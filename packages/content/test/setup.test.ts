@@ -29,6 +29,11 @@ describe("setup part photos", () => {
     expect(parsed.groups[0]?.items[0]?.media?.credit?.label).toBe("AMD");
   });
 
+  it("takes a light surface for an image that keeps its white background, and nothing else", () => {
+    expect(Setup.safeParse(withPartMedia({ ...photo, surface: "light" })).success).toBe(true);
+    expect(Setup.safeParse(withPartMedia({ ...photo, surface: "dark" })).success).toBe(false);
+  });
+
   it("rejects a credit without an https link", () => {
     expect(Setup.safeParse(withPartMedia({ ...photo, credit: { label: "AMD", url: "http://amd.com" } })).success).toBe(false);
   });
