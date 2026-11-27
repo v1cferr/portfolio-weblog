@@ -71,9 +71,10 @@ function subscribe(onChange: () => void) {
   };
 }
 
+/** Rewrites the query in place; the fragment stays, so a deep link into the list survives a tab change. */
 function writeQuery(params: URLSearchParams) {
   const query = params.toString();
-  window.history.replaceState(null, "", `${window.location.pathname}${query === "" ? "" : `?${query}`}`);
+  window.history.replaceState(null, "", `${window.location.pathname}${query === "" ? "" : `?${query}`}${window.location.hash}`);
   window.dispatchEvent(new Event(QUERY_CHANGED));
 }
 
