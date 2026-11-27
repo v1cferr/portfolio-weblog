@@ -95,7 +95,7 @@ test.describe("tattoos page", () => {
     await page.goto("/pt-br/tattoos");
     await page.getByRole("link", { name: /A história completa/ }).click();
     await expect(page).toHaveURL(new RegExp(`/pt-br/weblog/${POST}$`));
-    await expect(page.getByTestId("review-notice")).toBeVisible();
+    await expect(page.getByTestId("review-notice")).toHaveCount(0);
     await expect(page.locator('.prose-hub a[href="/pt-br/tattoos"]').first()).toBeVisible();
 
     await page.goto("/pt-br/about");
@@ -104,9 +104,15 @@ test.describe("tattoos page", () => {
     await expect(curiosities.locator('a[href="/pt-br/tattoos#usb-trident"]')).toHaveCount(1);
   });
 
-  test("is listed in the footer and the sitemap", async ({ page, request }) => {
-    await page.goto("/pt-br");
-    await expect(page.locator("footer").getByRole("link", { name: "Tatuagens" })).toHaveAttribute("href", "/pt-br/tattoos");
+  test("is reached from the About curiosities, not the footer, and is in the sitemap", async ({ page, request }) => {
+    await page.goto("/en-us/about");
+    // Clicking the tattoo's photo opens its story (few readers want it, so it is not in the footer).
+    await page
+      .getByTestId("curiosities")
+      .getByRole("link", { name: /USB symbol/ })
+      .click();
+    await expect(page).toHaveURL(/\/en-us\/tattoos#usb-trident$/);
+    await expect(page.locator("footer").locator('a[href$="/tattoos"]')).toHaveCount(0);
     expect(await (await request.get("/sitemap.xml")).text()).toContain("/tattoos");
   });
 

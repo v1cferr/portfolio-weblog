@@ -17,8 +17,11 @@ const shown = (status: string) => status === "published" || (SHOWS_REVIEW && sta
 /** The href, unless it points at a page that is hidden right now (the tattoos page before it is published). */
 function visibleHref(href: string | undefined): string | undefined {
   if (href === undefined) return undefined;
-  return /^\/tattoos(?:[#?]|$)/.test(href) && getTattoos() === undefined ? undefined : href;
+  return isTattooStory(href) && getTattoos() === undefined ? undefined : href;
 }
+
+/** A tattoo's photo opens its story on the tattoos page, which has the full-size photo, instead of the lightbox. */
+const isTattooStory = (href: string | undefined): href is string => href !== undefined && /^\/tattoos(?:[#?]|$)/.test(href);
 
 /**
  * The end of the About page: personal facts in the owner's words. A photo opens
@@ -31,7 +34,7 @@ export async function Curiosities({ items: all }: { items: Profile["curiosities"
   const items = all.filter((item) => shown(item.status)).map((item) => ({ ...item, href: visibleHref(item.href) }));
   if (items.length === 0) return null;
 
-  const photos = items.flatMap((item) => (item.media === undefined ? [] : [item.media]));
+  const photos = items.flatMap((item) => (item.media === undefined || isTattooStory(item.href) ? [] : [item.media]));
   const lightboxItems = photos.map((media): LightboxItem => {
     const alt = localize(media.alt, locale);
     const caption = media.caption && localize(media.caption, locale);
@@ -64,21 +67,36 @@ export async function Curiosities({ items: all }: { items: Profile["curiosities"
                 data-anchor=""
                 className={`group/anchor glass relative flex flex-col overflow-hidden rounded-xl border ${item.media === undefined ? "" : "sm:col-span-2 sm:flex-row"}`}
               >
-                {item.media !== undefined && alt !== undefined && (
-                  <LightboxTrigger
-                    index={photoIndex}
-                    className="relative block aspect-[4/5] shrink-0 overflow-hidden border-b bg-muted sm:w-56 sm:border-r sm:border-b-0"
-                    frameClassName="absolute inset-0"
-                  >
-                    <Image
-                      src={item.media.src}
-                      alt={alt.value}
-                      fill
-                      sizes="(min-width: 640px) 224px, 100vw"
-                      className="object-cover transition-transform hover:scale-[1.02]"
-                    />
-                  </LightboxTrigger>
-                )}
+                {item.media !== undefined &&
+                  alt !== undefined &&
+                  (isTattooStory(item.href) ? (
+                    <Link
+                      href={item.href}
+                      className="relative block aspect-[4/5] shrink-0 overflow-hidden border-b bg-muted sm:w-56 sm:border-r sm:border-b-0"
+                    >
+                      <Image
+                        src={item.media.src}
+                        alt={alt.value}
+                        fill
+                        sizes="(min-width: 640px) 224px, 100vw"
+                        className="object-cover transition-transform hover:scale-[1.02]"
+                      />
+                    </Link>
+                  ) : (
+                    <LightboxTrigger
+                      index={photoIndex}
+                      className="relative block aspect-[4/5] shrink-0 overflow-hidden border-b bg-muted sm:w-56 sm:border-r sm:border-b-0"
+                      frameClassName="absolute inset-0"
+                    >
+                      <Image
+                        src={item.media.src}
+                        alt={alt.value}
+                        fill
+                        sizes="(min-width: 640px) 224px, 100vw"
+                        className="object-cover transition-transform hover:scale-[1.02]"
+                      />
+                    </LightboxTrigger>
+                  ))}
                 <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
                   <div className="flex items-start gap-1">
                     <p id={`curiosity-${item.id}-text`} lang={text.locale} className="flex-1">

@@ -22,17 +22,24 @@ not tattoos yet. The long story is the post
 Cards are listed newest first. An approximate date reads "around late 2023";
 when the day is known, replace `approximate` and `part` with the date itself.
 
+## Where it is linked
+
+Few readers want this page, so it is not in the main nav or the footer. The way
+in is the About page's curiosities: each tattoo's curiosity links to its card
+(`/tattoos#<id>`), and its photo opens the card instead of the lightbox. The
+explorer, sitemap and search list it too.
+
 ## Publishing
 
-Set `status: published` in `tattoos.yaml`, in both translations of the post
-(with `publishedAt`) and on the `usb-tattoo` curiosity in `profile.yaml`. Until
-then, the About page drops its links to `/tattoos`, and the explorer, footer,
-sitemap and search leave the page out.
+The page is published (2026-11-27). A status back to `review` in `tattoos.yaml`,
+the post and the `usb-tattoo` curiosity hides it again: the About page drops its
+links to `/tattoos`, and the explorer, sitemap and search leave the page out.
 
 ## Tests
 
-`apps/web/e2e/tattoos.spec.ts` checks that a plain build hides everything, and
-the page itself on a `CONTENT_PREVIEW=1` build:
+`apps/web/e2e/tattoos.spec.ts` reads the status: published, it checks the page
+on any build; in review, it checks that a plain build hides everything and the
+page itself on a `CONTENT_PREVIEW=1` build:
 
 ```sh
 CONTENT_PREVIEW=1 GITHUB_FIXTURES=1 pnpm build
