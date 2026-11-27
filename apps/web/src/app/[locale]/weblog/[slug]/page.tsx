@@ -11,7 +11,9 @@ import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
 import { TechList } from "@/components/tech-list";
-import { readingMinutes, renderMdx } from "@/features/weblog/mdx";
+import { readingMinutes, renderMdx, type TocEntry } from "@/features/weblog/mdx";
+import { PostTocAside, PostTocDisclosure } from "@/features/weblog/post-toc";
+import { ReadingProgress } from "@/features/weblog/reading-progress";
 import { Link } from "@/i18n/navigation";
 import { localeNames } from "@/i18n/routing";
 import { getContent } from "@/lib/content";
@@ -22,6 +24,9 @@ import { absoluteUrl } from "@/lib/site";
 import { PERSON_ID } from "@/lib/structured-data";
 
 export const dynamicParams = false;
+
+/** A post needs at least this many headings for "On this page" to help. */
+const TOC_MIN_HEADINGS = 3;
 
 export function generateStaticParams() {
   return getContent()
@@ -62,7 +67,9 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
   const post = getContent().getPost(slug, locale);
   if (post === undefined) notFound();
   const fm = post.frontmatter;
-  const body = await renderMdx(post.body);
+  const toc: TocEntry[] = [];
+  const body = await renderMdx(post.body, { toc });
+  const showToc = toc.length >= TOC_MIN_HEADINGS;
   const others = post.availableLocales.filter((l) => l !== post.locale);
 
   const jsonLd = {
@@ -81,69 +88,82 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
   return (
     <PageTransition as="article">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <header className="mb-10 max-w-3xl space-y-4">
-        <Link href="/weblog" transitionTypes={NAV_BACK} className="font-mono text-xs text-muted-foreground hover:text-foreground">
-          ← {nav("weblog")}
-        </Link>
-        <p className="font-mono text-xs tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</p>
-        <Morph kind="post" id={slug}>
-          <h1
-            className="w-fit font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl"
-            lang={post.locale}
-          >
-            {fm.title}
-          </h1>
-        </Morph>
-        <p className="text-xl text-pretty text-muted-foreground" lang={post.locale}>
-          {fm.summary}
-        </p>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-          {fm.publishedAt !== undefined && <PartialDate date={fm.publishedAt} />}
-          {fm.updatedAt !== undefined && (
-            <span className="font-mono text-xs">{t("updated", { date: formatPartialDate(fm.updatedAt, locale) })}</span>
-          )}
-          <span className="font-mono text-xs">{readingMinutes(post.body)} min</span>
-          {others.length > 0 && (
-            <span className="text-xs">
-              {t("availableIn")}{" "}
-              {others.map((l) => (
-                <a
-                  key={l}
-                  href={`/${l}/weblog/${slug}`}
-                  hrefLang={languageTag(l)}
-                  lang={l}
-                  className="underline underline-offset-4 hover:text-foreground"
-                >
-                  {localeNames[l]}
-                </a>
-              ))}
-            </span>
-          )}
+      <ReadingProgress targetId="post-text" />
+      {/* The text sits on a plain surface, away from the dot grid; on wide screens the contents list takes the gutter. */}
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_13rem] lg:items-start lg:gap-10 xl:gap-14">
+        <div className="reading-surface min-w-0">
+          <header className="mb-10 max-w-3xl space-y-4">
+            <Link href="/weblog" transitionTypes={NAV_BACK} className="font-mono text-xs text-muted-foreground hover:text-foreground">
+              ← {nav("weblog")}
+            </Link>
+            <p className="font-mono text-xs tracking-wide text-lane-writing uppercase">{t(`category.${fm.category}`)}</p>
+            <Morph kind="post" id={slug}>
+              <h1
+                className="w-fit font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance md:text-5xl"
+                lang={post.locale}
+              >
+                {fm.title}
+              </h1>
+            </Morph>
+            <p className="text-xl text-pretty text-muted-foreground" lang={post.locale}>
+              {fm.summary}
+            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+              {fm.publishedAt !== undefined && <PartialDate date={fm.publishedAt} />}
+              {fm.updatedAt !== undefined && (
+                <span className="font-mono text-xs">{t("updated", { date: formatPartialDate(fm.updatedAt, locale) })}</span>
+              )}
+              <span className="font-mono text-xs">{readingMinutes(post.body)} min</span>
+              {others.length > 0 && (
+                <span className="text-xs">
+                  {t("availableIn")}{" "}
+                  {others.map((l) => (
+                    <a
+                      key={l}
+                      href={`/${l}/weblog/${slug}`}
+                      hrefLang={languageTag(l)}
+                      lang={l}
+                      className="underline underline-offset-4 hover:text-foreground"
+                    >
+                      {localeNames[l]}
+                    </a>
+                  ))}
+                </span>
+              )}
+            </div>
+          </header>
+
+          {fm.status === "review" && <ReviewNotice />}
+          {post.isFallback && <FallbackNotice requested={locale} actual={post.locale} />}
+
+          {showToc && <PostTocDisclosure entries={toc} label={t("onThisPage")} stateId="post-toc" />}
+
+          <div id="post-text" className="prose-hub" lang={post.locale}>
+            {body}
+          </div>
+
+          <footer className="mt-12 max-w-3xl space-y-6 border-t pt-8">
+            {fm.tags.length > 0 && (
+              <ul className="flex flex-wrap gap-1.5" aria-label={t("tags")}>
+                {fm.tags.map((tag) => (
+                  <li key={tag}>
+                    <Badge variant="secondary" asChild className="font-mono font-normal">
+                      <Link href={`/weblog/tags/${tag}`}>#{tag}</Link>
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <TechList ids={fm.technologies} label={common("technologies")} />
+            <SourceLink file={post.file} />
+          </footer>
         </div>
-      </header>
-
-      {fm.status === "review" && <ReviewNotice />}
-      {post.isFallback && <FallbackNotice requested={locale} actual={post.locale} />}
-
-      <div className="prose-hub" lang={post.locale}>
-        {body}
-      </div>
-
-      <footer className="mt-12 max-w-3xl space-y-6 border-t pt-8">
-        {fm.tags.length > 0 && (
-          <ul className="flex flex-wrap gap-1.5" aria-label={t("tags")}>
-            {fm.tags.map((tag) => (
-              <li key={tag}>
-                <Badge variant="secondary" asChild className="font-mono font-normal">
-                  <Link href={`/weblog/tags/${tag}`}>#{tag}</Link>
-                </Badge>
-              </li>
-            ))}
-          </ul>
+        {showToc && (
+          <aside className="hidden h-full lg:block">
+            <PostTocAside entries={toc} label={t("onThisPage")} />
+          </aside>
         )}
-        <TechList ids={fm.technologies} label={common("technologies")} />
-        <SourceLink file={post.file} />
-      </footer>
+      </div>
 
       <RelatedContent id={slug} />
     </PageTransition>

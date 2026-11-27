@@ -397,6 +397,7 @@
     "careerBreakAlongside": "At the same time: {work}."
   },
   "Weblog": {
+    "onThisPage": "On this page",
     "title": "Weblog",
     "description": "An engineering journal: what I build, how it works and what I learned doing it.",
     "published": "Published {date}",
