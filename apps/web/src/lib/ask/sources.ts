@@ -7,9 +7,9 @@ export const MIN_CARDS = 3;
 export const MAX_CARDS = 5;
 
 /**
- * Turns the API's citations into numbered source cards. Passages are sent as
- * `search_result` blocks in retrieval order, so a citation's
- * `search_result_index` is the passage's position; several passages of one
+ * Turns citations into numbered source cards. Passages go to the model in
+ * retrieval order (Claude's documents, the free models' numbered passages),
+ * so a citation's passage index is its position here; several passages of one
  * page share one number, in the order the answer first cites them.
  */
 export class CitationMap {
@@ -17,9 +17,9 @@ export class CitationMap {
 
   constructor(private readonly passages: readonly RetrievedPassage[]) {}
 
-  /** The card number for a cited passage, or undefined when the index is unknown. */
-  cite(searchResultIndex: number): number | undefined {
-    const passage = this.passages[searchResultIndex];
+  /** The card number for a cited passage (0-based), or undefined when the index is unknown. */
+  cite(passageIndex: number): number | undefined {
+    const passage = this.passages[passageIndex];
     if (passage === undefined) return undefined;
     let n = this.numbers.get(passage.url);
     if (n === undefined) {

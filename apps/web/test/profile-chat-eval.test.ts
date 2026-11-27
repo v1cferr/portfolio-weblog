@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval } from "../evals/profile-chat";
+import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited } from "../evals/profile-chat";
 
 const set = loadEvalSet();
 
@@ -22,6 +22,12 @@ describe("profile chat eval set: retrieval", () => {
 
   for (const result of runFaithfulness(set)) {
     it(`faithfulness ${result.locale} (${result.grounded ? "grounded" : "invented"}, ${result.score.toFixed(2)}): ${result.sentence}`, () => {
+      expect(result.ok).toBe(true);
+    });
+  }
+
+  for (const result of runUncited(set)) {
+    it(`uncited ${result.locale} (${result.allowed ? "allowed" : "injected"}, ${result.outcome}): ${result.sentence}`, () => {
       expect(result.ok).toBe(true);
     });
   }

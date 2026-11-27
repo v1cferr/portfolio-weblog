@@ -1,16 +1,19 @@
 /**
  * Profile chat eval (ADR 0011): `pnpm --filter web eval:chat`.
  *
- * Always runs the retrieval and faithfulness checks of
- * evals/profile-chat.yaml (free, offline). With OPENROUTER_API_KEY set, also
- * asks the free models every question and probe, through the same engine as
- * POST /api/ask, and checks what survives the server's grounding checks.
- * Free models only, so a run costs nothing, but they are rate limited:
- * expect some fallbacks.
+ * Always runs the retrieval, faithfulness and uncited-sentence checks of
+ * evals/profile-chat.yaml (free, offline). With a model key set, also asks
+ * every question and probe through the same engine as POST /api/ask, and
+ * checks what survives the server's grounding checks:
+ * - ANTHROPIC_API_KEY: Claude Haiku 5.5 first. BILLED (about 40 requests,
+ *   a few cents): run it only with the owner's OK.
+ * - OPENROUTER_API_KEY: the free models, alone or as Claude's fallback.
+ *   They cost nothing but are rate limited: expect some fallbacks.
  */
 import type { Locale } from "@workspace/content";
 
-import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval } from "../evals/profile-chat";
+import { loadEvalSet, retrieverFor, runFaithfulness, runRetrieval, runUncited } from "../evals/profile-chat";
+import { claudeAnswer, createClaudeClient, getAnthropicKey } from "../src/lib/ask/anthropic";
 import { ask, openRouterGenerate } from "../src/lib/ask/engine";
 import { getApiKey } from "../src/lib/ask/openrouter";
 import type { AskEvent, AskSource } from "../src/lib/ask/protocol";
@@ -36,11 +39,21 @@ for (const result of runFaithfulness(set)) {
   );
 }
 
+say("\nUncited sentences");
+for (const result of runUncited(set)) {
+  if (!result.ok) failures++;
+  say(
+    `  ${result.ok ? "ok  " : "FAIL"} [${result.locale}] ${result.outcome} (${result.allowed ? "allowed" : "injected"}): ${result.sentence}`
+  );
+}
+
+const anthropicKey = getAnthropicKey();
 const apiKey = getApiKey();
-if (apiKey === null) {
-  say("\nModel checks skipped: OPENROUTER_API_KEY is not set.");
+if (anthropicKey === null && apiKey === null) {
+  say("\nModel checks skipped: neither ANTHROPIC_API_KEY nor OPENROUTER_API_KEY is set.");
 } else {
-  const generate = openRouterGenerate(apiKey);
+  const claude = anthropicKey === null ? null : claudeAnswer(createClaudeClient(anthropicKey));
+  const generate = apiKey === null ? null : openRouterGenerate(apiKey);
   const answer = async (locale: Locale, question: string) => {
     let text = "";
     let mode = "";
@@ -51,7 +64,7 @@ if (apiKey === null) {
     const logs: string[] = [];
     const events: AsyncGenerator<AskEvent> = ask(
       { locale, question, history: [] },
-      { retriever: retrieverFor(locale), generate, log: (line) => logs.push(line) }
+      { retriever: retrieverFor(locale), claude, generate, log: (line) => logs.push(line) }
     );
     for await (const event of events) {
       if (event.type === "status") {
@@ -67,7 +80,7 @@ if (apiKey === null) {
     return { text, mode, reason, partial, logs, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
   };
 
-  say("\nModel answers (free models via OpenRouter)");
+  say(`\nModel answers (${claude === null ? "free models via OpenRouter" : "Claude Haiku 5.5, free models as fallback"})`);
   for (const { locale, question, expect } of set.questions) {
     const result = await answer(locale, question);
     const ok =

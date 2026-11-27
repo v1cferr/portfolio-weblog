@@ -117,13 +117,14 @@
     "stoppedNote": "Interrompida antes do fim.",
     "interrupted": "A resposta foi cortada. Tente de novo.",
     "error": "Algo deu errado. Tente de novo em instantes.",
-    "privacy": "As respostas por IA vêm de modelos gratuitos de terceiros, via OpenRouter, e são conferidas com as páginas deste site. Não digite dados pessoais.",
+    "privacy": "As respostas por IA vêm do Claude (Anthropic) ou, quando ele não está disponível, de modelos gratuitos via OpenRouter, e cada frase é conferida com as páginas deste site antes de aparecer. Não digite dados pessoais.",
     "unknown": {
       "title": "Não sei: o site não diz isso",
       "body": "Li as páginas mais próximas da pergunta e nenhuma responde. Prefiro não inventar. Se for importante, fale comigo pela página Sobre.",
       "read": "Páginas que li"
     },
-    "partial": "O site responde só parte da pergunta; o resto não está nas páginas, então ficou de fora.",
+    "partial": "Parte da resposta ficou de fora: o site cobre só parte da pergunta, ou uma frase não pôde ser conferida com as páginas.",
+    "more": "Quer saber mais?",
     "conversation": "Conversa",
     "unread": "Resposta nova",
     "expand": "Expandir para um painel lateral",
