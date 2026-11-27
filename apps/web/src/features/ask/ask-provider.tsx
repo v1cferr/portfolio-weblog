@@ -194,7 +194,7 @@ export function AskProvider({ children }: { children: ReactNode }) {
                 if (event.mode === "no-source" || event.mode === "unknown") setAnnouncement(t("status.noSource"));
                 break;
               case "reading":
-                update(locale, id, (turn) => ({ ...turn, reading: event.pages }));
+                update(locale, id, (turn) => ({ ...turn, reading: event.pages, ...(event.site && { readSite: true }) }));
                 break;
               case "checking":
                 update(locale, id, (turn) => ({ ...turn, checked: true }));

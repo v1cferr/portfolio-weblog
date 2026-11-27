@@ -92,6 +92,7 @@
       "searching": "Searching the site…",
       "searched": "Searched the site",
       "read": "Read {count, plural, one {# page} other {# pages}}",
+      "readSite": "Read the whole site",
       "writing": "Writing the answer…",
       "wrote": "Wrote the answer",
       "checked": "Checked the sources",

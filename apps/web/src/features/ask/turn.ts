@@ -13,6 +13,8 @@ export interface Turn {
   partial?: boolean;
   /** The pages the model is reading, shown while it thinks. */
   reading?: { title: string; url: string }[];
+  /** The model read the whole site (`reading` then lists the pages the question is most about). */
+  readSite?: boolean;
   /** The model replied and its answer was checked against the pages (the `checking` event). */
   checked?: boolean;
   /** When the question was sent (epoch ms), for the elapsed time while the answer is written. */
