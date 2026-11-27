@@ -26,7 +26,8 @@
     "openMenu": "Open menu",
     "skipToContent": "Skip to content",
     "brandHome": "v1cferr.dev, home page",
-    "wow": "World of Warcraft"
+    "wow": "World of Warcraft",
+    "tattoos": "Tattoos"
   },
   "Explorer": {
     "open": "Site explorer (~/)",
@@ -490,6 +491,27 @@
     "addonsSnapshot": "The list could not be read today; this is the copy kept in the site's repository.",
     "otherGroup": "Other",
     "addonCount": "{count, plural, one {# add-on} other {# add-ons}}"
+  },
+  "Tattoos": {
+    "title": "Personal architecture",
+    "description": "My tattoos: what each one marks in me, and one I may never get.",
+    "info": "The dates are approximate until I check the photos from back then. The quotes are my own words, as I wrote them in Portuguese; the English under each one is a translation.",
+    "tattoos": "On my skin",
+    "ideas": "Just an idea",
+    "ideasInfo": "Something I am considering, not a tattoo I have. It may never become one.",
+    "idea": "Idea, not done",
+    "placement": "Where",
+    "date": "When",
+    "approxDate": "{part, select, early {around early {year}} mid {around mid-{year}} late {around late {year}} other {around {year}}}",
+    "approxDay": "around {date}",
+    "approximate": "Approximate date",
+    "inMyWords": "In my words",
+    "quoteCount": "{count, plural, one {# quote} other {# quotes}}",
+    "translation": "Translation",
+    "values": "What it stands for",
+    "manifesto": "Manifesto",
+    "readPost": "The whole story",
+    "readPostDescription": "Dissecting the trident, where USB came from, the language of machines and a message to my future self."
   },
   "NotFound": {
     "title": "Page not found",
