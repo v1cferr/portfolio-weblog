@@ -13,6 +13,8 @@ export async function SiteFooter() {
   const [t, nav, locale] = await Promise.all([getTranslations("Footer"), getTranslations("Nav"), getLocale()]);
   const profile = getContent().getProfile();
   const build = buildInfo();
+  // The public contact address, from the profile's links (the same one the hero shows).
+  const email = profile.links.find((link) => link.kind === "email")?.url.replace(/^mailto:/, "");
   return (
     // Room at the bottom on phones, so the Ask launcher floating in the corner never covers the last line.
     <footer className="mt-24 border-t max-sm:pb-16">
@@ -84,7 +86,7 @@ export async function SiteFooter() {
         </p>
       )}
       {/* Attribution the NixOS logo's licence asks for (it appears on the home page; see components/nixos-logo.tsx). */}
-      <p className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted-foreground sm:px-6">
+      <p className="mx-auto max-w-6xl px-4 pb-2 text-xs text-muted-foreground sm:px-6">
         {t.rich("nixosCredit", {
           license: (chunks) => (
             <ExternalLink
@@ -101,6 +103,19 @@ export async function SiteFooter() {
           ),
         })}
       </p>
+      {/* Third-party material (official product images on /setup, logos) can be taken down on request. */}
+      {email !== undefined && (
+        <p id="takedown" className="mx-auto max-w-6xl px-4 pb-8 text-xs text-muted-foreground sm:px-6">
+          {t.rich("takedown", {
+            address: email,
+            email: (chunks) => (
+              <a className="underline underline-offset-4 hover:text-foreground" href={`mailto:${email}`}>
+                {chunks}
+              </a>
+            ),
+          })}
+        </p>
+      )}
     </footer>
   );
 }

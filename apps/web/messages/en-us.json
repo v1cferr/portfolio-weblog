@@ -544,7 +544,8 @@
     "provenance": "Built from <commit>{sha}</commit> with nixpkgs {ref} of {date} (<nixpkgs>{rev}</nixpkgs>)",
     "now": "Now",
     "next": "Next",
-    "howBuilt": "How this site is built"
+    "howBuilt": "How this site is built",
+    "takedown": "Is something here yours and you'd like it removed? Just email me: <email>{address}</email>."
   },
   "Media": {
     "label": "Photos"
