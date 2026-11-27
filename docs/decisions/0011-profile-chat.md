@@ -500,13 +500,14 @@ Sistemas de IA · FAI·UFSCar (2026-08 – atual); …"), and an off-topic quest
   2026"), in either language; another year is still a new fact.
 - **Off topic, no model.** A first question is off topic when the search found
   nothing better than word noise (best score under `NOISE_SCORE`, 8: common
-  words like "quanto" or "like" score 4 to 7, a real match 10 or more) and it
-  names neither the owner (names, "você/ele/seu", "you/he/his", "my") nor what
-  the site is about (work, projects, studies, setup, hiring…). It gets a fixed
-  reply in the owner's voice and the suggested questions, shown like small talk,
-  and the server logs `off-topic` (never the question). Follow-ups always reach
-  the model. The eval set has an `offTopic` section, checked offline with the
-  production retriever, including the vague questions that must not match.
+  words like "quanto" or "like" score 4 to 7, a real match 10 or more, and no
+  hit matched a page keyword such as "Nix") and it names neither the owner
+  (names, "você/ele/seu", "you/he/his", "my") nor what the site is about (work,
+  projects, studies, setup, hiring…). It gets a fixed reply in the owner's voice
+  and the suggested questions, shown like small talk, and the server logs
+  `off-topic` (never the question). Follow-ups always reach the model. The eval
+  set has an `offTopic` section, checked offline with the production retriever,
+  including the vague questions that must not match.
 
 Trade-off: a stray off-topic question with a real-looking match ("Vai chover em
 São Paulo?") still reaches Claude, which says the site doesn't say; erring that

@@ -227,6 +227,9 @@ offTopic:
   - { locale: en-us, question: How tall is Mount Everest?, offTopic: true }
   # A real match is not noise, even with no word about me: Claude reads it.
   - { locale: pt-br, question: Vai chover amanhã em São Paulo?, offTopic: false }
+  # A technology the site is about, found below the noise score (eval run of 2026-11-27).
+  - { locale: pt-br, question: Como uso Nix?, offTopic: false }
+  - { locale: en-us, question: How do I use Nix?, offTopic: false }
   - { locale: pt-br, question: quem é o victor?, offTopic: false }
   - { locale: pt-br, question: me fala de você, offTopic: false }
   - { locale: pt-br, question: o que ele faz?, offTopic: false }

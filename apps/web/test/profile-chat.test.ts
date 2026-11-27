@@ -609,7 +609,7 @@ describe("small talk", () => {
 });
 
 describe("off-topic questions", () => {
-  const noise = [{ score: 5.8 }];
+  const noise = [{ score: 5.8, terms: ["quanto"], keywords: "personal-hub\nNext.js" }];
 
   it("are first questions with only word-noise hits that name neither the owner nor the site", () => {
     expect(isOffTopic("Qual é a capital da França?", [], 0)).toBe(true);
@@ -633,7 +633,9 @@ describe("off-topic questions", () => {
     ])
       expect(isOffTopic(question, noise, 0), question).toBe(false);
     expect(isOffTopic("e antes disso?", [], 1)).toBe(false);
-    expect(isOffTopic("Vai chover amanhã em São Paulo?", [{ score: 17.2 }], 0)).toBe(false);
+    expect(isOffTopic("Vai chover amanhã em São Paulo?", [{ score: 17.2, terms: ["paulo"], keywords: "" }], 0)).toBe(false);
+    // A keyword of the page (a technology) is the site's topic even when it scores like noise.
+    expect(isOffTopic("Como uso Nix?", [{ score: 7.9, terms: ["nix"], keywords: "nixos\nNix\nNixOS" }], 0)).toBe(false);
   });
 
   it("get a fixed reply in the page's language", () => {

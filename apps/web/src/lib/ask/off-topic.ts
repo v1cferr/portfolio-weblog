@@ -6,7 +6,8 @@
  * request; this keeps that for questions that could be about the owner.
  *
  * Deliberately conservative: a question is off topic only when the search
- * found nothing better than word noise (`NOISE_SCORE`), it is the first of
+ * found nothing better than word noise (`NOISE_SCORE`, and no page keyword
+ * such as a technology's name), it is the first of
  * the conversation (a follow-up like "and before that?" names nothing yet is
  * on topic), and it names neither the owner nor anything the site is about. "Who is Victor?", "tell me about
  * yourself" and "is he a good fit?" all name the owner and reach the model.
@@ -28,10 +29,27 @@ const SITE =
  */
 export const NOISE_SCORE = 8;
 
+/** What the search found, as far as this check needs: the score, the matched terms and the page's keywords. */
+interface Hit {
+  score: number;
+  terms: readonly string[];
+  keywords: string;
+}
+
+/**
+ * Whether a hit matched one of its page's keywords (technologies, tags,
+ * organizations): "Nix" in "Como uso Nix?" is the site's topic even when it
+ * scores like noise, while "quanto" or "like" never is a keyword.
+ */
+function matchesKeyword(hit: Hit): boolean {
+  const keywords = new Set(fold(hit.keywords).split(" "));
+  return hit.terms.some((term) => keywords.has(fold(term)));
+}
+
 /** Whether a first question the search found nothing real for is about anything but the owner and this site. */
-export function isOffTopic(question: string, retrieved: readonly { score: number }[], historyLength: number): boolean {
-  const best = Math.max(0, ...retrieved.map((passage) => passage.score));
-  if (best >= NOISE_SCORE || historyLength > 0) return false;
+export function isOffTopic(question: string, retrieved: readonly Hit[], historyLength: number): boolean {
+  if (historyLength > 0) return false;
+  if (retrieved.some((hit) => hit.score >= NOISE_SCORE || matchesKeyword(hit))) return false;
   const text = fold(question);
   if (text === "") return false;
   return !OWNER.test(text) && !SITE.test(text);
