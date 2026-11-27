@@ -37,6 +37,9 @@ const links = [
   ...content.education.flatMap(({ value }) => value.evidence),
 ];
 for (const link of links) if (link.icon !== undefined) refs.add(link.icon);
+// The VS Code extensions on /setup.
+for (const group of content.setup?.value.vscodeExtensions?.groups ?? [])
+  for (const item of group.items) if (item.icon !== undefined) refs.add(item.icon);
 
 const errors: string[] = [];
 const brands: Record<string, { title: string; hex: string; viewBox: string; body: string }> = {};
