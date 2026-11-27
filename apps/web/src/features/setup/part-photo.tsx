@@ -16,10 +16,12 @@ export function PartPhoto({ item, parts, locale }: { item: SetupItem; parts: Par
   const index = parts.indexOf.get(item.id);
   if (item.media === undefined || index === undefined) return null;
   const alt = localize(item.media.alt, locale);
+  // A white product kept on its white background fills a light tile edge to edge; a cut-out floats on the muted one.
+  const light = item.media.surface === "light";
   return (
     <LightboxTrigger
       index={index}
-      className="relative block size-16 shrink-0 self-start overflow-hidden rounded-lg border bg-muted sm:size-20"
+      className={`relative block size-16 shrink-0 self-start overflow-hidden rounded-lg border sm:size-20 ${light ? "bg-white" : "bg-muted"}`}
       frameClassName="absolute inset-0"
     >
       <Image
@@ -27,8 +29,9 @@ export function PartPhoto({ item, parts, locale }: { item: SetupItem; parts: Par
         alt={alt.value}
         fill
         sizes="80px"
-        className="object-contain p-1.5 transition-transform hover:scale-[1.04]"
+        className={`object-contain transition-transform hover:scale-[1.04] ${light ? "" : "p-1.5"}`}
         data-testid="setup-part-photo"
+        data-surface={light ? "light" : undefined}
       />
     </LightboxTrigger>
   );

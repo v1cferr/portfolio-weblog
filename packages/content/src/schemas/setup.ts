@@ -24,6 +24,12 @@ export const SetupItem = z.strictObject({
   media: Media.extend({
     /** Who made the image when it is not the owner's (the manufacturer), linked to its official product page. */
     credit: z.strictObject({ label: z.string().min(1), url: z.url({ protocol: /^https$/ }) }).optional(),
+    /**
+     * `light`: the image keeps a light background that can't be cut cleanly (a
+     * white product on white), so its thumbnail is a light tile in both themes
+     * instead of a white square floating on a dark one.
+     */
+    surface: z.enum(["light"]).optional(),
   }).optional(),
 });
 

@@ -102,8 +102,8 @@ groups:
         url: https://www.kabum.com.br/produto/508876/gabinete-gamer-sharkoon-vs9-rgb-mid-tower-atx-lateral-em-vidro-temperado-3x-cooler-fan-branco-vs9-rgb
         media:
           src: /setup/parts/case-sharkoon-vs9-rgb.png
-          width: 1181
-          height: 1181
+          width: 1177
+          height: 1177
           alt:
             en-us: Sharkoon VS9 RGB case in white, with a tempered glass side panel
             pt-br: Gabinete Sharkoon VS9 RGB branco, com lateral de vidro temperado
@@ -244,6 +244,8 @@ groups:
           src: /setup/parts/headset-baseus-gh02.png
           width: 977
           height: 977
+          # White on white: no clean cutout, so it keeps its background on a light tile.
+          surface: light
           alt:
             en-us: White Baseus AeQur GH02 wireless gaming headset with its microphone
             pt-br: Headset sem fio Baseus AeQur GH02 branco, com microfone

@@ -306,6 +306,9 @@ function Frame({
   const dragControls = useDragControls();
   const frame = useRef<HTMLDivElement>(null);
   const zoom = useRef<Animation | null>(null);
+  // The large file has painted: the thumbnail under it goes, or a transparent cut-out shows its blurry copy as a halo.
+  const [loadedSrc, setLoadedSrc] = useState<string>();
+  const loaded = loadedSrc === item.src;
 
   // Open: measured before the first paint, so the frame is never seen at its final place first.
   useLayoutEffect(() => {
@@ -392,7 +395,7 @@ function Frame({
           maxWidth: `${String(item.width)}px`,
         }}
       >
-        {placeholderSrc !== "" && (
+        {placeholderSrc !== "" && !loaded && (
           // eslint-disable-next-line @next/next/no-img-element -- the thumbnail's own file, already in the cache; next/image would ask for another size
           <img src={placeholderSrc} alt="" aria-hidden className="absolute inset-0 size-full object-contain" draggable={false} />
         )}
@@ -406,6 +409,9 @@ function Frame({
           lang={item.altLang}
           loading="eager"
           draggable={false}
+          onLoad={() => {
+            setLoadedSrc(item.src);
+          }}
           className="relative size-full object-contain select-none"
         />
       </m.div>

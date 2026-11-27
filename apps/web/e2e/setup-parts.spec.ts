@@ -14,7 +14,7 @@ import { parse } from "yaml";
 
 interface Item {
   id: string;
-  media?: unknown;
+  media?: { surface?: string };
 }
 const setup = parse(readFileSync(path.join(import.meta.dirname, "../../../content/profile/setup.yaml"), "utf8")) as {
   groups: { items: Item[] }[];
@@ -37,8 +37,23 @@ test.describe("setup part photos", () => {
     await page.locator(`#${first} [data-testid=setup-part-photo]`).click();
     await expect(page.getByRole("dialog")).toBeVisible();
     expect(new URL(page.url()).searchParams.get("photo")).toBe("setup-parts-1");
+    // Once the large file paints, the thumbnail under it is gone: a cut-out would show it as a blurry halo.
+    await expect(page.getByTestId("lightbox-frame").locator("img")).toHaveCount(1);
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toBeHidden();
+  });
+
+  test("a white product kept on white sits on a light tile in both themes", async ({ page }) => {
+    const light = withPhoto.find((item) => item.media?.surface === "light");
+    test.skip(light === undefined, "no part photo keeps a light background");
+    for (const scheme of ["light", "dark"] as const) {
+      await page.emulateMedia({ colorScheme: scheme });
+      await page.goto("/pt-br/setup");
+      const thumbnail = page.locator(`#${light?.id ?? ""} [data-testid=setup-part-photo]`);
+      await expect(thumbnail).toHaveAttribute("data-surface", "light");
+      const tile = thumbnail.locator("xpath=ancestor::*[contains(@class,'bg-white')][1]");
+      await expect(tile).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    }
   });
 
   test("the cards fit a 360px phone and pass axe in both themes", async ({ page }) => {
