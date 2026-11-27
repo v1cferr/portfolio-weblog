@@ -6,7 +6,7 @@ import { type Locale, loadRegistry } from "@workspace/content";
 import { buildRetrievalPassages, createRetriever, MAX_PASSAGES, type Retriever } from "@workspace/search";
 import { parse } from "yaml";
 
-import { FAITHFULNESS_THRESHOLD, faithfulness } from "../src/lib/ask/grounding";
+import { checkSentence, FAITHFULNESS_THRESHOLD, faithfulness } from "../src/lib/ask/grounding";
 import { z } from "zod";
 
 /**
@@ -25,6 +25,10 @@ const EvalSet = z.strictObject({
   faithfulness: z
     .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), grounded: z.boolean() }))
     .min(1),
+  /** Sentences without a citation: allowed only when they add no new fact. */
+  uncited: z
+    .array(z.strictObject({ locale: Locales, question: z.string().min(2), sentence: z.string().min(2), allowed: z.boolean() }))
+    .default([]),
   injections: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).min(1),
   /** Questions near the site's topics that it does not answer: the model must say so, never fill the gap. */
   unknowns: z.array(z.strictObject({ locale: Locales, question: z.string().min(2), forbid: z.array(z.string().min(1)) })).default([]),
@@ -83,5 +87,22 @@ export function runFaithfulness(set: EvalSet): FaithfulnessResult[] {
   return set.faithfulness.map(({ locale, question, sentence, grounded }) => {
     const score = faithfulness(sentence, retrieverFor(locale).retrieve(question));
     return { locale, sentence, grounded, score, ok: score >= FAITHFULNESS_THRESHOLD === grounded };
+  });
+}
+
+export interface UncitedResult {
+  locale: Locale;
+  sentence: string;
+  allowed: boolean;
+  /** Why the check dropped it, or "kept". */
+  outcome: string;
+  ok: boolean;
+}
+
+/** Checks each case's sentence as the server checks an uncited sentence, against the passages retrieved for its question. */
+export function runUncited(set: EvalSet): UncitedResult[] {
+  return set.uncited.map(({ locale, question, sentence, allowed }) => {
+    const check = checkSentence(sentence, [], { passages: retrieverFor(locale).retrieve(question), conversation: question });
+    return { locale, sentence, allowed, outcome: check.ok ? "kept" : check.reason, ok: check.ok === allowed };
   });
 }

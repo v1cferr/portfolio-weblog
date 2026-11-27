@@ -298,3 +298,111 @@ space opened below it.
   emulated phone and checks that only the list scrolled, the header and input
   stay in view, nothing overflows sideways, targets are 44px, Esc and a drag
   close the sheet, reduced motion is respected and axe passes in both themes.
+
+## Revision (2026-11-26, Claude Haiku 5.5 with citations, conversational and streamed)
+
+The owner found the answers rigid: every sentence needed a source, there was no
+small talk, the reply arrived all at once, and the free models varied. They
+chose conversational text with cited facts, Claude Haiku 5.5 with the native
+Citations API, and real streaming, keeping the free models as the fallback. This
+revision is the current state; where the sections above disagree, this one
+holds.
+
+- **Engine, in order.** Claude Haiku 5.5 (`claude-haiku-5-5`) through the
+  official SDK (`@anthropic-ai/sdk`, `client.messages.stream`) when
+  `ANTHROPIC_API_KEY` is set (`lib/ask/anthropic.ts`). Without it, or on an API
+  error, a 429 or 5xx, a timeout (25 s), a refusal (`stop_reason: "refusal"`:
+  Haiku 5.5 has no server-side fallback) or a stream that breaks before a
+  checked sentence went out, the free OpenRouter models answer
+  (`lib/ask/openrouter.ts`, unchanged, under the same conversational rules
+  below). If they cannot either, the answer is extractive. Errors are told apart
+  with the SDK's typed classes, most specific first, and the SDK's own retries
+  are off: the chain is the retry.
+- **Why Claude and citations.** Each retrieved passage is its own plain-text
+  `document` block with its title and `citations: { enabled: true }`; the API
+  returns cited text blocks that point at documents by `document_index`, so the
+  model never writes a URL or a source number and a citation cannot point at a
+  page that was not sent. Citations and `output_config.format` cannot be
+  combined (400), so this path has no JSON schema: grounding moved from the
+  schema to the check of every sentence below. `cited_text` is not billed as
+  output.
+- **Request.** `output_config: { effort: "low" }`, adaptive thinking left at its
+  default, no sampling parameters, no prefill, `max_tokens` 1500. The system
+  prompt is the same for every question in a locale and carries
+  `cache_control: { type: "ephemeral" }`; with it, a second question reads about
+  1,500 tokens from the cache.
+- **Grounding: every fact cited, uncited text only when it adds no fact**
+  (`lib/ask/grounding.ts`). The answer is cut into sentences (and list items) as
+  Claude's blocks arrive; a sentence takes the citations of every block it
+  overlaps. Each sentence is checked before it is sent:
+  - a cited sentence must stay close to the passages it cites (faithfulness,
+    threshold 0.6, as before);
+  - an uncited one (an opener, a summary, an offer to say more, "the site
+    doesn't say") passes only when it adds no new fact: every number, date, URL,
+    name and capitalized or technical term in it already appears in the
+    question, the earlier turns or the passages, and its content words do too,
+    with a list of conversational connectives ("happy to share", "no dia a dia")
+    not counted;
+  - any URL or domain drops the sentence.
+
+  A failed sentence is dropped. Only a dropped claim (it cited something, or
+  named a fact or a link) marks the answer partial; a connective the check did
+  not recognize is just left out. Uncited sentences wait for the first cited
+  one: an answer that cites nothing is "I don't know" when it is one or two
+  sentences, and the extractive answer otherwise. At most 12 sentences or 1,200
+  characters.
+
+- **Streaming without unchecked text.** Text reaches the visitor sentence by
+  sentence, each after its check, so the rule that unvalidated text never
+  reaches the visitor still holds while the answer appears progressively. A
+  stream that fails after sentences went out keeps them and says the answer was
+  cut.
+- **Markdown.** Answers may use light Markdown (bold, short lists, inline code).
+  The server drops link targets, images, raw HTML and bracketed numbers; the
+  panel renders it with prompt-kit's Markdown (no raw HTML) and puts each
+  citation as a numbered link right after its sentence. `plainText`, used by the
+  checks, no longer mangles `C#`, `snake_case` or `a < b`.
+- **Conversation.** Greetings, thanks, goodbyes and "what can you do" get a
+  fixed reply from a short list (`lib/ask/small-talk.ts`), with no search and no
+  model, and the suggested questions (mode `small-talk`). A follow-up is
+  searched alone, together with the previous question, and as the previous
+  question, so the previous turn's passages are sent again and what was said
+  stays citable; up to 10 documents. Related pages come back as one-tap
+  follow-ups ("Want to know more?").
+- **Protocol.** The NDJSON events stay; `text` may carry Markdown, `partial`
+  comes after the text when a claim was dropped or the answer was cut, and
+  `suggestions` carries the follow-up questions. The order is
+  `[reading → [checking]] → status → (text | cite)* → [partial] → [suggestions] → sources → done`.
+- **Prompt** (`lib/ask/prompt.ts`): shorter and conversational, in the owner's
+  first person; cite every fact, never invent, say so in one sentence when the
+  documents do not answer, and the anti-injection rules. The free models get the
+  same rules plus the JSON shape, where a sentence with no fact may list no
+  sources.
+- **Cost and abuse.** The WAF rule (10 requests a minute per IP), questions of
+  at most 300 characters, three earlier turns, `max_tokens` 1500, prompt
+  caching, and a monthly spend limit the owner sets in the Anthropic Console.
+  Logs carry token counts and reason codes
+  (`usage provider=anthropic input=… output=… cache_read=…`), never the
+  question. On 2026-11-26 local answers used about 1,400 to 5,300 uncached input
+  tokens, 1,500 cached and 350 to 1,100 output tokens (thinking included): well
+  under a tenth of a cent each at Haiku 5.5's $0.10 / $0.50 per million tokens.
+- **Key.** `ANTHROPIC_API_KEY`, server only. It goes to Vercel Production only
+  with the owner's approval, from stdin, as a sensitive variable.
+- **Evals.** A new `uncited` set in `evals/profile-chat.yaml` (connectives that
+  must pass, injected names, numbers, places and domains that must not) runs on
+  every `pnpm test`; `eval:chat` asks Claude first when its key is set (billed).
+  The tests mock the SDK's stream: CI has no key, and the extractive path stays
+  covered end to end.
+
+Trade-offs:
+
+- Uncited sentences may restate what the passages say without a number next to
+  it. The check only guarantees they bring nothing new; the prompt asks for
+  citations on every fact.
+- The "no new fact" check is lexical, like faithfulness: a negation or a
+  reordering of known words can pass. Both are bounded by the documents being
+  the site's own text.
+- A refusal that comes after sentences went out cannot take them back; they were
+  checked, and the answer is marked cut.
+- Claude is billed per token; the free models and the extractive answer keep the
+  chat working without it.

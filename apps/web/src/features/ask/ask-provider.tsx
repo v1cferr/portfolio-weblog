@@ -215,6 +215,12 @@ export function AskProvider({ children }: { children: ReactNode }) {
               case "sources":
                 update(locale, id, (turn) => ({ ...turn, sources: event.sources }));
                 break;
+              case "partial":
+                update(locale, id, (turn) => ({ ...turn, partial: true }));
+                break;
+              case "suggestions":
+                update(locale, id, (turn) => ({ ...turn, suggestions: event.questions }));
+                break;
               case "error":
                 update(locale, id, (turn) => ({ ...turn, interrupted: true }));
                 break;

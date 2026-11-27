@@ -21,6 +21,8 @@ export interface Turn {
   elapsedMs?: number;
   parts: Part[];
   sources: AskSource[];
+  /** One-tap follow-up questions offered under the answer. */
+  suggestions?: string[];
   /** The model failed after it had started writing. */
   interrupted?: boolean;
 }
@@ -35,6 +37,30 @@ export function answerText(turn: Turn): string {
     .map((part) => (part.type === "text" ? part.text : ""))
     .join("")
     .trim();
+}
+
+/** The link target a citation marker gets in the answer's Markdown; the panel renders it as a numbered source. */
+export const CITE_HREF = /^#cite-(\d+)$/;
+
+/**
+ * The answer as one Markdown text: the model's text as it came, and each
+ * citation as a `[n](#cite-n)` link right after the sentence it backs, before
+ * the sentence's trailing spaces or line break, so it stays on that line (a
+ * list item's marker would otherwise move to the next one). Model text never
+ * carries links of its own: the server strips them.
+ */
+export function toMarkdown(parts: readonly Part[]): string {
+  let markdown = "";
+  for (const part of parts) {
+    if (part.type === "text") {
+      markdown += part.text;
+      continue;
+    }
+    const trailing = /\s*$/.exec(markdown)?.[0] ?? "";
+    const marker = `[${String(part.n)}](#cite-${String(part.n)})`;
+    markdown = `${markdown.slice(0, markdown.length - trailing.length)}${marker}${trailing}`;
+  }
+  return markdown;
 }
 
 /** Reads POST /api/ask's NDJSON stream, one event per line. */

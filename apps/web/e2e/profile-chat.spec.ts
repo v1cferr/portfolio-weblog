@@ -272,6 +272,70 @@ test.describe("profile chat answers in the owner's voice", () => {
     await expect(unknown).toContainText("fale comigo pela página Sobre");
   });
 
+  test("a streamed Markdown answer keeps its list, its numbered citations and the follow-ups", async ({ page }) => {
+    await serveAnswer(page, [
+      { type: "reading", pages: [{ title: "FAI·UFSCar", url: "/en-us/career/fai-ufscar-2026" }] },
+      { type: "checking" },
+      { type: "status", mode: "model" },
+      { type: "text", text: "Sure! " },
+      { type: "text", text: "I'm an **AI Systems Analyst** at FAI·UFSCar. " },
+      { type: "cite", n: 1 },
+      { type: "text", text: "Day to day:\n" },
+      { type: "text", text: "- I build RAG and agents\n" },
+      { type: "cite", n: 1 },
+      { type: "text", text: "- I check data governance" },
+      { type: "cite", n: 2 },
+      { type: "partial" },
+      { type: "suggestions", questions: ["Tell me more about obsidian-rag"] },
+      {
+        type: "sources",
+        sources: [
+          { n: 1, title: "FAI·UFSCar", url: "/en-us/career/fai-ufscar-2026" },
+          { n: 2, title: "About", url: "/en-us/about" },
+          { n: null, title: "obsidian-rag", url: "/en-us/projects/obsidian-rag" },
+        ],
+      },
+      { type: "done" },
+    ]);
+    await page.goto("/en-us");
+    const dialog = await openDock(page);
+    await dialog.getByRole("button", { name: "What is my current role?" }).click();
+    const answer = dialog.getByTestId("ask-answer");
+    await expect(answer.locator("strong")).toHaveText("AI Systems Analyst");
+    await expect(answer.getByRole("listitem").filter({ hasText: "I build RAG and agents" })).toBeVisible();
+    // Each citation sits right after its sentence, on its list item's line, and opens its page.
+    await expect(
+      answer.getByRole("listitem").filter({ hasText: "I check data governance" }).getByRole("link", { name: "Source 2: About" })
+    ).toHaveAttribute("href", "/en-us/about");
+    await expect(answer.getByRole("link", { name: "Source 1: FAI·UFSCar" }).first()).toHaveAttribute(
+      "href",
+      "/en-us/career/fai-ufscar-2026"
+    );
+    await expect(answer.getByTestId("ask-partial")).toBeVisible();
+    await expect(answer.getByTestId("ask-ai-label")).toBeVisible();
+    // A follow-up is one tap, asked like any other question.
+    const followUps = answer.getByTestId("ask-follow-ups");
+    await expect(followUps.getByRole("heading", { name: "Want to know more?" })).toBeVisible();
+    await page.unroute("**/api/ask");
+    await followUps.getByRole("button", { name: "Tell me more about obsidian-rag" }).click();
+    await expect(dialog.getByText("Tell me more about obsidian-rag", { exact: true }).last()).toBeVisible();
+    await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
+  });
+
+  test("a greeting gets a fixed reply and the suggested questions, with no AI label", async ({ page }) => {
+    await page.goto("/pt-br");
+    await page.getByTestId("ask-launcher").click();
+    const dialog = dock(page, "Pergunte sobre o meu trabalho");
+    const input = dialog.getByRole("textbox", { name: "Pergunte sobre o meu trabalho" });
+    await input.fill("oi");
+    await input.press("Enter");
+    const reply = dialog.getByTestId("ask-small-talk");
+    await expect(reply).toContainText("Oi! Aqui eu respondo sobre o meu trabalho");
+    await expect(dialog.getByTestId("ask-ai-label")).toHaveCount(0);
+    await reply.getByRole("button", { name: "Qual é o meu cargo atual?" }).click();
+    await expect(dialog.getByTestId("ask-extractive")).toBeVisible();
+  });
+
   test("the site's own passages carry no AI label", async ({ page }) => {
     await page.goto("/en-us");
     const dialog = await openDock(page);

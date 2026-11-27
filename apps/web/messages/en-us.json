@@ -116,13 +116,14 @@
     "stoppedNote": "Stopped before the end.",
     "interrupted": "The answer was cut off. Try again.",
     "error": "Something went wrong. Try again in a moment.",
-    "privacy": "AI answers come from free third-party models via OpenRouter and are checked against this site's pages. Don't type personal data.",
+    "privacy": "AI answers come from Claude (Anthropic) or, when it is unavailable, free models via OpenRouter, and every sentence is checked against this site's pages before it shows. Don't type personal data.",
     "unknown": {
       "title": "I don't know: the site doesn't say",
       "body": "I read the pages closest to the question and none of them answers it. I'd rather not make it up. If it matters, reach me through the About page.",
       "read": "Pages I read"
     },
-    "partial": "The site answers only part of the question; the rest isn't on its pages, so it was left out.",
+    "partial": "Part of the answer was left out: the site covers only part of the question, or a sentence could not be checked against its pages.",
+    "more": "Want to know more?",
     "conversation": "Conversation",
     "unread": "New answer",
     "expand": "Expand to a side panel",
