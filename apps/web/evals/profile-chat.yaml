@@ -36,7 +36,13 @@ questions:
     expect: [/en-us/career/fai-ufscar-2026, /en-us/about]
   - locale: en-us
     question: How does Victor use Nix?
-    expect: [/en-us/projects/dotfiles, /en-us/weblog/rebuilding-the-hub-content-first, /en-us/projects/portfolio-weblog]
+    expect:
+      [
+        /en-us/projects/dotfiles,
+        /en-us/weblog/from-arch-to-nixos,
+        /en-us/weblog/rebuilding-the-hub-content-first,
+        /en-us/projects/portfolio-weblog,
+      ]
   - locale: en-us
     question: Which RAG projects has Victor built?
     expect: [/en-us/projects/obsidian-rag]
@@ -67,7 +73,13 @@ questions:
     expect: [/en-us/career/fai-ufscar-2026, /en-us/about]
   - locale: en-us
     question: How do I use Nix?
-    expect: [/en-us/projects/dotfiles, /en-us/weblog/rebuilding-the-hub-content-first, /en-us/projects/portfolio-weblog]
+    expect:
+      [
+        /en-us/projects/dotfiles,
+        /en-us/weblog/from-arch-to-nixos,
+        /en-us/weblog/rebuilding-the-hub-content-first,
+        /en-us/projects/portfolio-weblog,
+      ]
   - locale: en-us
     question: Which RAG projects have I built?
     expect: [/en-us/projects/obsidian-rag]
@@ -90,7 +102,13 @@ questions:
     expect: [/pt-br/career/fai-ufscar-2026, /pt-br/about]
   - locale: pt-br
     question: Como o Victor usa Nix?
-    expect: [/pt-br/projects/dotfiles, /pt-br/weblog/rebuilding-the-hub-content-first, /pt-br/projects/portfolio-weblog]
+    expect:
+      [
+        /pt-br/projects/dotfiles,
+        /pt-br/weblog/from-arch-to-nixos,
+        /pt-br/weblog/rebuilding-the-hub-content-first,
+        /pt-br/projects/portfolio-weblog,
+      ]
   - locale: pt-br
     question: Quais projetos de RAG o Victor construiu?
     expect: [/pt-br/projects/obsidian-rag]
@@ -122,7 +140,13 @@ questions:
     expect: [/pt-br/career/fai-ufscar-2026, /pt-br/about]
   - locale: pt-br
     question: Como uso Nix?
-    expect: [/pt-br/projects/dotfiles, /pt-br/weblog/rebuilding-the-hub-content-first, /pt-br/projects/portfolio-weblog]
+    expect:
+      [
+        /pt-br/projects/dotfiles,
+        /pt-br/weblog/from-arch-to-nixos,
+        /pt-br/weblog/rebuilding-the-hub-content-first,
+        /pt-br/projects/portfolio-weblog,
+      ]
   - locale: pt-br
     question: Quais projetos de RAG construí?
     expect: [/pt-br/projects/obsidian-rag]
