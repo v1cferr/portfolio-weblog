@@ -137,12 +137,17 @@ describe("CitationMap", () => {
     ]);
   });
 
-  it("shows related pages when nothing is cited, and never more than five cards", () => {
+  it("shows related pages when nothing is cited, and a card for every cited page, however many", () => {
     expect(new CitationMap(PASSAGES).sources().map((source) => source.n)).toEqual([null, null, null]);
+    // Claude reads the whole site and may cite more pages than the old five-card cap: a citation never points at a missing card.
     const many = Array.from({ length: 8 }, (_, i) => passage(`p${String(i)}`, `/en-us/projects/p${String(i)}`));
     const map = new CitationMap(many);
     many.forEach((_, i) => map.cite(i));
-    expect(map.sources()).toHaveLength(5);
+    expect(map.sources().map((source) => source.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    const two = new CitationMap(many);
+    two.cite(0);
+    two.cite(1);
+    expect(two.sources().map((source) => source.n)).toEqual([1, 2, null]);
   });
 });
 
@@ -707,6 +712,17 @@ describe("ask", () => {
       const last = generate.mock.calls[0]?.[0].at(-1)?.content ?? "";
       expect(last).toContain("[1] Victor Ferreira · AI Systems Analyst");
       expect(last).not.toContain("[2]");
+    });
+
+    it("says the site doesn't cover an off-topic question, even when Claude's refusal is not worded like the pages", async () => {
+      const claude = fakeClaude([{ text: "Posso responder só sobre o meu trabalho, e a capital da França não aparece aqui." }]);
+      const events = await collect(
+        ask(
+          { ...input, locale: "pt-br", question: "Qual é a capital da França?" },
+          { retriever: retriever([]), site: SITE, claude, generate: null }
+        )
+      );
+      expect(events[0]).toEqual({ type: "status", mode: "unknown" });
     });
 
     it("answers no-source only when no model can answer and the search found nothing", async () => {
