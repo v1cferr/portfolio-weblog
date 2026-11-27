@@ -203,3 +203,17 @@
       lidas ao vivo do GitHub e atualizadas uma vez por dia, então eu nunca mantenho
       essa lista à mão. Um repositório privado ou apagado simplesmente não tem a seção,
       e quando o GitHub não responde, a página aparece sem ela.
+
+"0018":
+  why:
+    en-us: >-
+      Switching language keeps you where you were on the page, with what you opened
+      still open, and a reload does the same. It lasts only for the browser tab: a
+      new tab or a new visit starts from the beginning. No extra library was needed,
+      since the site has no state shared across the page.
+    pt-br: >-
+      Trocar de idioma mantém você onde estava na página, com o que você abriu ainda
+      aberto, e recarregar a página faz o mesmo. Isso dura só enquanto a aba do
+      navegador estiver aberta: uma aba nova ou uma nova visita começa do início.
+      Nenhuma biblioteca extra foi necessária, porque o site não tem estado
+      compartilhado pela página.
