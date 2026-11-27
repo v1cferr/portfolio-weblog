@@ -21,6 +21,7 @@ import {
   runUncited,
   runVague,
   siteFor,
+  wordingIssues,
 } from "../evals/profile-chat";
 import { claudeAnswer, createClaudeClient, getAnthropicKey } from "../src/lib/ask/anthropic";
 import { ask, openRouterGenerate } from "../src/lib/ask/engine";
@@ -114,7 +115,12 @@ if (anthropicKey === null && apiKey === null) {
         : result.mode === "extractive" ||
           result.mode === "unknown" ||
           (result.validCites && expect.some((url) => result.cited.includes(url)));
+    const wording = result.mode === "model" ? wordingIssues(result.text, locale) : [];
     if (!ok) failures++;
+    if (wording.length > 0) {
+      failures++;
+      say(`  FAIL [${locale}] wording (${wording.join(", ")}): ${question}`);
+    }
     const how = `${result.mode === "extractive" ? `extractive (${result.reason})` : result.mode}${result.partial ? " (partial)" : ""}`;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${how}: ${question}`);
     say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
@@ -124,8 +130,10 @@ if (anthropicKey === null && apiKey === null) {
   for (const { locale, question, expect } of set.vague) {
     const result = await answer(locale, question);
     // Without Claude, the free models read the search's pages plus the profile; a page-quoting fallback is no answer.
-    const ok = result.mode === "model" && result.validCites && expect.some((url) => result.cited.includes(url));
+    const wording = wordingIssues(result.text, locale);
+    const ok = result.mode === "model" && result.validCites && expect.some((url) => result.cited.includes(url)) && wording.length === 0;
     if (!ok) failures++;
+    if (wording.length > 0) say(`       wording: ${wording.join(", ")}`);
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.partial ? " (partial)" : ""}: ${question}`);
     say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
   }
