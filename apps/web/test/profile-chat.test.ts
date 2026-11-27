@@ -292,6 +292,9 @@ describe("prompt", () => {
   it("is conversational, in the owner's first person, and keeps the grounding rules", () => {
     const prompt = systemPrompt("pt-br");
     expect(prompt).toContain("in the first person");
+    // An eval answer opened with "Your security background…" to "What security experience do I have?".
+    expect(prompt).toContain('never "you" or "your"');
+    expect(prompt).toContain("never work out durations");
     expect(prompt).not.toContain("third person");
     expect(prompt).toContain("Cite every fact");
     expect(prompt).toContain("must not name anything the documents or the visitor did not");
