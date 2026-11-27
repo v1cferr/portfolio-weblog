@@ -80,18 +80,47 @@ export function splitByHeading(body: string): { heading: string; text: string }[
     .filter((section) => section.text !== "");
 }
 
-/** The few labels the About passage needs; the corpus is English or Portuguese (zh-cn falls back to English). */
-const LABELS = {
-  "en-us": { current: "Current role", location: "Location", present: "present" },
-  "pt-br": { current: "Cargo atual", location: "Localização", present: "atual" },
+const MONTHS = {
+  "en-us": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  "pt-br": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
 } as const;
 
-function labels(locale: Locale) {
-  return locale === "pt-br" ? LABELS["pt-br"] : LABELS["en-us"];
+/** The corpus is English or Portuguese; zh-cn falls back to English. */
+type PassageLanguage = keyof typeof MONTHS;
+
+function language(locale: Locale): PassageLanguage {
+  return locale === "pt-br" ? "pt-br" : "en-us";
 }
 
-function period(start: string | undefined, end: string | undefined, present: string): string {
-  return `${start ?? "?"} – ${end ?? present}`;
+/**
+ * A partial date ("2026", "2026-08", "2026-08-15") in words: "agosto de 2026",
+ * "August 2026". The model reads passages and writes answers from them, so
+ * dates in words come back as natural sentences instead of "2026-08 – present"
+ * ranges pasted from a field (ADR 0011).
+ */
+export function dateInWords(date: string, lang: PassageLanguage): string {
+  const [year = date, month, day] = date.split("-");
+  const name = month === undefined ? undefined : MONTHS[lang][Number(month) - 1];
+  if (name === undefined) return year;
+  if (day === undefined) return lang === "pt-br" ? `${name} de ${year}` : `${name} ${year}`;
+  return lang === "pt-br" ? `${String(Number(day))} de ${name} de ${year}` : `${name} ${String(Number(day))}, ${year}`;
+}
+
+/** "since August 2026" or "from March 2026 to July 2026"; empty without a start. */
+function period(start: string | undefined, end: string | undefined, lang: PassageLanguage): string {
+  if (start === undefined) return "";
+  const from = dateInWords(start, lang);
+  if (end === undefined) return lang === "pt-br" ? `desde ${from}` : `since ${from}`;
+  const to = dateInWords(end, lang);
+  return lang === "pt-br" ? `de ${from} a ${to}` : `from ${from} to ${to}`;
+}
+
+/** A current role as a first-person sentence: "Trabalho como X em Y desde agosto de 2026." */
+function currentRole(title: string, org: string, selfEmployed: boolean, since: string, lang: PassageLanguage): string {
+  const when = since === "" ? "" : ` ${since}`;
+  if (lang === "pt-br")
+    return selfEmployed ? `Trabalho como ${title} por conta própria (${org})${when}.` : `Trabalho como ${title} em ${org}${when}.`;
+  return selfEmployed ? `I have worked as ${title} on my own (${org})${when}.` : `I have worked as ${title} at ${org}${when}.`;
 }
 
 /**
@@ -103,7 +132,7 @@ function period(start: string | undefined, end: string | undefined, present: str
 export function buildRetrievalPassages(content: ContentRegistry, locale: Locale): Passage[] {
   const passages: Passage[] = [];
   const prefix = `/${locale}`;
-  const label = labels(locale);
+  const lang = language(locale);
 
   const profile = content.getProfile();
   const headline = localize(profile.headline, locale);
@@ -113,8 +142,9 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
     .map((experience) => {
       const position = experience.positions.at(-1);
       const title = position ? localize(position.title, locale).value : "";
-      const org = content.getOrganization(experience.organization)?.name ?? experience.organization;
-      return `${title} · ${org} (${period(position?.start, undefined, label.present)})`;
+      const organization = content.getOrganization(experience.organization);
+      const org = organization?.name ?? experience.organization;
+      return currentRole(title, org, organization?.kind === "self-employed", period(position?.start, undefined, lang), lang);
     });
   passages.push({
     id: `profile:${profile.id}:${locale}`,
@@ -132,8 +162,8 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
     ),
     text: lines(
       `${profile.name} (${profile.handle}): ${headline.value}.`,
-      current.length > 0 ? `${label.current}: ${current.join("; ")}.` : undefined,
-      profile.location && `${label.location}: ${profile.location}.`,
+      current.join(" "),
+      profile.location && (lang === "pt-br" ? `Moro em ${profile.location}.` : `I'm based in ${profile.location}.`),
       localize(profile.summary, locale).value,
       localizeList(profile.about, locale)?.value,
       localizeList(profile.focus, locale)?.value,
@@ -171,9 +201,10 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
     let text = doc.text;
     if (doc.type === "experience") {
       const experience = content.getExperience(doc.entityId);
-      const positions = experience?.positions.map(
-        (position) => `${localize(position.title, locale).value}: ${period(position.start, position.end, label.present)}`
-      );
+      const positions = experience?.positions.map((position) => {
+        const when = period(position.start, position.end, lang);
+        return `${localize(position.title, locale).value}${when === "" ? "" : `, ${when}`}.`;
+      });
       text = lines(positions, doc.text);
     }
     splitParagraphs(text).forEach((piece, n) => {

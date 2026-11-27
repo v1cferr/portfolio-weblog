@@ -1033,6 +1033,13 @@ describe("grounding, dates in words and possessives", () => {
       reason: "new-fact",
     });
     expect(newFacts("I joined in March.", role.text)).toEqual(["March"]);
+    // Passages spell their dates out (2026-11-27): an answer may still name the month either way, in either language.
+    const spelled = "Trabalho como Analista de Sistemas de IA em FAI·UFSCar desde agosto de 2026.";
+    expect(newFacts("Desde agosto de 2026 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
+    expect(newFacts("Since August 2026 I've worked at FAI·UFSCar.", spelled)).toEqual([]);
+    expect(newFacts("Desde 2026-08 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
+    expect(newFacts("Desde 2027-08 sou Analista de Sistemas de IA.", spelled)).toEqual(["2027-08"]);
+    expect(newFacts("Since August 2019 I've worked at FAI·UFSCar.", spelled)).toEqual(["2019"]);
   });
 
   it("reads a possessive as the name it is attached to, and still catches an invented one", () => {
