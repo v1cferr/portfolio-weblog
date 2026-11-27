@@ -27,7 +27,7 @@ export function PartPhoto({ item, parts, locale }: { item: SetupItem; parts: Par
         alt={alt.value}
         fill
         sizes="80px"
-        className="object-cover transition-transform hover:scale-[1.04]"
+        className="object-contain p-1.5 transition-transform hover:scale-[1.04]"
         data-testid="setup-part-photo"
       />
     </LightboxTrigger>
