@@ -7,6 +7,7 @@ import {
   type Corpus,
   type DropReason,
   groundAnswer,
+  isClaim,
   MAX_ANSWER_LENGTH,
   MAX_SENTENCES,
   parseModelAnswer,
@@ -98,6 +99,7 @@ type Outcome =
 
 /**
  * Checks sentences as they come and turns them into events (protocol.ts).
+ * A dropped claim makes the answer partial; a dropped connective does not.
  * Uncited sentences are held until the first cited one: an answer with no
  * cited sentence at all is "I don't know" (when it is short) or ungrounded,
  * never shown as is. After `MAX_SENTENCES` or `MAX_ANSWER_LENGTH` the rest is
@@ -105,6 +107,8 @@ type Outcome =
  */
 class Emitter {
   readonly dropped: DropReason[] = [];
+  /** A dropped sentence was a claim: the answer is partial. */
+  claimDropped = false;
   truncated = false;
   private held: { text: string; cited: number[] }[] = [];
   private started = false;
@@ -132,6 +136,7 @@ class Emitter {
     const check = checkSentence(sentence.text, sentence.cited, this.corpus);
     if (!check.ok) {
       this.dropped.push(check.reason);
+      this.claimDropped ||= isClaim(check.reason, sentence.cited);
       return;
     }
     this.sentences++;
@@ -160,11 +165,11 @@ class Emitter {
 
   /** Nothing cited: a short reply is "the site doesn't say"; a long one cited nothing it claimed. */
   noAnswer(): Outcome {
-    return this.held.length > 0 && this.held.length <= 2 && this.dropped.length === 0 ? { kind: "unknown" } : { kind: "ungrounded" };
+    return this.held.length > 0 && this.held.length <= 2 && !this.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
   }
 
   *finish(locale: string, partial: boolean): Generator<AskEvent, void, undefined> {
-    if (partial || this.truncated || this.dropped.length > 0) yield { type: "partial" };
+    if (partial || this.truncated || this.claimDropped) yield { type: "partial" };
     const sources = this.citations.sources();
     const related = sources.filter((source) => source.n === null).slice(0, MAX_SUGGESTIONS);
     if (related.length > 0) yield { type: "suggestions", questions: related.map((source) => moreAbout(locale, source.title)) };
@@ -259,9 +264,10 @@ async function* fromOpenRouter(
     yield* emitter.accept({ text, cited: sentence.passages });
   }
   emitter.dropped.unshift(...grounded.dropped);
+  emitter.claimDropped ||= grounded.claimDropped;
   if (!emitter.sent) {
     context.log?.(`ungrounded model=${result.model} dropped=${emitter.dropped.join(",") || "-"}`);
-    return emitter.heldCount > 0 && emitter.heldCount <= 2 && grounded.dropped.length === 0 ? { kind: "unknown" } : { kind: "ungrounded" };
+    return emitter.heldCount > 0 && emitter.heldCount <= 2 && !emitter.claimDropped ? { kind: "unknown" } : { kind: "ungrounded" };
   }
   if (emitter.dropped.length > 0) context.log?.(`dropped model=${result.model} ${emitter.dropped.join(",")}`);
   yield* emitter.finish(input.locale, grounded.incomplete);

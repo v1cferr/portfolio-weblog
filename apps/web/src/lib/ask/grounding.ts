@@ -48,7 +48,7 @@ export const CONNECTIVES: ReadonlySet<string> = new Set(
     "else other thing things specific specifically information info find found read let feel free version quick brief " +
     "overview example examples list below above following main key points highlights doesn don isn aren didn wasn won " +
     "not unfortunately sorry though however instead which where when who how why work works job day include includes " +
-    "including involve involves practice these those this that " +
+    "including involve involves practice these those this that only background instructions rules " +
     "claro certo posso pode quer queria gostaria saber mais detalhe detalhes pergunta perguntas perguntar contar conto falar " +
     "ajudar ajudo feliz aqui resumo resumindo basicamente principalmente paginas pagina site diz dizem menciona mencionam " +
     "fala falam cita fonte fontes resposta algo outra outro outras outros coisa coisas especifico especifica informacao " +
@@ -138,6 +138,16 @@ export function plainText(text: string): string {
 }
 
 const URL_PATTERN = /\b(?:https?:\/\/|www\.)\S+|\b[\w-]+(?:\.[\w-]+)*\.(?:com|dev|io|br|org|net|ai|app|me)\b(?:\/\S*)?/i;
+
+/**
+ * Whether dropping a sentence for `reason` lost a claim, which makes the
+ * answer partial: anything that cited a passage, or named a fact or a link.
+ * An uncited sentence dropped only for its wording (a connective the check
+ * did not recognize) or for being empty lost nothing the visitor asked for.
+ */
+export function isClaim(reason: DropReason, cited: readonly number[]): boolean {
+  return cited.length > 0 || reason === "new-fact" || reason === "url" || reason === "bad-source";
+}
 
 /** Whether a sentence carries a URL or a domain: the model never links, the source cards do. */
 export function hasUrl(text: string): boolean {
@@ -321,6 +331,8 @@ export interface GroundingResult {
   incomplete: boolean;
   sentences: GroundedSentence[];
   dropped: DropReason[];
+  /** A dropped sentence was a claim (`isClaim`), so the answer is partial. */
+  claimDropped: boolean;
 }
 
 /**
@@ -333,14 +345,22 @@ export function groundAnswer(content: string, corpus: Corpus): GroundingResult |
   if (answer === null) return null;
   const dropped: DropReason[] = [];
   const sentences: GroundedSentence[] = [];
+  let claimDropped = false;
   for (const sentence of answer.sentences.slice(0, MAX_SENTENCES)) {
     const cited = [...new Set(sentence.sources)].map((id) => id - 1);
     const check = checkSentence(sentence.text, cited, corpus);
     if (!check.ok) {
       dropped.push(check.reason);
+      claimDropped ||= isClaim(check.reason, cited);
       continue;
     }
     sentences.push({ text: check.text.trim(), passages: cited });
   }
-  return { answerable: answer.answerable, incomplete: answer.incomplete, sentences: answer.answerable ? sentences : [], dropped };
+  return {
+    answerable: answer.answerable,
+    incomplete: answer.incomplete,
+    sentences: answer.answerable ? sentences : [],
+    dropped,
+    claimDropped,
+  };
 }

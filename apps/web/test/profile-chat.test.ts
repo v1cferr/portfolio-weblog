@@ -428,6 +428,7 @@ describe("grounding", () => {
       { text: "Answers cite the note they came from.", passages: [2] },
     ]);
     expect(result?.dropped).toEqual(["new-fact", "bad-source"]);
+    expect(result?.claimDropped).toBe(true);
   });
 
   it("keeps nothing when the model says the passages do not answer", () => {
@@ -673,6 +674,18 @@ describe("ask", () => {
     expect(text).toBe("I built a personal RAG chatbot over an Obsidian vault. ");
     expect(events).toContainEqual({ type: "partial" });
     expect(text).not.toMatch(/Microsoft|Nobel/);
+  });
+
+  it("does not call an answer partial for a dropped connective, only for a dropped claim", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". Zebras pirouette gracefully nearby." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(events.filter((event) => event.type === "text")).toEqual([
+      { type: "text", text: "I built a personal RAG chatbot over an Obsidian vault. " },
+    ]);
+    expect(events).not.toContainEqual({ type: "partial" });
   });
 
   it("says the site does not know when Claude answers briefly and cites nothing", async () => {
