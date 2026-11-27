@@ -167,7 +167,7 @@ curiosities:
       pt-br: >-
         Minha única tatuagem de games é o leão da Aliança, de World of Warcraft. Para mim,
         ele simboliza coragem, força e autoconsciência, e gosto demais dela.
-    href: /wow
+    href: /tattoos#alliance-lion
     media:
       src: /about/alliance-tattoo.webp
       width: 860
@@ -175,6 +175,18 @@ curiosities:
       alt:
         en-us: Forearm with a black tattoo of the lion's head emblem of the World of Warcraft Alliance
         pt-br: Antebraço com uma tatuagem preta do emblema da cabeça de leão da Aliança de World of Warcraft
+  # DRAFT (2026-11-26): written by Claude from my tattoo notes; owner to review.
+  # Shows only on previews until it is published with the tattoos page.
+  - id: usb-tattoo
+    status: review
+    text:
+      en-us: >-
+        My other tattoo is the USB trident, on my right wrist: my anchor, because I have
+        always liked technology and it will be part of my life for good.
+      pt-br: >-
+        A minha outra tatuagem é o tridente do USB, no pulso direito: a minha âncora,
+        porque sempre gostei de tecnologia e ela vai fazer parte da minha vida para sempre.
+    href: /tattoos#usb-trident
   - id: wow-on-nix
     text:
       en-us: >-

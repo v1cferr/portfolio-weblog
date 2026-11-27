@@ -8,6 +8,17 @@ import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
 import { galleryId, type LightboxItem } from "@/components/lightbox/photo-param";
 import { SectionHeading } from "@/components/page-header";
 import { Link } from "@/i18n/navigation";
+import { SHOWS_REVIEW } from "@/lib/preview";
+import { getTattoos } from "@/lib/tattoos";
+
+/** A curiosity shows when published, or in review on a preview deployment (ADR 0019). */
+const shown = (status: string) => status === "published" || (SHOWS_REVIEW && status === "review");
+
+/** The href, unless it points at a page that is hidden right now (the tattoos page before it is published). */
+function visibleHref(href: string | undefined): string | undefined {
+  if (href === undefined) return undefined;
+  return /^\/tattoos(?:[#?]|$)/.test(href) && getTattoos() === undefined ? undefined : href;
+}
 
 /**
  * The end of the About page: personal facts in the owner's words. A photo opens
@@ -15,8 +26,9 @@ import { Link } from "@/i18n/navigation";
  * this site that tells more, down to the element (`/setup#<item>`). Each card
  * is a deep link itself: `/about#curiosity-<id>`.
  */
-export async function Curiosities({ items }: { items: Profile["curiosities"] }) {
+export async function Curiosities({ items: all }: { items: Profile["curiosities"] }) {
   const [locale, t] = await Promise.all([getLocale(), getTranslations("About")]);
+  const items = all.filter((item) => shown(item.status)).map((item) => ({ ...item, href: visibleHref(item.href) }));
   if (items.length === 0) return null;
 
   const photos = items.flatMap((item) => (item.media === undefined ? [] : [item.media]));
