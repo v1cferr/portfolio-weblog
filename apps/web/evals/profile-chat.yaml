@@ -157,7 +157,9 @@ questions:
     expect: [/en-us/career/fai-ufscar-2026, /en-us/about, /en-us/projects/obsidian-rag]
   - locale: pt-br
     question: Sou recrutador de uma vaga de frontend com React. O Victor tem experiência para isso?
-    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/career/freelance-2024, /pt-br/projects/learning-react-next]
+    # The About page counts too, as in the English case: it carries the current role and Rian's
+    # recommendation about my React work (eval run of 2026-11-27).
+    expect: [/pt-br/career/xmart-solutions-2024, /pt-br/career/freelance-2024, /pt-br/projects/learning-react-next, /pt-br/about]
 
 # Sentences a model might write, scored against the passages retrieved for
 # the question. Grounded ones paraphrase the content; the others add claims the
