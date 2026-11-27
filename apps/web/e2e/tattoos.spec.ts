@@ -100,8 +100,9 @@ test.describe("tattoos page", () => {
 
     await page.goto("/pt-br/about");
     const curiosities = page.getByTestId("curiosities");
-    await expect(curiosities.locator('a[href="/pt-br/tattoos#alliance-lion"]')).toHaveCount(1);
-    await expect(curiosities.locator('a[href="/pt-br/tattoos#usb-trident"]')).toHaveCount(1);
+    // The photo and the "more" link both point at the card.
+    await expect(curiosities.locator('a[href="/pt-br/tattoos#alliance-lion"]')).toHaveCount(2);
+    await expect(curiosities.locator('a[href="/pt-br/tattoos#usb-trident"]')).toHaveCount(2);
   });
 
   test("is reached from the About curiosities, not the footer, and is in the sitemap", async ({ page, request }) => {
