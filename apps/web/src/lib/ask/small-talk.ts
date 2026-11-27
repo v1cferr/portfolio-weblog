@@ -8,7 +8,7 @@
 export type SmallTalk = "greeting" | "thanks" | "goodbye" | "capabilities";
 
 /** Accent-folded, lower case, without punctuation and emoji. */
-function fold(text: string): string {
+export function fold(text: string): string {
   return text
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")

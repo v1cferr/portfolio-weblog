@@ -18,6 +18,7 @@ import { siteDoesNotSay, takeGapMarker } from "./gap";
 import { type ChatMessage, type CompletionResult, complete } from "./openrouter";
 import { buildMessages } from "./prompt";
 import type { AskEvent, AskTurn, FallbackReason } from "./protocol";
+import { isOffTopic, offTopicReply } from "./off-topic";
 import { moreAbout, smallTalk, smallTalkReply } from "./small-talk";
 import { CitationMap, extractiveSources } from "./sources";
 
@@ -380,6 +381,8 @@ export function focusPassages(retrieved: readonly RetrievedPassage[], site: read
  *   OpenRouter models answer under the same rules from the search's pages
  *   (plus the profile when the search finds too little); if they cannot
  *   either, the answer is those pages themselves (extractive).
+ * - A first question that names neither the owner nor the site and that the
+ *   search finds nothing for is off topic: a fixed reply, no model.
  * - No source, no answer: only when no model can answer and the search found
  *   nothing.
  * - When the model finds no answer, the answer is that the site does not say.
@@ -394,6 +397,14 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
   }
 
   const retrieved = retrieveFor(context.retriever, input.question, input.history);
+  // Nothing about the owner or the site in a first question: a fixed reply, no model (off-topic.ts).
+  if (isOffTopic(input.question, retrieved, input.history.length)) {
+    context.log?.("off-topic");
+    yield { type: "status", mode: "small-talk" };
+    yield { type: "text", text: offTopicReply(input.locale) };
+    yield { type: "done" };
+    return;
+  }
   const site = (context.site ?? []).map(asRetrieved);
   const claude = context.claude ?? null;
   const wholeSite = claude !== null && site.length > 0;
