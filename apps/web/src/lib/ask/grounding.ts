@@ -7,7 +7,8 @@ import { z } from "zod";
  * server splits it into sentences and checks each one before the visitor sees
  * it. Nothing here trusts the prompt.
  *
- * - A sentence that cites passages must stay close to them (faithfulness).
+ * - A sentence that cites passages must stay close to them, and to the
+ *   visitor's own words (faithfulness).
  * - A sentence that cites nothing (a connective, a summary, an offer to say
  *   more, "the site doesn't say") passes only when it adds no new fact: every
  *   number, URL, capitalized term and name in it already appears in the
@@ -49,13 +50,15 @@ export const CONNECTIVES: ReadonlySet<string> = new Set(
     "overview example examples list below above following main key points highlights doesn don isn aren didn wasn won " +
     "not unfortunately sorry though however instead which where when who how why work works job day include includes " +
     "including involve involves practice these those this that only background instructions rules " +
+    // Time words relate dates the passages give; the dates themselves are checked as facts.
+    "currently today now since until before after then later earlier present ago meanwhile alongside parallel " +
     "claro certo posso pode quer queria gostaria saber mais detalhe detalhes pergunta perguntas perguntar contar conto falar " +
     "ajudar ajudo feliz aqui resumo resumindo basicamente principalmente paginas pagina site diz dizem menciona mencionam " +
     "fala falam cita fonte fontes resposta algo outra outro outras outros coisa coisas especifico especifica informacao " +
     "informacoes encontrei encontrar leia fique vontade tambem sim bem otimo boa bom versao rapido rapida breve exemplo " +
     "exemplos lista abaixo acima seguir principais pontos destaques nao infelizmente desculpe porem entanto trabalho " +
     "trabalhos dia inclui incluem incluindo envolve envolvem pratica quiser querer desses dessas desse dessa algum " +
-    "alguma alguns algumas"
+    "alguma alguns algumas atualmente hoje agora desde ate antes depois entao paralelo atual"
   ).split(/\s+/)
 );
 
@@ -159,20 +162,73 @@ export function hasUrl(text: string): boolean {
 }
 
 /**
+ * Month names in the answer languages, by month number. Passages give dates
+ * as partial ISO dates ("2026-08 – present"), and a model writes them in words
+ * ("since August 2026", "desde agosto de 2026"); both name the same fact.
+ */
+const MONTHS: readonly (readonly string[])[] = [
+  ["january", "jan", "janeiro"],
+  ["february", "feb", "fevereiro", "fev"],
+  ["march", "mar", "marco"],
+  ["april", "apr", "abril", "abr"],
+  ["may", "maio", "mai"],
+  ["june", "jun", "junho"],
+  ["july", "jul", "julho"],
+  ["august", "aug", "agosto", "ago"],
+  ["september", "sep", "sept", "setembro", "set"],
+  ["october", "oct", "outubro", "out"],
+  ["november", "nov", "novembro"],
+  ["december", "dec", "dezembro", "dez"],
+];
+const MONTH_NUMBER = new Map(MONTHS.flatMap((names, index) => names.map((name) => [name, index + 1] as const)));
+const YEAR_MONTH = /\b(\d{4})-(\d{2})\b/g;
+
+/** The month (1-12) a word names, accent- and case-insensitive; undefined for any other word. */
+export function monthOf(word: string): number | undefined {
+  return MONTH_NUMBER.get(normalizeTerm(word).replace(/\.$/, ""));
+}
+
+/**
+ * Words a passage's partial dates stand for: "2026-08" also reads as "2026",
+ * "august" and "agosto". Added to the passages' vocabulary for the
+ * faithfulness check, so "since August 2026" scores like "2026-08".
+ */
+export function dateWords(text: string): string[] {
+  // Full names only: "set", "out" and "ago" are words too.
+  const names = (month: string) => (MONTHS[Number(month) - 1] ?? []).filter((name) => name.length > 3 || name === "may");
+  return [...text.matchAll(YEAR_MONTH)].flatMap(([, year = "", month = ""]) => [year, ...names(month)]);
+}
+
+/**
+ * Whether a month named in the sentence is one the corpus dates: some
+ * "YYYY-MM" in the corpus has that month, in a year the sentence names (or in
+ * any year, when the sentence names none), or the corpus spells it out.
+ */
+function knownMonth(month: number, sentenceYears: readonly string[], haystack: string): boolean {
+  const mm = String(month).padStart(2, "0");
+  const years = new Set([...haystack.matchAll(YEAR_MONTH)].filter(([, , m]) => m === mm).map(([, year]) => year));
+  if (sentenceYears.length === 0 ? years.size > 0 : sentenceYears.some((year) => years.has(year))) return true;
+  return (MONTHS[month - 1] ?? []).some((name) => name.length > 3 && new RegExp(`\\b${name}\\b`).test(haystack));
+}
+
+/**
  * The facts a sentence names that `corpus` (the question, the conversation
  * and the passages) does not: numbers and dates, and capitalized or technical
  * terms (proper names, products, "C#", "Node.js"). A word that only starts a
  * sentence or a list item is not a name. Matching is accent- and
- * case-insensitive, on the corpus as one text.
+ * case-insensitive, on the corpus as one text. A month counts as known when
+ * the corpus dates it (`knownMonth`), so "August 2026" matches "2026-08".
  */
 export function newFacts(sentence: string, corpus: string): string[] {
   const haystack = normalizeTerm(corpus);
   const text = plainText(sentence);
   const facts = new Set<string>();
   for (const number of text.match(/\d+(?:[.,:/-]\d+)*/g) ?? []) if (!haystack.includes(normalizeTerm(number))) facts.add(number);
+  const years = text.match(/\b\d{4}\b/g) ?? [];
   const tokens = text.split(/\s+/);
   tokens.forEach((raw, index) => {
-    const word = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}#+]+$/gu, "");
+    // A possessive names the same thing: "FAI·UFSCar's" is "FAI·UFSCar".
+    const word = raw.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}#+]+$/gu, "").replace(/['’]s$/u, "");
     if (word === "" || /^\d/.test(word)) return;
     const startsSentence = index === 0 || /[.!?:…]["')\]]*$/.test(tokens[index - 1] ?? "");
     const technical = /[#+]|\p{L}\.\p{L}|\p{Ll}\p{Lu}|\p{L}\d|\d\p{L}/u.test(word);
@@ -180,12 +236,19 @@ export function newFacts(sentence: string, corpus: string): string[] {
     // "I", "I'm", "I'd", "I've", "I'll": the speaker, not a name.
     const pronoun = /^I(?:['’](?:m|d|ve|ll))?$/.test(word);
     if (!technical && (!capitalized || startsSentence || pronoun)) return;
+    // A capitalized month is a date, checked against the corpus's dates rather than as a name.
+    const month = technical ? undefined : monthOf(word);
+    if (month !== undefined) {
+      if (!knownMonth(month, years, haystack)) facts.add(word);
+      return;
+    }
     if (!haystack.includes(normalizeTerm(word))) facts.add(word);
   });
   return [...facts];
 }
 
-export type DropReason = "no-sources" | "bad-source" | "empty" | "url" | "new-fact" | "unfaithful";
+/** Why a sentence was dropped; "dangling" is a lead-in line ("…I did:") whose list items were all dropped. */
+export type DropReason = "no-sources" | "bad-source" | "empty" | "url" | "new-fact" | "unfaithful" | "dangling";
 
 /** What a sentence is checked against: the passages sent, and the visitor's words (question and conversation). */
 export interface Corpus {
@@ -211,10 +274,12 @@ export function checkSentence(text: string, cited: readonly number[], corpus: Co
   if (hasUrl(plain)) return { ok: false, reason: "url" };
   const everything = `${corpus.conversation}\n${corpus.passages.map((passage) => `${passage.title} ${passage.keywords} ${passage.text}`).join("\n")}`;
   if (newFacts(plain, everything).length > 0) return { ok: false, reason: "new-fact" };
+  // The visitor's own words are never a new fact: a cited sentence may echo the question ("for a React role, …").
+  const conversation = { title: "", keywords: "", text: corpus.conversation };
   const against =
     cited.length > 0
-      ? [...new Set(cited)].flatMap((index) => corpus.passages[index] ?? [])
-      : [...corpus.passages, { title: "", keywords: "", text: corpus.conversation }];
+      ? [...[...new Set(cited)].flatMap((index) => corpus.passages[index] ?? []), conversation]
+      : [...corpus.passages, conversation];
   if (faithfulness(plain, against, CONNECTIVES) < FAITHFULNESS_THRESHOLD) return { ok: false, reason: "unfaithful" };
   return { ok: true, text: markdown };
 }
@@ -308,7 +373,7 @@ function matches(word: string, vocabulary: Set<string>, stems: Set<string>): boo
 /**
  * Share of the sentence's content words found in the passages (1 when it has
  * none to check). Words in `ignore` (conversational connectives) are not
- * counted.
+ * counted. A passage's partial dates count in words too (`dateWords`).
  */
 export function faithfulness(
   sentence: string,
@@ -317,7 +382,12 @@ export function faithfulness(
 ): number {
   const words = contentWords(sentence).filter((word) => !ignore.has(word));
   if (words.length === 0) return 1;
-  const vocabulary = new Set(passages.flatMap((passage) => contentWords(`${passage.title} ${passage.keywords} ${passage.text}`)));
+  const vocabulary = new Set(
+    passages.flatMap((passage) => {
+      const text = `${passage.title} ${passage.keywords} ${passage.text}`;
+      return [...contentWords(text), ...dateWords(text)];
+    })
+  );
   const stems = new Set([...vocabulary].filter((word) => word.length >= 5).map((word) => word.slice(0, 5)));
   return words.filter((word) => matches(word, vocabulary, stems)).length / words.length;
 }

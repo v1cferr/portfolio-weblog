@@ -292,6 +292,9 @@ describe("prompt", () => {
   it("is conversational, in the owner's first person, and keeps the grounding rules", () => {
     const prompt = systemPrompt("pt-br");
     expect(prompt).toContain("in the first person");
+    // An eval answer opened with "Your security background…" to "What security experience do I have?".
+    expect(prompt).toContain('never "you" or "your"');
+    expect(prompt).toContain("never work out durations");
     expect(prompt).not.toContain("third person");
     expect(prompt).toContain("Cite every fact");
     expect(prompt).toContain("must not name anything the documents or the visitor did not");
@@ -867,5 +870,120 @@ describe("answer Markdown", () => {
         { type: "text", text: "- C# at Xmart" },
       ])
     ).toBe("Sure! I work at **FAI·UFSCar**.[1](#cite-1) Before that:\n- support at VIP Telecom[2](#cite-2)[3](#cite-3)\n- C# at Xmart");
+  });
+});
+
+// False drops found by the eval run of 2026-11-27 (17 of 34 Claude answers lost a sentence).
+describe("grounding, dates in words and possessives", () => {
+  const role = passage("profile:about:en-us", "/en-us/about", {
+    type: "profile",
+    title: "Victor Ferreira · AI Systems Analyst",
+    text:
+      "Current role: AI Systems Analyst · FAI·UFSCar (2026-08 – present); Software-AI developer · Freelance (2024-04 – present).\n" +
+      "Location: São Carlos, SP, Brazil.",
+  });
+  const roleCorpus = corpus([role], "What is Victor's current role?");
+
+  it("keeps a month written in words when the passages date it", () => {
+    expect(checkSentence("I'm currently an AI Systems Analyst at FAI·UFSCar, since August 2026.", [0], roleCorpus)).toMatchObject({
+      ok: true,
+    });
+    expect(
+      checkSentence("Alongside that, I've worked as a freelance Software-AI developer since April 2024.", [0], roleCorpus)
+    ).toMatchObject({
+      ok: true,
+    });
+    const pt = corpus([{ ...role, locale: "pt-br" }], "Qual é o cargo atual do Victor?");
+    expect(checkSentence("Desde agosto de 2026 sou AI Systems Analyst na FAI·UFSCar.", [0], pt)).toMatchObject({ ok: true });
+  });
+
+  it("still drops a month or a year the passages do not date", () => {
+    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since May 2026.", [0], roleCorpus)).toEqual({
+      ok: false,
+      reason: "new-fact",
+    });
+    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since August 2019.", [0], roleCorpus)).toEqual({
+      ok: false,
+      reason: "new-fact",
+    });
+    expect(newFacts("I joined in March.", role.text)).toEqual(["March"]);
+  });
+
+  it("reads a possessive as the name it is attached to, and still catches an invented one", () => {
+    expect(newFacts("I work on FAI·UFSCar's AI projects.", role.text)).toEqual([]);
+    expect(newFacts("I work on Google's AI projects.", role.text)).toEqual(["Google"]);
+  });
+
+  it("lets a cited sentence echo the visitor's words", () => {
+    const hiring = corpus([role], "I'm hiring a frontend engineer for a startup. Would Victor fit?");
+    expect(checkSentence("For a frontend startup role, I'm an AI Systems Analyst at FAI·UFSCar.", [0], hiring)).toMatchObject({ ok: true });
+    // The visitor's words help only the sentence's wording; an invented employer is still a new fact.
+    expect(checkSentence("For a frontend startup role, I led frontend at Netflix.", [0], hiring)).toEqual({
+      ok: false,
+      reason: "new-fact",
+    });
+  });
+
+  it("does not let time words carry an invented claim", () => {
+    expect(checkSentence("Currently I'm also a professional chess grandmaster and pilot.", [0], roleCorpus)).toEqual({
+      ok: false,
+      reason: "unfaithful",
+    });
+  });
+});
+
+describe("ask, list lead-ins", () => {
+  const input = { locale: "en-us", question: "What RAG has he built?", history: [] };
+  const texts = (events: AskEvent[]) => events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+
+  it("keeps a lead-in when its list items survive", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". Some of the things it does:\n" },
+      { text: "- Answers cite the note they came from", cited: [2] },
+      { text: "\n" },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe(
+      "I built a personal RAG chatbot over an Obsidian vault. Some of the things it does:\n- Answers cite the note they came from\n"
+    );
+  });
+
+  it("drops a lead-in whose list items were all dropped, without calling it a claim", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". Some of the things it does:\n" },
+      { text: "- It won the Nobel Prize in physics", cited: [2] },
+      { text: "\n- It runs on Microsoft quantum servers", cited: [2] },
+      { text: "\n" },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault. ");
+    // Partial because the items were claims, not because of the lead-in.
+    expect(events).toContainEqual({ type: "partial" });
+  });
+
+  it("drops a lead-in followed by a sentence instead of a list", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". Here is what it does:\n" },
+      { text: "Answers cite the note they came from", cited: [2] },
+      { text: "." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault. Answers cite the note they came from.");
+    expect(events).not.toContainEqual({ type: "partial" });
+  });
+
+  it("does the same on the free models' JSON answers", async () => {
+    const generate = fakeModel(
+      answer([
+        { text: "I built a personal RAG chatbot over an Obsidian vault.", sources: [3] },
+        { text: "Some of the things it does:", sources: [] },
+        { text: "- It won the Nobel Prize in physics", sources: [3] },
+      ])
+    );
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
+    expect(texts(events)).not.toContain("things it does");
   });
 });
