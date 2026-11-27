@@ -1,4 +1,4 @@
-import { MAX_PASSAGES, type Retriever, type RetrievedPassage } from "@workspace/search";
+import { MAX_PASSAGES, type Passage, type Retriever, type RetrievedPassage } from "@workspace/search";
 
 import { type ClaudeAnswer, ClaudeFailure } from "./anthropic";
 import {
@@ -32,6 +32,13 @@ export type Generate = (messages: ChatMessage[], signal?: AbortSignal) => Promis
 
 export interface AskContext {
   retriever: Retriever;
+  /**
+   * Every public passage of the locale, in a stable order. Claude reads all
+   * of it, so a vague question ("who is Victor?") still has something to
+   * answer from; the profile passage is the core the free models get when
+   * the search finds too little. Absent in tests that only need the search.
+   */
+  site?: readonly Passage[];
   /** Claude, first choice; null or absent without ANTHROPIC_API_KEY. */
   claude?: ClaudeAnswer | null;
   /** The free OpenRouter models, the fallback; null without OPENROUTER_API_KEY. */
@@ -125,11 +132,15 @@ class Emitter {
   private started = false;
   private sentences = 0;
   private length = 0;
+  /** What an uncited sentence may draw on: the pages the answer is about, plus every passage cited so far. */
+  private readonly scope: RetrievedPassage[];
 
   constructor(
     private readonly corpus: Corpus,
     readonly citations: CitationMap
-  ) {}
+  ) {
+    this.scope = [...(corpus.scope ?? corpus.passages)];
+  }
 
   get sent() {
     return this.started;
@@ -144,11 +155,15 @@ class Emitter {
       if (sentence.text.trim() !== "") this.truncated = true;
       return;
     }
-    const check = checkSentence(sentence.text, sentence.cited, this.corpus);
+    const check = checkSentence(sentence.text, sentence.cited, { ...this.corpus, scope: this.scope });
     if (!check.ok) {
       this.dropped.push(check.reason);
       this.claimDropped ||= isClaim(check.reason, sentence.cited);
       return;
+    }
+    for (const index of sentence.cited) {
+      const passage = this.corpus.passages[index];
+      if (passage !== undefined && !this.scope.includes(passage)) this.scope.push(passage);
     }
     const checked = { text: check.text, cited: sentence.cited };
     if (LEAD_IN.test(checked.text)) {
@@ -230,9 +245,10 @@ async function* fromClaude(
   input: AskInput,
   passages: readonly RetrievedPassage[],
   corpus: Corpus,
+  related: readonly RetrievedPassage[],
   context: AskContext
 ): AsyncGenerator<AskEvent, Outcome, undefined> {
-  const emitter = new Emitter(corpus, new CitationMap(passages));
+  const emitter = new Emitter(corpus, new CitationMap(passages, related));
   const buffer = new SentenceBuffer();
   let stopReason: string | null = null;
   /** Claude ended with the marker: the pages cover only part of the question. */
@@ -328,18 +344,40 @@ async function* fromOpenRouter(
   return { kind: "answered" };
 }
 
+/** A site passage as the engine handles it: not found by a search, so no score and no matched terms. */
+export function asRetrieved(passage: Passage): RetrievedPassage {
+  return { ...passage, score: 0, terms: [] };
+}
+
+/** With fewer pages than this from the search, the profile passage joins them (the free models' core). */
+const CORE_BELOW = 2;
+
+/**
+ * The pages an answer is about: the search's, and the profile passage (who
+ * Victor is, his current role) when the search finds too little, as for "who
+ * is Victor?". The free models read these; Claude reads the whole site, and
+ * these scope what an uncited sentence may draw on (grounding.ts).
+ */
+export function focusPassages(retrieved: readonly RetrievedPassage[], site: readonly RetrievedPassage[]): RetrievedPassage[] {
+  if (retrieved.length >= CORE_BELOW) return [...retrieved];
+  const ids = new Set(retrieved.map((passage) => passage.id));
+  return [...retrieved, ...site.filter((passage) => passage.type === "profile" && !ids.has(passage.id))];
+}
+
 /**
  * The whole answer as events (protocol.ts).
  * - Small talk gets a fixed reply, with no search and no model.
- * - No source, no answer: without a passage above the threshold no model is
- *   called.
- * - Claude Haiku 5.5 answers first, streamed with citations, every sentence
- *   checked before it is sent (grounding.ts). If it is not configured, fails,
- *   times out, refuses, or breaks before a checked sentence went out, the
- *   free OpenRouter models answer under the same rules; if they cannot
- *   either, the answer is the matching passages themselves (extractive).
- * - When the model finds no answer in the passages, the answer is that the
- *   site does not say.
+ * - Claude Haiku 5.5 answers first and reads the whole site (ADR 0011,
+ *   2026-11-27): the question does not have to name what it is about.
+ *   Its answer is streamed with citations, every sentence checked before it
+ *   is sent (grounding.ts). If it is not configured, fails, times out,
+ *   refuses, or breaks before a checked sentence went out, the free
+ *   OpenRouter models answer under the same rules from the search's pages
+ *   (plus the profile when the search finds too little); if they cannot
+ *   either, the answer is those pages themselves (extractive).
+ * - No source, no answer: only when no model can answer and the search found
+ *   nothing.
+ * - When the model finds no answer, the answer is that the site does not say.
  */
 export async function* ask(input: AskInput, context: AskContext): AsyncGenerator<AskEvent, void, undefined> {
   const intent = smallTalk(input.question);
@@ -350,33 +388,46 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
     return;
   }
 
-  const passages = retrieveFor(context.retriever, input.question, input.history);
-  if (passages.length === 0) {
+  const retrieved = retrieveFor(context.retriever, input.question, input.history);
+  const site = (context.site ?? []).map(asRetrieved);
+  const claude = context.claude ?? null;
+  const wholeSite = claude !== null && site.length > 0;
+  const focus = focusPassages(retrieved, site);
+  const noModel = claude === null && context.generate === null;
+  if ((noModel && retrieved.length === 0) || (!wholeSite && focus.length === 0)) {
     yield { type: "status", mode: "no-source" };
     yield { type: "done" };
     return;
   }
-  const claude = context.claude ?? null;
-  if (claude === null && context.generate === null) {
-    yield* extractive(passages, "unavailable");
+  if (noModel) {
+    yield* extractive(focus, "unavailable");
     return;
   }
   if ((await context.isRateLimited?.()) === true) {
-    yield* extractive(passages, "rate-limited");
+    if (focus.length === 0) {
+      yield { type: "status", mode: "no-source" };
+      yield { type: "done" };
+      return;
+    }
+    yield* extractive(focus, "rate-limited");
     return;
   }
 
-  // The model can take a while: show which pages it is reading meanwhile.
-  yield { type: "reading", pages: new CitationMap(passages).sources().map(({ title, url }) => ({ title, url })) };
-  const corpus: Corpus = {
-    passages,
-    conversation: [...input.history.flatMap((turn) => [turn.question, turn.answer]), input.question].join("\n"),
+  // The model can take a while: show which pages the answer is about meanwhile (and that Claude read them all).
+  yield {
+    type: "reading",
+    pages: new CitationMap(focus).sources().map(({ title, url }) => ({ title, url })),
+    ...(wholeSite && { site: true }),
   };
+  const conversation = [...input.history.flatMap((turn) => [turn.question, turn.answer]), input.question].join("\n");
 
   let outcome: Outcome = { kind: "fallback", reason: "unavailable" };
-  if (claude !== null) outcome = yield* fromClaude(claude, input, passages, corpus, context);
-  if (outcome.kind === "fallback" && context.generate !== null)
-    outcome = yield* fromOpenRouter(context.generate, input, passages, corpus, context);
+  if (claude !== null) {
+    const documents = wholeSite ? site : focus;
+    outcome = yield* fromClaude(claude, input, documents, { passages: documents, scope: focus, conversation }, retrieved, context);
+  }
+  if (outcome.kind === "fallback" && context.generate !== null && focus.length > 0)
+    outcome = yield* fromOpenRouter(context.generate, input, focus, { passages: focus, conversation }, context);
 
   switch (outcome.kind) {
     case "answered":
@@ -384,14 +435,19 @@ export async function* ask(input: AskInput, context: AskContext): AsyncGenerator
       return;
     case "unknown":
       yield { type: "checking" };
-      yield* unknown(passages);
+      yield* unknown(focus);
       return;
     case "ungrounded":
       yield { type: "checking" };
-      yield* extractive(passages, "ungrounded");
+      yield* focus.length > 0 ? extractive(focus, "ungrounded") : unknown(focus);
       return;
     case "fallback":
-      yield* extractive(passages, "error");
+      if (focus.length === 0) {
+        yield { type: "error" };
+        yield { type: "done" };
+        return;
+      }
+      yield* extractive(focus, "error");
       return;
   }
 }

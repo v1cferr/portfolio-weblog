@@ -307,7 +307,7 @@ describe("prompt", () => {
     expect(jsonSystemPrompt("en-us")).toContain("Reply with JSON only");
   });
 
-  it("asks Claude Haiku 5.5 with one cited plain-text document per passage, low effort and a cached system prompt", () => {
+  it("asks Claude Haiku 5.5 with the documents first, cached, then the conversation, at low effort", () => {
     const request = buildClaudeRequest(
       "en-us",
       "What RAG has he built?",
@@ -323,21 +323,42 @@ describe("prompt", () => {
     expect(request.output_config).not.toHaveProperty("format");
     expect(request.system).toEqual([{ type: "text", text: systemPrompt("en-us"), cache_control: { type: "ephemeral" } }]);
     expect(request.messages.map((message) => message.role)).toEqual(["user", "assistant", "user"]);
-    const last = request.messages.at(-1);
-    const content = Array.isArray(last?.content) ? last.content : [];
-    expect(content.slice(0, 2)).toEqual([
+    // The documents open the conversation, so the cached prefix holds for every follow-up.
+    const first = request.messages[0];
+    const content = Array.isArray(first?.content) ? first.content : [];
+    expect(content).toEqual([
       {
         type: "document",
         source: { type: "text", media_type: "text/plain", data: PASSAGES[0]?.text },
         title: "Post A › Setup",
         citations: { enabled: true },
       },
-      expect.objectContaining({ type: "document", title: "Post A › Results", citations: { enabled: true } }),
+      expect.objectContaining({
+        type: "document",
+        title: "Post A › Results",
+        citations: { enabled: true },
+        cache_control: { type: "ephemeral" },
+      }),
+      { type: "text", text: "First?" },
     ]);
-    expect(content.at(-1)).toEqual({ type: "text", text: "What RAG has he built?" });
+    expect(request.messages[1]).toEqual({ role: "assistant", content: "I did X." });
     // No prefill: the conversation ends on the visitor's turn.
-    expect(last?.role).toBe("user");
+    expect(request.messages.at(-1)).toEqual({ role: "user", content: "What RAG has he built?" });
     expect(JSON.stringify(request)).not.toMatch(/\/en-us\//);
+  });
+
+  it("puts the question right after the documents when there is no history", () => {
+    const request = buildClaudeRequest("en-us", "Who is Victor?", [], PASSAGES.slice(0, 1));
+    expect(request.messages).toHaveLength(1);
+    const content = request.messages[0]?.content;
+    expect(Array.isArray(content) && content.at(-1)).toEqual({ type: "text", text: "Who is Victor?" });
+    expect(Array.isArray(content) && content[0]).toEqual(expect.objectContaining({ cache_control: { type: "ephemeral" } }));
+  });
+
+  it("lets Claude answer vague questions with a first-person view, never praise beyond the facts", () => {
+    const prompt = systemPrompt("pt-br");
+    expect(prompt).toContain("Questions do not have to be precise");
+    expect(prompt).toContain("Never praise beyond the facts");
   });
 });
 
@@ -604,6 +625,94 @@ describe("ask", () => {
     expect(events).toEqual([{ type: "status", mode: "no-source" }, { type: "done" }]);
     expect(generate).not.toHaveBeenCalled();
     expect(claude.calls).toHaveLength(0);
+  });
+
+  describe("whole site (2026-11-27)", () => {
+    const PROFILE = passage("profile:me:en-us", "/en-us/about", {
+      type: "profile",
+      title: "Victor Ferreira · AI Systems Analyst",
+      text: "Victor Ferreira (v1cferr): AI Systems Analyst.\nCurrent role: AI Systems Analyst · FAI·UFSCar (2026-08 – present).",
+    });
+    const SITE = [PROFILE, ...PASSAGES];
+    const vague = { ...input, question: "who is victor?" };
+
+    it("asks Claude about a vague question the search cannot place, with every page of the site", async () => {
+      const claude = fakeClaude([
+        { text: "I'm an AI Systems Analyst at FAI·UFSCar", cited: [0] },
+        { text: ". " },
+        { text: "I also built a personal RAG chatbot over an Obsidian vault", cited: [3] },
+        { text: "." },
+      ]);
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude, generate: null }), true);
+      expect(claude.calls[0]?.passages.map((item) => item.id)).toEqual(SITE.map((item) => item.id));
+      expect(events[0]).toEqual({ type: "reading", pages: [{ title: PROFILE.title, url: "/en-us/about" }], site: true });
+      expect(events).toContainEqual({ type: "status", mode: "model" });
+      const sources = events.find((event) => event.type === "sources");
+      expect(sources).toEqual({
+        type: "sources",
+        sources: [
+          { n: 1, title: PROFILE.title, url: "/en-us/about" },
+          { n: 2, title: "obsidian-rag", url: "/en-us/projects/b" },
+        ],
+      });
+    });
+
+    it("keeps an uncited sentence to the pages the answer is about, though Claude read them all", async () => {
+      // "Obsidian" is on the site, but in a page this answer neither is about nor cites: stitched in uncited, it is dropped.
+      const claude = fakeClaude([
+        { text: "I'm an AI Systems Analyst at FAI·UFSCar", cited: [0] },
+        { text: ". I think my profile fits AI roles well. I also love Obsidian. " },
+      ]);
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude, generate: null }));
+      const text = events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+      expect(text).toContain("I think my profile fits AI roles well.");
+      expect(text).not.toContain("Obsidian");
+      expect(events).toContainEqual({ type: "partial" });
+    });
+
+    it("lets an uncited view name what the answer cited earlier", async () => {
+      const claude = fakeClaude([
+        { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [3] },
+        { text: ". I think Obsidian notes are a good base for that. " },
+      ]);
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude, generate: null }));
+      const text = events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+      expect(text).toContain("Obsidian notes are a good base");
+      expect(events).not.toContainEqual({ type: "partial" });
+    });
+
+    it("still drops an invented employer, number or date in a first-person view", async () => {
+      const claude = fakeClaude([
+        { text: "I'm an AI Systems Analyst at FAI·UFSCar", cited: [0] },
+        { text: ". I think my 10 years at Google make me a strong fit. I believe I joined in March 2019. " },
+      ]);
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude, generate: null }));
+      const text = events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+      expect(text).not.toMatch(/Google|10 years|2019/);
+      expect(events).toContainEqual({ type: "partial" });
+    });
+
+    it("gives the free models the profile when the search finds too little", async () => {
+      const generate = fakeModel(answer([{ text: "I'm an AI Systems Analyst at FAI·UFSCar.", sources: [1] }]));
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude: null, generate }));
+      const messages = generate.mock.calls[0]?.[0] ?? [];
+      expect(messages.at(-1)?.content).toContain("Victor Ferreira · AI Systems Analyst");
+      expect(events).toContainEqual({ type: "status", mode: "model" });
+    });
+
+    it("falls back from Claude to the free models with the search's pages and the profile, not the whole site", async () => {
+      const claude = fakeClaude([], { failure: new ClaudeFailure("overloaded", 529) });
+      const generate = fakeModel(answer([{ text: "I'm an AI Systems Analyst at FAI·UFSCar.", sources: [1] }]));
+      await collect(ask(vague, { retriever: retriever([]), site: SITE, claude, generate }));
+      const last = generate.mock.calls[0]?.[0].at(-1)?.content ?? "";
+      expect(last).toContain("[1] Victor Ferreira · AI Systems Analyst");
+      expect(last).not.toContain("[2]");
+    });
+
+    it("answers no-source only when no model can answer and the search found nothing", async () => {
+      const events = await collect(ask(vague, { retriever: retriever([]), site: SITE, claude: null, generate: null }));
+      expect(events).toEqual([{ type: "status", mode: "no-source" }, { type: "done" }]);
+    });
   });
 
   it("searches a follow-up with the previous question too, and sends the previous passages again", () => {

@@ -58,7 +58,15 @@ export const CONNECTIVES: ReadonlySet<string> = new Set(
     "informacoes encontrei encontrar leia fique vontade tambem sim bem otimo boa bom versao rapido rapida breve exemplo " +
     "exemplos lista abaixo acima seguir principais pontos destaques nao infelizmente desculpe porem entanto trabalho " +
     "trabalhos dia inclui incluem incluindo envolve envolvem pratica quiser querer desses dessas desse dessa algum " +
-    "alguma alguns algumas atualmente hoje agora desde ate antes depois entao paralelo atual"
+    "alguma alguns algumas atualmente hoje agora desde ate antes depois entao paralelo atual " +
+    // First-person synthesis (2026-11-27): a view of the cited facts ("I think my profile fits a frontend role")
+    // is judged by the facts it names, which are still checked, not by the words that frame it.
+    "think believe feel guess fit fits fitting suited suit match matches matching strong solid relevant valuable useful " +
+    "worth hire hiring role roles position team teams profile skill skills interested interest enjoy love proud " +
+    "mostly mainly broadly combine combines combination mix side sides blend overall sum mean means " +
+    "acho acredito penso sinto encaixa encaixo encaixam encaixar combina combino combinam perfil forte fortes solido " +
+    "solida relevante relevantes valioso valiosa util uteis vale pena contratar contratacao vaga vagas cargo cargos " +
+    "time equipe habilidade habilidades interesse interessa gosto adoro orgulho mistura soma lado lados resumo geral"
   ).split(/\s+/)
 );
 
@@ -252,7 +260,15 @@ export type DropReason = "no-sources" | "bad-source" | "empty" | "url" | "new-fa
 
 /** What a sentence is checked against: the passages sent, and the visitor's words (question and conversation). */
 export interface Corpus {
+  /** Everything the model was sent, in order: a citation's index points here. */
   passages: readonly RetrievedPassage[];
+  /**
+   * What an uncited sentence may draw on, when narrower than `passages`: the
+   * pages the answer is about, and those it has cited so far. Claude reads
+   * the whole site, and a sentence that cites nothing must not stitch
+   * together facts from pages the answer is not about.
+   */
+  scope?: readonly RetrievedPassage[];
   /** The question and the earlier turns, as plain text. */
   conversation: string;
 }
@@ -272,14 +288,14 @@ export function checkSentence(text: string, cited: readonly number[], corpus: Co
   if (cited.some((index) => !Number.isInteger(index) || index < 0 || index >= corpus.passages.length))
     return { ok: false, reason: "bad-source" };
   if (hasUrl(plain)) return { ok: false, reason: "url" };
-  const everything = `${corpus.conversation}\n${corpus.passages.map((passage) => `${passage.title} ${passage.keywords} ${passage.text}`).join("\n")}`;
+  // A cited sentence's names may come from anything sent; an uncited one's only from what the answer is about.
+  const known = cited.length > 0 ? corpus.passages : (corpus.scope ?? corpus.passages);
+  const everything = `${corpus.conversation}\n${known.map((passage) => `${passage.title} ${passage.keywords} ${passage.text}`).join("\n")}`;
   if (newFacts(plain, everything).length > 0) return { ok: false, reason: "new-fact" };
   // The visitor's own words are never a new fact: a cited sentence may echo the question ("for a React role, …").
   const conversation = { title: "", keywords: "", text: corpus.conversation };
   const against =
-    cited.length > 0
-      ? [...[...new Set(cited)].flatMap((index) => corpus.passages[index] ?? []), conversation]
-      : [...corpus.passages, conversation];
+    cited.length > 0 ? [...[...new Set(cited)].flatMap((index) => corpus.passages[index] ?? []), conversation] : [...known, conversation];
   if (faithfulness(plain, against, CONNECTIVES) < FAITHFULNESS_THRESHOLD) return { ok: false, reason: "unfaithful" };
   return { ok: true, text: markdown };
 }
