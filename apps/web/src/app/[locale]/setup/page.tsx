@@ -122,49 +122,51 @@ export default async function SetupPage() {
                   })}
                 />
               ) : (
-                <dl className="divide-y border-y">
+                // Current parts: one card each, a single column on phones.
+                <ul className="grid gap-3 sm:grid-cols-2">
                   {group.items.map((item) => {
                     const role = localize(item.role, locale);
                     const note = item.note && localize(item.note, locale);
                     return (
-                      <div
+                      <li
                         key={item.id}
                         id={item.id}
                         data-anchor=""
-                        className="group/anchor grid gap-1 py-3 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-6"
+                        className="group/anchor glass flex min-w-0 flex-col gap-1.5 rounded-xl border px-4 py-3"
                       >
-                        <dt className="text-sm text-muted-foreground" lang={role.locale}>
+                        <p className="text-xs tracking-wide text-muted-foreground uppercase" lang={role.locale}>
                           {role.value}
-                        </dt>
-                        <dd className="space-y-1">
-                          <p className="flex items-start gap-1">
-                            {item.url !== undefined ? (
-                              <ExternalLink href={item.url} className="group/link inline-flex items-start gap-1.5 hover:text-lane-project">
-                                {item.model}
-                                <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
-                              </ExternalLink>
-                            ) : (
-                              <span>{item.model}</span>
-                            )}
-                            <CopyLink id={item.id} name={item.model} />
+                        </p>
+                        <p className="flex items-start gap-1 font-medium">
+                          {item.url !== undefined ? (
+                            <ExternalLink
+                              href={item.url}
+                              className="group/link inline-flex min-w-0 items-start gap-1.5 break-words hover:text-lane-project"
+                            >
+                              <span className="min-w-0">{item.model}</span>
+                              <ExternalLinkIcon className="icon-out mt-1 size-3 shrink-0 text-muted-foreground" aria-hidden />
+                            </ExternalLink>
+                          ) : (
+                            <span className="min-w-0 break-words">{item.model}</span>
+                          )}
+                          <CopyLink id={item.id} name={item.model} />
+                        </p>
+                        {item.since !== undefined && (
+                          <p className="font-mono text-xs text-muted-foreground">
+                            {item.until !== undefined
+                              ? t("period", { start: formatPartialDate(item.since, locale), end: formatPartialDate(item.until, locale) })
+                              : t("since", { date: formatPartialDate(item.since, locale) })}
                           </p>
-                          {item.since !== undefined && (
-                            <p className="font-mono text-xs text-muted-foreground">
-                              {item.until !== undefined
-                                ? t("period", { start: formatPartialDate(item.since, locale), end: formatPartialDate(item.until, locale) })
-                                : t("since", { date: formatPartialDate(item.since, locale) })}
-                            </p>
-                          )}
-                          {note && (
-                            <p className="max-w-3xl text-sm text-muted-foreground" lang={note.locale}>
-                              {note.value}
-                            </p>
-                          )}
-                        </dd>
-                      </div>
+                        )}
+                        {note && (
+                          <p className="text-sm text-pretty text-muted-foreground" lang={note.locale}>
+                            {note.value}
+                          </p>
+                        )}
+                      </li>
                     );
                   })}
-                </dl>
+                </ul>
               )}
             </section>
           );
