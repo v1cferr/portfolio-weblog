@@ -397,6 +397,7 @@
     "careerBreakAlongside": "Ao mesmo tempo: {work}."
   },
   "Weblog": {
+    "onThisPage": "Nesta página",
     "title": "Weblog",
     "description": "Um diário de engenharia: o que construo, como funciona e o que aprendi fazendo.",
     "published": "Publicado em {date}",

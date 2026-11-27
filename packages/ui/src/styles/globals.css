@@ -589,17 +589,31 @@
 }
 
 /*
- * Long-form articles: the reading face at a comfortable measure, colours from the
- * tokens so both themes stay consistent, code blocks themed by Shiki.
+ * Long-form articles (docs/guides/reading.md): the reading face at about 66
+ * characters a line, 17px on phones and 18px from md up, line height 1.7,
+ * colours from the tokens so both themes stay consistent, code blocks themed
+ * by Shiki. Sizes and spacing are relative, so a reader's own text spacing
+ * (WCAG 1.4.12) never clips anything.
  */
 @layer components {
+  /*
+   * The plain page colour behind a post, over the dot grid and the glow: the
+   * text sits on a calm surface while the rest of the site keeps its look. On
+   * phones it runs edge to edge; from lg up it is a sheet with a hairline rim.
+   */
+  .reading-surface {
+    @apply -mx-4 bg-background px-4 pt-2 pb-8 sm:-mx-6 sm:px-6 lg:mx-0 lg:rounded-3xl lg:px-10 lg:py-10 lg:ring-1 lg:ring-border/60;
+  }
   .prose-hub {
-    @apply prose max-w-[68ch] font-sans text-[1.0625rem] leading-[1.75] dark:prose-invert;
+    @apply prose max-w-[66ch] font-sans text-[1.0625rem] leading-[1.7] md:text-[1.125rem] dark:prose-invert;
+    hanging-punctuation: first allow-end;
     --tw-prose-body: var(--foreground);
     --tw-prose-headings: var(--foreground);
     --tw-prose-links: var(--lane-writing);
     --tw-prose-bold: var(--foreground);
-    --tw-prose-quotes: var(--muted-foreground);
+    /* Quotes are the owner's own words: full contrast, the italic and the rule set them apart. */
+    --tw-prose-quotes: var(--foreground);
+    --tw-prose-quote-borders: var(--lane-writing);
     --tw-prose-code: var(--foreground);
     /* Plain-text blocks (```text) have no Shiki colour per token, so they inherit
        this: typography's default is a light grey meant for a dark block. */
@@ -611,8 +625,13 @@
     --tw-prose-invert-headings: var(--foreground);
     --tw-prose-invert-links: var(--lane-writing);
     --tw-prose-invert-bold: var(--foreground);
+    --tw-prose-invert-quotes: var(--foreground);
+    --tw-prose-invert-quote-borders: var(--lane-writing);
     --tw-prose-invert-code: var(--foreground);
     --tw-prose-invert-pre-code: var(--foreground);
+  }
+  .prose-hub :where(p, li, blockquote, figcaption) {
+    text-wrap: pretty;
   }
   .prose-hub :where(h2) {
     @apply font-display;
