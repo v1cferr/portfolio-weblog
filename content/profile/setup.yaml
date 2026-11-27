@@ -15,16 +15,46 @@ groups:
           pt-br: Processador (CPU)
         model: Intel Core i5-11400 11ª Geração, Cache 12MB, 2.6 GHz (4.4GHz Turbo), LGA1200
         url: https://www.intel.com.br/content/www/br/pt/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html
+        media:
+          src: /setup/parts/cpu-intel-core-i5-11400.png
+          width: 1166
+          height: 1166
+          alt:
+            en-us: Intel Core i5 badge, the official image of the Intel Core i5-11400 processor
+            pt-br: Selo Intel Core i5, a imagem oficial do processador Intel Core i5-11400
+          credit:
+            label: Intel
+            url: https://www.intel.com/content/www/us/en/products/sku/212270/intel-core-i511400-processor-12m-cache-up-to-4-40-ghz/specifications.html
       - id: mobo-asus-ex-b560m-v5
         role:
           pt-br: Placa-mãe (MOBO)
         model: Asus EX-B560M-V5, Intel B560 LGA 1200, DDR4, ATX
         url: https://www.asus.com/br/motherboards-components/motherboards/expedition/ex-b560m-v5/
+        media:
+          src: /setup/parts/mobo-asus-ex-b560m-v5.png
+          width: 1200
+          height: 1200
+          alt:
+            en-us: ASUS EX-B560M-V5 motherboard, black with red accents
+            pt-br: Placa-mãe ASUS EX-B560M-V5, preta com detalhes vermelhos
+          credit:
+            label: ASUS
+            url: https://www.asus.com/motherboards-components/motherboards/expedition/ex-b560m-v5/
       - id: gpu-asrock-arc-b580-steel-legend
         role:
           pt-br: Placa de vídeo (GPU)
         model: ASRock Intel Arc B580 Steel Legend 12GB OC, 12GB GDDR6, 192-bit, XeSS, Ray Tracing
         url: https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20B580%20Steel%20Legend%2012GB%20OC/index.asp
+        media:
+          src: /setup/parts/gpu-asrock-arc-b580-steel-legend.png
+          width: 1200
+          height: 1200
+          alt:
+            en-us: ASRock Intel Arc B580 Steel Legend graphics card, white with three fans
+            pt-br: Placa de vídeo ASRock Intel Arc B580 Steel Legend, branca com três ventoinhas
+          credit:
+            label: ASRock
+            url: https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20B580%20Steel%20Legend%2012GB%20OC/index.asp
       - id: ram-teamgroup-t-force-vulcan
         role:
           pt-br: Memória (RAM)
@@ -40,16 +70,46 @@ groups:
           pt-br: Armazenamento (M2 Gen 3)
         model: "KingSpec 1TB M.2 NMVe 2280 PCIe 3x4 Leitura: 2400Mbps, Escrita: 1800Mbps"
         url: https://pt.aliexpress.com/item/32847169083.html
+        media:
+          src: /setup/parts/ssd-kingspec-1tb.png
+          width: 768
+          height: 768
+          alt:
+            en-us: KingSpec NE series M.2 2280 NVMe SSD
+            pt-br: SSD M.2 2280 NVMe KingSpec da série NE
+          credit:
+            label: KingSpec
+            url: https://www.kingspec.com/product/m2-nvme-pcie-gen3-ssd-ne-2280mm.html
       - id: psu-sharkoon-wpm-gold-zero
         role:
           pt-br: Fonte de alimentação (PSU)
         model: Sharkoon WPM Gold Zero, 550W, 80 Plus Gold, Semi-Modular
         url: https://pt.sharkoon.com/product/GoldZERO
+        media:
+          src: /setup/parts/psu-sharkoon-wpm-gold-zero.png
+          width: 845
+          height: 845
+          alt:
+            en-us: Sharkoon WPM Gold Zero power supply, black, with the 80 Plus Gold badge
+            pt-br: Fonte Sharkoon WPM Gold Zero, preta, com o selo 80 Plus Gold
+          credit:
+            label: Sharkoon
+            url: https://pt.sharkoon.com/product/GoldZERO
       - id: case-sharkoon-vs9-rgb
         role:
           pt-br: Gabinete (CASE)
         model: Gabinete Gamer Sharkoon VS9 RGB, Mid Tower, ATX, Lateral em Vidro Temperado, 3x Cooler Fan, Branco - VS9 RGB
         url: https://www.kabum.com.br/produto/508876/gabinete-gamer-sharkoon-vs9-rgb-mid-tower-atx-lateral-em-vidro-temperado-3x-cooler-fan-branco-vs9-rgb
+        media:
+          src: /setup/parts/case-sharkoon-vs9-rgb.png
+          width: 1181
+          height: 1181
+          alt:
+            en-us: Sharkoon VS9 RGB case in white, with a tempered glass side panel
+            pt-br: Gabinete Sharkoon VS9 RGB branco, com lateral de vidro temperado
+          credit:
+            label: Sharkoon
+            url: https://en.sharkoon.com/product/39128
   - id: peripherals
     title:
       pt-br: Periféricos
@@ -59,6 +119,16 @@ groups:
           pt-br: Air Cooler
         model: DeepCool High Performance AK400, 120mm, Intel-AMD, R-AK400-BKNNMN-G-1
         url: https://www.terabyteshop.com.br/produto/21648/cooler-para-processador-deepcool-ak400-120mm-intel-amd-r-ak400-bknnmn-g-1
+        media:
+          src: /setup/parts/cooler-deepcool-ak400.png
+          width: 606
+          height: 606
+          alt:
+            en-us: DeepCool AK400 tower air cooler with a black 120 mm fan
+            pt-br: Air cooler de torre DeepCool AK400 com ventoinha preta de 120 mm
+          credit:
+            label: DeepCool
+            url: https://www.deepcool.com/products/Cooling/cpuaircoolers/AK400-Performance-CPU-Cooler-1700-AM5/2021/15222.shtml
       - id: thermal-paste-snowdog-husky
         role:
           pt-br: Pasta Térmica
@@ -69,16 +139,46 @@ groups:
           pt-br: Adaptador de Rede
         model: Adaptador WiFi D-Link, AC1200, Dual-Band, 5GHz 802.11ac, USB 3.0 - DWA-182
         url: https://www.kabum.com.br/produto/135247/adaptador-wifi-d-link-ac1200-dual-band-5ghz-802-11ac-usb-3-0-dwa-182
+        media:
+          src: /setup/parts/wifi-dlink-dwa-182.png
+          width: 695
+          height: 695
+          alt:
+            en-us: D-Link DWA-182 USB Wi-Fi adapter, black
+            pt-br: Adaptador Wi-Fi USB D-Link DWA-182, preto
+          credit:
+            label: D-Link
+            url: https://ca.dlink.com/en/products/dwa-182-ac1200-mu-mimo-wi-fi-usb-adapter
       - id: speakers-edifier-g1500-max
         role:
           pt-br: Caixa de Som
         model: Subwoofer 30W RMS EDIFIER G1500 MAX - Preto
         url: https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html
+        media:
+          src: /setup/parts/speakers-edifier-g1500-max.png
+          width: 953
+          height: 953
+          alt:
+            en-us: Edifier G1500 MAX speakers, a subwoofer between two satellites with blue lights
+            pt-br: Caixas de som Edifier G1500 MAX, um subwoofer entre dois satélites com luzes azuis
+          credit:
+            label: Edifier
+            url: https://edifier.com.br/caixa-de-som-gamer-bluetooth-edifier-g1500-max-hecate-preto.html
       - id: chair-pichau-omega-s
         role:
           pt-br: Cadeira
         model: Cadeira Gamer Pichau Omega S, Espuma Moldada, Braço 3D, Frog, Preta e Cinza - PG-OMGS-BG01
         url: https://www.pichau.com.br/cadeira-gamer-pichau-omega-s-espuma-moldada-braco-3d-preta-e-cinza-pg-omgs-bg01
+        media:
+          src: /setup/parts/chair-pichau-omega-s.png
+          width: 748
+          height: 748
+          alt:
+            en-us: Pichau Omega S gaming chair in black and grey
+            pt-br: Cadeira gamer Pichau Omega S preta e cinza
+          credit:
+            label: Pichau
+            url: https://www.pichau.com.br/cadeira-gamer-pichau-omega-s-espuma-moldada-braco-3d-preta-e-cinza-pg-omgs-bg01
       - id: mouse-razer-deathadder-v2
         role:
           pt-br: Mouse
@@ -89,6 +189,16 @@ groups:
           pt-br: Mousepad
         model: Redragon World of Warcraft Aliança 300x800x3mm Azul
         url: https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul
+        media:
+          src: /setup/parts/mousepad-redragon-alianca.png
+          width: 1047
+          height: 1047
+          alt:
+            en-us: Blue Redragon desk mat with the World of Warcraft Alliance lion
+            pt-br: Mousepad Redragon azul com o leão da Aliança de World of Warcraft
+          credit:
+            label: Redragon
+            url: https://www.redragon.store/mousepad-redragon-world-of-warcraft-alianca-300x800x3mm-azul
       - id: gamepad-machenike-g5-pro
         role:
           pt-br: Controle Joystick
@@ -99,17 +209,47 @@ groups:
           pt-br: Teclado Mecânico
         model: Redragon TECLADO OPTICO GAMER MAGIC-WAND PRO RGB BRANCO SWITCH VERMELHO ABNT2
         url: https://www.redragon.com.br/magicwandpro-lunarwhite
+        media:
+          src: /setup/parts/keyboard-redragon-magic-wand-pro.png
+          width: 1200
+          height: 1200
+          alt:
+            en-us: White Redragon Magic-Wand Pro keyboard with RGB lighting and a wrist rest
+            pt-br: Teclado Redragon Magic-Wand Pro branco, com iluminação RGB e apoio de pulso
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/magicwandpro-lunarwhite
       - id: webcam-redragon-fobos
         role:
           pt-br: Webcam
         model: Webcam Redragon Streaming Fobos, 720p
         url: https://www.redragon.com.br/fobos
+        media:
+          src: /setup/parts/webcam-redragon-fobos.png
+          width: 1200
+          height: 1200
+          alt:
+            en-us: Redragon Fobos webcam on its clip
+            pt-br: Webcam Redragon Fobos no suporte
+          credit:
+            label: Redragon
+            url: https://www.redragon.com.br/fobos
       - id: headset-baseus-gh02
         role:
           pt-br: Headset over-ear
         model: Baseus GH02 Gaming Wireless Headphone com microfone Over-Ear Fones de ouvido Bluetooth 5.3 40mm Driver 2.4G/Wireless/Cable
           RGB
         url: https://pt.aliexpress.com/item/1005005875379717.html
+        media:
+          src: /setup/parts/headset-baseus-gh02.png
+          width: 977
+          height: 977
+          alt:
+            en-us: White Baseus AeQur GH02 wireless gaming headset with its microphone
+            pt-br: Headset sem fio Baseus AeQur GH02 branco, com microfone
+          credit:
+            label: Baseus
+            url: https://www.baseus.com/products/aequr-gh02-gaming-wireless-headphone
       - id: earphones-baseus-bowie-ma10-pro
         role:
           pt-br: Fone in-ear
@@ -120,12 +260,32 @@ groups:
           pt-br: Monitor principal
         model: ASUS ROG Strix XG27ACS 27" QHD (2560x1440), 180Hz, Fast IPS
         url: https://rog.asus.com/monitors/27-to-31-5-inches/rog-strix-xg27acs/
+        media:
+          src: /setup/parts/monitor-asus-rog-strix-xg27acs.png
+          width: 1200
+          height: 1200
+          alt:
+            en-us: ASUS ROG Strix XG27ACS 27-inch monitor on its stand
+            pt-br: Monitor ASUS ROG Strix XG27ACS de 27 polegadas no pedestal
+          credit:
+            label: ASUS ROG
+            url: https://rog.asus.com/monitors/27-to-31-5-inches/rog-strix-xg27acs/
       - id: monitor-lg-ultragear-27gn65r
         role:
           pt-br: Monitor secundário (na vertical)
         model: Monitor Gamer LG UltraGear 27 Full HD, 144Hz, 1ms, IPS, HDMI e DisplayPort, HDR 10, 99% sRGB, FreeSync Premium,
           VESA - 27GN65R
         url: https://www.lg.com/br/monitores/monitores-ultragear/27gn65r-b/
+        media:
+          src: /setup/parts/monitor-lg-ultragear-27gn65r.png
+          width: 870
+          height: 870
+          alt:
+            en-us: LG UltraGear 27GN65R 27-inch monitor on its stand
+            pt-br: Monitor LG UltraGear 27GN65R de 27 polegadas no pedestal
+          credit:
+            label: LG
+            url: https://www.lg.com/br/monitores/monitores-ultragear/27gn65r-b/
   - id: planned
     title:
       pt-br: Possíveis upgrades
@@ -135,6 +295,16 @@ groups:
           pt-br: Nobreak Senoidal
         model: ATTIV SENO 700 VA BI
         url: https://www.intelbras.com/pt-br/energia/nobreaks/senoidal
+        media:
+          src: /setup/parts/ups-attiv-seno-700.png
+          width: 923
+          height: 923
+          alt:
+            en-us: Intelbras Attiv Seno 700 VA uninterruptible power supply, black
+            pt-br: Nobreak Intelbras Attiv Seno 700 VA, preto
+          credit:
+            label: Intelbras
+            url: https://www.intelbras.com/pt-br/nobreak-senoidal-bivolt-attiv-seno-700-va-bi
   - id: retired
     title:
       pt-br: Peças aposentadas
