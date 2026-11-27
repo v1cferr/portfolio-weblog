@@ -47,12 +47,15 @@ export const CONNECTIVES: ReadonlySet<string> = new Set(
     "pages page site says say said mention mentions mentioned covers cover cited source sources answer something anything " +
     "else other thing things specific specifically information info find found read let feel free version quick brief " +
     "overview example examples list below above following main key points highlights doesn don isn aren didn wasn won " +
-    "not unfortunately sorry though however instead which where when who how why " +
+    "not unfortunately sorry though however instead which where when who how why work works job day include includes " +
+    "including involve involves practice these those this that " +
     "claro certo posso pode quer queria gostaria saber mais detalhe detalhes pergunta perguntas perguntar contar conto falar " +
     "ajudar ajudo feliz aqui resumo resumindo basicamente principalmente paginas pagina site diz dizem menciona mencionam " +
     "fala falam cita fonte fontes resposta algo outra outro outras outros coisa coisas especifico especifica informacao " +
     "informacoes encontrei encontrar leia fique vontade tambem sim bem otimo boa bom versao rapido rapida breve exemplo " +
-    "exemplos lista abaixo acima seguir principais pontos destaques nao infelizmente desculpe porem entanto"
+    "exemplos lista abaixo acima seguir principais pontos destaques nao infelizmente desculpe porem entanto trabalho " +
+    "trabalhos dia inclui incluem incluindo envolve envolvem pratica quiser querer desses dessas desse dessa algum " +
+    "alguma alguns algumas"
   ).split(/\s+/)
 );
 
@@ -160,7 +163,9 @@ export function newFacts(sentence: string, corpus: string): string[] {
     const startsSentence = index === 0 || /[.!?:…]["')\]]*$/.test(tokens[index - 1] ?? "");
     const technical = /[#+]|\p{L}\.\p{L}|\p{Ll}\p{Lu}|\p{L}\d|\d\p{L}/u.test(word);
     const capitalized = /^\p{Lu}/u.test(word);
-    if (!technical && (!capitalized || startsSentence || word === "I")) return;
+    // "I", "I'm", "I'd", "I've", "I'll": the speaker, not a name.
+    const pronoun = /^I(?:['’](?:m|d|ve|ll))?$/.test(word);
+    if (!technical && (!capitalized || startsSentence || pronoun)) return;
     if (!haystack.includes(normalizeTerm(word))) facts.add(word);
   });
   return [...facts];

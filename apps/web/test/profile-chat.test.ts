@@ -370,6 +370,7 @@ describe("grounding", () => {
     expect(newFacts("Sure! Here is what I can tell you.", text)).toEqual([]);
     expect(newFacts("I also know Node.js and Rust.", text)).toEqual(["Node.js", "Rust"]);
     expect(newFacts("- **Python**: my main language", text)).toEqual([]);
+    expect(newFacts("Here I'd say I'm happy, and I've seen it.", text)).toEqual([]);
   });
 
   it("keeps a cited sentence close to what it cites, and an uncited one only when it adds no fact", () => {
@@ -383,6 +384,8 @@ describe("grounding", () => {
     expect(checkSentence("Sure, here's what I can tell you about it.", [], ctx).ok).toBe(true);
     expect(checkSentence("Happy to share more details if you want.", [], ctx).ok).toBe(true);
     expect(checkSentence("In short: a personal RAG over my Obsidian notes.", [], ctx).ok).toBe(true);
+    expect(checkSentence("No dia a dia, meu trabalho inclui:\n\n", [], ctx).ok).toBe(true);
+    expect(checkSentence("Se quiser, posso falar mais sobre algum desses pontos.", [], ctx).ok).toBe(true);
     // An uncited fact the pages do not have is dropped, and so is a cited claim they do not back.
     expect(checkSentence("I also built it for Google in 2019.", [], ctx)).toEqual({ ok: false, reason: "new-fact" });
     expect(checkSentence("I earn a large salary as a principal engineer in Zurich.", [], ctx)).toEqual({ ok: false, reason: "new-fact" });
