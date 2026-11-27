@@ -471,6 +471,10 @@ text grounded in the site, and questions that do not have to be precise.
   of them. Off-topic questions ("capital of France") may now end as "the site
   doesn't say" instead of `no-source`, since Claude is asked.
 
+- **Cards.** An answer can cite more pages than before; every cited page gets
+  its card (the five-card cap now applies to uncited related pages only), so a
+  citation number never points at a missing card.
+
 Trade-offs: every question, off topic included, now calls Claude (the rate limit
 and the spend cap bound it). The first question in a locale after five quiet
 minutes pays the cache write. An uncited view can still be wrong in tone while
