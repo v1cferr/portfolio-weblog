@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 
 import { getContent } from "./content";
+import { getTattoos } from "./tattoos";
 
 /** A page of the site, shown as a file. */
 export interface ExplorerFile {
@@ -46,7 +47,7 @@ export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder>
     getTranslations({ locale, namespace: "Footer" }),
   ]);
   const index = (href: string, label: string): ExplorerFile => ({ kind: "file", name: "index", label, href, icon: "page" });
-  const page = (key: "about" | "education" | "setup" | "timeline" | "now" | "next" | "wow"): ExplorerFile => ({
+  const page = (key: "about" | "education" | "setup" | "tattoos" | "timeline" | "now" | "next" | "wow"): ExplorerFile => ({
     kind: "file",
     name: key,
     label: key === "now" || key === "next" ? footer(key) : nav(key),
@@ -149,6 +150,8 @@ export async function buildExplorerTree(locale: Locale): Promise<ExplorerFolder>
       page("now"),
       projects,
       page("setup"),
+      // Only while it is visible: a draft page has no file in the tree.
+      ...(getTattoos() === undefined ? [] : [page("tattoos")]),
       page("timeline"),
       weblog,
       page("wow"),

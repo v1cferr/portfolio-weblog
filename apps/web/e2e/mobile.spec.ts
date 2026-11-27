@@ -1,5 +1,7 @@
 import { type Browser, expect, type Locator, test } from "@playwright/test";
 
+import { TATTOOS_VISIBLE } from "./review-content";
+
 /**
  * Mobile first: the smallest common phone width, in a plain 360px window. The
  * Pixel 7 project emulates a phone, which zooms out to fit wide content and so
@@ -23,6 +25,7 @@ const ROUTES = [
   "/en-us/wow",
   "/en-us/now",
   "/pt-br/next",
+  ...(TATTOOS_VISIBLE ? ["/pt-br/tattoos", "/pt-br/weblog/personal-architecture-lion-and-usb"] : []),
 ];
 
 /** WCAG 2.5.8 Target Size (Minimum), in CSS pixels. */

@@ -217,3 +217,16 @@
       navegador estiver aberta: uma aba nova ou uma nova visita começa do início.
       Nenhuma biblioteca extra foi necessária, porque o site não tem estado
       compartilhado pela página.
+
+"0019":
+  why:
+    en-us: >-
+      Before a personal page goes live, I read it on a private preview of the site,
+      with its photos and in both languages, instead of reading raw files. Only
+      content marked for review shows there, behind a login; the public site still
+      shows only what I have approved.
+    pt-br: >-
+      Antes de uma página pessoal entrar no ar, eu leio ela numa prévia privada do
+      site, com as fotos e nos dois idiomas, em vez de ler os arquivos crus. Só o
+      conteúdo marcado para revisão aparece lá, atrás de um login; o site público
+      continua mostrando só o que eu aprovei.

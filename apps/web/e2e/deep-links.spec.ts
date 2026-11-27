@@ -1,6 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 
+import { TATTOOS_VISIBLE } from "./review-content";
+
 /*
  * Deep links (docs/guides/deep-links.md): shareable elements carry stable ids,
  * a URL fragment scrolls them clear of the floating header and highlights
@@ -148,6 +150,7 @@ test.describe("anchor ids", () => {
     "/pt-br/wow",
     "/pt-br/weblog",
     "/pt-br/next",
+    ...(TATTOOS_VISIBLE ? ["/pt-br/tattoos"] : []),
   ];
 
   for (const path of pages) {

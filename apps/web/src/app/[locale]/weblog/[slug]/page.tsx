@@ -6,6 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { NAV_BACK, PageTransition } from "@/components/page-transition";
 import { PartialDate } from "@/components/date-range";
 import { FallbackNotice } from "@/components/fallback-notice";
+import { ReviewNotice } from "@/components/review-notice";
 import { Morph } from "@/components/morph";
 import { RelatedContent } from "@/components/related-content";
 import { SourceLink } from "@/components/source-link";
@@ -121,6 +122,7 @@ export default async function PostPage({ params }: PageProps<"/[locale]/weblog/[
         </div>
       </header>
 
+      {fm.status === "review" && <ReviewNotice />}
       {post.isFallback && <FallbackNotice requested={locale} actual={post.locale} />}
 
       <div className="prose-hub" lang={post.locale}>

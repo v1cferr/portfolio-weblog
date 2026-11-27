@@ -11,5 +11,6 @@ export * from "./project";
 export * from "./recommendation";
 export * from "./setup";
 export * from "./story";
+export * from "./tattoos";
 export * from "./taxonomy";
 export * from "./wow";

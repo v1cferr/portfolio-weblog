@@ -12,7 +12,8 @@ import { storePath } from "./store-path";
  * app/[locale]/<section>/opengraph-image.tsx is a thin wrapper around these.
  */
 
-type SectionNamespace = "About" | "Career" | "Education" | "Next" | "Now" | "Projects" | "Setup" | "Timeline" | "Weblog" | "Wow";
+type SectionNamespace =
+  "About" | "Career" | "Education" | "Next" | "Now" | "Projects" | "Setup" | "Tattoos" | "Timeline" | "Weblog" | "Wow";
 
 export interface OgSection {
   /** Messages namespace with the section's `title` and `description`. */

@@ -1,0 +1,229 @@
+# My quotes are verbatim (an elided part is marked […]); the English under them is a
+# translation. Dates are approximate until I check the photos from back then.
+# Never show the golden ratio as a tattoo I have.
+status: published
+post: personal-architecture-lion-and-usb
+
+manifesto:
+  text: >-
+    O leão me lembra de tudo que atravessei. O USB me lembra de tudo que ainda posso
+    compreender, construir e transformar.
+  gloss:
+    en-us: >-
+      The lion reminds me of everything I have been through. The USB reminds me of
+      everything I can still understand, build and change.
+
+# Newest first, like every dated list on the site; ideas go to their own section.
+tattoos:
+  - id: usb-trident
+    state: done
+    title: { en-us: The USB trident, pt-br: O tridente USB }
+    origin: { en-us: Universal Serial Bus, pt-br: Universal Serial Bus }
+    placement: { en-us: Right wrist, pt-br: Pulso direito }
+    date: { on: 2024, approximate: true, part: early }
+    meaning:
+      en-us: >-
+        Technology as part of my whole life: curiosity, connection, learning and
+        autonomy.
+      pt-br: >-
+        A tecnologia como parte da minha vida inteira: curiosidade, conexão,
+        aprendizado e autonomia.
+    body:
+      en-us:
+        - >-
+          It is my anchor. When I decided to get it, I already knew I would never stop
+          liking technology: I have spent a good part of my life in front of a
+          computer, and that shaped my personality, my interests and many of my
+          friendships.
+        - >-
+          It stands for the two things that tie me to machines: using technology in my
+          favour, to solve problems and gain autonomy, and the pleasure of
+          understanding their language, what happens under the hood. It is also a
+          reminder to keep studying, programming and adapting, because the tools will
+          change.
+        - >-
+          It sits on my wrist, next to the hands I type and code with, so I see it
+          while I do exactly what it stands for. Even if USB becomes obsolete one day,
+          it will still be part of my story.
+      pt-br:
+        - >-
+          É a minha âncora. Quando decidi fazê-la, eu já sabia que nunca ia parar de
+          gostar de tecnologia: passei boa parte da vida diante de um computador, e
+          isso formou a minha personalidade, os meus interesses e muitas das minhas
+          amizades.
+        - >-
+          Ela representa as duas coisas que me prendem às máquinas: usar a tecnologia a
+          meu favor, para resolver problemas e ganhar autonomia, e o prazer de entender
+          a linguagem delas, o que acontece under the hood. Também é um lembrete para
+          continuar estudando, programando e me adaptando, porque as ferramentas vão
+          mudar.
+        - >-
+          Fica no pulso, perto das mãos com que digito e programo: vejo a tatuagem
+          justamente enquanto faço aquilo que ela representa. Mesmo que um dia o USB
+          fique obsoleto, ele continua sendo parte da minha história.
+    values:
+      en-us: [Curiosity, Connection, Learning, Adaptation, Autonomy]
+      pt-br: [Curiosidade, Conexão, Aprendizado, Adaptação, Autonomia]
+    quotes:
+      - text: >-
+          Que significa que eu vou levar e levo a tecnologia para a minha vida toda.
+          Passei boa parte da minha vida no PC e continuo usando diariamente, isso
+          forjou minha personalidade e conheci muita gente foda através da internet e
+          dispositivos. […] E também serve de lembrete para eu sempre estar me
+          atualizando, estudando e programando, me adaptar ao ambiente e as mudanças
+          que sempre irão vir.
+        gloss:
+          en-us: >-
+            It means I will carry, and do carry, technology through my whole life. I
+            have spent a good part of my life on the PC and still use it every day; it
+            forged my personality, and I met a lot of awesome people through the
+            internet and devices. […] It also reminds me to always keep up to date,
+            studying and programming, and to adapt to my surroundings and to the
+            changes that will always come.
+      - text: >-
+          Na época que decidi fazer ela, eu já sabia que nunca ia parar de gostar de
+          tecnologia. Principalmente pq facilita minha vida e consigo usar ao meu
+          favor. Mas também gosto de entender a linguagem das máquinas e como tudo
+          isso funciona under the hood.
+        gloss:
+          en-us: >-
+            When I decided to get it, I already knew I would never stop liking
+            technology. Mainly because it makes my life easier and I can use it in my
+            favour. But I also like understanding the language of machines and how all
+            of it works under the hood.
+      - text: >-
+          USB não vai morrer tão cedo e mesmo que fique ultrapassado e inutilizado,
+          ainda vai ser parte da minha historia já que uso praticamente pra tudo. por
+          isso decidi fazer na epoca tbm e tenho orgulho até hoje
+        gloss:
+          en-us: >-
+            USB won't die any time soon, and even if it becomes outdated and unused, it
+            will still be part of my story, since I use it for practically everything.
+            That's also why I decided to get it back then, and I'm still proud of it.
+    media:
+      src: /tattoos/usb-trident.jpg
+      width: 1800
+      height: 2400
+      alt:
+        en-us: >-
+          Right wrist with a black tattoo of the USB symbol: a trident with an arrow, a
+          square and a circle at its tips
+        pt-br: >-
+          Pulso direito com uma tatuagem preta do símbolo do USB: um tridente com uma
+          seta, um quadrado e um círculo nas pontas
+      caption:
+        en-us: Photo from September 2025; the tattoo is from around early 2024.
+        pt-br: Foto de setembro de 2025; a tatuagem é de por volta do início de 2024.
+
+  - id: alliance-lion
+    state: done
+    title: { en-us: The Alliance lion, pt-br: O leão da Aliança }
+    origin: { en-us: World of Warcraft, pt-br: World of Warcraft }
+    placement: { en-us: "Left forearm, inner side", pt-br: "Antebraço esquerdo, parte interna" }
+    date: { on: 2023, approximate: true, part: late }
+    meaning:
+      en-us: Courage, strength and self-awareness, and the memory of everything I have been through.
+      pt-br: Coragem, força e autoconsciência, e a memória de tudo que atravessei.
+    body:
+      en-us:
+        - >-
+          The lion is the emblem of the Alliance, from World of Warcraft, and carries
+          what I associate with it: courage, honour and belonging. To me it is a war
+          mark: it stands for every struggle I have been through since I got it.
+        - >-
+          The courage it reminds me of does not depend on looking invulnerable. I can
+          be tired, unsure or starting over and still do what is within my reach. A
+          hard phase does not end my story.
+        - >-
+          WoW is also memory: worlds, music and communities that are part of who I am.
+          To this day, hearing the game's soundtrack brings tears to my eyes.
+      pt-br:
+        - >-
+          O leão é o emblema da Aliança, de World of Warcraft, e carrega o que associo a
+          ela: coragem, honra e pertencimento. Para mim, é uma marca de guerra:
+          representa todas as lutas que atravessei desde que o fiz.
+        - >-
+          A coragem que ele me lembra não depende de parecer invulnerável. Posso estar
+          cansado, inseguro ou recomeçando e, ainda assim, fazer o que está ao meu
+          alcance. Uma fase difícil não encerra a minha história.
+        - >-
+          WoW também é memória: mundos, músicas e comunidades que fazem parte de quem eu
+          sou. Até hoje, ouvir a trilha sonora do jogo me deixa com os olhos marejados.
+    values:
+      en-us: [Courage, Strength, Self-awareness, Belonging, Memory]
+      pt-br: [Coragem, Força, Autoconsciência, Pertencimento, Memória]
+    quotes:
+      - text: Essa tatuagem representa todas as minhas lutas desde que fiz ela no final de 2023.
+        gloss:
+          en-us: This tattoo stands for all my struggles since I got it, at the end of 2023.
+      - text: >-
+          não me arrependo nenhum pouco das duas tatuagens, estou vendo um video sobre
+          wow agora e só de ouvir a soundtrack já fico lacrimejando sério […]
+        gloss:
+          en-us: >-
+            I don't regret either of the two tattoos one bit. I'm watching a video about
+            WoW right now and just hearing the soundtrack makes my eyes water, seriously
+            […]
+    media:
+      src: /about/alliance-tattoo.webp
+      width: 860
+      height: 1150
+      alt:
+        en-us: >-
+          Inner side of the left forearm with a black tattoo of the lion's head emblem
+          of the World of Warcraft Alliance
+        pt-br: >-
+          Parte interna do antebraço esquerdo com uma tatuagem preta do emblema da
+          cabeça de leão da Aliança de World of Warcraft
+
+  - id: golden-ratio
+    state: idea
+    title: { en-us: The golden ratio (φ), pt-br: A razão áurea (φ) }
+    origin: { en-us: Mathematics, pt-br: Matemática }
+    placement: { en-us: "Neck, considered: not decided", pt-br: "Pescoço, cogitado: sem decisão" }
+    meaning:
+      en-us: Harmony and proportion in the middle of change, if I ever get it.
+      pt-br: Harmonia e proporção em meio às mudanças, se um dia eu fizer.
+    body:
+      en-us:
+        - >-
+          I have not got it, and I am not sure I will. I like the idea because it
+          stands for my interest in mathematics, symmetry and proportion, in things
+          that make mathematical and even philosophical sense.
+        - >-
+          φ = (1 + √5) / 2 ≈ 1.618: the whole is to the larger part as the larger part
+          is to the smaller. It is not a universal law of beauty; linking it to harmony
+          and order is my own reading.
+        - >-
+          I thought about the neck, but I have doubts about such an exposed place. I
+          can like the golden ratio for the rest of my life without tattooing it.
+      pt-br:
+        - >-
+          Ainda não fiz e não tenho certeza se vou fazer. Gosto da ideia por representar
+          o meu interesse por matemática, simetria e proporção, por coisas que têm
+          sentido matemático e até filosófico.
+        - >-
+          φ = (1 + √5) / 2 ≈ 1,618: o todo está para a parte maior assim como a parte
+          maior está para a menor. Não é uma lei universal da beleza; ligá-la à
+          harmonia e à ordem é uma leitura minha.
+        - >-
+          Cogitei o pescoço, mas tenho dúvidas por ser um lugar tão exposto. Posso gostar
+          da razão áurea pelo resto da vida sem precisar tatuá-la.
+    values:
+      en-us: [Harmony, Order, Adaptation, Freedom]
+      pt-br: [Harmonia, Ordem, Adaptação, Liberdade]
+    quotes:
+      - text: golden ratio ainda não fiz e não tenho certeza se vou fazer.
+        gloss:
+          en-us: I haven't got the golden ratio yet, and I'm not sure I will.
+      - text: >-
+          […] talvez minha propria tattoo vai ser a golden ratio para representar a minha
+          conexão e paixão por simetria e coisas que tem sentido matematico e até
+          filosofico, gosto da harmonia e da ordem mas ao mesmo tempo da adaptação,
+          autenticidade, liberdade e autonomia.
+        gloss:
+          en-us: >-
+            […] maybe my own tattoo will be the golden ratio, to stand for my connection to
+            and passion for symmetry and things that make mathematical and even
+            philosophical sense; I like harmony and order, but at the same time
+            adaptation, authenticity, freedom and autonomy.

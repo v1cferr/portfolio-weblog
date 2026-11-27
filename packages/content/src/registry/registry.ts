@@ -88,11 +88,17 @@ export interface RegistryOptions {
    * (the content checker); public pages must never set it.
    */
   includeUnpublished?: boolean;
+  /**
+   * Also show public entities in `review`, for the owner to read them on a
+   * preview deployment before they go live (ADR 0019). Drafts and private
+   * entities stay hidden. Production never sets it.
+   */
+  includeReview?: boolean;
 }
 
 type Gated = { status: string; visibility: string };
 const isPublic = (value: Gated) => value.status === "published" && value.visibility === "public";
-const isPublicPost = (post: PostSource) => isPublic(post.frontmatter);
+const isPublicOrReview = (value: Gated) => value.visibility === "public" && (value.status === "published" || value.status === "review");
 
 function latestStart(experience: Experience): string {
   const starts = experience.positions.map((p) => p.start).filter((start) => start !== undefined);
@@ -109,13 +115,13 @@ export function createRegistry(
   warnings: readonly ContentIssue[] = [],
   options: RegistryOptions = {}
 ): ContentRegistry {
-  const visible = options.includeUnpublished === true ? () => true : isPublic;
-  const visiblePost = options.includeUnpublished === true ? () => true : isPublicPost;
+  const visible = options.includeUnpublished === true ? () => true : options.includeReview === true ? isPublicOrReview : isPublic;
+  const visiblePost = (post: PostSource) => visible(post.frontmatter);
 
   const posts = content.posts.filter(visiblePost);
   const nodes = collectNodes(content).filter((node) => {
     if (node.type === "post") return posts.some((post) => post.slug === node.id);
-    return options.includeUnpublished === true || node.isPublic;
+    return options.includeUnpublished === true || node.isPublic || (options.includeReview === true && node.inReview);
   });
   const visibleIds = new Map(nodes.map((node) => [node.id, node.type]));
   // An entity whose organization is hidden is hidden too, everywhere.

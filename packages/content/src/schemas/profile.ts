@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { entityBase, Id, Link, LocalizedList, LocalizedText, Media } from "./common";
+import { EditorialStatus, entityBase, Id, Link, LocalizedList, LocalizedText, Media } from "./common";
 
 export const Profile = z.strictObject({
   ...entityBase,
@@ -48,6 +48,8 @@ export const Profile = z.strictObject({
     .array(
       z.strictObject({
         id: Id,
+        /** `review` shows only on preview deployments (ADR 0019); `draft` nowhere. */
+        status: EditorialStatus.default("published"),
         text: LocalizedText,
         /** A path on this site that tells more, e.g. "/wow". */
         href: z.string().startsWith("/").optional(),

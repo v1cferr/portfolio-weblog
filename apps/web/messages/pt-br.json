@@ -26,7 +26,8 @@
     "openMenu": "Abrir menu",
     "skipToContent": "Pular para o conteúdo",
     "brandHome": "v1cferr.dev, página inicial",
-    "wow": "World of Warcraft"
+    "wow": "World of Warcraft",
+    "tattoos": "Tatuagens"
   },
   "Explorer": {
     "open": "Explorador do site (~/)",
@@ -159,7 +160,8 @@
     "copyLink": "Copiar link",
     "copyLinkTo": "Copiar link para",
     "linkCopied": "Link copiado",
-    "linkInAddressBar": "O link está na barra de endereço"
+    "linkInAddressBar": "O link está na barra de endereço",
+    "reviewNotice": "Em revisão: esta página só aparece nas prévias e ainda não está no ar."
   },
   "Kind": {
     "experience": "Carreira",
@@ -490,6 +492,27 @@
     "addonsSnapshot": "Não deu para ler a lista hoje; esta é a cópia guardada no repositório do site.",
     "otherGroup": "Outros",
     "addonCount": "{count, plural, one {# addon} other {# addons}}"
+  },
+  "Tattoos": {
+    "title": "Arquitetura pessoal",
+    "description": "As minhas tatuagens: o que cada uma marca em mim, e uma que talvez eu nunca faça.",
+    "info": "As datas são aproximadas até eu conferir as fotos da época. As citações são minhas, do jeito que escrevi.",
+    "tattoos": "Na pele",
+    "ideas": "Só uma ideia",
+    "ideasInfo": "Algo que estou considerando, não uma tatuagem que eu tenho. Pode nunca virar uma.",
+    "idea": "Ideia, não feita",
+    "placement": "Onde",
+    "date": "Quando",
+    "approxDate": "{part, select, early {por volta do início de {year}} mid {por volta de meados de {year}} late {por volta do fim de {year}} other {por volta de {year}}}",
+    "approxDay": "por volta de {date}",
+    "approximate": "Data aproximada",
+    "inMyWords": "Nas minhas palavras",
+    "quoteCount": "{count, plural, one {# citação} other {# citações}}",
+    "translation": "Tradução",
+    "values": "O que ela representa",
+    "manifesto": "Manifesto",
+    "readPost": "A história completa",
+    "readPostDescription": "Dissecando o tridente, de onde veio o USB, a linguagem das máquinas e uma mensagem para o meu futuro."
   },
   "NotFound": {
     "title": "Página não encontrada",

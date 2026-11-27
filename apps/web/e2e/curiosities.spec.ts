@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 
 /*
  * "Curiosities" at the end of the About page (profile.yaml `curiosities`):
- * personal facts, the tattoo photo in the lightbox, links to the pages that tell more.
+ * personal facts, tattoo photos that open their story, links to the pages that tell more.
  */
 
 test.describe("about curiosities", () => {
@@ -12,21 +12,22 @@ test.describe("about curiosities", () => {
     const section = page.getByTestId("curiosities");
     await expect(section.getByRole("heading", { name: "Curiosidades" })).toBeVisible();
     await expect(section.getByText(/Minha única tatuagem/)).toBeVisible();
-    await expect(section.getByRole("link", { name: /Ver mais/ }).first()).toHaveAttribute("href", "/pt-br/wow");
+    await expect(section.locator("#curiosity-wow-on-nix").getByRole("link", { name: /Ver mais/ })).toHaveAttribute(
+      "href",
+      "/pt-br/wow#wow-addons"
+    );
 
     await page.goto("/en-us/about");
     await expect(page.getByTestId("curiosities").getByRole("heading", { name: "Curiosities" })).toBeVisible();
   });
 
-  test("the tattoo photo opens in the lightbox with a deep link", async ({ page }) => {
+  test("the tattoo photo opens its story on the tattoos page", async ({ page }) => {
     await page.goto("/en-us/about");
-    const section = page.getByTestId("curiosities");
-    await section.getByRole("link", { name: /lion's head emblem/ }).click();
-    const dialog = page.getByRole("dialog");
-    await expect(dialog).toBeVisible();
-    expect(new URL(page.url()).searchParams.get("photo")).toBe("curiosities-1");
-    await page.keyboard.press("Escape");
-    await expect(dialog).toBeHidden();
+    await page
+      .getByTestId("curiosities")
+      .getByRole("link", { name: /lion's head emblem/ })
+      .click();
+    await expect(page).toHaveURL(/\/en-us\/tattoos#alliance-lion$/);
   });
 
   test("has no accessibility violations", async ({ page }) => {
