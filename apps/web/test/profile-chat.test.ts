@@ -1204,6 +1204,8 @@ describe("partial answers (gap marker)", () => {
       expect(prompt).toContain("Keep each role in its tense");
       expect(prompt).toContain('never "before" one another');
       expect(prompt).toContain("Say each fact once.");
+      // An English answer summed up the roles uncited, then repeated each one with its citation.
+      expect(prompt).toContain("Do not open with a summary of facts you then state again");
     }
   });
 
