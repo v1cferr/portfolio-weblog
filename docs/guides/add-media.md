@@ -73,10 +73,12 @@ card.
        alt: { en-us: What the photo shows, pt-br: O que a foto mostra }
    ```
 
-A manufacturer's image is used only when its press or media terms explicitly
-allow reuse on a site like this one. It then gets a `credit` (`label` and an
-`https` `url` pointing at those terms), shown under the photo in the lightbox,
-and a YAML comment next to the item with the source and terms URLs. When the
-terms are unclear, or limited to news media, the part waits for the owner's own
-photo. Old desk photos from the setup history are never cropped into part
-photos.
+The current parts show the manufacturer's official product image (the owner's
+call, 2026-11-27), taken from the manufacturer's own product page or CDN, never
+from a retailer, a review or anyone else's photo. Each one has a `credit`: the
+manufacturer's name as `label` and its official product page as `url`, shown
+under the photo in the lightbox. Images with a plain white background get it cut
+to transparency (ImageMagick flood fill from the corners, then trimmed and
+centred on a square); a white product on white keeps its background. The owner's
+own photo replaces the official one whenever there is one (drop the `credit`).
+Old desk photos from the setup history are never cropped into part photos.
