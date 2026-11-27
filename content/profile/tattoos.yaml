@@ -1,11 +1,7 @@
-# DRAFT (2026-11-26): adapted by Claude from my notes on my tattoos; owner to review
-# before publishing. The quotes are my own words, verbatim (an elided part is marked
-# […]); the English under them is a translation. Dates are approximate until I check
-# the photos from back then: when I do, replace `approximate`/`part` with the day
-# (`on: 2023-11-18`). To publish, set `status: published` here, in the post
-# (weblog/2026/11/personal-architecture-lion-and-usb) and in the `usb-trident`
-# curiosity (profile.yaml). Never show the golden ratio as a tattoo I have.
-status: review
+# My quotes are verbatim (an elided part is marked […]); the English under them is a
+# translation. Dates are approximate until I check the photos from back then.
+# Never show the golden ratio as a tattoo I have.
+status: published
 post: personal-architecture-lion-and-usb
 
 manifesto:

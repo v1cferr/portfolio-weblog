@@ -1,6 +1,6 @@
 # 0019. Content in review shows on preview deployments
 
-- Status: proposed (2026-11-26, with the tattoos page, for the owner to accept)
+- Status: accepted (2026-11-27)
 - Builds on: [0001](0001-content-first.md)
 
 ## Context
