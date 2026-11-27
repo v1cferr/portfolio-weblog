@@ -66,6 +66,33 @@ describe("checkMedia", () => {
     expect(issues[0]?.message).toContain("still has EXIF/XMP/IPTC metadata");
   });
 
+  it("checks a setup part's photo too", async () => {
+    const { content } = loadContent(
+      makeContent({
+        "profile/setup.yaml": {
+          id: "setup",
+          updatedAt: "2026-11",
+          groups: [
+            {
+              id: "desk",
+              title: { "en-us": "Desk" },
+              items: [
+                {
+                  id: "monitor-lg",
+                  role: { "en-us": "Monitor" },
+                  model: "LG",
+                  media: { src: "/setup/parts/monitor-lg.jpg", width: 1600, height: 1200, alt: { "en-us": "The monitor" } },
+                },
+              ],
+            },
+          ],
+        },
+      })
+    );
+    const missing = await checkMedia(content, publicDirWith(), () => Promise.resolve(SIZE));
+    expect(missing[0]?.message).toContain('"/setup/parts/monitor-lg.jpg" does not exist');
+  });
+
   it("requires alt text and an image path", () => {
     const { issues } = loadContent(makeContent({ "projects/hub.yaml": project({ media: [{ src: "/x.gif" }] }) }));
     expect(issues.map((issue) => issue.message).join()).toMatch(/alt.*|src is a path/);

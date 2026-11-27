@@ -13,6 +13,27 @@ const extensions = (groups: unknown) => ({
   vscodeExtensions: { source: "https://github.com/v1cferr/dotfiles/blob/main/extensions.txt", syncedAt: "2026-11-20", groups },
 });
 
+const withPartMedia = (media: unknown) => ({
+  ...base,
+  groups: [
+    { id: "components", title: { "en-us": "Components" }, items: [{ id: "cpu-ryzen", role: { "en-us": "CPU" }, model: "Ryzen", media }] },
+  ],
+});
+
+describe("setup part photos", () => {
+  const photo = { src: "/setup/parts/cpu-ryzen.jpg", width: 1200, height: 1200, alt: { "en-us": "The CPU" } };
+
+  it("takes an optional photo, with a credit when it is not the owner's", () => {
+    expect(Setup.safeParse(withPartMedia(photo)).success).toBe(true);
+    const parsed = Setup.parse(withPartMedia({ ...photo, credit: { label: "AMD", url: "https://www.amd.com/en/newsroom/press-kits" } }));
+    expect(parsed.groups[0]?.items[0]?.media?.credit?.label).toBe("AMD");
+  });
+
+  it("rejects a credit without an https link", () => {
+    expect(Setup.safeParse(withPartMedia({ ...photo, credit: { label: "AMD", url: "http://amd.com" } })).success).toBe(false);
+  });
+});
+
 describe("setup VS Code extensions", () => {
   it("anchors an extension by its id, dots as dashes", () => {
     expect(vscodeExtensionAnchor("ms-python.vscode-pylance")).toBe("vscode-ms-python-vscode-pylance");

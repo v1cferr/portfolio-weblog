@@ -16,9 +16,9 @@ export function collectMedia(content: RawContent): MediaReference[] {
   const sources = [...content.experiences, ...content.projects, ...content.education];
   const media = sources.flatMap(({ value, file }) => value.media.map(({ src, width, height }) => ({ src, width, height, file })));
   const setup = content.setup;
-  return setup === undefined
-    ? media
-    : [...media, ...setup.value.photos.map(({ src, width, height }) => ({ src, width, height, file: setup.file }))];
+  if (setup === undefined) return media;
+  const parts = setup.value.groups.flatMap((group) => group.items.flatMap((item) => (item.media === undefined ? [] : [item.media])));
+  return [...media, ...[...setup.value.photos, ...parts].map(({ src, width, height }) => ({ src, width, height, file: setup.file }))];
 }
 
 /**
