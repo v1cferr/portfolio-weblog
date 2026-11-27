@@ -480,3 +480,34 @@ and the spend cap bound it). The first question in a locale after five quiet
 minutes pays the cache write. An uncited view can still be wrong in tone while
 naming only true things; the prompt asks for no praise beyond the facts, and the
 names it uses are checked.
+
+## Revision (2026-11-27, natural wording, off-topic without a model)
+
+Answers sometimes pasted the About passage as it was ("Cargo atual: Analista de
+Sistemas de IA · FAI·UFSCar (2026-08 – atual); …"), and an off-topic question
+("Qual é a capital da França?") still cost a whole-site Claude call.
+
+- **Passages read as sentences.** The model writes from what it reads, so the
+  passage builder no longer writes field lines. The profile says "Trabalho como
+  X em Y desde agosto de 2026." / "I have worked as X at Y since August 2026."
+  (a self-employed role says so), and "Moro em…" / "I'm based in…"; an
+  experience's positions read "X, de março de 2026 a julho de 2026." Dates are
+  spelled out in the passage's language (`dateInWords`); no fact is dropped. The
+  prompt also asks for natural first-person sentences and dates in words, never
+  a pasted document line or a "YYYY-MM – present" range.
+- **Grounding follows.** A month or a "YYYY-MM" in an answer is known when the
+  corpus dates that month, as "YYYY-MM" or in words ("agosto de 2026", "August
+  2026"), in either language; another year is still a new fact.
+- **Off topic, no model.** A first question is off topic when the search found
+  nothing better than word noise (best score under `NOISE_SCORE`, 8: common
+  words like "quanto" or "like" score 4 to 7, a real match 10 or more) and it
+  names neither the owner (names, "você/ele/seu", "you/he/his", "my") nor what
+  the site is about (work, projects, studies, setup, hiring…). It gets a fixed
+  reply in the owner's voice and the suggested questions, shown like small talk,
+  and the server logs `off-topic` (never the question). Follow-ups always reach
+  the model. The eval set has an `offTopic` section, checked offline with the
+  production retriever, including the vague questions that must not match.
+
+Trade-off: a stray off-topic question with a real-looking match ("Vai chover em
+São Paulo?") still reaches Claude, which says the site doesn't say; erring that
+way keeps every question about the owner answered.
