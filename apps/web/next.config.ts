@@ -9,7 +9,7 @@ const workspaceRoot = path.join(import.meta.dirname, "../..");
 
 /** v1 pages that v2 does not rebuild (docs/migration/inventory.md), sent to the closest page. */
 const retiredRoutes = [
-  { from: "vscode", to: "setup" },
+  { from: "vscode", to: "setup#vscode-extensions" },
   { from: "goals", to: "about" },
   { from: "context", to: "about" },
   { from: "thanks", to: "about" },

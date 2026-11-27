@@ -14,6 +14,7 @@ import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
 import { SetupCopyButton } from "@/features/setup/copy-button";
+import { VscodeExtensions } from "@/features/setup/vscode-extensions";
 import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
 import { pageAlternates } from "@/lib/i18n";
@@ -172,6 +173,7 @@ export default async function SetupPage() {
           );
         })}
       </div>
+      {setup.vscodeExtensions !== undefined && <VscodeExtensions extensions={setup.vscodeExtensions} />}
       {photos.length > 0 && (
         <section aria-labelledby="setup-photos" className="mt-14">
           <SectionHeading id="setup-photos">{t("photos")}</SectionHeading>

@@ -41,7 +41,8 @@ async function expectAt(target: Locator, top: number) {
 test.describe("a language switch keeps the reader's place", () => {
   test("on /setup, scrolled to an item in the middle", async ({ page }) => {
     await page.goto("/pt-br/setup");
-    const anchors = page.locator("main [data-anchor][id]");
+    // Visible ones only: the folded VS Code extensions have no box to scroll to.
+    const anchors = page.locator("main [data-anchor][id]").filter({ visible: true });
     const count = await anchors.count();
     expect(count).toBeGreaterThan(4);
     const id = await anchors.nth(Math.floor(count / 2)).getAttribute("id");

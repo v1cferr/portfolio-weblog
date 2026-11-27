@@ -455,7 +455,13 @@
     "copied": "Copiado",
     "markdownHeading": "Meu setup",
     "photos": "O setup ao longo dos anos",
-    "present": "atual"
+    "present": "atual",
+    "extensions": "Extensões do VS Code",
+    "extensionsInfo": "As {count} extensões que tenho instaladas, copiadas do espelho automático do meu dotfiles (code --list-extensions), atualizado em {date}. Os nomes são os do Marketplace; os grupos são meus.",
+    "extensionsSource": "Lista no dotfiles",
+    "extensionsMore": "Mostrar todas as {count} extensões",
+    "extensionsLess": "Mostrar menos",
+    "extensionsList": "Extensões de {group}"
   },
   "Wow": {
     "title": "World of Warcraft",
