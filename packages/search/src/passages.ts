@@ -1,4 +1,4 @@
-import { type ContentRegistry, type Locale, localize, localizeList } from "@workspace/content";
+import { type ContentRegistry, type Experience, type Locale, localize, localizeList } from "@workspace/content";
 
 import { buildSearchDocuments, mdxToText } from "./documents";
 import type { SearchEntityType } from "./options";
@@ -115,12 +115,79 @@ function period(start: string | undefined, end: string | undefined, lang: Passag
   return lang === "pt-br" ? `de ${from} a ${to}` : `from ${from} to ${to}`;
 }
 
-/** A current role as a first-person sentence: "Trabalho como X em Y desde agosto de 2026." */
-function currentRole(title: string, org: string, selfEmployed: boolean, since: string, lang: PassageLanguage): string {
-  const when = since === "" ? "" : ` ${since}`;
-  if (lang === "pt-br")
-    return selfEmployed ? `Trabalho como ${title} por conta própria (${org})${when}.` : `Trabalho como ${title} em ${org}${when}.`;
-  return selfEmployed ? `I have worked as ${title} on my own (${org})${when}.` : `I have worked as ${title} at ${org}${when}.`;
+/** Where a role is held: "na FAI·UFSCar" / "no Senac" (the organization's article), "at FAI·UFSCar". */
+function atOrganization(org: string, article: "a" | "o", lang: PassageLanguage): string {
+  if (lang === "pt-br") return `${article === "o" ? "no" : "na"} ${org}`;
+  return `at ${org}`;
+}
+
+interface Role {
+  title: string;
+  /** The title in every language it is written in, to recognize it in a headline left in another language. */
+  titles?: readonly string[];
+  org: string;
+  article: "a" | "o";
+  selfEmployed: boolean;
+  start: string | undefined;
+  end: string | undefined;
+}
+
+/**
+ * A role as a first-person sentence, in the tense it is in: a current role in
+ * the present ("Trabalho como X na Y desde agosto de 2026."), a past one in
+ * the past ("Fui X na Y de março de 2026 a julho de 2026."). The model writes
+ * its answers from these, so the tense it reads is the tense it uses.
+ */
+export function roleSentence(role: Role, lang: PassageLanguage): string {
+  const when = period(role.start, role.end, lang);
+  const tail = when === "" ? "" : ` ${when}`;
+  const where = role.selfEmployed
+    ? lang === "pt-br"
+      ? `por conta própria (${role.org})`
+      : `on my own (${role.org})`
+    : atOrganization(role.org, role.article, lang);
+  if (role.end === undefined)
+    return lang === "pt-br" ? `Trabalho como ${role.title} ${where}${tail}.` : `I have worked as ${role.title} ${where}${tail}.`;
+  return lang === "pt-br" ? `Fui ${role.title} ${where}${tail}.` : `I was ${role.title} ${where}${tail}.`;
+}
+
+/** Same words, ignoring case, accents and spacing: "Analista de Sistemas de IA" twice is one role. */
+function sameText(a: string, b: string): boolean {
+  const norm = (text: string) => text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/\s+/g, " ").trim();
+  return norm(a) === norm(b);
+}
+
+/**
+ * The opening of the profile passage. When the headline is the title of a
+ * current role (in any language: a headline left in English still names the
+ * Portuguese role), the two are one sentence ("Sou Victor, Analista de Sistemas de
+ * IA na FAI·UFSCar desde agosto de 2026."), so the model never reads, or
+ * repeats, the same role twice; other current roles follow with "também".
+ */
+export function profileIntro(name: string, handle: string, headline: string, current: readonly Role[], lang: PassageLanguage): string[] {
+  const merged = current.find(
+    (role) => !role.selfEmployed && [role.title, ...(role.titles ?? [])].some((title) => sameText(title, headline))
+  );
+  const others = current.filter((role) => role !== merged);
+  let intro: string;
+  if (merged === undefined) intro = lang === "pt-br" ? `Sou ${name} (${handle}): ${headline}.` : `I'm ${name} (${handle}): ${headline}.`;
+  else {
+    const when = period(merged.start, undefined, lang);
+    const where = atOrganization(merged.org, merged.article, lang);
+    intro =
+      lang === "pt-br"
+        ? `Sou ${name} (${handle}), ${merged.title} ${where}${when === "" ? "" : ` ${when}`}.`
+        : `I'm ${name} (${handle}), ${merged.title} ${where}${when === "" ? "" : ` ${when}`}.`;
+  }
+  const rest = others.map((role) => {
+    const sentence = roleSentence(role, lang);
+    // A second current role runs alongside the first: "Também trabalho como…", "I have also worked as…".
+    if (merged === undefined) return sentence;
+    return lang === "pt-br"
+      ? sentence.replace(/^Trabalho como/, "Também trabalho como")
+      : sentence.replace(/^I have worked as/, "I have also worked as");
+  });
+  return [intro, ...rest];
 }
 
 /**
@@ -136,16 +203,22 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
 
   const profile = content.getProfile();
   const headline = localize(profile.headline, locale);
-  const current = content
-    .getExperiences()
-    .filter((experience) => experience.positions.at(-1)?.end === undefined)
-    .map((experience) => {
-      const position = experience.positions.at(-1);
-      const title = position ? localize(position.title, locale).value : "";
-      const organization = content.getOrganization(experience.organization);
-      const org = organization?.name ?? experience.organization;
-      return currentRole(title, org, organization?.kind === "self-employed", period(position?.start, undefined, lang), lang);
-    });
+  const roleOf = (experience: Experience, position: Experience["positions"][number]): Role => {
+    const organization = content.getOrganization(experience.organization);
+    return {
+      title: localize(position.title, locale).value,
+      titles: Object.values(position.title).filter((title): title is string => typeof title === "string"),
+      org: organization?.name ?? experience.organization,
+      article: organization?.article ?? "a",
+      selfEmployed: organization?.kind === "self-employed",
+      start: position.start,
+      end: position.end,
+    };
+  };
+  const current = content.getExperiences().flatMap((experience) => {
+    const position = experience.positions.at(-1);
+    return position === undefined || position.end !== undefined ? [] : [roleOf(experience, position)];
+  });
   passages.push({
     id: `profile:${profile.id}:${locale}`,
     docId: `profile:${profile.id}:${locale}`,
@@ -161,8 +234,7 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
       profile.stack.map((entry) => entry.label)
     ),
     text: lines(
-      `${profile.name} (${profile.handle}): ${headline.value}.`,
-      current.join(" "),
+      profileIntro(profile.name, profile.handle, headline.value, current, lang).join(" "),
       profile.location && (lang === "pt-br" ? `Moro em ${profile.location}.` : `I'm based in ${profile.location}.`),
       localize(profile.summary, locale).value,
       localizeList(profile.about, locale)?.value,
@@ -201,10 +273,7 @@ export function buildRetrievalPassages(content: ContentRegistry, locale: Locale)
     let text = doc.text;
     if (doc.type === "experience") {
       const experience = content.getExperience(doc.entityId);
-      const positions = experience?.positions.map((position) => {
-        const when = period(position.start, position.end, lang);
-        return `${localize(position.title, locale).value}${when === "" ? "" : `, ${when}`}.`;
-      });
+      const positions = experience?.positions.map((position) => roleSentence(roleOf(experience, position), lang));
       text = lines(positions, doc.text);
     }
     splitParagraphs(text).forEach((piece, n) => {

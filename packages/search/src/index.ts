@@ -1,6 +1,15 @@
 export { buildSearchDocuments, mdxToText } from "./documents";
 export * from "./options";
-export { atxHeading, buildRetrievalPassages, dateInWords, type Passage, splitByHeading, splitParagraphs } from "./passages";
+export {
+  atxHeading,
+  buildRetrievalPassages,
+  dateInWords,
+  type Passage,
+  profileIntro,
+  roleSentence,
+  splitByHeading,
+  splitParagraphs,
+} from "./passages";
 export {
   contentWords,
   createRetriever,

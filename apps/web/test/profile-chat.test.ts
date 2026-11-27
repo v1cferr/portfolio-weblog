@@ -1093,7 +1093,7 @@ describe("grounding, dates in words and possessives", () => {
     });
     expect(newFacts("I joined in March.", role.text)).toEqual(["March"]);
     // Passages spell their dates out (2026-11-27): an answer may still name the month either way, in either language.
-    const spelled = "Trabalho como Analista de Sistemas de IA em FAI·UFSCar desde agosto de 2026.";
+    const spelled = "Sou Victor Ferreira (v1cferr), Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026.";
     expect(newFacts("Desde agosto de 2026 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
     expect(newFacts("Since August 2026 I've worked at FAI·UFSCar.", spelled)).toEqual([]);
     expect(newFacts("Desde 2026-08 sou Analista de Sistemas de IA.", spelled)).toEqual([]);
