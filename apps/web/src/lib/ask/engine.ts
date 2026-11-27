@@ -97,9 +97,17 @@ type Outcome =
   | { kind: "unknown" }
   | { kind: "ungrounded" };
 
+/** A list item: a bullet or a number at the start of its line. */
+const LIST_ITEM = /^\s*(?:[-*+]|\d+[.)])\s/;
+/** A line that introduces what follows ("Some of the things I did:"). */
+const LEAD_IN = /:\s*$/;
+
 /**
  * Checks sentences as they come and turns them into events (protocol.ts).
  * A dropped claim makes the answer partial; a dropped connective does not.
+ * A lead-in line (ending in ":") waits for its first list item; if every item
+ * is dropped, or the answer goes on without one, it is dropped too, so no
+ * answer ends on an introduction to nothing.
  * Uncited sentences are held until the first cited one: an answer with no
  * cited sentence at all is "I don't know" (when it is short) or ungrounded,
  * never shown as is. After `MAX_SENTENCES` or `MAX_ANSWER_LENGTH` the rest is
@@ -111,6 +119,8 @@ class Emitter {
   claimDropped = false;
   truncated = false;
   private held: { text: string; cited: number[] }[] = [];
+  /** A checked lead-in line, waiting for its first list item. */
+  private leadIn: { text: string; cited: number[] } | null = null;
   private started = false;
   private sentences = 0;
   private length = 0;
@@ -139,9 +149,31 @@ class Emitter {
       this.claimDropped ||= isClaim(check.reason, sentence.cited);
       return;
     }
-    this.sentences++;
-    this.length += check.text.length;
     const checked = { text: check.text, cited: sentence.cited };
+    if (LEAD_IN.test(checked.text)) {
+      this.dropLeadIn();
+      this.leadIn = checked;
+      return;
+    }
+    if (this.leadIn !== null) {
+      const leadIn = this.leadIn;
+      this.leadIn = null;
+      if (LIST_ITEM.test(checked.text)) yield* this.keep(leadIn);
+      else this.dropped.push("dangling");
+    }
+    yield* this.keep(checked);
+  }
+
+  /** A lead-in with no list item after it: dropped, not a claim (the items it announced were). */
+  private dropLeadIn() {
+    if (this.leadIn === null) return;
+    this.leadIn = null;
+    this.dropped.push("dangling");
+  }
+
+  private *keep(checked: { text: string; cited: number[] }): Generator<AskEvent, void, undefined> {
+    this.sentences++;
+    this.length += checked.text.length;
     if (!this.started && checked.cited.length === 0) {
       this.held.push(checked);
       return;
@@ -161,6 +193,11 @@ class Emitter {
     yield { type: "text", text: sentence.text };
     const numbers = [...new Set(sentence.cited.flatMap((index) => this.citations.cite(index) ?? []))];
     for (const n of numbers) yield { type: "cite", n };
+  }
+
+  /** The answer is over: a lead-in still waiting has no item to introduce. */
+  end() {
+    this.dropLeadIn();
   }
 
   /** Nothing cited: a short reply is "the site doesn't say"; a long one cited nothing it claimed. */
@@ -222,6 +259,7 @@ async function* fromClaude(
     return { kind: "answered" };
   }
   for (const sentence of buffer.drain(true)) yield* emitter.accept(sentence);
+  emitter.end();
   if (!emitter.sent) {
     const outcome = emitter.noAnswer();
     context.log?.(`${outcome.kind} provider=anthropic dropped=${emitter.dropped.join(",") || "-"}`);
@@ -263,6 +301,7 @@ async function* fromOpenRouter(
     const text = /^\s*(?:[-*+]|\d+[.)])\s/.test(sentence.text) ? `\n${sentence.text}` : ` ${sentence.text}`;
     yield* emitter.accept({ text, cited: sentence.passages });
   }
+  emitter.end();
   emitter.dropped.unshift(...grounded.dropped);
   emitter.claimDropped ||= grounded.claimDropped;
   if (!emitter.sent) {
