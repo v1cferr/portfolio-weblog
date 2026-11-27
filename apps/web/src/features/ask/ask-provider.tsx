@@ -134,7 +134,19 @@ export function AskProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  const update = useCallback((id: number, change: (turn: Turn) => Turn) => {
+  // A language switch swaps in the other locale's conversation: an answer still streaming belongs to the one being
+  // left, so it stops here (it is saved as stopped) instead of writing into the other.
+  const localeRef = useRef(locale);
+  useEffect(() => {
+    if (localeRef.current === locale) return;
+    localeRef.current = locale;
+    controller.current?.abort();
+    controller.current = null;
+  }, [locale]);
+
+  /** Changes one turn of `owner`'s conversation; a no-op once the conversation shown is another locale's. */
+  const update = useCallback((owner: string, id: number, change: (turn: Turn) => Turn) => {
+    if (localeRef.current !== owner) return;
     setTurns((list) => list.map((turn) => (turn.id === id ? change(turn) : turn)));
   }, []);
 
@@ -171,7 +183,7 @@ export function AskProvider({ children }: { children: ReactNode }) {
             switch (event.type) {
               case "status":
                 mode = event.mode;
-                update(id, (turn) => ({
+                update(locale, id, (turn) => ({
                   ...turn,
                   phase: "streaming",
                   elapsedMs: Date.now() - startedAt,
@@ -182,13 +194,13 @@ export function AskProvider({ children }: { children: ReactNode }) {
                 if (event.mode === "no-source" || event.mode === "unknown") setAnnouncement(t("status.noSource"));
                 break;
               case "reading":
-                update(id, (turn) => ({ ...turn, reading: event.pages }));
+                update(locale, id, (turn) => ({ ...turn, reading: event.pages }));
                 break;
               case "checking":
-                update(id, (turn) => ({ ...turn, checked: true }));
+                update(locale, id, (turn) => ({ ...turn, checked: true }));
                 break;
               case "text":
-                update(id, (turn) => {
+                update(locale, id, (turn) => {
                   const last = turn.parts.at(-1);
                   const parts: Part[] =
                     last?.type === "text"
@@ -198,28 +210,30 @@ export function AskProvider({ children }: { children: ReactNode }) {
                 });
                 break;
               case "cite":
-                update(id, (turn) => ({ ...turn, parts: [...turn.parts, event] }));
+                update(locale, id, (turn) => ({ ...turn, parts: [...turn.parts, event] }));
                 break;
               case "sources":
-                update(id, (turn) => ({ ...turn, sources: event.sources }));
+                update(locale, id, (turn) => ({ ...turn, sources: event.sources }));
                 break;
               case "error":
-                update(id, (turn) => ({ ...turn, interrupted: true }));
+                update(locale, id, (turn) => ({ ...turn, interrupted: true }));
                 break;
               case "done":
                 finished = true;
                 break;
             }
           }
-          update(id, (turn) => ({ ...turn, phase: "done", interrupted: turn.interrupted === true || !finished }));
+          update(locale, id, (turn) => ({ ...turn, phase: "done", interrupted: turn.interrupted === true || !finished }));
           if (mode !== "no-source" && mode !== "unknown") setAnnouncement(t("status.ready"));
           if (!openRef.current) setUnread(true);
         } catch {
+          // Stopped by a language switch: the conversation shown now is another locale's, so say nothing.
+          if (localeRef.current !== locale) return;
           if (abort.signal.aborted) {
-            update(id, (turn) => ({ ...turn, phase: "stopped" }));
+            update(locale, id, (turn) => ({ ...turn, phase: "stopped" }));
             setAnnouncement(t("status.stopped"));
           } else {
-            update(id, (turn) => ({ ...turn, phase: "failed" }));
+            update(locale, id, (turn) => ({ ...turn, phase: "failed" }));
             setAnnouncement(t("status.error"));
             if (!openRef.current) setUnread(true);
           }
