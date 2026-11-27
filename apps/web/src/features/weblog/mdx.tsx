@@ -110,14 +110,54 @@ function Table(props: ComponentProps<"table">) {
   );
 }
 
+/** One entry of a post's "On this page" list: an h2 or h3 and its anchor. */
+export interface TocEntry {
+  id: string;
+  text: string;
+  depth: 2 | 3;
+}
+
+/** The parts of a HAST node this file reads (the types package is not a dependency). */
+interface HastNode {
+  type: string;
+  tagName?: string;
+  value?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+}
+
+function textOf(node: HastNode): string {
+  if (node.type === "text") return node.value ?? "";
+  return (node.children ?? []).map(textOf).join("");
+}
+
+/**
+ * A rehype step that records every h2 and h3 with the id rehype-slug gave it,
+ * so the table of contents links to the same anchors the headings carry.
+ */
+function collectHeadings(toc: TocEntry[]) {
+  return () => (tree: HastNode) => {
+    const walk = (node: HastNode) => {
+      if (node.type === "element" && (node.tagName === "h2" || node.tagName === "h3")) {
+        const id = node.properties?.id;
+        const text = textOf(node).trim();
+        if (typeof id === "string" && text !== "") toc.push({ id, text, depth: node.tagName === "h2" ? 2 : 3 });
+        return;
+      }
+      for (const child of node.children ?? []) walk(child);
+    };
+    walk(tree);
+  };
+}
+
 /**
  * Compiles a post body. Posts are local files reviewed in Git; JS expressions
  * stay blocked (the next-mdx-remote default) so MDX can only compose the
  * components listed above. `format: "md"` reads plain Markdown (the decision
  * records), where a stray `<` or `{` is text, not JSX; it also scrolls wide
- * tables in their own box.
+ * tables in their own box. Pass `toc` to collect the h2/h3 headings into it.
  */
-export async function renderMdx(source: string, { format = "mdx" }: { format?: "mdx" | "md" } = {}) {
+export async function renderMdx(source: string, { format = "mdx", toc }: { format?: "mdx" | "md"; toc?: TocEntry[] } = {}) {
   const { content } = await compileMDX({
     source,
     components: format === "md" ? { ...components, table: Table } : components,
@@ -128,6 +168,7 @@ export async function renderMdx(source: string, { format = "mdx" }: { format?: "
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
           rehypeSlug,
+          ...(toc === undefined ? [] : [collectHeadings(toc)]),
           [rehypeAutolinkHeadings, { behavior: "wrap", properties: { className: ["heading-anchor"] } }],
           [rehypePrettyCode, { theme: { light: "github-light", dark: "github-dark-dimmed" }, keepBackground: false }],
         ],
