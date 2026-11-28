@@ -33,7 +33,7 @@ function fakeFetch(replies: Record<string, Reply[]>) {
   const calls: string[] = [];
   const fetch = vi.fn((input: string | URL) => {
     const url = String(input);
-    if (url.includes("accounts.spotify.com")) {
+    if (new URL(url).host === "accounts.spotify.com") {
       return Promise.resolve(Response.json({ access_token: "token", expires_in: 3600 }));
     }
     const path = new URL(url).pathname.replace("/v1", "");
