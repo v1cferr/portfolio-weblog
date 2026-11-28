@@ -75,10 +75,14 @@ card.
 
 The current parts show the manufacturer's official product image (the owner's
 call, 2026-11-27), taken from the manufacturer's own product page or CDN, never
-from a retailer, a review or anyone else's photo. Each one has a `credit`: the
-manufacturer's name as `label` and its official product page as `url`, shown
-under the photo in the lightbox. Images with a plain white background get it cut
-to transparency (ImageMagick flood fill from the corners, then trimmed and
-centred on a square); a white product on white keeps its background. The owner's
-own photo replaces the official one whenever there is one (drop the `credit`).
-Old desk photos from the setup history are never cropped into part photos.
+from a review or anyone else's photo. Only when the manufacturer publishes no
+image of that model does it come from the store listing the part links to,
+preferably the brand's own official store on a marketplace (Snowdog on Mercado
+Livre, Baseus on AliExpress). When the page is gone, an archived copy on the
+Wayback Machine is the link. Each one has a `credit`: the manufacturer's name as
+`label` and the page the image came from as `url`, shown under the photo in the
+lightbox. Images with a plain white background get it cut to transparency
+(ImageMagick flood fill from the corners, then trimmed and centred on a square);
+a white product on white keeps its background. The owner's own photo replaces
+the official one whenever there is one (drop the `credit`). Old desk photos from
+the setup history are never cropped into part photos.
