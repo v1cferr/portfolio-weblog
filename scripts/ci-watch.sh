@@ -7,6 +7,8 @@
 # last successful runs, so it improves as the history grows.
 #
 # Usage: scripts/ci-watch.sh <run-id | branch> [interval-seconds]
+# With a branch, it watches that branch's latest run of the workflow named in
+# $CI_WORKFLOW (default "CI", the one that validates, builds and tests).
 set -euo pipefail
 
 target=${1:?usage: ci-watch.sh <run-id | branch> [interval-seconds]}
@@ -18,7 +20,7 @@ if [[ $target =~ ^[0-9]+$ ]]; then
 else
   run=""
   for _ in $(seq 30); do
-    run=$(gh run list --branch "$target" --limit 1 --json databaseId -q '.[0].databaseId' 2>/dev/null || true)
+    run=$(gh run list --branch "$target" --workflow "${CI_WORKFLOW:-CI}" --limit 1 --json databaseId -q '.[0].databaseId' 2>/dev/null || true)
     [[ -n $run ]] && break
     sleep 10
   done
