@@ -3,8 +3,9 @@ import { expect, test } from "@playwright/test";
 
 /*
  * The VS Code extensions on /setup (content/profile/setup.yaml
- * `vscodeExtensions`): grouped, each a deep link, the later groups folded in a
- * disclosure kept per tab, and the old /vscode route pointing here.
+ * `vscodeExtensions`): grouped, each a deep link with its Marketplace icon,
+ * the later groups folded in a disclosure kept per tab, and the old /vscode
+ * route pointing here.
  */
 
 const FOLDED = "vscode-rust-lang-rust-analyzer";
@@ -32,6 +33,16 @@ test.describe("setup VS Code extensions", () => {
       "href",
       "https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer"
     );
+  });
+
+  test("an extension shows its Marketplace icon, decorative and sized up front", async ({ page }) => {
+    await page.goto(`/en-us/setup#${FOLDED}`);
+    const icon = page.locator(`#${FOLDED} img`);
+    await expect(icon).toHaveAttribute("src", "/setup/vscode/rust-lang.rust-analyzer.webp");
+    await expect(icon).toHaveAttribute("alt", "");
+    await expect(icon).toHaveAttribute("width", "24");
+    await expect(icon).toHaveAttribute("height", "24");
+    await expect.poll(() => icon.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBe(72);
   });
 
   test("the old /vscode route lands on the extensions", async ({ page }) => {
