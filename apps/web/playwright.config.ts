@@ -14,9 +14,6 @@ const PORT = Number(process.env.E2E_PORT ?? 3200);
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
-  // GitHub's runners have 4 vCPUs and Playwright uses half by default; the suite
-  // waits on the browser more than on the CPU, so CI runs one worker per vCPU.
-  workers: process.env.CI !== undefined ? 4 : undefined,
   forbidOnly: process.env.CI !== undefined,
   retries: process.env.CI !== undefined ? 1 : 0,
   // On CI each shard writes a blob report; a later job merges them into one HTML report.
