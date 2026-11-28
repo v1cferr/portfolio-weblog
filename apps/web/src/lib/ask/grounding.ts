@@ -33,6 +33,17 @@ export const MAX_SENTENCE_LENGTH = 400;
  */
 export const FAITHFULNESS_THRESHOLD = 0.6;
 
+/**
+ * The same share for a sentence that cites nothing (owner's call, 2026-11-28:
+ * the chat may say things in its own words, based on the site, not only in the
+ * site's). Such a sentence is the model's own phrasing around the facts
+ * ("most of that work was hands-on troubleshooting"), and it still may name no
+ * fact the site lacks (`newFacts`). Measured on the 16 uncited sentences one
+ * eval run dropped at 0.6: 14 score 0.25 or more, while off-site filler
+ * ("Zebras pirouette gracefully nearby", "I love surfing") scores 0.
+ */
+export const UNCITED_FAITHFULNESS_THRESHOLD = 0.25;
+
 const NO_WORDS: ReadonlySet<string> = new Set();
 
 /**
@@ -310,7 +321,7 @@ export type SentenceCheck = { ok: true; text: string } | { ok: false; reason: Dr
 /**
  * Checks one sentence of an answer. `cited` are 0-based indexes into the
  * passages. Cited sentences must stay close to what they cite; uncited ones
- * must add no new fact. Both may name only facts the corpus already has. The
+ * may use more of their own words, and must add no new fact. Both may name only facts the corpus already has. The
  * text returned is the sanitized Markdown, ready to send.
  */
 export function checkSentence(text: string, cited: readonly number[], corpus: Corpus): SentenceCheck {
@@ -329,7 +340,7 @@ export function checkSentence(text: string, cited: readonly number[], corpus: Co
   const conversation = { title: "", keywords: "", text: corpus.conversation };
   const against =
     cited.length > 0 ? [...[...new Set(cited)].flatMap((index) => corpus.passages[index] ?? []), conversation] : [...known, conversation];
-  if (faithfulness(plain, against, CONNECTIVES) < FAITHFULNESS_THRESHOLD)
+  if (faithfulness(plain, against, CONNECTIVES) < (cited.length > 0 ? FAITHFULNESS_THRESHOLD : UNCITED_FAITHFULNESS_THRESHOLD))
     return { ok: false, reason: "unfaithful", detail: unmatchedWords(plain, against, CONNECTIVES) };
   return { ok: true, text: markdown };
 }
