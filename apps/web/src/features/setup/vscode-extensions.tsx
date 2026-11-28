@@ -1,4 +1,4 @@
-import { localize, type Setup, vscodeExtensionAnchor } from "@workspace/content";
+import { localize, type Setup, vscodeExtensionAnchor, vscodeExtensionIcon } from "@workspace/content";
 import { BlocksIcon, ChevronDownIcon, ExternalLinkIcon, PuzzleIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -19,8 +19,9 @@ const marketplaceUrl = (id: string) => `https://marketplace.visualstudio.com/ite
 
 /**
  * The VS Code extensions on /setup (`/setup#vscode-extensions`), grouped by
- * purpose. Each extension is a deep link (`/setup#vscode-<publisher>-<name>`);
- * the groups past the first few fold into a disclosure that stays as the
+ * purpose, each with its official Marketplace icon when it has one (`pnpm
+ * vscode:icons`) and its `icon` logo otherwise. Each extension is a deep link
+ * (`/setup#vscode-<publisher>-<name>`); the groups past the first few fold into a disclosure that stays as the
  * reader left it for the tab, and a deep link into it opens it
  * (components/anchor/hash-target.tsx).
  */
@@ -50,7 +51,20 @@ export async function VscodeExtensions({ extensions }: { extensions: Extensions 
                 data-anchor=""
                 className="group/anchor glass flex min-w-0 items-center gap-3 rounded-lg border px-3 py-2.5"
               >
-                <Icon icon={extension.icon} fallback={PuzzleIcon} tinted className="size-5 text-muted-foreground" />
+                {extension.marketplaceIcon === true ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- a 72 px static icon shown at 24 px; next/image adds nothing here
+                  <img
+                    src={vscodeExtensionIcon(extension.id)}
+                    alt=""
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    decoding="async"
+                    className="size-6 shrink-0 rounded-[22%] object-contain"
+                  />
+                ) : (
+                  <Icon icon={extension.icon} fallback={PuzzleIcon} tinted className="size-5 text-muted-foreground" />
+                )}
                 <span className="min-w-0 flex-1">
                   <ExternalLink
                     href={extension.url ?? marketplaceUrl(extension.id)}

@@ -18,6 +18,7 @@
     "media:add": "pnpm --filter @workspace/content media:add",
     "icons:sync": "pnpm --filter web icons:sync",
     "avatar:build": "pnpm --filter @workspace/content avatar:build",
+    "vscode:icons": "pnpm --filter @workspace/content vscode:icons",
     "wow:sync": "pnpm --filter web wow:sync",
     "linkedin:import": "pnpm --filter web linkedin:import",
     "knip": "knip"

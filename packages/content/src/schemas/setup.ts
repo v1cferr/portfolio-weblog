@@ -47,8 +47,22 @@ export const VscodeExtension = z.strictObject({
   icon: z.string().optional(),
   /** Where it lives when it is not on the Marketplace (a local extension in the dotfiles). */
   url: z.url().optional(),
+  /**
+   * The extension's official Marketplace icon is in the repository, at
+   * `vscodeExtensionIcon(id)`. Written by `pnpm vscode:icons`, never by hand;
+   * without it the card shows `icon` instead.
+   */
+  marketplaceIcon: z.literal(true).optional(),
 });
 export type VscodeExtension = z.infer<typeof VscodeExtension>;
+
+/** The side, in pixels, of a stored Marketplace icon: three times the 24 px it is shown at. */
+export const VSCODE_ICON_SIZE = 72;
+
+/** Where an extension's Marketplace icon lives under apps/web/public. */
+export function vscodeExtensionIcon(id: string): string {
+  return `/setup/vscode/${id}.webp`;
+}
 
 /** The anchor of an extension on /setup: `vscode-` plus its id with dots as dashes. */
 export function vscodeExtensionAnchor(id: string): string {

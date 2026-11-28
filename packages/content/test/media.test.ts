@@ -95,6 +95,38 @@ describe("checkMedia", () => {
     expect(missing[0]?.message).toContain('"/setup/parts/monitor-lg.jpg" does not exist');
   });
 
+  it("checks a VS Code extension's Marketplace icon at its fixed size", async () => {
+    const { content } = loadContent(
+      makeContent({
+        "profile/setup.yaml": {
+          id: "setup",
+          updatedAt: "2026-11",
+          groups: [{ id: "desk", title: { "en-us": "Desk" }, items: [{ id: "monitor-lg", role: { "en-us": "Monitor" }, model: "LG" }] }],
+          vscodeExtensions: {
+            source: "https://example.com/extensions.txt",
+            syncedAt: "2026-11",
+            groups: [
+              {
+                id: "quality",
+                title: { "en-us": "Quality" },
+                items: [
+                  { id: "usernamehw.errorlens", name: "Error Lens", marketplaceIcon: true },
+                  { id: "foxundermoon.shell-format", name: "shell-format" },
+                ],
+              },
+            ],
+          },
+        },
+      })
+    );
+    const missing = await checkMedia(content, publicDirWith(), () => Promise.resolve(SIZE));
+    expect(missing.map((issue) => issue.message)).toEqual([
+      'media "/setup/vscode/usernamehw.errorlens.webp" does not exist under apps/web/public',
+    ]);
+    const wrongSize = await checkMedia(content, publicDirWith("setup/vscode/usernamehw.errorlens.webp"), () => Promise.resolve(SIZE));
+    expect(wrongSize[0]?.message).toContain("but the content says 72x72");
+  });
+
   it("requires alt text and an image path", () => {
     const { issues } = loadContent(makeContent({ "projects/hub.yaml": project({ media: [{ src: "/x.gif" }] }) }));
     expect(issues.map((issue) => issue.message).join()).toMatch(/alt.*|src is a path/);

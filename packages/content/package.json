@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "media:add": "tsx scripts/add-media.ts",
-    "avatar:build": "tsx scripts/build-avatar.ts"
+    "avatar:build": "tsx scripts/build-avatar.ts",
+    "vscode:icons": "tsx scripts/sync-vscode-icons.ts"
   },
   "dependencies": {
     "yaml": "^2.9.1",

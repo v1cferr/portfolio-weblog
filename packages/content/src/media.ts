@@ -3,6 +3,7 @@ import path from "node:path";
 
 import type { ContentIssue } from "./loaders/errors";
 import type { RawContent } from "./loaders/load";
+import { VSCODE_ICON_SIZE, vscodeExtensionIcon } from "./schemas/setup";
 
 export interface MediaReference {
   src: string;
@@ -18,7 +19,15 @@ export function collectMedia(content: RawContent): MediaReference[] {
   const setup = content.setup;
   if (setup === undefined) return media;
   const parts = setup.value.groups.flatMap((group) => group.items.flatMap((item) => (item.media === undefined ? [] : [item.media])));
-  return [...media, ...[...setup.value.photos, ...parts].map(({ src, width, height }) => ({ src, width, height, file: setup.file }))];
+  const icons = (setup.value.vscodeExtensions?.groups ?? []).flatMap((group) =>
+    group.items.flatMap((item) =>
+      item.marketplaceIcon === true ? [{ src: vscodeExtensionIcon(item.id), width: VSCODE_ICON_SIZE, height: VSCODE_ICON_SIZE }] : []
+    )
+  );
+  return [
+    ...media,
+    ...[...setup.value.photos, ...parts, ...icons].map(({ src, width, height }) => ({ src, width, height, file: setup.file })),
+  ];
 }
 
 /**

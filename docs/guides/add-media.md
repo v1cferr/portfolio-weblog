@@ -100,3 +100,22 @@ lightbox. Images with a plain white background get it cut to transparency
 a white product on white keeps its background. The owner's own photo replaces
 the official one whenever there is one (drop the `credit`). Old desk photos from
 the setup history are never cropped into part photos.
+
+## The icons of the VS Code extensions
+
+Each extension under `vscodeExtensions` in `content/profile/setup.yaml` shows
+its official Marketplace icon on `/setup`. After adding or removing an
+extension, refresh them:
+
+```sh
+pnpm vscode:icons
+```
+
+It asks the Marketplace's public gallery API for every extension's latest
+version, downloads its `Icons.Default` asset, fits it into a 72 px square (three
+times the 24 px it is shown at), writes it as WebP without metadata to
+`apps/web/public/setup/vscode/<id>.webp`, and sets `marketplaceIcon: true` on
+the extension. An extension without an icon loses the flag and its file and
+shows its `icon` logo instead; extensions with a `url` (local ones, outside the
+Marketplace) are skipped. Never set the flag by hand: `pnpm content:check` fails
+if the file is missing, has metadata or is not 72 x 72.
