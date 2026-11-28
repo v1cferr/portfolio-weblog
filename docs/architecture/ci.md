@@ -6,16 +6,18 @@ merged only when it is green.
 
 ## Jobs
 
-| Job                            | What it does                                                                                  | When                                        |
-| ------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| `changes`                      | Lists the changed files and decides whether the site needs to be built and tested             | Always                                      |
-| `checks`                       | Format, lint, typecheck, content integrity, icons, knip and unit tests                        | Always                                      |
-| `e2e` (4 shards)               | Production build, then a quarter of the Playwright suite (`--shard=<n>/4`) on phone + desktop | When anything besides documentation changed |
-| `e2e-report`                   | Merges the shards' blob reports into one HTML report and uploads it                           | When a shard failed                         |
-| `ci-ok` ("Validate and build") | Passes when `checks` passed and `e2e` passed or was skipped on purpose                        | Always                                      |
+| Job                            | What it does                                                                                | When                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `changes`                      | Lists the changed files and decides whether the site needs to be built and tested           | Always                                      |
+| `checks`                       | Format, lint, typecheck, content integrity, icons, knip and unit tests                      | Always                                      |
+| `e2e` (6 shards)               | Production build, then a sixth of the Playwright suite (`--shard=<n>/6`) on phone + desktop | When anything besides documentation changed |
+| `e2e-report`                   | Merges the shards' blob reports into one HTML report and uploads it                         | When a shard failed                         |
+| `ci-ok` ("Validate and build") | Passes when `checks` passed and `e2e` passed or was skipped on purpose                      | Always                                      |
 
-`checks` and the shards run at the same time. Before 2026-11-28 everything ran
-in one job, in order, in about 13 minutes, 9 of them end-to-end tests.
+`checks` and the shards run at the same time. Six shards, not four (2026-11-28):
+the suite is bound by the runner's 4 vCPUs, so more workers per shard made it
+slower; more shards split the work instead. Before 2026-11-28 everything ran in
+one job, in order, in about 13 minutes, 9 of them end-to-end tests.
 
 ## Skipped for documentation
 
