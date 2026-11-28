@@ -1,7 +1,7 @@
 id: imobos
 title: imobos
 repository: v1cferr/imobos
-state: experimental
+state: archived
 category: personal
 featured: true
 summary:
@@ -18,11 +18,12 @@ hook:
 # Made for a client as freelance work ("Solo, for a brokerage"): listed under that job.
 experiences: [freelance-2024]
 technologies: [typescript, nextjs, react, python, fastapi, postgresql, docker, nix]
-# Draft from repo facts on 2026-11-23; owner review pending.
 # Sources: v1cferr/imobos README, docs/adr 0001-0010 (0006, 0007, 0009 and 0010 above all),
 # apps/web/package.json, apps/api/pyproject.toml and .github/workflows/ci.yml.
 # The client is a real third party: never name her or the company she sells for.
-# `outcome` and `lessons` stay empty until the owner answers.
+# outcome and howBuilt: the owner's answers of 2026-11-28 (the broker does not use it day to
+# day, so the project stopped and is archived; partly built with Claude Code). `lessons`
+# stays empty until the owner writes it.
 caseStudy:
   problem:
     en-us: >-
@@ -31,6 +32,13 @@ caseStudy:
     pt-br: >-
       Uma corretora guardava os clientes no WhatsApp e numa planilha. O ImobOS é um lugar só que
       responde quem precisa de atenção hoje, por quê, e qual é a próxima ação.
+  outcome:
+    en-us: >-
+      The broker never adopted it day to day, so the project stopped and is archived. The decisions
+      and the infrastructure below are what it left.
+    pt-br: >-
+      A corretora não chegou a usar no dia a dia, então o projeto parou e está arquivado. As
+      decisões e a infraestrutura abaixo são o que ficou dele.
   role:
     en-us: Solo, for a real estate broker
     pt-br: Solo, para uma corretora
@@ -158,14 +166,13 @@ caseStudy:
           1,5 GB, e uma segunda tela para a corretora até o ImobOS ler as conversas pela API do
           Chatwoot.
       adr: https://github.com/v1cferr/imobos/blob/main/docs/adr/0009-chatwoot-self-hosted.md
-  # The AI-assistance line waits for the owner to confirm (2026-11-23).
   howBuilt:
     en-us: >-
-      I owned the scope, the architecture and the review, and each decision that shaped the system
-      is an ADR.
+      Partly built with Claude Code. I owned the scope, the architecture and the review, and each
+      decision that shaped the system is an ADR.
     pt-br: >-
-      O escopo, a arquitetura e a revisão foram meus, e cada decisão que moldou o sistema virou um
-      ADR.
+      Feito em parte com o Claude Code. O escopo, a arquitetura e a revisão foram meus, e cada
+      decisão que moldou o sistema virou um ADR.
   quality:
     en-us:
       - "CI on every push and pull request: nix flake check, lint, typecheck, tests and build"
@@ -179,13 +186,4 @@ caseStudy:
       - "Typecheck: TypeScript na web, mypy em modo strict na API"
       - "Testes: Vitest na web, pytest na API"
       - "O CI também gera as imagens do Compose e roda as migrations num PostgreSQL real"
-  next:
-    en-us:
-      - Spreadsheet import and Meta Lead Ads as lead sources.
-      - ImobOS reading conversations through Chatwoot's API, with a single sign-in between the two.
-      - AI-assisted replies with human review.
-    pt-br:
-      - Importação de planilha e Meta Lead Ads como fontes de leads.
-      - O ImobOS lendo as conversas pela API do Chatwoot, com um login único entre os dois.
-      - Respostas assistidas por IA com revisão humana.
   adrs: https://github.com/v1cferr/imobos/tree/main/docs/adr
