@@ -762,7 +762,6 @@ vscodeExtensions:
         - { id: enkia.tokyo-night, name: "Tokyo Night", marketplaceIcon: true }
         - { id: vscode-icons-team.vscode-icons, name: "vscode-icons", marketplaceIcon: true }
         - { id: zh9528.file-size, name: "file-size", marketplaceIcon: true }
-        - { id: neverdh.fah-meme, name: "Fah MEME", marketplaceIcon: true }
 
 # Photo history from v1 (public/pictures/setup), re-encoded with pnpm media:add
 # so no metadata survives. The 2019-12-09 photo is left out (it shows a family
