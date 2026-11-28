@@ -4,6 +4,7 @@ import { type ClaudeAnswer, ClaudeFailure } from "./anthropic";
 import {
   ANSWER_SCHEMA,
   checkSentence,
+  collapseRestatement,
   type Corpus,
   type DropReason,
   groundAnswer,
@@ -14,6 +15,7 @@ import {
   type PendingSentence,
   repeats,
   SentenceBuffer,
+  supersedes,
 } from "./grounding";
 import { siteDoesNotSay, takeGapMarker } from "./gap";
 import { type ChatMessage, type CompletionResult, complete } from "./openrouter";
@@ -146,6 +148,11 @@ class Emitter {
   private held: { text: string; cited: number[] }[] = [];
   /** The last sentence kept (held or sent): a sentence that only restates it is dropped (`repeats`). */
   private last: { text: string; cited: number[] } | null = null;
+  /**
+   * An uncited sentence after the answer started, held until the next one: if
+   * that one is cited and says it all (`supersedes`), only the cited one is sent.
+   */
+  private pending: { text: string; cited: number[] } | null = null;
   /** A checked lead-in line, waiting for its first list item. */
   private leadIn: { text: string; cited: number[] } | null = null;
   private started = false;
@@ -175,7 +182,8 @@ class Emitter {
       if (sentence.text.trim() !== "") this.truncated = true;
       return;
     }
-    const check = checkSentence(sentence.text, sentence.cited, { ...this.corpus, scope: this.scope });
+    // Said twice inside the sentence ("X at Y, where I was X at Y from…"): said once.
+    const check = checkSentence(collapseRestatement(sentence.text), sentence.cited, { ...this.corpus, scope: this.scope });
     if (!check.ok) {
       this.drop(check.reason, sentence, check.detail);
       this.claimDropped ||= isClaim(check.reason, sentence.cited);
@@ -221,12 +229,27 @@ class Emitter {
       const last = this.last;
       const added = sentence.cited.filter((index) => !last.cited.includes(index));
       last.cited.push(...added);
+      if (last === this.pending) {
+        // Not sent yet: with a citation now, it goes out whole.
+        if (last.cited.length > 0) yield* this.flushPending();
+        return;
+      }
       if (this.started) yield* this.cite(added);
       else if (last.cited.length > 0) yield* this.start();
       return;
     }
     // A copy: a repeat after it may add citations to it, even while it is held.
     const checked = { text: sentence.text, cited: [...sentence.cited] };
+    const waiting = this.pending ?? (this.started ? null : (this.held.at(-1) ?? null));
+    if (waiting !== null && checked.cited.length > 0 && supersedes(checked.text, waiting.text)) {
+      // The uncited paraphrase goes; the cited sentence says it all.
+      this.drop("repeat", waiting);
+      if (waiting === this.pending) this.pending = null;
+      else this.held.pop();
+      this.sentences--;
+      this.length -= waiting.text.length;
+    }
+    yield* this.flushPending();
     this.last = checked;
     this.sentences++;
     this.length += checked.text.length;
@@ -235,7 +258,18 @@ class Emitter {
       return;
     }
     if (!this.started) yield* this.start();
+    if (checked.cited.length === 0) {
+      this.pending = checked;
+      return;
+    }
     yield* this.send(checked);
+  }
+
+  private *flushPending(): Generator<AskEvent, void, undefined> {
+    if (this.pending === null) return;
+    const pending = this.pending;
+    this.pending = null;
+    yield* this.send(pending);
   }
 
   /** The first cited sentence: the answer starts, with the uncited ones held before it. */
@@ -281,6 +315,7 @@ class Emitter {
     locale: string,
     { partial = false, gap = false }: { partial?: boolean; gap?: boolean } = {}
   ): Generator<AskEvent, void, undefined> {
+    yield* this.flushPending();
     if (gap) yield { type: "text", text: `\n\n${siteDoesNotSay(locale)}` };
     if (partial || gap || this.truncated || this.claimDropped) yield { type: "partial" };
     const sources = this.citations.sources();
