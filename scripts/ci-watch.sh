@@ -84,7 +84,10 @@ while true; do
             name: $job,
             step: ($left | map(select(.status == "in_progress")) | first | .name // "queued"),
             remaining: (
-              if ($steps | length) == 0 or ($known | length) == 0 then [$total - $elapsed, 0] | max
+              # A job with no steps yet, queued after others finished, is a short
+              # final one (the ci-ok gate): a few seconds, not a whole run.
+              if ($steps | length) == 0 and $elapsed > 60 then 15
+              elif ($steps | length) == 0 or ($known | length) == 0 then [$total - $elapsed, 0] | max
               else ($left | map(
                 ($base.steps[.key] // 0) as $median
                 | if .status == "in_progress" then [$median - ($now - (.startedAt | fromdateiso8601)), 0] | max else $median end
