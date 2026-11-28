@@ -492,8 +492,17 @@ export function repeats(previous: string, sentence: string): boolean {
  * `repeats` read the other way round: the first one goes, the second stays.
  */
 export function supersedes(sentence: string, previous: string): boolean {
-  return repeats(sentence, previous);
+  return !BACK_REFERENCE.test(plainText(sentence).trimStart()) && repeats(sentence, previous);
 }
+
+/**
+ * Openings that lean on the sentence before (2026-11-28): "That is why my whole
+ * machine is declared in Nix" restates "I use Nix to declare my whole machine",
+ * but without it the answer opens on a dangling "That is why". Such a sentence
+ * never replaces the one it points back to.
+ */
+const BACK_REFERENCE =
+  /^(?:that|this|these|those|there|then|so|thus|hence|which|por isso|isso|isto|esse|essa|esses|essas|este|esta|l[aá]|ali|a[ií]|nele|nela|nesse|nessa|neste|nesta|assim|da[ií])\b/iu;
 
 /** The shortest run of words that counts as said twice inside one sentence. */
 const MIN_RESTATED_RUN = 4;
