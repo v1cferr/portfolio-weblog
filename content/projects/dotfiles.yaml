@@ -21,8 +21,9 @@ links:
 # migration told in the from-arch-to-nixos post.
 technologies: [nix, nixos, linux, arch-linux]
 skills: [infrastructure-as-code]
-# Draft from repo facts on 2026-11-23; owner review pending.
-# Sources: v1cferr/dotfiles README, docs/rules.md, docs/arch-linux.md, docs/decisions 0006, 0009,
+# Roles confirmed by the owner on 2026-11-28, and ADR 0018 (the shared T480s) approved for the
+# page. The other person on that laptop stays unnamed: family never appears on the site.
+# Sources: v1cferr/dotfiles README, docs/rules.md, docs/arch-linux.md, docs/decisions 0006 (now summed up inside the 0018 entry), 0009,
 # 0015, 0016, 0018, flake.nix, flake/checks.nix, .github/workflows, and the published post
 # content/weblog/2026/11/from-arch-to-nixos (the outcome is the owner's own words there).
 # `lessons` stays empty until the owner answers.
@@ -149,29 +150,43 @@ caseStudy:
           O Bitwarden vira o lugar onde se perde tudo; um destinatário age offline é a mitigação.
       adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0016-bitwarden-is-the-secrets-source.md
     - title:
-        en-us: The desk's disks are not encrypted
-        pt-br: Os discos do desktop não são criptografados
+        en-us: The shared laptop is one system with two homes
+        pt-br: O notebook compartilhado é um sistema com duas homes
       chosen:
-        en-us: no disk encryption on a desktop that does not leave the house
-        pt-br: nenhuma criptografia de disco num desktop que não sai de casa
+        en-us: >-
+          the ThinkPad T480s declared here as one system, with each person's home configuration in
+          their own repository, and each host importing only the roles it plays
+        pt-br: >-
+          o ThinkPad T480s declarado aqui como um sistema só, com a configuração de home de cada
+          pessoa no próprio repositório, e cada host importando só os papéis que exerce
       alternatives:
-        en-us: [LUKS unlocked by the TPM2]
-        pt-br: [LUKS destravado pelo TPM2]
+        en-us:
+          - two system configurations, one per person
+          - the other home as a flake input of this repository
+          - an enable option per role
+        pt-br:
+          - duas configurações de sistema, uma por pessoa
+          - a outra home como input do flake deste repositório
+          - uma opção enable por papel
       why:
         en-us: >-
-          theft is an accepted risk for that machine, and LUKS would have meant reformatting. The
-          laptop, which does leave, is encrypted.
+          a machine has one kernel, one bootloader and one display manager, so two repositories
+          writing them would be two owners of one artifact. As an input of this flake, every change
+          of the other home would wait for my update, and a mistake there would fail my system build.
         pt-br: >-
-          o roubo é um risco aceito para essa máquina, e o LUKS exigiria reformatar. O notebook, que
-          sai de casa, é criptografado.
+          uma máquina tem um kernel, um bootloader e um display manager, então dois repositórios
+          escrevendo neles seriam dois donos do mesmo artefato. Como input deste flake, cada mudança
+          da outra home esperaria o meu update, e um erro nela quebraria o build do meu sistema.
       cost:
         en-us: >-
-          A stolen disk hands over the home, the sops age key (so every secret needs rotation), the
-          SSH host keys and the Secure Boot keys. The decision has a review date: 2027-09-30.
+          The laptop holds none of the desk's secrets, so it has no VPN until a second secrets file
+          exists (under review). It leaves the house, so its disk is encrypted with LUKS; the desk's
+          stays unencrypted, an accepted risk with a review date.
         pt-br: >-
-          Um disco roubado entrega a home, a chave age do sops (e todo segredo precisa ser rotacionado),
-          as chaves SSH do host e as chaves do Secure Boot. A decisão tem data de revisão: 30/09/2027.
-      adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0006-no-disk-encryption.md
+          O notebook não guarda nenhum segredo do desktop, então fica sem VPN até existir um segundo
+          arquivo de segredos (em revisão). Ele sai de casa, então o disco é criptografado com LUKS;
+          o do desktop continua sem criptografia, um risco aceito com data de revisão.
+      adr: https://github.com/v1cferr/dotfiles/blob/main/docs/decisions/0018-a-shared-laptop.md
   howBuilt:
     en-us: >-
       Built with Claude Code, which also helped me put the migration plan together. I owned the
