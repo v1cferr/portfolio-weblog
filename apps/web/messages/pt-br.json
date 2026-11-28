@@ -369,7 +369,8 @@
       "challenge": "Desafios",
       "professional": "Profissionais"
     },
-    "builtAt": "Feito em"
+    "builtAt": "Feito em",
+    "stale": "Sem atualizações desde {date}"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entrada} other {# entradas}}",

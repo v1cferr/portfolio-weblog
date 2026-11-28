@@ -369,7 +369,8 @@
       "challenge": "Challenges",
       "professional": "Professional"
     },
-    "builtAt": "Built at"
+    "builtAt": "Built at",
+    "stale": "No updates since {date}"
   },
   "Timeline": {
     "entries": "{count, plural, one {# entry} other {# entries}}",

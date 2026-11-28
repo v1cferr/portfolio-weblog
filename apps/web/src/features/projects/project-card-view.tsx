@@ -15,7 +15,7 @@ import { Link } from "@/i18n/navigation";
 import { groupByIcon } from "@/lib/tech-icons";
 
 import { LanguageBar, type LanguageSliceData } from "./languages";
-import { ProjectStateBadge } from "./project-state-badge";
+import { ProjectStateBadge, StaleBadge } from "./project-state-badge";
 
 /** Everything a card shows, already localized; serializable for the client catalogue. */
 export interface ProjectCardData {
@@ -35,6 +35,8 @@ export interface ProjectCardData {
   storePath: string;
   state: ProjectState;
   stateLabel: string;
+  /** Set when a project in progress has had no push for months: the badge's text ("No updates since Jun 2026"). */
+  staleLabel?: string | undefined;
   category: ProjectCategory;
   categoryLabel: string;
   featured: boolean;
@@ -95,6 +97,7 @@ export function ProjectCardView({
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <ProjectStateBadge state={project.state} label={project.stateLabel} />
+          {project.staleLabel !== undefined && <StaleBadge label={project.staleLabel} />}
           <span className="font-mono text-[0.7rem] text-muted-foreground">{project.categoryLabel}</span>
           {project.caseStudyLabel !== undefined && (
             <Badge variant="now" className="ml-auto h-5 gap-1 px-1.5 text-[0.7rem] font-medium">
