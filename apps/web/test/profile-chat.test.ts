@@ -11,7 +11,7 @@ import {
   classifyError,
   type MessagesClient,
 } from "../src/lib/ask/anthropic";
-import { ask, type Generate, retrieveFor } from "../src/lib/ask/engine";
+import { ask, type DroppedSentence, type Generate, retrieveFor } from "../src/lib/ask/engine";
 import { GAP_MARKER, siteDoesNotSay, takeGapMarker } from "../src/lib/ask/gap";
 import {
   checkSentence,
@@ -250,7 +250,7 @@ describe("OpenRouter models", () => {
       models: ["a:free", "b:free", "c:free", "d:free"],
       now: () => clock,
     });
-    expect(result).toEqual({ ok: false, reason: "timeout" });
+    expect(result).toMatchObject({ ok: false, reason: "timeout" });
   });
 });
 
@@ -423,12 +423,18 @@ describe("grounding", () => {
     expect(checkSentence("No dia a dia, meu trabalho inclui:\n\n", [], ctx).ok).toBe(true);
     expect(checkSentence("Se quiser, posso falar mais sobre algum desses pontos.", [], ctx).ok).toBe(true);
     // An uncited fact the pages do not have is dropped, and so is a cited claim they do not back.
-    expect(checkSentence("I also built it for Google in 2019.", [], ctx)).toEqual({ ok: false, reason: "new-fact" });
-    expect(checkSentence("I earn a large salary as a principal engineer in Zurich.", [], ctx)).toEqual({ ok: false, reason: "new-fact" });
-    expect(checkSentence("Victor earns a large salary as principal engineer.", [0], ctx)).toEqual({ ok: false, reason: "unfaithful" });
-    expect(checkSentence("Read it at obsidian-rag.dev.", [], ctx)).toEqual({ ok: false, reason: "url" });
-    expect(checkSentence("Personal RAG chatbot.", [7], ctx)).toEqual({ ok: false, reason: "bad-source" });
-    expect(checkSentence(" \n", [], ctx)).toEqual({ ok: false, reason: "empty" });
+    expect(checkSentence("I also built it for Google in 2019.", [], ctx)).toMatchObject({ ok: false, reason: "new-fact" });
+    expect(checkSentence("I earn a large salary as a principal engineer in Zurich.", [], ctx)).toMatchObject({
+      ok: false,
+      reason: "new-fact",
+    });
+    expect(checkSentence("Victor earns a large salary as principal engineer.", [0], ctx)).toMatchObject({
+      ok: false,
+      reason: "unfaithful",
+    });
+    expect(checkSentence("Read it at obsidian-rag.dev.", [], ctx)).toMatchObject({ ok: false, reason: "url" });
+    expect(checkSentence("Personal RAG chatbot.", [7], ctx)).toMatchObject({ ok: false, reason: "bad-source" });
+    expect(checkSentence(" \n", [], ctx)).toMatchObject({ ok: false, reason: "empty" });
   });
 
   it("joins streamed blocks into whole sentences, each with every passage its pieces cite", () => {
@@ -1084,11 +1090,11 @@ describe("grounding, dates in words and possessives", () => {
   });
 
   it("still drops a month or a year the passages do not date", () => {
-    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since May 2026.", [0], roleCorpus)).toEqual({
+    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since May 2026.", [0], roleCorpus)).toMatchObject({
       ok: false,
       reason: "new-fact",
     });
-    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since August 2019.", [0], roleCorpus)).toEqual({
+    expect(checkSentence("I'm an AI Systems Analyst at FAI·UFSCar, since August 2019.", [0], roleCorpus)).toMatchObject({
       ok: false,
       reason: "new-fact",
     });
@@ -1111,14 +1117,14 @@ describe("grounding, dates in words and possessives", () => {
     const hiring = corpus([role], "I'm hiring a frontend engineer for a startup. Would Victor fit?");
     expect(checkSentence("For a frontend startup role, I'm an AI Systems Analyst at FAI·UFSCar.", [0], hiring)).toMatchObject({ ok: true });
     // The visitor's words help only the sentence's wording; an invented employer is still a new fact.
-    expect(checkSentence("For a frontend startup role, I led frontend at Netflix.", [0], hiring)).toEqual({
+    expect(checkSentence("For a frontend startup role, I led frontend at Netflix.", [0], hiring)).toMatchObject({
       ok: false,
       reason: "new-fact",
     });
   });
 
   it("does not let time words carry an invented claim", () => {
-    expect(checkSentence("Currently I'm also a professional chess grandmaster and pilot.", [0], roleCorpus)).toEqual({
+    expect(checkSentence("Currently I'm also a professional chess grandmaster and pilot.", [0], roleCorpus)).toMatchObject({
       ok: false,
       reason: "unfaithful",
     });
@@ -1325,5 +1331,24 @@ describe("repeated sentences (2026-11-28)", () => {
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
     expect(texts(events).match(/Obsidian vault/g)).toHaveLength(1);
     expect(cites(events)).toHaveLength(1);
+  });
+});
+
+describe("dropped sentences for the eval (2026-11-28)", () => {
+  const input = { locale: "en-us", question: "What RAG has he built?", history: [] };
+
+  it("hands each dropped sentence, its pages and the words no page has to onDrop", async () => {
+    const drops: DroppedSentence[] = [];
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". " },
+      { text: "Currently I'm also a professional chess grandmaster and pilot", cited: [2] },
+      { text: "." },
+    ]);
+    await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null, onDrop: (drop) => drops.push(drop) }));
+    expect(drops).toHaveLength(1);
+    expect(drops[0]).toMatchObject({ reason: "unfaithful", text: "Currently I'm also a professional chess grandmaster and pilot." });
+    expect(drops[0]?.cited).toHaveLength(1);
+    expect(drops[0]?.detail).toEqual(expect.arrayContaining(["chess", "grandmaster", "pilot"]));
   });
 });
