@@ -76,7 +76,10 @@ while true; do
   read -r percent remaining current < <(jq -r --argjson base "$baseline" --argjson now "$now" '
     ($base.total // 1) as $total
     | ($now - (.createdAt | fromdateiso8601)) as $elapsed
-    | [.jobs[] | select(.status != "completed") | .name as $job
+    | [.jobs[]
+        # The API can briefly report a finished job as queued; one whose steps all ran is done.
+        | select(.status != "completed" and ((.steps | length) == 0 or any(.steps[]; .status != "completed")))
+        | .name as $job
         | [.steps[]? | . + {key: "\($job) › \(.name)"}] as $steps
         | ($steps | map(select(.status != "completed")) ) as $left
         | ($left | map($base.steps[.key]) | map(select(. != null))) as $known
