@@ -5,11 +5,11 @@
   "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build",
+    "build": "turbo run build --filter=web",
     "start": "pnpm --filter web start",
-    "lint": "pnpm -r --if-present lint",
-    "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
     "content:check": "pnpm --filter @workspace/content check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -27,6 +27,7 @@
     "lint-staged": "^17.6.1",
     "prettier": "^3.10.1",
     "simple-git-hooks": "^2.14.0",
+    "turbo": "2.11.11",
     "vercel": "66.2.0"
   },
   "lint-staged": {
