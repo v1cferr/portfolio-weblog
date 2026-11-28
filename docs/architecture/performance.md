@@ -59,7 +59,56 @@ From the analyzer (initial JS on `/[locale]/weblog`, compressed) and the HTML:
 | Company logos preloaded on home and about, light **and** dark variants       | 13–15 extra |
 | `/` answers 307 to `/en-us`, one more round trip on a first visit            | —           |
 
-The plan that comes out of this: cut the logo preloads (LCP), trim the RSC
-payload, defer the widgets that are not needed for the first paint (same look),
-measure the Cloudflare proxy, and guard the result with Lighthouse CI and a
-budget.
+The plan that comes out of this: cut the logo preloads (LCP), defer the widgets
+that are not needed for the first paint (same look), measure the Cloudflare
+proxy, and guard the result with Lighthouse CI and a budget.
+
+## The RSC payload
+
+Each HTML carries the server tree again as the RSC payload (up to 351K raw on
+`/setup`). Most of it is the tree itself: Tailwind class strings repeated per
+row, and the props of the few client components (the photo list of `/setup`, the
+client message namespaces, the page Markdown behind "copy as Markdown"). Brotli
+takes `/setup` from 848K to 76K, so trimming it would save little on the wire.
+It stays as it is until a page shows a real cost (parse time in Lighthouse).
+
+## The edge: Cloudflare in front of Vercel
+
+DNS is on Cloudflare with the proxy on (orange cloud): requests reach a
+Cloudflare edge, which forwards them, uncached (`cf-cache-status: DYNAMIC`), to
+Vercel's edge in São Paulo (`gru1`), where the prerendered page is a cache hit.
+Vercel
+[advises against a proxy in front of it](https://vercel.com/kb/guide/cloudflare-with-vercel):
+extra latency, two caches, and its firewall and bot detection lose the real
+client.
+
+Measured on 2026-11-28 from the owner's connection in Brazil, 12 interleaved
+rounds. "Direct" pins the hostname to Vercel's anycast IP
+(`curl --resolve v1cferr.dev:443:76.76.21.21`, which Vercel answers with a valid
+certificate):
+
+| Request                        | Proxied (median / p90) | Direct (median / p90) |
+| ------------------------------ | ---------------------- | --------------------- |
+| `/` (the 307 to `/en-us`)      | 163 / 170 ms           | 73 / 83 ms            |
+| `/en-us`                       | 171 / 180 ms           | 78 / 86 ms            |
+| `/en-us/weblog`                | 150 / 180 ms           | 80 / 91 ms            |
+| A CSS chunk (`/_next/static/`) | 120 / 122 ms           | 50 / 71 ms            |
+
+The proxy adds about 70–90 ms to every request, the HTML and each asset the page
+needs before it can paint. A first visit to `/` pays that twice, for the
+redirect and for the page. These numbers are from a single location; the gap
+abroad depends on how far the Cloudflare and Vercel edges are from each other.
+
+What the proxy gives today:
+[the managed robots.txt](../guides/seo.md#cloudflares-managed-robotstxt), with
+the AI training crawlers blocked and a `Content-Signal` line. Going DNS-only
+(grey cloud) would mean writing those rules into `app/robots.ts`. The decision
+is the owner's; nothing changes until then.
+
+### The redirect at `/`
+
+`/` answers 307 to the visitor's locale (next-intl reads `Accept-Language`). It
+is one extra round trip, but only on the bare domain: shared links and search
+results point to `/en-us/...` or `/pt-br/...`. Serving a locale at `/` without
+the redirect would change the canonical URLs (`localePrefix: "always"`), so it
+stays.
