@@ -327,7 +327,8 @@ holds.
   schema to the check of every sentence below. `cited_text` is not billed as
   output.
 - **Request.** `output_config: { effort: "low" }`, adaptive thinking left at its
-  default, no sampling parameters, no prefill, `max_tokens` 1500. The system
+  default, no sampling parameters, no prefill, `max_tokens` 3000 (1500 until
+  2026-11-27, when thinking used it up on 5 of 40 eval answers). The system
   prompt is the same for every question in a locale and carries
   `cache_control: { type: "ephemeral" }`; with it, a second question reads about
   1,500 tokens from the cache.
@@ -379,7 +380,7 @@ holds.
   same rules plus the JSON shape, where a sentence with no fact may list no
   sources.
 - **Cost and abuse.** The WAF rule (10 requests a minute per IP), questions of
-  at most 300 characters, three earlier turns, `max_tokens` 1500, prompt
+  at most 300 characters, three earlier turns, `max_tokens` 3000, prompt
   caching, and a monthly spend limit the owner sets in the Anthropic Console.
   Logs carry token counts and reason codes
   (`usage provider=anthropic input=… output=… cache_read=…`), never the

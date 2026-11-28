@@ -94,8 +94,12 @@ export function buildMessages(
 }
 
 export const CLAUDE_MODEL = "claude-haiku-5-5";
-/** Room for a dozen sentences and the adaptive thinking low effort leaves; the answer is cut (and marked partial) past it. */
-export const CLAUDE_MAX_TOKENS = 1500;
+/**
+ * Room for the adaptive thinking low effort leaves plus a dozen sentences; the
+ * answer is cut (and marked partial) past it. Thinking counts against it: at
+ * 1500, 5 of 40 eval answers (2026-11-27) ran out mid-sentence or before any text.
+ */
+export const CLAUDE_MAX_TOKENS = 3000;
 
 /**
  * Claude's request (ADR 0011): every passage is its own plain-text document
