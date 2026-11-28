@@ -230,3 +230,18 @@
       site, com as fotos e nos dois idiomas, em vez de ler os arquivos crus. Só o
       conteúdo marcado para revisão aparece lá, atrás de um login; o site público
       continua mostrando só o que eu aprovei.
+
+"0020":
+  why:
+    en-us: >-
+      Each check on the site's code runs only when what it checks has changed. A
+      check that already passed on the same files is taken from a shared cache
+      instead of running again, so a small change gets its result in a fraction of
+      the time. The tests that open the site in a browser still run whenever the
+      site changes.
+    pt-br: >-
+      Cada verificação do código do site só roda quando o que ela verifica mudou.
+      Uma verificação que já passou com os mesmos arquivos vem de um cache
+      compartilhado em vez de rodar de novo, então uma mudança pequena tem o
+      resultado numa fração do tempo. Os testes que abrem o site no navegador
+      continuam rodando sempre que o site muda.
