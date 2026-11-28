@@ -33,8 +33,6 @@ playwright-report/
 result
 result-*
 
-# local shell scripts
-*.sh
 
 # local scratch notes and reports (docs/tmp holds a security report with homelab details)
 tmp/
