@@ -24,9 +24,10 @@ const PHONE = "(max-width: 39.999rem)";
 const loadConversation = () => import("./ask-conversation");
 const AskConversation = dynamic(loadConversation, { ssr: false, loading: () => <ConversationSkeleton /> });
 
-// The phone sheet brings vaul; only phones that open the dock download it.
+// The phone sheet brings vaul; only phones that open the dock download it. Until it arrives, a plain sheet in the
+// same place shows the skeleton, so a tap on a slow network still answers at once.
 const loadSheet = () => import("./ask-sheet");
-const AskSheet = dynamic(loadSheet, { ssr: false });
+const AskSheet = dynamic(loadSheet, { ssr: false, loading: () => <SheetPlaceholder /> });
 
 function preload() {
   void loadConversation();
@@ -265,6 +266,34 @@ function DockHeader({ title, onMinimize, canExpand = false }: { title: ReactNode
       >
         <MinusIcon />
       </Button>
+    </div>
+  );
+}
+
+/**
+ * The phone sheet's stand-in while vaul downloads: the same size and place,
+ * the dock's title and the conversation skeleton. Gone if the dock is
+ * minimized before the sheet arrives.
+ */
+function SheetPlaceholder() {
+  const t = useTranslations("Ask");
+  const { open } = useAsk();
+  if (!open) return null;
+  return (
+    <div
+      id="ask-dock"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ask-dock-title"
+      className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(100dvh_-_max(env(safe-area-inset-top),0.75rem))] flex-col overflow-clip rounded-t-2xl bg-background text-sm text-foreground shadow-2xl"
+    >
+      <div className="flex h-12 shrink-0 items-center gap-2 border-b border-border/60 px-4">
+        <SparklesIcon aria-hidden className="size-4 shrink-0 text-primary" />
+        <h2 id="ask-dock-title" className="ml-1 min-w-0 truncate text-sm font-medium">
+          {t("title")}
+        </h2>
+      </div>
+      <ConversationSkeleton />
     </div>
   );
 }
