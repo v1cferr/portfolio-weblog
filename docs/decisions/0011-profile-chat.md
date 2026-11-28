@@ -529,3 +529,22 @@ way keeps every question about the owner answered.
   did.
 - **Eval.** The wording check no longer counts a title inside a longer one ("AI
   software developer" inside "AI software developer intern") as a repeat.
+
+## Revision (2026-11-28, restatements the repeat rule missed)
+
+The eval with dropped sentences in view showed two kinds of repetition that the
+`repeat` rule did not catch:
+
+- **Inside one sentence.** "I was an IT Support Technician Intern at Cultura
+  Inglesa, where I was IT Support Technician Intern at Cultura Inglesa from…".
+  `collapseRestatement` cuts a run of four or more words said twice, with at
+  most four words between the copies, down to one copy. It runs before the
+  checks, so the shorter sentence is the one checked and sent.
+- **A paraphrase, then the cited sentence.** "I worked as Level 2 support at VIP
+  Telecom. I was Level 2 support at VIP Telecom from July 2023…". The repeat
+  rule compares each sentence with the one before it, and here the second one
+  adds dates. After the answer starts, an uncited sentence now waits for the
+  next one. If the next sentence is cited and says everything the uncited one
+  said (`supersedes`), the uncited one is dropped as `repeat`. Otherwise it is
+  sent before the next one, or at the end. The free models' JSON answers follow
+  the same rule.

@@ -467,6 +467,49 @@ export function repeats(previous: string, sentence: string): boolean {
   return words.filter((word) => matches(word, vocabulary, stems)).length / words.length >= REPEAT_SHARE;
 }
 
+/**
+ * Whether the cited `sentence` says everything the uncited `previous` said
+ * (2026-11-28): the model often paraphrases a fact and then cites the passage
+ * with its dates ("I worked as Level 2 support at VIP Telecom. I was Level 2
+ * support at VIP Telecom from July 2023…"). `repeats` read the other way
+ * round: the uncited one goes, the cited one stays.
+ */
+export function supersedes(sentence: string, previous: string): boolean {
+  return repeats(sentence, previous);
+}
+
+/** The shortest run of words that counts as said twice inside one sentence. */
+const MIN_RESTATED_RUN = 4;
+/** At most this many words may join the two copies (", where I was"). */
+const MAX_RESTATEMENT_JOIN = 4;
+
+/**
+ * A sentence that says the same run of words twice, joined by a few words, is
+ * cut to say it once (2026-11-28): "I was an IT Support Technician Intern at
+ * Cultura Inglesa, where I was IT Support Technician Intern at Cultura Inglesa
+ * from January to June 2023." becomes "I was an IT Support Technician Intern
+ * at Cultura Inglesa from January to June 2023.". The longest repeated run
+ * wins. Text the model wrote only once is never changed.
+ */
+export function collapseRestatement(text: string): string {
+  const words = [...text.matchAll(/[\p{L}\p{N}][\p{L}\p{N}·'’-]*/gu)].map((match) => ({
+    word: match[0].toLowerCase(),
+    end: match.index + match[0].length,
+  }));
+  let best: { firstEnd: number; secondEnd: number; length: number } | null = null;
+  for (let i = 0; i < words.length; i++) {
+    for (let j = i + MIN_RESTATED_RUN; j < words.length; j++) {
+      let length = 0;
+      while (j + length < words.length && i + length < j && words[i + length]?.word === words[j + length]?.word) length++;
+      if (length < MIN_RESTATED_RUN || j - (i + length) > MAX_RESTATEMENT_JOIN) continue;
+      if (best === null || length > best.length) {
+        best = { firstEnd: words[i + length - 1]?.end ?? 0, secondEnd: words[j + length - 1]?.end ?? 0, length };
+      }
+    }
+  }
+  return best === null ? text : text.slice(0, best.firstEnd) + text.slice(best.secondEnd);
+}
+
 export interface GroundedSentence {
   /** Sanitized Markdown. */
   text: string;
@@ -497,7 +540,7 @@ export function groundAnswer(content: string, corpus: Corpus): GroundingResult |
   let claimDropped = false;
   for (const sentence of answer.sentences.slice(0, MAX_SENTENCES)) {
     const cited = [...new Set(sentence.sources)].map((id) => id - 1);
-    const check = checkSentence(sentence.text, cited, corpus);
+    const check = checkSentence(collapseRestatement(sentence.text), cited, corpus);
     if (!check.ok) {
       dropped.push(check.reason);
       claimDropped ||= isClaim(check.reason, cited);
@@ -508,6 +551,11 @@ export function groundAnswer(content: string, corpus: Corpus): GroundingResult |
       dropped.push("repeat");
       previous.passages = [...new Set([...previous.passages, ...cited])];
       continue;
+    }
+    // An uncited paraphrase followed by the cited sentence that says it all: only the cited one stays.
+    if (previous?.passages.length === 0 && cited.length > 0 && supersedes(check.text, previous.text)) {
+      dropped.push("repeat");
+      sentences.pop();
     }
     sentences.push({ text: check.text.trim(), passages: cited });
   }
