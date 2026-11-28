@@ -28,12 +28,6 @@ export interface AskTurn {
   answer: string;
 }
 
-export interface AskRequest {
-  locale: string;
-  question: string;
-  history?: AskTurn[];
-}
-
 /**
  * How the answer is made:
  * - `model`: written by a model from the retrieved passages, every sentence

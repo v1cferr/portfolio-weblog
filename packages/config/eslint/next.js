@@ -15,5 +15,3 @@ export const next = [
     },
   },
 ];
-
-export default next;

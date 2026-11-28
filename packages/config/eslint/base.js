@@ -31,5 +31,3 @@ export const base = tseslint.config(
   },
   prettier
 );
-
-export default base;

@@ -13,15 +13,17 @@
     "content:check": "pnpm --filter @workspace/content check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm --filter web icons:check && pnpm test",
+    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm --filter web icons:check && pnpm knip && pnpm test",
     "prepare": "simple-git-hooks",
     "media:add": "pnpm --filter @workspace/content media:add",
     "icons:sync": "pnpm --filter web icons:sync",
     "avatar:build": "pnpm --filter @workspace/content avatar:build",
     "wow:sync": "pnpm --filter web wow:sync",
-    "linkedin:import": "pnpm --filter web linkedin:import"
+    "linkedin:import": "pnpm --filter web linkedin:import",
+    "knip": "knip"
   },
   "devDependencies": {
+    "knip": "^6.49.0",
     "lint-staged": "^17.6.1",
     "prettier": "^3.10.1",
     "simple-git-hooks": "^2.14.0",
@@ -60,5 +62,12 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged --quiet"
+  },
+  "knip": {
+    "$schema": "https://unpkg.com/knip@6/schema.json",
+    "ignoreExportsUsedInFile": true,
+    "ignoreDependencies": [
+      "circle-flags"
+    ]
   }
 }

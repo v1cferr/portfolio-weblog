@@ -15,11 +15,9 @@ import {
   loadContent,
   loadDecisionsContent,
   loadNowContent,
-  loadPagesContent,
   loadTattoosContent,
   loadWowContent,
   publicNow,
-  publicPages,
   publicTattoos,
   publicWow,
   tattooMedia,
@@ -37,9 +35,8 @@ const mediaIssues = await checkMedia(content, path.join(root, "..", "apps", "web
   ...wowMedia(wow.wow),
 ]);
 const now = loadNowContent(root);
-const pages = loadPagesContent(root);
 const decisions = loadDecisionsContent(root);
-const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...tattoos.issues, ...pages.issues, ...decisions.issues];
+const all = [...issues, ...errors, ...mediaIssues, ...now.issues, ...wow.issues, ...tattoos.issues, ...decisions.issues];
 
 if (warnings.length > 0) console.warn(`Warnings (${warnings.length}):\n${formatIssues(warnings)}\n`);
 
@@ -64,7 +61,6 @@ console.warn(
     count("posts", everything.getPostSlugs().length, publicView.getPostSlugs().length),
     count("job stories", everything.getStoryIds().length, publicView.getStoryIds().length),
     count("now updates", now.log.entries.length, publicNow(now.log).entries.length),
-    count("pages", pages.pages.length, publicPages(pages.pages).length),
     count("wow characters", wow.wow?.characters.length ?? 0, publicWow(wow.wow)?.characters.length ?? 0),
     count("tattoos", tattoos.tattoos?.tattoos.length ?? 0, publicTattoos(tattoos.tattoos)?.tattoos.length ?? 0),
     count("decisions", decisions.decisions.length, decisions.decisions.length),

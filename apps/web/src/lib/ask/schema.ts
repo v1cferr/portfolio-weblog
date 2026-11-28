@@ -26,8 +26,6 @@ export const AskRequestSchema = z.strictObject({
     .transform((turns) => turns.slice(-MAX_HISTORY)),
 });
 
-export type ParsedAskRequest = z.infer<typeof AskRequestSchema>;
-
 export function parseAskRequest(body: unknown) {
   return AskRequestSchema.safeParse(body);
 }

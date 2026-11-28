@@ -18,10 +18,6 @@ const list = { hidden: {}, shown: { transition: { staggerChildren: 0.04 } } };
 
 const viewport = { once: true, margin: "0px 0px -10% 0px" } as const;
 
-export function Reveal(props: ComponentProps<typeof m.div>) {
-  return <m.div data-reveal="" variants={item} initial="hidden" whileInView="shown" viewport={viewport} {...props} />;
-}
-
 export function RevealList(props: ComponentProps<typeof m.ol>) {
   return <m.ol variants={list} initial="hidden" whileInView="shown" viewport={viewport} {...props} />;
 }

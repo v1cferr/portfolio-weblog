@@ -37,15 +37,16 @@ Optional variables are documented in
 
 ## Commands
 
-| Command                      | What it does                                                                   |
-| ---------------------------- | ------------------------------------------------------------------------------ |
-| `pnpm dev`                   | Development server for `apps/web`                                              |
-| `pnpm build` / `pnpm start`  | Production build / serve it                                                    |
-| `pnpm validate`              | Format check, lint, typecheck, content check and unit tests (what CI gates on) |
-| `pnpm content:check`         | Validates `content/`: schemas, ids, references, dates, visibility              |
-| `pnpm test`                  | Unit tests (Vitest) in every package                                           |
-| `pnpm --filter web test:e2e` | Playwright smoke and accessibility tests (after `pnpm build`)                  |
-| `pnpm format`                | Prettier                                                                       |
+| Command                      | What it does                                                                  |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| `pnpm dev`                   | Development server for `apps/web`                                             |
+| `pnpm build` / `pnpm start`  | Production build / serve it                                                   |
+| `pnpm validate`              | Format check, lint, typecheck, content check, knip and unit tests (CI's gate) |
+| `pnpm content:check`         | Validates `content/`: schemas, ids, references, dates, visibility             |
+| `pnpm knip`                  | Unused files, exports and dependencies across the workspace                   |
+| `pnpm test`                  | Unit tests (Vitest) in every package                                          |
+| `pnpm --filter web test:e2e` | Playwright smoke and accessibility tests (after `pnpm build`)                 |
+| `pnpm format`                | Prettier                                                                      |
 
 The end-to-end tests serve the build on port 3200 and reuse a server already
 listening there (outside CI). When several checkouts run them at once, give each

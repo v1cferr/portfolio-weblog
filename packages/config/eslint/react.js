@@ -13,5 +13,3 @@ export const react = [
   },
   reactHooks.configs.flat.recommended,
 ];
-
-export default react;
