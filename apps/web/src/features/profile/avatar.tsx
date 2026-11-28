@@ -23,7 +23,7 @@ const MASKS = {
  * screens and reduced motion see it. Chosen on 2026-11-24 ("P1a · 1-bit
  * Atkinson") from a side-by-side comparison; it replaces the ASCII art.
  *
- * The photo keeps `priority` although it mostly hides: it is painted at
+ * The photo keeps a high fetch priority although it mostly hides: it is painted at
  * opacity 1 from the start, under a lens mask, and Chrome reports it as the
  * page's LCP (masks do not count; measured 2026-11-24). Demoting it, or
  * revealing it only after the Spotlight's script runs, would delay the metric. The masks (about 5 KB each, only the theme's one is
@@ -56,7 +56,8 @@ export function Avatar({
           alt={name}
           fill
           sizes="(min-width: 1024px) 24rem, 20rem"
-          priority={priority}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           className="avatar-lens object-cover"
         />
       </div>
