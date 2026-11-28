@@ -47,30 +47,82 @@ async function accessToken(): Promise<string | undefined> {
   return token;
 }
 
-async function api(path: string, token: string): Promise<Response> {
-  return fetch(`https://api.spotify.com/v1${path}`, { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" });
+const CURRENT = "/me/player/currently-playing";
+const RECENT = "/me/player/recently-played";
+/** The last track played changes only when nothing is playing, so it is asked for at most this often. */
+const RECENT_TTL_MS = 5 * 60_000;
+/** When a 429 carries no usable Retry-After. */
+const DEFAULT_WAIT_MS = 60_000;
+/** The CDN's usual refresh, and the longest it keeps an answer while Spotify asks to wait. */
+const MAX_AGE = 20;
+const MAX_WAIT_AGE = 3600;
+
+type RecentBody = Parameters<typeof fromRecentlyPlayed>[0];
+
+/*
+ * Spotify answers 429 with a Retry-After that can be hours (2026-11-28: 8798 s
+ * on recently-played). Calling again before it ends only keeps the block, so
+ * each endpoint is left alone until then, and the last track played is kept
+ * and reused instead of asked for every time.
+ */
+const blockedUntil = new Map<string, number>();
+let recent: { body: RecentBody; fetchedAt: number } | undefined;
+
+/** Milliseconds Spotify asked to wait, from the Retry-After header in seconds. */
+export function retryAfterMs(header: string | null): number {
+  const seconds = Number(header);
+  return header !== null && Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : DEFAULT_WAIT_MS;
+}
+
+/** The endpoint's answer, or undefined while Spotify asked not to call it. */
+async function api(path: string, query: string, token: string, now: number): Promise<Response | undefined> {
+  if ((blockedUntil.get(path) ?? 0) > now) return undefined;
+  const response = await fetch(`https://api.spotify.com/v1${path}${query}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (response.status === 429) {
+    const wait = retryAfterMs(response.headers.get("retry-after"));
+    blockedUntil.set(path, now + wait);
+    warnOnce(`${path} answered 429, waiting ${String(Math.round(wait / 1000))} s`);
+  }
+  return response;
+}
+
+/**
+ * Seconds the CDN may keep the answer: the usual 20, or until Spotify lets
+ * "currently playing" be asked again, at most an hour. A block on the last
+ * track played alone does not count: "now playing" still updates.
+ */
+export function nowPlayingMaxAge(now = Date.now()): number {
+  const wait = Math.ceil(((blockedUntil.get(CURRENT) ?? 0) - now) / 1000);
+  return Math.min(Math.max(MAX_AGE, wait), MAX_WAIT_AGE);
 }
 
 /** What the owner is playing now, else the last track played, else "off". */
 export async function getNowPlaying(now = new Date()): Promise<NowPlaying> {
+  const time = now.getTime();
   try {
     const token = await accessToken();
     if (token === undefined) return off(now);
 
-    const current = await api("/me/player/currently-playing?additional_types=track", token);
-    if (current.status === 200) {
+    const current = await api(CURRENT, "?additional_types=track", token, time);
+    if (current?.status === 200) {
       const playing = fromCurrentlyPlaying((await current.json()) as Parameters<typeof fromCurrentlyPlaying>[0], now);
       if (playing !== undefined) return playing;
-    } else if (current.status !== 204) {
+    } else if (current !== undefined && current.status !== 204 && current.status !== 429) {
       warnOnce(`currently-playing answered ${String(current.status)}`);
     }
 
-    const recent = await api("/me/player/recently-played?limit=1", token);
-    if (!recent.ok) {
-      warnOnce(`recently-played answered ${String(recent.status)}`);
-      return off(now);
+    if (recent !== undefined && time - recent.fetchedAt < RECENT_TTL_MS) return fromRecentlyPlayed(recent.body, now);
+    const response = await api(RECENT, "?limit=1", token, time);
+    if (response?.ok === true) {
+      recent = { body: (await response.json()) as RecentBody, fetchedAt: time };
+      return fromRecentlyPlayed(recent.body, now);
     }
-    return fromRecentlyPlayed((await recent.json()) as Parameters<typeof fromRecentlyPlayed>[0], now);
+    if (response !== undefined && response.status !== 429) warnOnce(`recently-played answered ${String(response.status)}`);
+    // Blocked or failing: the last track already known is still the last one played.
+    return recent === undefined ? off(now) : fromRecentlyPlayed(recent.body, now);
   } catch (error) {
     warnOnce(error instanceof Error ? error.message : "unexpected error");
     return off(now);
