@@ -15,6 +15,7 @@ import { ask, type DroppedSentence, type Generate, retrieveFor } from "../src/li
 import { GAP_MARKER, siteDoesNotSay, takeGapMarker } from "../src/lib/ask/gap";
 import {
   checkSentence,
+  collapseRestatement,
   type Corpus,
   FAITHFULNESS_THRESHOLD,
   faithfulness,
@@ -26,6 +27,7 @@ import {
   sanitizeMarkdown,
   SentenceBuffer,
   repeats,
+  supersedes,
 } from "../src/lib/ask/grounding";
 import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, MODEL_REASONING, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
 import {
@@ -1330,6 +1332,95 @@ describe("repeated sentences (2026-11-28)", () => {
     );
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
     expect(texts(events).match(/Obsidian vault/g)).toHaveLength(1);
+    expect(cites(events)).toHaveLength(1);
+  });
+});
+
+describe("restated sentences (2026-11-28)", () => {
+  const input = { locale: "en-us", question: "What RAG has he built?", history: [] };
+  const texts = (events: AskEvent[]) => events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+  const cites = (events: AskEvent[]) => events.flatMap((event) => (event.type === "cite" ? [event.n] : []));
+
+  it("says once what a sentence says twice", () => {
+    expect(
+      collapseRestatement(
+        "I was an IT Support Technician Intern at Cultura Inglesa, where I was IT Support Technician Intern at Cultura Inglesa from January to June 2023."
+      )
+    ).toBe("I was an IT Support Technician Intern at Cultura Inglesa from January to June 2023.");
+    expect(
+      collapseRestatement(
+        "Fui Estagiário de Suporte de TI na Cultura Inglesa, onde fui Estagiário de Suporte de TI na Cultura Inglesa de janeiro a junho de 2023."
+      )
+    ).toBe("Fui Estagiário de Suporte de TI na Cultura Inglesa de janeiro a junho de 2023.");
+  });
+
+  it("leaves a sentence alone when nothing in it is said twice", () => {
+    const text = "I built a personal RAG chatbot over an Obsidian vault, and answers cite the note they came from.";
+    expect(collapseRestatement(text)).toBe(text);
+    // Two short echoes far apart are not a restatement.
+    const apart = "At FAI·UFSCar I build AI tools; before FAI·UFSCar I worked in support, networks and infrastructure.";
+    expect(collapseRestatement(apart)).toBe(apart);
+  });
+
+  it("calls a cited sentence that says all an uncited one said a replacement for it", () => {
+    expect(
+      supersedes(
+        "I worked as Level 2 technical support at VIP Telecom from July 2023 to January 2024.",
+        "I worked as Level 2 technical support at VIP Telecom."
+      )
+    ).toBe(true);
+    expect(supersedes("Answers cite the note they came from.", "I built a personal RAG chatbot over an Obsidian vault.")).toBe(false);
+  });
+
+  it("sends only the cited sentence when it follows its own paraphrase, before the answer starts", async () => {
+    const claude = fakeClaude([
+      { text: "I built a RAG chatbot over an Obsidian vault. " },
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ", and nothing leaves the machine." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault, and nothing leaves the machine.");
+    expect(cites(events)).toHaveLength(1);
+    expect(events).not.toContainEqual({ type: "partial" });
+  });
+
+  it("does the same after the answer started, and still sends an uncited sentence nothing replaces", async () => {
+    const claude = fakeClaude([
+      { text: "Answers cite the note they came from", cited: [2] },
+      { text: ". I built a RAG chatbot over an Obsidian vault. " },
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ", and nothing leaves the machine. " },
+      { text: "Answers cite the note they came from." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    const text = texts(events);
+    expect(text.match(/RAG chatbot/g)).toHaveLength(1);
+    expect(text).toContain("nothing leaves the machine.");
+    // The last sentence, uncited and replaced by nothing, still goes out at the end.
+    expect(text.match(/Answers cite the note they came from\./g)).toHaveLength(2);
+  });
+
+  it("collapses a restatement inside a cited sentence before checking it", async () => {
+    const claude = fakeClaude([
+      {
+        text: "I built a personal RAG chatbot over an Obsidian vault, a personal RAG chatbot over an Obsidian vault that cites notes",
+        cited: [2],
+      },
+      { text: "." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault that cites notes.");
+  });
+
+  it("drops the paraphrase on the free models' JSON answers too", async () => {
+    const generate = fakeModel(
+      answer([
+        { text: "I built a RAG chatbot over an Obsidian vault.", sources: [] },
+        { text: "I built a personal RAG chatbot over an Obsidian vault, and nothing leaves the machine.", sources: [3] },
+      ])
+    );
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
+    expect(texts(events).match(/RAG chatbot/g)).toHaveLength(1);
     expect(cites(events)).toHaveLength(1);
   });
 });
