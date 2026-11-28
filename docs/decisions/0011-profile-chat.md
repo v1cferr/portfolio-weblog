@@ -583,3 +583,9 @@ The eval with dropped sentences in view showed two kinds of repetition that the
   ungrounded opinion built from site words ("I secretly prefer cooking pasta
   over coding" scores 0.33). The prompt still asks for nothing outside the site;
   this threshold is the backstop, not the guarantee.
+- **A sentence that points back never replaces the one before.** The next eval
+  run had "That is why my whole machine is declared in Nix" alone: it said all
+  that "I use Nix to declare my whole machine" said, so `supersedes` dropped the
+  earlier one and left the answer opening on a dangling "That is why". A
+  sentence that opens by leaning on the one before ("that", "there", "por isso",
+  "lá"…) no longer replaces it.
