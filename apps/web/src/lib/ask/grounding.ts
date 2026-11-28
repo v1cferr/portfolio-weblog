@@ -276,8 +276,12 @@ export function newFacts(sentence: string, corpus: string): string[] {
   return [...facts];
 }
 
-/** Why a sentence was dropped; "dangling" is a lead-in line ("…I did:") whose list items were all dropped. */
-export type DropReason = "no-sources" | "bad-source" | "empty" | "url" | "new-fact" | "unfaithful" | "dangling";
+/**
+ * Why a sentence was dropped; "dangling" is a lead-in line ("…I did:") whose
+ * list items were all dropped, and "repeat" a sentence that only restates the
+ * one before it (`repeats`), whose citations move to that one.
+ */
+export type DropReason = "no-sources" | "bad-source" | "empty" | "url" | "new-fact" | "unfaithful" | "dangling" | "repeat";
 
 /** What a sentence is checked against: the passages sent, and the visitor's words (question and conversation). */
 export interface Corpus {
@@ -429,6 +433,27 @@ export function faithfulness(
   return words.filter((word) => matches(word, vocabulary, stems)).length / words.length;
 }
 
+/** A sentence shorter than this (in content words) is never called a repeat: too little to compare. */
+const MIN_REPEAT_WORDS = 4;
+/** Share of a sentence's content words the one before it must already hold for it to be a repeat. */
+const REPEAT_SHARE = 0.85;
+
+/**
+ * Whether `sentence` only restates `previous` (2026-11-28): the model often
+ * says a fact in its own words and then cites the passage that says the same
+ * ("My current role is AI Systems Analyst at FAI·UFSCar, since August 2026. I
+ * have worked as AI Systems Analyst at FAI·UFSCar since August 2026."). A
+ * prompt rule did not stop it, so the answer drops the second sentence and
+ * keeps its citations on the first. Words match as in `faithfulness`.
+ */
+export function repeats(previous: string, sentence: string): boolean {
+  const words = contentWords(sentence);
+  if (words.length < MIN_REPEAT_WORDS) return false;
+  const vocabulary = new Set([...contentWords(previous), ...dateWords(previous)]);
+  const stems = new Set([...vocabulary].filter((word) => word.length >= 5).map((word) => word.slice(0, 5)));
+  return words.filter((word) => matches(word, vocabulary, stems)).length / words.length >= REPEAT_SHARE;
+}
+
 export interface GroundedSentence {
   /** Sanitized Markdown. */
   text: string;
@@ -463,6 +488,12 @@ export function groundAnswer(content: string, corpus: Corpus): GroundingResult |
     if (!check.ok) {
       dropped.push(check.reason);
       claimDropped ||= isClaim(check.reason, cited);
+      continue;
+    }
+    const previous = sentences.at(-1);
+    if (previous !== undefined && repeats(previous.text, check.text)) {
+      dropped.push("repeat");
+      previous.passages = [...new Set([...previous.passages, ...cited])];
       continue;
     }
     sentences.push({ text: check.text.trim(), passages: cited });
