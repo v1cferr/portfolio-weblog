@@ -14,6 +14,8 @@ onlyBuiltDependencies:
 ignoredBuiltDependencies:
   - "@parcel/watcher"
   - "@swc/core"
+  # Its postinstall only repeats what the root "prepare" script already does.
+  - simple-git-hooks
 
 # Security patches pulled ahead of the packages that depend on them. Remove an
 # entry once `pnpm why <name>` shows the parent requiring the fixed version.

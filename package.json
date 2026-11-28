@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm content:check && pnpm --filter web icons:check && pnpm test",
-    "prepare": "husky",
+    "prepare": "simple-git-hooks",
     "media:add": "pnpm --filter @workspace/content media:add",
     "icons:sync": "pnpm --filter web icons:sync",
     "avatar:build": "pnpm --filter @workspace/content avatar:build",
@@ -22,9 +22,9 @@
     "linkedin:import": "pnpm --filter web linkedin:import"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
     "lint-staged": "^17.6.1",
     "prettier": "^3.10.1",
+    "simple-git-hooks": "^2.14.0",
     "vercel": "66.2.0"
   },
   "lint-staged": {
@@ -57,5 +57,8 @@
         }
       }
     ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged --quiet"
   }
 }
