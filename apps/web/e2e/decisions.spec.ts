@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The decision log: docs/decisions/ as public pages. The list shows every
@@ -100,6 +101,7 @@ test.describe("decision log", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       for (const path of [LIST, RECORD, "/pt-br/decisions/0007"]) {
         await page.goto(path);

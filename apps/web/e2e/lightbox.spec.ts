@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The image lightbox (components/lightbox): the Setup photo timelines are the
@@ -153,6 +154,7 @@ test.describe("lightbox", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations while open (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await openFirst(page);
       await expect(dialog(page).locator("img[sizes='(min-width: 1024px) 80vw, 100vw']")).toBeVisible();

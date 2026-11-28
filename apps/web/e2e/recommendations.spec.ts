@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * LinkedIn recommendations (content/recommendations), in the owner's rank: the
@@ -91,6 +92,7 @@ test.describe("recommendations", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       for (const path of ["/pt-br", "/en-us/about"]) {
         await page.goto(path);

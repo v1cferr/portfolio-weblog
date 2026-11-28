@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * Helper text lives behind an "i" (InfoTip, a toggletip on shadcn's Popover):
@@ -61,6 +62,7 @@ test.describe("info tips", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`an open tip has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme });
       await page.goto("/en-us/projects");
       await page.locator("header").getByRole("button", { name: "More information" }).click();

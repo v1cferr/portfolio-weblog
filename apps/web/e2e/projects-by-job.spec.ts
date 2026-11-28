@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * Projects listed under the job they were made in, and the job named on the
@@ -42,6 +43,7 @@ test.describe("projects by job", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`a job page with projects has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us/career/freelance-2024");
       const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();

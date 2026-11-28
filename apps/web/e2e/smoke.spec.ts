@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 const PAGES = [
   "/en-us",
@@ -73,6 +74,7 @@ test.describe("accessibility", () => {
   ]) {
     for (const theme of ["light", "dark"] as const) {
       test(`${path} has no serious axe violations (${theme})`, async ({ page }) => {
+        auditThemeOnce(theme);
         await page.emulateMedia({ colorScheme: theme });
         await page.goto(path);
         // Entrances fade in; audit the settled page, not a frame mid-fade.

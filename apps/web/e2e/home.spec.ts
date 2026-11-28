@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The home page's calls to action (hero buttons, question field, "Start here")
@@ -151,6 +152,7 @@ test.describe("home layout", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious accessibility violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us", { waitUntil: "networkidle" });
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();

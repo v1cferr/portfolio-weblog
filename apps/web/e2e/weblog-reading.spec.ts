@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * Reading a post (docs/guides/reading.md): the text on a plain surface, the
@@ -75,6 +76,7 @@ test.describe("post reading, accessibility", () => {
   for (const path of [POST, "/en-us/weblog/how-this-site-is-built"]) {
     for (const scheme of ["light", "dark"] as const) {
       test(`${path} has no violations (${scheme})`, async ({ page }) => {
+        auditThemeOnce(scheme);
         await page.emulateMedia({ colorScheme: scheme });
         await page.goto(path);
         const results = await new AxeBuilder({ page }).include("main").analyze();

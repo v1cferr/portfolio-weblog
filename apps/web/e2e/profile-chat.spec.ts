@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /**
  * The profile chat (ADR 0011), docked in the bottom-right corner, as CI sees
@@ -197,6 +198,7 @@ test.describe("profile chat dock", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`the open dock has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us");
       const dialog = await openDock(page);

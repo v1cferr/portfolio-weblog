@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * Repository languages, live from GitHub. The suite never calls GitHub: the
@@ -74,6 +75,7 @@ test.describe("repository languages", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`the block has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us/projects/encriptador-descriptador", { waitUntil: "networkidle" });
       const results = await new AxeBuilder({ page }).include("#languages").withTags(["wcag2a", "wcag2aa"]).analyze();

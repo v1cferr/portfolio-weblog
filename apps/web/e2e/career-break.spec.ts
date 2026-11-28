@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The 2025 move to São Carlos is a career break: a marker on the timeline's
@@ -44,6 +45,7 @@ test.describe("career break", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`the open details have no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us/timeline");
       await row(page, "Moved to São Carlos").getByRole("button", { name: "More about Moved to São Carlos" }).click();

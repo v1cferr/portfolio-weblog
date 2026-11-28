@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The Projects page as single-choice tabs (2026-11-25). The owner's complaint
@@ -91,6 +92,7 @@ test.describe("projects tabs", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us/projects?view=study");
       const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();
@@ -183,6 +185,7 @@ test.describe("project cards", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`the featured cards have no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto("/en-us/projects", { waitUntil: "networkidle" });
       const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();

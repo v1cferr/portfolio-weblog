@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * The optional long-form story of a job (2026-11-25), first written for
@@ -49,6 +50,7 @@ test.describe("job story", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`the story has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto(`/en-us${STORY}`);
       const results = await new AxeBuilder({ page }).include("main").withTags(["wcag2a", "wcag2aa"]).analyze();

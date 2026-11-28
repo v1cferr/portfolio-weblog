@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /*
  * "How this site is built" is a weblog post (it used to be the /colophon page):
@@ -69,6 +70,7 @@ test.describe("how this site is built", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`has no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme });
       await page.goto(`/en-us${POST}`);
       // Entrances fade in; audit the settled page, not a frame mid-fade.

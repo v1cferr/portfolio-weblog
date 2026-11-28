@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 /**
  * The profile chat while a model writes (ADR 0011): the real steps the server
@@ -182,6 +183,7 @@ test.describe("profile chat steps", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`steps and summary have no serious axe violations (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await streamAnswer(page);
       const dialog = await askCurrentRole(page);

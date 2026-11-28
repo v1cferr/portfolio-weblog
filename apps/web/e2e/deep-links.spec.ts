@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
+import { auditThemeOnce } from "./axe-theme";
 
 import { TATTOOS_VISIBLE } from "./review-content";
 
@@ -104,6 +105,7 @@ test.describe("deep links", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`a highlighted target and its copy button pass axe (${theme})`, async ({ page }) => {
+      auditThemeOnce(theme);
       await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
       await page.goto(`/pt-br/setup#${MOUSEPAD}`);
       await page.locator(`[data-copy-link="${MOUSEPAD}"]`).focus();
