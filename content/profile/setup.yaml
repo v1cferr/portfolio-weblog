@@ -60,6 +60,18 @@ groups:
           pt-br: Memória (RAM)
         model: (2x8 GB) TEAM GROUP T-FORCE VULCAN PICHAU, 8GB (1X8), DDR4, 3200MHZ, C16, VERMELHA
         url: https://www.pichau.com.br/memoria-team-group-t-force-vulcan-pichau-8gb-1x8-ddr4-3200mhz-c16-vermelha-tlprd48g3200hc16f01
+        # Official image: https://images.teamgroupinc.com/products/memory/u-dimm/ddr4/vulcan/red/dual_01.jpg
+        # (the generic red Vulcan kit; the Pichau edition is the same module sold by that store)
+        media:
+          src: /setup/parts/ram-teamgroup-t-force-vulcan.png
+          width: 995
+          height: 995
+          alt:
+            en-us: Two TEAMGROUP T-FORCE Vulcan DDR4 memory modules with red and black heat spreaders
+            pt-br: Dois módulos de memória DDR4 TEAMGROUP T-FORCE Vulcan com dissipadores vermelhos e pretos
+          credit:
+            label: TEAMGROUP
+            url: https://www.teamgroupinc.com/en/product-detail/memory/T-FORCE/vulcan-ddr4-red/vulcan-ddr4-red-TLRED416G3200HC16CDC01/
       - id: ssd-kingston-kc3000
         role:
           pt-br: Armazenamento (M2 Gen 4)
