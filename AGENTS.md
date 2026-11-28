@@ -32,7 +32,9 @@ with one option marked as recommended. Afterwards, update "Onde paramos" in
 - One worktree and one branch per change; never commit on `main`.
 - Atomic commits in English, following Conventional Commits. No `Co-Authored-By`
   trailer.
-- Merge a pull request only when every CI check is green.
+- Merge a pull request only when every CI check is green. A failed end-to-end
+  shard is rerun alone ("Re-run failed jobs"); see
+  [docs/architecture/ci.md](docs/architecture/ci.md).
 - While CI runs, show its progress live in the session with
   `scripts/ci-watch.sh <run-id | branch>`: a 0-100% bar, the step in progress,
   an ETA from the median of recent green runs, any step that fails, and the
