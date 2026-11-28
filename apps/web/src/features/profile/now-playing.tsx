@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useState } from "react";
 
-import { brandIcons } from "@/generated/icons";
+import { uiIcons } from "@/generated/ui-icons";
 
 import type { NowPlaying as Snapshot } from "@/lib/now-playing";
 
@@ -95,7 +95,7 @@ export function Cover({ id, className }: { id: string; className?: string }) {
  * the album art. Decorative: the text beside it names Spotify.
  */
 export function SpotifyIcon({ className }: { className?: string }) {
-  const icon = brandIcons["si:spotify"];
+  const icon = uiIcons["si:spotify"];
   if (icon === undefined) return null;
   return (
     <svg
