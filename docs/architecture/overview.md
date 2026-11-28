@@ -54,4 +54,4 @@ in both themes.
 
 See also: [content model](content-model.md), [visibility](visibility.md),
 [timelines](timeline.md), [GitHub](github.md), [i18n](i18n.md),
-[AI roadmap](ai-roadmap.md).
+[AI roadmap](ai-roadmap.md), [performance](performance.md).

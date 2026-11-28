@@ -5,7 +5,8 @@
 - [Content model](architecture/content-model.md) ·
   [Visibility rules](architecture/visibility.md) ·
   [Timelines](architecture/timeline.md) · [GitHub](architecture/github.md) ·
-  [i18n](architecture/i18n.md) · [AI roadmap](architecture/ai-roadmap.md)
+  [i18n](architecture/i18n.md) · [AI roadmap](architecture/ai-roadmap.md) ·
+  [Performance](architecture/performance.md)
 - Guides: [add an experience](guides/add-experience.md) ·
   [add a project](guides/add-project.md) ·
   [publish an article](guides/publish-post.md) ·
