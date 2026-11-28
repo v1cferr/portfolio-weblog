@@ -1,0 +1,82 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm start -p 3100",
+      "startServerReadyPattern": "Ready",
+      "url": [
+        "http://localhost:3100/en-us",
+        "http://localhost:3100/en-us/weblog/how-this-site-is-built",
+        "http://localhost:3100/en-us/setup",
+        "http://localhost:3100/en-us/projects/portfolio-weblog"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "onlyCategories": ["performance"],
+        "chromeFlags": "--headless=new --no-sandbox --disable-dev-shm-usage"
+      }
+    },
+    "assert": {
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": ".*",
+          "assertions": {
+            "categories:performance": [
+              "warn",
+              {
+                "minScore": 0.9,
+                "aggregationMethod": "median-run"
+              }
+            ],
+            "largest-contentful-paint": [
+              "error",
+              {
+                "maxNumericValue": 2500,
+                "aggregationMethod": "median-run"
+              }
+            ],
+            "cumulative-layout-shift": [
+              "error",
+              {
+                "maxNumericValue": 0.1,
+                "aggregationMethod": "median-run"
+              }
+            ],
+            "total-blocking-time": [
+              "warn",
+              {
+                "maxNumericValue": 200,
+                "aggregationMethod": "median-run"
+              }
+            ]
+          }
+        },
+        {
+          "matchingUrlPattern": "/en-us/projects/",
+          "assertions": {
+            "resource-summary:script:size": [
+              "error",
+              {
+                "maxNumericValue": 445440
+              }
+            ]
+          }
+        },
+        {
+          "matchingUrlPattern": "^(?!.*/en-us/projects/).*$",
+          "assertions": {
+            "resource-summary:script:size": [
+              "error",
+              {
+                "maxNumericValue": 368640
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}

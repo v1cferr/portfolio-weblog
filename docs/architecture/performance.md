@@ -63,6 +63,52 @@ The plan that comes out of this: cut the logo preloads (LCP), defer the widgets
 that are not needed for the first paint (same look), measure the Cloudflare
 proxy, and guard the result with Lighthouse CI and a budget.
 
+## Budget
+
+CI's `lighthouse` job ([ci.md](ci.md)) runs Lighthouse CI on the production
+build: mobile preset with simulated throttling, 3 runs per page, the median
+checked against `apps/web/lighthouserc.json`. Locally, with a Chromium
+(`nix develop` provides one):
+
+```sh
+pnpm build
+CHROME_PATH=<chromium> pnpm --filter web perf:lighthouse
+```
+
+| Check                                    | Limit       | Level | On 2026-11-28 (local) |
+| ---------------------------------------- | ----------- | ----- | --------------------- |
+| JavaScript transferred, project pages    | 435K (gzip) | error | 393K                  |
+| JavaScript transferred, every other page | 360K (gzip) | error | 317–326K              |
+| Largest Contentful Paint                 | 2.5 s       | error | 1.2–1.4 s             |
+| Cumulative Layout Shift                  | 0.1         | error | 0                     |
+| Total Blocking Time                      | 200 ms      | warn  | 115–303 ms (`/setup`) |
+| Performance score                        | 90          | warn  | 93–99                 |
+
+The weights are gzip, not brotli (`next start` does not serve brotli), and count
+everything the page fetches during the run, including what loads at idle (the
+phone sheet's vaul, the now-playing request). The limits are the measured values
+plus about 10%: a regression fails the pull request, and real growth is a
+conscious edit of the file, in the same pull request, with the reason.
+
+TBT and the score follow the runner's CPU more than the code, so they warn
+instead of failing. `/setup` is over the TBT line (a long page with many client
+pieces) and is the next thing to look at.
+
+## After the first pass (2026-11-28)
+
+JavaScript per page, local production build, brotli (q11), chunks referenced by
+the HTML:
+
+| Page                                   | Before | After |
+| -------------------------------------- | ------ | ----- |
+| `/en-us`                               | 309K   | 253K  |
+| `/en-us/setup`                         | 312K   | 256K  |
+| `/en-us/weblog`                        | 306K   | 250K  |
+| `/en-us/weblog/how-this-site-is-built` | 309K   | 254K  |
+
+The home went from 17 preloads to 5, and the hero photo is fetched with
+`fetchpriority="high"`.
+
 ## The RSC payload
 
 Each HTML carries the server tree again as the RSC payload (up to 351K raw on
