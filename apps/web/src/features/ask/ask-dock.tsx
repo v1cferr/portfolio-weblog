@@ -24,10 +24,10 @@ const PHONE = "(max-width: 39.999rem)";
 const loadConversation = () => import("./ask-conversation");
 const AskConversation = dynamic(loadConversation, { ssr: false, loading: () => <ConversationSkeleton /> });
 
-// The phone sheet brings vaul; only phones that open the dock download it. Until it arrives, a plain sheet in the
-// same place shows the skeleton, so a tap on a slow network still answers at once.
+// The phone sheet brings vaul, which desktops never need. Phones fetch it once the page is idle; until it arrives
+// (a tap on a slow network), a plain sheet in the same place holds the same header and conversation.
 const loadSheet = () => import("./ask-sheet");
-const AskSheet = dynamic(loadSheet, { ssr: false, loading: () => <SheetPlaceholder /> });
+const AskSheet = dynamic(loadSheet, { ssr: false });
 
 function preload() {
   void loadConversation();
@@ -53,12 +53,32 @@ export function AskDock() {
   const t = useTranslations("Ask");
   const { ready, open, expanded, unread, announcement, focusRequest, openDock, minimize } = useAsk();
   const [loaded, setLoaded] = useState(false);
+  const [sheetReady, setSheetReady] = useState(false);
   const phone = useMediaQuery(PHONE);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
 
   if (open && !loaded) setLoaded(true);
   useKeyboardInset(phone && open);
+
+  useEffect(() => {
+    if (!phone || sheetReady) return;
+    let cancelled = false;
+    const load = () => {
+      void loadSheet().then(() => {
+        if (!cancelled) setSheetReady(true);
+      });
+    };
+    // Right away once the dock is open; otherwise when the page has nothing better to do.
+    if (open) load();
+    const idle = "requestIdleCallback" in window ? window.requestIdleCallback(load, { timeout: 4000 }) : undefined;
+    const fallback = idle === undefined ? setTimeout(load, 2000) : undefined;
+    return () => {
+      cancelled = true;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      clearTimeout(fallback);
+    };
+  }, [phone, open, sheetReady]);
 
   // The page reacts to the dock: room on the right for the drawer (lg up), and scroll padding at the bottom so focused
   // content does not end up under the floating panel (WCAG 2.4.11). Both are CSS on these attributes (globals.css).
@@ -149,7 +169,7 @@ export function AskDock() {
         )}
       </button>
       {phone ? (
-        loaded && (
+        sheetReady ? (
           <AskSheet
             open={open}
             title={t("title")}
@@ -161,6 +181,29 @@ export function AskDock() {
           >
             {conversation}
           </AskSheet>
+        ) : (
+          open && (
+            <div
+              ref={panel}
+              id="ask-dock"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ask-dock-title"
+              tabIndex={-1}
+              onKeyDown={onKeyDown}
+              className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(100dvh_-_max(env(safe-area-inset-top),0.75rem))] flex-col overflow-clip rounded-t-2xl bg-background text-sm text-foreground shadow-2xl outline-none"
+            >
+              <DockHeader
+                title={
+                  <h2 id="ask-dock-title" className="ml-1 min-w-0 truncate text-sm font-medium">
+                    {t("title")}
+                  </h2>
+                }
+                onMinimize={minimizeAndReturn}
+              />
+              {conversation}
+            </div>
+          )
         )
       ) : (
         <div
@@ -266,34 +309,6 @@ function DockHeader({ title, onMinimize, canExpand = false }: { title: ReactNode
       >
         <MinusIcon />
       </Button>
-    </div>
-  );
-}
-
-/**
- * The phone sheet's stand-in while vaul downloads: the same size and place,
- * the dock's title and the conversation skeleton. Gone if the dock is
- * minimized before the sheet arrives.
- */
-function SheetPlaceholder() {
-  const t = useTranslations("Ask");
-  const { open } = useAsk();
-  if (!open) return null;
-  return (
-    <div
-      id="ask-dock"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="ask-dock-title"
-      className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(100dvh_-_max(env(safe-area-inset-top),0.75rem))] flex-col overflow-clip rounded-t-2xl bg-background text-sm text-foreground shadow-2xl"
-    >
-      <div className="flex h-12 shrink-0 items-center gap-2 border-b border-border/60 px-4">
-        <SparklesIcon aria-hidden className="size-4 shrink-0 text-primary" />
-        <h2 id="ask-dock-title" className="ml-1 min-w-0 truncate text-sm font-medium">
-          {t("title")}
-        </h2>
-      </div>
-      <ConversationSkeleton />
     </div>
   );
 }
