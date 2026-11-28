@@ -33,6 +33,10 @@ with one option marked as recommended. Afterwards, update "Onde paramos" in
 - Atomic commits in English, following Conventional Commits. No `Co-Authored-By`
   trailer.
 - Merge a pull request only when every CI check is green.
+- While CI runs, show its progress live in the session: report each step as it
+  finishes, the step in progress, and the final conclusion, by polling the run
+  (`gh run view <id> --json status,conclusion,jobs`). Never wait silently for
+  the end.
 - Everything in the repository is in English (en-US); the site's copy is in the
   owner's first person.
 - Mobile-first, shadcn/ui components from `packages/ui`, official logos, a
