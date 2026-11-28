@@ -164,9 +164,15 @@ export function isClaim(reason: DropReason, cited: readonly number[]): boolean {
   return cited.length > 0 || reason === "new-fact" || reason === "url" || reason === "bad-source";
 }
 
-/** Whether a sentence carries a URL or a domain: the model never links, the source cards do. */
+/**
+ * The site's own name: "the v2 replaced the v1 at v1cferr.dev" names the site,
+ * it does not link anywhere (2026-11-28, a cited fact was dropped for it).
+ */
+const SITE_DOMAIN = /\bv1cferr\.dev\b(?![/\w-]|\.\w)/gi;
+
+/** Whether a sentence carries a URL or a domain: the model never links, the source cards do. The site's bare name is allowed. */
 export function hasUrl(text: string): boolean {
-  return URL_PATTERN.test(text);
+  return URL_PATTERN.test(text.replace(SITE_DOMAIN, ""));
 }
 
 /**
@@ -468,11 +474,11 @@ export function repeats(previous: string, sentence: string): boolean {
 }
 
 /**
- * Whether the cited `sentence` says everything the uncited `previous` said
- * (2026-11-28): the model often paraphrases a fact and then cites the passage
- * with its dates ("I worked as Level 2 support at VIP Telecom. I was Level 2
- * support at VIP Telecom from July 2023…"). `repeats` read the other way
- * round: the uncited one goes, the cited one stays.
+ * Whether `sentence` says everything `previous` said (2026-11-28): the model
+ * often states a fact and then repeats it with its dates ("I worked as Level 2
+ * support at VIP Telecom. I was Level 2 support at VIP Telecom from July
+ * 2023…", "My current role is X. I have worked as X since August 2026.").
+ * `repeats` read the other way round: the first one goes, the second stays.
  */
 export function supersedes(sentence: string, previous: string): boolean {
   return repeats(sentence, previous);
@@ -552,10 +558,11 @@ export function groundAnswer(content: string, corpus: Corpus): GroundingResult |
       previous.passages = [...new Set([...previous.passages, ...cited])];
       continue;
     }
-    // An uncited paraphrase followed by the cited sentence that says it all: only the cited one stays.
-    if (previous?.passages.length === 0 && cited.length > 0 && supersedes(check.text, previous.text)) {
+    // A sentence followed by one that says it all (and more): only the second stays, with both citations.
+    if (previous !== undefined && (cited.length > 0 || previous.passages.length === 0) && supersedes(check.text, previous.text)) {
       dropped.push("repeat");
       sentences.pop();
+      cited.push(...previous.passages.filter((index) => !cited.includes(index)));
     }
     sentences.push({ text: check.text.trim(), passages: cited });
   }

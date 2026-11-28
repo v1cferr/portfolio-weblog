@@ -548,3 +548,16 @@ The eval with dropped sentences in view showed two kinds of repetition that the
   said (`supersedes`), the uncited one is dropped as `repeat`. Otherwise it is
   sent before the next one, or at the end. The free models' JSON answers follow
   the same rule.
+
+## Revision (2026-11-28, every sentence waits for the next, the site's name)
+
+- **Every sentence waits for the next one.** The eval still showed a restatement
+  where both sentences were cited ("Meu cargo atual é X. Trabalho como X desde
+  agosto de 2026."). After the answer starts, each sentence now waits for the
+  next one, not only an uncited one. When the next sentence says everything it
+  said (`supersedes`), only the next one is sent, with the citations of both.
+  The answer streams one sentence behind the model. When the stream breaks or
+  ends, the waiting sentence goes out first.
+- **The site's own name is not a link.** A cited sentence ("…a v2 substituiu a
+  v1 em v1cferr.dev em 22/11/2026") was dropped as `url`. The bare name
+  `v1cferr.dev` is now allowed, while a URL or a path on it is still dropped.

@@ -16,6 +16,7 @@ import { GAP_MARKER, siteDoesNotSay, takeGapMarker } from "../src/lib/ask/gap";
 import {
   checkSentence,
   collapseRestatement,
+  hasUrl,
   type Corpus,
   FAITHFULNESS_THRESHOLD,
   faithfulness,
@@ -1410,6 +1411,27 @@ describe("restated sentences (2026-11-28)", () => {
     ]);
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
     expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault that cites notes.");
+  });
+
+  it("keeps only the second of two cited sentences when it says it all", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: ". " },
+      { text: "I built a personal RAG chatbot over an Obsidian vault, and nothing leaves the machine", cited: [2] },
+      { text: "." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault, and nothing leaves the machine.");
+    expect(cites(events)).toHaveLength(1);
+    expect(events).not.toContainEqual({ type: "partial" });
+  });
+
+  it("allows the site's own name, never a link to it", () => {
+    expect(hasUrl("The v2 replaced the v1 at v1cferr.dev on 22/11/2026.")).toBe(false);
+    expect(hasUrl("A v2 substituiu a v1 em v1cferr.dev.")).toBe(false);
+    expect(hasUrl("See https://v1cferr.dev/en-us/about.")).toBe(true);
+    expect(hasUrl("See v1cferr.dev/en-us/about.")).toBe(true);
+    expect(hasUrl("See github.com/v1cferr.")).toBe(true);
   });
 
   it("drops the paraphrase on the free models' JSON answers too", async () => {
