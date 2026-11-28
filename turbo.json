@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["content/**", "docs/decisions/**", "tsconfig*.json", "pnpm-lock.yaml"],
+  "envMode": "loose",
+  "tasks": {
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": []
+    },
+    "build": {
+      "env": ["GITHUB_FIXTURES", "NEXT_PUBLIC_*", "CONTENT_DIR", "CONTENT_PREVIEW", "VERCEL_ENV"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    }
+  }
+}

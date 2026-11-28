@@ -30,3 +30,4 @@ from these files as they are. A new record needs a plain-language summary in
 | [0017](0017-live-github-data-on-project-pages.md)       | Live GitHub data (languages) on project pages               | Accepted                        |
 | [0018](0018-per-tab-ui-state.md)                        | UI state kept per tab, without a state library              | Accepted                        |
 | [0019](0019-review-on-preview.md)                       | Content in review shows on preview deployments              | Proposed                        |
+| [0020](0020-turborepo-remote-cache.md)                  | Turborepo with a remote cache runs only what changed        | Accepted                        |
