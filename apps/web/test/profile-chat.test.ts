@@ -25,6 +25,7 @@ import {
   plainText,
   sanitizeMarkdown,
   SentenceBuffer,
+  repeats,
 } from "../src/lib/ask/grounding";
 import { complete, FREE_MODELS, isFreeModel, MAX_TOKENS, MODEL_REASONING, OPENROUTER_URL, TIMEOUT_MS } from "../src/lib/ask/openrouter";
 import {
@@ -1269,5 +1270,60 @@ describe("partial answers (gap marker)", () => {
     const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
     expect(texts(events)).toContain(siteDoesNotSay("en-us"));
     expect(events).toContainEqual({ type: "partial" });
+  });
+});
+
+describe("repeated sentences (2026-11-28)", () => {
+  const input = { locale: "en-us", question: "What RAG has he built?", history: [] };
+  const texts = (events: AskEvent[]) => events.flatMap((event) => (event.type === "text" ? [event.text] : [])).join("");
+  const cites = (events: AskEvent[]) => events.flatMap((event) => (event.type === "cite" ? [event.n] : []));
+
+  it("calls a sentence that only restates the one before it a repeat", () => {
+    expect(
+      repeats(
+        "My current role is AI Systems Analyst at FAI·UFSCar, which I've held since August 2026.",
+        "I have worked as AI Systems Analyst at FAI·UFSCar since August 2026."
+      )
+    ).toBe(true);
+    expect(
+      repeats(
+        "Atualmente, eu trabalho como Analista de Sistemas de IA na FAI·UFSCar, desde agosto de 2026.",
+        "Trabalho como Analista de Sistemas de IA na FAI·UFSCar desde agosto de 2026."
+      )
+    ).toBe(true);
+  });
+
+  it("keeps a sentence that adds something, and short ones", () => {
+    expect(
+      repeats(
+        "I work as AI Systems Analyst at FAI·UFSCar since August 2026.",
+        "At FAI·UFSCar, I design and build AI solutions with RAG and LLMs."
+      )
+    ).toBe(false);
+    expect(repeats("I use Nix.", "I use Nix.")).toBe(false);
+  });
+
+  it("drops the repeat and keeps its citation on the sentence before, without making the answer partial", async () => {
+    const claude = fakeClaude([
+      { text: "I built a personal RAG chatbot over an Obsidian vault. " },
+      { text: "I built a personal RAG chatbot over an Obsidian vault", cited: [2] },
+      { text: "." },
+    ]);
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude, generate: null }));
+    expect(texts(events)).toBe("I built a personal RAG chatbot over an Obsidian vault. ");
+    expect(cites(events)).toHaveLength(1);
+    expect(events).not.toContainEqual({ type: "partial" });
+  });
+
+  it("does the same on the free models' JSON answers", async () => {
+    const generate = fakeModel(
+      answer([
+        { text: "I built a personal RAG chatbot over an Obsidian vault.", sources: [] },
+        { text: "I built a personal RAG chatbot over an Obsidian vault.", sources: [3] },
+      ])
+    );
+    const events = await collect(ask(input, { retriever: retriever(PASSAGES), claude: null, generate }));
+    expect(texts(events).match(/Obsidian vault/g)).toHaveLength(1);
+    expect(cites(events)).toHaveLength(1);
   });
 });

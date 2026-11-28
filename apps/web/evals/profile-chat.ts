@@ -176,15 +176,22 @@ const fold = (text: string) => text.normalize("NFD").replace(/\p{M}/gu, "").toLo
  * - a position title written more than once;
  * - in Portuguese, an ended position introduced with "trabalho como"
  *   ("Antes disso, trabalho como Estagiário…").
- * Titles are matched whole and case-insensitively, so a shared word ("Desenvolvedor") never counts.
+ * Titles are matched whole and case-insensitively, so a shared word ("Desenvolvedor") never counts,
+ * and neither does a title inside a longer one ("AI software developer" in "AI software developer intern"):
+ * those are two roles.
  */
 export function wordingIssues(text: string, locale: Locale): string[] {
   const answer = fold(text);
   const issues: string[] = [];
-  for (const { title, past } of positionTitles(locale)) {
+  const titles = positionTitles(locale);
+  // A title's part before its comma counts too: answers write "AI software developer intern in the Superintendence".
+  const folded = [...new Set(titles.flatMap(({ title }) => [fold(title), fold(title.split(",")[0] ?? title)]))];
+  for (const { title, past } of titles) {
     const needle = fold(title);
     if (needle.length < 8) continue;
-    const count = answer.split(needle).length - 1;
+    const longer = folded.filter((other) => other.length > needle.length && other.includes(needle));
+    const own = longer.reduce((rest, other) => rest.split(other).join(" "), answer);
+    const count = own.split(needle).length - 1;
     if (count > 1) issues.push(`repeats "${title}"`);
     if (locale === "pt-br" && past && answer.includes(`trabalho como ${needle}`)) issues.push(`present tense for past "${title}"`);
   }

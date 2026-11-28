@@ -12,6 +12,7 @@ import {
   MAX_SENTENCES,
   parseModelAnswer,
   type PendingSentence,
+  repeats,
   SentenceBuffer,
 } from "./grounding";
 import { siteDoesNotSay, takeGapMarker } from "./gap";
@@ -128,6 +129,8 @@ class Emitter {
   claimDropped = false;
   truncated = false;
   private held: { text: string; cited: number[] }[] = [];
+  /** The last sentence kept (held or sent): a sentence that only restates it is dropped (`repeats`). */
+  private last: { text: string; cited: number[] } | null = null;
   /** A checked lead-in line, waiting for its first list item. */
   private leadIn: { text: string; cited: number[] } | null = null;
   private started = false;
@@ -188,27 +191,47 @@ class Emitter {
     this.dropped.push("dangling");
   }
 
-  private *keep(checked: { text: string; cited: number[] }): Generator<AskEvent, void, undefined> {
+  private *keep(sentence: { text: string; cited: number[] }): Generator<AskEvent, void, undefined> {
+    if (this.last !== null && repeats(this.last.text, sentence.text)) {
+      // Not a claim lost: the sentence before says the same. Its citations move there.
+      this.dropped.push("repeat");
+      const last = this.last;
+      const added = sentence.cited.filter((index) => !last.cited.includes(index));
+      last.cited.push(...added);
+      if (this.started) yield* this.cite(added);
+      else if (last.cited.length > 0) yield* this.start();
+      return;
+    }
+    // A copy: a repeat after it may add citations to it, even while it is held.
+    const checked = { text: sentence.text, cited: [...sentence.cited] };
+    this.last = checked;
     this.sentences++;
     this.length += checked.text.length;
     if (!this.started && checked.cited.length === 0) {
       this.held.push(checked);
       return;
     }
-    if (!this.started) {
-      this.started = true;
-      yield { type: "checking" };
-      yield { type: "status", mode: "model" };
-      for (const held of this.held) yield* this.send(held);
-      this.held = [];
-    }
+    if (!this.started) yield* this.start();
     yield* this.send(checked);
+  }
+
+  /** The first cited sentence: the answer starts, with the uncited ones held before it. */
+  private *start(): Generator<AskEvent, void, undefined> {
+    this.started = true;
+    yield { type: "checking" };
+    yield { type: "status", mode: "model" };
+    for (const held of this.held) yield* this.send(held);
+    this.held = [];
   }
 
   private *send(sentence: { text: string; cited: number[] }): Generator<AskEvent, void, undefined> {
     // The text keeps its own spacing and line breaks (list items); the citation numbers follow it.
     yield { type: "text", text: sentence.text };
-    const numbers = [...new Set(sentence.cited.flatMap((index) => this.citations.cite(index) ?? []))];
+    yield* this.cite(sentence.cited);
+  }
+
+  private *cite(cited: readonly number[]): Generator<AskEvent, void, undefined> {
+    const numbers = [...new Set(cited.flatMap((index) => this.citations.cite(index) ?? []))];
     for (const n of numbers) yield { type: "cite", n };
   }
 

@@ -69,6 +69,15 @@ describe("profile chat eval: wording checks", () => {
     );
   });
 
+  it("does not count a title inside a longer one as a repeat", () => {
+    expect(
+      wordingIssues(
+        "Before that, I was an AI software developer intern from March 2026 to July 2026, and then an AI software developer there from July 2026 to August 2026.",
+        "en-us"
+      )
+    ).toEqual([]);
+  });
+
   it("passes a natural answer", () => {
     expect(
       wordingIssues(

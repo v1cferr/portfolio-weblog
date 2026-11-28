@@ -513,3 +513,19 @@ Sistemas de IA · FAI·UFSCar (2026-08 – atual); …"), and an off-topic quest
 Trade-off: a stray off-topic question with a real-looking match ("Vai chover em
 São Paulo?") still reaches Claude, which says the site doesn't say; erring that
 way keeps every question about the owner answered.
+
+## Revision (2026-11-28, repeated sentences and room for thinking)
+
+- **Repeats are dropped.** Models often state a fact in their own words and then
+  cite the passage that says the same ("My current role is AI Systems Analyst at
+  FAI·UFSCar… I have worked as AI Systems Analyst at FAI·UFSCar since August
+  2026."). A prompt rule (2026-11-27) did not stop it. Now a sentence whose
+  content words (four or more) are at least 85% in the sentence kept just before
+  it is dropped as `repeat`, and its citations move to that sentence. It is not
+  a lost claim, so the answer is not partial. The same rule applies to the free
+  models' JSON answers.
+- **`max_tokens` 3000.** Adaptive thinking counts against it; at 1500, 5 of 40
+  eval answers stopped at the limit, one with no text at all. With 3000, none
+  did.
+- **Eval.** The wording check no longer counts a title inside a longer one ("AI
+  software developer" inside "AI software developer intern") as a repeat.
