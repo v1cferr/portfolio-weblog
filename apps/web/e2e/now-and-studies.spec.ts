@@ -75,8 +75,10 @@ test.describe("issuer logos", () => {
     for (let index = 0; index < count; index++) {
       const logo = tiles.nth(index).locator("[data-organization] img").first();
       await expect(logo).toHaveAttribute("src", /^\/company-logos\//);
-      // The image loaded: a broken path would leave it at zero width.
-      expect(await logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+      // The image loaded: a broken path would leave it at zero width. Logos are
+      // lazy, so it has to be in view first.
+      await logo.scrollIntoViewIfNeeded();
+      await expect.poll(() => logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     }
     await expect(tiles.filter({ hasText: "Transforme-se" }).locator('[data-organization="serasa-experian"]')).toHaveCount(1);
   });

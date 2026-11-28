@@ -16,6 +16,11 @@ const sizes = {
  * server so it never flashes initials first; initials stand in only when there
  * is no logo, unless the caller passes a `fallback` (e.g. the generic icon a
  * study tile used before it had logos).
+ *
+ * Lazy on purpose: React preloads every eager `<img>` it renders on the server,
+ * so a page with a dozen logos sent a dozen preloads (light and dark) that
+ * competed with the hero photo. A lazy image hidden by the theme (`hidden`) is
+ * never fetched, so only the visible variant downloads.
  */
 export function OrganizationMark({
   organization,
@@ -34,7 +39,7 @@ export function OrganizationMark({
     .slice(0, 2);
   const logo = (src: string, className?: string) => (
     // eslint-disable-next-line @next/next/no-img-element -- tiny static logos; next/image adds nothing here
-    <img src={src} alt="" className={cn("size-full rounded-[22%] object-contain", className)} decoding="async" />
+    <img src={src} alt="" className={cn("size-full rounded-[22%] object-contain", className)} loading="lazy" decoding="async" />
   );
   return (
     <span data-organization={organization.id} className={cn("inline-flex shrink-0 items-center justify-center", sizes[size])}>

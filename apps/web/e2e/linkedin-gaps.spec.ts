@@ -107,8 +107,10 @@ test.describe("official logos of the LinkedIn organizations", () => {
       await page.goto(path);
       const logo = page.locator(`${entry} [data-organization="${id}"] img`).first();
       await expect(logo).toHaveAttribute("src", src);
-      // The image loaded: a broken path would leave it at zero width.
-      expect(await logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+      // The image loaded: a broken path would leave it at zero width. Logos are
+      // lazy, so it has to be in view first.
+      await logo.scrollIntoViewIfNeeded();
+      await expect.poll(() => logo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
     });
   }
 
