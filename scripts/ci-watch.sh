@@ -4,7 +4,8 @@
 # in progress, an ETA, every step that does not succeed, and the conclusion.
 #
 # The estimate comes from the median duration of each step over the workflow's
-# last successful runs, so it improves as the history grows.
+# last successful runs, so it improves as the history grows. Jobs run in
+# parallel, so the ETA is that of the slowest job still running.
 #
 # Usage: scripts/ci-watch.sh <run-id | branch> [interval-seconds]
 # With a branch, it watches that branch's latest run of the workflow named in
@@ -68,19 +69,35 @@ while true; do
   if [[ -z $state ]]; then sleep "$interval"; continue; fi
 
   now=$(date +%s)
+  # Jobs run in parallel (the end-to-end shards), so the run ends with its
+  # slowest job: each job's remaining time is the median of its steps still to
+  # run, and the run's is the largest. A job with no history (renamed or new)
+  # falls back to the run's median total.
   read -r percent remaining current < <(jq -r --argjson base "$baseline" --argjson now "$now" '
     ($base.total // 1) as $total
     | ($now - (.createdAt | fromdateiso8601)) as $elapsed
-    | [.jobs[] | .name as $job | .steps[]? | . + {key: "\($job) › \(.name)"}] as $steps
-    | ($steps | map(select(.status == "completed") | ($base.steps[.key] // 0)) | add // 0) as $done
-    | ($steps | map(select(.status == "in_progress")) | first) as $running
-    | (if $running then [($base.steps[$running.key] // 0), ($now - ($running.startedAt | fromdateiso8601))] | min else 0 end) as $partial
-    | ([($base.steps | to_entries | map(.value) | add // 1), 1] | max) as $sum
-    | ((($done + $partial) / $sum * 100) | floor | [., 99] | min) as $by_steps
-    | (($elapsed / $total * 100) | floor | [., 99] | min) as $by_time
-    | ([$by_steps, $by_time] | max) as $percent
-    | ([$total - $elapsed, 0] | max | floor) as $remaining
-    | "\($percent) \($remaining) \($running.key // "queued")"
+    | [.jobs[] | select(.status != "completed") | .name as $job
+        | [.steps[]? | . + {key: "\($job) › \(.name)"}] as $steps
+        | ($steps | map(select(.status != "completed")) ) as $left
+        | ($left | map($base.steps[.key]) | map(select(. != null))) as $known
+        | {
+            name: $job,
+            step: ($left | map(select(.status == "in_progress")) | first | .name // "queued"),
+            remaining: (
+              if ($steps | length) == 0 or ($known | length) == 0 then [$total - $elapsed, 0] | max
+              else ($left | map(
+                ($base.steps[.key] // 0) as $median
+                | if .status == "in_progress" then [$median - ($now - (.startedAt | fromdateiso8601)), 0] | max else $median end
+              ) | add // 0)
+              end
+            )
+          }
+      ] as $jobs
+    | ($jobs | max_by(.remaining)) as $slowest
+    | (($slowest.remaining // 0) | floor) as $remaining
+    | (if $remaining + $elapsed > 0 then ($elapsed / ($elapsed + $remaining) * 100) | floor else 0 end | [., 99] | min) as $percent
+    | (if ($jobs | length) > 1 then " (+\(($jobs | length) - 1) more)" else "" end) as $more
+    | "\($percent) \($remaining) \(if $slowest then "\($slowest.name) › \($slowest.step)\($more)" else "queued" end)"
   ' <<<"$state")
 
   # Steps that did not succeed are reported as they happen.
