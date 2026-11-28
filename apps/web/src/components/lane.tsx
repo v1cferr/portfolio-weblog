@@ -26,10 +26,6 @@ export const laneBg: Record<Lane, string> = {
   writing: "bg-lane-writing",
 };
 
-export function LaneDot({ lane, className }: { lane: Lane; className?: string }) {
-  return <span aria-hidden className={cn("inline-block size-2 shrink-0 rounded-full", laneBg[lane], className)} />;
-}
-
 /** One icon per kind of entry, used wherever the kind is named. */
 export const laneIcon: Record<Lane, LucideIcon> = {
   career: BriefcaseBusinessIcon,
