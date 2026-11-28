@@ -512,9 +512,20 @@ groups:
         role:
           pt-br: Mousepad
         model: Havit HV-MP830
-        # Checked 2026-11-27: this store no longer resolves, and Havit's official site
-        # (havitsmart.com) does not list the HV-MP830, so there is no official page to link.
-        url: https://havitoficial.mercadoshops.com.br/mouse-pad-gamer-havit-gamer-hv-mp830-de-borracha-magic-eagle-30cm-x-90cm-x-3mm-preto/p/MLB15457261
+        # The old store link (havitoficial.mercadoshops.com.br) no longer resolves, and Havit's
+        # official store (prohavit.com) dropped the HV-MP830, so this links to its archived page.
+        # Official image: https://www.prohavit.com/cdn/shop/products/hv-mp830-extra-long-mouse-pad-9.jpg
+        url: https://web.archive.org/web/20251009181843/https://www.prohavit.com/products/hv-mp830-large-mouse-pad
+        media:
+          src: /setup/parts/mousepad-havit-hv-mp830.png
+          width: 1562
+          height: 1562
+          alt:
+            en-us: Havit HV-MP830 long gaming mouse pad, black with a red stitched edge and the red Magic Eagle logo
+            pt-br: Mousepad gamer longo Havit HV-MP830, preto com borda costurada vermelha e o logo vermelho Magic Eagle
+          credit:
+            label: Havit
+            url: https://web.archive.org/web/20251009181843/https://www.prohavit.com/products/hv-mp830-large-mouse-pad
         note:
           pt-br: Utilizei de 2019 até 2024. Mousepad bom demais, costura muito boa, não rasgou até hoje e deixo como reserva.
             Troquei por um mousepad da Redragon com tema de WoW.
