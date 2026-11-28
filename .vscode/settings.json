@@ -1,142 +1,24 @@
 {
-  // =================================================
-  // FORMATTING
-  // =================================================
-
-  // Prettier is the default formatter for every file
+  // Prettier formats everything, with the config in package.json
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-
-  // Format on save
   "editor.formatOnSave": true,
-
-  // Format pasted code
   "editor.formatOnPaste": true,
-
-  // Per-language overrides
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
-      "source.organizeImports": "never"
-    }
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
-      "source.organizeImports": "never"
-    }
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-
-  // =================================================
-  // ESLINT
-  // =================================================
-
-  // Run ESLint on save
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-
-  // =================================================
-  // PRETTIER
-  // =================================================
-
-  // Show Prettier status messages
-  "prettier.enable": true,
-
-  // Use the project configuration file
   "prettier.requireConfig": true,
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
 
-  // =================================================
-  // EDITOR
-  // =================================================
-
-  // Strip trailing whitespace on save
-  "files.trimTrailingWhitespace": true,
-
-  // Keep a final newline
-  "files.insertFinalNewline": true,
-
-  // Drop extra blank lines at the end of the file
+  // Whitespace and encoding come from .editorconfig
   "files.trimFinalNewlines": true,
 
-  // Default encoding: UTF-8
-  "files.encoding": "utf8",
-
-  // Line ending Unix (LF)
-  "files.eol": "\n",
-
-  // =================================================
-  // TYPESCRIPT
-  // =================================================
-
-  // Show TypeScript errors inline
+  // The workspace's TypeScript, and imports that follow moved files
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-
-  // Update imports automatically when files move
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
 
-  // =================================================
-  // NEXT.JS
-  // =================================================
-
-  // Hide generated files and folders
+  // Build output, also kept out of the file watcher
   "files.exclude": {
     "**/.next": true,
     "**/.vercel": true,
     "**/node_modules": true
-  },
-
-  // Watch the files that matter
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/node_modules/**": true,
-    "**/.next/**": true,
-    "**/.vercel/**": true
   }
 }
