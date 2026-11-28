@@ -80,11 +80,9 @@ caseStudy:
     en-us:
       - Rebuilding v1's Supabase, Battle.net, Google Sheets and edge-function integrations.
       - A database next to the content in Git.
-      - Turborepo, while one app and a few source-only packages validate in under a minute.
     pt-br:
       - Refazer as integrações da v1 com Supabase, Battle.net, Google Sheets e edge functions.
       - Um banco de dados ao lado do conteúdo no Git.
-      - Turborepo, enquanto um app e poucos pacotes só de código-fonte validam em menos de um minuto.
   approach:
     en-us: >-
       A pnpm monorepo with one Next.js app and small TypeScript packages. packages/content owns
