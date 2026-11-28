@@ -7,7 +7,6 @@ export { findContentRoot, loadContent, parseFrontmatter, type PostSource, type R
 export * from "./locale";
 export { checkMedia, collectMedia, type MediaReference } from "./media";
 export * from "./now/now";
-export * from "./pages/pages";
 export * from "./studies";
 export * from "./tattoos/tattoos";
 export type { EntityRef, EntityType } from "./relations/graph";

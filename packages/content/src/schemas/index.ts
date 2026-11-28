@@ -4,7 +4,6 @@ export * from "./decisions";
 export * from "./education";
 export * from "./experience";
 export * from "./now";
-export * from "./page";
 export * from "./post";
 export * from "./profile";
 export * from "./project";
