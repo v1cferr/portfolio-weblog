@@ -315,7 +315,20 @@ groups:
         role:
           pt-br: Fone in-ear
         model: Baseus Bowie MA10 Pro ANC Earphones
-        url: https://pt.aliexpress.com/item/1005006079931969.html
+        # Baseus's own site has no MA10 Pro page, and its AliExpress store ("BASEUS Co.,Ltd. Store")
+        # took the listing down, so this links to the archived copy. Image from that listing:
+        # https://ae01.alicdn.com/kf/Sd3ac136939fb4f2bbaecd7153a3fc3e3J.jpg (cropped to the buds and case)
+        url: https://web.archive.org/web/20240607102423/https://pt.aliexpress.com/item/1005006079931969.html
+        media:
+          src: /setup/parts/earphones-baseus-bowie-ma10-pro.png
+          width: 449
+          height: 449
+          alt:
+            en-us: Baseus Bowie MA10 Pro wireless earbuds, black, above their black charging case
+            pt-br: Fones sem fio Baseus Bowie MA10 Pro, pretos, acima do estojo de carregamento preto
+          credit:
+            label: Baseus
+            url: https://web.archive.org/web/20240607102423/https://pt.aliexpress.com/item/1005006079931969.html
       - id: monitor-asus-rog-strix-xg27acs
         role:
           pt-br: Monitor principal
