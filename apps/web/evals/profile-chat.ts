@@ -110,17 +110,18 @@ export interface RetrievalResult {
   ok: boolean;
 }
 
-/** Each question passes when one expected page is in the top MAX_PASSAGES, or when none is expected and nothing is found. */
+/**
+ * Each question passes when one expected page is in the top MAX_PASSAGES, or,
+ * when none is expected, when nothing reaches the model as a source: the
+ * search finds nothing, or the off-topic check stops a first question that
+ * found only word noise ("capital" in a post about a company going public).
+ */
 export function runRetrieval(set: EvalSet): RetrievalResult[] {
   return set.questions.map(({ locale, question, expect }) => {
-    const retrieved = [
-      ...new Set(
-        retrieverFor(locale)
-          .retrieve(question, { limit: MAX_PASSAGES })
-          .map((passage) => passage.url)
-      ),
-    ];
-    const ok = expect.length === 0 ? retrieved.length === 0 : expect.some((url) => retrieved.includes(url));
+    const found = retrieverFor(locale).retrieve(question, { limit: MAX_PASSAGES });
+    const retrieved = [...new Set(found.map((passage) => passage.url))];
+    const ok =
+      expect.length === 0 ? retrieved.length === 0 || isOffTopic(question, found, 0) : expect.some((url) => retrieved.includes(url));
     return { locale, question, expect, retrieved, ok };
   });
 }
