@@ -19,13 +19,17 @@ in one job, in order, in about 13 minutes, 9 of them end-to-end tests.
 
 ## Skipped for documentation
 
-`e2e` is skipped when every changed file is one the site never reads: `docs/`,
-`AGENTS.md`, `CLAUDE.md`, `README.md`, `LICENSE` and `scripts/ci-watch.sh`.
-`checks` still runs, so Markdown formatting is checked. When there is no base to
-compare with (a new branch pushed straight to `main`), everything runs.
+`e2e` is skipped when every changed file is one the site never reads: `docs/`
+(except `docs/decisions/`, published at `/decisions`), `AGENTS.md`, `CLAUDE.md`,
+`README.md`, `LICENSE` and `scripts/ci-watch.sh`. `checks` still runs, so
+Markdown formatting is checked. When there is no base to compare with (a new
+branch pushed straight to `main`), everything runs.
 
 ## Caches
 
+- Turborepo's remote cache on Vercel (ADR 0020). `lint`, `typecheck`, `test` and
+  `build` are restored instead of run when their inputs match a green run.
+  `TURBO_TOKEN` is an Actions secret and `TURBO_TEAM` a repository variable.
 - pnpm's store, through `actions/setup-node`.
 - `apps/web/.next/cache`, so a build reuses what an earlier one compiled. The
   key changes with the sources; the newest cache for the same lockfile is the
