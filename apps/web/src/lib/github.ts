@@ -13,7 +13,7 @@ import { cache } from "react";
 
 import linguist from "@/generated/linguist-colors.json";
 
-import { FIXTURE_REPOS, fixtureLanguages } from "./github-fixture";
+import { FIXTURE_REPOS, FIXTURE_TAKEN_AT, fixtureLanguages } from "./github-fixture";
 
 export const GITHUB_USER = "v1cferr";
 
@@ -25,6 +25,11 @@ export const GITHUB_REVALIDATE_SECONDS = 86_400;
  * snapshot instead of the network, so tests never hit GitHub or its rate limit.
  */
 const FIXTURES = process.env.GITHUB_FIXTURES === "1";
+
+/** "Now" for what is computed from GitHub data: the snapshot's date under fixtures, so builds stay the same over time. */
+export function githubNow(): Date {
+  return FIXTURES ? FIXTURE_TAKEN_AT : new Date();
+}
 
 /** Every request carries the same cache policy: Next's data cache, revalidated daily, purgeable by the "github" tag. */
 const requestOptions = () => ({

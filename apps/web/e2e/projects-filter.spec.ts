@@ -197,3 +197,15 @@ test.describe("project cards", () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
   });
 });
+
+test.describe("stale projects", () => {
+  // 2026-11-28: a project in progress with no push for 90 days says so. The fixture snapshot is "now" (2026-11-26).
+  test("a project in progress with no recent push shows since when, a recent one does not", async ({ page }) => {
+    await page.goto("/en-us/projects/obsidian-rag");
+    await expect(page.getByTestId("stale-badge")).toHaveText("No updates since Jun 2026");
+    await page.goto("/en-us/projects/imobos");
+    await expect(page.getByTestId("stale-badge")).toHaveCount(0);
+    await page.goto("/pt-br/projects/ufscar-housing-radar");
+    await expect(page.getByTestId("stale-badge")).toHaveText(/^Sem atualizações desde jun/);
+  });
+});

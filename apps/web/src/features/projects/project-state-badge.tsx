@@ -20,3 +20,12 @@ export function ProjectStateBadge({ state, label }: { state: ProjectState; label
     </Badge>
   );
 }
+
+/** A project in progress whose repository has had no push for months (staleness.ts). */
+export function StaleBadge({ label }: { label: string }) {
+  return (
+    <Badge variant="outline" data-testid="stale-badge" className="border-dashed font-mono text-[0.7rem] font-normal text-muted-foreground">
+      {label}
+    </Badge>
+  );
+}

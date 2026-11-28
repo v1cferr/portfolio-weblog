@@ -26,12 +26,14 @@ import { SourceLink } from "@/components/source-link";
 import { SourceList } from "@/components/source-list";
 import { TechList } from "@/components/tech-list";
 import { AdrLink, CaseStudyDeepDive, CaseStudySummary } from "@/features/projects/case-study";
-import { ProjectStateBadge } from "@/features/projects/project-state-badge";
+import { ProjectStateBadge, StaleBadge } from "@/features/projects/project-state-badge";
+import { staleSince } from "@/features/projects/staleness";
 import { RepoLanguagesSection } from "@/features/projects/repo-languages";
 import { Link } from "@/i18n/navigation";
 import { getContent } from "@/lib/content";
 import { describeEntity } from "@/lib/entities";
-import { getRepoIndex, getRepoLanguages } from "@/lib/github";
+import { formatPartialDate } from "@/lib/dates";
+import { getRepoIndex, getRepoLanguages, githubNow } from "@/lib/github";
 import { pageAlternates } from "@/lib/i18n";
 import { pageOpenGraph } from "@/lib/metadata";
 import { ExternalLink } from "@/components/external-link";
@@ -106,6 +108,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
   const repo = index?.ok === true && project.repository !== undefined ? index.get(project.repository) : undefined;
   // Live from GitHub too; a private, missing or empty repository simply has no block.
   const languages = repo !== undefined ? await getRepoLanguages(repo.full_name) : undefined;
+  const stale = staleSince(project.state, repo?.pushed_at, githubNow());
 
   // With a case study, its TL;DR card carries the dates, the stack and the
   // links, so the side column keeps only what GitHub adds.
@@ -160,6 +163,7 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
           <header className="mb-10 space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <ProjectStateBadge state={project.state} label={t(`state.${project.state}`)} />
+              {stale !== undefined && <StaleBadge label={t("stale", { date: formatPartialDate(stale, locale) })} />}
               <span className="font-mono text-xs text-muted-foreground">{t(`category.${project.category}`)}</span>
             </div>
             <Morph kind="project" id={project.id}>

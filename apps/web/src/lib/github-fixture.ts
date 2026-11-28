@@ -13,6 +13,9 @@ import type { GitHubRepo, LanguagesResult } from "@workspace/github";
  * Never used in production: lib/github.ts reads it only under the flag.
  */
 
+/** When the snapshot was taken: "now" for anything computed from it, so builds stay the same over time. */
+export const FIXTURE_TAKEN_AT = new Date("2026-11-26T12:00:00Z");
+
 const repo = (name: string, createdAt: string, pushedAt: string, language: string | null, extra: Partial<GitHubRepo> = {}): GitHubRepo => ({
   name,
   full_name: `v1cferr/${name}`,

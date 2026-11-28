@@ -2,11 +2,13 @@ import { localize, type Project } from "@workspace/content";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { getContent } from "@/lib/content";
-import { getRepoLanguages } from "@/lib/github";
+import { formatPartialDate } from "@/lib/dates";
+import { getRepoIndex, getRepoLanguages, githubNow } from "@/lib/github";
 import { storePath } from "@/lib/store-path";
 
 import { describeLanguages } from "./languages";
 import { type ProjectCardData, ProjectCardView } from "./project-card-view";
+import { staleSince } from "./staleness";
 
 /** /nix/store/abcdefg…-name, shortened the way the page eyebrows and share cards show it. */
 function shortStorePath(id: string): string {
@@ -19,11 +21,14 @@ export async function toCardData(
   project: Project,
   repositoryCreatedAt?: (repository: string) => string | undefined
 ): Promise<ProjectCardData> {
-  const [locale, t, repoLanguages] = await Promise.all([
+  const [locale, t, repoLanguages, index] = await Promise.all([
     getLocale(),
     getTranslations("Projects"),
     project.repository !== undefined ? getRepoLanguages(project.repository) : undefined,
+    project.repository !== undefined ? getRepoIndex() : undefined,
   ]);
+  const repo = project.repository !== undefined && index?.ok === true ? index.get(project.repository) : undefined;
+  const stale = staleSince(project.state, repo?.pushed_at, githubNow());
   const languages = repoLanguages?.languages.map(({ name, percent, color, other }) => ({
     name: other === true ? t("otherLanguages") : name,
     percent,
@@ -47,6 +52,7 @@ export async function toCardData(
     storePath: shortStorePath(project.id),
     state: project.state,
     stateLabel: t(`state.${project.state}`),
+    staleLabel: stale && t("stale", { date: formatPartialDate(stale, locale) }),
     category: project.category,
     categoryLabel: t(`category.${project.category}`),
     featured: project.featured,
