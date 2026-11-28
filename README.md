@@ -31,8 +31,9 @@ Without Nix: Node 22 and pnpm 10 (`corepack enable`) are enough for everything
 except the end-to-end tests, which then need
 `pnpm --filter web exec playwright install chromium`.
 
-Optional variables are documented in [`.env.example`](.env.example). Nothing is
-required to run.
+Optional variables are documented in
+[`apps/web/.env.example`](apps/web/.env.example); copy it to
+`apps/web/.env.local`, where Next.js reads them. Nothing is required to run.
 
 ## Commands
 
