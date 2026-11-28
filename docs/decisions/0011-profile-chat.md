@@ -561,3 +561,25 @@ The eval with dropped sentences in view showed two kinds of repetition that the
 - **The site's own name is not a link.** A cited sentence ("…a v2 substituiu a
   v1 em v1cferr.dev em 22/11/2026") was dropped as `url`. The bare name
   `v1cferr.dev` is now allowed, while a URL or a path on it is still dropped.
+
+## Revision (2026-11-28, the chat's own words around the facts)
+
+- **The owner's call.** The chat should not be strictly extractive. It answers
+  from the site, but it may use words of its own. One eval run dropped 16
+  sentences as `unfaithful`, and every one of them cited nothing and stated no
+  fact the site lacks: "Most of that work was hands-on troubleshooting.", "Sim,
+  trabalhei com suporte técnico em duas frentes, ambas já encerradas.", polite
+  refusals. A rule that asks 60% of each word to be on a page pushes the model
+  to paste the pages, and pasting is where fragments and restatements come from.
+- **What changed.** A sentence that cites nothing needs only 25% of its words on
+  the pages it may draw on (`UNCITED_FAITHFULNESS_THRESHOLD`). 14 of the 16
+  dropped sentences score 0.25 or more, while off-site filler ("Zebras pirouette
+  gracefully nearby", "I love surfing") scores 0.
+- **What did not change.** A cited sentence still needs 60%. Every sentence
+  still names no person, place, organization, number or date the site lacks
+  (`newFacts`), carries no link, and an uncited one draws only on the pages the
+  answer is about.
+- **The cost.** Word overlap cannot tell a harmless paraphrase from an
+  ungrounded opinion built from site words ("I secretly prefer cooking pasta
+  over coding" scores 0.33). The prompt still asks for nothing outside the site;
+  this threshold is the backstop, not the guarantee.
