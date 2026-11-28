@@ -47,6 +47,20 @@ Photos of other people need their consent before they are published.
 An entry without photos shows no gallery at all: no "photos coming" notice.
 Photos are added over time.
 
+## A photo of the setup over the years
+
+The dated photos under `photos` in `content/profile/setup.yaml` show in two tabs
+on `/setup`, each its own timeline and lightbox gallery. Every photo needs a
+`kind`:
+
+| Kind       | What it shows                                                   | Deep links                                            |
+| ---------- | --------------------------------------------------------------- | ----------------------------------------------------- |
+| `hardware` | The desk and its parts                                          | `#setup-photos-hardware`, `?photo=setup-hardware-<n>` |
+| `software` | The desktop on screen: a screenshot, or a photo of the monitors | `#setup-photos-software`, `?photo=setup-software-<n>` |
+
+A camera photo whose subject is the system on screen (an OS, a window manager, a
+VM) is `software`, even though the monitors show in it.
+
 ## A photo of a setup part
 
 Each part on `/setup` can have one photo: a square thumbnail on its card that

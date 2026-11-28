@@ -455,7 +455,7 @@
     "copy": "Copy as Markdown",
     "copied": "Copied",
     "markdownHeading": "My setup",
-    "photos": "The desk over the years",
+    "photos": "The setup over the years",
     "present": "present",
     "extensions": "VS Code extensions",
     "extensionsInfo": "The {count} extensions I have installed, copied from my dotfiles' automatic mirror (code --list-extensions), updated {date}. Names are the Marketplace's; the groups are mine.",
@@ -463,7 +463,11 @@
     "extensionsMore": "Show all {count} extensions",
     "extensionsLess": "Show fewer",
     "credit": "Image: {label}",
-    "extensionsList": "{group} extensions"
+    "extensionsList": "{group} extensions",
+    "photoTabs": {
+      "hardware": "Hardware",
+      "software": "Software"
+    }
   },
   "Wow": {
     "title": "World of Warcraft",

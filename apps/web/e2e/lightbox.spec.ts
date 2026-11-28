@@ -2,15 +2,18 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 
 /*
- * The image lightbox (components/lightbox): the Setup photo timeline is the
- * longest gallery, dated and captioned. The first photo is the newest.
+ * The image lightbox (components/lightbox): the Setup photo timelines are the
+ * longest galleries, dated and captioned, in two tabs (Hardware first, the
+ * default). The first photo is the newest.
  */
 
 const SETUP = "/en-us/setup";
 
-const photoLinks = (page: Page) => page.locator('section[aria-labelledby="setup-photos"] a[href^="/setup/"]');
+const photoLinks = (page: Page, tab = "hardware") => page.locator(`#setup-photos-${tab} a[href^="/setup/"]`);
 const dialog = (page: Page) => page.getByRole("dialog");
 const counter = (page: Page) => page.getByTestId("lightbox-counter");
+// Located by role attribute, not getByRole: an open dialog hides the page from the accessibility tree.
+const tab = (page: Page, name: string) => page.locator('[role="tab"]', { hasText: name });
 const photoParam = (page: Page) => new URL(page.url()).searchParams.get("photo");
 
 /** The gallery's size and its newest photo, read from the page so new photos don't break the tests. */
@@ -39,7 +42,7 @@ test.describe("lightbox", () => {
     await expect(dialog(page).getByText(`Image 1 of ${String(total)}`)).toBeAttached();
     await expect(dialog(page).locator("time")).toHaveAttribute("datetime", /^\d{4}-\d{2}(-\d{2})?$/);
     await expect(dialog(page).getByRole("link", { name: /Open original/ })).toHaveAttribute("href", src);
-    expect(photoParam(page)).toBe("setup-1");
+    expect(photoParam(page)).toBe("setup-hardware-1");
   });
 
   test("the arrow keys and buttons step through the gallery", async ({ page }) => {
@@ -47,7 +50,7 @@ test.describe("lightbox", () => {
     const last = `${String(total)}/${String(total)}`;
     await page.keyboard.press("ArrowRight");
     await expect(counter(page)).toHaveText(`2/${String(total)}`);
-    expect(photoParam(page)).toBe("setup-2");
+    expect(photoParam(page)).toBe("setup-hardware-2");
     await page.keyboard.press("ArrowLeft");
     await expect(counter(page)).toHaveText(`1/${String(total)}`);
     await page.keyboard.press("ArrowLeft");
@@ -86,7 +89,7 @@ test.describe("lightbox", () => {
   test("a ?photo= link opens that image on load", async ({ page }) => {
     await page.goto(SETUP);
     const { total } = await gallery(page);
-    await page.goto(`${SETUP}?photo=setup-3`);
+    await page.goto(`${SETUP}?photo=setup-hardware-3`);
     await expect(dialog(page)).toBeVisible();
     await expect(counter(page)).toHaveText(`3/${String(total)}`);
     await page.keyboard.press("Escape");
@@ -95,7 +98,7 @@ test.describe("lightbox", () => {
   });
 
   test("an unknown ?photo= leaves the page alone", async ({ page }) => {
-    await page.goto(`${SETUP}?photo=setup-99`);
+    await page.goto(`${SETUP}?photo=setup-hardware-99`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(dialog(page)).toBeHidden();
   });
@@ -199,6 +202,43 @@ test.describe("lightbox", () => {
     });
     expect(transforms.length).toBeGreaterThan(0);
     expect(transforms.filter((transform) => transform !== "none")).toEqual([]);
+  });
+});
+
+test.describe("setup photo tabs", () => {
+  // 2026-11-28: the desk (Hardware) and the desktop on screen (Software) are two timelines, each its own gallery.
+  test("a tab shows only its own timeline and puts its fragment in the address bar", async ({ page }) => {
+    await page.goto(SETUP);
+    await expect(photoLinks(page, "hardware").first()).toBeVisible();
+    await expect(photoLinks(page, "software").first()).toBeHidden();
+    await tab(page, "Software").click();
+    await expect(photoLinks(page, "software").first()).toBeVisible();
+    await expect(photoLinks(page, "hardware").first()).toBeHidden();
+    expect(new URL(page.url()).hash).toBe("#setup-photos-software");
+    await photoLinks(page, "software").first().click();
+    await expect(dialog(page)).toBeVisible();
+    expect(photoParam(page)).toBe("setup-software-1");
+  });
+
+  test("a #setup-photos-software link opens the Software tab", async ({ page }) => {
+    await page.goto(`${SETUP}#setup-photos-software`);
+    await expect(tab(page, "Software")).toHaveAttribute("aria-selected", "true");
+    await expect(photoLinks(page, "software").first()).toBeVisible();
+  });
+
+  test("a ?photo= link into the Software gallery opens its tab and the photo", async ({ page }) => {
+    await page.goto(`${SETUP}?photo=setup-software-2`);
+    await expect(dialog(page)).toBeVisible();
+    await expect(tab(page, "Software")).toHaveAttribute("aria-selected", "true");
+    await expect(counter(page)).toHaveText(/^2\//);
+  });
+
+  test("an old single-gallery ?photo=setup-<n> link still opens the same photo", async ({ page }) => {
+    // Before the split, setup-1 was the newest photo of all, a Software screenshot.
+    await page.goto(`${SETUP}?photo=setup-1`);
+    await expect(dialog(page)).toBeVisible();
+    expect(photoParam(page)).toBe("setup-software-1");
+    await expect(tab(page, "Software")).toHaveAttribute("aria-selected", "true");
   });
 });
 

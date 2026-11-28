@@ -56,6 +56,10 @@ export function vscodeExtensionAnchor(id: string): string {
 }
 
 /** The workstation page; not part of the knowledge graph. */
+/** Which timeline a setup photo belongs to on /setup. */
+export const SetupPhotoKind = z.enum(["hardware", "software"]);
+export type SetupPhotoKind = z.infer<typeof SetupPhotoKind>;
+
 export const Setup = z
   .strictObject({
     ...entityBase,
@@ -69,8 +73,12 @@ export const Setup = z
         })
       )
       .min(1),
-    /** The desk over the years, each photo dated; shown newest first. */
-    photos: z.array(Media.extend({ date: PartialDate })).default([]),
+    /**
+     * The setup over the years, each photo dated and shown newest first, in two
+     * timelines: `hardware` (the desk and its parts) and `software` (the
+     * desktop on screen, screenshots or photos of the monitors).
+     */
+    photos: z.array(Media.extend({ date: PartialDate, kind: SetupPhotoKind })).default([]),
     /**
      * The VS Code extensions installed, copied from the dotfiles' mirror
      * (`code --list-extensions`), grouped by what they are for.
