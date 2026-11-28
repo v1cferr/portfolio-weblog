@@ -73,5 +73,7 @@ test("MAPS S.A. shows its official logo", async ({ page }) => {
   await page.goto("/en-us/about");
   const mark = page.getByTestId("about-volunteering").locator('[data-organization="maps-sa"] img');
   await expect(mark).toHaveAttribute("src", "/company-logos/maps-sa.svg");
-  expect(await mark.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  // Logos are lazy: bring it into view, then wait for the decode.
+  await mark.scrollIntoViewIfNeeded();
+  await expect.poll(() => mark.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
 });
