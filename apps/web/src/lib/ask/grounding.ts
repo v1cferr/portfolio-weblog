@@ -298,7 +298,8 @@ export interface Corpus {
   conversation: string;
 }
 
-export type SentenceCheck = { ok: true; text: string } | { ok: false; reason: DropReason };
+/** A failed check may say what failed it (`detail`): the new facts, or the words no passage has. Only the eval prints it. */
+export type SentenceCheck = { ok: true; text: string } | { ok: false; reason: DropReason; detail?: string[] };
 
 /**
  * Checks one sentence of an answer. `cited` are 0-based indexes into the
@@ -316,12 +317,14 @@ export function checkSentence(text: string, cited: readonly number[], corpus: Co
   // A cited sentence's names may come from anything sent; an uncited one's only from what the answer is about.
   const known = cited.length > 0 ? corpus.passages : (corpus.scope ?? corpus.passages);
   const everything = `${corpus.conversation}\n${known.map((passage) => `${passage.title} ${passage.keywords} ${passage.text}`).join("\n")}`;
-  if (newFacts(plain, everything).length > 0) return { ok: false, reason: "new-fact" };
+  const facts = newFacts(plain, everything);
+  if (facts.length > 0) return { ok: false, reason: "new-fact", detail: facts };
   // The visitor's own words are never a new fact: a cited sentence may echo the question ("for a React role, …").
   const conversation = { title: "", keywords: "", text: corpus.conversation };
   const against =
     cited.length > 0 ? [...[...new Set(cited)].flatMap((index) => corpus.passages[index] ?? []), conversation] : [...known, conversation];
-  if (faithfulness(plain, against, CONNECTIVES) < FAITHFULNESS_THRESHOLD) return { ok: false, reason: "unfaithful" };
+  if (faithfulness(plain, against, CONNECTIVES) < FAITHFULNESS_THRESHOLD)
+    return { ok: false, reason: "unfaithful", detail: unmatchedWords(plain, against, CONNECTIVES) };
   return { ok: true, text: markdown };
 }
 
@@ -423,6 +426,16 @@ export function faithfulness(
 ): number {
   const words = contentWords(sentence).filter((word) => !ignore.has(word));
   if (words.length === 0) return 1;
+  return 1 - unmatchedWords(sentence, passages, ignore).length / words.length;
+}
+
+/** The sentence's content words no passage has (`faithfulness` counts them; the eval prints them). */
+export function unmatchedWords(
+  sentence: string,
+  passages: readonly Pick<RetrievedPassage, "title" | "text" | "keywords">[],
+  ignore: ReadonlySet<string> = NO_WORDS
+): string[] {
+  const words = contentWords(sentence).filter((word) => !ignore.has(word));
   const vocabulary = new Set(
     passages.flatMap((passage) => {
       const text = `${passage.title} ${passage.keywords} ${passage.text}`;
@@ -430,7 +443,7 @@ export function faithfulness(
     })
   );
   const stems = new Set([...vocabulary].filter((word) => word.length >= 5).map((word) => word.slice(0, 5)));
-  return words.filter((word) => matches(word, vocabulary, stems)).length / words.length;
+  return words.filter((word) => !matches(word, vocabulary, stems));
 }
 
 /** A sentence shorter than this (in content words) is never called a repeat: too little to compare. */

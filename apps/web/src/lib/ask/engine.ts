@@ -50,6 +50,21 @@ export interface AskContext {
   signal?: AbortSignal;
   /** Called with reason codes and token counts only, never the question or the answer. */
   log?: (message: string) => void;
+  /**
+   * Every dropped sentence with its text, for the eval only (`eval:chat`):
+   * the server never sets it, so no answer text reaches a log.
+   */
+  onDrop?: (drop: DroppedSentence) => void;
+}
+
+/** A sentence the checks dropped, as the eval sees it. */
+export interface DroppedSentence {
+  reason: DropReason;
+  text: string;
+  /** The pages the sentence cited. */
+  cited: string[];
+  /** What failed the check, when it says: the new facts, or the words no cited page has. */
+  detail: string[];
 }
 
 /** Documents sent with a follow-up: the new question's passages and the previous turn's. */
@@ -141,7 +156,8 @@ class Emitter {
 
   constructor(
     private readonly corpus: Corpus,
-    readonly citations: CitationMap
+    readonly citations: CitationMap,
+    private readonly onDrop?: (drop: DroppedSentence) => void
   ) {
     this.scope = [...(corpus.scope ?? corpus.passages)];
   }
@@ -161,7 +177,7 @@ class Emitter {
     }
     const check = checkSentence(sentence.text, sentence.cited, { ...this.corpus, scope: this.scope });
     if (!check.ok) {
-      this.dropped.push(check.reason);
+      this.drop(check.reason, sentence, check.detail);
       this.claimDropped ||= isClaim(check.reason, sentence.cited);
       return;
     }
@@ -179,22 +195,29 @@ class Emitter {
       const leadIn = this.leadIn;
       this.leadIn = null;
       if (LIST_ITEM.test(checked.text)) yield* this.keep(leadIn);
-      else this.dropped.push("dangling");
+      else this.drop("dangling", leadIn);
     }
     yield* this.keep(checked);
+  }
+
+  private drop(reason: DropReason, sentence: { text: string; cited: readonly number[] }, detail: string[] = []) {
+    this.dropped.push(reason);
+    const cited = sentence.cited.flatMap((index) => this.corpus.passages[index]?.url ?? []);
+    this.onDrop?.({ reason, text: sentence.text.trim(), cited: [...new Set(cited)], detail });
   }
 
   /** A lead-in with no list item after it: dropped, not a claim (the items it announced were). */
   private dropLeadIn() {
     if (this.leadIn === null) return;
+    const leadIn = this.leadIn;
     this.leadIn = null;
-    this.dropped.push("dangling");
+    this.drop("dangling", leadIn);
   }
 
   private *keep(sentence: { text: string; cited: number[] }): Generator<AskEvent, void, undefined> {
     if (this.last !== null && repeats(this.last.text, sentence.text)) {
       // Not a claim lost: the sentence before says the same. Its citations move there.
-      this.dropped.push("repeat");
+      this.drop("repeat", sentence);
       const last = this.last;
       const added = sentence.cited.filter((index) => !last.cited.includes(index));
       last.cited.push(...added);
@@ -277,7 +300,7 @@ async function* fromClaude(
   related: readonly RetrievedPassage[],
   context: AskContext
 ): AsyncGenerator<AskEvent, Outcome, undefined> {
-  const emitter = new Emitter(corpus, new CitationMap(passages, related));
+  const emitter = new Emitter(corpus, new CitationMap(passages, related), context.onDrop);
   const buffer = new SentenceBuffer();
   let stopReason: string | null = null;
   /** Claude ended with the marker: the pages cover only part of the question. */
@@ -355,7 +378,7 @@ async function* fromOpenRouter(
     context.log?.(`unknown model=${result.model}`);
     return { kind: "unknown" };
   }
-  const emitter = new Emitter(corpus, new CitationMap(passages));
+  const emitter = new Emitter(corpus, new CitationMap(passages), context.onDrop);
   for (const sentence of grounded.sentences) {
     // Rejoined as Markdown: list items on their own lines, sentences separated by a space.
     const text = /^\s*(?:[-*+]|\d+[.)])\s/.test(sentence.text) ? `\n${sentence.text}` : ` ${sentence.text}`;

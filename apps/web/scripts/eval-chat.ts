@@ -24,7 +24,7 @@ import {
   wordingIssues,
 } from "../evals/profile-chat";
 import { claudeAnswer, createClaudeClient, getAnthropicKey } from "../src/lib/ask/anthropic";
-import { ask, openRouterGenerate } from "../src/lib/ask/engine";
+import { ask, type DroppedSentence, openRouterGenerate } from "../src/lib/ask/engine";
 import { getApiKey } from "../src/lib/ask/openrouter";
 import type { AskEvent, AskSource } from "../src/lib/ask/protocol";
 
@@ -77,6 +77,15 @@ if (anthropicKey === null && apiKey === null) {
 } else {
   const claude = anthropicKey === null ? null : claudeAnswer(createClaudeClient(anthropicKey));
   const generate = apiKey === null ? null : openRouterGenerate(apiKey);
+  /** Every dropped sentence of the run, for the summary at the end. */
+  const allDrops: DroppedSentence[] = [];
+  /** A dropped sentence, indented under its answer: why, what it cited, what failed, and its text. */
+  const sayDrops = (drops: readonly DroppedSentence[]) => {
+    for (const drop of drops) {
+      const detail = drop.detail.length > 0 ? ` [${drop.detail.join(", ")}]` : "";
+      say(`       dropped ${drop.reason}${detail} | cited ${drop.cited.join(", ") || "nothing"} | ${drop.text}`);
+    }
+  };
   const answer = async (locale: Locale, question: string) => {
     let text = "";
     let mode = "";
@@ -85,9 +94,17 @@ if (anthropicKey === null && apiKey === null) {
     let sources: AskSource[] = [];
     const cites: number[] = [];
     const logs: string[] = [];
+    const drops: DroppedSentence[] = [];
     const events: AsyncGenerator<AskEvent> = ask(
       { locale, question, history: [] },
-      { retriever: retrieverFor(locale), site: siteFor(locale), claude, generate, log: (line) => logs.push(line) }
+      {
+        retriever: retrieverFor(locale),
+        site: siteFor(locale),
+        claude,
+        generate,
+        log: (line) => logs.push(line),
+        onDrop: (drop) => drops.push(drop),
+      }
     );
     for await (const event of events) {
       if (event.type === "status") {
@@ -102,7 +119,8 @@ if (anthropicKey === null && apiKey === null) {
       if (event.type === "sources") sources = event.sources;
     }
     const numbered = new Map(sources.flatMap((source) => (source.n === null ? [] : [[source.n, source.url] as const])));
-    return { text, mode, reason, partial, logs, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
+    allDrops.push(...drops);
+    return { text, mode, reason, partial, logs, drops, cited: [...numbered.values()], validCites: cites.every((n) => numbered.has(n)) };
   };
 
   say(`\nModel answers (${claude === null ? "free models via OpenRouter" : "Claude Haiku 5.5, free models as fallback"})`);
@@ -124,6 +142,7 @@ if (anthropicKey === null && apiKey === null) {
     const how = `${result.mode === "extractive" ? `extractive (${result.reason})` : result.mode}${result.partial ? " (partial)" : ""}`;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${how}: ${question}`);
     say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
+    sayDrops(result.drops);
   }
 
   say("\nVague questions (Claude reads the whole site: must answer, citing one of the pages)");
@@ -136,6 +155,7 @@ if (anthropicKey === null && apiKey === null) {
     if (wording.length > 0) say(`       wording: ${wording.join(", ")}`);
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.partial ? " (partial)" : ""}: ${question}`);
     say(`       ${result.logs.join("; ") || "-"} | cited ${result.cited.join(", ") || "nothing"} | ${result.text}`);
+    sayDrops(result.drops);
   }
 
   say("\nNot on the site (must say so)");
@@ -147,6 +167,7 @@ if (anthropicKey === null && apiKey === null) {
     if (!ok) failures++;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.partial ? " (partial)" : ""}: ${question}`);
     if (result.text !== "") say(`       ${leaked.length > 0 ? `contains ${leaked.join(", ")}: ` : ""}${result.text}`);
+    sayDrops(result.drops);
   }
 
   say("\nInjection probes");
@@ -158,7 +179,13 @@ if (anthropicKey === null && apiKey === null) {
     if (!ok) failures++;
     say(`  ${ok ? "ok  " : "FAIL"} [${locale}] ${result.mode}${result.reason ? ` (${result.reason})` : ""}: ${question}`);
     if (result.mode === "model" || !ok) say(`       ${leaked.length > 0 ? `contains ${leaked.join(", ")}: ` : ""}${result.text}`);
+    sayDrops(result.drops);
   }
+
+  // Not a check: how many sentences each rule dropped, to compare runs.
+  const byReason = new Map<string, number>();
+  for (const drop of allDrops) byReason.set(drop.reason, (byReason.get(drop.reason) ?? 0) + 1);
+  say(`\nDropped sentences: ${[...byReason].map(([reason, count]) => `${reason} ${String(count)}`).join(", ") || "none"}`);
 }
 
 say(failures === 0 ? "\nAll checks passed." : `\n${String(failures)} check(s) failed.`);
