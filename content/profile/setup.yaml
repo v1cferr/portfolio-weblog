@@ -450,6 +450,17 @@ groups:
           pt-br: Fone de Ouvido
         model: Razer Hammerhead
         url: https://www.razer.com/br-pt/mobile-earphones/razer-hammerhead-true-wireless-x
+        # Official image: https://dl.razerzone.com/src/5402-1-EN-v1.png
+        media:
+          src: /setup/parts/earbuds-razer-hammerhead.png
+          width: 568
+          height: 568
+          alt:
+            en-us: Razer Hammerhead True Wireless X earbuds, black with the green Razer logo lit, beside their black charging case
+            pt-br: Fones Razer Hammerhead True Wireless X, pretos com o logo verde da Razer aceso, ao lado do estojo de carregamento preto
+          credit:
+            label: Razer
+            url: https://mysupport.razer.com/app/answers/detail/a_id/5402
         note:
           pt-br: Utilizei de 2022 até 2024. Earbuds com bom som, mas chama muito a atenção por conta do LED e não tem cancelamento
             de ruído. Troquei por um fone in-ear com cancelamento de ruído e sem LED.
