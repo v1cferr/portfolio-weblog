@@ -3,7 +3,7 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useState } from "react";
 
-import { brandIcons } from "@/generated/icons";
+import { uiIcons } from "@/generated/ui-icons";
 
 import type { NowPlaying as Snapshot } from "@/lib/now-playing";
 
@@ -16,7 +16,7 @@ const POLL_MS = 30_000;
 
 /**
  * Polls /api/now-playing every 30 s while the tab is visible (and pauses when
- * it is hidden), and advances the elapsed time locally every second while a
+ * it is hidden), starting once the page is idle, and advances the elapsed time locally every second while a
  * track plays, so the progress bar moves without extra requests.
  */
 export function useNowPlaying(): { snapshot: Snapshot | undefined; elapsed: number } {
@@ -49,11 +49,30 @@ export function useNowPlaying(): { snapshot: Snapshot | undefined; elapsed: numb
         start();
       } else stop();
     };
-    load();
-    start();
+    // The chip is not part of the first paint: ask once the page is idle, so the request and its re-render never
+    // compete with loading and hydrating the page (Safari has no requestIdleCallback, so a short timeout there).
+    const idle =
+      "requestIdleCallback" in window
+        ? window.requestIdleCallback(
+            () => {
+              load();
+              start();
+            },
+            { timeout: 3000 }
+          )
+        : undefined;
+    const fallback =
+      idle === undefined
+        ? setTimeout(() => {
+            load();
+            start();
+          }, 1500)
+        : undefined;
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       cancelled = true;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      clearTimeout(fallback);
       stop();
       document.removeEventListener("visibilitychange", onVisibility);
     };
@@ -95,7 +114,7 @@ export function Cover({ id, className }: { id: string; className?: string }) {
  * the album art. Decorative: the text beside it names Spotify.
  */
 export function SpotifyIcon({ className }: { className?: string }) {
-  const icon = brandIcons["si:spotify"];
+  const icon = uiIcons["si:spotify"];
   if (icon === undefined) return null;
   return (
     <svg

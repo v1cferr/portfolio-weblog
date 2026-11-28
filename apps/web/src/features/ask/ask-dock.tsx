@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
-import { Drawer, DrawerContent, DrawerTitle } from "@workspace/ui/components/drawer";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { Maximize2Icon, Minimize2Icon, MinusIcon, SparklesIcon, SquarePenIcon } from "lucide-react";
@@ -18,16 +17,22 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useAsk } from "./ask-provider";
 import { useKeyboardInset } from "./use-keyboard-inset";
 
+/** Matches Tailwind's `sm`: below it the dock is a bottom sheet over the page. */
+const PHONE = "(max-width: 39.999rem)";
+
 // The conversation, the answers and their links are only downloaded on the first open; every page ships the launcher.
 const loadConversation = () => import("./ask-conversation");
 const AskConversation = dynamic(loadConversation, { ssr: false, loading: () => <ConversationSkeleton /> });
 
+// The phone sheet brings vaul, which desktops never need. Phones fetch it once the page is idle; until it arrives
+// (a tap on a slow network), a plain sheet in the same place holds the same header and conversation.
+const loadSheet = () => import("./ask-sheet");
+const AskSheet = dynamic(loadSheet, { ssr: false });
+
 function preload() {
   void loadConversation();
+  if (window.matchMedia(PHONE).matches) void loadSheet();
 }
-
-/** Matches Tailwind's `sm`: below it the dock is a bottom sheet over the page. */
-const PHONE = "(max-width: 39.999rem)";
 
 /**
  * The profile chat, docked in the bottom-right corner (ADR 0011): a launcher
@@ -48,12 +53,32 @@ export function AskDock() {
   const t = useTranslations("Ask");
   const { ready, open, expanded, unread, announcement, focusRequest, openDock, minimize } = useAsk();
   const [loaded, setLoaded] = useState(false);
+  const [sheetReady, setSheetReady] = useState(false);
   const phone = useMediaQuery(PHONE);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
 
   if (open && !loaded) setLoaded(true);
   useKeyboardInset(phone && open);
+
+  useEffect(() => {
+    if (!phone || sheetReady) return;
+    let cancelled = false;
+    const load = () => {
+      void loadSheet().then(() => {
+        if (!cancelled) setSheetReady(true);
+      });
+    };
+    // Right away once the dock is open; otherwise when the page has nothing better to do.
+    if (open) load();
+    const idle = "requestIdleCallback" in window ? window.requestIdleCallback(load, { timeout: 4000 }) : undefined;
+    const fallback = idle === undefined ? setTimeout(load, 2000) : undefined;
+    return () => {
+      cancelled = true;
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      clearTimeout(fallback);
+    };
+  }, [phone, open, sheetReady]);
 
   // The page reacts to the dock: room on the right for the drawer (lg up), and scroll padding at the bottom so focused
   // content does not end up under the floating panel (WCAG 2.4.11). Both are CSS on these attributes (globals.css).
@@ -144,41 +169,42 @@ export function AskDock() {
         )}
       </button>
       {phone ? (
-        <Drawer
-          open={open}
-          onOpenChange={(next) => {
-            if (!next) minimize();
-          }}
-          // The keyboard is handled here (useKeyboardInset), not by vaul's own repositioning.
-          repositionInputs={false}
-        >
-          <DrawerContent
-            ref={panel}
-            id="ask-dock"
-            aria-describedby={undefined}
-            onOpenAutoFocus={(event) => {
-              event.preventDefault();
-              focusInput();
-            }}
-            onCloseAutoFocus={(event) => {
-              event.preventDefault();
-              launcher.current?.focus({ preventScroll: true });
-            }}
-            className={cn(
-              // Opaque: over a modal backdrop, page text showing through a frosted sheet only competes with the answer.
-              "overflow-clip border-0 bg-background text-foreground shadow-2xl outline-none",
-              // Near full height: below the notch (or a small gap), above the keyboard, clear of the home indicator.
-              "bottom-[var(--ask-keyboard,0px)]! mt-0! h-[calc(100dvh_-_var(--ask-keyboard,0px)_-_max(env(safe-area-inset-top),0.75rem))] max-h-none! rounded-t-2xl",
-              "pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]"
-            )}
+        sheetReady ? (
+          <AskSheet
+            open={open}
+            title={t("title")}
+            panel={panel}
+            launcher={launcher}
+            onClose={minimize}
+            focusInput={focusInput}
+            header={(title) => <DockHeader title={title} onMinimize={minimizeAndReturn} />}
           >
-            <DockHeader
-              title={<DrawerTitle className="ml-1 min-w-0 truncate text-sm font-medium">{t("title")}</DrawerTitle>}
-              onMinimize={minimizeAndReturn}
-            />
             {conversation}
-          </DrawerContent>
-        </Drawer>
+          </AskSheet>
+        ) : (
+          open && (
+            <div
+              ref={panel}
+              id="ask-dock"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ask-dock-title"
+              tabIndex={-1}
+              onKeyDown={onKeyDown}
+              className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(100dvh_-_max(env(safe-area-inset-top),0.75rem))] flex-col overflow-clip rounded-t-2xl bg-background text-sm text-foreground shadow-2xl outline-none"
+            >
+              <DockHeader
+                title={
+                  <h2 id="ask-dock-title" className="ml-1 min-w-0 truncate text-sm font-medium">
+                    {t("title")}
+                  </h2>
+                }
+                onMinimize={minimizeAndReturn}
+              />
+              {conversation}
+            </div>
+          )
+        )
       ) : (
         <div
           ref={panel}
