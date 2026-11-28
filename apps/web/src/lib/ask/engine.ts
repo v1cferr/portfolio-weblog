@@ -149,8 +149,9 @@ class Emitter {
   /** The last sentence kept (held or sent): a sentence that only restates it is dropped (`repeats`). */
   private last: { text: string; cited: number[] } | null = null;
   /**
-   * An uncited sentence after the answer started, held until the next one: if
-   * that one is cited and says it all (`supersedes`), only the cited one is sent.
+   * The last sentence after the answer started, held until the next one: if
+   * that one says it all (`supersedes`), only that one is sent, with the
+   * citations of both. The answer streams one sentence behind the model.
    */
   private pending: { text: string; cited: number[] } | null = null;
   /** A checked lead-in line, waiting for its first list item. */
@@ -229,11 +230,8 @@ class Emitter {
       const last = this.last;
       const added = sentence.cited.filter((index) => !last.cited.includes(index));
       last.cited.push(...added);
-      if (last === this.pending) {
-        // Not sent yet: with a citation now, it goes out whole.
-        if (last.cited.length > 0) yield* this.flushPending();
-        return;
-      }
+      // Not sent yet: its citations go out with it.
+      if (last === this.pending) return;
       if (this.started) yield* this.cite(added);
       else if (last.cited.length > 0) yield* this.start();
       return;
@@ -241,9 +239,10 @@ class Emitter {
     // A copy: a repeat after it may add citations to it, even while it is held.
     const checked = { text: sentence.text, cited: [...sentence.cited] };
     const waiting = this.pending ?? (this.started ? null : (this.held.at(-1) ?? null));
-    if (waiting !== null && checked.cited.length > 0 && supersedes(checked.text, waiting.text)) {
-      // The uncited paraphrase goes; the cited sentence says it all.
+    if (waiting !== null && (checked.cited.length > 0 || waiting.cited.length === 0) && supersedes(checked.text, waiting.text)) {
+      // The sentence waiting goes; this one says it all ("My role is X. I have worked as X since…"). Its citations move here.
       this.drop("repeat", waiting);
+      checked.cited.push(...waiting.cited.filter((index) => !checked.cited.includes(index)));
       if (waiting === this.pending) this.pending = null;
       else this.held.pop();
       this.sentences--;
@@ -258,14 +257,11 @@ class Emitter {
       return;
     }
     if (!this.started) yield* this.start();
-    if (checked.cited.length === 0) {
-      this.pending = checked;
-      return;
-    }
-    yield* this.send(checked);
+    this.pending = checked;
   }
 
-  private *flushPending(): Generator<AskEvent, void, undefined> {
+  /** Sends the sentence held for the next one: the answer ends, or breaks off, before it comes. */
+  *flushPending(): Generator<AskEvent, void, undefined> {
     if (this.pending === null) return;
     const pending = this.pending;
     this.pending = null;
@@ -362,7 +358,8 @@ async function* fromClaude(
     if (failure.reason === "aborted") return { kind: "aborted" };
     context.log?.(`claude_failed reason=${failure.reason}${failure.status === undefined ? "" : ` status=${String(failure.status)}`}`);
     if (!emitter.sent) return { kind: "fallback", reason: failure.reason };
-    // Sentences already went out: say the answer was cut, keep what was checked.
+    // Sentences already went out: keep what was checked, then say the answer was cut.
+    yield* emitter.flushPending();
     yield { type: "error" };
     yield* emitter.finish(input.locale, { partial: true });
     return { kind: "answered" };
@@ -371,6 +368,7 @@ async function* fromClaude(
   if (stopReason === "refusal") {
     context.log?.("claude_refused");
     if (!emitter.sent) return { kind: "fallback", reason: "refusal" };
+    yield* emitter.flushPending();
     yield { type: "error" };
     yield* emitter.finish(input.locale, { partial: true });
     return { kind: "answered" };
