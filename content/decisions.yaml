@@ -245,3 +245,18 @@
       compartilhado em vez de rodar de novo, então uma mudança pequena tem o
       resultado numa fração do tempo. Os testes que abrem o site no navegador
       continuam rodando sempre que o site muda.
+
+"0021":
+  why:
+    en-us: >-
+      The site stays on the framework it has instead of being rebuilt on a lighter
+      one, because most of the weight came from things the site itself added. Those
+      were trimmed, so every page now downloads about 18% less code, and each
+      change is measured automatically: one that makes a page heavier or slower to
+      show is stopped before it goes live.
+    pt-br: >-
+      O site continua no framework que já usa, em vez de ser refeito num mais leve,
+      porque a maior parte do peso vinha de coisas que o próprio site acrescentava.
+      Elas foram enxugadas, então cada página agora baixa cerca de 18% a menos
+      de código, e toda mudança é medida automaticamente: uma que deixe uma página
+      mais pesada ou mais lenta para aparecer é barrada antes de ir ao ar.
