@@ -29,5 +29,33 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,json,md,mdx,yml,yaml,css}": "prettier --write"
+  },
+  "prettier": {
+    "printWidth": 140,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": "*.json",
+        "options": {
+          "printWidth": 100
+        }
+      },
+      {
+        "files": [
+          "*.md",
+          "*.mdx"
+        ],
+        "options": {
+          "proseWrap": "always",
+          "printWidth": 80
+        }
+      },
+      {
+        "files": "*.config.{js,mjs,ts}",
+        "options": {
+          "printWidth": 100
+        }
+      }
+    ]
   }
 }
