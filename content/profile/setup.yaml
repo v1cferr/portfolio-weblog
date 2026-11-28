@@ -157,6 +157,20 @@ groups:
           pt-br: Pasta Térmica
         model: Snowdog Husky 1g 12.8w/mk - Alta Performance
         url: https://www.mercadolivre.com.br/pasta-termica-snowdog-husky-1g-128wmk-alta-performance/p/MLB27050357
+        # Snowdog has no site of its own; the image comes from its official store on Mercado Livre:
+        # https://http2.mlstatic.com/D_NQ_NP_2X_825376-MLA112814149704_072026-F.jpg
+        media:
+          src: /setup/parts/thermal-paste-snowdog-husky.png
+          width: 1108
+          height: 1108
+          # Light package, white spatula and wipe: no clean cutout, so it keeps its background on a light tile.
+          surface: light
+          alt:
+            en-us: Snowdog Husky 1 g thermal paste syringe in front of its husky-printed package, with a spatula and a cleaning wipe
+            pt-br: Seringa de pasta térmica Snowdog Husky de 1 g na frente da embalagem com um husky, com espátula e lenço de limpeza
+          credit:
+            label: Snowdog
+            url: https://www.mercadolivre.com.br/pasta-termica-snowdog-husky-1g-128wmk-alta-performance/p/MLB27050357
       - id: wifi-dlink-dwa-182
         role:
           pt-br: Adaptador de Rede
