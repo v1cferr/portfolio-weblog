@@ -47,6 +47,9 @@ jobs:
       - name: Icons in sync
         run: pnpm --filter web icons:check
 
+      - name: Unused files, exports and dependencies
+        run: pnpm knip
+
       - name: Unit tests
         run: pnpm test
 
