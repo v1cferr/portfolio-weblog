@@ -3,7 +3,7 @@
 # Retrieval checks run on every `pnpm test` (test/profile-chat-eval.test.ts)
 # and with `pnpm --filter web eval:chat`: for each question, at least one of
 # `expect` must be among the passages retrieved (top 6), and a question with
-# `expect: []` must retrieve nothing (no source, no answer).
+# `expect: []` must reach the model with no source: nothing retrieved, or stopped as off topic.
 #
 # The `vague` cases run on every `pnpm test` too (see the section).
 #
