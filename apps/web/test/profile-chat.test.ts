@@ -1371,6 +1371,11 @@ describe("restated sentences (2026-11-28)", () => {
       )
     ).toBe(true);
     expect(supersedes("Answers cite the note they came from.", "I built a personal RAG chatbot over an Obsidian vault.")).toBe(false);
+    // A sentence that points back ("That is why…", "Por isso…") needs the one before it, so it never replaces it.
+    expect(supersedes("That is why my whole machine is declared in Nix.", "I use Nix to declare my whole machine.")).toBe(false);
+    expect(supersedes("Por isso a minha máquina inteira é declarada em Nix.", "Eu uso Nix para declarar a minha máquina inteira.")).toBe(
+      false
+    );
   });
 
   it("sends only the cited sentence when it follows its own paraphrase, before the answer starts", async () => {
