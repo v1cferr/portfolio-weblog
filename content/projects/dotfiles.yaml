@@ -48,8 +48,8 @@ caseStudy:
       o mesmo gerenciador de janelas, ícones e temas, foi muito fácil. Era isso que eu nunca consegui
       no Arch.
   role:
-    en-us: Solo, owner and only user
-    pt-br: Solo, dono e único usuário
+    en-us: Solo, owner and main user
+    pt-br: Solo, dono e principal usuário
   motivation:
     en-us: >-
       Arch worked; the problem was that I was already trying to make it declarative, with Hyprland,
