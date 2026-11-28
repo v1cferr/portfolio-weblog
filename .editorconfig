@@ -1,109 +1,15 @@
-# EditorConfig keeps coding styles consistent across different editors and IDEs.
-# @see https://editorconfig.org
-
-# Marks this as the root configuration file, so the search for further
-# .editorconfig files stops here
+# Editor defaults for every file. Line width is not set here: Prettier owns it
+# (the "prettier" key in package.json). @see https://editorconfig.org
 root = true
 
-# =================================================
-# DEFAULTS FOR EVERY FILE
-# =================================================
-
 [*]
-# Character set
 charset = utf-8
-
-# Indent with spaces rather than tabs
 indent_style = space
-
-# Indentation width
 indent_size = 2
-
-# Line ending style
-# lf = Line Feed (\n), the Unix/Linux/Mac convention
 end_of_line = lf
-
-# Keep a newline at the end of the file
 insert_final_newline = true
-
-# Strip trailing whitespace
-# Note: Prettier may behave differently inside template strings
 trim_trailing_whitespace = true
 
-# Maximum line length
-max_line_length = 80
-
-# =================================================
-# PER FILE TYPE
-# =================================================
-
-# Markdown, where trailing double spaces are meaningful (hard line breaks)
-[*.md]
+# Two trailing spaces are a hard line break in Markdown.
+[*.{md,mdx}]
 trim_trailing_whitespace = false
-max_line_length = 80
-
-# YAML files
-[*.{yml,yaml}]
-indent_size = 2
-
-# JSON files
-[*.json]
-indent_size = 2
-
-# package.json specifically (some projects prefer 2 spaces)
-[package.json]
-indent_size = 2
-
-# Python files
-[*.py]
-indent_size = 4
-max_line_length = 88
-
-# Makefiles (tabs are mandatory)
-[Makefile]
-indent_style = tab
-
-# Go files (language convention)
-[*.go]
-indent_style = tab
-indent_size = 4
-
-# Next.js and TypeScript sources
-[*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}]
-indent_size = 2
-max_line_length = 80
-
-# Configuration files
-[*.config.{js,mjs,ts,mts}]
-max_line_length = 100
-
-# CSS, SCSS, LESS
-[*.{css,scss,sass,less}]
-indent_size = 2
-
-# HTML
-[*.{html,htm}]
-indent_size = 2
-
-# XML, SVG
-[*.{xml,svg}]
-indent_size = 2
-
-# TOML configuration
-[*.toml]
-indent_size = 2
-
-# Shell scripts
-[*.sh]
-indent_size = 2
-end_of_line = lf
-
-# Environment files
-[.env*]
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-# Lock files, which are never edited by hand
-[{package-lock.json,pnpm-lock.yaml,yarn.lock}]
-indent_size = 2
-insert_final_newline = true
