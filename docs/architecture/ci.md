@@ -19,6 +19,11 @@ the suite is bound by the runner's 4 vCPUs, so more workers per shard made it
 slower; more shards split the work instead. Before 2026-11-28 everything ran in
 one job, in order, in about 13 minutes, 9 of them end-to-end tests.
 
+An axe audit that loops over both themes runs each theme in one project only:
+light on the phone, dark on the desktop (`auditThemeOnce` in
+`apps/web/e2e/axe-theme.ts`). Every theme and every viewport is still audited,
+at half the runs; a test pinned to one project keeps both themes.
+
 ## Skipped for documentation
 
 `e2e` is skipped when every changed file is one the site never reads: `docs/`
