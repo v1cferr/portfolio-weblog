@@ -1,4 +1,4 @@
-import { localize } from "@workspace/content";
+import { localize, type SetupPhotoKind } from "@workspace/content";
 import { ExternalLinkIcon, MonitorIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -9,13 +9,15 @@ import { CopyLink } from "@/components/anchor/copy-link";
 import { PageTransition } from "@/components/page-transition";
 import { FallbackNotice } from "@/components/fallback-notice";
 import { Lightbox, LightboxTrigger } from "@/components/lightbox/lightbox";
-import type { LightboxItem } from "@/components/lightbox/photo-param";
+import { type LightboxItem, photoValue } from "@/components/lightbox/photo-param";
 import { PageHeader, SectionHeading } from "@/components/page-header";
 import { RailTimeline } from "@/components/rail-timeline";
 import { SourceLink } from "@/components/source-link";
 import { SetupCopyButton } from "@/features/setup/copy-button";
 import { partLightboxItems, PARTS_GALLERY } from "@/features/setup/part-gallery";
 import { PartPhoto } from "@/features/setup/part-photo";
+import { photoTabGallery } from "@/features/setup/photo-tab-ids";
+import { PhotoTabs } from "@/features/setup/photo-tabs";
 import { VscodeExtensions } from "@/features/setup/vscode-extensions";
 import { getContent } from "@/lib/content";
 import { formatMonthRange, formatPartialDate, newestFirst } from "@/lib/dates";
@@ -44,22 +46,20 @@ export default async function SetupPage() {
   const firstTitle = setup.groups[0] && localize(setup.groups[0].title, locale);
   // Every part with a photo, in page order: one gallery, so the lightbox steps through them all.
   const parts = partLightboxItems(setup, locale, (label) => t("credit", { label }));
+  // Newest first, as one list: the old single gallery's order, which `?photo=setup-<n>` links still count in.
   const photos = newestFirst(setup.photos, (photo) => ({ start: photo.date, end: photo.date })).map((photo) => ({
     photo,
     alt: localize(photo.alt, locale),
     caption: photo.caption && localize(photo.caption, locale),
     date: formatPartialDate(photo.date, locale),
   }));
-  const photoItems = photos.map(({ photo, alt, caption, date }): LightboxItem => ({
-    src: photo.src,
-    width: photo.width,
-    height: photo.height,
-    alt: alt.value,
-    altLang: alt.locale,
-    caption: caption?.value,
-    captionLang: caption?.locale,
-    date: { iso: photo.date, label: date },
-  }));
+  const photoTabs = PHOTO_KINDS.map((kind) => ({ kind, photos: photos.filter(({ photo }) => photo.kind === kind) })).filter(
+    (tab) => tab.photos.length > 0
+  );
+  const legacyPhotos = photos.map(({ photo }) => {
+    const tab = photoTabs.find(({ kind }) => kind === photo.kind);
+    return photoValue(photoTabGallery(photo.kind), tab?.photos.findIndex((entry) => entry.photo === photo) ?? 0);
+  });
 
   return (
     <PageTransition>
@@ -195,44 +195,15 @@ export default async function SetupPage() {
       {photos.length > 0 && (
         <section aria-labelledby="setup-photos" className="mt-14">
           <SectionHeading id="setup-photos">{t("photos")}</SectionHeading>
-          <Lightbox id="setup" items={photoItems}>
-            <RailTimeline
-              lane="project"
-              nodeClassName="top-5"
-              gapClassName="space-y-4"
-              entries={photos.map(({ photo, alt, caption, date }, index) => ({
-                key: photo.src,
-                node: "past",
-                children: (
-                  <figure className="glass grid gap-4 overflow-hidden rounded-xl border p-3 sm:grid-cols-[18rem_minmax(0,1fr)] sm:p-4">
-                    <LightboxTrigger
-                      index={index}
-                      className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted"
-                      frameClassName="absolute inset-0"
-                    >
-                      <Image
-                        src={photo.src}
-                        alt={alt.value}
-                        fill
-                        sizes="(min-width: 640px) 384px, 100vw"
-                        className="object-cover transition-transform hover:scale-[1.02]"
-                      />
-                    </LightboxTrigger>
-                    <figcaption className="space-y-1.5 self-center">
-                      <time dateTime={photo.date} className="font-mono text-xs text-muted-foreground tabular-nums">
-                        {date}
-                      </time>
-                      {caption && (
-                        <p className="text-pretty" lang={caption.locale}>
-                          {caption.value}
-                        </p>
-                      )}
-                    </figcaption>
-                  </figure>
-                ),
-              }))}
-            />
-          </Lightbox>
+          <PhotoTabs
+            legacy={{ gallery: "setup", photos: legacyPhotos }}
+            tabs={photoTabs.map(({ kind, photos: entries }) => ({
+              value: kind,
+              label: t(`photoTabs.${kind}`),
+              count: entries.length,
+              panel: <PhotoTimeline gallery={photoTabGallery(kind)} photos={entries} />,
+            }))}
+          />
         </section>
       )}
 
@@ -240,5 +211,69 @@ export default async function SetupPage() {
         <SourceLink file="profile/setup.yaml" />
       </div>
     </PageTransition>
+  );
+}
+
+/** The tabs' order: the desk first, then what ran on it. */
+const PHOTO_KINDS = ["hardware", "software"] as const satisfies readonly SetupPhotoKind[];
+
+interface TimelinePhoto {
+  photo: { src: string; width: number; height: number; date: string };
+  alt: { value: string; locale: string };
+  caption?: { value: string; locale: string };
+  date: string;
+}
+
+/** One tab's photos: a dated timeline, newest first, that is its own lightbox gallery. */
+function PhotoTimeline({ gallery, photos }: { gallery: string; photos: readonly TimelinePhoto[] }) {
+  const items = photos.map(({ photo, alt, caption, date }): LightboxItem => ({
+    src: photo.src,
+    width: photo.width,
+    height: photo.height,
+    alt: alt.value,
+    altLang: alt.locale,
+    caption: caption?.value,
+    captionLang: caption?.locale,
+    date: { iso: photo.date, label: date },
+  }));
+  return (
+    <Lightbox id={gallery} items={items}>
+      <RailTimeline
+        lane="project"
+        nodeClassName="top-5"
+        gapClassName="space-y-4"
+        entries={photos.map(({ photo, alt, caption, date }, index) => ({
+          key: photo.src,
+          node: "past",
+          children: (
+            <figure className="glass grid gap-4 overflow-hidden rounded-xl border p-3 sm:grid-cols-[18rem_minmax(0,1fr)] sm:p-4">
+              <LightboxTrigger
+                index={index}
+                className="relative block aspect-[4/3] overflow-hidden rounded-lg border bg-muted"
+                frameClassName="absolute inset-0"
+              >
+                <Image
+                  src={photo.src}
+                  alt={alt.value}
+                  fill
+                  sizes="(min-width: 640px) 384px, 100vw"
+                  className="object-cover transition-transform hover:scale-[1.02]"
+                />
+              </LightboxTrigger>
+              <figcaption className="space-y-1.5 self-center">
+                <time dateTime={photo.date} className="font-mono text-xs text-muted-foreground tabular-nums">
+                  {date}
+                </time>
+                {caption && (
+                  <p className="text-pretty" lang={caption.locale}>
+                    {caption.value}
+                  </p>
+                )}
+              </figcaption>
+            </figure>
+          ),
+        }))}
+      />
+    </Lightbox>
   );
 }
