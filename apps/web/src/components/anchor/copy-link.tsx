@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@workspace/ui/component
 import { cn } from "@workspace/ui/lib/utils";
 import { HashIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 
 import { markAnchorTarget } from "./hash-target";
 
@@ -64,39 +64,74 @@ export function CopyLink({
 
   const done = state === "copied" ? t("linkCopied") : state === "address-bar" ? t("linkInAddressBar") : "";
 
+  // The tooltip mounts on the first interaction, not with the page: a page like /setup has 150 of these buttons,
+  // and a Radix tooltip each was ~130 ms of main-thread work during hydration. Arming swaps the button for a new
+  // one inside the tooltip, so it must happen before a click can start on it: when the pointer enters the element
+  // the link belongs to (the button stays invisible until then), on focus (the button gets focus back), or after a
+  // tap's copy (touch has no hover tooltip, only the "copied" one).
+  const button = useRef<HTMLButtonElement>(null);
+  const [armed, setArmed] = useState(false);
+  const refocus = useRef(false);
+  const arm = () => {
+    if (armed) return;
+    refocus.current = document.activeElement === button.current;
+    setArmed(true);
+  };
+  useLayoutEffect(() => {
+    if (!armed || !refocus.current) return;
+    refocus.current = false;
+    button.current?.focus({ preventScroll: true });
+  }, [armed]);
+  useEffect(() => {
+    if (armed) return;
+    const area = button.current?.closest<HTMLElement>("[data-anchor]") ?? button.current;
+    if (!area) return;
+    const onEnter = (event: PointerEvent) => {
+      if (event.pointerType !== "touch") setArmed(true);
+    };
+    area.addEventListener("pointerenter", onEnter);
+    return () => {
+      area.removeEventListener("pointerenter", onEnter);
+    };
+  }, [armed]);
+
+  const trigger = (
+    <button
+      ref={button}
+      type="button"
+      data-copy-link={id}
+      data-copy-state={state}
+      {...(nameId === undefined ? { "aria-label": `${t("copyLinkTo")} ${name ?? id}` } : { "aria-labelledby": `${prefixId} ${nameId}` })}
+      onFocus={arm}
+      onClick={() => {
+        arm();
+        void copy();
+      }}
+      className={cn(
+        "relative inline-flex size-6 shrink-0 items-center justify-center rounded-md align-middle text-muted-foreground transition-[opacity,color] hover:text-foreground focus-visible:text-foreground",
+        // Hidden until the element is hovered or the button focused; faint but present where there is no hover.
+        "opacity-0 group-hover/anchor:opacity-100 focus-visible:opacity-100 data-[copy-state=address-bar]:opacity-100 data-[copy-state=copied]:opacity-100 [@media(hover:none)]:opacity-60",
+        // A 24px target with a larger invisible hit area for touch.
+        "after:absolute after:-inset-2 after:content-['']",
+        className
+      )}
+    >
+      {nameId !== undefined && (
+        <span id={prefixId} hidden>
+          {t("copyLinkTo")}
+        </span>
+      )}
+      <HashIcon aria-hidden className="size-3.5" />
+      <span className="sr-only" aria-live="polite">
+        {done}
+      </span>
+    </button>
+  );
+
+  if (!armed) return trigger;
   return (
     <Tooltip open={hover || state !== "idle"} onOpenChange={setHover}>
-      <TooltipTrigger asChild>
-        <button
-          type="button"
-          data-copy-link={id}
-          data-copy-state={state}
-          {...(nameId === undefined
-            ? { "aria-label": `${t("copyLinkTo")} ${name ?? id}` }
-            : { "aria-labelledby": `${prefixId} ${nameId}` })}
-          onClick={() => {
-            void copy();
-          }}
-          className={cn(
-            "relative inline-flex size-6 shrink-0 items-center justify-center rounded-md align-middle text-muted-foreground transition-[opacity,color] hover:text-foreground focus-visible:text-foreground",
-            // Hidden until the element is hovered or the button focused; faint but present where there is no hover.
-            "opacity-0 group-hover/anchor:opacity-100 focus-visible:opacity-100 data-[copy-state=address-bar]:opacity-100 data-[copy-state=copied]:opacity-100 [@media(hover:none)]:opacity-60",
-            // A 24px target with a larger invisible hit area for touch.
-            "after:absolute after:-inset-2 after:content-['']",
-            className
-          )}
-        >
-          {nameId !== undefined && (
-            <span id={prefixId} hidden>
-              {t("copyLinkTo")}
-            </span>
-          )}
-          <HashIcon aria-hidden className="size-3.5" />
-          <span className="sr-only" aria-live="polite">
-            {done}
-          </span>
-        </button>
-      </TooltipTrigger>
+      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
       <TooltipContent side="top">{state === "idle" ? t("copyLink") : done}</TooltipContent>
     </Tooltip>
   );

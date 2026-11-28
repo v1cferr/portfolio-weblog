@@ -91,8 +91,21 @@ plus about 10%: a regression fails the pull request, and real growth is a
 conscious edit of the file, in the same pull request, with the reason.
 
 TBT and the score follow the runner's CPU more than the code, so they warn
-instead of failing. `/setup` is over the TBT line (a long page with many client
-pieces) and is the next thing to look at.
+instead of failing.
+
+### Hydration on long pages
+
+TBT grows with the number of client component instances a page hydrates, not
+with its size. Counted from the RSC payload of `/setup` (2026-11-28): 152
+`CopyLink`, 157 lucide icons, 52 lightbox triggers and photos, 29 `RevealItem`.
+
+- `CopyLink` mounted a Radix tooltip each. It now mounts the tooltip on the
+  first interaction: TBT on `/setup` went from 347 to 227 ms and on `/about`
+  from 332 to 262 ms (local, median of 5).
+- lucide-react 1.x marks its `Icon` as a client component (for its context
+  provider), so every icon a server component renders is a client reference that
+  hydrates, with its SVG nodes in the payload. Rendering the icons the server
+  draws as plain SVG (from each icon's `__iconNode`) is the next step.
 
 ## After the first pass (2026-11-28)
 
