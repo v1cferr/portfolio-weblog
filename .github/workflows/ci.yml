@@ -3,7 +3,7 @@ name: CI
 # Validates, builds and tests every pull request and push to main.
 #
 # Speed (2026-11-28): the end-to-end suite was 9 of the 13 minutes, so it runs
-# in 4 shards beside the static checks instead of after them, and a change that
+# in 6 shards beside the static checks instead of after them, and a change that
 # only touches docs skips the build and the suite. Lint, typecheck, unit tests
 # and the build go through Turborepo, whose remote cache skips any task whose
 # inputs have not changed since a green run. The single required status is
@@ -106,7 +106,7 @@ jobs:
         run: pnpm test
 
   e2e:
-    name: End-to-end (${{ matrix.shard }}/4)
+    name: End-to-end (${{ matrix.shard }}/6)
     needs: changes
     if: needs.changes.outputs.app == 'true'
     runs-on: ubuntu-latest
@@ -114,7 +114,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6]
     # Turborepo's remote cache (Vercel): a task whose inputs match an earlier
     # green run is restored instead of run. Pull requests from forks get no
     # token and fall back to running everything.
@@ -169,7 +169,7 @@ jobs:
         run: pnpm --filter web exec playwright install-deps chromium
 
       - name: End-to-end smoke tests
-        run: pnpm --filter web test:e2e --shard=${{ matrix.shard }}/4
+        run: pnpm --filter web test:e2e --shard=${{ matrix.shard }}/6
         env:
           GITHUB_FIXTURES: "1"
 
