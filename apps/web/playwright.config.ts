@@ -16,7 +16,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: process.env.CI !== undefined,
   retries: process.env.CI !== undefined ? 1 : 0,
-  reporter: process.env.CI !== undefined ? [["github"], ["html", { open: "never" }]] : "list",
+  // On CI each shard writes a blob report; a later job merges them into one HTML report.
+  reporter: process.env.CI !== undefined ? [["github"], ["blob"]] : "list",
   use: { baseURL: `http://localhost:${String(PORT)}`, trace: "retain-on-failure" },
   projects: [
     {
